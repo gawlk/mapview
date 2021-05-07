@@ -1,6 +1,6 @@
-export { default as Bar } from './Bar.vue'
 export { default as Button } from './Button.vue'
 export { default as Card } from './Card.vue'
+export { default as Dialog } from './Dialog.vue'
 export { default as Input } from './Input.vue'
 export { default as Link } from './Link.vue'
 export { default as Listbox } from './Listbox.vue'

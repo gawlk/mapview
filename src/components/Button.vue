@@ -12,14 +12,14 @@
                 ? 'text-base sm:text-lg font-medium p-2.5 px-5 sm:py-3 sm:px-6 rounded-xl'
                 : 'text-base font-medium py-2 px-4 rounded-lg',
             props.dark
-                ? 'bg-gray-800 text-white focus:ring-gray-500'
+                ? 'bg-gray-800 text-white focus:ring-gray-600'
                 : props.green
-                ? 'bg-green-800 text-white focus:ring-green-500'
+                ? 'bg-green-800 text-white focus:ring-green-600'
                 : props.red
-                ? 'bg-red-800 text-white focus:ring-red-500'
+                ? 'bg-red-800 text-white focus:ring-red-600'
                 : props.transparent
                 ? 'text-gray-900'
-                : 'bg-gray-100 text-gray-900 focus:ring-gray-400',
+                : 'bg-gray-100 text-gray-900 focus:ring-gray-200',
             !props.disabled &&
                 (props.dark
                     ? 'hover:bg-gray-700'
@@ -28,7 +28,8 @@
                     : props.red
                     ? 'hover:bg-red-700'
                     : 'hover:bg-white'),
-            props.center && 'justify-center',
+            props.full && 'w-full',
+            props.centered && 'justify-center',
             props.disabled ? 'opacity-75 cursor-default' : 'cursor-pointer',
         ]"
         class="inline-flex items-center leading-6 focus:outline-none focus:ring transition-colors duration-200"
@@ -53,6 +54,6 @@
         xl: Boolean,
         xxl: Boolean,
         full: Boolean,
-        center: Boolean,
+        centered: Boolean,
     })
 </script>

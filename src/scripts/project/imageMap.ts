@@ -129,7 +129,7 @@ const setMarkerResizeEvents = (
         const markerWCTL = mercator.wGStoWc(markerLngLatTL)
         const markerWCBR = mercator.wGStoWc(markerLngLatBR)
 
-        const wCCoord = getImageCoordinates(markerWCTL,markerWCBR,imageWidth, imageHeight)
+        const wCCoord = getImageCoordinates(markerWCTL,markerWCBR,imageHeight, imageWidth)
 
         const markerWGSTL = mercator.wcToWGS(wCCoord.tl)
         const markerWGSTR = mercator.wcToWGS(wCCoord.tr)
@@ -137,9 +137,9 @@ const setMarkerResizeEvents = (
         const markerWGSBR = mercator.wcToWGS(wCCoord.br)
 
         coordinates[0] = [markerWGSTL.lng, markerWGSTL.lat]
-        coordinates[1] = [markerWGSTR.lng, markerWGSTR.lat]
-        coordinates[2] = [markerWGSBL.lng, markerWGSBL.lat]
-        coordinates[3] = [markerWGSBR.lng, markerWGSBR.lat]
+        coordinates[3] = [markerWGSTR.lng, markerWGSTR.lat]
+        coordinates[1] = [markerWGSBL.lng, markerWGSBL.lat]
+        coordinates[2] = [markerWGSBR.lng, markerWGSBR.lat]
 
         sourceImage.setCoordinates(coordinates)
     }
@@ -169,10 +169,7 @@ function getImageCoordinates(markerTL : xyCoord, markerBR: xyCoord, imageWidth :
 function scaleFactorBetweenOrFin(orTL: xyCoord, orBR: xyCoord, finTL: xyCoord, finBR: xyCoord) : number {
     const lfin = cartesianDistance(finTL, finBR)
     const lor = cartesianDistance(orTL,orBR)    
-    let s = lfin / lor
-    if (s < 0.01)
-        s = 0.01    
-    return s
+    return lfin / lor
 }
 
 function cartesianDistance(pt1 : xyCoord, pt2 : xyCoord) : number {

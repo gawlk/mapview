@@ -1,6 +1,8 @@
 import mapbox from 'mapbox-gl'
 
 import { fileToBase64 } from '../utils/file'
+import * as mercator from '../utils/googleMercator'
+import {lngLatCoord, xyCoord, imageCoord} from '../utils/coordTypes'
 
 const EARTH_RADIUS = 6.371e6
 
@@ -43,8 +45,8 @@ export const createImageMap = async (
     setMarkerResizeEvents(
         markerNW,
         markerSE,
-        coordinates,
         sourceImage,
+        coordinates,
         width,
         height
     )
@@ -115,44 +117,29 @@ const createMarker = (coordinates: [number, number], map: mapbox.Map) =>
 const setMarkerResizeEvents = (
     markerNW: mapbox.Marker,
     markerSE: mapbox.Marker,
-    coordinates: [
-        [number, number],
-        [number, number],
-        [number, number],
-        [number, number]
-    ],
     sourceImage: mapbox.ImageSource,
+    coordinates: [[number, number], [number, number], [number, number], [number, number]],
     imageWidth: number,
     imageHeight: number
 ) => {
     const onMarkerDrag = () => {
-        const markerLngLatNW = markerNW.getLngLat()
-        const markerLngLatSE = markerSE.getLngLat()
+        const markerLngLatTL = markerNW.getLngLat()
+        const markerLngLatBR = markerSE.getLngLat()
 
-        const markerCoordinatesNW: [number, number] = [
-            markerLngLatNW.lng,
-            markerLngLatNW.lat,
-        ]
+        const markerWCTL = mercator.wGStoWc(markerLngLatTL)
+        const markerWCBR = mercator.wGStoWc(markerLngLatBR)
 
-        const markerCoordinatesSE: [number, number] = [
-            markerLngLatSE.lng,
-            markerLngLatSE.lat,
-        ]
+        const wCCoord = getImageCoordinates(markerWCTL,markerWCBR,imageWidth, imageHeight)
 
-        const markerEQNW: [number, number] = [
-            lngToX(markerLngLatNW.lng),
-            latToY(markerLngLatNW.lat),
-        ]
+        const markerWGSTL = mercator.wcToWGS(wCCoord.tl)
+        const markerWGSTR = mercator.wcToWGS(wCCoord.tr)
+        const markerWGSBL = mercator.wcToWGS(wCCoord.bl)
+        const markerWGSBR = mercator.wcToWGS(wCCoord.br)
 
-        const markerEQSE: [number, number] = [
-            lngToX(markerLngLatSE.lng),
-            latToY(markerLngLatSE.lat),
-        ]
-
-        coordinates[0] = markerCoordinatesNW
-        // coordinates[1] =
-        coordinates[2] = markerCoordinatesSE
-        // coordinates[3] =
+        coordinates[0] = [markerWGSTL.lng, markerWGSTL.lat]
+        coordinates[1] = [markerWGSTR.lng, markerWGSTR.lat]
+        coordinates[2] = [markerWGSBL.lng, markerWGSBL.lat]
+        coordinates[3] = [markerWGSBR.lng, markerWGSBR.lat]
 
         sourceImage.setCoordinates(coordinates)
     }
@@ -161,51 +148,92 @@ const setMarkerResizeEvents = (
     markerSE.on('drag', onMarkerDrag)
 }
 
-const lngToX = (lng: number) => {
-    return EARTH_RADIUS * lng
+function getImageCoordinates(markerTL : xyCoord, markerBR: xyCoord, imageWidth : number, imageHeight : number) : imageCoord {
+    const orTL:xyCoord = {x: -imageWidth/2, y: +imageHeight/2}
+    const orTR:xyCoord = {x: +imageWidth/2, y: +imageHeight/2}
+    const orBL:xyCoord = {x: -imageWidth/2, y: -imageHeight/2}
+    const orBR:xyCoord = {x: +imageWidth/2, y: -imageHeight/2}
+
+    const scale = scaleFactorBetweenOrFin(orTL, orBR, markerTL, markerBR)  
+    const angle = angleBetweenOrFin(orTL, orBR, markerTL, markerBR)
+    const offet = offsetBetweenOrFin(orTL, orBR, markerTL, markerBR)
+
+    return {
+        tl: transformPoint(orTL, scale, angle, offet),
+        tr: transformPoint(orTR, scale, angle, offet),
+        bl: transformPoint(orBL, scale, angle, offet),
+        br: transformPoint(orBR, scale, angle, offet)
+    }
 }
 
-const latToY = (lat: number) => {
-    return EARTH_RADIUS * lat
+function scaleFactorBetweenOrFin(orTL: xyCoord, orBR: xyCoord, finTL: xyCoord, finBR: xyCoord) : number {
+    const lfin = cartesianDistance(finTL, finBR)
+    const lor = cartesianDistance(orTL,orBR)    
+    let s = lfin / lor
+    if (s < 0.01)
+        s = 0.01    
+    return s
 }
 
-const xToLng = (x: number) => {
-    return x / EARTH_RADIUS
+function cartesianDistance(pt1 : xyCoord, pt2 : xyCoord) : number {
+    return Math.sqrt((pt1.x-pt2.x)*(pt1.x-pt2.x) + (pt1.y-pt2.y)*(pt1.y-pt2.y))
 }
 
-const yToLat = (y: number) => {
-    return y / EARTH_RADIUS
+function getAngle(A: xyCoord, B: xyCoord) : number {
+    return Math.atan2(B.y - A.y, B.x - A.x)
 }
 
-// const setMarkerDragEvent = (
-//     markerResize: mapbox.Marker,
-//     markerDrag: mapbox.Marker,
-//     markerRotate: mapbox.Marker,
-//     coordinates: [
-//         [number, number],
-//         [number, number],
-//         [number, number],
-//         [number, number]
-//     ],
-//     sourceImage: mapbox.ImageSource
-// ) => {
-//     markerDrag.on('drag', () => {
-//         const markerLngLat = markerDrag.getLngLat()
-//         const markerCoordinates: [number, number] = [
-//             markerLngLat.lng,
-//             markerLngLat.lat,
-//         ]
-//         const lngDiff = markerCoordinates[0] - coordinates[1][0]
-//         const latDiff = markerCoordinates[1] - coordinates[1][1]
-//
-//         coordinates[0][0] += lngDiff
-//         coordinates[0][1] += latDiff
-//         coordinates[1] = markerCoordinates
-//         coordinates[2][0] += lngDiff
-//         coordinates[2][1] += latDiff
-//         coordinates[3][0] += lngDiff
-//         coordinates[3][1] += latDiff
-//
-//         sourceImage.setCoordinates(coordinates)
-//     })
-// }
+function angleBetweenOrFin(orTL: xyCoord, orBR: xyCoord, finTL: xyCoord, finBR: xyCoord) : number {
+    const o = getAngle(orTL, orBR)
+    const f = getAngle(finTL, finBR)
+    return f - o;
+}
+
+function offsetBetweenOrFin(orTL: xyCoord, orBR: xyCoord, finTL: xyCoord, finBR: xyCoord) : xyCoord {
+    const midOr:xyCoord = {
+        x: (orTL.x + orBR.x)/2,
+        y: (orTL.y + orBR.y)/2
+    }
+    const midfin:xyCoord = {
+        x: (finTL.x + finBR.x)/2,
+        y: (finTL.y + finBR.y)/2
+    }
+    
+    return {
+        x: midfin.x - midOr.x,
+        y: midfin.y - midOr.y
+    }
+}
+
+function scalePoint(pt: xyCoord, scale: number) : xyCoord {
+    return {
+        x: pt.x*scale,
+        y: pt.y*scale
+    }
+}
+
+function translatePoint(pt: xyCoord, offset: xyCoord) : xyCoord {
+    return {
+        x: pt.x + offset.x,
+        y: pt.y + offset.y
+    }
+}
+
+function rotatePoint(pt: xyCoord, angle: number) : xyCoord {
+    return {
+        x: pt.x*Math.cos(angle) - pt.y*Math.sin(angle),
+        y: pt.x*Math.sin(angle) + pt.y*Math.cos(angle),
+    }
+}
+
+function transformPoint(pt: xyCoord, scale: number, angle: number, offset:xyCoord): xyCoord {
+    let pttranform = pt;
+    pttranform = scalePoint(pttranform, scale)
+    pttranform = rotatePoint(pttranform, angle)
+    pttranform = translatePoint(pttranform, offset)
+    return pttranform;
+}
+
+
+
+

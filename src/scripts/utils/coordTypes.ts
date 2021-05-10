@@ -1,4 +1,3 @@
-
 export interface lngLatCoord {
     lng: number
     lat: number
@@ -10,8 +9,8 @@ export interface xyCoord {
 }
 
 export interface imageCoord {
-    tl : xyCoord
-    tr : xyCoord
-    bl : xyCoord
-    br : xyCoord
+    tl: xyCoord
+    tr: xyCoord
+    bl: xyCoord
+    br: xyCoord
 }

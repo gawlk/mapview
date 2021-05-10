@@ -2,7 +2,7 @@ import mapbox from 'mapbox-gl'
 
 import { fileToBase64 } from '../utils/file'
 import * as mercator from '../utils/googleMercator'
-import {lngLatCoord, xyCoord, imageCoord} from '../utils/coordTypes'
+import { lngLatCoord, xyCoord, imageCoord } from '../utils/coordTypes'
 
 const EARTH_RADIUS = 6.371e6
 
@@ -118,7 +118,12 @@ const setMarkerResizeEvents = (
     markerNW: mapbox.Marker,
     markerSE: mapbox.Marker,
     sourceImage: mapbox.ImageSource,
-    coordinates: [[number, number], [number, number], [number, number], [number, number]],
+    coordinates: [
+        [number, number],
+        [number, number],
+        [number, number],
+        [number, number]
+    ],
     imageWidth: number,
     imageHeight: number
 ) => {
@@ -129,7 +134,12 @@ const setMarkerResizeEvents = (
         const markerWCTL = mercator.wGStoWc(markerLngLatTL)
         const markerWCBR = mercator.wGStoWc(markerLngLatBR)
 
-        const wCCoord = getImageCoordinates(markerWCTL,markerWCBR,imageHeight, imageWidth)
+        const wCCoord = getImageCoordinates(
+            markerWCTL,
+            markerWCBR,
+            imageHeight,
+            imageWidth
+        )
 
         const markerWGSTL = mercator.wcToWGS(wCCoord.tl)
         const markerWGSTR = mercator.wcToWGS(wCCoord.tr)
@@ -148,13 +158,18 @@ const setMarkerResizeEvents = (
     markerSE.on('drag', onMarkerDrag)
 }
 
-function getImageCoordinates(markerTL : xyCoord, markerBR: xyCoord, imageWidth : number, imageHeight : number) : imageCoord {
-    const orTL:xyCoord = {x: -imageWidth/2, y: +imageHeight/2}
-    const orTR:xyCoord = {x: +imageWidth/2, y: +imageHeight/2}
-    const orBL:xyCoord = {x: -imageWidth/2, y: -imageHeight/2}
-    const orBR:xyCoord = {x: +imageWidth/2, y: -imageHeight/2}
+function getImageCoordinates(
+    markerTL: xyCoord,
+    markerBR: xyCoord,
+    imageWidth: number,
+    imageHeight: number
+): imageCoord {
+    const orTL: xyCoord = { x: -imageWidth / 2, y: +imageHeight / 2 }
+    const orTR: xyCoord = { x: +imageWidth / 2, y: +imageHeight / 2 }
+    const orBL: xyCoord = { x: -imageWidth / 2, y: -imageHeight / 2 }
+    const orBR: xyCoord = { x: +imageWidth / 2, y: -imageHeight / 2 }
 
-    const scale = scaleFactorBetweenOrFin(orTL, orBR, markerTL, markerBR)  
+    const scale = scaleFactorBetweenOrFin(orTL, orBR, markerTL, markerBR)
     const angle = angleBetweenOrFin(orTL, orBR, markerTL, markerBR)
     const offet = offsetBetweenOrFin(orTL, orBR, markerTL, markerBR)
 
@@ -162,75 +177,93 @@ function getImageCoordinates(markerTL : xyCoord, markerBR: xyCoord, imageWidth :
         tl: transformPoint(orTL, scale, angle, offet),
         tr: transformPoint(orTR, scale, angle, offet),
         bl: transformPoint(orBL, scale, angle, offet),
-        br: transformPoint(orBR, scale, angle, offet)
+        br: transformPoint(orBR, scale, angle, offet),
     }
 }
 
-function scaleFactorBetweenOrFin(orTL: xyCoord, orBR: xyCoord, finTL: xyCoord, finBR: xyCoord) : number {
+function scaleFactorBetweenOrFin(
+    orTL: xyCoord,
+    orBR: xyCoord,
+    finTL: xyCoord,
+    finBR: xyCoord
+): number {
     const lfin = cartesianDistance(finTL, finBR)
-    const lor = cartesianDistance(orTL,orBR)    
+    const lor = cartesianDistance(orTL, orBR)
     return lfin / lor
 }
 
-function cartesianDistance(pt1 : xyCoord, pt2 : xyCoord) : number {
-    return Math.sqrt((pt1.x-pt2.x)*(pt1.x-pt2.x) + (pt1.y-pt2.y)*(pt1.y-pt2.y))
+function cartesianDistance(pt1: xyCoord, pt2: xyCoord): number {
+    return Math.sqrt(
+        (pt1.x - pt2.x) * (pt1.x - pt2.x) + (pt1.y - pt2.y) * (pt1.y - pt2.y)
+    )
 }
 
-function getAngle(A: xyCoord, B: xyCoord) : number {
+function getAngle(A: xyCoord, B: xyCoord): number {
     return Math.atan2(B.y - A.y, B.x - A.x)
 }
 
-function angleBetweenOrFin(orTL: xyCoord, orBR: xyCoord, finTL: xyCoord, finBR: xyCoord) : number {
+function angleBetweenOrFin(
+    orTL: xyCoord,
+    orBR: xyCoord,
+    finTL: xyCoord,
+    finBR: xyCoord
+): number {
     const o = getAngle(orTL, orBR)
     const f = getAngle(finTL, finBR)
-    return f - o;
+    return f - o
 }
 
-function offsetBetweenOrFin(orTL: xyCoord, orBR: xyCoord, finTL: xyCoord, finBR: xyCoord) : xyCoord {
-    const midOr:xyCoord = {
-        x: (orTL.x + orBR.x)/2,
-        y: (orTL.y + orBR.y)/2
+function offsetBetweenOrFin(
+    orTL: xyCoord,
+    orBR: xyCoord,
+    finTL: xyCoord,
+    finBR: xyCoord
+): xyCoord {
+    const midOr: xyCoord = {
+        x: (orTL.x + orBR.x) / 2,
+        y: (orTL.y + orBR.y) / 2,
     }
-    const midfin:xyCoord = {
-        x: (finTL.x + finBR.x)/2,
-        y: (finTL.y + finBR.y)/2
+    const midfin: xyCoord = {
+        x: (finTL.x + finBR.x) / 2,
+        y: (finTL.y + finBR.y) / 2,
     }
-    
+
     return {
         x: midfin.x - midOr.x,
-        y: midfin.y - midOr.y
+        y: midfin.y - midOr.y,
     }
 }
 
-function scalePoint(pt: xyCoord, scale: number) : xyCoord {
+function scalePoint(pt: xyCoord, scale: number): xyCoord {
     return {
-        x: pt.x*scale,
-        y: pt.y*scale
+        x: pt.x * scale,
+        y: pt.y * scale,
     }
 }
 
-function translatePoint(pt: xyCoord, offset: xyCoord) : xyCoord {
+function translatePoint(pt: xyCoord, offset: xyCoord): xyCoord {
     return {
         x: pt.x + offset.x,
-        y: pt.y + offset.y
+        y: pt.y + offset.y,
     }
 }
 
-function rotatePoint(pt: xyCoord, angle: number) : xyCoord {
+function rotatePoint(pt: xyCoord, angle: number): xyCoord {
     return {
-        x: pt.x*Math.cos(angle) - pt.y*Math.sin(angle),
-        y: pt.x*Math.sin(angle) + pt.y*Math.cos(angle),
+        x: pt.x * Math.cos(angle) - pt.y * Math.sin(angle),
+        y: pt.x * Math.sin(angle) + pt.y * Math.cos(angle),
     }
 }
 
-function transformPoint(pt: xyCoord, scale: number, angle: number, offset:xyCoord): xyCoord {
-    let pttranform = pt;
+function transformPoint(
+    pt: xyCoord,
+    scale: number,
+    angle: number,
+    offset: xyCoord
+): xyCoord {
+    let pttranform = pt
     pttranform = scalePoint(pttranform, scale)
     pttranform = rotatePoint(pttranform, angle)
     pttranform = translatePoint(pttranform, offset)
-    return pttranform;
+    return pttranform
 }
-
-
-
-

@@ -1,21 +1,21 @@
 <template>
-    <component :is="router.page" />
+  <App />
 </template>
 
 <style>
-    @font-face {
-        font-family: 'Inter var';
-        font-style: normal;
-        font-weight: 100 900;
-        font-display: swap;
-        src: url('/fonts/Inter.var.woff2') format('woff2');
-        unicode-range: U+0000-007F, U+00A0-0100, U+0131, U+0152-0154,
-            U+02BB-02BD, U+02C6, U+02DA, U+02DC, U+2000-200C, U+2010-2028,
-            U+202F-2060, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+FEFF;
-        font-named-instance: 'Regular';
-    }
+  @font-face {
+    font-family: 'Inter var';
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url('/fonts/Inter.var.woff2') format('woff2');
+    unicode-range: U+0000-007F, U+00A0-0100, U+0131, U+0152-0154, U+02BB-02BD,
+      U+02C6, U+02DA, U+02DC, U+2000-200C, U+2010-2028, U+202F-2060, U+2074,
+      U+20AC, U+2122, U+2191, U+2193, U+2212, U+FEFF;
+    font-named-instance: 'Regular';
+  }
 </style>
 
 <script setup lang="ts">
-    import router from './router'
+  import App from './app/Index.vue'
 </script>

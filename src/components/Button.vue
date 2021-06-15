@@ -1,59 +1,101 @@
 <template>
+  <button
+    :disabled="props.disabled"
+    :class="[
+      props.xxl
+        ? 'text-2xl font-medium py-6 px-12 rounded-2xl'
+        : props.xl
+        ? 'text-xl font-medium py-4 px-8 rounded-xl'
+        : props.lg
+        ? 'text-base sm:text-lg font-medium p-2.5 px-5 sm:py-3 sm:px-6 rounded-xl'
+        : props.sm
+        ? 'text-xs font-medium py-1 px-2 rounded-lg'
+        : 'text-sm font-medium py-2 px-4 rounded-lg',
+      props.dark
+        ? 'bg-gray-800 text-white focus:ring-gray-600'
+        : props.green
+        ? 'bg-green-800 text-white focus:ring-green-600'
+        : props.red
+        ? 'bg-red-800 text-white focus:ring-red-600'
+        : props.transparent
+        ? 'text-gray-900'
+        : 'bg-gray-100 text-gray-900 focus:ring-gray-50',
+      !props.disabled &&
+        (props.dark
+          ? 'hover:bg-gray-700'
+          : props.green
+          ? 'hover:bg-green-700'
+          : props.red
+          ? 'hover:bg-red-700'
+          : 'hover:bg-gray-200'),
+      props.full && 'w-full',
+      props.truncate && 'truncate',
+      props.disabled ? 'opacity-75 cursor-default' : 'cursor-pointer',
+    ]"
+    class="
+      inline-flex
+      items-center
+      space-x-2
+      leading-6
+      focus:outline-none
+      focus:ring
+      transition-colors
+      duration-200
+      group
+    "
+  >
     <component
-        :is="props.href ? Link : 'button'"
-        :disabled="props.disabled"
-        :href="href"
-        :class="[
-            props.xxl
-                ? 'text-2xl font-medium py-6 px-12 rounded-2xl'
-                : props.xl
-                ? 'text-xl font-medium py-4 px-8 rounded-xl'
-                : props.lg
-                ? 'text-base sm:text-lg font-medium p-2.5 px-5 sm:py-3 sm:px-6 rounded-xl'
-                : 'text-base font-medium py-2 px-4 rounded-lg',
-            props.dark
-                ? 'bg-gray-800 text-white focus:ring-gray-600'
-                : props.green
-                ? 'bg-green-800 text-white focus:ring-green-600'
-                : props.red
-                ? 'bg-red-800 text-white focus:ring-red-600'
-                : props.transparent
-                ? 'text-gray-900'
-                : 'bg-gray-100 text-gray-900 focus:ring-gray-200',
-            !props.disabled &&
-                (props.dark
-                    ? 'hover:bg-gray-700'
-                    : props.green
-                    ? 'hover:bg-green-700'
-                    : props.red
-                    ? 'hover:bg-red-700'
-                    : 'hover:bg-white'),
-            props.full && 'w-full',
-            props.centered && 'justify-center',
-            props.disabled ? 'opacity-75 cursor-default' : 'cursor-pointer',
-        ]"
-        class="inline-flex items-center leading-6 focus:outline-none focus:ring transition-colors duration-200"
+      v-if="props.icon || props.leftIcon || props.rightIcon"
+      :is="props.icon || props.leftIcon || 'span'"
+      class="
+        h-5
+        w-5
+        text-gray-400
+        group-hover:text-gray-500
+        transition-colors
+        duration-200
+      "
+    />
+    <span
+      v-if="!props.icon"
+      :class="[props.centered ? 'text-center' : 'text-left']"
+      class="flex-1"
     >
-        <slot></slot>
-    </component>
+      <slot />
+    </span>
+    <component
+      v-if="!props.icon && (props.leftIcon || props.rightIcon)"
+      :is="props.rightIcon || 'span'"
+      class="
+        h-5
+        w-5
+        text-gray-400
+        group-hover:text-gray-500
+        transition-colors
+        duration-200
+      "
+    />
+  </button>
 </template>
 
 <script setup lang="ts">
-    import { defineProps } from 'vue'
+  import { defineProps } from 'vue'
 
-    import Link from './Link.vue'
-
-    const props = defineProps({
-        disabled: Boolean,
-        href: String,
-        dark: Boolean,
-        green: Boolean,
-        red: Boolean,
-        transparent: Boolean,
-        lg: Boolean,
-        xl: Boolean,
-        xxl: Boolean,
-        full: Boolean,
-        centered: Boolean,
-    })
+  const props = defineProps({
+    disabled: Boolean,
+    dark: Boolean,
+    green: Boolean,
+    red: Boolean,
+    transparent: Boolean,
+    sm: Boolean,
+    lg: Boolean,
+    xl: Boolean,
+    xxl: Boolean,
+    full: Boolean,
+    centered: Boolean,
+    truncate: Boolean,
+    icon: Function,
+    leftIcon: Function,
+    rightIcon: Function,
+  })
 </script>

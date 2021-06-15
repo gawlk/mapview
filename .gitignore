@@ -18,7 +18,19 @@
 node_modules
 
 # ---
-# Production
+# Nova
+# ---
+
+.nova
+
+# ---
+# Vercel
+# ---
+
+.vercel
+
+# ---
+# Vite
 # ---
 
 dist

@@ -1,5 +1,5 @@
 <template>
-  <Disclosure v-slot="{ open }" as="div" defaultOpen>
+  <Disclosure v-slot="{ open }" as="div">
     <DisclosureButton
       :class="open ? 'rounded-t-lg' : 'rounded-lg'"
       class="

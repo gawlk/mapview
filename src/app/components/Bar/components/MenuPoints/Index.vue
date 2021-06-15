@@ -11,10 +11,12 @@
       rounded-lg
     "
   >
-    {{ t('Average') }} D0 : <strong class="font-bold">45.6 um</strong>
+    {{ t('Average') }} D200 : <strong class="font-bold">45.6 um</strong>
   </div>
-  <ListboxColumns />
-  <Table />
+  <ListboxValue />
+  <ListboxDrop />
+  <DisclosureThreshold />
+  <DisclosureTable />
 </template>
 
 <script setup>
@@ -23,8 +25,10 @@
   import store from '/src/store'
 
   import { Button } from '/src/components'
-  import Table from './components/Table.vue'
-  import ListboxColumns from './components/ListboxColumns.vue'
+  import DisclosureTable from './components/DisclosureTable/Index.vue'
+  import DisclosureThreshold from './components/DisclosureThreshold.vue'
+  import ListboxDrop from './components/ListboxDrop.vue'
+  import ListboxValue from './components/ListboxValue.vue'
 
   const { t } = useI18n()
 </script>

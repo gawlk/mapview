@@ -1,7 +1,7 @@
 <template>
   <Listbox
     :icon="ViewBoardsIcon"
-    :values="store.project?.reports.map((r) => r.name)"
+    :values="store.project?.selectedReport.dataSettings.keys"
     :preSelected="t('Columns:')"
     selected="D0, D200, D400"
     full

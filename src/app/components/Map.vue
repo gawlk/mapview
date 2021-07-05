@@ -7,16 +7,11 @@
 
   import { createMap } from '/src/scripts/map/map'
   import { createProject } from '/src/scripts/project/project'
-  import { createReport } from '/src/scripts/project/report'
   import store from '/src/store'
 
   onMounted(() => {
-    store.project = createProject()
-
-    const report = createReport('test')
-    store.project.reports.push(report)
-    store.selectedReport = report
-
     store.map = createMap('map')
+
+    store.project = createProject('test project', store.map)
   })
 </script>

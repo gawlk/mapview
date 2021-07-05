@@ -10,12 +10,14 @@ import App from './App.vue'
 
 import { getBrowserLocale } from './locales'
 
+console.log(`Locale: ${getBrowserLocale()}`)
+
 createApp(App)
   .use(createHead())
   .use(
     createI18n({
       locale: getBrowserLocale(true),
-      fallbackLocale: 'en',
+      fallbackLocale: 'en-US',
       messages,
     })
   )

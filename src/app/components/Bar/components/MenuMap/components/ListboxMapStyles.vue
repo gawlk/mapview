@@ -1,7 +1,7 @@
 <template>
   <Listbox
     :icon="ColorSwatchIcon"
-    :selectedBackground="styles[0]"
+    :buttonBackground="styles[0]"
     :backgrounds="styles"
     full
   />

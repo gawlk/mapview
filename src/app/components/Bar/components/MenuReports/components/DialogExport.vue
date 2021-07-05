@@ -1,5 +1,5 @@
 <template>
-  <Dialog :buttonIcon="CloudDownloadIcon">
+  <Dialog :buttonIcon="CloudDownloadIcon" buttonBlue>
     <template v-slot:button>
       {{ t('Export') }}
     </template>

@@ -1,10 +1,10 @@
-import mapbox from 'mapbox-gl'
+import { Map, ImageSource, Marker } from 'mapbox-gl'
 
 import { fileToBase64 } from '../utils/file'
 import * as mercator from '../utils/mercator'
 
 export const createImageMap = async (
-  map: mapbox.Map,
+  map: Map,
   image: File
 ): Promise<ImageMap> => {
   const data64 = (await fileToBase64(image)) as string
@@ -39,7 +39,7 @@ export const createImageMap = async (
     },
   })
 
-  const source = map.getSource(id) as mapbox.ImageSource
+  const source = map.getSource(id) as ImageSource
 
   const markerNW = createMarker(coordNW, map)
 
@@ -63,7 +63,7 @@ export const createImageMap = async (
 }
 
 const initialiseNWAndSECoords = async (
-  map: mapbox.Map
+  map: Map
 ): Promise<[[number, number], [number, number]]> => {
   const center = map.getCenter()
   const bounds = map.getBounds()
@@ -97,13 +97,13 @@ const getImageDimensions = async (data64: string) =>
     }
   })
 
-const createMarker = (coordinates: [number, number], map: mapbox.Map) =>
-  new mapbox.Marker().setLngLat(coordinates).setDraggable(true).addTo(map)
+const createMarker = (coordinates: [number, number], map: Map) =>
+  new Marker().setLngLat(coordinates).setDraggable(true).addTo(map)
 
 const setImageCoordinates = (
-  markerNW: mapbox.Marker,
-  markerSE: mapbox.Marker,
-  sourceImage: mapbox.ImageSource,
+  markerNW: Marker,
+  markerSE: Marker,
+  sourceImage: ImageSource,
   imageWidth: number,
   imageHeight: number
 ) => {

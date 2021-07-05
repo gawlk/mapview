@@ -4,7 +4,7 @@
       :icon="DocumentReportIcon"
       :values="store.project?.reports.map((r) => r.name)"
       :preSelected="t('Report:')"
-      :selected="store.selectedReport?.name"
+      :selected="store.project?.selectedReport?.name"
       full
     />
     <Button @click="inputFile.click()" :icon="PlusIcon" />

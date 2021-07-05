@@ -1,11 +1,11 @@
 <template>
-  <Listbox v-model="props.selected">
+  <Listbox :modelValue="props.selected" @update:modelValue="update">
     <div :class="[props.full && 'w-full']" class="relative">
       <ListboxButton
-        :style="{ backgroundImage: `url('${props.selectedBackground}')` }"
+        :style="{ backgroundImage: `url('${props.buttonBackground}')` }"
         :class="[
-          props.selectedBackground && 'bg-cover bg-center',
-          props.selectedClasses,
+          props.buttonBackground && 'bg-cover bg-center',
+          props.buttonColors || 'bg-gray-100 hover:bg-gray-200',
         ]"
         class="
           w-full
@@ -16,14 +16,12 @@
           px-4
           py-2
           text-sm
-          bg-gray-100
           rounded-lg
           leading-6
           font-medium
           group
           transition-colors
           duration-200
-          hover:bg-gray-200
           focus:outline-none
           focus-visible:ring-2
           focus-visible:ring-opacity-75
@@ -39,7 +37,7 @@
             :is="props.icon"
             :class="[
               props.iconsClasses,
-              props.selectedBackground
+              props.buttonBackground
                 ? 'bg-gray-100 bg-opacity-60 rounded-full p-1 h-7 w-7 -my-0.5 -ml-1'
                 : 'w-5 h-5',
             ]"
@@ -58,14 +56,19 @@
             v-if="props.selectedReplacement || props.values"
             class="ml-1 truncate"
           >
-            {{ props.selectedReplacement || selected }}
+            {{
+              props.selectedReplacement ||
+              (props.values.includes(props.selected)
+                ? props.selected
+                : props.values[0])
+            }}
           </span>
         </div>
         <div>
           <SelectorIcon
             :class="[
               props.iconsClasses,
-              props.selectedBackground
+              props.buttonBackground
                 ? 'bg-gray-100 bg-opacity-60 rounded-full p-1 h-7 w-7 -my-0.5 -mr-1'
                 : 'w-5 h-5',
             ]"
@@ -86,6 +89,7 @@
         leave-to-class="opacity-0"
       >
         <ListboxOptions
+          :class="[props.listTop ? 'bottom-0 mb-11' : 'mt-1 shadow-lg']"
           class="
             absolute
             w-full
@@ -95,7 +99,6 @@
             text-base
             bg-white
             rounded-md
-            shadow-lg
             max-h-60
             ring-1 ring-black ring-opacity-5
             focus:outline-none
@@ -151,7 +154,7 @@
 </template>
 
 <script setup lang="ts">
-  import { defineProps, ref } from 'vue'
+  import { defineEmit, defineProps, ref } from 'vue'
   import {
     Listbox,
     ListboxLabel,
@@ -161,17 +164,25 @@
   } from '@headlessui/vue'
   import { CheckIcon, SelectorIcon } from '@heroicons/vue/solid'
 
+  const emit = defineEmit(['select', 'selectIndex'])
+
   const props = defineProps({
     icon: Function,
     values: Array,
     preSelected: String,
-    selected: String,
+    selected: String | Number,
     selectedReplacement: String,
     full: Boolean,
     backgrounds: Array,
     classes: Array,
-    selectedBackground: String,
-    selectedClasses: String,
+    buttonBackground: String,
+    buttonColors: String,
     iconsClasses: String,
+    listTop: Boolean,
   })
+
+  const update = (value) => {
+    emit('select', value)
+    emit('selectIndex', props.values.indexOf(value))
+  }
 </script>

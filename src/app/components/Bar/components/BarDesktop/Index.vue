@@ -3,14 +3,14 @@
     <Logo />
 
     <div class="space-y-8">
-      <MenuDesktop
+      <MenuWrapperDesktop
         v-for="menu in props.menus"
         :key="menu.name"
         :name="menu.name"
         :icon="menu.icon"
       >
         <component :is="menu.component" />
-      </MenuDesktop>
+      </MenuWrapperDesktop>
     </div>
 
     <Footer />
@@ -22,7 +22,7 @@
 
   import Footer from './components/Footer.vue'
   import Logo from './components/Logo.vue'
-  import MenuDesktop from './components/MenuDesktop.vue'
+  import MenuWrapperDesktop from './components/MenuWrapperDesktop.vue'
 
   const props = defineProps({
     menus: Array,

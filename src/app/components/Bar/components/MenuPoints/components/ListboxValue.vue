@@ -1,7 +1,7 @@
 <template>
   <Listbox
     :icon="DotsVerticalIcon"
-    :values="store.project?.reports.map((r) => r.name)"
+    :values="store.project?.units.map((unit) => unit.name)"
     :preSelected="t('Value:')"
     selected="D200"
     full

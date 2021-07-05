@@ -1,6 +1,6 @@
 <template>
   <Button
-    v-if="store.selectedReport?.images.length === 0"
+    v-if="store.project?.selectedReport?.images.length === 0"
     full
     :leftIcon="CameraIcon"
   >
@@ -34,5 +34,5 @@ en:
   'View the album': 'View the album'
 fr:
   'Photograph the map': 'Photographier la carte'
-  'View album': "Voir l'album"
+  'View the album': "Voir l'album"
 </i18n>

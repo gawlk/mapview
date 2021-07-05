@@ -13,20 +13,28 @@
         : 'text-sm font-medium py-2 px-4 rounded-lg',
       props.dark
         ? 'bg-gray-800 text-white focus:ring-gray-600'
+        : props.blue
+        ? 'bg-blue-200 text-blue-900 focus:ring-blue-100'
         : props.green
-        ? 'bg-green-800 text-white focus:ring-green-600'
+        ? 'bg-green-200 text-green-900 focus:ring-green-100'
         : props.red
-        ? 'bg-red-800 text-white focus:ring-red-600'
+        ? 'bg-red-200 text-red-900 focus:ring-red-100'
+        : props.orange
+        ? 'bg-orange-200 text-orange-900 focus:ring-orange-100'
         : props.transparent
         ? 'text-gray-900'
         : 'bg-gray-100 text-gray-900 focus:ring-gray-50',
       !props.disabled &&
         (props.dark
           ? 'hover:bg-gray-700'
+          : props.blue
+          ? 'hover:bg-blue-300'
           : props.green
-          ? 'hover:bg-green-700'
+          ? 'hover:bg-green-300'
           : props.red
-          ? 'hover:bg-red-700'
+          ? 'hover:bg-red-300'
+          : props.orange
+          ? 'hover:bg-orange-300'
           : 'hover:bg-gray-200'),
       props.full && 'w-full',
       props.truncate && 'truncate',
@@ -47,14 +55,8 @@
     <component
       v-if="props.icon || props.leftIcon || props.rightIcon"
       :is="props.icon || props.leftIcon || 'span'"
-      class="
-        h-5
-        w-5
-        text-gray-400
-        group-hover:text-gray-500
-        transition-colors
-        duration-200
-      "
+      :class="iconsColors"
+      class="h-5 w-5 transition-colors duration-200"
     />
     <span
       v-if="!props.icon"
@@ -66,14 +68,8 @@
     <component
       v-if="!props.icon && (props.leftIcon || props.rightIcon)"
       :is="props.rightIcon || 'span'"
-      class="
-        h-5
-        w-5
-        text-gray-400
-        group-hover:text-gray-500
-        transition-colors
-        duration-200
-      "
+      :class="iconsColors"
+      class="h-5 w-5 transition-colors duration-200"
     />
   </button>
 </template>
@@ -85,7 +81,9 @@
     disabled: Boolean,
     dark: Boolean,
     green: Boolean,
+    orange: Boolean,
     red: Boolean,
+    blue: Boolean,
     transparent: Boolean,
     sm: Boolean,
     lg: Boolean,
@@ -98,4 +96,16 @@
     leftIcon: Function,
     rightIcon: Function,
   })
+
+  const iconsColors = props.dark
+    ? 'text-gray-500 group-hover:text-gray-400'
+    : props.blue
+    ? 'text-blue-500 group-hover:text-blue-600'
+    : props.green
+    ? 'text-green-500 group-hover:text-green-600'
+    : props.red
+    ? 'text-red-500 group-hover:text-red-600'
+    : props.orange
+    ? 'text-orange-500 group-hover:text-orange-600'
+    : 'text-gray-400 group-hover:text-gray-500'
 </script>

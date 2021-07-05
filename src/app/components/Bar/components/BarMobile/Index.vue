@@ -1,6 +1,6 @@
 <template>
   <div class="flex-none flex justify-around items-center relative">
-    <MenuMobile
+    <MenuWrapperMobile
       v-for="menu in props.menus"
       :key="menu.name"
       :name="menu.name"
@@ -9,14 +9,14 @@
       @click="selectMenu(menu)"
     >
       <component :is="menu.component" />
-    </MenuMobile>
+    </MenuWrapperMobile>
   </div>
 </template>
 
 <script setup>
   import { defineProps, reactive } from 'vue'
 
-  import MenuMobile from './components/MenuMobile.vue'
+  import MenuWrapperMobile from './components/MenuWrapperMobile.vue'
 
   const props = defineProps({
     menus: Array,

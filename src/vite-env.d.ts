@@ -19,12 +19,66 @@ interface ImageCoord {
   br: XYCoord
 }
 
+type PointsText = 'value' | 'number'
+
 interface Project {
   name: string
   reports: Report[]
+  selectedReport: Report | undefined
   images: string[]
+  units: MathUnit[]
   database: Database | undefined
-  additionnalFields: any
+  pointsLinked: boolean
+  pointsLocked: boolean
+  pointsVisible: boolean
+  pointsText: PointsText
+  informations: Field[]
+  configurations: Field[]
+}
+
+interface Field {
+  name: string
+  value: AnyType
+}
+
+type AnyType =
+  | boolean
+  | number
+  | string
+  | SlidableNumber
+  | DateValue
+  | LongString
+  | SelectableString
+  | SimpleNumber
+  | MathNumber
+
+type AnyNumber = number | SimpleNumber | MathNumber
+
+type AnyNumberObject = { [key: string]: AnyNumber }
+
+interface SlidableNumber {
+  kind: 'slidableNumber'
+  value: number
+  step: number
+  min: number
+  max: number
+}
+
+interface DateValue {
+  kind: 'date'
+  value: string
+}
+
+interface LongString {
+  kind: 'longString'
+  value: string
+}
+
+interface SelectableString {
+  kind: 'selectableString'
+  value: string
+  possibleValues: string[]
+  strict: boolean
 }
 
 interface Database {
@@ -35,6 +89,39 @@ interface Database {
 interface Report {
   name: string
   images: string[]
+  points: Point[]
+  dataSettings: any
+}
+
+interface Point {
+  number: number
+  initialCoords: any
+  mapboxPoint: any
+  rawData: AnyNumberObject
+  parametersData: AnyNumberObject
+  finalData: AnyNumberObject
+}
+
+interface SimpleNumber {
+  value: number
+  unit: string
+}
+
+interface MathNumber {
+  value: any
+  unit: MathUnit
+  displayString: string
+  displayStringWithUnit: string
+  toDisplayedValue: () => void
+}
+
+interface MathUnit {
+  name: string
+  currentUnit: string
+  currentPrecision: number
+  possibleSettings: [string, number][]
+  possiblePrecisions: number[]
+  locked: boolean
 }
 
 interface ImageMap {

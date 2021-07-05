@@ -8,8 +8,8 @@
         :values="state.values"
       />
       <Button
-        @click="store.project.linkPoints = !store.project.linkPoints"
-        :icon="store.project?.linkPoints ? EyeIcon : EyeOffIcon"
+        @click="store.project.pointsVisible = !store.project.pointsVisible"
+        :icon="store.project?.pointsVisible ? EyeIcon : EyeOffIcon"
       />
     </div>
     <div class="flex space-x-2">
@@ -21,12 +21,12 @@
         :values="state.values"
       />
       <Button
-        @click="store.project.linkPoints = !store.project.linkPoints"
-        :icon="store.project?.linkPoints ? ShareIcon : DotsIcon"
+        @click="store.project.pointsLinked = !store.project.pointsLinked"
+        :icon="store.project?.pointsLinked ? ShareIcon : DotsIcon"
       />
       <Button
-        @click="store.project.lockPoints = !store.project.lockPoints"
-        :icon="store.project?.lockPoints ? LockClosedIcon : LockOpenIcon"
+        @click="store.project.pointsLocked = !store.project.pointsLocked"
+        :icon="store.project?.pointsLocked ? LockClosedIcon : LockOpenIcon"
       />
     </div>
   </Disclosure>

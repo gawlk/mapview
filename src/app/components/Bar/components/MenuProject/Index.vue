@@ -5,14 +5,19 @@
     </span>
     <span class="font-semibold">Name</span>
   </div>
-  <DialogInformations />
+  <DialogInformations
+    preID="project-"
+    :informations="store.project.informations"
+  />
   <DialogConfigurations />
-  <ButtonSave />
   <ButtonChange />
+  <ButtonSave />
 </template>
 
 <script setup>
   import { useI18n } from 'vue-i18n'
+
+  import store from '/src/store'
 
   import { DialogInformations } from '/src/components'
   import ButtonChange from './components/ButtonChange.vue'

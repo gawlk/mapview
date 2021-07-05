@@ -1,15 +1,16 @@
 <template>
   <div class="w-full">
     <Button
-      @click="openModal"
+      @click="open"
       full
       :leftIcon="props.buttonIcon"
       :rightIcon="ChevronRightIcon"
+      :blue="props.buttonBlue"
     >
       <slot name="button" />
     </Button>
     <TransitionRoot appear :show="state.isOpen" as="template">
-      <Dialog as="div" @close="closeModal">
+      <Dialog as="div" @close="close">
         <div class="fixed inset-0 z-10 overflow-y-auto">
           <div class="min-h-screen px-4 text-center">
             <TransitionChild
@@ -41,8 +42,8 @@
                 class="
                   inline-block
                   w-full
-                  max-w-md
-                  p-6
+                  max-w-lg
+                  p-8
                   my-8
                   overflow-hidden
                   text-left
@@ -52,42 +53,27 @@
                   bg-white
                   shadow-xl
                   rounded-2xl
+                  space-y-8
                 "
               >
-                <DialogTitle as="h3" class="text-lg font-medium leading-6">
-                  Payment successful
+                <DialogTitle
+                  as="h3"
+                  class="text-2xl font-medium leading-6 pl-4"
+                >
+                  {{ props.title }}
                 </DialogTitle>
-                <div class="mt-2">
-                  <p class="text-sm text-gray-500">
-                    Your payment has been successfully submitted. We’ve sent
-                    your an email with all of the details of your order.
-                  </p>
+
+                <div>
+                  <slot name="dialog" />
                 </div>
 
-                <div class="mt-4">
-                  <button
-                    type="button"
-                    class="
-                      inline-flex
-                      justify-center
-                      px-4
-                      py-2
-                      text-sm
-                      font-medium
-                      text-blue-900
-                      bg-blue-100
-                      border border-transparent
-                      rounded-md
-                      hover:bg-blue-200
-                      focus:outline-none
-                      focus-visible:ring-2
-                      focus-visible:ring-offset-2
-                      focus-visible:ring-blue-500
-                    "
-                    @click="closeModal"
-                  >
-                    Got it, thanks!
-                  </button>
+                <div class="flex justify-end space-x-2">
+                  <Button @click="close" centered>
+                    {{ props.saveable ? 'Cancel' : 'Close' }}
+                  </Button>
+                  <Button v-if="props.saveable" @click="save" centered orange>
+                    Save
+                  </Button>
                 </div>
               </div>
             </TransitionChild>
@@ -99,7 +85,7 @@
 </template>
 
 <script setup lang="ts">
-  import { defineProps, reactive } from 'vue'
+  import { defineEmit, defineProps, reactive } from 'vue'
 
   import {
     TransitionRoot,
@@ -112,19 +98,31 @@
 
   import { Button } from '.'
 
+  const emit = defineEmit()
+
   const props = defineProps({
+    title: String,
     buttonIcon: Function,
+    saveable: Boolean,
+    buttonBlue: Boolean,
   })
 
   const state = reactive({
     isOpen: false,
   })
 
-  const closeModal = () => {
+  const close = () => {
     state.isOpen = false
+    emit('close')
   }
 
-  const openModal = () => {
+  const open = () => {
     state.isOpen = true
+    emit('open')
+  }
+
+  const save = () => {
+    close()
+    emit('save')
   }
 </script>

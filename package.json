@@ -1,7 +1,7 @@
 {
   "name": "mapview",
   "description": "",
-  "version": "0.0.1",
+  "version": "0.0.5",
   "homepage": "",
   "scripts": {
     "dev": "vite",

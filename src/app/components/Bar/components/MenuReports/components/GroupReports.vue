@@ -19,6 +19,7 @@
 </template>
 
 <script setup>
+  import { ref } from 'vue'
   import { useI18n } from 'vue-i18n'
 
   import store from '/src/store'
@@ -29,7 +30,7 @@
 
   const { t } = useI18n()
 
-  ref: inputFile
+  const inputFile = ref()
 
   const addReport = (reportFile) => {
     if (reportFile) {

@@ -13,7 +13,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { defineProps, reactive } from 'vue'
 
   import MenuWrapperMobile from './components/MenuWrapperMobile.vue'
@@ -22,12 +22,12 @@
     menus: Array,
   })
 
-  props.menus.map((menu) => {
+  props.menus?.map((menu: any) => {
     menu.opened = false
   })
 
-  const selectMenu = (menu) => {
-    props.menus.forEach((_menu) => {
+  const selectMenu = (menu: any) => {
+    props.menus?.forEach((_menu: any) => {
       _menu.opened = menu === _menu ? !_menu.opened : false
     })
   }

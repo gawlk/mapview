@@ -79,25 +79,27 @@
 </template>
 
 <script setup lang="ts">
-  import { defineEmit, defineProps } from 'vue'
+  import { defineEmits, defineProps } from 'vue'
 
   import { getBrowserLocale } from '/src/locales'
 
   import { Label, Listbox } from '.'
 
-  const emit = defineEmit(['input'])
+  const emit = defineEmits<{
+    (event: 'input'): string | number
+  }>()
 
-  const props = defineProps({
-    id: String,
-    label: String,
-    type: String,
-    value: String | Number,
-    step: Number,
-    min: Number,
-    max: Number,
-    list: Array,
-    strict: Boolean,
-  })
+  const props = defineProps<{
+    id: string
+    type: string
+    value: string | number
+    label?: string
+    step?: number
+    min?: number
+    max?: number
+    list?: any
+    strict?: boolean
+  }>()
 
   const classes = `
     w-full

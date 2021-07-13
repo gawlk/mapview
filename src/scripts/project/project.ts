@@ -1,23 +1,20 @@
-import { shallowReactive } from 'vue'
-import { Map } from 'mapbox-gl'
+import { shallowReactive, watch } from 'vue'
 
 import { createReport } from './report'
+import { createLine } from '../map/line'
 import { createPoint } from '../map/point'
 import { createMathUnit } from '../math/mathUnit'
 import { createMathNumber } from '../math/mathNumber'
-import { createSimpleNumber } from '../math/simpleNumber'
 
-export const createProject = (name: string, map: Map): Project => {
+export const createProject = (name: string, map: mapboxgl.Map): Project => {
   const report = createReport('test report', {
     keys: ['D0', 'F0', 'T0', 'P0'],
   })
 
-  const point = createPoint(1, map.getCenter(), map)
-
   const unitDeformation = createMathUnit('Deformation', [
     ['mm', 0],
-    ['um', 0],
     ['1/100 mm', 0],
+    ['um', 0],
   ])
 
   const unitForce = createMathUnit('Force', [
@@ -27,43 +24,63 @@ export const createProject = (name: string, map: Map): Project => {
   ])
 
   const unitTemperature = createMathUnit('Temperature', [
-    ['K', 0],
     ['degC', 0],
     ['degF', 0],
+    ['K', 0],
   ])
 
   const units = [unitDeformation, unitForce, unitTemperature]
+
+  const point = createPoint(1, map.getCenter(), map)
 
   point.finalData = {
     D0: createMathNumber(100, unitDeformation),
     F0: createMathNumber(100, unitForce),
     T0: createMathNumber(100, unitTemperature),
-    P0: createSimpleNumber(100, '%'),
+    P0: createMathNumber(100, '%'),
   }
 
-  report.points = [point]
+  const point2 = createPoint(
+    2,
+    {
+      lat: map.getCenter().lat + 0.05,
+      lng: map.getCenter().lng + 0.05,
+    },
+    map
+  )
 
-  return shallowReactive({
+  point2.finalData = {
+    D0: createMathNumber(200, unitDeformation),
+    F0: createMathNumber(200, unitForce),
+    T0: createMathNumber(200, unitTemperature),
+    P0: createMathNumber(200, '%'),
+  }
+
+  report.points = [point, point2]
+
+  report.line = createLine(report.points, map)
+
+  const project = shallowReactive({
     name,
     reports: [report],
     selectedReport: report,
     images: [],
     units,
-    pointsLinked: true,
-    pointsLocked: true,
-    pointsVisible: true,
-    pointsText: 'value',
+    arePointsLinked: true,
+    arePointsLocked: true,
+    arePointsVisible: true,
+    pointsState: 'number' as PointsState,
     // pointsIcon: 1,
     database: undefined,
     informations: [
       {
         name: 'String',
         value: 'string',
-      },
+      } as Field,
       {
         name: 'Number',
         value: 1,
-      },
+      } as Field,
       {
         name: 'Slidable number',
         value: {
@@ -73,21 +90,21 @@ export const createProject = (name: string, map: Map): Project => {
           min: 10,
           max: 1000,
         },
-      },
+      } as Field,
       {
         name: 'Date',
         value: {
           kind: 'date',
           value: '2021-01-01',
         },
-      },
+      } as Field,
       {
         name: 'Long string',
         value: {
           kind: 'longString',
           value: 'ioeshnteosih',
         },
-      },
+      } as Field,
       {
         name: 'Selectable string',
         value: {
@@ -96,7 +113,7 @@ export const createProject = (name: string, map: Map): Project => {
           strict: false,
           possibleValues: ['valeur 1', 'valeur 2', 'valeur 3'],
         },
-      },
+      } as Field,
     ],
     configurations: [
       {
@@ -107,7 +124,65 @@ export const createProject = (name: string, map: Map): Project => {
           value: 'value 1',
           possibleValues: ['valeur 1', 'valeur 2', 'valeur 3'],
         },
-      },
+      } as Field,
     ],
   })
+
+  watch(
+    () => project.arePointsLinked,
+    (arePointsLinked: boolean) => {
+      project.reports.forEach((report: Report) => {
+        arePointsLinked ? report.line?.addToMap() : report.line?.remove()
+      })
+    }
+  )
+
+  watch(
+    () => project.arePointsLocked,
+    (arePointsLocked: boolean) => {
+      project.reports.forEach((report: Report) => {
+        report.points.forEach((point) => {
+          point.marker.setDraggable(!arePointsLocked)
+        })
+      })
+    }
+  )
+
+  watch(
+    () => project.arePointsVisible,
+    (arePointsVisible: boolean) => {
+      project.reports.forEach((report: Report) => {
+        report.points.forEach((point) => {
+          if (arePointsVisible) {
+            point.marker.addTo(map)
+          } else {
+            point.marker.remove()
+          }
+        })
+      })
+    }
+  )
+
+  watch(
+    () => project.pointsState,
+    (pointsState: PointsState) => {
+      project.reports.forEach((report: Report) => {
+        report.points.forEach((point) => {
+          switch (pointsState) {
+            case 'number':
+              point.icon.setText(String(point.number))
+              break
+            case 'value':
+              point.icon.setText(point.finalData['D0'].displayString)
+              break
+            case 'nothing':
+              point.icon.setText('')
+              break
+          }
+        })
+      })
+    }
+  )
+
+  return project
 }

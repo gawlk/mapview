@@ -1,139 +1,25 @@
 /// <reference types="vite/client" />
 
-// import { Source, Marker } from 'mapbox-gl'
+/// <reference types="vite-svg-loader" />
 
-interface LngLatCoord {
-  lng: number
-  lat: number
-}
+/// <reference types="geojson" />
 
-interface XYCoord {
-  x: number
-  y: number
-}
+/// <reference types="mapbox-gl" />
 
-interface ImageCoord {
-  tl: XYCoord
-  tr: XYCoord
-  bl: XYCoord
-  br: XYCoord
-}
+/// <reference types="mathjs" />
 
-type PointsText = 'value' | 'number'
+/// <reference path="./store.d.ts" />
 
-interface Project {
-  name: string
-  reports: Report[]
-  selectedReport: Report | undefined
-  images: string[]
-  units: MathUnit[]
-  database: Database | undefined
-  pointsLinked: boolean
-  pointsLocked: boolean
-  pointsVisible: boolean
-  pointsText: PointsText
-  informations: Field[]
-  configurations: Field[]
-}
+/// <reference path="./scripts/map/icon.d.ts" />
+/// <reference path="./scripts/map/imageMap.d.ts" />
+/// <reference path="./scripts/map/line.d.ts" />
+/// <reference path="./scripts/map/point.d.ts" />
 
-interface Field {
-  name: string
-  value: AnyType
-}
+/// <reference path="./scripts/math/mathNumber.d.ts" />
+/// <reference path="./scripts/math/mathUnit.d.ts" />
 
-type AnyType =
-  | boolean
-  | number
-  | string
-  | SlidableNumber
-  | DateValue
-  | LongString
-  | SelectableString
-  | SimpleNumber
-  | MathNumber
+/// <reference path="./scripts/project/project.d.ts" />
+/// <reference path="./scripts/project/report.d.ts" />
 
-type AnyNumber = number | SimpleNumber | MathNumber
-
-type AnyNumberObject = { [key: string]: AnyNumber }
-
-interface SlidableNumber {
-  kind: 'slidableNumber'
-  value: number
-  step: number
-  min: number
-  max: number
-}
-
-interface DateValue {
-  kind: 'date'
-  value: string
-}
-
-interface LongString {
-  kind: 'longString'
-  value: string
-}
-
-interface SelectableString {
-  kind: 'selectableString'
-  value: string
-  possibleValues: string[]
-  strict: boolean
-}
-
-interface Database {
-  machine: string
-  version: number
-}
-
-interface Report {
-  name: string
-  images: string[]
-  points: Point[]
-  dataSettings: any
-}
-
-interface Point {
-  number: number
-  initialCoords: any
-  mapboxPoint: any
-  rawData: AnyNumberObject
-  parametersData: AnyNumberObject
-  finalData: AnyNumberObject
-}
-
-interface SimpleNumber {
-  value: number
-  unit: string
-}
-
-interface MathNumber {
-  value: any
-  unit: MathUnit
-  displayString: string
-  displayStringWithUnit: string
-  toDisplayedValue: () => void
-}
-
-interface MathUnit {
-  name: string
-  currentUnit: string
-  currentPrecision: number
-  possibleSettings: [string, number][]
-  possiblePrecisions: number[]
-  locked: boolean
-}
-
-interface ImageMap {
-  id: string
-  source: any
-  markerNW: any
-  markerSE: any
-}
-
-interface Store {
-  project: Project | undefined
-  selectedReport: Report | undefined
-  map: any
-  save: (key: string, value: string) => void
-}
+/// <reference path="./scripts/utils/field.d.ts" />
+/// <reference path="./scripts/utils/mercator.d.ts" />

@@ -18,7 +18,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { ref } from 'vue'
   import { useI18n } from 'vue-i18n'
 
@@ -32,7 +32,7 @@
 
   const inputFile = ref()
 
-  const addReport = (reportFile) => {
+  const addReport = (reportFile: File) => {
     if (reportFile) {
       // createImageMap(store.map, image, 'test')
     }

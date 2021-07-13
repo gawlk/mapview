@@ -5,7 +5,11 @@
     </template>
     <template v-slot:dialog>
       <div class="space-y-2">
-        <div v-for="unit in store.project?.units" class="flex space-x-2">
+        <div
+          v-for="unit in store.project?.units"
+          :key="unit.name"
+          class="flex space-x-2"
+        >
           <Input
             :key="`${unit.name} unit`"
             :label="`${unit.name} unit`"
@@ -30,7 +34,7 @@
   </Dialog>
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { useI18n } from 'vue-i18n'
 
   import store from '/src/store'

@@ -2,7 +2,7 @@
   <div class="text-gray-400 space-y-4">
     <p class="flex justify-center space-x-6">
       <a
-        href="mailto:incoming+isaan-mapview-dev-mapview-10920065-8fp86ulq3ggjy85yc6cw6exvt-issue@incoming.gitlab.com"
+        href="mailto:incoming+isaan-mapview-dev-mapview2-23904966-issue-@incoming.gitlab.com"
         class="hover:text-gray-500"
       >
         <ExclamationCircleIcon class="h-5 w-5" />
@@ -34,7 +34,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { useI18n } from 'vue-i18n'
   import { ExclamationCircleIcon } from '@heroicons/vue/solid'
 

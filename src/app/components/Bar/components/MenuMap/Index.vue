@@ -4,7 +4,7 @@
   <GroupPoints />
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { Button } from '/src/components'
   import GroupImages from './components/GroupImages.vue'
   import GroupPoints from './components/GroupPoints.vue'

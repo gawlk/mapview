@@ -7,14 +7,14 @@
   </div>
   <DialogInformations
     preID="project-"
-    :informations="store.project.informations"
+    :informations="store.project?.informations"
   />
   <DialogConfigurations />
   <ButtonChange />
   <ButtonSave />
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { useI18n } from 'vue-i18n'
 
   import store from '/src/store'

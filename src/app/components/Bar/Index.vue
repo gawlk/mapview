@@ -3,18 +3,20 @@
   <BarMobile :menus="menus" class="lg:hidden" />
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { shallowReactive } from 'vue'
   import { useI18n } from 'vue-i18n'
   import {
     DocumentReportIcon,
     FolderOpenIcon,
     MapIcon,
+    TableIcon,
   } from '@heroicons/vue/solid'
 
-  import DotsIcon from '/src/assets/svg/custom/dots.svg'
+  import DotsIcon from '/src/assets/svg/custom/dots.svg?component'
   import BarDesktop from './components/BarDesktop/Index.vue'
   import BarMobile from './components/BarMobile/Index.vue'
+  import MenuData from './components/MenuData/Index.vue'
   import MenuMap from './components/MenuMap/Index.vue'
   import MenuPoints from './components/MenuPoints/Index.vue'
   import MenuProject from './components/MenuProject/Index.vue'
@@ -43,18 +45,25 @@
       icon: DotsIcon,
       component: MenuPoints,
     },
+    {
+      name: t('Data'),
+      icon: TableIcon,
+      component: MenuData,
+    },
   ].map((menu) => shallowReactive(menu))
 </script>
 
 <i18n lang="yaml">
 en:
-  'Project': 'Project'
-  'Reports': 'Reports'
+  'Data': 'Data'
   'Map': 'Map'
+  'Reports': 'Reports'
   'Points': 'Points'
+  'Project': 'Project'
 fr:
-  'Project': 'Projet'
-  'Reports': 'Rapports'
+  'Data': 'Données'
   'Map': 'Carte'
   'Points': 'Points'
+  'Project': 'Projet'
+  'Reports': 'Rapports'
 </i18n>

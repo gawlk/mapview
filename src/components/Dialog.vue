@@ -85,7 +85,7 @@
 </template>
 
 <script setup lang="ts">
-  import { defineEmit, defineProps, reactive } from 'vue'
+  import { defineEmits, defineProps, reactive } from 'vue'
 
   import {
     TransitionRoot,
@@ -98,7 +98,11 @@
 
   import { Button } from '.'
 
-  const emit = defineEmit()
+  const emit = defineEmits<{
+    (event: 'close'): void
+    (event: 'open'): void
+    (event: 'save'): void
+  }>()
 
   const props = defineProps({
     title: String,

@@ -6,35 +6,49 @@ createUnit({
   nlbs: '4.448221628250858 N',
 })
 
-export const createMathNumber = (value: number, unit: MathUnit): MathNumber => {
+export const createMathNumber = (
+  value: number,
+  unit: MathUnit | string
+): MathNumber => {
   const mathNumber = shallowReactive({
-    value: Unit(value, unit.currentUnit),
+    value: typeof unit !== 'string' ? Unit(value, unit.currentUnit) : value,
     unit,
     displayString: '',
     displayStringWithUnit: '',
     toDisplayedValue: function () {
-      const value = this.value.toNumber(
-        this.unit.currentUnit === '1/100 mm'
-          ? 'cmm'
-          : this.unit.currentUnit === 'lbs'
-          ? 'nlbs'
-          : this.unit.currentUnit
-      )
+      const value =
+        typeof this.value !== 'number' && typeof this.unit !== 'string'
+          ? this.value.toNumber(
+              this.unit.currentUnit === '1/100 mm'
+                ? 'cmm'
+                : this.unit.currentUnit === 'lbs'
+                ? 'nlbs'
+                : this.unit.currentUnit
+            )
+          : this.value
+
+      const precision =
+        typeof this.unit !== 'string' ? this.unit?.currentPrecision : 0
 
       this.displayString = value.toLocaleString(navigator.language, {
-        minimumFractionDigits: this.unit.currentPrecision,
-        maximumFractionDigits: this.unit.currentPrecision,
+        minimumFractionDigits: precision,
+        maximumFractionDigits: precision,
       })
 
-      this.displayStringWithUnit = `${this.displayString} ${this.unit.currentUnit}`
+      const unit =
+        typeof this.unit !== 'string' ? this.unit.currentUnit : this.unit
+
+      this.displayStringWithUnit = `${this.displayString} ${unit}`
     },
   })
 
   mathNumber.toDisplayedValue()
 
-  watch(unit, () => {
-    mathNumber.toDisplayedValue()
-  })
+  if (typeof unit === 'object') {
+    watch(unit, () => {
+      mathNumber.toDisplayedValue()
+    })
+  }
 
   return mathNumber
 }

@@ -8,6 +8,7 @@
       <!-- <td class="text-right font-semibold">D0</td> -->
       <td
         v-for="key in store.project?.selectedReport.dataSettings.keys"
+        :key="key"
         class="text-right font-bold"
       >
         {{ key }}
@@ -17,19 +18,21 @@
     </thead>
     <tbody>
       <tr class="h-0.5" />
-      <tr v-for="point in store.project?.selectedReport.points">
+      <tr
+        v-for="(point, index) in store.project?.selectedReport.points"
+        :key="index"
+      >
         <td class="text-left">
           <Button sm :icon="HandIcon" />
         </td>
         <td class="font-bold text-center">{{ point.number }}</td>
-        <!-- <td class="text-right">123,12</td> -->
         <td
           v-for="key in store.project?.selectedReport.dataSettings.keys"
+          :key="`${index}-${key}`"
           class="text-right text-red-800 font-bold"
         >
           {{ point.finalData[key].displayString || point.finalData[key].value }}
         </td>
-        <!-- <td class="text-right">123,12</td> -->
         <td class="text-right">
           <Button sm :icon="EyeIcon" />
         </td>
@@ -38,7 +41,7 @@
   </table>
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { useI18n } from 'vue-i18n'
 
   import { HandIcon, EyeIcon } from '@heroicons/vue/solid'

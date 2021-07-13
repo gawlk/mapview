@@ -45,8 +45,7 @@
       items-center
       space-x-2
       leading-6
-      focus:outline-none
-      focus:ring
+      focus:outline-none focus:ring
       transition-colors
       duration-200
       group
@@ -77,25 +76,25 @@
 <script setup lang="ts">
   import { defineProps } from 'vue'
 
-  const props = defineProps({
-    disabled: Boolean,
-    dark: Boolean,
-    green: Boolean,
-    orange: Boolean,
-    red: Boolean,
-    blue: Boolean,
-    transparent: Boolean,
-    sm: Boolean,
-    lg: Boolean,
-    xl: Boolean,
-    xxl: Boolean,
-    full: Boolean,
-    centered: Boolean,
-    truncate: Boolean,
-    icon: Function,
-    leftIcon: Function,
-    rightIcon: Function,
-  })
+  const props = defineProps<{
+    disabled?: boolean
+    dark?: boolean
+    green?: boolean
+    orange?: boolean
+    red?: boolean
+    blue?: boolean
+    transparent?: boolean
+    sm?: boolean
+    lg?: boolean
+    xl?: boolean
+    xxl?: boolean
+    full?: boolean
+    centered?: boolean
+    truncate?: boolean
+    icon?: () => any
+    leftIcon?: () => any
+    rightIcon?: () => any
+  }>()
 
   const iconsColors = props.dark
     ? 'text-gray-500 group-hover:text-gray-400'

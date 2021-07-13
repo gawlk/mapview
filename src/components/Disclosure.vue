@@ -69,8 +69,8 @@
   } from '@headlessui/vue'
   import { ChevronUpIcon } from '@heroicons/vue/solid'
 
-  const props = defineProps({
-    icon: Function,
-    text: String,
-  })
+  const props = defineProps<{
+    text: string
+    icon?: () => any
+  }>()
 </script>

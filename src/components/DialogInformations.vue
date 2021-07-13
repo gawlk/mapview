@@ -30,13 +30,13 @@
           :max="information.value.max"
           :list="information.value.possibleValues"
           :strict="information.value.strict"
-        />
+        ></Input>
       </div>
     </template>
   </Dialog>
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { defineProps, reactive } from 'vue'
   import { useI18n } from 'vue-i18n'
   import { cloneDeep } from 'lodash-es'
@@ -61,12 +61,14 @@
   }
 
   const exportInformations = () => {
-    props.informations.length = 0
-    props.informations.push(...state.informations)
+    if (props.informations) {
+      props.informations.length = 0
+      props.informations.push(...state.informations)
+    }
   }
 
-  const setValue = (information, value) => {
-    if (information.value.kind) {
+  const setValue = (information: Field, value: any) => {
+    if (typeof information.value === 'object' && information.value.kind) {
       information.value.value = value
     } else {
       information.value = value

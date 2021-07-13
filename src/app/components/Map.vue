@@ -1,5 +1,5 @@
 <template>
-  <div id="map" class="h-full w-full" />
+  <div id="map" class="w-full h-full" />
 </template>
 
 <script setup lang="ts">
@@ -10,8 +10,12 @@
   import store from '/src/store'
 
   onMounted(() => {
-    store.map = createMap('map')
+    const map = createMap('map')
 
-    store.project = createProject('test project', store.map)
+    store.map = map
+
+    map.on('style.load', () => {
+      store.project = createProject('test project', map)
+    })
   })
 </script>

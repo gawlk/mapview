@@ -1,18 +1,29 @@
-import { Marker, LngLatLike, Map } from 'mapbox-gl'
+import { Marker } from 'mapbox-gl'
+import { createIcon, icons } from './icon'
 
 export const createPoint = (
   number: number,
-  coordinates: LngLatLike,
-  map: Map,
-  rawData: AnyNumberObject = {},
-  parametersData: AnyNumberObject = {}
+  coordinates: mapboxgl.LngLatLike,
+  map: mapboxgl.Map,
+  rawData: MathNumberObject = {},
+  parametersData: MathNumberObject = {}
 ): Point => {
-  const mapboxPoint = new Marker().setLngLat(coordinates).addTo(map)
+  const icon = createIcon()
+
+  icon.setText(String(number))
+
+  const marker = new Marker({
+    element: icon.element,
+  })
+    .setLngLat(coordinates)
+    .addTo(map)
 
   return {
     number,
     initialCoords: coordinates,
-    mapboxPoint,
+    marker,
+    icon,
+    isVisible: true,
     rawData,
     parametersData,
     finalData: {},

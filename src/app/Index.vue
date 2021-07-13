@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col lg:flex-row h-screen text-gray-900">
+  <div class="flex flex-col h-screen text-gray-900 lg:flex-row">
     <Map class="lg:order-2" />
     <Bar />
   </div>

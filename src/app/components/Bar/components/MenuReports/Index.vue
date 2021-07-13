@@ -5,7 +5,7 @@
   <DialogExport />
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { DialogInformations } from '/src/components'
   import DialogExport from './components/DialogExport.vue'
   import GroupAlbum from './components/GroupAlbum.vue'

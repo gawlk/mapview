@@ -7,7 +7,8 @@
       flex flex-col
       items-center
       justify-center
-      p-4
+      px-2
+      py-4
       cursor-pointer
       text-gray-400
       hover:text-gray-600
@@ -15,7 +16,7 @@
     "
   >
     <component :is="props.icon" class="h-5 w-5" />
-    <span class="text-sm font-medium leading-6">{{ props.name }}</span>
+    <span class="text-xs font-medium leading-6">{{ props.name }}</span>
   </button>
   <div
     v-if="props.opened"
@@ -27,14 +28,16 @@
   </div>
 </template>
 
-<script setup>
-  import { defineEmit, defineProps } from 'vue'
+<script setup lang="ts">
+  import { defineEmits, defineProps } from 'vue'
 
-  const emit = defineEmit(['click'])
+  const emit = defineEmits<{
+    (event: 'click'): void
+  }>()
 
-  const props = defineProps({
-    icon: Object | Function,
-    name: String,
-    opened: Boolean,
-  })
+  const props = defineProps<{
+    icon: () => any
+    name: string
+    opened: boolean
+  }>()
 </script>

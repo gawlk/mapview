@@ -17,14 +17,14 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { defineProps } from 'vue'
 
   import Footer from './components/Footer.vue'
   import Logo from './components/Logo.vue'
   import MenuWrapperDesktop from './components/MenuWrapperDesktop.vue'
 
-  const props = defineProps({
-    menus: Array,
-  })
+  const props = defineProps<{
+    menus: any[]
+  }>()
 </script>

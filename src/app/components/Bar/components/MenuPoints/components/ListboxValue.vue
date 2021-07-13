@@ -1,14 +1,14 @@
 <template>
   <Listbox
     :icon="DotsVerticalIcon"
-    :values="store.project?.units.map((unit) => unit.name)"
+    :values="store.project?.selectedReport.dataSettings.keys"
     :preSelected="t('Value:')"
     selected="D200"
     full
   />
 </template>
 
-<script setup>
+<script setup lang="ts">
   import { useI18n } from 'vue-i18n'
 
   import store from '/src/store'

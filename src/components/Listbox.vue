@@ -7,29 +7,7 @@
           props.buttonBackground && 'bg-cover bg-center',
           props.buttonColors || 'bg-gray-100 hover:bg-gray-200',
         ]"
-        class="
-          w-full
-          flex
-          justify-between
-          items-center
-          space-x-4
-          px-4
-          py-2
-          text-sm
-          rounded-lg
-          leading-6
-          font-medium
-          group
-          transition-colors
-          duration-200
-          focus:outline-none
-          focus-visible:ring-2
-          focus-visible:ring-opacity-75
-          focus-visible:ring-white
-          focus-visible:ring-offset-orange-300
-          focus-visible:ring-offset-2
-          focus-visible:border-indigo-500
-        "
+        class="flex items-center justify-between w-full px-4 py-2 space-x-4 text-sm font-medium leading-6 truncate transition-colors duration-200 rounded-lg  group focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500"
       >
         <div class="flex items-center">
           <component
@@ -41,15 +19,9 @@
                 ? 'bg-gray-100 bg-opacity-60 rounded-full p-1 h-7 w-7 -my-0.5 -ml-1'
                 : 'w-5 h-5',
             ]"
-            class="
-              text-gray-400
-              group-hover:text-gray-500
-              mr-1
-              transition-colors
-              duration-200
-            "
+            class="mr-1 text-gray-400 transition-colors duration-200  group-hover:text-gray-500"
           />
-          <span v-if="props.preSelected" class="ml-1 truncate text-gray-500">
+          <span v-if="props.preSelected" class="ml-1 text-gray-500 truncate">
             {{ props.preSelected }}
           </span>
           <span
@@ -72,12 +44,7 @@
                 ? 'bg-gray-100 bg-opacity-60 rounded-full p-1 h-7 w-7 -my-0.5 -mr-1'
                 : 'w-5 h-5',
             ]"
-            class="
-              text-gray-400
-              group-hover:text-gray-500
-              transition-colors
-              duration-200
-            "
+            class="text-gray-400 transition-colors duration-200  group-hover:text-gray-500"
             aria-hidden="true"
           />
         </div>
@@ -90,21 +57,7 @@
       >
         <ListboxOptions
           :class="[props.listTop ? 'bottom-0 mb-11' : 'mt-1 shadow-lg']"
-          class="
-            absolute
-            w-full
-            py-1
-            mt-1
-            overflow-auto
-            text-base
-            bg-white
-            rounded-md
-            max-h-60
-            ring-1 ring-black ring-opacity-5
-            focus:outline-none
-            sm:text-sm
-            z-10
-          "
+          class="absolute z-10 w-full p-1 space-y-1 overflow-auto text-base bg-white border-2 border-gray-100 rounded-lg  max-h-60 focus:outline-none sm:text-sm"
         >
           <ListboxOption
             v-slot="{ active, selected }"
@@ -112,6 +65,7 @@
             :key="value"
             :value="value"
             as="template"
+            class="rounded-md cursor-pointer"
           >
             <li
               :style="{
@@ -122,7 +76,7 @@
                 props.backgrounds && 'bg-cover bg-center',
                 props.classes && value,
               ]"
-              class="cursor-default select-none relative py-2 pl-10 pr-4 h-9"
+              class="relative py-2 pl-10 pr-4 cursor-default select-none h-9"
             >
               <span
                 v-if="props.values"
@@ -133,15 +87,7 @@
               </span>
               <span
                 v-if="selected"
-                class="
-                  absolute
-                  inset-y-0
-                  left-0
-                  flex
-                  items-center
-                  pl-3
-                  text-gray-600
-                "
+                class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-600 "
               >
                 <CheckIcon class="w-5 h-5" aria-hidden="true" />
               </span>
@@ -154,7 +100,7 @@
 </template>
 
 <script setup lang="ts">
-  import { defineEmit, defineProps, ref } from 'vue'
+  import { defineEmits, defineProps, ref } from 'vue'
   import {
     Listbox,
     ListboxLabel,
@@ -164,25 +110,28 @@
   } from '@headlessui/vue'
   import { CheckIcon, SelectorIcon } from '@heroicons/vue/solid'
 
-  const emit = defineEmit(['select', 'selectIndex'])
+  const emit = defineEmits(['select', 'selectIndex'])
 
-  const props = defineProps({
-    icon: Function,
-    values: Array,
-    preSelected: String,
-    selected: String | Number,
-    selectedReplacement: String,
-    full: Boolean,
-    backgrounds: Array,
-    classes: Array,
-    buttonBackground: String,
-    buttonColors: String,
-    iconsClasses: String,
-    listTop: Boolean,
-  })
+  const props = defineProps<{
+    values?: string[]
+    selected?: string | number
+    icon?: () => any
+    preSelected?: string
+    selectedReplacement?: string
+    full?: boolean
+    backgrounds?: string[]
+    classes?: string[]
+    buttonBackground?: string
+    buttonColors?: string
+    iconsClasses?: string
+    listTop?: boolean
+  }>()
 
-  const update = (value) => {
+  const update = (value: string) => {
     emit('select', value)
-    emit('selectIndex', props.values.indexOf(value))
+    emit(
+      'selectIndex',
+      props.values?.indexOf(value) || props.backgrounds?.indexOf(value)
+    )
   }
 </script>

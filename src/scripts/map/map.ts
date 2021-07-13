@@ -12,6 +12,6 @@ export const createMap = (container: string) => {
   }).addControl(new NavigationControl(), 'top-left')
 }
 
-export const setMapStyle = (map: Map, style: string) => {
+export const setMapStyle = (map: mapboxgl.Map, style: string) => {
   // map.setStyle(style)
 }

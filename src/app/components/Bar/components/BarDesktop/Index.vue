@@ -2,7 +2,8 @@
   <div class="flex-none w-[480px] px-2 py-8 space-y-8 overflow-scroll">
     <Logo />
 
-    <div class="space-y-8">
+    <Initializer v-if="!store.project" />
+    <div v-else class="space-y-8">
       <MenuWrapperDesktop
         v-for="menu in props.menus"
         :key="menu.name"
@@ -20,6 +21,9 @@
 <script setup lang="ts">
   import { defineProps } from 'vue'
 
+  import store from '/src/store'
+
+  import Initializer from '../Initializer.vue'
   import Footer from './components/Footer.vue'
   import Logo from './components/Logo.vue'
   import MenuWrapperDesktop from './components/MenuWrapperDesktop.vue'

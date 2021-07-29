@@ -16,7 +16,7 @@ export const createMathNumber = (
     displayString: '',
     displayStringWithUnit: '',
     toDisplayedValue: function () {
-      const value =
+      let value =
         typeof this.value !== 'number' && typeof this.unit !== 'string'
           ? this.value.toNumber(
               this.unit.currentUnit === '1/100 mm'
@@ -25,15 +25,33 @@ export const createMathNumber = (
                 ? 'nlbs'
                 : this.unit.currentUnit
             )
-          : this.value
+          : (this.value as number)
 
-      const precision =
-        typeof this.unit !== 'string' ? this.unit?.currentPrecision : 0
+      const toLocaleString = (value: number, precision: number = 0) =>
+        value.toLocaleString(navigator.language, {
+          minimumFractionDigits: precision,
+          maximumFractionDigits: precision,
+        })
 
-      this.displayString = value.toLocaleString(navigator.language, {
-        minimumFractionDigits: precision,
-        maximumFractionDigits: precision,
-      })
+      if (this.unit !== 'string') {
+        const mathUnit = this.unit as MathUnit
+
+        if (mathUnit.min && value < mathUnit.min) {
+          this.displayString = `< ${toLocaleString(
+            mathUnit.min,
+            mathUnit.currentPrecision
+          )}`
+        } else if (mathUnit.max && value > mathUnit.max) {
+          this.displayString = `> ${toLocaleString(
+            mathUnit.max,
+            mathUnit.currentPrecision
+          )}`
+        } else {
+          this.displayString = toLocaleString(value)
+        }
+      } else {
+        this.displayString = toLocaleString(value)
+      }
 
       const unit =
         typeof this.unit !== 'string' ? this.unit.currentUnit : this.unit

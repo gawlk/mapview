@@ -41,8 +41,8 @@
   ]
 
   const setStyle = (index: number) => {
-    console.log(index)
     state.index = index
+
     store.map?.setStyle(stylesURLs[index])
   }
 </script>

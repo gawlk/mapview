@@ -50,13 +50,9 @@
         </div>
       </ListboxButton>
 
-      <transition
-        leave-active-class="transition duration-100 ease-in"
-        leave-from-class="opacity-100"
-        leave-to-class="opacity-0"
-      >
+      <TransitionDropdown>
         <ListboxOptions
-          :class="[props.listTop ? 'bottom-0 mb-11' : 'mt-1 shadow-lg']"
+          :class="[props.isTop ? 'bottom-0 mb-11' : 'mt-1 shadow-lg']"
           class="absolute z-10 w-full p-1 space-y-1 overflow-auto text-base bg-white border-2 border-gray-100 rounded-lg  max-h-60 focus:outline-none sm:text-sm"
         >
           <ListboxOption
@@ -94,7 +90,7 @@
             </li>
           </ListboxOption>
         </ListboxOptions>
-      </transition>
+      </TransitionDropdown>
     </div>
   </Listbox>
 </template>
@@ -110,6 +106,8 @@
   } from '@headlessui/vue'
   import { CheckIcon, SelectorIcon } from '@heroicons/vue/solid'
 
+  import { TransitionDropdown } from './'
+
   const emit = defineEmits(['select', 'selectIndex'])
 
   const props = defineProps<{
@@ -124,14 +122,16 @@
     buttonBackground?: string
     buttonColors?: string
     iconsClasses?: string
-    listTop?: boolean
+    isTop?: boolean
   }>()
 
   const update = (value: string) => {
     emit('select', value)
-    emit(
-      'selectIndex',
-      props.values?.indexOf(value) || props.backgrounds?.indexOf(value)
-    )
+
+    if (props.values) {
+      emit('selectIndex', props.values?.indexOf(value))
+    } else if (props.backgrounds) {
+      emit('selectIndex', props.backgrounds?.indexOf(value))
+    }
   }
 </script>

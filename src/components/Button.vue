@@ -40,26 +40,20 @@
       props.truncate && 'truncate',
       props.disabled ? 'opacity-75 cursor-default' : 'cursor-pointer',
     ]"
-    class="
-      inline-flex
-      items-center
-      space-x-2
-      leading-6
-      focus:outline-none focus:ring
-      transition-colors
-      duration-200
-      group
-    "
+    class="inline-flex items-center space-x-2 leading-6 transition-colors duration-200  focus:outline-none focus:ring group"
   >
     <component
       v-if="props.icon || props.leftIcon || props.rightIcon"
       :is="props.icon || props.leftIcon || 'span'"
-      :class="iconsColors"
-      class="h-5 w-5 transition-colors duration-200"
+      :class="[iconsColors, iconsClasses]"
+      class="w-5 h-5 transition-colors duration-200"
     />
     <span
       v-if="!props.icon"
-      :class="[props.centered ? 'text-center' : 'text-left']"
+      :class="[
+        props.centered ? 'text-center' : 'text-left',
+        props.truncate && 'truncate',
+      ]"
       class="flex-1"
     >
       <slot />
@@ -67,8 +61,8 @@
     <component
       v-if="!props.icon && (props.leftIcon || props.rightIcon)"
       :is="props.rightIcon || 'span'"
-      :class="iconsColors"
-      class="h-5 w-5 transition-colors duration-200"
+      :class="[iconsColors, iconsClasses]"
+      class="w-5 h-5 transition-colors duration-200"
     />
   </button>
 </template>
@@ -94,6 +88,7 @@
     icon?: () => any
     leftIcon?: () => any
     rightIcon?: () => any
+    iconsClasses?: string
   }>()
 
   const iconsColors = props.dark

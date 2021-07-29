@@ -9,7 +9,7 @@ export const createImageMap = async (
 ): Promise<ImageMap> => {
   const data64 = (await fileToBase64(image)) as string
 
-  const id = `${image.name}${+new Date()}`
+  const sourceId = `${image.name}${+new Date()}`
 
   const { width, height } = (await getImageDimensions(data64)) as {
     width: number
@@ -18,7 +18,7 @@ export const createImageMap = async (
 
   const [coordNW, coordSE] = await initialiseNWAndSECoords(map)
 
-  map.addSource(id, {
+  const sourceData: mapboxgl.ImageSourceRaw = {
     type: 'image',
     url: data64,
     coordinates: [
@@ -27,38 +27,61 @@ export const createImageMap = async (
       coordSE,
       [coordNW[0], coordSE[1]],
     ],
-  })
-
-  map.addLayer({
-    id: `${id}-raster`,
-    source: id,
-    type: 'raster',
-    paint: {
-      'raster-opacity': 0.5,
-      'raster-fade-duration': 0,
-    },
-  })
-
-  const source = map.getSource(id) as mapboxgl.ImageSource
+  }
 
   const markerNW = createMarker(coordNW, map)
 
   const markerSE = createMarker(coordSE, map)
 
-  setImageCoordinates(markerNW, markerSE, source, width, height)
-
-  const onMarkerDrag = () => {
-    setImageCoordinates(markerNW, markerSE, source, width, height)
-  }
-
-  markerNW.on('drag', onMarkerDrag)
-  markerSE.on('drag', onMarkerDrag)
+  const layerId = `${sourceId}-raster`
 
   return {
-    id,
-    source,
+    sourceId,
+    sourceData,
     markerNW,
     markerSE,
+    isVisible: true,
+    addToMap: function (): void {
+      if (!map.getLayer(layerId)) {
+        markerNW.addTo(map)
+        markerSE.addTo(map)
+
+        map.addSource(sourceId, sourceData)
+
+        map.addLayer(
+          {
+            id: layerId,
+            source: sourceId,
+            type: 'raster',
+            paint: {
+              'raster-opacity': 0.5,
+              'raster-fade-duration': 0,
+            },
+          },
+          'images'
+        )
+
+        const source = map.getSource(sourceId) as mapboxgl.ImageSource
+
+        setImageCoordinates(markerNW, markerSE, source, width, height)
+
+        const onMarkerDrag = () => {
+          setImageCoordinates(markerNW, markerSE, source, width, height)
+        }
+
+        markerNW.on('drag', onMarkerDrag)
+        markerSE.on('drag', onMarkerDrag)
+      }
+    },
+    remove: function (): void {
+      if (map.getLayer(layerId)) {
+        markerNW.remove()
+        markerSE.remove()
+
+        map.removeLayer(layerId)
+        map.removeSource(sourceId)
+      }
+    },
   }
 }
 
@@ -98,7 +121,7 @@ const getImageDimensions = async (data64: string) =>
   })
 
 const createMarker = (coordinates: [number, number], map: mapboxgl.Map) =>
-  new Marker().setLngLat(coordinates).setDraggable(true).addTo(map)
+  new Marker().setLngLat(coordinates).setDraggable(true)
 
 const setImageCoordinates = (
   markerNW: mapboxgl.Marker,

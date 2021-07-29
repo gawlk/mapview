@@ -1,21 +1,26 @@
 import { shallowReactive, watch } from 'vue'
-
-import { createReport } from './report'
 import { createLine } from '../map/line'
+import { addDummyLayersToMap } from '../map/map'
 import { createPoint } from '../map/point'
-import { createMathUnit } from '../math/mathUnit'
 import { createMathNumber } from '../math/mathNumber'
+import { createMathUnit } from '../math/mathUnit'
+import { createReport } from './report'
 
 export const createProject = (name: string, map: mapboxgl.Map): Project => {
-  const report = createReport('test report', {
-    keys: ['D0', 'F0', 'T0', 'P0'],
-  })
+  addDummyLayersToMap(map)
 
-  const unitDeformation = createMathUnit('Deformation', [
-    ['mm', 0],
-    ['1/100 mm', 0],
-    ['um', 0],
-  ])
+  const unitDeformation = createMathUnit(
+    'Deformation',
+    [
+      ['mm', 0],
+      ['1/100 mm', 0],
+      ['um', 0],
+    ],
+    {
+      min: 100,
+      max: 200,
+    }
+  )
 
   const unitForce = createMathUnit('Force', [
     ['N', 0],
@@ -50,17 +55,21 @@ export const createProject = (name: string, map: mapboxgl.Map): Project => {
   )
 
   point2.finalData = {
-    D0: createMathNumber(200, unitDeformation),
-    F0: createMathNumber(200, unitForce),
-    T0: createMathNumber(200, unitTemperature),
-    P0: createMathNumber(200, '%'),
+    D0: createMathNumber(400, unitDeformation),
+    F0: createMathNumber(400, unitForce),
+    T0: createMathNumber(400, unitTemperature),
+    P0: createMathNumber(400, '%'),
   }
 
-  report.points = [point, point2]
+  const points = [point, point2]
 
-  report.line = createLine(report.points, map)
+  const line = createLine(points, map)
 
-  const project = shallowReactive({
+  const report = createReport('test report', map, points, line, {
+    keys: ['D0', 'F0', 'T0', 'P0'],
+  })
+
+  const project: Project = shallowReactive({
     name,
     reports: [report],
     selectedReport: report,
@@ -69,6 +78,7 @@ export const createProject = (name: string, map: mapboxgl.Map): Project => {
     arePointsLinked: true,
     arePointsLocked: true,
     arePointsVisible: true,
+    areImagesVisible: true,
     pointsState: 'number' as PointsState,
     // pointsIcon: 1,
     database: undefined,
@@ -132,7 +142,9 @@ export const createProject = (name: string, map: mapboxgl.Map): Project => {
     () => project.arePointsLinked,
     (arePointsLinked: boolean) => {
       project.reports.forEach((report: Report) => {
-        arePointsLinked ? report.line?.addToMap() : report.line?.remove()
+        if (report.isVisible) {
+          arePointsLinked ? report.line?.addToMap() : report.line?.remove()
+        }
       })
     }
   )
@@ -152,13 +164,28 @@ export const createProject = (name: string, map: mapboxgl.Map): Project => {
     () => project.arePointsVisible,
     (arePointsVisible: boolean) => {
       project.reports.forEach((report: Report) => {
-        report.points.forEach((point) => {
-          if (arePointsVisible) {
-            point.marker.addTo(map)
-          } else {
-            point.marker.remove()
-          }
-        })
+        if (report.isVisible) {
+          report.points.forEach((point) => {
+            if (arePointsVisible && point.isVisible) {
+              point.marker.addTo(map)
+            } else {
+              point.marker.remove()
+            }
+          })
+        }
+      })
+    }
+  )
+
+  watch(
+    () => project.areImagesVisible,
+    (areImagesVisible: boolean) => {
+      project.images.forEach((image: ImageMap) => {
+        if (areImagesVisible && image.isVisible) {
+          image.addToMap()
+        } else {
+          image.remove()
+        }
       })
     }
   )
@@ -183,6 +210,24 @@ export const createProject = (name: string, map: mapboxgl.Map): Project => {
       })
     }
   )
+
+  map.on('style.load', () => {
+    addDummyLayersToMap(map)
+
+    if (project.arePointsLinked) {
+      project.reports.forEach((report) => {
+        report.line.addToMap()
+      })
+    }
+
+    if (project.areImagesVisible) {
+      project.images.forEach((image) => {
+        if (image.isVisible) {
+          image.addToMap()
+        }
+      })
+    }
+  })
 
   return project
 }

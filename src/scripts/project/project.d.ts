@@ -13,6 +13,7 @@ interface Project {
   arePointsLinked: boolean
   arePointsLocked: boolean
   arePointsVisible: boolean
+  areImagesVisible: boolean
   pointsState: PointsState
   informations: Field[]
   configurations: Field[]

@@ -4,5 +4,6 @@ interface MathUnit {
   currentPrecision: number
   possibleSettings: [string, number][]
   possiblePrecisions: number[]
-  locked: boolean
+  min?: number
+  max?: number
 }

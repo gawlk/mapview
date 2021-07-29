@@ -1,8 +1,11 @@
 interface ImageMap {
-  id: string
-  source: mapboxgl.Source
+  sourceId: string
+  sourceData: mapboxgl.ImageSourceRaw
   markerNW: mapboxgl.Marker
   markerSE: mapboxgl.Marker
+  isVisible: boolean
+  addToMap: () => void
+  remove: () => void
 }
 
 interface ImageCoordinates {

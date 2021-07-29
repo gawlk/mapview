@@ -38,7 +38,7 @@
         :selected="props.value"
         @select="(value) => emit('input', value)"
         full
-        listTop
+        isTop
         class="flex-1"
       />
     </div>

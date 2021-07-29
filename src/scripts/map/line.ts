@@ -4,25 +4,28 @@ export const createLine = (points: Point[], map: mapboxgl.Map): Line => {
     features: [],
     addToMap: function (): void {
       if (!map.getLayer(this.id)) {
-        map.addLayer({
-          id: this.id,
-          layout: {
-            'line-join': 'round',
-            'line-cap': 'round',
-          },
-          paint: {
-            'line-color': ['get', 'color'],
-            'line-width': 6,
-          },
-          source: {
-            type: 'geojson',
-            data: {
-              type: 'FeatureCollection',
-              features: this.features,
+        map.addLayer(
+          {
+            id: this.id,
+            layout: {
+              'line-join': 'round',
+              'line-cap': 'round',
             },
-          } as unknown as mapboxgl.GeoJSONSource,
-          type: 'line',
-        })
+            paint: {
+              'line-color': ['get', 'color'],
+              'line-width': 6,
+            },
+            source: {
+              type: 'geojson',
+              data: {
+                type: 'FeatureCollection',
+                features: this.features,
+              },
+            } as unknown as mapboxgl.GeoJSONSource,
+            type: 'line',
+          },
+          'lines'
+        )
       }
 
       this.update()

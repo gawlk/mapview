@@ -1,145 +1,46 @@
 <template>
-  <Menu as="div" class="relative inline-block text-left">
-    <div>
-      <MenuButton
-        class="
-          inline-flex
-          justify-center
-          w-full
-          px-4
-          py-2
-          text-sm
-          font-medium
-          text-white
-          bg-black
-          rounded-md
-          bg-opacity-20
-          hover:bg-opacity-30
-          focus:outline-none
-          focus-visible:ring-2
-          focus-visible:ring-white
-          focus-visible:ring-opacity-75
-        "
-      >
-        Options
-        <ChevronDownIcon
-          class="w-5 h-5 ml-2 -mr-1 text-violet-200 hover:text-violet-100"
-          aria-hidden="true"
-        />
-      </MenuButton>
-    </div>
-
-    <transition
-      enter-active-class="transition duration-100 ease-out"
-      enter-from-class="transform scale-95 opacity-0"
-      enter-to-class="transform scale-100 opacity-100"
-      leave-active-class="transition duration-75 ease-in"
-      leave-from-class="transform scale-100 opacity-100"
-      leave-to-class="transform scale-95 opacity-0"
+  <Menu
+    as="div"
+    :class="[props.full && 'w-full']"
+    class="relative inline-block text-left"
+  >
+    <MenuButton
+      class="flex items-center justify-between w-full px-4 py-2 space-x-1 text-sm font-medium leading-6 transition-colors duration-200 bg-gray-100 rounded-lg  hover:bg-gray-200 group focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500"
     >
-      <MenuItems
-        class="
-          absolute
-          right-0
-          w-56
-          mt-2
-          origin-top-right
-          bg-white
-          divide-y divide-gray-100
-          rounded-md
-          shadow-lg
-          ring-1 ring-black ring-opacity-5
-          focus:outline-none
-        "
-      >
-        <div class="px-1 py-1">
-          <MenuItem v-slot="{ active }">
-            <button
-              :class="[
-                active ? 'bg-violet-500 text-white' : 'text-gray-900',
-                'group flex rounded-md items-center w-full px-2 py-2 text-sm',
-              ]"
-            >
-              <EditIcon
-                :active="active"
-                class="w-5 h-5 mr-2 text-violet-400"
-                aria-hidden="true"
-              />
-              Edit
-            </button>
-          </MenuItem>
-          <MenuItem v-slot="{ active }">
-            <button
-              :class="[
-                active ? 'bg-violet-500 text-white' : 'text-gray-900',
-                'group flex rounded-md items-center w-full px-2 py-2 text-sm',
-              ]"
-            >
-              <DuplicateIcon
-                :active="active"
-                class="w-5 h-5 mr-2 text-violet-400"
-                aria-hidden="true"
-              />
-              Duplicate
-            </button>
-          </MenuItem>
-        </div>
-        <div class="px-1 py-1">
-          <MenuItem v-slot="{ active }">
-            <button
-              :class="[
-                active ? 'bg-violet-500 text-white' : 'text-gray-900',
-                'group flex rounded-md items-center w-full px-2 py-2 text-sm',
-              ]"
-            >
-              <ArchiveIcon
-                :active="active"
-                class="w-5 h-5 mr-2 text-violet-400"
-                aria-hidden="true"
-              />
-              Archive
-            </button>
-          </MenuItem>
-          <MenuItem v-slot="{ active }">
-            <button
-              :class="[
-                active ? 'bg-violet-500 text-white' : 'text-gray-900',
-                'group flex rounded-md items-center w-full px-2 py-2 text-sm',
-              ]"
-            >
-              <MoveIcon
-                :active="active"
-                class="w-5 h-5 mr-2 text-violet-400"
-                aria-hidden="true"
-              />
-              Move
-            </button>
-          </MenuItem>
-        </div>
+      <component
+        v-if="props.icon"
+        :is="props.icon"
+        class="w-5 h-5 mr-1 text-gray-400 transition-colors duration-200  group-hover:text-gray-500"
+      />
+      <span class="flex-1 text-left">{{ props.buttonText }}</span>
+      <ChevronDownIcon
+        class="w-5 h-5 text-gray-400 transition-colors duration-200  group-hover:text-gray-500"
+      />
+    </MenuButton>
 
-        <div class="px-1 py-1">
-          <MenuItem v-slot="{ active }">
-            <button
-              :class="[
-                active ? 'bg-violet-500 text-white' : 'text-gray-900',
-                'group flex rounded-md items-center w-full px-2 py-2 text-sm',
-              ]"
-            >
-              <DeleteIcon
-                :active="active"
-                class="w-5 h-5 mr-2 text-violet-400"
-                aria-hidden="true"
-              />
-              Delete
-            </button>
-          </MenuItem>
-        </div>
+    <TransitionDropdown>
+      <MenuItems
+        :class="[props.isTop ? 'bottom-0 mb-11' : 'mt-1 shadow-lg']"
+        class="absolute z-10 w-full p-1 space-y-1 overflow-auto text-base bg-white border-2 border-gray-100 rounded-lg  max-h-60 focus:outline-none sm:text-sm"
+      >
+        <slot />
       </MenuItems>
-    </transition>
+    </TransitionDropdown>
   </Menu>
 </template>
 
 <script setup lang="ts">
+  import { defineProps } from 'vue'
+
   import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
   import { ChevronDownIcon } from '@heroicons/vue/solid'
+
+  import { Button, TransitionDropdown } from './'
+
+  const props = defineProps<{
+    buttonText: string
+    full: boolean
+    icon: () => void
+    isTop: boolean
+  }>()
 </script>

@@ -1,18 +1,18 @@
 <template>
-  <div class="text-gray-400 space-y-4">
+  <div class="space-y-4 text-gray-400">
     <p class="flex justify-center space-x-6">
       <a
         href="mailto:incoming+isaan-mapview-dev-mapview2-23904966-issue-@incoming.gitlab.com"
         class="hover:text-gray-500"
       >
-        <ExclamationCircleIcon class="h-5 w-5" />
+        <ExclamationCircleIcon class="w-5 h-5" />
       </a>
       <a
         href="https://gitlab.com/isaan/mapview-dev/mapview"
         class="hover:text-gray-500"
       >
         <svg
-          class="h-5 w-5"
+          class="w-5 h-5"
           fill="currentColor"
           stroke="currentColor"
           stroke-width="2"
@@ -26,7 +26,7 @@
         </svg>
       </a>
     </p>
-    <p class="text-center text-sm">
+    <p class="text-sm text-center">
       &copy; {{ new Date().getFullYear() }}
       <span class="font-bold">Mapview</span>,
       {{ t('All rights reserved.') }}

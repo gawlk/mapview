@@ -1,10 +1,21 @@
 <template>
   <div v-if="store.project?.images.length > 0" class="flex space-x-2">
-    <Listbox
-      full
-      :icon="CollectionIcon"
-      :selectedReplacement="t('Open image list')"
-      :values="store.project?.images.map((image) => image.id.split('.')[0])"
+    <Menu full :icon="CollectionIcon" :buttonText="t('Open image list')">
+      <div
+        v-for="image of store.project?.images"
+        :key="image.sourceId"
+        class="flex space-x-1"
+      >
+        <MenuItem truncate>
+          {{ image.sourceId.split('.')[0] }}
+        </MenuItem>
+        <MenuItem :icon="SunIcon" />
+        <MenuItem :icon="TrashIcon" />
+      </div>
+    </Menu>
+    <Button
+      @click="store.project.areImagesVisible = !store.project.areImagesVisible"
+      :icon="store.project?.areImagesVisible ? EyeIcon : EyeOffIcon"
     />
     <Button @click="inputFile.click()" :icon="PlusIcon" />
   </div>
@@ -18,7 +29,7 @@
     {{ t('Add an image') }}
   </Button>
   <input
-    @change="addImageToMap($event.target.files[0])"
+    @change="addImage($event.target.files[0])"
     accept="image/*"
     type="file"
     ref="inputFile"
@@ -35,23 +46,29 @@
 
   import {
     CollectionIcon,
+    EyeIcon,
+    EyeOffIcon,
     PhotographIcon,
     PlusIcon,
+    SunIcon,
+    TrashIcon,
   } from '@heroicons/vue/solid'
 
-  import { Button, Listbox } from '/src/components'
+  import { Button, Menu, MenuItem } from '/src/components'
 
   const { t } = useI18n()
 
   const inputFile = ref()
 
-  const addImageToMap = async (imageFile: File) => {
+  const addImage = async (imageFile: File) => {
     if (imageFile && store.project && store.map) {
-      store.project.images = [
-        ...store.project.images,
-        await createImageMap(store.map, imageFile),
-      ]
-      console.log(store.project.images)
+      const image = await createImageMap(store.map, imageFile)
+
+      store.project.images = [...store.project.images, image]
+
+      if (store.project.areImagesVisible) {
+        image.addToMap()
+      }
     }
   }
 </script>

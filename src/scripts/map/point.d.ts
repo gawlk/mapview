@@ -7,4 +7,8 @@ interface Point {
   rawData: MathNumberObject
   parametersData: MathNumberObject
   finalData: MathNumberObject
+  state: PointState
+  selectedData: string
 }
+
+type PointState = 'value' | 'number' | 'nothing'

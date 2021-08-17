@@ -9,4 +9,5 @@ interface Report {
 
 interface DataSettings {
   keys: string[]
+  selected: string
 }

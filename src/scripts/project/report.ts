@@ -7,6 +7,8 @@ export const createReport = (
   line: Line,
   dataSettings: DataSettings
 ): Report => {
+  dataSettings = shallowReactive(dataSettings)
+
   const report: Report = shallowReactive({
     name,
     images: [],
@@ -14,6 +16,10 @@ export const createReport = (
     line,
     dataSettings,
     isVisible: true,
+  })
+
+  points.forEach((point) => {
+    point.selectedData = dataSettings.selected
   })
 
   watch(
@@ -32,6 +38,15 @@ export const createReport = (
       } else {
         report.line?.remove()
       }
+    }
+  )
+
+  watch(
+    () => dataSettings.selected,
+    (selectedData: string) => {
+      points.forEach((point) => {
+        point.selectedData = selectedData
+      })
     }
   )
 

@@ -11,7 +11,7 @@
           class="flex space-x-2"
         >
           <Input
-            :key="`${unit.name} unit`"
+            :id="`${unit.name} unit`"
             :label="`${unit.name} unit`"
             type="selectableString"
             @input="(value) => (unit.currentUnit = value)"
@@ -20,7 +20,7 @@
             strict
           />
           <Input
-            :key="`${unit.name} precision`"
+            :id="`${unit.name} precision`"
             :label="`${unit.name} precision`"
             type="selectableString"
             @input="(value) => (unit.currentPrecision = Number(value))"

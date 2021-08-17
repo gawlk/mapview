@@ -17,8 +17,8 @@ export const createProject = (name: string, map: mapboxgl.Map): Project => {
       ['um', 0],
     ],
     {
-      min: 100,
-      max: 200,
+      minDisplayedValue: 100,
+      maxDisplayedValue: 200,
     }
   )
 
@@ -38,12 +38,10 @@ export const createProject = (name: string, map: mapboxgl.Map): Project => {
 
   const point = createPoint(1, map.getCenter(), map)
 
-  point.finalData = {
-    D0: createMathNumber(100, unitDeformation),
-    F0: createMathNumber(100, unitForce),
-    T0: createMathNumber(100, unitTemperature),
-    P0: createMathNumber(100, '%'),
-  }
+  point.finalData.D0 = createMathNumber(100, unitDeformation)
+  point.finalData.F0 = createMathNumber(100, unitForce)
+  point.finalData.T0 = createMathNumber(100, unitTemperature)
+  point.finalData.P0 = createMathNumber(100, '%')
 
   const point2 = createPoint(
     2,
@@ -54,12 +52,10 @@ export const createProject = (name: string, map: mapboxgl.Map): Project => {
     map
   )
 
-  point2.finalData = {
-    D0: createMathNumber(400, unitDeformation),
-    F0: createMathNumber(400, unitForce),
-    T0: createMathNumber(400, unitTemperature),
-    P0: createMathNumber(400, '%'),
-  }
+  point2.finalData.D0 = createMathNumber(400, unitDeformation)
+  point2.finalData.F0 = createMathNumber(400, unitForce)
+  point2.finalData.T0 = createMathNumber(400, unitTemperature)
+  point2.finalData.P0 = createMathNumber(400, '%')
 
   const points = [point, point2]
 
@@ -67,6 +63,7 @@ export const createProject = (name: string, map: mapboxgl.Map): Project => {
 
   const report = createReport('test report', map, points, line, {
     keys: ['D0', 'F0', 'T0', 'P0'],
+    selected: 'D0',
   })
 
   const project: Project = shallowReactive({
@@ -79,7 +76,7 @@ export const createProject = (name: string, map: mapboxgl.Map): Project => {
     arePointsLocked: true,
     arePointsVisible: true,
     areImagesVisible: true,
-    pointsState: 'number' as PointsState,
+    pointsState: 'number' as PointState,
     // pointsIcon: 1,
     database: undefined,
     informations: [
@@ -192,20 +189,10 @@ export const createProject = (name: string, map: mapboxgl.Map): Project => {
 
   watch(
     () => project.pointsState,
-    (pointsState: PointsState) => {
+    (pointsState: PointState) => {
       project.reports.forEach((report: Report) => {
         report.points.forEach((point) => {
-          switch (pointsState) {
-            case 'number':
-              point.icon.setText(String(point.number))
-              break
-            case 'value':
-              point.icon.setText(point.finalData['D0'].displayString)
-              break
-            case 'nothing':
-              point.icon.setText('')
-              break
-          }
+          point.state = pointsState
         })
       })
     }

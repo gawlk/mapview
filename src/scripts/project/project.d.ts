@@ -14,9 +14,7 @@ interface Project {
   arePointsLocked: boolean
   arePointsVisible: boolean
   areImagesVisible: boolean
-  pointsState: PointsState
+  pointsState: PointState
   informations: Field[]
   configurations: Field[]
 }
-
-type PointsState = 'value' | 'number' | 'nothing'

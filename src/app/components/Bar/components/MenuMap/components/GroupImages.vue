@@ -1,18 +1,18 @@
 <template>
   <div v-if="store.project?.images.length > 0" class="flex space-x-2">
-    <Menu full :icon="CollectionIcon" :buttonText="t('Open image list')">
+    <Popover full :icon="CollectionIcon" :buttonText="t('Open image list')">
       <div
-        v-for="image of store.project?.images"
+        v-for="(image, index) of store.project?.images"
         :key="image.sourceId"
         class="flex space-x-1"
       >
-        <MenuItem truncate>
+        <Button truncate @click="goToImage(image)">
           {{ image.sourceId.split('.')[0] }}
-        </MenuItem>
-        <MenuItem :icon="SunIcon" />
-        <MenuItem :icon="TrashIcon" />
+        </Button>
+        <Button :icon="SunIcon" />
+        <Button :icon="TrashIcon" @click="deleteImage(image, index)" />
       </div>
-    </Menu>
+    </Popover>
     <Button
       @click="store.project.areImagesVisible = !store.project.areImagesVisible"
       :icon="store.project?.areImagesVisible ? EyeIcon : EyeOffIcon"
@@ -54,7 +54,7 @@
     TrashIcon,
   } from '@heroicons/vue/solid'
 
-  import { Button, Menu, MenuItem } from '/src/components'
+  import { Button, Popover } from '/src/components'
 
   const { t } = useI18n()
 
@@ -69,6 +69,29 @@
       if (store.project.areImagesVisible) {
         image.addToMap()
       }
+    }
+  }
+
+  const goToImage = (image: ImageMap) => {
+    const nw = image.markerNW.getLngLat()
+    const se = image.markerSE.getLngLat()
+
+    store.map?.fitBounds(
+      [
+        [nw.lng < se.lng ? nw.lng : se.lng, nw.lat < se.lat ? nw.lat : se.lat], // southwestern corner of the bounds
+        [nw.lng > se.lng ? nw.lng : se.lng, nw.lat > se.lat ? nw.lat : se.lat], // northeastern corner of the bounds
+      ],
+      { padding: 100 }
+    )
+  }
+
+  const deleteImage = (image: ImageMap, index: number) => {
+    image.remove()
+
+    if (store.project) {
+      store.project.images.splice(index, 1)
+
+      store.project.images = [...store.project.images]
     }
   }
 </script>

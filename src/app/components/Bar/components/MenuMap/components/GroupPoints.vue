@@ -64,13 +64,13 @@
     if (store.project) {
       switch (n) {
         case 0:
-          store.project.pointsState = 'number' as PointsState
+          store.project.pointsState = 'number' as PointState
           break
         case 1:
-          store.project.pointsState = 'value' as PointsState
+          store.project.pointsState = 'value' as PointState
           break
         case 2:
-          store.project.pointsState = 'nothing' as PointsState
+          store.project.pointsState = 'nothing' as PointState
           break
       }
     }

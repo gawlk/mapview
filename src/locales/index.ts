@@ -24,3 +24,9 @@ export const getBrowserLocales = (languageCodeOnly = false) => {
     return languageCodeOnly ? trimmedLocale.split(/-|_/)[0] : trimmedLocale
   })
 }
+
+export const numberToLocaleString = (value: number, precision: number = 0) =>
+  value.toLocaleString(navigator.language, {
+    minimumFractionDigits: precision,
+    maximumFractionDigits: precision,
+  })

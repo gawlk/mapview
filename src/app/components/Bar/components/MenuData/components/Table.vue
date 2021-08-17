@@ -2,18 +2,20 @@
   <table class="w-full text-sm font-medium">
     <thead class="h-8 text-gray-500">
       <td />
-      <td class="text-center font-bold">
+      <td class="font-bold text-center">
         {{ t('Number') }}
       </td>
-      <!-- <td class="text-right font-semibold">D0</td> -->
       <td
         v-for="key in store.project?.selectedReport.dataSettings.keys"
         :key="key"
-        class="text-right font-bold"
+        :class="[
+          key !== store.project?.selectedReport?.dataSettings.selected &&
+            'opacity-50',
+        ]"
+        class="font-bold text-right"
       >
         {{ key }}
       </td>
-      <!-- <td class="text-right font-semibold">D400</td> -->
       <td />
     </thead>
     <tbody>
@@ -27,9 +29,13 @@
         </td>
         <td class="font-bold text-center">{{ point.number }}</td>
         <td
-          v-for="key in store.project?.selectedReport.dataSettings.keys"
+          v-for="key in store.project?.selectedReport?.dataSettings.keys"
           :key="`${index}-${key}`"
-          class="text-right text-red-800 font-bold"
+          :class="[
+            key !== store.project?.selectedReport?.dataSettings.selected &&
+              'opacity-50',
+          ]"
+          class="font-bold text-right text-red-800"
         >
           {{ point.finalData[key].displayString || point.finalData[key].value }}
         </td>

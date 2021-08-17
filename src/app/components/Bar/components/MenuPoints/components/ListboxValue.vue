@@ -1,9 +1,12 @@
 <template>
   <Listbox
     :icon="DotsVerticalIcon"
-    :values="store.project?.selectedReport.dataSettings.keys"
+    :values="store.project?.selectedReport?.dataSettings.keys"
     :preSelected="t('Value:')"
-    selected="D200"
+    :selected="store.project?.selectedReport?.dataSettings.selected"
+    @select="
+      (value) => (store.project.selectedReport.dataSettings.selected = value)
+    "
     full
   />
 </template>

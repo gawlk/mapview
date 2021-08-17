@@ -1,6 +1,8 @@
 import { unit as Unit, createUnit } from 'mathjs'
 import { shallowReactive, watch } from 'vue'
 
+import { numberToLocaleString } from '/src/locales'
+
 createUnit({
   cmm: '10 um',
   nlbs: '4.448221628250858 N',
@@ -27,30 +29,32 @@ export const createMathNumber = (
             )
           : (this.value as number)
 
-      const toLocaleString = (value: number, precision: number = 0) =>
-        value.toLocaleString(navigator.language, {
-          minimumFractionDigits: precision,
-          maximumFractionDigits: precision,
-        })
-
       if (this.unit !== 'string') {
         const mathUnit = this.unit as MathUnit
 
-        if (mathUnit.min && value < mathUnit.min) {
-          this.displayString = `< ${toLocaleString(
-            mathUnit.min,
+        // We assume there is only one unit so there is no need to specify the unit of min and max displayed values
+
+        if (mathUnit.minDisplayedValue && value < mathUnit.minDisplayedValue) {
+          this.displayString = `< ${numberToLocaleString(
+            mathUnit.minDisplayedValue,
             mathUnit.currentPrecision
           )}`
-        } else if (mathUnit.max && value > mathUnit.max) {
-          this.displayString = `> ${toLocaleString(
-            mathUnit.max,
+        } else if (
+          mathUnit.maxDisplayedValue &&
+          value > mathUnit.maxDisplayedValue
+        ) {
+          this.displayString = `> ${numberToLocaleString(
+            mathUnit.maxDisplayedValue,
             mathUnit.currentPrecision
           )}`
         } else {
-          this.displayString = toLocaleString(value)
+          this.displayString = numberToLocaleString(
+            value,
+            mathUnit.currentPrecision
+          )
         }
       } else {
-        this.displayString = toLocaleString(value)
+        this.displayString = numberToLocaleString(value)
       }
 
       const unit =

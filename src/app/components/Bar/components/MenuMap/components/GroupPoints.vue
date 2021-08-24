@@ -4,22 +4,13 @@
       full
       :icon="DotIcon"
       :preSelected="t('Point:')"
-      :selected="state.values[state.selected]"
-      :values="state.values"
+      :selected="state.pointStateValues[state.pointStateSelected]"
+      :values="state.pointStateValues"
       @selectIndex="setPointsState"
     />
     <Button
       @click="store.project.arePointsVisible = !store.project.arePointsVisible"
       :icon="store.project?.arePointsVisible ? EyeIcon : EyeOffIcon"
-    />
-  </div>
-  <div class="flex space-x-2">
-    <Listbox
-      full
-      :icon="ColorSwatchIcon"
-      :preSelected="t('Icon:')"
-      selected="Type 1"
-      :values="state.values"
     />
     <Button
       @click="store.project.arePointsLinked = !store.project.arePointsLinked"
@@ -39,7 +30,6 @@
   import store from '/src/store'
 
   import {
-    ColorSwatchIcon,
     EyeIcon,
     EyeOffIcon,
     LockClosedIcon,
@@ -54,12 +44,16 @@
   const { t } = useI18n()
 
   const state = reactive({
-    selected: 0,
-    values: [t('Show the number'), t('Show the value'), t('Show nothing')],
+    pointStateSelected: 0,
+    pointStateValues: [
+      t('Show the number'),
+      t('Show the value'),
+      t('Show nothing'),
+    ],
   })
 
   const setPointsState = (n: number) => {
-    state.selected = n
+    state.pointStateSelected = n
 
     if (store.project) {
       switch (n) {
@@ -79,14 +73,12 @@
 
 <i18n lang="yaml">
 en:
-  'Icon:': 'Icon:'
   'Point:': 'Point:'
   'Display number within points': 'Display number within points'
   'Show the value': 'Show the value'
   'Show the number': 'Show the number'
   'Show nothing': 'Show nothing'
 fr:
-  'Icon:': 'Icône :'
   'Point:': 'Point :'
   'Display number within points': 'Afficher le nombre des points'
   'Show the value': 'Afficher la valeur'

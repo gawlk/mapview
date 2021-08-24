@@ -1,4 +1,5 @@
 import { Marker } from 'mapbox-gl'
+import { shallowReactive, watch } from 'vue'
 
 import { fileToBase64 } from '../utils/file'
 import * as mercator from '../utils/mercator'
@@ -35,16 +36,19 @@ export const createImageMap = async (
 
   const layerId = `${sourceId}-raster`
 
-  return {
+  const imageMap = shallowReactive({
+    layerId,
     sourceId,
     sourceData,
     markerNW,
     markerSE,
-    isVisible: true,
-    addToMap: function (): void {
+    opacity: 0.5,
+    addToMap(visible: boolean): void {
       if (!map.getLayer(layerId)) {
-        markerNW.addTo(map)
-        markerSE.addTo(map)
+        if (visible) {
+          markerNW.addTo(map)
+          markerSE.addTo(map)
+        }
 
         map.addSource(sourceId, sourceData)
 
@@ -54,7 +58,7 @@ export const createImageMap = async (
             source: sourceId,
             type: 'raster',
             paint: {
-              'raster-opacity': 0.5,
+              'raster-opacity': visible ? this.opacity : 0,
               'raster-fade-duration': 0,
             },
           },
@@ -73,16 +77,25 @@ export const createImageMap = async (
         markerSE.on('drag', onMarkerDrag)
       }
     },
-    remove: function (): void {
+    remove(): void {
       if (map.getLayer(layerId)) {
-        markerNW.remove()
-        markerSE.remove()
-
         map.removeLayer(layerId)
         map.removeSource(sourceId)
+
+        markerNW.remove()
+        markerSE.remove()
       }
     },
-  }
+  })
+
+  watch(
+    () => imageMap.opacity,
+    (opacity: number) => {
+      map.setPaintProperty(layerId, 'raster-opacity', opacity)
+    }
+  )
+
+  return imageMap
 }
 
 const initialiseNWAndSECoords = async (

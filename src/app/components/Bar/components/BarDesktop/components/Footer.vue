@@ -8,7 +8,7 @@
         <ExclamationCircleIcon class="w-5 h-5" />
       </a>
       <a
-        href="https://gitlab.com/isaan/mapview-dev/mapview"
+        href="https://gitlab.com/isaan/mapview-dev/mapview2"
         class="hover:text-gray-500"
       >
         <svg

@@ -36,7 +36,7 @@ export const createProject = (name: string, map: mapboxgl.Map): Project => {
 
   const units = [unitDeformation, unitForce, unitTemperature]
 
-  const point = createPoint(1, map.getCenter(), map)
+  const point = createPoint(1, 'circle', map.getCenter(), map)
 
   point.finalData.D0 = createMathNumber(100, unitDeformation)
   point.finalData.F0 = createMathNumber(100, unitForce)
@@ -45,6 +45,7 @@ export const createProject = (name: string, map: mapboxgl.Map): Project => {
 
   const point2 = createPoint(
     2,
+    'circle',
     {
       lat: map.getCenter().lat + 0.05,
       lng: map.getCenter().lng + 0.05,
@@ -178,10 +179,18 @@ export const createProject = (name: string, map: mapboxgl.Map): Project => {
     () => project.areImagesVisible,
     (areImagesVisible: boolean) => {
       project.images.forEach((image: ImageMap) => {
-        if (areImagesVisible && image.isVisible) {
-          image.addToMap()
+        map.setPaintProperty(
+          image.layerId,
+          'raster-opacity',
+          areImagesVisible ? image.opacity : 0
+        )
+
+        if (areImagesVisible) {
+          image.markerNW.addTo(map)
+          image.markerSE.addTo(map)
         } else {
-          image.remove()
+          image.markerNW.remove()
+          image.markerSE.remove()
         }
       })
     }
@@ -207,13 +216,9 @@ export const createProject = (name: string, map: mapboxgl.Map): Project => {
       })
     }
 
-    if (project.areImagesVisible) {
-      project.images.forEach((image) => {
-        if (image.isVisible) {
-          image.addToMap()
-        }
-      })
-    }
+    project.images.forEach((image) => {
+      image.addToMap(project.areImagesVisible)
+    })
   })
 
   return project

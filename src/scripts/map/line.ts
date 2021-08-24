@@ -2,7 +2,7 @@ export const createLine = (points: Point[], map: mapboxgl.Map): Line => {
   const line: Line = {
     id: `${+new Date()}`,
     features: [],
-    addToMap: function (): void {
+    addToMap(): void {
       if (!map.getLayer(this.id)) {
         map.addLayer(
           {

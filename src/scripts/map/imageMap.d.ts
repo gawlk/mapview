@@ -1,10 +1,11 @@
 interface ImageMap {
+  layerId: string
   sourceId: string
   sourceData: mapboxgl.ImageSourceRaw
   markerNW: mapboxgl.Marker
   markerSE: mapboxgl.Marker
-  isVisible: boolean
-  addToMap: () => void
+  opacity: number
+  addToMap: (isVisible: boolean) => void
   remove: () => void
 }
 

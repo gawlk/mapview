@@ -5,6 +5,7 @@ interface Report {
   line: Line
   dataSettings: DataSettings
   isVisible: boolean
+  icon: string
 }
 
 interface DataSettings {

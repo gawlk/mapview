@@ -27,14 +27,13 @@
           <span
             v-if="props.selectedReplacement || props.values"
             class="ml-1 truncate"
-          >
-            {{
+            v-html="
               props.selectedReplacement ||
               (props.values.includes(props.selected)
                 ? props.selected
                 : props.values[0])
-            }}
-          </span>
+            "
+          />
         </div>
         <div>
           <SelectorIcon
@@ -78,9 +77,8 @@
                 v-if="props.values"
                 :class="[selected ? 'font-medium' : 'font-normal']"
                 class="block truncaten"
-              >
-                {{ value }}
-              </span>
+                v-html="value"
+              />
               <span
                 v-if="selected"
                 class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-600 "

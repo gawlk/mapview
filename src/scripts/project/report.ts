@@ -16,6 +16,7 @@ export const createReport = (
     line,
     dataSettings,
     isVisible: true,
+    icon: 'circle',
   })
 
   points.forEach((point) => {
@@ -38,6 +39,15 @@ export const createReport = (
       } else {
         report.line?.remove()
       }
+    }
+  )
+
+  watch(
+    () => report.icon,
+    (icon: string) => {
+      points.forEach((point) => {
+        point.icon.setIcon(icon)
+      })
     }
   )
 

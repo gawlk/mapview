@@ -1,7 +1,7 @@
 {
   "name": "mapview",
   "description": "",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "homepage": "",
   "scripts": {
     "dev": "vite",
@@ -10,23 +10,23 @@
   },
   "dependencies": {
     "@headlessui/vue": "^1.4.0",
-    "@heroicons/vue": "^1.0.3",
+    "@heroicons/vue": "^1.0.4",
     "@vueuse/head": "^0.6.0",
-    "heroicons": "^1.0.2",
+    "heroicons": "^1.0.4",
     "iconoir": "^1.0.0",
     "lodash-es": "^4.17.21",
-    "mapbox-gl": "^2.4.0",
+    "mapbox-gl": "^2.4.1",
     "mathjs": "^9.4.4",
     "uplot": "^1.6.15",
-    "vue": "^3.2.2",
+    "vue": "^3.2.4",
     "vue-i18n": "^9.1.7"
   },
   "devDependencies": {
     "@intlify/vite-plugin-vue-i18n": "^2.4.0",
     "@types/mapbox-gl": "^2.4.0",
     "@vitejs/plugin-vue": "^1.4.0",
-    "@vue/compiler-sfc": "^3.2.2",
-    "autoprefixer": "^10.3.1",
+    "@vue/compiler-sfc": "^3.2.4",
+    "autoprefixer": "^10.3.2",
     "postcss": "^8.3.6",
     "tailwindcss": "~2.2.7",
     "typescript": "^4.3.5",
@@ -34,8 +34,8 @@
     "vite": "^2.5.0",
     "vite-plugin-cdn-auto": "^0.0.6",
     "vite-plugin-compress": "^2.1.0",
-    "vite-svg-loader": "^2.1.1",
-    "vue-tsc": "^0.2.3"
+    "vite-svg-loader": "^2.2.0",
+    "vue-tsc": "^0.3.0"
   },
   "postcss": {
     "plugins": {

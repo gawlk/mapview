@@ -5,12 +5,13 @@ import { createIcon } from './icon'
 
 export const createPoint = (
   number: number,
+  iconName: string,
   coordinates: mapboxgl.LngLatLike,
   map: mapboxgl.Map,
   rawData: MathNumberObject = {},
   parametersData: MathNumberObject = {}
 ): Point => {
-  const icon = createIcon()
+  const icon = createIcon(iconName)
 
   const marker = new Marker({
     element: icon.element,

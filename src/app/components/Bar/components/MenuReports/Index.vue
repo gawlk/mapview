@@ -1,5 +1,6 @@
 <template>
   <GroupReports />
+  <ListboxIcon />
   <GroupAlbum />
   <DialogInformations />
   <DialogExport />
@@ -10,4 +11,5 @@
   import DialogExport from './components/DialogExport.vue'
   import GroupAlbum from './components/GroupAlbum.vue'
   import GroupReports from './components/GroupReports.vue'
+  import ListboxIcon from './components/ListboxIcon.vue'
 </script>

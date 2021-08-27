@@ -15,12 +15,12 @@
     >
       {{ t('Try Minidyn demo') }}
     </Button>
-    <Button @click="openHeavydynDemo" full :leftIcon="ShoppingCartIcon">{{
-      t('Try Heavydyn demo')
-    }}</Button>
-    <Button @click="openMaxidynDemo" full :leftIcon="TruckIcon">{{
-      t('Try Maxidyn demo')
-    }}</Button>
+    <Button @click="openHeavydynDemo" full :leftIcon="ShoppingCartIcon">
+      {{ t('Try Heavydyn demo') }}
+    </Button>
+    <Button @click="openMaxidynDemo" full :leftIcon="TruckIcon">
+      {{ t('Try Maxidyn demo') }}
+    </Button>
   </div>
 </template>
 

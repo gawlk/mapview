@@ -62,7 +62,7 @@
       />
     </div>
     <Button
-      @click="$refs.file.click()"
+      @click="file.click()"
       full
       :leftIcon="DocumentAddIconSolid"
       class="lg:hidden"
@@ -73,7 +73,7 @@
 </template>
 
 <script setup lang="ts">
-  import { reactive, defineEmits, defineProps } from 'vue'
+  import { reactive, defineEmits, defineProps, ref } from 'vue'
 
   import { DocumentAddIcon as DocumentAddIconSolid } from '@heroicons/vue/solid'
   import { DocumentAddIcon as DocumentAddIconOutline } from '@heroicons/vue/outline'
@@ -86,6 +86,8 @@
     accept: string
     buttonText: string
   }>()
+
+  const file = ref()
 
   const state = reactive({
     dragging: false,

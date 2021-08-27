@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-none p-2">
+  <div class="flex-none px-2">
     <Initializer v-if="!store.project" />
     <div v-else class="relative flex items-center justify-around">
       <MenuWrapperMobile

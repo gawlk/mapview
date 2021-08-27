@@ -9,7 +9,7 @@
         ]"
         class="flex items-center justify-between w-full px-4 py-2 space-x-4 text-sm font-medium leading-6 truncate transition-colors duration-200 rounded-lg  group focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500"
       >
-        <div class="flex items-center">
+        <div class="flex items-center truncate">
           <component
             v-if="props.icon"
             :is="props.icon"
@@ -19,9 +19,12 @@
                 ? 'bg-gray-100 bg-opacity-60 rounded-full p-1 h-7 w-7 -my-0.5 -ml-1'
                 : 'w-5 h-5',
             ]"
-            class="mr-1 text-gray-400 transition-colors duration-200  group-hover:text-gray-500"
+            class="flex-none mr-1 text-gray-400 transition-colors duration-200  group-hover:text-gray-500"
           />
-          <span v-if="props.preSelected" class="ml-1 text-gray-500 truncate">
+          <span
+            v-if="props.preSelected"
+            class="hidden ml-1 text-gray-500 sm:block"
+          >
             {{ props.preSelected }}
           </span>
           <span
@@ -52,7 +55,7 @@
       <TransitionDropdown>
         <ListboxOptions
           :class="[props.isTop ? 'bottom-0 mb-11' : 'mt-1 shadow-lg']"
-          class="absolute z-10 w-full p-1 space-y-1 overflow-auto text-base bg-white border-2 border-gray-100 rounded-lg  max-h-60 focus:outline-none sm:text-sm"
+          class="absolute z-10 w-full p-1 space-y-1 overflow-auto text-sm bg-white border-2 border-gray-100 rounded-lg  max-h-60 focus:outline-none"
         >
           <ListboxOption
             v-slot="{ active, selected }"

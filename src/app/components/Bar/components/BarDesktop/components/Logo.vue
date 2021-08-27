@@ -12,7 +12,7 @@
 
   import packageJSON from '/src/../package.json'
 
-  import MapviewLogo from '/src/assets/svg/mapview/logo.svg?component'
+  import MapviewLogo from '/src/assets/svg/mapview/logoFull.svg?component'
 
   const state = reactive({
     version: packageJSON.version,

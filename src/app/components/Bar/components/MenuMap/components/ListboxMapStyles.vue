@@ -14,6 +14,7 @@
   import { ColorSwatchIcon, DotsHorizontalIcon } from '@heroicons/vue/solid'
 
   import store from '/src/store'
+  import { stylesURLs } from '/src/scripts/map/map'
 
   import { Listbox } from '/src/components'
 
@@ -31,13 +32,6 @@
     mapboxSatelliteStyle,
     mapboxLightStyle,
     mapboxDarkStyle,
-  ]
-
-  const stylesURLs = [
-    'mapbox://styles/mapbox/streets-v11',
-    'mapbox://styles/mapbox/satellite-v9',
-    'mapbox://styles/mapbox/light-v9',
-    'mapbox://styles/mapbox/dark-v9',
   ]
 
   const setStyle = (index: number) => {

@@ -32,10 +32,14 @@ export default defineConfig({
     }),
     sw({
       verbose: true,
+      filters: {
+        onlineOnly: ['https://api.mapbox.com/'],
+      },
     }),
     favicons({
       cache: false, // until plugin is fixed
-      appName: packageJSON.name,
+      appName:
+        packageJSON.name.charAt(0).toUpperCase() + packageJSON.name.slice(1),
       appDescription: packageJSON.description,
       icons: {
         android: {

@@ -79,14 +79,12 @@
 </template>
 
 <script setup lang="ts">
-  import { defineEmits, defineProps } from 'vue'
-
   import { getBrowserLocale } from '/src/locales'
 
   import { Label, Listbox } from '.'
 
   const emit = defineEmits<{
-    (event: 'input'): string | number
+    (event: 'input', value: string | number): void
   }>()
 
   const props = defineProps<{

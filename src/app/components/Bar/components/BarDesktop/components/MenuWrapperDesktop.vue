@@ -10,8 +10,6 @@
 </template>
 
 <script setup lang="ts">
-  import { defineProps } from 'vue'
-
   import { Disclosure } from '/src/components'
 
   const props = defineProps<{

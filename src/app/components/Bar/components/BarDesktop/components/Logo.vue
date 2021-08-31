@@ -1,6 +1,6 @@
 <template>
   <a href="/" class="flex items-center w-1/2 mx-auto">
-    <MapviewLogo />
+    <MapviewLogo class="w-full h-full" />
     <span class="flex-none pt-3 text-xs font-bold text-gray-400">
       v. {{ state.version }}
     </span>

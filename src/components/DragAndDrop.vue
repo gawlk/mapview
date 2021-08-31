@@ -73,14 +73,16 @@
 </template>
 
 <script setup lang="ts">
-  import { reactive, defineEmits, defineProps, ref } from 'vue'
+  import { reactive, ref } from 'vue'
 
   import { DocumentAddIcon as DocumentAddIconSolid } from '@heroicons/vue/solid'
   import { DocumentAddIcon as DocumentAddIconOutline } from '@heroicons/vue/outline'
 
   import { Button } from '/src/components'
 
-  const emit = defineEmits(['input'])
+  const emit = defineEmits<{
+    (event: 'input', value: FileList): void
+  }>()
 
   const props = defineProps<{
     accept: string

@@ -1,13 +1,19 @@
 <template>
   <div class="flex-none p-2">
-    <Initializer v-if="!store.project" />
-    <div v-else class="relative flex items-center justify-around">
+    <div
+      v-if="!store.project"
+      class="absolute inset-x-0 bottom-0 z-10 p-2 mb-20 bg-transparent"
+    >
+      <Initializer class="p-2 bg-white rounded-lg" />
+    </div>
+    <div class="relative flex items-center justify-around">
       <MenuWrapperMobile
         v-for="menu in props.menus"
         :key="menu.name"
         :name="menu.name"
         :icon="menu.icon"
         :opened="menu.opened"
+        :disabled="!store.project"
         @click="selectMenu(menu)"
       >
         <component :is="menu.component" />
@@ -17,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-  import { defineProps, reactive } from 'vue'
+  import { reactive } from 'vue'
 
   import store from '/src/store'
 
@@ -33,8 +39,10 @@
   })
 
   const selectMenu = (menuToSelect: any) => {
-    props.menus?.forEach((menu: any) => {
-      menu.opened = menu === menuToSelect ? !menu.opened : false
-    })
+    if (store.project) {
+      props.menus?.forEach((menu: any) => {
+        menu.opened = menu === menuToSelect ? !menu.opened : false
+      })
+    }
   }
 </script>

@@ -6,6 +6,7 @@
     :backgrounds="stylesImages"
     @selectIndex="setStyle"
     full
+    isTop
   />
 </template>
 

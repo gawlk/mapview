@@ -1,6 +1,11 @@
 <template>
   <div v-if="store.project?.images.length > 0" class="flex space-x-2">
-    <Popover full :icon="CollectionIcon" :buttonText="t('Open image list')">
+    <Popover
+      :icon="CollectionIcon"
+      :buttonText="t('Open image list')"
+      full
+      isTop
+    >
       <div
         v-for="(image, index) of store.project?.images"
         :key="image.sourceId"

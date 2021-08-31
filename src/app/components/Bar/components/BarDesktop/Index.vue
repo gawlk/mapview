@@ -19,8 +19,6 @@
 </template>
 
 <script setup lang="ts">
-  import { defineProps } from 'vue'
-
   import store from '/src/store'
 
   import Initializer from '../Initializer.vue'

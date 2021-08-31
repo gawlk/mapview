@@ -20,8 +20,8 @@
 
     <TransitionDropdown>
       <PopoverPanel
-        :class="[props.isTop ? 'bottom-0 mb-11' : 'mt-1 shadow-lg']"
-        class="absolute z-10 w-full p-1 space-y-1 overflow-auto text-base bg-white border-2 border-gray-100 rounded-lg  max-h-60 focus:outline-none sm:text-sm"
+        :class="[props.isTop ? 'bottom-0 mb-11 shadow-md' : 'mt-1 shadow-lg']"
+        class="absolute z-10 w-full p-1 space-y-1 overflow-auto text-sm bg-white border-2 border-gray-100 rounded-lg  max-h-60 focus:outline-none"
       >
         <slot />
       </PopoverPanel>
@@ -30,8 +30,6 @@
 </template>
 
 <script setup lang="ts">
-  import { defineProps } from 'vue'
-
   import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue'
   import { ChevronDownIcon } from '@heroicons/vue/solid'
 

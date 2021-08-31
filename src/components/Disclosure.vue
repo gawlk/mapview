@@ -26,8 +26,6 @@
 </template>
 
 <script setup lang="ts">
-  import { defineProps } from 'vue'
-
   import {
     Disclosure,
     DisclosureButton,
@@ -35,7 +33,9 @@
   } from '@headlessui/vue'
   import { ChevronUpIcon } from '@heroicons/vue/solid'
 
-  const emit = defineEmits(['click'])
+  const emit = defineEmits<{
+    (event: 'click', value: boolean): void
+  }>()
 
   const props = defineProps<{
     text: string

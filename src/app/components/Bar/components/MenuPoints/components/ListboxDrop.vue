@@ -5,6 +5,7 @@
     :preSelected="t('Drop:')"
     selected="1"
     full
+    isTop
   />
 </template>
 

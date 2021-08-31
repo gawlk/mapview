@@ -6,6 +6,7 @@
     :preSelected="t('Icon:')"
     :selected="state.pointIconValues[state.pointIconSelected]"
     :values="state.pointIconValues"
+    isTop
   />
 </template>
 

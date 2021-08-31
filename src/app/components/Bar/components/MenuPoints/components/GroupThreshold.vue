@@ -5,6 +5,7 @@
     :preSelected="t('Threshold:')"
     selected="N.S."
     full
+    isTop
   />
   <Listbox
     :icon="ColorSwatchIcon"
@@ -13,6 +14,7 @@
     :selectedReplacement="`0 < ${store.project.selectedReport.dataSettings.selected} < 30,0 um`"
     selected="N.S."
     full
+    isTop
   />
   <Listbox
     :icon="ColorSwatchIcon"
@@ -20,6 +22,7 @@
     iconsClasses="text-red-700 group-hover:text-red-800"
     :selectedReplacement="`30,0 um < ${store.project.selectedReport.dataSettings.selected} < ∞`"
     full
+    isTop
   />
 </template>
 

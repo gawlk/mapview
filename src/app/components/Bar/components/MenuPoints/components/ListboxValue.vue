@@ -8,6 +8,7 @@
       (value) => (store.project.selectedReport.dataSettings.selected = value)
     "
     full
+    isTop
   />
 </template>
 

@@ -39,26 +39,11 @@
               leave-to="opacity-0 scale-95"
             >
               <div
-                class="
-                  inline-block
-                  w-full
-                  max-w-lg
-                  p-8
-                  my-8
-                  overflow-hidden
-                  text-left
-                  align-middle
-                  transition-all
-                  transform
-                  bg-white
-                  shadow-xl
-                  rounded-2xl
-                  space-y-8
-                "
+                class="inline-block w-full max-w-lg p-8 my-8 space-y-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl  rounded-2xl"
               >
                 <DialogTitle
                   as="h3"
-                  class="text-2xl font-medium leading-6 pl-4"
+                  class="pl-4 text-2xl font-medium leading-6"
                 >
                   {{ props.title }}
                 </DialogTitle>
@@ -85,7 +70,7 @@
 </template>
 
 <script setup lang="ts">
-  import { defineEmits, defineProps, reactive } from 'vue'
+  import { reactive } from 'vue'
 
   import {
     TransitionRoot,

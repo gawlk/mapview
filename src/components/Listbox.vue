@@ -54,7 +54,7 @@
 
       <TransitionDropdown>
         <ListboxOptions
-          :class="[props.isTop ? 'bottom-0 mb-11' : 'mt-1 shadow-lg']"
+          :class="[props.isTop ? 'bottom-0 mb-12 shadow-md' : 'mt-1 shadow-lg']"
           class="absolute z-10 w-full p-1 space-y-1 overflow-auto text-sm bg-white border-2 border-gray-100 rounded-lg  max-h-60 focus:outline-none"
         >
           <ListboxOption
@@ -97,7 +97,6 @@
 </template>
 
 <script setup lang="ts">
-  import { defineEmits, defineProps, ref } from 'vue'
   import {
     Listbox,
     ListboxLabel,
@@ -109,7 +108,10 @@
 
   import { TransitionDropdown } from './'
 
-  const emit = defineEmits(['select', 'selectIndex'])
+  const emit = defineEmits<{
+    (event: 'select', value: string): void
+    (event: 'selectIndex', value: number): void
+  }>()
 
   const props = defineProps<{
     values?: string[]
@@ -130,9 +132,9 @@
     emit('select', value)
 
     if (props.values) {
-      emit('selectIndex', props.values?.indexOf(value))
+      emit('selectIndex', props.values.indexOf(value))
     } else if (props.backgrounds) {
-      emit('selectIndex', props.backgrounds?.indexOf(value))
+      emit('selectIndex', props.backgrounds.indexOf(value))
     }
   }
 </script>

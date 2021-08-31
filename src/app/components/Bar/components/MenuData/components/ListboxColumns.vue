@@ -5,6 +5,7 @@
     :preSelected="t('Columns:')"
     selected="D0, D200, D400"
     full
+    isTop
   />
 </template>
 

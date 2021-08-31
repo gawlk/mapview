@@ -6,6 +6,7 @@
       :preSelected="t('Report:')"
       :selected="store.project?.selectedReport?.name"
       full
+      isTop
     />
     <Button @click="inputFile.click()" :icon="PlusIcon" />
     <input

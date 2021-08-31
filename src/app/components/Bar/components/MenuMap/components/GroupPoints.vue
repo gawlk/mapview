@@ -7,6 +7,7 @@
       :selected="state.pointStateValues[state.pointStateSelected]"
       :values="state.pointStateValues"
       @selectIndex="setPointsState"
+      isTop
     />
     <Button
       @click="store.project.arePointsVisible = !store.project.arePointsVisible"
@@ -46,9 +47,15 @@
   const state = reactive({
     pointStateSelected: 0,
     pointStateValues: [
-      t('Show the number'),
-      t('Show the value'),
-      t('Show nothing'),
+      `<span class="md:hidden">${t(
+        'Number'
+      )}</span><span class="hidden md:block">${t('Show the number')}</span>`,
+      `<span class="md:hidden">${t(
+        'Value'
+      )}</span><span class="hidden md:block">${t('Show the value')}</span>`,
+      `<span class="md:hidden">${t(
+        'Nothing'
+      )}</span><span class="hidden md:block">${t('Show nothing')}</span>`,
     ],
   })
 
@@ -75,12 +82,18 @@
 en:
   'Point:': 'Point:'
   'Display number within points': 'Display number within points'
+  'Number': 'Number'
+  'Value': 'Value'
+  'Nothing': 'Nothing'
   'Show the value': 'Show the value'
   'Show the number': 'Show the number'
   'Show nothing': 'Show nothing'
 fr:
   'Point:': 'Point :'
   'Display number within points': 'Afficher le nombre des points'
+  'Number': 'Nombre'
+  'Value': 'Valeur'
+  'Nothing': 'Rien'
   'Show the value': 'Afficher la valeur'
   'Show the number': 'Afficher le numéro'
   'Show nothing': 'Ne rien afficher'

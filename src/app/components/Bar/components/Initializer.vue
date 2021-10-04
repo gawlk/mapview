@@ -48,13 +48,13 @@
   }
 
   const getDemoFile = async (machineName: MachineName) => {
-    const url = `${window.location.href}/demos/${machineName}.json`
+    const url = `${window.location.href}/demos/${machineName}/demo.prjz`
 
     const response = await fetch(url)
 
     const blob = await response.blob()
 
-    return new File([blob], `${machineName}.json`)
+    return new File([blob], `${machineName}.prjz`)
   }
 
   const openMinidynDemo = async () => {

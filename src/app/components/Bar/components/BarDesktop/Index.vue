@@ -4,14 +4,18 @@
 
     <Initializer v-if="!store.project" />
     <div v-else class="space-y-8">
-      <MenuWrapperDesktop
-        v-for="menu in props.menus"
-        :key="menu.name"
-        :name="menu.name"
-        :icon="menu.icon"
-      >
-        <component :is="menu.component" />
-      </MenuWrapperDesktop>
+      <div v-for="menu in props.menus" :key="menu.name">
+        <MenuWrapperDesktop
+          v-if="store.project?.reports.length > 0 || !menu.needsReport"
+          :name="menu.name"
+          :icon="menu.icon"
+        >
+          <component :is="menu.component" />
+        </MenuWrapperDesktop>
+        <Button v-else disabled full :leftIcon="menu.icon">
+          {{ menu.name }}
+        </Button>
+      </div>
     </div>
 
     <Footer />
@@ -26,7 +30,9 @@
   import Logo from './components/Logo.vue'
   import MenuWrapperDesktop from './components/MenuWrapperDesktop.vue'
 
+  import { Button } from '/src/components'
+
   const props = defineProps<{
-    menus: any[]
+    menus: MenuProp[]
   }>()
 </script>

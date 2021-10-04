@@ -12,7 +12,7 @@
         :key="menu.name"
         :name="menu.name"
         :icon="menu.icon"
-        :opened="menu.opened"
+        :opened="menu.openedOnMobile"
         :disabled="!store.project"
         @click="selectMenu(menu)"
       >
@@ -23,25 +23,24 @@
 </template>
 
 <script setup lang="ts">
-  import { reactive } from 'vue'
-
   import store from '/src/store'
 
   import Initializer from '../Initializer.vue'
   import MenuWrapperMobile from './components/MenuWrapperMobile.vue'
 
-  const props = defineProps({
-    menus: Array,
-  })
+  const props = defineProps<{
+    menus: MenuProp[]
+  }>()
 
   props.menus?.map((menu: any) => {
-    menu.opened = false
+    menu.openedOnMobile = false
   })
 
   const selectMenu = (menuToSelect: any) => {
     if (store.project) {
       props.menus?.forEach((menu: any) => {
-        menu.opened = menu === menuToSelect ? !menu.opened : false
+        menu.openedOnMobile =
+          menu === menuToSelect ? !menu.openedOnMobile : false
       })
     }
   }

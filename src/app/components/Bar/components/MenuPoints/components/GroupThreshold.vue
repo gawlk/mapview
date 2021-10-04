@@ -11,7 +11,11 @@
     :icon="ColorSwatchIcon"
     buttonColors="bg-green-200 hover:bg-green-300 hover:bg-opacity-75 text-green-900"
     iconsClasses="text-green-700 group-hover:text-green-800"
-    :selectedReplacement="`0 < ${store.project.selectedReport.dataSettings.selected} < 30,0 um`"
+    :selectedReplacement="`0 < ${
+      t(store.project?.selectedReport?.dropsSettings.data.names[
+        store.project.selectedReport.dropsSettings.data.selected
+      ] as string)
+    } < 30,0 um`"
     selected="N.S."
     full
     isTop
@@ -20,7 +24,11 @@
     :icon="ColorSwatchIcon"
     buttonColors="bg-red-200 hover:bg-red-300 hover:bg-opacity-75 text-red-900"
     iconsClasses="text-red-700 group-hover:text-red-800"
-    :selectedReplacement="`30,0 um < ${store.project.selectedReport.dataSettings.selected} < ∞`"
+    :selectedReplacement="`30,0 um < ${
+      t(store.project?.selectedReport?.dropsSettings.data.names[
+        store.project.selectedReport.dropsSettings.data.selected
+      ] as string)
+    } < ∞`"
     full
     isTop
   />

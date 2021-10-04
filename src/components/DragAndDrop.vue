@@ -45,16 +45,16 @@
       </div>
 
       <div
-        @click="$refs.file.click()"
+        @click="file.click()"
         @dragenter="state.dragging = true"
         @dragleave="state.dragging = false"
         @dragover.prevent
-        @drop.stop.prevent="drop?.dataTransfer"
+        @drop.stop.prevent="drop($event.dataTransfer)"
         class="absolute inset-0 w-full h-full"
       />
 
       <input
-        @change="emit('input', $event.target.files)"
+        @change="emit('input', ($event.target as HTMLInputElement).files)"
         :accept="props.accept"
         type="file"
         ref="file"
@@ -81,7 +81,7 @@
   import { Button } from '/src/components'
 
   const emit = defineEmits<{
-    (event: 'input', value: FileList): void
+    (event: 'input', value: FileList | null): void
   }>()
 
   const props = defineProps<{
@@ -95,8 +95,9 @@
     dragging: false,
   })
 
-  const drop = (dataTransfer: DataTransfer) => {
+  const drop = (dataTransfer: DataTransfer | null) => {
     state.dragging = false
+
     if (dataTransfer && dataTransfer.files) {
       emit('input', dataTransfer.files)
     }

@@ -10,16 +10,33 @@
       isTop
     />
     <Button
-      @click="store.project.arePointsVisible = !store.project.arePointsVisible"
-      :icon="store.project?.arePointsVisible ? EyeIcon : EyeOffIcon"
+      @click="
+        store.project.mapviewSettings.arePointsVisible =
+          !store.project.mapviewSettings.arePointsVisible
+      "
+      :icon="
+        store.project?.mapviewSettings.arePointsVisible ? EyeIcon : EyeOffIcon
+      "
     />
     <Button
-      @click="store.project.arePointsLinked = !store.project.arePointsLinked"
-      :icon="store.project?.arePointsLinked ? ShareIcon : DotsIcon"
+      @click="
+        store.project.mapviewSettings.arePointsLinked =
+          !store.project.mapviewSettings.arePointsLinked
+      "
+      :icon="
+        store.project?.mapviewSettings.arePointsLinked ? ShareIcon : DotsIcon
+      "
     />
     <Button
-      @click="store.project.arePointsLocked = !store.project.arePointsLocked"
-      :icon="store.project?.arePointsLocked ? LockClosedIcon : LockOpenIcon"
+      @click="
+        store.project.mapviewSettings.arePointsLocked =
+          !store.project.mapviewSettings.arePointsLocked
+      "
+      :icon="
+        store.project?.mapviewSettings.arePointsLocked
+          ? LockClosedIcon
+          : LockOpenIcon
+      "
     />
   </div>
 </template>
@@ -46,17 +63,7 @@
 
   const state = reactive({
     pointStateSelected: 0,
-    pointStateValues: [
-      `<span class="md:hidden">${t(
-        'Number'
-      )}</span><span class="hidden md:block">${t('Show the number')}</span>`,
-      `<span class="md:hidden">${t(
-        'Value'
-      )}</span><span class="hidden md:block">${t('Show the value')}</span>`,
-      `<span class="md:hidden">${t(
-        'Nothing'
-      )}</span><span class="hidden md:block">${t('Show nothing')}</span>`,
-    ],
+    pointStateValues: [t('Number'), t('Value'), t('Nothing')],
   })
 
   const setPointsState = (n: number) => {
@@ -65,13 +72,13 @@
     if (store.project) {
       switch (n) {
         case 0:
-          store.project.pointsState = 'number' as PointState
+          store.project.mapviewSettings.pointsState = 'number' as PointState
           break
         case 1:
-          store.project.pointsState = 'value' as PointState
+          store.project.mapviewSettings.pointsState = 'value' as PointState
           break
         case 2:
-          store.project.pointsState = 'nothing' as PointState
+          store.project.mapviewSettings.pointsState = 'nothing' as PointState
           break
       }
     }
@@ -91,9 +98,9 @@ en:
 fr:
   'Point:': 'Point :'
   'Display number within points': 'Afficher le nombre des points'
-  'Number': 'Nombre'
+  'Number': 'Numéro'
   'Value': 'Valeur'
-  'Nothing': 'Rien'
+  'Nothing': 'Vide'
   'Show the value': 'Afficher la valeur'
   'Show the number': 'Afficher le numéro'
   'Show nothing': 'Ne rien afficher'

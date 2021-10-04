@@ -12,25 +12,30 @@
     <template v-slot:dialog>
       <div class="space-y-2">
         <Input
-          v-for="information in state.informations"
-          :key="information.name"
-          :id="`${props.preID}informations-${information.name}`"
-          :label="information.name"
-          @input="(value) => setValue(information, value)"
+          :id="`${props.preID}informations-name`"
+          :label="t('Name')"
+          @input="(value) => (state.name = value as string)"
+          :value="state.name"
+          type="text"
+        />
+        <Input
+          v-for="field in props.entity.informations"
+          :key="field.name"
+          :id="`${props.preID}informations-${field.name}`"
+          :label="t(field.name)"
+          @input="(value) => setValue(field, value)"
           :value="
             String(
-              information.value.kind
-                ? information.value.value
-                : information.value
+              typeof field.value === 'object' ? field.value.value : field.value
             )
           "
-          :type="information.value.kind || typeof information.value"
-          :step="information.value.step"
-          :min="information.value.min"
-          :max="information.value.max"
-          :list="information.value.possibleValues"
-          :strict="information.value.strict"
-        ></Input>
+          :type="getType(field)"
+          :step="field.value.step"
+          :min="field.value.min"
+          :max="field.value.max"
+          :list="field.value.possibleValues"
+          :strict="field.value.strict"
+        />
       </div>
     </template>
   </Dialog>
@@ -47,23 +52,26 @@
 
   const { t } = useI18n()
 
-  const props = defineProps({
-    preID: String,
-    informations: Array,
-  })
+  const props = defineProps<{
+    preID: string
+    entity: MachineProject | MachineReport
+  }>()
 
   const state = reactive({
+    name: '',
     informations: [],
   })
 
   const importInformations = () => {
-    state.informations = cloneDeep(props.informations)
+    state.name = props.entity.name
+    state.informations = cloneDeep(props.entity.informations)
   }
 
   const exportInformations = () => {
-    if (props.informations) {
-      props.informations.length = 0
-      props.informations.push(...state.informations)
+    if (props.entity.informations) {
+      props.entity.name = state.name
+      props.entity.informations.length = 0
+      props.entity.informations.push(...state.informations)
     }
   }
 
@@ -74,13 +82,42 @@
       information.value = value
     }
   }
+
+  const getType = (field: Field) =>
+    (typeof field.value === 'object' && field.value.kind) || typeof field.value
 </script>
 
 <i18n lang="yaml">
 en:
-  'Informations': 'Informations'
   'View informations': 'View informations'
-fr:
   'Informations': 'Informations'
+  'Name': 'Name'
+  'Client': 'Client'
+  'Folder': 'Folder'
+  'Locality': 'Locality'
+  'Date': 'Date'
+  'Work': 'Work'
+  'Comment': 'Comment'
+  'Operator': 'Operator'
+  'Track': 'Track'
+  'Direction': 'Direction'
+  'Work part': 'Work part'
+  'Climate': 'Climate'
+  'Temperature': 'Temperature'
+fr:
   'View informations': 'Voir les informations'
+  'Informations': 'Informations'
+  'Name': 'Nom'
+  'Client': 'Client'
+  'Folder': 'Dossier'
+  'Locality': 'Localité'
+  'Date': 'Date'
+  'Work': 'Ouvrage'
+  'Comment': 'Commentaire'
+  'Operator': 'Opérateur'
+  'Track': 'Voie'
+  'Direction': 'Direction'
+  'Work part': 'Partie ouvrage'
+  'Climate': 'Climat'
+  'Temperature': 'Température'
 </i18n>

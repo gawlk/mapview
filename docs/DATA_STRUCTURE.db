@@ -1,19 +1,19 @@
 Table Project {
 ref ref [pk, increment]
-reports Report[] [ref: < Report.ref]
+reports MachineReport[] [ref: < MachineReport.ref]
 images MapImage[] [ref: < MapImage.ref]
 database Database [ref: < Database.ref]
 addtionalFields Field[]
 }
 
-Table Report {
+Table MachineReport {
 ref ref [pk, increment] // auto-increment
 points Point[] [ref: < Point.ref]
 line Line [ref: < Line.ref]
 thresholds Threshold[] [ref: > Threshold.ref]
 thresholdCustom ThresholdCustom [ref: > ThresholdCustom.ref]
 thresholdColors String[]
-images ReportImage[] [ref: < ReportImage.ref]
+images MachineReportImage[] [ref: < MachineReportImage.ref]
 platforms Platforms [ref: < Platforms.ref]
 addtionalFields Field[]
 }
@@ -61,7 +61,7 @@ valueMin Unit
 valueMax Unit
 }
 
-Table ReportImage {
+Table MachineReportImage {
 ref ref [pk, increment] // auto-increment
 data string
 }

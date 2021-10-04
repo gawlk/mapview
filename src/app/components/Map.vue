@@ -5,7 +5,7 @@
 <script setup lang="ts">
   import { onMounted } from 'vue'
 
-  import { createMap } from '/src/scripts/map/map'
+  import { createMap } from '/src/scripts'
   import store from '/src/store'
 
   onMounted(() => {

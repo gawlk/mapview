@@ -15,7 +15,7 @@
   import { ColorSwatchIcon, DotsHorizontalIcon } from '@heroicons/vue/solid'
 
   import store from '/src/store'
-  import { stylesURLs } from '/src/scripts/map/map'
+  import { mapStyles } from '/src/scripts'
 
   import { Listbox } from '/src/components'
 
@@ -38,6 +38,10 @@
   const setStyle = (index: number) => {
     state.index = index
 
-    store.map?.setStyle(stylesURLs[index])
+    const style = mapStyles[index]
+
+    store.mapStyle = style
+
+    store.map?.setStyle(style)
   }
 </script>

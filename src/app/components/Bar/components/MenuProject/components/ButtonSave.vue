@@ -1,5 +1,7 @@
 <template>
-  <Button full :leftIcon="SaveIcon" orange>{{ t('Save project') }}</Button>
+  <Button full :leftIcon="SaveIcon" orange>
+    {{ t('Save project') }}
+  </Button>
 </template>
 
 <script setup lang="ts">

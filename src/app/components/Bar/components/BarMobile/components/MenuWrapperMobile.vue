@@ -10,7 +10,9 @@
     class="flex flex-col items-center justify-center w-full p-2 text-gray-400  focus:outline-none"
   >
     <component :is="props.icon" class="w-5 h-5" />
-    <span class="text-xs font-medium leading-6">{{ props.name }}</span>
+    <span class="text-xs font-medium leading-6">
+      {{ props.name }}
+    </span>
   </button>
   <div
     v-if="props.opened"
@@ -28,9 +30,9 @@
   }>()
 
   const props = defineProps<{
+    disabled: boolean
     icon: () => any
     name: string
-    opened: boolean
-    disabled: boolean
+    opened?: boolean
   }>()
 </script>

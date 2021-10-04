@@ -1,9 +1,12 @@
 <template>
   <Listbox
     :icon="ViewBoardsIcon"
-    :values="store.project?.selectedReport.dataSettings.keys"
+    :values="
+      store.project?.selectedReport?.dropsSettings.data.names.map((name) =>
+        t(name)
+      )
+    "
     :preSelected="t('Columns:')"
-    selected="D0, D200, D400"
     full
     isTop
   />

@@ -5,17 +5,22 @@
       :values="store.project?.reports.map((r) => r.name)"
       :preSelected="t('Report:')"
       :selected="store.project?.selectedReport?.name"
+      @selectIndex="
+        (index) =>
+          store.project &&
+          (store.project.selectedReport = store.project?.reports[index])
+      "
       full
       isTop
     />
-    <Button @click="inputFile.click()" :icon="PlusIcon" />
+    <!-- <Button @click="inputFile.click()" :icon="PlusIcon" />
     <input
       @change="addReport($event.target.files[0])"
       accept="image/*"
       type="file"
       ref="inputFile"
       class="hidden"
-    />
+    /> -->
   </div>
 </template>
 
@@ -35,7 +40,6 @@
 
   const addReport = (reportFile: File) => {
     if (reportFile) {
-      // createImageMap(store.map, image, 'test')
     }
   }
 </script>

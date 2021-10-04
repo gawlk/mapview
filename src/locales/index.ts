@@ -1,4 +1,4 @@
-export const getBrowserLocale = (languageCodeOnly = false) => {
+export const getBrowserLocale = (languageCodeOnly: boolean = false) => {
   if (!navigator.language) {
     return undefined
   }

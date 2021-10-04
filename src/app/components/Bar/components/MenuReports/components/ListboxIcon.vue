@@ -4,18 +4,24 @@
     @selectIndex="setIcon"
     :icon="ColorSwatchIcon"
     :preSelected="t('Icon:')"
-    :selected="state.pointIconValues[state.pointIconSelected]"
-    :values="state.pointIconValues"
+    :selected="
+      pointIconValues[
+        Object.keys(icons).findIndex(
+          (name) =>
+            name === store.project?.selectedReport?.mapviewSettings.iconName
+        )
+      ]
+    "
+    :values="pointIconValues"
     isTop
   />
 </template>
 
 <script setup lang="ts">
-  import { reactive } from 'vue'
   import { useI18n } from 'vue-i18n'
 
   import store from '/src/store'
-  import { icons } from '/src/scripts/map/icon'
+  import { icons } from '/src/scripts'
 
   import { ColorSwatchIcon } from '@heroicons/vue/solid'
 
@@ -23,22 +29,20 @@
 
   const { t } = useI18n()
 
-  const state = reactive({
-    pointIconSelected: 0,
-    pointIconValues: Object.keys(icons).map((key) => {
-      return `<div class="flex space-x-1.5">
+  const pointIconValues = Object.keys(icons).map((key) => {
+    return `<div class="flex space-x-1.5">
         <div class="ml-1">
-          ${icons[key]}
+          ${icons[key as IconName]}
         </div>
         <span>${t(key)}</span>
       </div>`
-    }),
   })
 
   const setIcon = (index: number) => {
     if (store.project?.selectedReport) {
-      store.project.selectedReport.icon = Object.keys(icons)[index]
-      state.pointIconSelected = index
+      store.project.selectedReport.mapviewSettings.iconName = Object.keys(
+        icons
+      )[index] as IconName
     }
   }
 </script>

@@ -1,7 +1,7 @@
 <template>
   <Popover
     as="div"
-    :class="[props.full && 'w-full']"
+    :class="[props.full ? 'w-full' : '']"
     class="relative inline-block text-left"
   >
     <PopoverButton
@@ -33,7 +33,7 @@
   import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue'
   import { ChevronDownIcon } from '@heroicons/vue/solid'
 
-  import { Button, TransitionDropdown } from '.'
+  import { TransitionDropdown } from '.'
 
   const props = defineProps<{
     buttonText: string

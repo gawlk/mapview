@@ -24,7 +24,7 @@
 
   const { t } = useI18n()
 
-  const menus = [
+  const menus: MenuProp[] = [
     {
       name: t('Project'),
       icon: FolderOpenIcon,
@@ -39,16 +39,19 @@
       name: t('Reports'),
       icon: DocumentReportIcon,
       component: MenuReports,
+      needsReport: true,
     },
     {
       name: t('Points'),
       icon: DotsIcon,
       component: MenuPoints,
+      needsReport: true,
     },
     {
       name: t('Data'),
       icon: TableIcon,
       component: MenuData,
+      needsReport: true,
     },
   ].map((menu) => shallowReactive(menu))
 </script>

@@ -9,7 +9,7 @@
         ]"
         class="flex items-center justify-between w-full px-4 py-2 space-x-4 text-sm font-medium leading-6 truncate transition-colors duration-200 rounded-lg  group focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500"
       >
-        <div class="flex items-center truncate">
+        <div class="flex items-center">
           <component
             v-if="props.icon"
             :is="props.icon"
@@ -32,9 +32,9 @@
             class="ml-1 truncate"
             v-html="
               props.selectedReplacement ||
-              (props.values.includes(props.selected)
+              (props.values?.includes(props.selected as string)
                 ? props.selected
-                : props.values[0])
+                : props.values?.[0])
             "
           />
         </div>
@@ -99,7 +99,6 @@
 <script setup lang="ts">
   import {
     Listbox,
-    ListboxLabel,
     ListboxButton,
     ListboxOptions,
     ListboxOption,
@@ -116,7 +115,7 @@
   const props = defineProps<{
     values?: string[]
     selected?: string | number
-    icon?: () => any
+    icon?: any
     preSelected?: string
     selectedReplacement?: string
     full?: boolean

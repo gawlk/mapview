@@ -1,13 +1,18 @@
 <template>
-  <div class="text-center space-x-2 p-1 text-sm font-medium">
+  <div class="p-1 space-x-1 text-sm font-medium text-center">
     <span class="text-gray-500">
       {{ t('Name:') }}
     </span>
-    <span class="font-semibold">Name</span>
+    <span class="font-semibold">{{ store.project?.name }}</span>
+    <span class="font-bold text-gray-300">·</span>
+    <span class="text-gray-500">
+      {{ t('Machine:') }}
+    </span>
+    <span class="font-semibold">{{ store.project?.database.machine }}</span>
   </div>
   <DialogInformations
     preID="project-"
-    :informations="store.project?.informations"
+    :entity="(store.project as MachineProject)"
   />
   <DialogConfigurations />
   <ButtonChange />
@@ -29,7 +34,9 @@
 
 <i18n lang="yaml">
 en:
+  'Machine:': 'Machine:'
   'Name:': 'Name:'
 fr:
+  'Machine:': 'Machine:'
   'Name:': 'Nom :'
 </i18n>

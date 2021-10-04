@@ -2,7 +2,7 @@
   <div class="space-y-2">
     <DragAndDrop
       @input="openFiles"
-      accept=".rptz, .dynz, .txt"
+      accept=".json, .prjz"
       :buttonText="t('Open a file')"
     >
       {{ t('Drop a file here or click here to choose one') }}
@@ -28,7 +28,7 @@
   import { useI18n } from 'vue-i18n'
 
   import store from '/src/store'
-  import { createProject } from '/src/scripts/project/project'
+  import { importFile } from '/src/scripts'
 
   import { Button, DragAndDrop } from '/src/components'
   import {
@@ -39,29 +39,40 @@
 
   const { t } = useI18n()
 
-  const openFiles = () => {
-    initProject()
+  const openFiles = (files: File[]) => {
+    const file = files[0]
+
+    if (file) {
+      importFile(file)
+    }
   }
 
-  const openMinidynDemo = () => {
-    initProject()
+  const getDemoFile = async (machineName: MachineName) => {
+    const url = `${window.location.href}/demos/${machineName}.json`
+
+    const response = await fetch(url)
+
+    const blob = await response.blob()
+
+    return new File([blob], `${machineName}.json`)
   }
 
-  const openHeavydynDemo = () => {
-    initProject()
+  const openMinidynDemo = async () => {
+    const file = await getDemoFile('minidyn')
+
+    importFile(file)
   }
 
-  const openMaxidynDemo = () => {
-    initProject()
+  const openHeavydynDemo = async () => {
+    const file = await getDemoFile('minidyn')
+
+    importFile(file)
   }
 
-  const initProject = () => {
-    const interval = setInterval(() => {
-      if (store.map?.isStyleLoaded()) {
-        store.project = createProject('test project', store.map)
-        clearInterval(interval)
-      }
-    }, 100)
+  const openMaxidynDemo = async () => {
+    const file = await getDemoFile('minidyn')
+
+    importFile(file)
   }
 </script>
 

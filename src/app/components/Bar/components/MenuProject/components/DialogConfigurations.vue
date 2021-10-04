@@ -4,30 +4,40 @@
       {{ t('See configurations') }}
     </template>
     <template v-slot:dialog>
-      <div class="space-y-2">
-        <div
-          v-for="unit in store.project?.units"
-          :key="unit.name"
-          class="flex space-x-2"
-        >
-          <Input
-            :id="`${unit.name} unit`"
-            :label="`${unit.name} unit`"
-            type="selectableString"
-            @input="(value) => (unit.currentUnit = value)"
-            :value="unit.currentUnit"
-            :list="unit.possibleSettings.map((setting) => setting[0])"
-            strict
-          />
-          <Input
-            :id="`${unit.name} precision`"
-            :label="`${unit.name} precision`"
-            type="selectableString"
-            @input="(value) => (unit.currentPrecision = Number(value))"
-            :value="unit.currentPrecision"
-            :list="unit.possiblePrecisions"
-            strict
-          />
+      <div class="space-y-6 sm:space-y-6">
+        <h4 class="pl-4 text-lg font-medium leading-6">
+          {{ t('Units') }}
+        </h4>
+        <div class="space-y-4">
+          <div
+            v-for="unit in store.project?.units"
+            :key="unit.name"
+            class="space-y-1"
+          >
+            <h5 class="pl-4 font-medium text-gray-700">
+              {{ t(unit.name) }}
+            </h5>
+            <div class="space-y-2 sm:space-y-0 sm:space-x-2 sm:flex">
+              <Input
+                :id="`${unit.name} unit`"
+                :label="t('Unit')"
+                type="selectableString"
+                @input="(value) => (unit.currentUnit = value as string)"
+                :value="unit.currentUnit"
+                :list="unit.possibleSettings.map((setting) => setting[0])"
+                strict
+              />
+              <Input
+                :id="`${unit.name} precision`"
+                :label="t('Precision')"
+                type="selectableString"
+                @input="(value) => (unit.currentPrecision = Number(value))"
+                :value="unit.currentPrecision"
+                :list="unit.possiblePrecisions"
+                strict
+              />
+            </div>
+          </div>
         </div>
       </div>
     </template>
@@ -50,9 +60,19 @@
 en:
   'Configurations': 'Configurations'
   'See configurations': 'See configurations'
-  'Deformation:': 'Deformation:'
+  'Units': 'Units'
+  'Unit': 'Unit'
+  'Precision': 'Precision'
+  'Deformation': 'Deformation'
+  'Force': 'Force'
+  'Temperature': 'Temperature'
 fr:
   'Configurations': 'Configurations'
   'See configurations': 'Voir les configurations'
-  'Deformation:': 'Déflexion:'
+  'Units': 'Unités'
+  'Unit': 'Unité'
+  'Precision': 'Précision'
+  'Deformation': 'Déflexion'
+  'Force': 'Force'
+  'Temperature': 'Température'
 </i18n>

@@ -1,0 +1,302 @@
+{
+  "name": "Demo Minidyn",
+  "database": {
+    "machine": "minidyn",
+    "software": "mapview",
+    "version": 3
+  },
+  "mapviewSettings": {
+    "coordinates": {
+      "lng": -74.5,
+      "lat": 40
+    },
+    "zoom": "9",
+    "arePointsLinked": true,
+    "arePointsLocked": true,
+    "arePointsVisible": true,
+    "areImagesVisible": true,
+    "pointsState": "number"
+  },
+  "units": [],
+  "images": [
+    {
+      "name": "screen.jpeg",
+      "opacity": 0.5,
+      "coordinates": {
+        "nw": { "lng": -74.66342163086014, "lat": 39.91526133679724 },
+        "se": { "lng": -74.31323242187531, "lat": 39.784982356239794 }
+      }
+    }
+  ],
+  "informations": [
+    {
+      "name": "Client",
+      "value": "Rincent NDT"
+    },
+    {
+      "name": "Folder",
+      "value": "21-1258"
+    },
+    {
+      "name": "Locality",
+      "value": "Bordeaux"
+    },
+    {
+      "name": "Date",
+      "value": "09/03/2020"
+    },
+    {
+      "name": "Work",
+      "value": "Parc de Bercy"
+    },
+    {
+      "name": "Comment",
+      "value": ""
+    }
+  ],
+  "reports": [
+    {
+      "name": "Report 1",
+      "mapviewSettings": {
+        "iconName": "circle",
+        "isVisible": true
+      },
+      "thresholdSettings": {
+        "current": "PF2",
+        "custom": {}
+      },
+      "loadBearingCapacity": {
+        "Nom": "Ecor Exp.",
+        "AlgoRaideur": "Max",
+        "AlgoProcessing1": "Boussinesq",
+        "AlgoProcessing2": "Cor. exponentielle",
+        "DPlaque": 0.3,
+        "CPoisson": 0.35,
+        "FForme": 4,
+        "K": 2.34,
+        "Alpha": 0.86,
+        "MinPortance": 10,
+        "MaxPortance": 110
+      },
+      "machine": {
+        "serial": "MIN-117E",
+        "assignment": "Rincent NDT",
+        "MAC": "A0-B4-14-A7-84-A8-74-36",
+        "licenceStart": "06/12/2019",
+        "licenceEnd": "13/08/2033",
+        "certificationStart": "06/12/2019",
+        "certificationEnd": "26/12/2020"
+      },
+      "dropsSettings": {
+        "count": {
+          "training": 1,
+          "total": 3,
+          "selected": 1
+        },
+        "data": {
+          "selected": 0,
+          "names": [
+            "Load bearing cap.",
+            "Quality",
+            "Max. load",
+            "Max. displacement",
+            "Pulse time"
+          ]
+        }
+      },
+      "screenshots": [0, 13, 4],
+      "platform": [
+        {
+          "name": "Type",
+          "value": "Voirie"
+        },
+        {
+          "name": "Support",
+          "value": ""
+        },
+        {
+          "name": "Layer",
+          "value": "Couche de forme"
+        },
+        {
+          "name": "Material",
+          "value": "Sablon"
+        },
+        {
+          "name": "GTR",
+          "value": "N.S"
+        }
+      ],
+      "informations": [
+        {
+          "name": "Date",
+          "value": "09/03/2020"
+        },
+        {
+          "name": "Operator",
+          "value": "Sébastien Pellevrault"
+        },
+        {
+          "name": "Track",
+          "value": "11 Quai de Conti PARIS"
+        },
+        {
+          "name": "Direction",
+          "value": "Gauche"
+        },
+        {
+          "name": "Work part",
+          "value": "Voie Vélo"
+        },
+        {
+          "name": "Climate",
+          "value": "Enseillé"
+        },
+        {
+          "name": "Temperature",
+          "value": 12
+        },
+        {
+          "name": "Comment",
+          "value": ""
+        }
+      ],
+      "points": [
+        {
+          "coordinates": {
+            "lat": 48.85606,
+            "lng": 2.338203
+          },
+          "data": {
+            "DOP": 1.0,
+            "Chainage": 0
+          },
+          "informations": [
+            { "name": "Comment", "value": "" },
+            {
+              "name": "Date",
+              "value": "09/03/2021 12:07"
+            }
+          ],
+          "drops": [
+            {
+              "Portance": 39.2,
+              "Qualite": "NaN",
+              "Fmax": 7.2,
+              "Umax": 793.2,
+              "PulseTime": 14.6
+            },
+            {
+              "Portance": 43.4,
+              "Qualite": "NaN",
+              "Fmax": 8.2,
+              "Umax": 805.4,
+              "PulseTime": 13.7
+            },
+            {
+              "Portance": 38.5,
+              "Qualite": "NaN",
+              "Fmax": 7.5,
+              "Umax": 849.0,
+              "PulseTime": 15.1
+            }
+          ]
+        },
+        {
+          "coordinates": {
+            "lat": 48.856117,
+            "lng": 2.338184
+          },
+          "data": {
+            "DOP": 1.0,
+            "Chainage": 0
+          },
+          "informations": [
+            { "name": "Comment", "value": "" },
+            {
+              "name": "Date",
+              "value": "09/03/2021 12:08"
+            }
+          ],
+          "drops": [
+            {
+              "Portance": 42.5,
+              "Qualite": "NaN",
+              "Fmax": 7.6,
+              "Umax": 761.3,
+              "PulseTime": 14.7
+            },
+            {
+              "Portance": 44.3,
+              "Qualite": "NaN",
+              "Fmax": 7.6,
+              "Umax": 725.1,
+              "PulseTime": 15.0
+            },
+            {
+              "Portance": 46.3,
+              "Qualite": "NaN",
+              "Fmax": 7.6,
+              "Umax": 690.1,
+              "PulseTime": 14.6
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Report 2",
+      "mapviewSettings": {
+        "iconName": "square",
+        "isVisible": true
+      },
+      "thresholdSettings": {
+        "current": "PF2",
+        "custom": {}
+      },
+      "loadBearingCapacity": {
+        "Nom": "Ecor Exp.",
+        "AlgoRaideur": "Max",
+        "AlgoProcessing1": "Boussinesq",
+        "AlgoProcessing2": "Cor. exponentielle",
+        "DPlaque": 0.3,
+        "CPoisson": 0.35,
+        "FForme": 4,
+        "K": 2.34,
+        "Alpha": 0.86,
+        "MinPortance": 10,
+        "MaxPortance": 110
+      },
+      "machine": {
+        "serial": "MIN-117E",
+        "assignment": "Rincent NDT",
+        "MAC": "A0-B4-14-A7-84-A8-74-36",
+        "licenceStart": "06/12/2019",
+        "licenceEnd": "13/08/2033",
+        "certificationStart": "06/12/2019",
+        "certificationEnd": "26/12/2020"
+      },
+      "dropsSettings": {
+        "count": {
+          "training": 1,
+          "total": 3,
+          "selected": 3
+        },
+        "data": {
+          "selected": 2,
+          "names": [
+            "Load bearing cap.",
+            "Quality",
+            "Max. load",
+            "Max. displacement",
+            "Pulse time"
+          ]
+        }
+      },
+      "screenshots": [],
+      "platform": [],
+      "informations": [],
+      "points": []
+    }
+  ]
+}

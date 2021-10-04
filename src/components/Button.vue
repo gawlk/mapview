@@ -59,7 +59,7 @@
       <slot />
     </span>
     <component
-      v-if="!props.icon && (props.leftIcon || props.rightIcon)"
+      v-if="props.rightIcon"
       :is="props.rightIcon || 'span'"
       :class="[iconsColors, iconsClasses]"
       class="w-5 h-5 transition-colors duration-200"
@@ -90,14 +90,14 @@
   }>()
 
   const iconsColors = props.dark
-    ? 'text-gray-500 group-hover:text-gray-400'
+    ? `text-gray-500 ${props.disabled ? '' : 'group-hover:text-gray-400'}`
     : props.blue
-    ? 'text-blue-500 group-hover:text-blue-600'
+    ? `text-blue-500 ${props.disabled ? '' : 'group-hover:text-blue-600'}`
     : props.green
-    ? 'text-green-500 group-hover:text-green-600'
+    ? `text-green-500 ${props.disabled ? '' : 'group-hover:text-green-600'}`
     : props.red
-    ? 'text-red-500 group-hover:text-red-600'
+    ? `text-red-500 ${props.disabled ? '' : 'group-hover:text-red-600'}`
     : props.orange
-    ? 'text-orange-500 group-hover:text-orange-600'
-    : 'text-gray-400 group-hover:text-gray-500'
+    ? `text-orange-500 ${props.disabled ? '' : 'group-hover:text-orange-600'}`
+    : `text-gray-400 ${props.disabled ? '' : 'group-hover:text-gray-500'}`
 </script>

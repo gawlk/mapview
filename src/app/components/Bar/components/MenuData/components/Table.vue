@@ -2,26 +2,26 @@
   <table class="w-full text-sm font-medium">
     <thead class="h-8 text-gray-500">
       <td />
-      <td class="font-bold text-center">
-        {{ t('Number') }}
-      </td>
+      <td />
       <td
-        v-for="key in store.project?.selectedReport.dataSettings.keys"
+        v-for="key in store.project?.selectedReport?.dropsSettings.data.names"
         :key="key"
         :class="[
-          key !== store.project?.selectedReport?.dataSettings.selected &&
-            'opacity-50',
+          key !==
+            store.project?.selectedReport?.dropsSettings.data.names[
+              store.project?.selectedReport?.dropsSettings.data.selected
+            ] && 'opacity-50',
         ]"
         class="font-bold text-right"
       >
-        {{ key }}
+        {{ t(key) }}
       </td>
       <td />
     </thead>
     <tbody>
       <tr class="h-0.5" />
       <tr
-        v-for="(point, index) in store.project?.selectedReport.points"
+        v-for="(point, index) in store.project?.selectedReport?.points"
         :key="index"
       >
         <td class="text-left">
@@ -29,15 +29,17 @@
         </td>
         <td class="font-bold text-center">{{ point.number }}</td>
         <td
-          v-for="key in store.project?.selectedReport?.dataSettings.keys"
+          v-for="key in store.project?.selectedReport?.dropsSettings.data.names"
           :key="`${index}-${key}`"
           :class="[
-            key !== store.project?.selectedReport?.dataSettings.selected &&
-              'opacity-50',
+            key !==
+              store.project?.selectedReport?.dropsSettings.data.names[
+                store.project?.selectedReport?.dropsSettings.data.selected
+              ] && 'opacity-50',
           ]"
           class="font-bold text-right text-red-800"
         >
-          {{ point.finalData[key].displayString || point.finalData[key].value }}
+          <!-- {{ point.finalData[key].displayString || point.finalData[key].value }} -->
         </td>
         <td class="text-right">
           <Button sm :icon="EyeIcon" />
@@ -60,8 +62,14 @@
 </script>
 
 <i18n lang="yaml">
-en:
-  'Number': 'Number'
-fr:
-  'Number': 'Numéro'
+'en':
+  'Load bearing cap.': 'LBC'
+  'Max. load': 'Load'
+  'Max. displacement': 'Disp.'
+  'Pulse time': 'Pulse'
+'fr':
+  'Load bearing cap.': 'Portance'
+  'Max. load': 'F. max.'
+  'Max. displacement': 'D. max.'
+  'Pulse time': 'Impulsion'
 </i18n>

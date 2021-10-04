@@ -1,17 +1,15 @@
 <template>
   <div
-    class="
-      px-4
-      py-2
-      text-sm
-      font-medium
-      text-red-900 text-center
-      bg-red-200
-      leading-6
-      rounded-lg
-    "
+    class="px-4 py-2 text-sm font-medium leading-6 text-center text-red-900 bg-red-200 rounded-lg "
   >
-    {{ t('Average') }} D200 : <strong class="font-bold">45.6 um</strong>
+    {{ t('Average') }}
+    {{
+      t(store.project?.selectedReport?.dropsSettings.data.names[
+        store.project?.selectedReport?.dropsSettings.data.selected
+      ] as string)
+    }}
+    :
+    <strong class="font-bold">45.6 um</strong>
   </div>
   <ListboxColumns />
   <Table />

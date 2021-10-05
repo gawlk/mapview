@@ -60,6 +60,35 @@ export const importFile = async (file: File) => {
             )
           }
         })
+
+        const screenshots = Object.keys(zip)
+          .filter((key) => key.startsWith('screenshots/'))
+          .map((key) => key.substring(12))
+          .filter((key) => key)
+
+        for (let i = 0; i < JSONProject.reports.length; i++) {
+          const report = JSONProject.reports[i]
+
+          report.screenshots.forEach(async (screenshotIndex) => {
+            const screenshotFileName = screenshots.find(
+              (screenshot) =>
+                Number(screenshot.split('.')[0]) === screenshotIndex
+            )
+
+            if (screenshotFileName) {
+              const array = zip[`screenshots/${screenshotFileName}`]
+
+              if (store.project && store.map) {
+                const data64 = Uint8ArrayToData64Image(
+                  array,
+                  screenshotFileName.split('.').pop() as string
+                )
+
+                store.project.reports[i].screenshots.push(data64)
+              }
+            }
+          })
+        }
       }
   }
 }

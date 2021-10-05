@@ -39,8 +39,8 @@
 
   const { t } = useI18n()
 
-  const openFiles = (files: File[]) => {
-    const file = files[0]
+  const openFiles = (files: FileList | null) => {
+    const file = files?.[0]
 
     if (file) {
       importFile(file)

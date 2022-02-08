@@ -1,41 +1,9 @@
-<template>
-  <div class="space-y-2">
-    <DragAndDrop
-      @input="openFiles"
-      accept=".json, .prjz"
-      :buttonText="t('Open a file')"
-    >
-      {{ t('Drop a file here or click here to choose one') }}
-    </DragAndDrop>
-    <Button
-      @click="openMinidynDemo"
-      full
-      :leftIcon="VideoCameraIcon"
-      iconsClasses="-rotate-90"
-    >
-      {{ t('Try Minidyn demo') }}
-    </Button>
-    <Button @click="openHeavydynDemo" full :leftIcon="ShoppingCartIcon">
-      {{ t('Try Heavydyn demo') }}
-    </Button>
-    <Button @click="openMaxidynDemo" full :leftIcon="TruckIcon">
-      {{ t('Try Maxidyn demo') }}
-    </Button>
-  </div>
-</template>
-
 <script setup lang="ts">
-  import { useI18n } from 'vue-i18n'
-
-  import store from '/src/store'
   import { importFile } from '/src/scripts'
 
-  import { Button, DragAndDrop } from '/src/components'
-  import {
-    VideoCameraIcon,
-    ShoppingCartIcon,
-    TruckIcon,
-  } from '@heroicons/vue/solid'
+  import IconBeaker from '~icons/heroicons-solid/beaker'
+  import IconSave from '~icons/heroicons-solid/save'
+  import store from '/src/store'
 
   const { t } = useI18n()
 
@@ -47,46 +15,64 @@
     }
   }
 
-  const getDemoFile = async (machineName: MachineName) => {
-    const url = `${window.location.href}/demos/${machineName}/demo.prjz`
+  const getDemoFile = async (path: string) => {
+    const url = `${window.location.href}/demos/${path}`
 
     const response = await fetch(url)
 
     const blob = await response.blob()
 
-    return new File([blob], `${machineName}.prjz`)
+    return new File([blob], path.split('/').pop() as string)
   }
 
-  const openMinidynDemo = async () => {
-    const file = await getDemoFile('minidyn')
+  const openDemo = async () => {
+    // const demoMinidyn = await getDemoFile('minidyn/demo.mpvz')
+    const demoMaxidyn = await getDemoFile('maxidyn/demo.prjz')
+    const demoHeavydyn = await getDemoFile('heavydyn/demo.prjz')
 
-    importFile(file)
+    // const projectMinidyn = await importFile(demoMinidyn)
+    const projectMaxidyn = await importFile(demoMaxidyn)
+    const projectHeavydyn = await importFile(demoHeavydyn)
+
+    store.selectedProject = projectMaxidyn
   }
 
-  const openHeavydynDemo = async () => {
-    const file = await getDemoFile('minidyn')
-
-    importFile(file)
-  }
-
-  const openMaxidynDemo = async () => {
-    const file = await getDemoFile('minidyn')
-
-    importFile(file)
-  }
+  const downloadTemplates = () => {}
 </script>
+
+<template>
+  <div class="space-y-2">
+    <DragAndDrop
+      @input="openFiles"
+      accept=".prjz, .mpvz"
+      :buttonText="t('Open a file')"
+    >
+      {{ t('Drop a file here or click here to choose one') }}
+    </DragAndDrop>
+    <Button @click="openDemo" full :leftIcon="IconBeaker">
+      {{ t('Try demo') }}
+    </Button>
+    <a
+      @click="downloadTemplates"
+      full
+      :leftIcon="IconSave"
+      href="/public/demos/templates.zip"
+      download
+    >
+      {{ t('Download templates') }}
+    </a>
+  </div>
+</template>
 
 <i18n lang="yaml">
 en:
   'Open a file': 'Open a file'
   'Drop a file here or click here to choose one': 'Drop a file here or click here to choose one'
-  'Try Minidyn demo': 'Try Minidyn demo'
-  'Try Heavydyn demo': 'Try Heavydyn demo'
-  'Try Maxidyn demo': 'Try Maxidyn demo'
+  'Try demo': 'Try demo'
+  'Download templates': 'Download templates'
 fr:
   'Open a file': 'Ouvrir un fichier'
   'Drop a file here or click here to choose one': 'Glisser un fichier ici ou cliquer pour en choisir un'
-  'Try Minidyn demo': 'Essayer la demo Minidyn'
-  'Try Heavydyn demo': 'Essayer la demo Heavydyn'
-  'Try Maxidyn demo': 'Essayer la demo Maxidyn'
+  'Try demo': 'Essayer la demo'
+  'Download templates': 'Télécharger les templates'
 </i18n>

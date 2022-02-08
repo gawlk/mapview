@@ -1,19 +1,6 @@
-<template>
-  <Disclosure
-    :icon="props.icon"
-    :text="props.name"
-    @click="setOpen"
-    :defaultOpen="getOpen()"
-  >
-    <slot></slot>
-  </Disclosure>
-</template>
-
 <script setup lang="ts">
-  import { Disclosure } from '/src/components'
-
   const props = defineProps<{
-    icon: () => any
+    icon: any
     name: string
   }>()
 
@@ -25,3 +12,14 @@
   const setOpen = (open: boolean) =>
     localStorage.setItem(`isDesktopMenu${props.name}Open`, String(open))
 </script>
+
+<template>
+  <Disclosure
+    :icon="props.icon"
+    :text="props.name"
+    @click="setOpen"
+    :defaultOpen="getOpen()"
+  >
+    <slot></slot>
+  </Disclosure>
+</template>

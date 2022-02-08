@@ -1,16 +1,26 @@
-import { createBaseReport } from '../base'
+import { createBaseReportFromJSON } from '../base'
+import {
+  createHeavydynPointFromJSON,
+  createHeavydynFieldFromJSON,
+} from '/src/scripts'
 
-export const createHeavydynReport = (
-  data: JSONReport,
+export const createHeavydynReportFromJSON = (
+  json: JSONReport,
   map: mapboxgl.Map,
-  units: MathUnit[]
+  parameters: MachineReportCreatorParameters
 ) => {
-  const baseReport = createBaseReport(data, map)
+  const report: PartialMachineReport<HeavydynReport> = createBaseReportFromJSON(
+    json,
+    map,
+    {
+      machine: 'heavydyn',
+      createPointFromJSON: createHeavydynPointFromJSON,
+      createFieldFromJSON: createHeavydynFieldFromJSON,
+      ...parameters,
+    }
+  )
 
-  const report: HeavydynReport = {
-    kind: 'heavydyn' as const,
-    ...baseReport,
-  }
+  return report as HeavydynReport
 
   // const point = createPoint(1, 'circle', map.getCenter(), map)
 
@@ -33,6 +43,4 @@ export const createHeavydynReport = (
   // point2.finalData.F0 = createMathNumber(400, unitForce)
   // point2.finalData.T0 = createMathNumber(400, unitTemperature)
   // point2.finalData.P0 = createMathNumber(400, '%')
-
-  return report
 }

@@ -1,5 +1,13 @@
+<script setup lang="ts">
+  import store from '/src/store'
+
+  import IconCog from '~icons/heroicons-solid/cog'
+
+  const { t } = useI18n()
+</script>
+
 <template>
-  <Dialog :title="t('Configurations')" :buttonIcon="CogIcon">
+  <Dialog :title="t('Configurations')" :buttonIcon="IconCog">
     <template v-slot:button>
       {{ t('See configurations') }}
     </template>
@@ -10,14 +18,14 @@
         </h4>
         <div class="space-y-4">
           <div
-            v-for="unit in store.project?.units"
+            v-for="unit in store.selectedProject?.units"
             :key="unit.name"
             class="space-y-1"
           >
             <h5 class="pl-4 font-medium text-gray-700">
               {{ t(unit.name) }}
             </h5>
-            <div class="space-y-2 sm:space-y-0 sm:space-x-2 sm:flex">
+            <div class="space-y-2 sm:flex sm:space-y-0 sm:space-x-2">
               <Input
                 :id="`${unit.name} unit`"
                 :label="t('Unit')"
@@ -44,35 +52,9 @@
   </Dialog>
 </template>
 
-<script setup lang="ts">
-  import { useI18n } from 'vue-i18n'
-
-  import store from '/src/store'
-
-  import { CogIcon } from '@heroicons/vue/solid'
-
-  import { Dialog, Input } from '/src/components'
-
-  const { t } = useI18n()
-</script>
-
 <i18n lang="yaml">
 en:
-  'Configurations': 'Configurations'
   'See configurations': 'See configurations'
-  'Units': 'Units'
-  'Unit': 'Unit'
-  'Precision': 'Precision'
-  'Deformation': 'Deformation'
-  'Force': 'Force'
-  'Temperature': 'Temperature'
 fr:
-  'Configurations': 'Configurations'
   'See configurations': 'Voir les configurations'
-  'Units': 'Unités'
-  'Unit': 'Unité'
-  'Precision': 'Précision'
-  'Deformation': 'Déflexion'
-  'Force': 'Force'
-  'Temperature': 'Température'
 </i18n>

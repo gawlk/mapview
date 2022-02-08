@@ -1,31 +1,8 @@
-<template>
-  <Listbox
-    full
-    @selectIndex="setIcon"
-    :icon="ColorSwatchIcon"
-    :preSelected="t('Icon:')"
-    :selected="
-      pointIconValues[
-        Object.keys(icons).findIndex(
-          (name) =>
-            name === store.project?.selectedReport?.mapviewSettings.iconName
-        )
-      ]
-    "
-    :values="pointIconValues"
-    isTop
-  />
-</template>
-
 <script setup lang="ts">
-  import { useI18n } from 'vue-i18n'
-
   import store from '/src/store'
   import { icons } from '/src/scripts'
 
-  import { ColorSwatchIcon } from '@heroicons/vue/solid'
-
-  import { Listbox } from '/src/components'
+  import IconColorSwatch from '~icons/heroicons-solid/color-swatch'
 
   const { t } = useI18n()
 
@@ -39,17 +16,34 @@
   })
 
   const setIcon = (index: number) => {
-    if (store.project?.selectedReport) {
-      store.project.selectedReport.mapviewSettings.iconName = Object.keys(
-        icons
-      )[index] as IconName
+    if (store.selectedProject?.selectedReport) {
+      store.selectedProject.selectedReport.mapviewSettings.iconName =
+        Object.keys(icons)[index] as IconName
     }
   }
 </script>
 
+<template>
+  <Listbox
+    full
+    @selectIndex="setIcon"
+    :icon="IconColorSwatch"
+    :preSelected="`${t('Icon')}${t(':')}`"
+    :selected="
+      pointIconValues[
+        Object.keys(icons).findIndex(
+          (name) =>
+            name ===
+            store.selectedProject?.selectedReport?.mapviewSettings.iconName
+        )
+      ]
+    "
+    :values="pointIconValues"
+  />
+</template>
+
 <i18n lang="yaml">
 en:
-  'Icon:': 'Icon:'
   'circle': 'Circle'
   'triangle': 'Triangle'
   'square': 'Square'
@@ -61,7 +55,6 @@ en:
   'heptagon': 'Heptagon'
   'octagon': 'Octagon'
 fr:
-  'Icon:': 'Icône :'
   'circle': 'Cercle'
   'triangle': 'Triangle'
   'square': 'Carré'

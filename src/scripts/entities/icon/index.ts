@@ -58,6 +58,7 @@ export const createIcon = (iconName: IconName): Icon => {
       subDiv.innerHTML = icons[iconName] || icons.circle
       const svg = subDiv.firstElementChild as HTMLElement
       svg.setAttribute('fill', color)
+      svg.setAttribute('stroke', '#ff0000')
     },
   }
 

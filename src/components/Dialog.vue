@@ -4,13 +4,13 @@
       @click="open"
       full
       :leftIcon="props.buttonIcon"
-      :rightIcon="ChevronRightIcon"
+      :rightIcon="IconChevronRight"
       :blue="props.buttonBlue"
     >
       <slot name="button" />
     </Button>
     <TransitionRoot appear :show="state.isOpen" as="template">
-      <Dialog
+      <HeadlessDialog
         as="div"
         @close="close"
         class="fixed inset-0 z-10 min-h-screen overflow-y-auto text-center"
@@ -41,7 +41,7 @@
           leave-to="opacity-0 scale-95"
         >
           <div
-            class="inline-flex flex-col justify-center w-full min-h-full p-4 space-y-8 text-left align-middle transition-all transform bg-white shadow-xl  sm:min-h-0 sm:max-w-lg sm:my-8 sm:p-8 sm:rounded-2xl sm:border-2 sm:border-gray-100"
+            class="inline-flex min-h-full w-full transform flex-col justify-center space-y-8 bg-white p-4 text-left align-middle shadow-xl transition-all sm:my-8 sm:min-h-0 sm:max-w-lg sm:rounded-2xl sm:border-2 sm:border-gray-100 sm:p-8"
           >
             <DialogTitle as="h3" class="pl-4 text-2xl font-medium leading-6">
               {{ props.title }}
@@ -61,25 +61,21 @@
             </div>
           </div>
         </TransitionChild>
-      </Dialog>
+      </HeadlessDialog>
     </TransitionRoot>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { reactive } from 'vue'
-  import { useI18n } from 'vue-i18n'
-
   import {
     TransitionRoot,
     TransitionChild,
-    Dialog,
+    Dialog as HeadlessDialog,
     DialogOverlay,
     DialogTitle,
   } from '@headlessui/vue'
-  import { ChevronRightIcon } from '@heroicons/vue/solid'
 
-  import { Button } from '.'
+  import IconChevronRight from '~icons/heroicons-solid/chevron-right'
 
   const emit = defineEmits<{
     (event: 'close'): void
@@ -89,7 +85,7 @@
 
   const props = defineProps<{
     title: string
-    buttonIcon: () => void
+    buttonIcon: any
     saveable?: boolean
     buttonBlue?: boolean
   }>()
@@ -115,14 +111,3 @@
     emit('save')
   }
 </script>
-
-<i18n lang="yaml">
-en:
-  'Cancel': 'Cancel'
-  'Close': 'Close'
-  'Save': 'Save'
-fr:
-  'Cancel': 'Annuler'
-  'Close': 'Fermer'
-  'Save': 'Sauvegarder'
-</i18n>

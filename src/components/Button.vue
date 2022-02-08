@@ -3,14 +3,14 @@
     :disabled="props.disabled"
     :class="[
       props.xxl
-        ? 'text-2xl font-medium py-6 px-12 rounded-2xl'
+        ? 'rounded-2xl py-6 px-12 text-2xl font-medium'
         : props.xl
-        ? 'text-xl font-medium py-4 px-8 rounded-xl'
+        ? 'rounded-xl py-4 px-8 text-xl font-medium'
         : props.lg
-        ? 'text-base sm:text-lg font-medium p-2.5 px-5 sm:py-3 sm:px-6 rounded-xl'
+        ? 'rounded-xl p-2.5 px-5 text-base font-medium sm:py-3 sm:px-6 sm:text-lg'
         : props.sm
-        ? 'text-xs font-medium py-1 px-2 rounded-lg'
-        : 'text-sm font-medium py-2 px-4 rounded-lg',
+        ? 'rounded-lg py-1 px-2 text-xs font-medium'
+        : 'rounded-lg py-2 px-4 text-sm font-medium',
       props.dark
         ? 'bg-gray-800 text-white focus:ring-gray-600'
         : props.blue
@@ -24,8 +24,8 @@
         : props.transparent
         ? 'text-gray-900'
         : 'bg-gray-100 text-gray-900 focus:ring-gray-50',
-      !props.disabled &&
-        (props.dark
+      !props.disabled
+        ? props.dark
           ? 'hover:bg-gray-700'
           : props.blue
           ? 'hover:bg-blue-300'
@@ -35,18 +35,19 @@
           ? 'hover:bg-red-300'
           : props.orange
           ? 'hover:bg-orange-300'
-          : 'hover:bg-gray-200'),
+          : 'hover:bg-gray-200'
+        : '',
       props.full && 'w-full',
       props.truncate && 'truncate',
-      props.disabled ? 'opacity-75 cursor-default' : 'cursor-pointer',
+      props.disabled ? 'cursor-default opacity-75' : 'cursor-pointer',
     ]"
-    class="inline-flex items-center space-x-2 leading-6 transition-colors duration-200  focus:outline-none focus:ring group"
+    class="group inline-flex items-center space-x-2 leading-6 transition-colors duration-200 focus:outline-none focus:ring"
   >
     <component
       v-if="props.icon || props.leftIcon || props.rightIcon"
       :is="props.icon || props.leftIcon || 'span'"
       :class="[iconsColors, iconsClasses]"
-      class="w-5 h-5 transition-colors duration-200"
+      class="h-5 w-5 transition-colors duration-200"
     />
     <span
       v-if="!props.icon"
@@ -62,7 +63,7 @@
       v-if="props.rightIcon"
       :is="props.rightIcon || 'span'"
       :class="[iconsColors, iconsClasses]"
-      class="w-5 h-5 transition-colors duration-200"
+      class="h-5 w-5 transition-colors duration-200"
     />
   </button>
 </template>
@@ -83,9 +84,9 @@
     full?: boolean
     centered?: boolean
     truncate?: boolean
-    icon?: () => any
-    leftIcon?: () => any
-    rightIcon?: () => any
+    icon?: any
+    leftIcon?: any
+    rightIcon?: any
     iconsClasses?: string
   }>()
 

@@ -16,7 +16,7 @@ export const createMap = (container: string): mapboxgl.Map => {
   const map = new Map({
     container,
     style: window.navigator.onLine
-      ? store.mapStyle
+      ? mapStyles[store.selectedProject?.mapviewSettings.map?.styleIndex || 0]
       : { version: 8, sources: {}, layers: [] },
     center: [2.419263, 48.621551], // [lng, lat]
     zoom: 2,
@@ -29,7 +29,9 @@ export const createMap = (container: string): mapboxgl.Map => {
     window.addEventListener(
       'online',
       () => {
-        map.setStyle(store.mapStyle)
+        map.setStyle(
+          mapStyles[store.selectedProject?.mapviewSettings.map.styleIndex || 0]
+        )
       },
       {
         once: true,
@@ -46,27 +48,30 @@ export const createMap = (container: string): mapboxgl.Map => {
 
     navigator.geolocation.watchPosition((position) => {
       marker.setLngLat({
-        lon: position.coords.longitude,
+        lng: position.coords.longitude,
         lat: position.coords.latitude,
       })
     })
   }
 
+  map.on('moveend', () => {
+    if (store.selectedProject) {
+      store.selectedProject.mapviewSettings.map.coordinates = map.getCenter()
+    }
+  })
+
+  map.on('zoomend', () => {
+    if (store.selectedProject) {
+      store.selectedProject.mapviewSettings.map.zoom = map.getZoom()
+    }
+  })
+
   map.on('style.load', () => {
-    console.log('map: loaded')
+    console.log('map loaded')
 
     addDummyLayersToMap(map)
 
-    if (store.project?.mapviewSettings.arePointsLinked) {
-      store.project.reports.forEach((report) => {
-        report.line.addToMap()
-      })
-    }
-
-    store.project?.images.forEach((image) => {
-      store.project &&
-        image.addToMap(store.project.mapviewSettings.areImagesVisible)
-    })
+    store.selectedProject?.refreshLinesAndImages()
   })
 
   return map

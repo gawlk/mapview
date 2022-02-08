@@ -1,18 +1,28 @@
+<script setup lang="ts">
+  import IconEye from '~icons/heroicons-solid/eye'
+  import IconHand from '~icons/heroicons-solid/hand'
+
+  import store from '/src/store'
+
+  const { t } = useI18n()
+</script>
+
 <template>
   <table class="w-full text-sm font-medium">
     <thead class="h-8 text-gray-500">
       <td />
       <td />
       <td
-        v-for="key in store.project?.selectedReport?.dropsSettings.data.names"
+        v-for="key in store.selectedProject?.selectedReport?.dropsSettings.data
+          .names"
         :key="key"
         :class="[
           key !==
-            store.project?.selectedReport?.dropsSettings.data.names[
-              store.project?.selectedReport?.dropsSettings.data.selected
+            store.selectedProject?.selectedReport?.dropsSettings.data.names[
+              store.selectedProject?.selectedReport?.dropsSettings.data.selected
             ] && 'opacity-50',
         ]"
-        class="font-bold text-right"
+        class="text-right font-bold"
       >
         {{ t(key) }}
       </td>
@@ -21,45 +31,35 @@
     <tbody>
       <tr class="h-0.5" />
       <tr
-        v-for="(point, index) in store.project?.selectedReport?.points"
+        v-for="(point, index) in store.selectedProject?.selectedReport?.points"
         :key="index"
       >
         <td class="text-left">
-          <Button sm :icon="HandIcon" />
+          <Button sm :icon="IconHand" />
         </td>
-        <td class="font-bold text-center">{{ point.number }}</td>
+        <td class="text-center font-bold">{{ point.number }}</td>
         <td
-          v-for="key in store.project?.selectedReport?.dropsSettings.data.names"
+          v-for="key in store.selectedProject?.selectedReport?.dropsSettings
+            .data.names"
           :key="`${index}-${key}`"
           :class="[
             key !==
-              store.project?.selectedReport?.dropsSettings.data.names[
-                store.project?.selectedReport?.dropsSettings.data.selected
+              store.selectedProject?.selectedReport?.dropsSettings.data.names[
+                store.selectedProject?.selectedReport?.dropsSettings.data
+                  .selected
               ] && 'opacity-50',
           ]"
-          class="font-bold text-right text-red-800"
+          class="text-right font-bold text-red-800"
         >
           <!-- {{ point.finalData[key].displayString || point.finalData[key].value }} -->
         </td>
         <td class="text-right">
-          <Button sm :icon="EyeIcon" />
+          <Button sm :icon="IconEye" />
         </td>
       </tr>
     </tbody>
   </table>
 </template>
-
-<script setup lang="ts">
-  import { useI18n } from 'vue-i18n'
-
-  import { HandIcon, EyeIcon } from '@heroicons/vue/solid'
-
-  import store from '/src/store'
-
-  import { Button } from '/src/components'
-
-  const { t } = useI18n()
-</script>
 
 <i18n lang="yaml">
 'en':

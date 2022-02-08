@@ -1,12 +1,25 @@
+<script setup lang="ts">
+  import store from '/src/store'
+
+  import Initializer from '../Initializer.vue'
+  import Footer from './components/Footer.vue'
+  import Logo from './components/Logo.vue'
+  import MenuWrapperDesktop from './components/MenuWrapperDesktop.vue'
+
+  const props = defineProps<{
+    menus: MenuProp[]
+  }>()
+</script>
+
 <template>
-  <div class="flex-none w-[480px] px-2 py-8 space-y-8 overflow-scroll">
+  <div class="w-[480px] flex-none space-y-8 overflow-scroll py-8 px-2">
     <Logo />
 
-    <Initializer v-if="!store.project" />
+    <Initializer v-if="!store.selectedProject" />
     <div v-else class="space-y-8">
       <div v-for="menu in props.menus" :key="menu.name">
         <MenuWrapperDesktop
-          v-if="store.project?.reports.length > 0 || !menu.needsReport"
+          v-if="store.selectedProject?.reports.length > 0 || !menu.needsReport"
           :name="menu.name"
           :icon="menu.icon"
         >
@@ -21,18 +34,3 @@
     <Footer />
   </div>
 </template>
-
-<script setup lang="ts">
-  import store from '/src/store'
-
-  import Initializer from '../Initializer.vue'
-  import Footer from './components/Footer.vue'
-  import Logo from './components/Logo.vue'
-  import MenuWrapperDesktop from './components/MenuWrapperDesktop.vue'
-
-  import { Button } from '/src/components'
-
-  const props = defineProps<{
-    menus: MenuProp[]
-  }>()
-</script>

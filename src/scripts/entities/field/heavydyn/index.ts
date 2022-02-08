@@ -1,8 +1,8 @@
-import { createBaseField } from '../base'
+import { createBaseFieldFromJSON } from '../base'
 
-export const createHeavydynField = (json: JSONField): HeavydynField => {
+export const createHeavydynFieldFromJSON = (json: JSONField): HeavydynField => {
   switch (json.name) {
     default:
-      return createBaseField(json)
+      return createBaseFieldFromJSON(json)
   }
 }

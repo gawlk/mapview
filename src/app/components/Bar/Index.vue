@@ -1,19 +1,4 @@
-<template>
-  <BarDesktop :menus="menus" class="hidden lg:block" />
-  <BarMobile :menus="menus" class="lg:hidden" />
-</template>
-
 <script setup lang="ts">
-  import { shallowReactive } from 'vue'
-  import { useI18n } from 'vue-i18n'
-  import {
-    DocumentReportIcon,
-    FolderOpenIcon,
-    MapIcon,
-    TableIcon,
-  } from '@heroicons/vue/solid'
-
-  import DotsIcon from '/src/assets/svg/custom/dots.svg?component'
   import BarDesktop from './components/BarDesktop/Index.vue'
   import BarMobile from './components/BarMobile/Index.vue'
   import MenuData from './components/MenuData/Index.vue'
@@ -22,51 +7,47 @@
   import MenuProject from './components/MenuProject/Index.vue'
   import MenuReports from './components/MenuReports/Index.vue'
 
+  import IconDocumentReport from '~icons/heroicons-solid/document-report'
+  import IconFolderOpen from '~icons/heroicons-solid/folder-open'
+  import IconMap from '~icons/heroicons-solid/map'
+  import IconTable from '~icons/heroicons-solid/table'
+  import DotsIcon from '/src/assets/svg/custom/dots.svg?component'
+
   const { t } = useI18n()
 
   const menus: MenuProp[] = [
     {
       name: t('Project'),
-      icon: FolderOpenIcon,
+      icon: IconFolderOpen,
       component: MenuProject,
     },
     {
       name: t('Map'),
-      icon: MapIcon,
+      icon: IconMap,
       component: MenuMap,
     },
     {
       name: t('Reports'),
-      icon: DocumentReportIcon,
+      icon: IconDocumentReport,
       component: MenuReports,
       needsReport: true,
     },
-    {
-      name: t('Points'),
-      icon: DotsIcon,
-      component: MenuPoints,
-      needsReport: true,
-    },
-    {
-      name: t('Data'),
-      icon: TableIcon,
-      component: MenuData,
-      needsReport: true,
-    },
+    // {
+    //   name: t('Points'),
+    //   icon: DotsIcon,
+    //   component: MenuPoints,
+    //   needsReport: true,
+    // },
+    // {
+    //   name: t('Data'),
+    //   icon: IconTable,
+    //   component: MenuData,
+    //   needsReport: true,
+    // },
   ].map((menu) => shallowReactive(menu))
 </script>
 
-<i18n lang="yaml">
-en:
-  'Data': 'Data'
-  'Map': 'Map'
-  'Reports': 'Reports'
-  'Points': 'Points'
-  'Project': 'Project'
-fr:
-  'Data': 'Données'
-  'Map': 'Carte'
-  'Points': 'Points'
-  'Project': 'Projet'
-  'Reports': 'Rapports'
-</i18n>
+<template>
+  <BarDesktop :menus="menus" class="hidden lg:block" />
+  <BarMobile :menus="menus" class="lg:hidden" />
+</template>

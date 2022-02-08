@@ -1,10 +1,4 @@
-<template>
-  <div id="map" class="w-full h-full" />
-</template>
-
 <script setup lang="ts">
-  import { onMounted } from 'vue'
-
   import { createMap } from '/src/scripts'
   import store from '/src/store'
 
@@ -14,3 +8,7 @@
     store.map = map
   })
 </script>
+
+<template>
+  <div id="map" class="h-full w-full" />
+</template>

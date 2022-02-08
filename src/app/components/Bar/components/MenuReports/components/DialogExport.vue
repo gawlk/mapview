@@ -1,24 +1,20 @@
-<template>
-  <Dialog :title="t('Export')" :buttonIcon="CloudDownloadIcon" buttonBlue>
-    <template v-slot:button>
-      {{ t('Export') }}
-    </template>
-  </Dialog>
-</template>
-
 <script setup lang="ts">
-  import { useI18n } from 'vue-i18n'
-
-  import { CloudDownloadIcon } from '@heroicons/vue/solid'
-
-  import { Dialog } from '/src/components'
+  import IconCloudDownload from '~icons/heroicons-solid/cloud-download'
 
   const { t } = useI18n()
 </script>
 
+<template>
+  <Dialog :title="t('Export')" :buttonIcon="IconCloudDownload" buttonBlue>
+    <template v-slot:button>
+      {{ t('Export the report') }}
+    </template>
+  </Dialog>
+</template>
+
 <i18n lang="yaml">
 en:
-  'Export': 'Export'
+  'Export the report': 'Export the report'
 fr:
-  'Export': 'Exporter'
+  'Export the report': 'Exporter le rapport'
 </i18n>

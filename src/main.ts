@@ -1,10 +1,10 @@
-import { createApp } from 'vue'
 import { createHead } from '@vueuse/head'
 import { createI18n } from 'vue-i18n'
 import messages from '@intlify/vite-plugin-vue-i18n/messages'
 
 import 'tailwindcss/tailwind.css'
 import 'mapbox-gl/dist/mapbox-gl.css'
+import './styles/main.css'
 
 import App from './App.vue'
 
@@ -17,6 +17,8 @@ createApp(App)
       locale: getBrowserLocale(true),
       fallbackLocale: 'en',
       messages,
+      fallbackWarn: false,
+      missingWarn: false,
     })
   )
   .mount('#app')

@@ -1,63 +1,13 @@
-<template>
-  <div class="flex space-x-2">
-    <Listbox
-      full
-      :icon="DotIcon"
-      :preSelected="t('Point:')"
-      :selected="state.pointStateValues[state.pointStateSelected]"
-      :values="state.pointStateValues"
-      @selectIndex="setPointsState"
-      isTop
-    />
-    <Button
-      @click="
-        store.project.mapviewSettings.arePointsVisible =
-          !store.project.mapviewSettings.arePointsVisible
-      "
-      :icon="
-        store.project?.mapviewSettings.arePointsVisible ? EyeIcon : EyeOffIcon
-      "
-    />
-    <Button
-      @click="
-        store.project.mapviewSettings.arePointsLinked =
-          !store.project.mapviewSettings.arePointsLinked
-      "
-      :icon="
-        store.project?.mapviewSettings.arePointsLinked ? ShareIcon : DotsIcon
-      "
-    />
-    <Button
-      @click="
-        store.project.mapviewSettings.arePointsLocked =
-          !store.project.mapviewSettings.arePointsLocked
-      "
-      :icon="
-        store.project?.mapviewSettings.arePointsLocked
-          ? LockClosedIcon
-          : LockOpenIcon
-      "
-    />
-  </div>
-</template>
-
 <script setup lang="ts">
-  import { reactive } from 'vue'
-  import { useI18n } from 'vue-i18n'
-
   import store from '/src/store'
 
-  import {
-    EyeIcon,
-    EyeOffIcon,
-    LockClosedIcon,
-    LockOpenIcon,
-    ShareIcon,
-  } from '@heroicons/vue/solid'
-
+  import IconEye from '~icons/heroicons-solid/eye'
+  import IconEyeOff from '~icons/heroicons-solid/eye-off'
+  import IconLockClosed from '~icons/heroicons-solid/lock-closed'
+  import IconLockOpen from '~icons/heroicons-solid/lock-open'
+  import IconShare from '~icons/heroicons-solid/share'
   import DotIcon from '/src/assets/svg/custom/dot.svg?component'
   import DotsIcon from '/src/assets/svg/custom/dots.svg?component'
-  import { Button, Listbox } from '/src/components'
 
   const { t } = useI18n()
 
@@ -69,38 +19,82 @@
   const setPointsState = (n: number) => {
     state.pointStateSelected = n
 
-    if (store.project) {
+    if (store.selectedProject) {
       switch (n) {
         case 0:
-          store.project.mapviewSettings.pointsState = 'number' as PointState
+          store.selectedProject.mapviewSettings.pointsState =
+            'number' as PointsState
           break
         case 1:
-          store.project.mapviewSettings.pointsState = 'value' as PointState
+          store.selectedProject.mapviewSettings.pointsState =
+            'value' as PointsState
           break
         case 2:
-          store.project.mapviewSettings.pointsState = 'nothing' as PointState
+          store.selectedProject.mapviewSettings.pointsState =
+            'nothing' as PointsState
           break
       }
     }
   }
 </script>
 
+<template>
+  <div class="flex space-x-2">
+    <Listbox
+      full
+      :icon="DotIcon"
+      :preSelected="`${t('Point')}${t(':')}`"
+      :selected="state.pointStateValues[state.pointStateSelected]"
+      :values="state.pointStateValues"
+      @selectIndex="setPointsState"
+    />
+    <Button
+      @click="
+        store.selectedProject &&
+          (store.selectedProject.mapviewSettings.arePointsVisible =
+            !store.selectedProject.mapviewSettings.arePointsVisible)
+      "
+      :icon="
+        store.selectedProject?.mapviewSettings.arePointsVisible
+          ? IconEye
+          : IconEyeOff
+      "
+    />
+    <Button
+      @click="
+        store.selectedProject &&
+          (store.selectedProject.mapviewSettings.arePointsLinked =
+            !store.selectedProject.mapviewSettings.arePointsLinked)
+      "
+      :icon="
+        store.selectedProject?.mapviewSettings.arePointsLinked
+          ? IconShare
+          : DotsIcon
+      "
+    />
+    <Button
+      @click="
+        store.selectedProject &&
+          (store.selectedProject.mapviewSettings.arePointsLocked =
+            !store.selectedProject.mapviewSettings.arePointsLocked)
+      "
+      :icon="
+        store.selectedProject?.mapviewSettings.arePointsLocked
+          ? IconLockClosed
+          : IconLockOpen
+      "
+    />
+  </div>
+</template>
+
 <i18n lang="yaml">
 en:
-  'Point:': 'Point:'
   'Display number within points': 'Display number within points'
-  'Number': 'Number'
-  'Value': 'Value'
-  'Nothing': 'Nothing'
   'Show the value': 'Show the value'
   'Show the number': 'Show the number'
   'Show nothing': 'Show nothing'
 fr:
-  'Point:': 'Point :'
   'Display number within points': 'Afficher le nombre des points'
-  'Number': 'Numéro'
-  'Value': 'Valeur'
-  'Nothing': 'Vide'
   'Show the value': 'Afficher la valeur'
   'Show the number': 'Afficher le numéro'
   'Show nothing': 'Ne rien afficher'

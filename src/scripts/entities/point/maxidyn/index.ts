@@ -1,12 +1,18 @@
-import { createBasePoint } from '../base'
+import { createBasePointFromJSON } from '../base'
 
-export const createMaxidynPoint = (data: unknown, map: mapboxgl.Map) => {
-  const basePoint = createBasePoint(data, map)
+export const createMaxidynPointFromJSON = (
+  json: JSONPoint,
+  map: mapboxgl.Map,
+  parameters: MachinePointCreatorParameters
+) => {
+  const point: PartialMachinePoint<MaxidynPoint> = createBasePointFromJSON(
+    json,
+    map,
+    {
+      machine: 'maxidyn',
+      ...parameters,
+    }
+  )
 
-  const point: MaxidynPoint = {
-    kind: 'maxidyn' as const,
-    ...basePoint,
-  }
-
-  return point
+  return point as MaxidynPoint
 }

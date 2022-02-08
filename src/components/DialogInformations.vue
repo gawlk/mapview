@@ -1,7 +1,7 @@
 <template>
   <Dialog
     :title="t('Informations')"
-    :buttonIcon="InformationCircleIcon"
+    :buttonIcon="IconInformationCircle"
     saveable
     @open="importInformations"
     @save="exportInformations"
@@ -10,72 +10,100 @@
       {{ t('View informations') }}
     </template>
     <template v-slot:dialog>
-      <div class="space-y-2">
-        <Input
-          :id="`${props.preID}informations-name`"
-          :label="t('Name')"
-          @input="(value) => (state.name = value as string)"
-          :value="state.name"
-          type="text"
-        />
-        <Input
-          v-for="field in props.entity.informations"
-          :key="field.name"
-          :id="`${props.preID}informations-${field.name}`"
-          :label="t(field.name)"
-          @input="(value) => setValue(field, value)"
-          :value="
-            String(
-              typeof field.value === 'object' ? field.value.value : field.value
-            )
-          "
-          :type="getType(field)"
-          :step="field.value.step"
-          :min="field.value.min"
-          :max="field.value.max"
-          :list="field.value.possibleValues"
-          :strict="field.value.strict"
-        />
+      <div class="space-y-8">
+        <div v-for="dataset in state.data" class="space-y-4">
+          <h4 class="pl-4 text-xl font-medium leading-6">
+            {{ dataset.title }}
+          </h4>
+
+          <div class="space-y-2">
+            <Input
+              v-for="field in dataset.fields"
+              :key="field.name"
+              :id="`${props.preID}informations-${field.name}`"
+              :label="t(field.name)"
+              @input="(value) => setValue(field, value)"
+              :value="
+                String(
+                  typeof field.value === 'object'
+                    ? field.value.value
+                    : field.value
+                )
+              "
+              :type="getType(field)"
+              :step="
+                typeof field.value === 'object' && 'step' in field.value
+                  ? field.value.step
+                  : undefined
+              "
+              :min="
+                typeof field.value === 'object' && 'min' in field.value
+                  ? field.value.min
+                  : undefined
+              "
+              :max="
+                typeof field.value === 'object' && 'max' in field.value
+                  ? field.value.max
+                  : undefined
+              "
+              :list="
+                typeof field.value === 'object' &&
+                'possibleValues' in field.value
+                  ? field.value.possibleValues
+                  : undefined
+              "
+              :strict="
+                typeof field.value === 'object' && 'strict' in field.value
+                  ? field.value.strict
+                  : undefined
+              "
+            />
+          </div>
+        </div>
       </div>
     </template>
   </Dialog>
 </template>
 
 <script setup lang="ts">
-  import { reactive } from 'vue'
-  import { useI18n } from 'vue-i18n'
   import { cloneDeep } from 'lodash-es'
 
-  import { InformationCircleIcon } from '@heroicons/vue/solid'
-
-  import { Dialog, Input } from '/src/components'
+  import IconInformationCircle from '~icons/heroicons-solid/information-circle'
 
   const { t } = useI18n()
 
   const props = defineProps<{
     preID: string
-    entity: MachineProject | MachineReport
+    data: {
+      title: string
+      fields: MachineField[]
+    }[]
   }>()
 
   const state = reactive({
-    name: '',
-    informations: [],
+    data: [] as {
+      title: string
+      fields: MachineField[]
+    }[],
   })
 
   const importInformations = () => {
-    state.name = props.entity.name
-    state.informations = cloneDeep(props.entity.informations)
+    state.data = cloneDeep(props.data)
   }
 
   const exportInformations = () => {
-    if (props.entity.informations) {
-      props.entity.name = state.name
-      props.entity.informations.length = 0
-      props.entity.informations.push(...state.informations)
+    for (let i = 0; i < state.data.length; i++) {
+      const dataset = state.data[i]
+
+      for (let j = 0; j < dataset.fields.length; j++) {
+        const field = dataset.fields[j]
+
+        props.data[i].fields[j].value = field.value
+      }
     }
   }
 
-  const setValue = (information: Field, value: any) => {
+  const setValue = (information: MachineField, value: any) => {
     if (typeof information.value === 'object' && information.value.kind) {
       information.value.value = value
     } else {
@@ -83,41 +111,13 @@
     }
   }
 
-  const getType = (field: Field) =>
+  const getType = (field: MachineField) =>
     (typeof field.value === 'object' && field.value.kind) || typeof field.value
 </script>
 
 <i18n lang="yaml">
 en:
   'View informations': 'View informations'
-  'Informations': 'Informations'
-  'Name': 'Name'
-  'Client': 'Client'
-  'Folder': 'Folder'
-  'Locality': 'Locality'
-  'Date': 'Date'
-  'Work': 'Work'
-  'Comment': 'Comment'
-  'Operator': 'Operator'
-  'Track': 'Track'
-  'Direction': 'Direction'
-  'Work part': 'Work part'
-  'Climate': 'Climate'
-  'Temperature': 'Temperature'
 fr:
   'View informations': 'Voir les informations'
-  'Informations': 'Informations'
-  'Name': 'Nom'
-  'Client': 'Client'
-  'Folder': 'Dossier'
-  'Locality': 'Localité'
-  'Date': 'Date'
-  'Work': 'Ouvrage'
-  'Comment': 'Commentaire'
-  'Operator': 'Opérateur'
-  'Track': 'Voie'
-  'Direction': 'Direction'
-  'Work part': 'Partie ouvrage'
-  'Climate': 'Climat'
-  'Temperature': 'Température'
 </i18n>

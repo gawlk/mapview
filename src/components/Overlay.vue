@@ -1,6 +1,6 @@
 <template>
   <TransitionRoot appear :show="state.isOpen" as="template">
-    <Dialog
+    <HeadlessDialog
       as="div"
       class="fixed inset-0 z-10 min-h-screen overflow-y-auto text-center"
     >
@@ -30,22 +30,20 @@
         leave-to="opacity-0 scale-95"
       >
         <div
-          class="inline-flex flex-col items-center justify-center w-full min-h-0 space-y-8 align-middle transition-all transform "
+          class="inline-flex min-h-0 w-full transform flex-col items-center justify-center space-y-8 align-middle transition-all"
         >
           <slot />
         </div>
       </TransitionChild>
-    </Dialog>
+    </HeadlessDialog>
   </TransitionRoot>
 </template>
 
 <script setup lang="ts">
-  import { reactive, watch } from 'vue'
-
   import {
     TransitionRoot,
     TransitionChild,
-    Dialog,
+    Dialog as HeadlessDialog,
     DialogOverlay,
   } from '@headlessui/vue'
 

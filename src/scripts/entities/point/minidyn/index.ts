@@ -1,12 +1,18 @@
-import { createBasePoint } from '../base'
+import { createBasePointFromJSON } from '../base'
 
-export const createMinidynPoint = (data: unknown, map: mapboxgl.Map) => {
-  const basePoint = createBasePoint(data, map)
+export const createMinidynPointFromJSON = (
+  json: JSONPoint,
+  map: mapboxgl.Map,
+  parameters: MachinePointCreatorParameters
+) => {
+  const point: PartialMachinePoint<MinidynPoint> = createBasePointFromJSON(
+    json,
+    map,
+    {
+      machine: 'minidyn',
+      ...parameters,
+    }
+  )
 
-  const point: MinidynPoint = {
-    kind: 'minidyn' as const,
-    ...basePoint,
-  }
-
-  return point
+  return point as MinidynPoint
 }

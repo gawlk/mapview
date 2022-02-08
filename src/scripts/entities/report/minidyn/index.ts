@@ -1,18 +1,22 @@
-import { createBaseReport } from '../base'
-import { createMinidynField } from '/src/scripts'
+import { createBaseReportFromJSON } from '../base'
+import {
+  createMinidynPointFromJSON,
+  createMinidynFieldFromJSON,
+} from '/src/scripts'
 
-export const createMinidynReport = (
+export const createMinidynReportFromJSON = (
   json: JSONReport,
   map: mapboxgl.Map,
-  units: MathUnit[]
+  parameters: MachineReportCreatorParameters
 ) => {
-  const report: PartialMachineReport<MinidynReport> = createBaseReport(
+  const report: PartialMachineReport<MinidynReport> = createBaseReportFromJSON(
     json,
     map,
     {
-      kind: 'minidyn',
-      createField: createMinidynField,
-      units,
+      machine: 'minidyn',
+      createPointFromJSON: createMinidynPointFromJSON,
+      createFieldFromJSON: createMinidynFieldFromJSON,
+      ...parameters,
     }
   )
 

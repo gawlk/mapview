@@ -1,8 +1,8 @@
-import { createBaseField } from '../base'
+import { createBaseFieldFromJSON } from '../base'
 
-export const createMinidynField = (json: JSONField): MinidynField => {
+export const createMinidynFieldFromJSON = (json: JSONField): MinidynField => {
   switch (json.name) {
     default:
-      return createBaseField(json)
+      return createBaseFieldFromJSON(json)
   }
 }

@@ -1,5 +1,4 @@
 import mapboxgl, { Marker } from 'mapbox-gl'
-import { shallowReactive, watch } from 'vue'
 
 import {
   createSVGElement,
@@ -10,16 +9,12 @@ import {
 
 import SVGRotate from '/src/assets/svg/custom/rotate.svg?raw'
 
-interface ImageParameters extends JSONImage {
-  areImagesVisible: boolean
-}
-
 export const createImage = async (
   data64: string,
   map: mapboxgl.Map,
-  parameters: ImageParameters
+  parameters: JSONImage
 ): Promise<Image> => {
-  const sourceId = `${parameters.name}${+new Date()}`
+  const id = `image-${parameters.name}-${+new Date()}_${Math.random()}`
 
   const { width, height } = (await getImageDimensions(data64)) as {
     width: number
@@ -44,29 +39,28 @@ export const createImage = async (
 
   const markerSE = createMarker(se, map)
 
-  const layerId = `${sourceId}-raster`
-
   const watcherHandler = createWatcherHandler()
 
   const image = shallowReactive({
-    layerId,
-    sourceId,
+    id,
     sourceData,
     markerNW,
     markerSE,
     opacity: parameters.opacity || 0.5,
     addToMap(areImagesVisible: boolean): void {
+      console.log('add image', id)
+
       if (areImagesVisible) {
         markerNW.addTo(map)
         markerSE.addTo(map)
       }
 
-      map.addSource(sourceId, sourceData)
+      map.addSource(id, sourceData)
 
       map.addLayer(
         {
-          id: layerId,
-          source: sourceId,
+          id,
+          source: id,
           type: 'raster',
           paint: {
             'raster-opacity': areImagesVisible ? this.opacity : 0,
@@ -76,7 +70,11 @@ export const createImage = async (
         'images'
       )
 
-      const source = map.getSource(sourceId) as mapboxgl.ImageSource
+      console.log('image layer', map.getLayer(id))
+
+      const source = map.getSource(id) as mapboxgl.ImageSource
+
+      console.log('image source', source)
 
       setImageCoordinates(markerNW, markerSE, source, width, height)
 
@@ -91,14 +89,16 @@ export const createImage = async (
         watch(
           () => image.opacity,
           (opacity: number) => {
-            map.setPaintProperty(layerId, 'raster-opacity', opacity)
+            map.setPaintProperty(id, 'raster-opacity', opacity)
           }
         )
       )
     },
-    remove(): void {
-      map.removeLayer(layerId)
-      map.removeSource(sourceId)
+    remove: (): void => {
+      console.log('remove image', id)
+
+      map.getLayer(id) && map.removeLayer(id)
+      map.getSource(id) && map.removeSource(id)
 
       markerNW.remove()
       markerSE.remove()
@@ -106,8 +106,6 @@ export const createImage = async (
       watcherHandler.clean()
     },
   })
-
-  image.addToMap(parameters.areImagesVisible)
 
   return image
 }

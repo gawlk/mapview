@@ -6,12 +6,10 @@ export const createWatcherHandler = (): WatcherHandler => {
       stops.push(stop)
       return stop
     },
-    remove: (stop?: () => void): void => {
-      if (stop) {
-        const index = stops.findIndex(stop)
-        stops[index]()
-        stops.splice(index, 1)
-      }
+    remove: (stop: () => void): void => {
+      const index = stops.findIndex(stop)
+      stops[index]()
+      stops.splice(index, 1)
     },
     clean: () => {
       stops.forEach((stop) => {

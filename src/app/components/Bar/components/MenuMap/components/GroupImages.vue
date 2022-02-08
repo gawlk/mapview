@@ -1,76 +1,14 @@
-<template>
-  <div v-if="(store.project?.images.length || 0) > 0" class="flex space-x-2">
-    <Popover
-      :icon="CollectionIcon"
-      :buttonText="t('Open image list')"
-      full
-      isTop
-    >
-      <div
-        v-for="(image, index) of store.project?.images"
-        :key="image.sourceId"
-        class="flex space-x-1"
-      >
-        <Button @click="goToImage(image)" truncate full>
-          {{ image.sourceId.split('.')[0] }}
-        </Button>
-        <Button
-          :icon="getSunIcon(image.opacity) as unknown as () => void"
-          @click="switchOpacity(image)"
-        />
-        <Button :icon="TrashIcon" @click="deleteImage(image, index)" />
-      </div>
-    </Popover>
-    <Button
-      @click="
-        store.project &&
-          (store.project.mapviewSettings.areImagesVisible =
-            !store.project.mapviewSettings.areImagesVisible)
-      "
-      :icon="
-        store.project?.mapviewSettings.areImagesVisible ? EyeIcon : EyeOffIcon
-      "
-    />
-    <Button @click="inputFile.click()" :icon="PlusIcon" />
-  </div>
-  <Button
-    v-else
-    full
-    @click="inputFile.click()"
-    :leftIcon="PhotographIcon"
-    :rightIcon="PlusIcon"
-  >
-    {{ t('Add an image') }}
-  </Button>
-  <input
-    @change="addImage(($event.target as HTMLInputElement).files?.[0])"
-    accept="image/*"
-    type="file"
-    ref="inputFile"
-    class="hidden"
-  />
-</template>
-
 <script setup lang="ts">
-  import { ref } from 'vue'
-  import { useI18n } from 'vue-i18n'
-
   import store from '/src/store'
   import { createImage } from '/src/scripts'
-
-  import {
-    CollectionIcon,
-    EyeIcon,
-    EyeOffIcon,
-    PhotographIcon,
-    PlusIcon,
-    TrashIcon,
-  } from '@heroicons/vue/solid'
-
   import { fileToBase64 } from '/src/scripts'
 
-  import { Button, Popover } from '/src/components'
-
+  import IconCollection from '~icons/heroicons-solid/collection'
+  import IconEye from '~icons/heroicons-solid/eye'
+  import IconEyeOff from '~icons/heroicons-solid/eye-off'
+  import IconPhotograph from '~icons/heroicons-solid/photograph'
+  import IconTrash from '~icons/heroicons-solid/trash'
+  import IconPlus from '~icons/heroicons-solid/plus'
   import Sun0 from '/src/assets/svg/custom/sun0.svg'
   import Sun25 from '/src/assets/svg/custom/sun25.svg'
   import Sun50 from '/src/assets/svg/custom/sun50.svg'
@@ -82,15 +20,16 @@
   const inputFile = ref()
 
   const addImage = async (file?: File) => {
-    if (file && store.project && store.map) {
+    if (file && store.selectedProject && store.map) {
       const data64 = await fileToBase64(file)
 
-      store.project.images.push(
-        await createImage(data64, store.map, {
-          name: file.name,
-          areImagesVisible: store.project.mapviewSettings.areImagesVisible,
-        })
-      )
+      const image = await createImage(data64, store.map, {
+        name: file.name,
+      })
+
+      store.selectedProject.images.push(image)
+
+      image.addToMap(store.selectedProject.mapviewSettings.areImagesVisible)
     }
   }
 
@@ -107,10 +46,10 @@
     )
   }
 
-  const deleteImage = (image: Image, index: number) => {
-    image.remove()
+  const deleteImage = (index: number) => {
+    const image = store.selectedProject?.images.splice(index, 1)?.[0]
 
-    store.project?.images.splice(index, 1)
+    image?.remove()
   }
 
   const getSunIcon = (opacity: number) => {
@@ -148,6 +87,59 @@
     }
   }
 </script>
+
+<template>
+  <div
+    v-if="(store.selectedProject?.images.length || 0) > 0"
+    class="flex space-x-2"
+  >
+    <Popover :icon="IconCollection" :buttonText="t('Open image list')" full>
+      <div
+        v-for="(image, index) of store.selectedProject?.images"
+        :key="image.id"
+        class="flex space-x-1"
+      >
+        <Button @click="goToImage(image)" truncate full>
+          {{ image.id.split('.')[0] }}
+        </Button>
+        <Button
+          :icon="getSunIcon(image.opacity)"
+          @click="switchOpacity(image)"
+        />
+        <Button :icon="IconTrash" @click="deleteImage(index)" />
+      </div>
+    </Popover>
+    <Button
+      @click="
+        store.selectedProject &&
+          (store.selectedProject.mapviewSettings.areImagesVisible =
+            !store.selectedProject.mapviewSettings.areImagesVisible)
+      "
+      :icon="
+        store.selectedProject?.mapviewSettings.areImagesVisible
+          ? IconEye
+          : IconEyeOff
+      "
+    />
+    <Button @click="inputFile.click()" :icon="IconPlus" />
+  </div>
+  <Button
+    v-else
+    full
+    @click="inputFile.click()"
+    :leftIcon="IconPhotograph"
+    :rightIcon="IconPlus"
+  >
+    {{ t('Add an image') }}
+  </Button>
+  <input
+    @change="addImage(($event.target as HTMLInputElement).files?.[0])"
+    accept="image/*"
+    type="file"
+    ref="inputFile"
+    class="hidden"
+  />
+</template>
 
 <i18n lang="yaml">
 en:

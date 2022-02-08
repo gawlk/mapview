@@ -1,5 +1,4 @@
 import { unit as Unit, createUnit } from 'mathjs'
-import { shallowReactive, watch } from 'vue'
 
 import { numberToLocaleString } from '/src/locales'
 
@@ -21,7 +20,11 @@ export const createMathNumber = (
       let value =
         typeof this.value !== 'number' && typeof this.unit !== 'string'
           ? this.value.toNumber(
-              this.unit.currentUnit === '1/100 mm'
+              this.unit.currentUnit === '°C'
+                ? 'degC'
+                : this.unit.currentUnit === '°F'
+                ? 'degF'
+                : this.unit.currentUnit === '1/100 mm'
                 ? 'cmm'
                 : this.unit.currentUnit === 'lbs'
                 ? 'nlbs'
@@ -65,6 +68,15 @@ export const createMathNumber = (
   })
 
   mathNumber.toDisplayedValue()
+
+  // TODO: Put in init ?
+  // Add to watcher manager etc...
+  watch(
+    () => mathNumber.value,
+    () => {
+      mathNumber.toDisplayedValue()
+    }
+  )
 
   if (typeof unit === 'object') {
     watch(unit, () => {

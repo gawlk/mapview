@@ -1,16 +1,24 @@
-import { createBaseReport } from '../base'
+import { createBaseReportFromJSON } from '../base'
+import {
+  createMaxidynPointFromJSON,
+  createMaxidynFieldFromJSON,
+} from '/src/scripts'
 
-export const createMaxidynReport = (
-  data: JSONReport,
+export const createMaxidynReportFromJSON = (
+  json: JSONReport,
   map: mapboxgl.Map,
-  units: MathUnit[]
+  parameters: MachineReportCreatorParameters
 ) => {
-  const baseReport = createBaseReport(data, map, units)
+  const report: PartialMachineReport<MaxidynReport> = createBaseReportFromJSON(
+    json,
+    map,
+    {
+      machine: 'maxidyn',
+      createPointFromJSON: createMaxidynPointFromJSON,
+      createFieldFromJSON: createMaxidynFieldFromJSON,
+      ...parameters,
+    }
+  )
 
-  const report: MaxidynReport = {
-    kind: 'maxidyn' as const,
-    ...baseReport,
-  }
-
-  return report
+  return report as MaxidynReport
 }

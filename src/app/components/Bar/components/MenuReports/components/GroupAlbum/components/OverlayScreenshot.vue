@@ -1,27 +1,4 @@
-<template>
-  <Overlay :isOpen="props.image !== null">
-    <img
-      :src="state.image"
-      style="max-height: 70vh"
-      class="border-4 border-white rounded-lg"
-    />
-    <div class="flex space-x-4">
-      <Button green @click="emit('save')">
-        {{ t('Add to album') }}
-      </Button>
-      <Button red @click="emit('close')">
-        {{ t('Exit') }}
-      </Button>
-    </div>
-  </Overlay>
-</template>
-
 <script setup lang="ts">
-  import { reactive, watch } from 'vue'
-  import { useI18n } from 'vue-i18n'
-
-  import { Button, Overlay } from '/src/components'
-
   const props = defineProps<{
     image: string | null
   }>()
@@ -33,9 +10,7 @@
 
   const { t } = useI18n()
 
-  const state = reactive<{
-    image: string
-  }>({
+  const state = reactive({
     image: '',
   })
 
@@ -45,6 +20,23 @@
     { immediate: true }
   )
 </script>
+
+<template>
+  <Overlay :isOpen="props.image !== null">
+    <img
+      :src="state.image"
+      class="max-h-[70vh] rounded-lg border-4 border-white"
+    />
+    <div class="flex space-x-4">
+      <Button green @click="emit('save')">
+        {{ t('Add to album') }}
+      </Button>
+      <Button red @click="emit('close')">
+        {{ t('Exit') }}
+      </Button>
+    </div>
+  </Overlay>
+</template>
 
 <i18n lang="yaml">
 en:

@@ -2,43 +2,15 @@
   <div>
     <div
       :class="state.dragging ? 'bg-gray-200' : 'bg-gray-100'"
-      class="
-        relative
-        items-center
-        justify-center
-        w-full
-        h-[50vh]
-        p-1.5
-        cursor-pointer
-        rounded-lg
-        hover:bg-gray-200
-        transition-colors
-        duration-200
-        group
-        hidden
-        lg:block
-      "
+      class="group relative hidden h-[50vh] w-full cursor-pointer items-center justify-center rounded-lg p-1.5 transition-colors duration-200 hover:bg-gray-200 lg:block"
     >
       <div
         :class="state.dragging ? 'border-gray-400' : 'border-gray-300'"
-        class="
-          w-full
-          h-full
-          border-[3px] border-dashed
-          rounded-lg
-          group-hover:border-gray-400
-          flex
-          items-center
-          justify-center
-          text-sm
-          font-medium font-gray-900
-          transition-colors
-          duration-200
-        "
+        class="font-gray-900 flex h-full w-full items-center justify-center rounded-lg border-[3px] border-dashed text-sm font-medium transition-colors duration-200 group-hover:border-gray-400"
       >
         <div class="space-y-4">
-          <DocumentAddIconOutline
-            class="mx-auto text-gray-400 transition-colors duration-200  h-7 group-hover:text-gray-500"
+          <IconHeroiconsOutlineDocumentAdd
+            class="mx-auto h-7 w-7 text-gray-400 transition-colors duration-200 group-hover:text-gray-500"
           />
           <p><slot /></p>
         </div>
@@ -50,7 +22,7 @@
         @dragleave="state.dragging = false"
         @dragover.prevent
         @drop.stop.prevent="drop($event.dataTransfer)"
-        class="absolute inset-0 w-full h-full"
+        class="absolute inset-0 h-full w-full"
       />
 
       <input
@@ -64,7 +36,7 @@
     <Button
       @click="file.click()"
       full
-      :leftIcon="DocumentAddIconSolid"
+      :leftIcon="IconSolidDocumentAdd"
       class="lg:hidden"
     >
       {{ props.buttonText }}
@@ -73,12 +45,7 @@
 </template>
 
 <script setup lang="ts">
-  import { reactive, ref } from 'vue'
-
-  import { DocumentAddIcon as DocumentAddIconSolid } from '@heroicons/vue/solid'
-  import { DocumentAddIcon as DocumentAddIconOutline } from '@heroicons/vue/outline'
-
-  import { Button } from '/src/components'
+  import IconSolidDocumentAdd from '~icons/heroicons-solid/document-add'
 
   const emit = defineEmits<{
     (event: 'input', value: FileList | null): void

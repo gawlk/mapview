@@ -1,4 +1,4 @@
-export const createBaseField = (json: JSONField): Field => {
+export const createBaseFieldFromJSON = (json: JSONField): MachineField => {
   // {
   //   name: 'Slidable number',
   //   value: {
@@ -8,7 +8,7 @@ export const createBaseField = (json: JSONField): Field => {
   //     min: 10,
   //     max: 1000,
   //   },
-  // } as Field,
+  // } as MachineField,
 
   // {
   //   name: 'Selectable string',
@@ -18,12 +18,13 @@ export const createBaseField = (json: JSONField): Field => {
   //     strict: false,
   //     possibleValues: ['valeur 1', 'valeur 2', 'valeur 3'],
   //   },
-  // } as Field,
+  // } as MachineField,
 
   const { name, value } = json
 
   switch (name) {
     case 'Comment':
+    case 'Comments':
       return {
         name,
         value: {

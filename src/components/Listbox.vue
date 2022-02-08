@@ -1,5 +1,5 @@
 <template>
-  <Listbox :modelValue="props.selected" @update:modelValue="update">
+  <HeadlessListbox :modelValue="props.selected" @update:modelValue="update">
     <div :class="[props.full && 'w-full']" class="relative">
       <ListboxButton
         :style="{ backgroundImage: `url('${props.buttonBackground}')` }"
@@ -7,7 +7,7 @@
           props.buttonBackground && 'bg-cover bg-center',
           props.buttonColors || 'bg-gray-100 hover:bg-gray-200',
         ]"
-        class="flex items-center justify-between w-full px-4 py-2 space-x-4 text-sm font-medium leading-6 truncate transition-colors duration-200 rounded-lg  group focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500"
+        class="group flex w-full items-center justify-between space-x-4 truncate rounded-lg py-2 px-4 text-sm font-medium leading-6 transition-colors duration-200 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300"
       >
         <div class="flex items-center">
           <component
@@ -16,14 +16,14 @@
             :class="[
               props.iconsClasses,
               props.buttonBackground
-                ? 'bg-gray-100 bg-opacity-60 rounded-full p-1 h-7 w-7 -my-0.5 -ml-1'
-                : 'w-5 h-5',
+                ? '-my-0.5 -ml-1 h-7 w-7 rounded-full bg-gray-100 bg-opacity-60 p-1'
+                : 'h-5 w-5',
             ]"
-            class="flex-none mr-1 text-gray-400 transition-colors duration-200  group-hover:text-gray-500"
+            class="mr-1 flex-none text-gray-400 transition-colors duration-200 group-hover:text-gray-500"
           />
           <span
             v-if="props.preSelected"
-            class="hidden ml-1 text-gray-500 sm:block"
+            class="ml-1 hidden text-gray-500 sm:block"
           >
             {{ props.preSelected }}
           </span>
@@ -37,16 +37,22 @@
                 : props.values?.[0])
             "
           />
+          <span
+            v-if="props.postSelected"
+            class="ml-1 hidden text-gray-500 sm:block"
+          >
+            {{ props.postSelected }}
+          </span>
         </div>
         <div>
-          <SelectorIcon
+          <IconHeroiconsSolidSelector
             :class="[
               props.iconsClasses,
               props.buttonBackground
-                ? 'bg-gray-100 bg-opacity-60 rounded-full p-1 h-7 w-7 -my-0.5 -mr-1'
-                : 'w-5 h-5',
+                ? '-my-0.5 -mr-1 h-7 w-7 rounded-full bg-gray-100 bg-opacity-60 p-1'
+                : 'h-5 w-5',
             ]"
-            class="text-gray-400 transition-colors duration-200  group-hover:text-gray-500"
+            class="text-gray-400 transition-colors duration-200 group-hover:text-gray-500"
             aria-hidden="true"
           />
         </div>
@@ -54,8 +60,7 @@
 
       <TransitionDropdown>
         <ListboxOptions
-          :class="[props.isTop ? 'bottom-0 mb-12 shadow-md' : 'mt-1 shadow-lg']"
-          class="absolute z-10 w-full p-1 space-y-1 overflow-auto text-sm bg-white border-2 border-gray-100 rounded-lg  max-h-60 focus:outline-none"
+          class="absolute bottom-0 z-10 mb-11 max-h-60 w-full space-y-1 overflow-auto rounded-lg border-2 border-gray-100 bg-white p-1 text-sm shadow-md focus:outline-none lg:bottom-auto lg:mt-1 lg:mb-0 lg:shadow-lg"
         >
           <ListboxOption
             v-slot="{ active, selected }"
@@ -63,49 +68,46 @@
             :key="value"
             :value="value"
             as="template"
-            class="rounded-md cursor-pointer"
+            class="cursor-pointer rounded-md"
           >
             <li
               :style="{
                 backgroundImage: props.backgrounds ? `url('${value}')` : '',
               }"
               :class="[
-                active ? 'text-gray-900 bg-gray-100' : 'text-gray-900',
+                active ? 'bg-gray-100 text-gray-900' : 'text-gray-900',
                 props.backgrounds && 'bg-cover bg-center',
                 props.classes && value,
               ]"
-              class="relative py-2 pl-10 pr-4 cursor-default select-none h-9"
+              class="relative h-9 cursor-default select-none py-2 pr-4 pl-10"
             >
               <span
                 v-if="props.values"
                 :class="[selected ? 'font-medium' : 'font-normal']"
-                class="block truncaten"
+                class="truncaten block"
                 v-html="value"
               />
               <span
                 v-if="selected"
-                class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-600 "
+                class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-600"
               >
-                <CheckIcon class="w-5 h-5" aria-hidden="true" />
+                <IconHeroiconsSolidCheck class="h-5 w-5" aria-hidden="true" />
               </span>
             </li>
           </ListboxOption>
         </ListboxOptions>
       </TransitionDropdown>
     </div>
-  </Listbox>
+  </HeadlessListbox>
 </template>
 
 <script setup lang="ts">
   import {
-    Listbox,
+    Listbox as HeadlessListbox,
     ListboxButton,
     ListboxOptions,
     ListboxOption,
   } from '@headlessui/vue'
-  import { CheckIcon, SelectorIcon } from '@heroicons/vue/solid'
-
-  import { TransitionDropdown } from './'
 
   const emit = defineEmits<{
     (event: 'select', value: string): void
@@ -124,7 +126,7 @@
     buttonBackground?: string
     buttonColors?: string
     iconsClasses?: string
-    isTop?: boolean
+    postSelected?: string
   }>()
 
   const update = (value: string) => {

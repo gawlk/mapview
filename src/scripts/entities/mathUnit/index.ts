@@ -1,5 +1,3 @@
-import { shallowReactive } from 'vue'
-
 export const createMathUnit = (
   name: string,
   possibleSettings: [string, number][],

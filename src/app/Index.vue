@@ -1,13 +1,4 @@
-<template>
-  <div class="flex flex-col h-screen text-gray-900 lg:flex-row">
-    <Map class="lg:order-2" />
-    <Bar />
-  </div>
-</template>
-
 <script setup lang="ts">
-  import { useHead } from '@vueuse/head'
-
   import packageJSON from '/src/../package.json'
 
   import Bar from './components/Bar/Index.vue'
@@ -23,3 +14,10 @@
     ],
   })
 </script>
+
+<template>
+  <div class="flex h-screen flex-col text-gray-900 lg:flex-row">
+    <Map class="lg:order-2" />
+    <Bar />
+  </div>
+</template>

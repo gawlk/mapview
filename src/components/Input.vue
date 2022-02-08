@@ -4,7 +4,7 @@
     <div v-if="props.type === 'slidableNumber'" class="flex space-x-2">
       <input
         :id="`${props.id}-number`"
-        @input="(event) => emit('input', Number(event.target.value))"
+        @input="(event) => emit('input', Number((event.target as HTMLInputElement).value))"
         type="number"
         :value="props.value"
         :min="props.min"
@@ -14,7 +14,7 @@
       />
       <input
         :id="`${props.id}-range`"
-        @input="(event) => emit('input', Number(event.target.value))"
+        @input="(event) => emit('input', Number((event.target as HTMLInputElement).value))"
         type="range"
         :max="props.max"
         :min="props.min"
@@ -28,23 +28,22 @@
       <input
         v-if="!props.strict"
         :id="`${props.id}-text`"
-        @input="(event) => emit('input', event.target.value)"
+        @input="(event) => emit('input', (event.target as HTMLInputElement).value)"
         :value="props.value"
         :class="classes"
-        class="flex-1 w-full"
+        class="w-full flex-1"
       />
       <Listbox
         :values="props.list"
         :selected="props.value"
         @select="(value) => emit('input', value)"
         full
-        isTop
         class="flex-1"
       />
     </div>
     <textarea
       v-else-if="props.type === 'longString'"
-      @input="(event) => emit('input', event.target.value)"
+      @input="(event) => emit('input', (event.target as HTMLInputElement).value)"
       :id="props.id"
       rows="3"
       :value="props.value"
@@ -64,8 +63,8 @@
           emit(
             'input',
             props.type === 'number'
-              ? Number(event.target.value)
-              : event.target.value
+              ? Number((event.target as HTMLInputElement).value)
+              : (event.target as HTMLInputElement).value
           )
       "
       :id="props.id"
@@ -80,8 +79,6 @@
 
 <script setup lang="ts">
   import { getBrowserLocale } from '/src/locales'
-
-  import { Label, Listbox } from '.'
 
   const emit = defineEmits<{
     (event: 'input', value: string | number): void

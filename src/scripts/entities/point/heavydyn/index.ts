@@ -1,12 +1,18 @@
-import { createBasePoint } from '../base'
+import { createBasePointFromJSON } from '../base'
 
-export const createHeavydynPoint = (data: unknown, map: mapboxgl.Map) => {
-  const basePoint = createBasePoint(data, map)
+export const createHeavydynPointFromJSON = (
+  json: JSONPoint,
+  map: mapboxgl.Map,
+  parameters: MachinePointCreatorParameters
+) => {
+  const point: PartialMachinePoint<HeavydynPoint> = createBasePointFromJSON(
+    json,
+    map,
+    {
+      machine: 'heavydyn',
+      ...parameters,
+    }
+  )
 
-  const point: HeavydynPoint = {
-    kind: 'heavydyn' as const,
-    ...basePoint,
-  }
-
-  return point
+  return point as HeavydynPoint
 }

@@ -1,13 +1,14 @@
-import { unzipSync } from 'fflate'
+import { Unzipped, unzipSync } from 'fflate'
 
 import store from '/src/store'
 import {
-  createHeavydynProject,
-  createMaxidynProject,
-  createMinidynProject,
+  createHeavydynProjectFromJSON,
+  createMaxidynProjectFromJSON,
+  createMinidynProjectFromJSON,
   createImage,
   Uint8ArrayToData64Image,
 } from '/src/scripts'
+import { convertJSONFromPRJZToMPVZ } from './converter'
 
 const waitForMap = () =>
   new Promise<boolean>((resolve) => {
@@ -24,94 +25,117 @@ export const importFile = async (file: File) => {
 
   const extension = file.name.split('.').pop()
 
-  switch (extension) {
-    case 'json':
-      await importJSON(JSON.parse(await file.text()))
+  const zip = unzipSync(new Uint8Array(await file.arrayBuffer()))
 
-      break
+  const jsonUint = zip['database.json']
 
-    case 'prjz':
-      const zip = unzipSync(new Uint8Array(await file.arrayBuffer()))
+  if (jsonUint) {
+    const importedJSON: any = JSON.parse(new TextDecoder().decode(jsonUint))
 
-      const jsonUint = zip['data.json']
+    const jsonProject: JSONProject =
+      extension === 'mpvz'
+        ? (importedJSON as JSONProject)
+        : convertJSONFromPRJZToMPVZ(importedJSON)
 
-      if (jsonUint) {
-        const JSONProject: JSONProject = JSON.parse(
-          new TextDecoder().decode(jsonUint)
-        )
+    const project = await generateProjectFromJSON(jsonProject)
 
-        await importJSON(JSONProject)
+    if (project) {
+      await importImages(zip, jsonProject, project)
 
-        JSONProject.images.forEach(async (image) => {
-          const array = zip[`images/${image.name}`]
+      importScreenshots(zip, jsonProject, project)
+    }
 
-          if (array && store.project && store.map) {
-            const data64 = Uint8ArrayToData64Image(
-              array,
-              image.name.split('.').pop() as string
-            )
-
-            store.project.images.push(
-              await createImage(data64, store.map, {
-                ...image,
-                areImagesVisible:
-                  store.project.mapviewSettings.areImagesVisible,
-              })
-            )
-          }
-        })
-
-        const screenshots = Object.keys(zip)
-          .filter((key) => key.startsWith('screenshots/'))
-          .map((key) => key.substring(12))
-          .filter((key) => key)
-
-        for (let i = 0; i < JSONProject.reports.length; i++) {
-          const report = JSONProject.reports[i]
-
-          report.screenshots.forEach(async (screenshotIndex) => {
-            const screenshotFileName = screenshots.find(
-              (screenshot) =>
-                Number(screenshot.split('.')[0]) === screenshotIndex
-            )
-
-            if (screenshotFileName) {
-              const array = zip[`screenshots/${screenshotFileName}`]
-
-              if (store.project && store.map) {
-                const data64 = Uint8ArrayToData64Image(
-                  array,
-                  screenshotFileName.split('.').pop() as string
-                )
-
-                store.project.reports[i].screenshots.push(data64)
-              }
-            }
-          })
-        }
-      }
+    return project
+  } else {
+    return null
   }
 }
 
-const importJSON = async (json: JSONProject) => {
+const generateProjectFromJSON = async (
+  json: JSONProject
+): Promise<MachineProject | null> => {
   const map = store.map as mapboxgl.Map
 
-  map.setCenter(json.mapviewSettings.coordinates)
-  map.setZoom(json.mapviewSettings.zoom)
+  let project = null
 
-  switch (json.database.machine) {
+  switch (json.machine) {
     case 'heavydyn':
-      store.project = await createHeavydynProject(json, map)
+      project = await createHeavydynProjectFromJSON(json, map)
       break
 
     case 'maxidyn':
-      store.project = await createMaxidynProject(json, map)
+      project = await createMaxidynProjectFromJSON(json, map)
       break
 
     case 'minidyn':
-      store.project = await createMinidynProject(json, map)
+      project = await createMinidynProjectFromJSON(json, map)
       break
   }
 
-  console.log(store.project)
+  if (project) {
+    store.projects.push(project)
+  }
+
+  console.log('project', project)
+
+  return project
+}
+
+const importImages = async (
+  zip: Unzipped,
+  json: JSONProject,
+  project: MachineProject
+) => {
+  for (const jsonImage of json.images) {
+    const array = zip[`images/${jsonImage.name}`]
+
+    if (array && store.map) {
+      const data64 = Uint8ArrayToData64Image(
+        array,
+        jsonImage.name.split('.').pop() as string
+      )
+
+      const image = await createImage(data64, store.map, {
+        ...jsonImage,
+      })
+
+      if (store.selectedProject === project && store.map.isStyleLoaded()) {
+        image.addToMap(store.selectedProject.mapviewSettings.areImagesVisible)
+      }
+
+      project.images.push(image)
+    }
+  }
+}
+
+const importScreenshots = (
+  zip: Unzipped,
+  json: JSONProject,
+  project: MachineProject
+) => {
+  const screenshots = Object.keys(zip)
+    .filter((key) => key.startsWith('screenshots/'))
+    .map((key) => key.substring(12))
+    .filter((key) => key)
+
+  for (let i = 0; i < json.reports.length; i++) {
+    const report = json.reports[i]
+
+    report.screenshots.forEach(async (screenshotIndex) => {
+      const screenshotFileName = screenshots.find(
+        (screenshot) => Number(screenshot.split('.')[0]) === screenshotIndex
+      )
+
+      if (screenshotFileName) {
+        const array = zip[`screenshots/${screenshotFileName}`]
+
+        const data64 = Uint8ArrayToData64Image(
+          array,
+          screenshotFileName.split('.').pop() as string
+        )
+
+        project.reports[i]?.screenshots.push(data64)
+      }
+    })
+  }
 }

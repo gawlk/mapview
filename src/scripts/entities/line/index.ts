@@ -1,16 +1,16 @@
-import { watch } from 'vue'
-
 import { createWatcherHandler } from '/src/scripts'
 
-export const createLine = (points: Point[], map: mapboxgl.Map): Line => {
-  const id = `${+new Date()}`
+export const createLine = (points: MachinePoint[], map: mapboxgl.Map): Line => {
+  const id = `line-${+new Date()}${Math.random()}`
   let features: GeoJSON.Feature<GeoJSON.Geometry, GeoJSON.GeoJsonProperties>[] =
     []
 
   const watcherHandler = createWatcherHandler()
 
   const line: Line = {
-    addToMap(): void {
+    addToMap: (): void => {
+      console.log('add line', id)
+
       map.addLayer(
         {
           id,
@@ -51,15 +51,21 @@ export const createLine = (points: Point[], map: mapboxgl.Map): Line => {
           }
         )
       )
+
+      console.log('line layer, source', map.getLayer(id), map.getSource(id))
     },
     remove: (): void => {
-      map.removeLayer(id)
-      map.removeSource(id)
+      console.log('remove line', id)
+
+      map.getLayer(id) && map.removeLayer(id)
+      map.getSource(id) && map.removeSource(id)
 
       watcherHandler.clean()
     },
     update: (): void => {
-      const visiblePoints = points.filter((point) => point.isVisible)
+      const visiblePoints = points.filter(
+        (point) => point.mapviewSettings.isVisible
+      )
 
       features = []
 
@@ -91,8 +97,6 @@ export const createLine = (points: Point[], map: mapboxgl.Map): Line => {
       })
     },
   }
-
-  line.addToMap()
 
   return line
 }

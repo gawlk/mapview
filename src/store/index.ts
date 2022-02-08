@@ -1,16 +1,27 @@
-import { shallowReactive } from 'vue'
+const read = (key: string) => {
+  const item = localStorage.getItem(key)
 
-import { mapStyles } from '/src/scripts'
+  return typeof item === 'string' ? JSON.parse(item) : null
+}
 
-const store: Store = shallowReactive({
-  // example: localStorage.getItem('example') || defaultExample,
-  project: undefined,
-  map: undefined,
-  mapStyle: localStorage.getItem('mapStyle') || mapStyles[0],
-  save: (key: string, value: string): void => {
-    localStorage.setItem(key, value)
+const store = shallowReactive({
+  // example: read('example') || defaultExample,
+  selectedProject: null,
+  projects: shallowReactive([]),
+  map: null,
+  save: (key: StoreKey, value: StoreSaveableTypes): void => {
+    localStorage.setItem(key, JSON.stringify(value))
+    // @ts-ignore
     store[key] = value
   },
-})
+} as Store)
+
+watch(
+  () => store.selectedProject,
+  (project, oldProject) => {
+    oldProject?.remove()
+    project?.addToMap()
+  }
+)
 
 export default store

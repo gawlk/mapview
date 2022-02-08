@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "target": "esnext",
+    "useDefineForClassFields": true,
     "module": "esnext",
     "moduleResolution": "node",
     "strict": true,
@@ -9,10 +11,20 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "lib": ["esnext", "dom"],
+    "types": [
+      "vite/client",
+      "vitest",
+      "@intlify/vite-plugin-vue-i18n/client",
+      "unplugin-icons/types/vue",
+      "vite-svg-loader",
+      "geojson",
+      "@types/mapbox-gl",
+      "mathjs",
+      "fflate"
+    ],
     "paths": {
-      "/src/*": ["./src/*"]
-    },
-    "types": ["@intlify/vite-plugin-vue-i18n/client"]
+      "/src/*": ["src/*"]
+    }
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
+  "exclude": ["dist", "node_modules"]
 }

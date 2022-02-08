@@ -10,5 +10,5 @@ cache:
 build:
   stage: build
   script:
-    - pnpm install
-    - pnpm run build
+    - npm install
+    - npm run build

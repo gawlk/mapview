@@ -1,3 +1,17 @@
+<script setup lang="ts">
+  import {
+    Popover as HeadlessPopover,
+    PopoverButton,
+    PopoverPanel,
+  } from '@headlessui/vue'
+
+  const props = defineProps<{
+    buttonText: string
+    full: boolean
+    icon: any
+  }>()
+</script>
+
 <template>
   <HeadlessPopover
     as="div"
@@ -27,17 +41,3 @@
     </TransitionDropdown>
   </HeadlessPopover>
 </template>
-
-<script setup lang="ts">
-  import {
-    Popover as HeadlessPopover,
-    PopoverButton,
-    PopoverPanel,
-  } from '@headlessui/vue'
-
-  const props = defineProps<{
-    buttonText: string
-    full: boolean
-    icon: any
-  }>()
-</script>

@@ -1,3 +1,42 @@
+<script setup lang="ts">
+  import {
+    Listbox as HeadlessListbox,
+    ListboxButton,
+    ListboxOptions,
+    ListboxOption,
+  } from '@headlessui/vue'
+
+  const emit = defineEmits<{
+    (event: 'select', value: string): void
+    (event: 'selectIndex', value: number): void
+  }>()
+
+  const props = defineProps<{
+    values?: string[]
+    selected?: string | number
+    icon?: any
+    preSelected?: string
+    selectedReplacement?: string
+    full?: boolean
+    backgrounds?: string[]
+    classes?: string[]
+    buttonBackground?: string
+    buttonColors?: string
+    iconsClasses?: string
+    postSelected?: string
+  }>()
+
+  const update = (value: string) => {
+    emit('select', value)
+
+    if (props.values) {
+      emit('selectIndex', props.values.indexOf(value))
+    } else if (props.backgrounds) {
+      emit('selectIndex', props.backgrounds.indexOf(value))
+    }
+  }
+</script>
+
 <template>
   <HeadlessListbox :modelValue="props.selected" @update:modelValue="update">
     <div :class="[props.full && 'w-full']" class="relative">
@@ -100,42 +139,3 @@
     </div>
   </HeadlessListbox>
 </template>
-
-<script setup lang="ts">
-  import {
-    Listbox as HeadlessListbox,
-    ListboxButton,
-    ListboxOptions,
-    ListboxOption,
-  } from '@headlessui/vue'
-
-  const emit = defineEmits<{
-    (event: 'select', value: string): void
-    (event: 'selectIndex', value: number): void
-  }>()
-
-  const props = defineProps<{
-    values?: string[]
-    selected?: string | number
-    icon?: any
-    preSelected?: string
-    selectedReplacement?: string
-    full?: boolean
-    backgrounds?: string[]
-    classes?: string[]
-    buttonBackground?: string
-    buttonColors?: string
-    iconsClasses?: string
-    postSelected?: string
-  }>()
-
-  const update = (value: string) => {
-    emit('select', value)
-
-    if (props.values) {
-      emit('selectIndex', props.values.indexOf(value))
-    } else if (props.backgrounds) {
-      emit('selectIndex', props.backgrounds.indexOf(value))
-    }
-  }
-</script>

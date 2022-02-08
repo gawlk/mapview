@@ -14,6 +14,7 @@ declare module 'vue' {
     IconHeroiconsOutlineDocumentAdd: typeof import('~icons/heroicons-outline/document-add')['default']
     IconHeroiconsSolidCheck: typeof import('~icons/heroicons-solid/check')['default']
     IconHeroiconsSolidChevronDown: typeof import('~icons/heroicons-solid/chevron-down')['default']
+    IconHeroiconsSolidChevronRight: typeof import('~icons/heroicons-solid/chevron-right')['default']
     IconHeroiconsSolidChevronUp: typeof import('~icons/heroicons-solid/chevron-up')['default']
     IconHeroiconsSolidExclamationCircle: typeof import('~icons/heroicons-solid/exclamation-circle')['default']
     IconHeroiconsSolidSelector: typeof import('~icons/heroicons-solid/selector')['default']

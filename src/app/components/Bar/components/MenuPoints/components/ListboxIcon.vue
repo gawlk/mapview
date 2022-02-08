@@ -2,7 +2,7 @@
   import store from '/src/store'
   import { icons } from '/src/scripts'
 
-  import IconColorSwatch from '~icons/heroicons-solid/color-swatch'
+  import IconColorStar from '~icons/heroicons-solid/star'
 
   const { t } = useI18n()
 
@@ -27,7 +27,7 @@
   <Listbox
     full
     @selectIndex="setIcon"
-    :icon="IconColorSwatch"
+    :icon="IconColorStar"
     :preSelected="`${t('Icon')}${t(':')}`"
     :selected="
       pointIconValues[

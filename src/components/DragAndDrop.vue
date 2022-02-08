@@ -1,3 +1,30 @@
+<script setup lang="ts">
+  import IconSolidDocumentAdd from '~icons/heroicons-solid/document-add'
+
+  const emit = defineEmits<{
+    (event: 'input', value: FileList | null): void
+  }>()
+
+  const props = defineProps<{
+    accept: string
+    buttonText: string
+  }>()
+
+  const file = ref()
+
+  const state = reactive({
+    dragging: false,
+  })
+
+  const drop = (dataTransfer: DataTransfer | null) => {
+    state.dragging = false
+
+    if (dataTransfer && dataTransfer.files) {
+      emit('input', dataTransfer.files)
+    }
+  }
+</script>
+
 <template>
   <div>
     <div
@@ -43,30 +70,3 @@
     </Button>
   </div>
 </template>
-
-<script setup lang="ts">
-  import IconSolidDocumentAdd from '~icons/heroicons-solid/document-add'
-
-  const emit = defineEmits<{
-    (event: 'input', value: FileList | null): void
-  }>()
-
-  const props = defineProps<{
-    accept: string
-    buttonText: string
-  }>()
-
-  const file = ref()
-
-  const state = reactive({
-    dragging: false,
-  })
-
-  const drop = (dataTransfer: DataTransfer | null) => {
-    state.dragging = false
-
-    if (dataTransfer && dataTransfer.files) {
-      emit('input', dataTransfer.files)
-    }
-  }
-</script>

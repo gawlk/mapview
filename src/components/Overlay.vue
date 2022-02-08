@@ -1,3 +1,33 @@
+<script setup lang="ts">
+  import {
+    TransitionRoot,
+    TransitionChild,
+    Dialog as HeadlessDialog,
+    DialogOverlay,
+  } from '@headlessui/vue'
+
+  const props = defineProps<{
+    isOpen: boolean
+  }>()
+
+  const state = reactive({
+    isOpen: false,
+  })
+
+  const open = () => {
+    state.isOpen = true
+  }
+
+  const close = () => {
+    state.isOpen = false
+  }
+
+  watch(
+    () => props.isOpen,
+    (isOpen) => (isOpen ? open() : close())
+  )
+</script>
+
 <template>
   <TransitionRoot appear :show="state.isOpen" as="template">
     <HeadlessDialog
@@ -38,33 +68,3 @@
     </HeadlessDialog>
   </TransitionRoot>
 </template>
-
-<script setup lang="ts">
-  import {
-    TransitionRoot,
-    TransitionChild,
-    Dialog as HeadlessDialog,
-    DialogOverlay,
-  } from '@headlessui/vue'
-
-  const props = defineProps<{
-    isOpen: boolean
-  }>()
-
-  const state = reactive({
-    isOpen: false,
-  })
-
-  const open = () => {
-    state.isOpen = true
-  }
-
-  const close = () => {
-    state.isOpen = false
-  }
-
-  watch(
-    () => props.isOpen,
-    (isOpen) => (isOpen ? open() : close())
-  )
-</script>

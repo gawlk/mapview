@@ -1,3 +1,41 @@
+<script setup lang="ts">
+  import { getBrowserLocale } from '/src/locales'
+
+  const emit = defineEmits<{
+    (event: 'input', value: string | number): void
+  }>()
+
+  const props = defineProps<{
+    id: string
+    type: string
+    value: string | number
+    label?: string
+    step?: number
+    min?: number
+    max?: number
+    list?: any
+    strict?: boolean
+  }>()
+
+  const classes = `
+    w-full
+    flex-1
+    py-2
+    px-3.5
+    rounded-lg
+    leading-5
+    border-2 border-gray-100
+    hover:border-gray-200
+    focus:border-gray-200
+    focus:ring-gray-50
+    placeholder-gray-500
+    focus:ring
+    focus:outline-none
+    transition-colors
+    duration-200
+  `
+</script>
+
 <template>
   <div class="w-full space-y-1">
     <Label v-if="props.label">{{ props.label }}</Label>
@@ -76,41 +114,3 @@
     />
   </div>
 </template>
-
-<script setup lang="ts">
-  import { getBrowserLocale } from '/src/locales'
-
-  const emit = defineEmits<{
-    (event: 'input', value: string | number): void
-  }>()
-
-  const props = defineProps<{
-    id: string
-    type: string
-    value: string | number
-    label?: string
-    step?: number
-    min?: number
-    max?: number
-    list?: any
-    strict?: boolean
-  }>()
-
-  const classes = `
-    w-full
-    flex-1
-    py-2
-    px-3.5
-    rounded-lg
-    leading-5
-    border-2 border-gray-100
-    hover:border-gray-200
-    focus:border-gray-200
-    focus:ring-gray-50
-    placeholder-gray-500
-    focus:ring
-    focus:outline-none
-    transition-colors
-    duration-200
-  `
-</script>

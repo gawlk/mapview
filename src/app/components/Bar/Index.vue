@@ -32,12 +32,12 @@
       component: MenuReports,
       needsReport: true,
     },
-    // {
-    //   name: t('Points'),
-    //   icon: DotsIcon,
-    //   component: MenuPoints,
-    //   needsReport: true,
-    // },
+    {
+      name: t('Points'),
+      icon: DotsIcon,
+      component: MenuPoints,
+      needsReport: true,
+    },
     // {
     //   name: t('Data'),
     //   icon: IconTable,

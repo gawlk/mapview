@@ -1,3 +1,49 @@
+<script setup lang="ts">
+  import {
+    TransitionRoot,
+    TransitionChild,
+    Dialog as HeadlessDialog,
+    DialogOverlay,
+    DialogTitle,
+  } from '@headlessui/vue'
+
+  import IconChevronRight from '~icons/heroicons-solid/chevron-right'
+
+  const emit = defineEmits<{
+    (event: 'close'): void
+    (event: 'open'): void
+    (event: 'save'): void
+  }>()
+
+  const props = defineProps<{
+    title: string
+    buttonIcon: any
+    saveable?: boolean
+    buttonBlue?: boolean
+  }>()
+
+  const state = reactive({
+    isOpen: false,
+  })
+
+  const { t } = useI18n()
+
+  const close = () => {
+    state.isOpen = false
+    emit('close')
+  }
+
+  const open = () => {
+    state.isOpen = true
+    emit('open')
+  }
+
+  const save = () => {
+    close()
+    emit('save')
+  }
+</script>
+
 <template>
   <div class="w-full">
     <Button
@@ -65,49 +111,3 @@
     </TransitionRoot>
   </div>
 </template>
-
-<script setup lang="ts">
-  import {
-    TransitionRoot,
-    TransitionChild,
-    Dialog as HeadlessDialog,
-    DialogOverlay,
-    DialogTitle,
-  } from '@headlessui/vue'
-
-  import IconChevronRight from '~icons/heroicons-solid/chevron-right'
-
-  const emit = defineEmits<{
-    (event: 'close'): void
-    (event: 'open'): void
-    (event: 'save'): void
-  }>()
-
-  const props = defineProps<{
-    title: string
-    buttonIcon: any
-    saveable?: boolean
-    buttonBlue?: boolean
-  }>()
-
-  const state = reactive({
-    isOpen: false,
-  })
-
-  const { t } = useI18n()
-
-  const close = () => {
-    state.isOpen = false
-    emit('close')
-  }
-
-  const open = () => {
-    state.isOpen = true
-    emit('open')
-  }
-
-  const save = () => {
-    close()
-    emit('save')
-  }
-</script>

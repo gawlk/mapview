@@ -1,3 +1,53 @@
+<script setup lang="ts">
+  import { cloneDeep } from 'lodash-es'
+
+  import IconInformationCircle from '~icons/heroicons-solid/information-circle'
+
+  const { t } = useI18n()
+
+  const props = defineProps<{
+    preID: string
+    data: {
+      title: string
+      fields: MachineField[]
+    }[]
+  }>()
+
+  const state = reactive({
+    data: [] as {
+      title: string
+      fields: MachineField[]
+    }[],
+  })
+
+  const importInformations = () => {
+    state.data = cloneDeep(props.data)
+  }
+
+  const exportInformations = () => {
+    for (let i = 0; i < state.data.length; i++) {
+      const dataset = state.data[i]
+
+      for (let j = 0; j < dataset.fields.length; j++) {
+        const field = dataset.fields[j]
+
+        props.data[i].fields[j].value = field.value
+      }
+    }
+  }
+
+  const setValue = (information: MachineField, value: any) => {
+    if (typeof information.value === 'object' && information.value.kind) {
+      information.value.value = value
+    } else {
+      information.value = value
+    }
+  }
+
+  const getType = (field: MachineField) =>
+    (typeof field.value === 'object' && field.value.kind) || typeof field.value
+</script>
+
 <template>
   <Dialog
     :title="t('Informations')"
@@ -64,56 +114,6 @@
     </template>
   </Dialog>
 </template>
-
-<script setup lang="ts">
-  import { cloneDeep } from 'lodash-es'
-
-  import IconInformationCircle from '~icons/heroicons-solid/information-circle'
-
-  const { t } = useI18n()
-
-  const props = defineProps<{
-    preID: string
-    data: {
-      title: string
-      fields: MachineField[]
-    }[]
-  }>()
-
-  const state = reactive({
-    data: [] as {
-      title: string
-      fields: MachineField[]
-    }[],
-  })
-
-  const importInformations = () => {
-    state.data = cloneDeep(props.data)
-  }
-
-  const exportInformations = () => {
-    for (let i = 0; i < state.data.length; i++) {
-      const dataset = state.data[i]
-
-      for (let j = 0; j < dataset.fields.length; j++) {
-        const field = dataset.fields[j]
-
-        props.data[i].fields[j].value = field.value
-      }
-    }
-  }
-
-  const setValue = (information: MachineField, value: any) => {
-    if (typeof information.value === 'object' && information.value.kind) {
-      information.value.value = value
-    } else {
-      information.value = value
-    }
-  }
-
-  const getType = (field: MachineField) =>
-    (typeof field.value === 'object' && field.value.kind) || typeof field.value
-</script>
 
 <i18n lang="yaml">
 en:

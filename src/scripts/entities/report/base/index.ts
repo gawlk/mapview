@@ -1,15 +1,11 @@
 import { LngLatBounds } from 'mapbox-gl'
-import { createLine, createWatcherHandler } from '/src/scripts'
-
-interface BaseReportCreatorParameters extends MachineReportCreatorParameters {
-  machine: MachineName
-  createPointFromJSON: (
-    json: JSONPoint,
-    map: mapboxgl.Map,
-    parameters: MachinePointCreatorParameters
-  ) => MachinePoint
-  createFieldFromJSON: (field: JSONField) => MachineField
-}
+import {
+  createBaseFieldFromJSON,
+  createLine,
+  createWatcherHandler,
+  createZone,
+  getObjectFromSelectedIndexInSelectableList,
+} from '/src/scripts'
 
 export const createBaseReportFromJSON = (
   json: JSONReport,
@@ -18,45 +14,33 @@ export const createBaseReportFromJSON = (
 ) => {
   const watcherHandler = createWatcherHandler()
 
-  const mapviewSettings = reactive(json.mapviewSettings)
+  const settings: JSONReportSettings = reactive(json.settings)
 
-  const points = shallowReactive(
-    json.points.map((jsonPoint) => {
-      const point = parameters.createPointFromJSON(jsonPoint, map, {
-        iconName: json.mapviewSettings.iconName,
-        number: 0,
-        projectMapviewSettings: parameters.projectMapviewSettings,
-        reportMapviewSettings: mapviewSettings,
-      })
-
-      return point
-    })
-  )
+  const points: MachinePoint[] = shallowReactive([])
 
   const report: BaseReport = shallowReactive({
     machine: parameters.machine,
-    name: reactive(
-      parameters.createFieldFromJSON({
+    name: createBaseFieldFromJSON(
+      {
         name: 'Name',
         value: json.name,
-      })
+      },
+      true
     ),
-    isOnMap: false,
-    mapviewSettings,
+    isOnMap: false as boolean,
+    settings,
     screenshots: shallowReactive([] as string[]),
+    valuesNames: generateValuesNames(
+      json,
+      parameters.dropList,
+      parameters.pointList,
+      parameters.zoneList
+    ),
     points,
+    zones: json.zones.map((zone) => createZone(zone)),
     line: createLine(points, map),
-    // dropsSettings: reactive(json.dropsSettings),
-    platform: shallowReactive(
-      json.platform.map((field: JSONField) =>
-        parameters.createFieldFromJSON(field)
-      )
-    ),
-    informations: shallowReactive(
-      json.informations.map((field: JSONField) =>
-        parameters.createFieldFromJSON(field)
-      )
-    ),
+    platform: shallowReactive([]),
+    informations: shallowReactive([]),
     fitOnMap: function () {
       const bounds = new LngLatBounds()
 
@@ -72,39 +56,22 @@ export const createBaseReportFromJSON = (
       this.isOnMap = true
 
       this.points.forEach((point) => {
-        point.refreshVisibility()
+        point.addToMap()
       })
 
-      if (json.mapviewSettings.isVisible) {
+      if (json.settings.isVisible) {
         this.line.addToMap()
       }
 
-      // watcherHandler.add(
-      //   watch(
-      //     () => this.dropsSettings.data.selected,
-      //     (selectedData: number) => {
-      //       this.points.forEach((point) => {
-      //         point.selectedData = selectedData
-      //       })
-      //     },
-      //     {
-      //       immediate: true,
-      //     }
-      //   )
-      // )
-
       watcherHandler.add(
         watch(
-          () => this.mapviewSettings.isVisible,
+          () => this.settings.isVisible,
           (isVisible: boolean) => {
             this.points.forEach((point) => {
-              point.refreshVisibility()
+              isVisible ? point.addToMap() : point.remove()
             })
 
-            if (
-              parameters.projectMapviewSettings.arePointsLinked &&
-              isVisible
-            ) {
+            if (parameters.projectSettings.arePointsLinked && isVisible) {
               this.line.addToMap()
             } else {
               this.line.remove()
@@ -115,7 +82,7 @@ export const createBaseReportFromJSON = (
 
       watcherHandler.add(
         watch(
-          () => this.mapviewSettings.iconName,
+          () => this.settings.iconName,
           (iconName: IconName) => {
             this.points.forEach((point) => {
               point.icon.setIcon(iconName)
@@ -135,7 +102,34 @@ export const createBaseReportFromJSON = (
 
       watcherHandler.clean()
     },
-  } as BaseReport)
+  })
 
   return report
+}
+
+const generateValuesNames = (
+  json: JSONReport,
+  dropList: ValueName[],
+  pointList: ValueName[],
+  zoneList: ValueName[]
+) => {
+  const generateValuesSelectableList = (
+    jsonSelectableList: SelectableOptionalList<number, string>,
+    list: ValueName[]
+  ) => {
+    return {
+      selected: getObjectFromSelectedIndexInSelectableList(
+        jsonSelectableList.selected,
+        list
+      ),
+      list,
+    }
+  }
+
+  return {
+    selectedList: json.values.selectedList,
+    drop: generateValuesSelectableList(json.values.drop, dropList),
+    point: generateValuesSelectableList(json.values.point, pointList),
+    zone: generateValuesSelectableList(json.values.zone, zoneList),
+  }
 }

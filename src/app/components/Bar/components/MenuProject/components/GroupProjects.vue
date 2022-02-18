@@ -11,11 +11,11 @@
   const inputFile = ref()
 
   const selectProject = (index: number) => {
-    const project = store.projects[index]
-    if (store.selectedProject === project) {
+    const project = store.projects.list[index]
+    if (store.projects.selected === project) {
       project.fitOnMap()
     } else {
-      store.selectedProject = project
+      store.projects.selected = project
     }
   }
 
@@ -24,13 +24,13 @@
   }
 
   const deleteProject = (index: number) => {
-    const project = store.projects.splice(index, 1)?.[0]
+    const project = store.projects.list.splice(index, 1)?.[0]
 
-    if (project === store.selectedProject) {
-      store.selectedProject =
-        store.projects.length - 1 >= index
-          ? store.projects[index]
-          : store.projects.slice(-1).pop() || null
+    if (project === store.projects.selected) {
+      store.projects.selected =
+        store.projects.list.length - 1 >= index
+          ? store.projects.list[index]
+          : store.projects.list.slice(-1).pop() || null
     }
   }
 </script>
@@ -40,12 +40,12 @@
     <Popover
       :icon="IconViewList"
       :buttonText="`${t('Name')}${t(':')} ${
-        store.selectedProject?.name.value
-      } (${store.selectedProject?.machine})`"
+        store.projects.selected?.name.value
+      } (${store.projects.selected?.machine})`"
       full
     >
       <div
-        v-for="(name, index) of store.projects.map(
+        v-for="(name, index) of store.projects.list.map(
           (project) => project.name.value as string
         )"
         :key="name"

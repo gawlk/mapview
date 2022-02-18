@@ -15,11 +15,14 @@
   <div class="w-[480px] flex-none space-y-8 overflow-scroll py-8 px-2">
     <Logo />
 
-    <Initializer v-if="!store.selectedProject" />
+    <Initializer v-if="!store.projects.selected" />
     <div v-else class="space-y-8">
       <div v-for="menu in props.menus" :key="menu.name">
         <MenuWrapperDesktop
-          v-if="store.selectedProject?.reports.length > 0 || !menu.needsReport"
+          v-if="
+            store.projects.selected?.reports.list.length > 0 ||
+            !menu.needsReport
+          "
           :name="menu.name"
           :icon="menu.icon"
         >

@@ -1,3 +1,5 @@
+import { createSelectableList } from '/src/scripts'
+
 const read = (key: string) => {
   const item = localStorage.getItem(key)
 
@@ -6,8 +8,7 @@ const read = (key: string) => {
 
 const store = shallowReactive({
   // example: read('example') || defaultExample,
-  selectedProject: null,
-  projects: shallowReactive([]),
+  projects: createSelectableList<MachineProject>(null, [], true),
   map: null,
   save: (key: StoreKey, value: StoreSaveableTypes): void => {
     localStorage.setItem(key, JSON.stringify(value))
@@ -17,7 +18,7 @@ const store = shallowReactive({
 } as Store)
 
 watch(
-  () => store.selectedProject,
+  () => store.projects.selected,
   (project, oldProject) => {
     oldProject?.remove()
     project?.addToMap()

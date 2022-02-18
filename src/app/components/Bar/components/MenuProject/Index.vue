@@ -13,8 +13,11 @@
     :data="[
       {
         title: 'Informations',
-        fields: store.selectedProject
-          ? [store.selectedProject.name, ...store.selectedProject.informations]
+        fields: store.projects.selected
+          ? [
+              store.projects.selected.name,
+              ...store.projects.selected.informations,
+            ]
           : [],
       },
     ]"

@@ -42,13 +42,13 @@ export default defineConfig({
       ],
     }),
 
-    // https://github.com/antfu/unplugin-auto-import
+    // // https://github.com/antfu/unplugin-auto-import
     autoImport({
       imports: ['vue', 'vue-i18n', '@vueuse/head'],
       dts: './src/auto-imports.d.ts',
     }),
 
-    // https://github.com/antfu/unplugin-vue-components
+    // // https://github.com/antfu/unplugin-vue-components
     components({
       resolvers: [
         // https://github.com/antfu/vite-plugin-icons

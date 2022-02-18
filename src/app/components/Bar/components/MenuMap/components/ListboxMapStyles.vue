@@ -16,10 +16,10 @@
   ]
 
   const setStyle = (index: number) => {
-    if (store.selectedProject) {
+    if (store.projects.selected) {
       console.log(index)
 
-      store.selectedProject.mapviewSettings.map.styleIndex = index
+      store.projects.selected.settings.map.styleIndex = index
     }
   }
 </script>
@@ -28,10 +28,10 @@
   <Listbox
     :icon="IconColorSwatch"
     :selected="
-      stylesImages[store.selectedProject?.mapviewSettings.map.styleIndex || 0]
+      stylesImages[store.projects.selected?.settings.map.styleIndex || 0]
     "
     :buttonBackground="
-      stylesImages[store.selectedProject?.mapviewSettings.map.styleIndex || 0]
+      stylesImages[store.projects.selected?.settings.map.styleIndex || 0]
     "
     :backgrounds="stylesImages"
     @selectIndex="setStyle"

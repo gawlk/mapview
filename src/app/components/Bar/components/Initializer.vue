@@ -34,7 +34,7 @@
     const projectMaxidyn = await importFile(demoMaxidyn)
     const projectHeavydyn = await importFile(demoHeavydyn)
 
-    store.selectedProject = projectMaxidyn
+    store.projects.selected = projectMaxidyn
   }
 
   const downloadTemplates = () => {}

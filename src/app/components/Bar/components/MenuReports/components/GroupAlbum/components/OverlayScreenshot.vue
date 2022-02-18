@@ -16,8 +16,7 @@
 
   watch(
     () => props.image,
-    (image) => image && (state.image = image),
-    { immediate: true }
+    (image) => image && (state.image = image)
   )
 </script>
 

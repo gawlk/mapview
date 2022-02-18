@@ -1,6 +1,5 @@
 interface Store {
-  selectedProject: MachineProject | null
-  projects: MachineProject[]
+  projects: SelectableList<MachineProject>
   map: mapboxgl.Map | null
   save: (key: StoreKey, value: StoreSaveableTypes) => void
 }

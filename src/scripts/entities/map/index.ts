@@ -16,7 +16,7 @@ export const createMap = (container: string): mapboxgl.Map => {
   const map = new Map({
     container,
     style: window.navigator.onLine
-      ? mapStyles[store.selectedProject?.mapviewSettings.map?.styleIndex || 0]
+      ? mapStyles[store.projects.selected?.settings.map?.styleIndex || 0]
       : { version: 8, sources: {}, layers: [] },
     center: [2.419263, 48.621551], // [lng, lat]
     zoom: 2,
@@ -30,7 +30,7 @@ export const createMap = (container: string): mapboxgl.Map => {
       'online',
       () => {
         map.setStyle(
-          mapStyles[store.selectedProject?.mapviewSettings.map.styleIndex || 0]
+          mapStyles[store.projects.selected?.settings.map.styleIndex || 0]
         )
       },
       {
@@ -55,14 +55,14 @@ export const createMap = (container: string): mapboxgl.Map => {
   }
 
   map.on('moveend', () => {
-    if (store.selectedProject) {
-      store.selectedProject.mapviewSettings.map.coordinates = map.getCenter()
+    if (store.projects.selected) {
+      store.projects.selected.settings.map.coordinates = map.getCenter()
     }
   })
 
   map.on('zoomend', () => {
-    if (store.selectedProject) {
-      store.selectedProject.mapviewSettings.map.zoom = map.getZoom()
+    if (store.projects.selected) {
+      store.projects.selected.settings.map.zoom = map.getZoom()
     }
   })
 
@@ -71,7 +71,7 @@ export const createMap = (container: string): mapboxgl.Map => {
 
     addDummyLayersToMap(map)
 
-    store.selectedProject?.refreshLinesAndImages()
+    store.projects.selected?.refreshLinesAndImages()
   })
 
   return map

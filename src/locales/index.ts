@@ -9,10 +9,7 @@ export const getBrowserLocale = (languageCodeOnly: boolean = false) => {
 }
 
 export const getBrowserLocales = (languageCodeOnly = false) => {
-  const browserLocales =
-    navigator.languages === undefined
-      ? [navigator.language]
-      : navigator.languages
+  const browserLocales = navigator.languages ?? [navigator.language]
 
   if (!browserLocales) {
     return undefined

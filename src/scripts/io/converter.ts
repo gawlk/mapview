@@ -15,7 +15,7 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
   const project: JSONProject = {
     name: json.Dossiers.Name,
     machine,
-    mapviewSettings: {
+    settings: {
       arePointsLinked: true,
       arePointsLocked: true,
       arePointsVisible: true,
@@ -49,11 +49,25 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
   project.reports = json.PVs.map((json: any) => {
     const report: JSONReport = {
       name: json.PVs.Name,
-      mapviewSettings: {
+      values: {
+        selectedList: 'Drop',
+        drop: {
+          selected: 0,
+        },
+        point: {
+          selected: 0,
+        },
+        zone: {
+          selected: 0,
+        },
+      },
+      settings: {
         iconName: 'circle',
         isVisible: true,
+        selectedColorization: 'Threshold',
       },
       points: [],
+      zones: [],
       informations: [],
       platform: [],
       screenshots: [],
@@ -89,7 +103,7 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
           lng: point.Points.Longitude,
           lat: point.Points.Latitude,
         },
-        mapviewSettings: {
+        settings: {
           isVisible: true,
         },
         informations: [],

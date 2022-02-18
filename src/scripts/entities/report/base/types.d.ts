@@ -1,12 +1,13 @@
 interface BaseReport {
-  machine: MachineName
+  readonly machine: MachineName
   name: MachineField
   screenshots: string[]
   points: MachinePoint[]
+  zones: Zone[]
   line: Line
   isOnMap: boolean
-  mapviewSettings: JSONReportMapviewSettings
-  // dropsSettings: JSONDropsSettings
+  settings: JSONReportSettings
+  valuesNames: BaseReportValuesNames
   platform: MachineField[]
   informations: MachineField[]
   fitOnMap: () => void
@@ -14,14 +15,29 @@ interface BaseReport {
   remove: () => void
 }
 
-interface MachineReportCreatorParameters {
-  projectMapviewSettings: JSONProjectMapviewSettings
-  units: MathUnit[]
+interface ValueName {
+  name: string
+  unit: MathUnit
+}
+
+interface BaseReportValuesNames {
+  selectedList: ValuesLists
+  drop: SelectableList<ValueName>
+  point: SelectableList<ValueName>
+  zone: SelectableList<ValueName>
+}
+
+interface BaseReportCreatorParameters extends MachineReportCreatorParameters {
+  machine: MachineName
+  dropList: ValueName[]
+  pointList: ValueName[]
+  zoneList: ValueName[]
 }
 
 interface JSONReport {
   name: string
-  mapviewSettings: JSONReportMapviewSettings
+  values: JSONReportValuesNames
+  settings: JSONReportSettings
   // thresholdSettings: JSONThresholdSettings
   // loadBearingCapacity: JSONLoadBearingCapacity
   // machineDetails: JSONMachineDetails
@@ -30,11 +46,22 @@ interface JSONReport {
   platform: JSONField[]
   informations: JSONField[]
   points: JSONPoint[]
+  zones: JSONZone[]
 }
 
-interface JSONReportMapviewSettings {
+interface JSONReportValuesNames {
+  selectedList: ValuesLists
+  drop: SelectableOptionalList<number, string>
+  point: SelectableOptionalList<number, string>
+  zone: SelectableOptionalList<number, string>
+}
+
+type ValuesLists = 'Drop' | 'Point' | 'Zone'
+
+interface JSONReportSettings {
   iconName: IconName
   isVisible: boolean
+  selectedColorization: 'Threshold' | 'Zone'
 }
 
 // interface JSONThresholdSettings {

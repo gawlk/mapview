@@ -2,10 +2,6 @@ import { Marker } from 'mapbox-gl'
 
 import { createIcon, createWatcherHandler } from '/src/scripts'
 
-interface BasePointCreatorParameters extends MachinePointCreatorParameters {
-  machine: MachineName
-}
-
 export const createBasePointFromJSON = (
   json: JSONPoint,
   map: mapboxgl.Map,
@@ -17,10 +13,12 @@ export const createBasePointFromJSON = (
 
   const marker = new Marker({
     element: icon.element,
-    draggable: !parameters.projectMapviewSettings.arePointsLocked,
+    draggable: !parameters.projectSettings.arePointsLocked,
   }).setLngLat(json.coordinates)
 
   const watcherHandler = createWatcherHandler()
+
+  let watcherDisplayString: any
 
   const point = shallowReactive({
     machine: parameters.machine,
@@ -28,16 +26,45 @@ export const createBasePointFromJSON = (
     // coord: json.coordinates,
     marker,
     icon,
-    mapviewSettings: reactive(json.mapviewSettings),
+    settings: reactive(json.settings),
     // rawData,
     // parametersData,
     // finalData: shallowReactive({}) as MathNumberObject,
     // selectedData: '',
-    refreshVisibility: function () {
+    updateText: function () {
+      if (watcherDisplayString) {
+        watcherDisplayString = watcherHandler.remove(watcherDisplayString)
+      }
+
+      switch (parameters.projectSettings.pointsState) {
+        case 'number':
+          this.icon.setText(String(point.number))
+          break
+        case 'value':
+          // watcherDisplayString = watcherHandler.add(
+          //   watch(
+          //     () =>
+          //       (this.finalData[this.selectedData] as MathNumber)
+          //         .displayString,
+          //     (displayString) => {
+          //       this.icon.setText(displayString)
+          //     },
+          //     {
+          //       immediate: true,
+          //     }
+          //   )
+          // )
+          break
+        case 'nothing':
+          this.icon.setText('')
+          break
+      }
+    },
+    updateVisibility: function () {
       if (
-        parameters.projectMapviewSettings.arePointsVisible &&
-        parameters.reportMapviewSettings.isVisible &&
-        this.mapviewSettings.isVisible
+        parameters.projectSettings.arePointsVisible &&
+        parameters.reportSettings.isVisible &&
+        this.settings.isVisible
       ) {
         this.marker.addTo(map)
       } else {
@@ -45,47 +72,8 @@ export const createBasePointFromJSON = (
       }
     },
     addToMap: function () {
-      let watcherDisplayString: any
-
-      // watcherHandler.add(
-      //   watch(
-      //     () => point.state,
-      //     () => {
-      //       if (watcherDisplayString) {
-      //         watcherDisplayString = watcherHandler.remove(watcherDisplayString)
-      //       }
-
-      //       switch (point.state) {
-      //         case 'number':
-      //           point.icon.setText(String(point.number))
-      //           break
-      //         case 'value':
-      //           watcherDisplayString = watcherHandler.add(
-      //             watch(
-      //               () =>
-      //                 (point.finalData[point.selectedData] as MathNumber)
-      //                   .displayString,
-      //               (displayString: string | undefined) => {
-      //                 point.icon.setText(displayString || '')
-      //               },
-      //               {
-      //                 immediate: true,
-      //               }
-      //             )
-      //           )
-      //           break
-      //         case 'nothing':
-      //           point.icon.setText('')
-      //           break
-      //       }
-      //     },
-      //     {
-      //       immediate: true,
-      //     }
-      //   )
-      // )
-
-      this.refreshVisibility()
+      this.updateVisibility()
+      this.updateText()
     },
     remove: function () {
       this.marker.remove()

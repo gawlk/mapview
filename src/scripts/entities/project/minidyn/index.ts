@@ -11,8 +11,8 @@ export const createMinidynProjectFromJSON = async (
 ) => {
   const jsonUnits = json.units as JSONMinidynUnits
 
-  const units = [
-    createMathUnit(
+  const units: MinidynUnits = {
+    modulus: createMathUnit(
       'Modulus',
       [
         ['MPa', 0],
@@ -22,7 +22,7 @@ export const createMinidynProjectFromJSON = async (
         currentUnit: jsonUnits.modulus,
       }
     ),
-    createMathUnit(
+    deformation: createMathUnit(
       'Deformation',
       [
         ['mm', 0],
@@ -75,24 +75,37 @@ export const createMinidynProjectFromJSON = async (
         ],
       }
     ),
-    createMathUnit('Force', [
+    force: createMathUnit('Force', [
       ['N', 0],
       ['kN', 0],
     ]),
-    createMathUnit('Temperature', [
+    temperature: createMathUnit('Temperature', [
       ['°C', 0],
       ['°F', 0],
       ['K', 0],
     ]),
-  ]
+  }
 
   const project: PartialMachineProject<MinidynProject> =
     await createBaseProjectFromJSON(json, map, {
       machine: 'minidyn',
       units,
-      createFieldFromJSON: createMinidynFieldFromJSON,
-      createReportFromJSON: createMinidynReportFromJSON,
     })
+
+  project.reports.list.push(
+    ...json.reports.map((report) =>
+      createMinidynReportFromJSON(report, map, {
+        projectSettings: json.settings,
+        units,
+      })
+    )
+  )
+
+  project.informations.push(
+    ...json.informations.map((field: JSONField) =>
+      createMinidynFieldFromJSON(field)
+    )
+  )
 
   return project as MinidynProject
 }

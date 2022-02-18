@@ -10,7 +10,7 @@
   <Listbox
     :icon="IconViewBoards"
     :values="
-      store.selectedProject?.selectedReport?.dropsSettings.data.names.map(
+      store.projects.selected?.reports.selected?.dropsSettings.data.names.map(
         (name) => t(name)
       )
     "

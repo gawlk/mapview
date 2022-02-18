@@ -20,16 +20,16 @@
   const inputFile = ref()
 
   const addImage = async (file?: File) => {
-    if (file && store.selectedProject && store.map) {
+    if (file && store.projects.selected && store.map) {
       const data64 = await fileToBase64(file)
 
       const image = await createImage(data64, store.map, {
         name: file.name,
       })
 
-      store.selectedProject.images.push(image)
+      store.projects.selected.images.push(image)
 
-      image.addToMap(store.selectedProject.mapviewSettings.areImagesVisible)
+      image.addToMap(store.projects.selected.settings.areImagesVisible)
     }
   }
 
@@ -47,7 +47,7 @@
   }
 
   const deleteImage = (index: number) => {
-    const image = store.selectedProject?.images.splice(index, 1)?.[0]
+    const image = store.projects.selected?.images.splice(index, 1)?.[0]
 
     image?.remove()
   }
@@ -90,12 +90,12 @@
 
 <template>
   <div
-    v-if="(store.selectedProject?.images.length || 0) > 0"
+    v-if="(store.projects.selected?.images.length || 0) > 0"
     class="flex space-x-2"
   >
     <Popover :icon="IconCollection" :buttonText="t('Open image list')" full>
       <div
-        v-for="(image, index) of store.selectedProject?.images"
+        v-for="(image, index) of store.projects.selected?.images"
         :key="image.id"
         class="flex space-x-1"
       >
@@ -111,12 +111,12 @@
     </Popover>
     <Button
       @click="
-        store.selectedProject &&
-          (store.selectedProject.mapviewSettings.areImagesVisible =
-            !store.selectedProject.mapviewSettings.areImagesVisible)
+        store.projects.selected &&
+          (store.projects.selected.settings.areImagesVisible =
+            !store.projects.selected.settings.areImagesVisible)
       "
       :icon="
-        store.selectedProject?.mapviewSettings.areImagesVisible
+        store.projects.selected?.settings.areImagesVisible
           ? IconEye
           : IconEyeOff
       "

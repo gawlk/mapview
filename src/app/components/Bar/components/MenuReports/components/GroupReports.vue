@@ -9,31 +9,31 @@
   const { t } = useI18n()
 
   const selectReport = (report: MachineReport) => {
-    if (store.selectedProject) {
-      store.selectedProject.selectedReport = report
+    if (store.projects.selected) {
+      store.projects.selected.reports.selected = report
       report.fitOnMap()
     }
   }
 
   const toggleReport = (report: MachineReport) => {
-    report.mapviewSettings.isVisible = !report.mapviewSettings.isVisible
+    report.settings.isVisible = !report.settings.isVisible
   }
 
   const deleteReport = (index: number) => {
-    const project = store.selectedProject
+    const project = store.projects.selected
 
     if (project) {
-      const report = project.reports.splice(index, 1)?.[0]
+      const report = project.reports.list.splice(index, 1)?.[0]
 
-      if (report.mapviewSettings.isVisible) {
+      if (report.settings.isVisible) {
         report.remove()
       }
 
-      if (report === project.selectedReport) {
-        project.selectedReport =
-          project.reports.length - 1 >= index
-            ? project.reports[index]
-            : project.reports.slice(-1).pop() || null
+      if (report === project.reports.selected) {
+        project.reports.selected =
+          project.reports.list.length - 1 >= index
+            ? project.reports.list[index]
+            : project.reports.list.slice(-1).pop() || null
       }
     }
   }
@@ -44,12 +44,12 @@
     <Popover
       :icon="IconViewList"
       :buttonText="`${t('Name')}${t(':')} ${
-        store.selectedProject?.selectedReport?.name.value
-      } (${store.selectedProject?.machine})`"
+        store.projects.selected?.reports.selected?.name.value
+      } (${store.projects.selected?.machine})`"
       full
     >
       <div
-        v-for="(report, index) of store.selectedProject?.reports"
+        v-for="(report, index) of store.projects.selected?.reports.list"
         :key="(report.name.value as string)"
         class="flex space-x-1"
       >
@@ -57,7 +57,7 @@
           {{ report.name.value }}
         </Button>
         <Button
-          :icon="report.mapviewSettings.isVisible ? IconEye : IconEyeOff"
+          :icon="report.settings.isVisible ? IconEye : IconEyeOff"
           @click="toggleReport(report)"
         />
         <Button :icon="IconTrash" @click="deleteReport(index)" />

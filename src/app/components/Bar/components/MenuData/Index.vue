@@ -13,8 +13,8 @@
   >
     {{ t('Average') }}
     {{
-      t(store.selectedProject?.selectedReport?.dropsSettings.data.names[
-        store.selectedProject?.selectedReport?.dropsSettings.data.selected
+      t(store.projects.selected?.reports.selected?.dropsSettings.data.names[
+        store.projects.selected?.reports.selected?.dropsSettings.data.selected
       ] as string)
     }}
     :

@@ -13,13 +13,14 @@
       <td />
       <td />
       <td
-        v-for="key in store.selectedProject?.selectedReport?.dropsSettings.data
-          .names"
+        v-for="key in store.projects.selected?.reports.selected?.dropsSettings
+          .data.names"
         :key="key"
         :class="[
           key !==
-            store.selectedProject?.selectedReport?.dropsSettings.data.names[
-              store.selectedProject?.selectedReport?.dropsSettings.data.selected
+            store.projects.selected?.reports.selected?.dropsSettings.data.names[
+              store.projects.selected?.reports.selected?.dropsSettings.data
+                .selected
             ] && 'opacity-50',
         ]"
         class="text-right font-bold"
@@ -31,7 +32,8 @@
     <tbody>
       <tr class="h-0.5" />
       <tr
-        v-for="(point, index) in store.selectedProject?.selectedReport?.points"
+        v-for="(point, index) in store.projects.selected?.reports.selected
+          ?.points"
         :key="index"
       >
         <td class="text-left">
@@ -39,13 +41,14 @@
         </td>
         <td class="text-center font-bold">{{ point.number }}</td>
         <td
-          v-for="key in store.selectedProject?.selectedReport?.dropsSettings
+          v-for="key in store.projects.selected?.reports.selected?.dropsSettings
             .data.names"
           :key="`${index}-${key}`"
           :class="[
             key !==
-              store.selectedProject?.selectedReport?.dropsSettings.data.names[
-                store.selectedProject?.selectedReport?.dropsSettings.data
+              store.projects.selected?.reports.selected?.dropsSettings.data
+                .names[
+                store.projects.selected?.reports.selected?.dropsSettings.data
                   .selected
               ] && 'opacity-50',
           ]"

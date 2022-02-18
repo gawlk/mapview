@@ -11,8 +11,8 @@ export const createHeavydynProjectFromJSON = async (
 ) => {
   const jsonUnits = json.units as JSONHeavydynUnits
 
-  const units = [
-    createMathUnit(
+  const units: HeavydynUnits = {
+    deformation: createMathUnit(
       'Deformation',
       [
         ['mm', 0],
@@ -25,7 +25,7 @@ export const createHeavydynProjectFromJSON = async (
         currentUnit: jsonUnits.deformation,
       }
     ),
-    createMathUnit(
+    force: createMathUnit(
       'Force',
       [
         ['N', 0],
@@ -36,7 +36,7 @@ export const createHeavydynProjectFromJSON = async (
         currentUnit: jsonUnits.force,
       }
     ),
-    createMathUnit(
+    temperature: createMathUnit(
       'Temperature',
       [
         ['°C', 0],
@@ -47,15 +47,28 @@ export const createHeavydynProjectFromJSON = async (
         currentUnit: jsonUnits.temperature,
       }
     ),
-  ]
+  }
 
   const project: PartialMachineProject<HeavydynProject> =
     await createBaseProjectFromJSON(json, map, {
       machine: 'heavydyn',
       units,
-      createFieldFromJSON: createHeavydynFieldFromJSON,
-      createReportFromJSON: createHeavydynReportFromJSON,
     })
+
+  project.reports.list.push(
+    ...json.reports.map((report) =>
+      createHeavydynReportFromJSON(report, map, {
+        projectSettings: json.settings,
+        units,
+      })
+    )
+  )
+
+  project.informations.push(
+    ...json.informations.map((field: JSONField) =>
+      createHeavydynFieldFromJSON(field)
+    )
+  )
 
   return project as HeavydynProject
 }

@@ -1,16 +1,10 @@
 import { LngLatBounds } from 'mapbox-gl'
-import { createWatcherHandler, mapStyles } from '/src/scripts'
-
-interface BaseProjectCreatorParameters {
-  machine: MachineName
-  units: MathUnit[]
-  createFieldFromJSON: (field: JSONField) => MachineField
-  createReportFromJSON: (
-    json: JSONReport,
-    map: mapboxgl.Map,
-    parameters: MachineReportCreatorParameters
-  ) => MachineReport
-}
+import {
+  createBaseFieldFromJSON,
+  createSelectableList,
+  createWatcherHandler,
+  mapStyles,
+} from '/src/scripts'
 
 export const createBaseProjectFromJSON = async (
   json: JSONProject,
@@ -19,46 +13,31 @@ export const createBaseProjectFromJSON = async (
 ) => {
   const watcherHandler = createWatcherHandler()
 
-  const mapviewSettings = reactive(json.mapviewSettings)
-
-  const reports = shallowReactive(
-    json.reports.map((report) =>
-      parameters.createReportFromJSON(report, map, {
-        projectMapviewSettings: mapviewSettings,
-        units: parameters.units,
-      })
-    )
-  )
+  const settings = reactive(json.settings)
 
   const project: BaseProject = shallowReactive({
     machine: parameters.machine,
-    name: reactive(
-      parameters.createFieldFromJSON({
+    name: createBaseFieldFromJSON(
+      {
         name: 'Name',
         value: json.name,
-      })
+      },
+      true
     ),
-    selectedReport: reports[json.selectedReport || 0] || null,
-    reports,
+    reports: createSelectableList<MachineReport>(null, [], true),
     images: shallowReactive([] as Image[]),
-    units: shallowReactive(parameters.units),
-    mapviewSettings,
-    informations: shallowReactive(
-      json.informations.map((field: JSONField) =>
-        parameters.createFieldFromJSON(field)
-      )
-    ),
+    units: parameters.units,
+    settings,
+    informations: shallowReactive([]),
     refreshLinesAndImages: function () {
-      if (this.mapviewSettings.arePointsLinked) {
-        this.reports.forEach((report) => {
-          report.isOnMap &&
-            report.mapviewSettings.isVisible &&
-            report.line.addToMap()
+      if (this.settings.arePointsLinked) {
+        this.reports.list.forEach((report) => {
+          report.isOnMap && report.settings.isVisible && report.line.addToMap()
         })
       }
 
       this.images.forEach((image) => {
-        image.addToMap(this.mapviewSettings.areImagesVisible)
+        image.addToMap(this.settings.areImagesVisible)
       })
     },
     setMapStyle: function (styleIndex: number) {
@@ -74,7 +53,7 @@ export const createBaseProjectFromJSON = async (
     fitOnMap: function () {
       const bounds = new LngLatBounds()
 
-      this.reports.forEach((report: MachineReport) => {
+      this.reports.list.forEach((report: MachineReport) => {
         report.points.forEach((point: MachinePoint) => {
           bounds.extend(point.marker.getLngLat())
         })
@@ -85,32 +64,29 @@ export const createBaseProjectFromJSON = async (
     addToMap: function () {
       console.log('project add')
 
-      if (
-        this.mapviewSettings.map.coordinates &&
-        this.mapviewSettings.map.zoom
-      ) {
+      if (this.settings.map.coordinates && this.settings.map.zoom) {
         map.flyTo({
-          center: this.mapviewSettings.map.coordinates,
-          zoom: this.mapviewSettings.map.zoom,
+          center: this.settings.map.coordinates,
+          zoom: this.settings.map.zoom,
           essential: true,
         })
       } else {
-        this.selectedReport?.fitOnMap()
+        this.reports.selected?.fitOnMap()
       }
 
-      this.setMapStyle(this.mapviewSettings.map.styleIndex)
+      this.setMapStyle(this.settings.map.styleIndex)
 
-      this.reports.forEach((report) => {
+      this.reports.list.forEach((report) => {
         report.addToMap()
       })
 
       watcherHandler.add(
         watch(
-          () => this.mapviewSettings.arePointsVisible,
+          () => this.settings.arePointsVisible,
           () => {
-            this.reports.forEach((report: MachineReport) => {
+            this.reports.list.forEach((report: MachineReport) => {
               report.points.forEach((point) => {
-                point.refreshVisibility()
+                point.updateVisibility()
               })
             })
           }
@@ -119,10 +95,10 @@ export const createBaseProjectFromJSON = async (
 
       watcherHandler.add(
         watch(
-          () => this.mapviewSettings.arePointsLinked,
+          () => this.settings.arePointsLinked,
           (arePointsLinked: boolean) => {
-            this.reports.forEach((report: MachineReport) => {
-              report.mapviewSettings.isVisible && arePointsLinked
+            this.reports.list.forEach((report: MachineReport) => {
+              report.settings.isVisible && arePointsLinked
                 ? report.line?.addToMap()
                 : report.line?.remove()
             })
@@ -132,9 +108,9 @@ export const createBaseProjectFromJSON = async (
 
       watcherHandler.add(
         watch(
-          () => this.mapviewSettings.arePointsLocked,
+          () => this.settings.arePointsLocked,
           (arePointsLocked: boolean) => {
-            this.reports.forEach((report: MachineReport) => {
+            this.reports.list.forEach((report: MachineReport) => {
               report.points.forEach((point) => {
                 point.marker.setDraggable(!arePointsLocked)
               })
@@ -145,7 +121,7 @@ export const createBaseProjectFromJSON = async (
 
       watcherHandler.add(
         watch(
-          () => this.mapviewSettings.areImagesVisible,
+          () => this.settings.areImagesVisible,
           (areImagesVisible: boolean) => {
             this.images.forEach((image: Image) => {
               map.setPaintProperty(
@@ -168,11 +144,11 @@ export const createBaseProjectFromJSON = async (
 
       watcherHandler.add(
         watch(
-          () => this.mapviewSettings.pointsState,
-          (pointsState: PointsState) => {
-            this.reports.forEach((report: MachineReport) => {
+          () => this.settings.pointsState,
+          () => {
+            this.reports.list.forEach((report: MachineReport) => {
               report.points.forEach((point) => {
-                point.state = pointsState
+                point.updateText()
               })
             })
           }
@@ -181,7 +157,7 @@ export const createBaseProjectFromJSON = async (
 
       watcherHandler.add(
         watch(
-          () => this.mapviewSettings.map.styleIndex,
+          () => this.settings.map.styleIndex,
           (styleIndex: number) => {
             this.setMapStyle(styleIndex)
           }
@@ -196,7 +172,7 @@ export const createBaseProjectFromJSON = async (
 
             images.forEach((image) => {
               if (!oldImages.includes(image)) {
-                image.addToMap(this.mapviewSettings.areImagesVisible)
+                image.addToMap(this.settings.areImagesVisible)
               }
             })
           }
@@ -204,7 +180,7 @@ export const createBaseProjectFromJSON = async (
       )
     },
     remove: function () {
-      this.reports.forEach((report) => {
+      this.reports.list.forEach((report) => {
         report.remove()
       })
 

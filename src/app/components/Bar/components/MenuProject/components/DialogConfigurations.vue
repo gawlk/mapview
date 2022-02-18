@@ -18,7 +18,7 @@
         </h4>
         <div class="space-y-4">
           <div
-            v-for="unit in store.selectedProject?.units"
+            v-for="unit in store.projects.selected?.units"
             :key="unit.name"
             class="space-y-1"
           >

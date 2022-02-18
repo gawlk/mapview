@@ -22,7 +22,7 @@
   const file = ref()
 
   watch(
-    () => store.selectedProject?.selectedReport?.screenshots.length,
+    () => store.projects.selected?.reports.selected?.screenshots.length,
     (length) => length === 0 && (state.isAlbumOpen = false)
   )
 
@@ -42,7 +42,7 @@
 
   const save = () => {
     if (state.image) {
-      store.selectedProject?.selectedReport?.screenshots.push(state.image)
+      store.projects.selected?.reports.selected?.screenshots.push(state.image)
 
       state.image = null
     }
@@ -50,7 +50,7 @@
 
   const importScreenshots = (files: FileList | null) => {
     Array.from(files || []).forEach(async (file: File) => {
-      store.selectedProject?.selectedReport?.screenshots.push(
+      store.projects.selected?.reports.selected?.screenshots.push(
         await fileToBase64(file)
       )
     })
@@ -61,7 +61,7 @@
   <div class="flex space-x-2">
     <div
       v-if="
-        (store.selectedProject?.selectedReport?.screenshots.length || 0) > 0
+        (store.projects.selected?.reports.selected?.screenshots.length || 0) > 0
       "
       class="flex w-full space-x-2"
     >

@@ -10,6 +10,8 @@ import App from './App.vue'
 
 import { getBrowserLocale } from './locales'
 
+import { createApp } from 'vue'
+
 createApp(App)
   .use(createHead())
   .use(

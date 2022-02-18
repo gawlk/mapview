@@ -25,15 +25,11 @@
   }
 
   const exportInformations = () => {
-    for (let i = 0; i < state.data.length; i++) {
-      const dataset = state.data[i]
-
-      for (let j = 0; j < dataset.fields.length; j++) {
-        const field = dataset.fields[j]
-
+    state.data.forEach((dataset, i) => {
+      dataset.fields.forEach((field, j) => {
         props.data[i].fields[j].value = field.value
-      }
-    }
+      })
+    })
   }
 
   const setValue = (information: MachineField, value: any) => {

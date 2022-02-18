@@ -16,9 +16,10 @@
   })
 
   const setIcon = (index: number) => {
-    if (store.selectedProject?.selectedReport) {
-      store.selectedProject.selectedReport.mapviewSettings.iconName =
-        Object.keys(icons)[index] as IconName
+    if (store.projects.selected?.reports.selected) {
+      store.projects.selected.reports.selected.settings.iconName = Object.keys(
+        icons
+      )[index] as IconName
     }
   }
 </script>
@@ -34,7 +35,7 @@
         Object.keys(icons).findIndex(
           (name) =>
             name ===
-            store.selectedProject?.selectedReport?.mapviewSettings.iconName
+            store.projects.selected?.reports.selected?.settings.iconName
         )
       ]
     "

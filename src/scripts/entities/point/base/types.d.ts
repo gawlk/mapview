@@ -1,24 +1,21 @@
 interface BasePoint {
-  machine: MachineName
+  readonly machine: MachineName
   number: number
   // coordinates: mapboxgl.LngLatLike
   marker: mapboxgl.Marker
   icon: Icon
-  mapviewSettings: JSONPointMapviewSettings
-  // data: ComputedData
-  // selectedData: number
-  refreshVisibility: () => void
+  settings: JSONPointSettings
+  zone: Zone | null
+  // data: MathUnit[]
+  // drops: MachineDrop[]
+  updateText: () => void
+  updateVisibility: () => void
   addToMap: () => void
   remove: () => void
 }
 
-interface MachinePointCreatorParameters {
-  number: number
-  iconName: IconName
-  projectMapviewSettings: JSONProjectMapviewSettings
-  reportMapviewSettings: JSONReportMapviewSettings
-  // rawData: MathNumberObject
-  // parametersData: MathNumberObject
+interface BasePointCreatorParameters extends MachinePointCreatorParameters {
+  machine: MachineName
 }
 
 interface JSONPoint {
@@ -27,11 +24,11 @@ interface JSONPoint {
   //   DOP: number
   //   Chainage: number
   // }
-  mapviewSettings: JSONPointMapviewSettings
+  settings: JSONPointSettings
   informations: JSONField[]
   drops: JSONDrop[]
 }
 
-interface JSONPointMapviewSettings {
+interface JSONPointSettings {
   isVisible: boolean
 }

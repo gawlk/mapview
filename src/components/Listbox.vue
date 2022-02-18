@@ -14,6 +14,7 @@
   const props = defineProps<{
     values?: string[]
     selected?: string | number
+    selectedIndex?: number
     icon?: any
     preSelected?: string
     selectedReplacement?: string
@@ -29,16 +30,23 @@
   const update = (value: string) => {
     emit('select', value)
 
-    if (props.values) {
-      emit('selectIndex', props.values.indexOf(value))
-    } else if (props.backgrounds) {
-      emit('selectIndex', props.backgrounds.indexOf(value))
-    }
+    const list = props.values || props.backgrounds || props.classes
+
+    list && emit('selectIndex', list.indexOf(value))
   }
 </script>
 
 <template>
-  <HeadlessListbox :modelValue="props.selected" @update:modelValue="update">
+  <HeadlessListbox
+    :modelValue="
+      props.selected !== undefined
+        ? props.selected
+        : (props.values || props.backgrounds || props.classes)?.[
+            props.selectedIndex || 0
+          ]
+    "
+    @update:modelValue="update"
+  >
     <div :class="[props.full && 'w-full']" class="relative">
       <ListboxButton
         :style="{ backgroundImage: `url('${props.buttonBackground}')` }"
@@ -53,12 +61,12 @@
             v-if="props.icon"
             :is="props.icon"
             :class="[
-              props.iconsClasses,
+              props.iconsClasses || 'text-gray-400 group-hover:text-gray-500',
               props.buttonBackground
                 ? '-my-0.5 -ml-1 h-7 w-7 rounded-full bg-gray-100 bg-opacity-60 p-1'
                 : 'h-5 w-5',
             ]"
-            class="mr-1 flex-none text-gray-400 transition-colors duration-200 group-hover:text-gray-500"
+            class="mr-1 flex-none transition-colors duration-200"
           />
           <span
             v-if="props.preSelected"
@@ -71,9 +79,9 @@
             class="ml-1 truncate"
             v-html="
               props.selectedReplacement ||
-              (props.values?.includes(props.selected as string)
+              (props.selected !== undefined && props.values?.includes(props.selected as string)
                 ? props.selected
-                : props.values?.[0])
+                : props.values?.[props.selectedIndex || 0])
             "
           />
           <span
@@ -86,12 +94,12 @@
         <div>
           <IconHeroiconsSolidSelector
             :class="[
-              props.iconsClasses,
+              props.iconsClasses || 'text-gray-400 group-hover:text-gray-500',
               props.buttonBackground
                 ? '-my-0.5 -mr-1 h-7 w-7 rounded-full bg-gray-100 bg-opacity-60 p-1'
                 : 'h-5 w-5',
             ]"
-            class="text-gray-400 transition-colors duration-200 group-hover:text-gray-500"
+            class="transition-colors duration-200"
             aria-hidden="true"
           />
         </div>
@@ -114,7 +122,9 @@
                 backgroundImage: props.backgrounds ? `url('${value}')` : '',
               }"
               :class="[
-                active ? 'bg-gray-100 text-gray-900' : 'text-gray-900',
+                active && !props.classes
+                  ? 'bg-gray-100 text-gray-900'
+                  : 'text-gray-900',
                 props.backgrounds && 'bg-cover bg-center',
                 props.classes && value,
               ]"

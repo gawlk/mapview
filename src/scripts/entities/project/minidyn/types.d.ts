@@ -1,5 +1,13 @@
 interface MinidynProject extends BaseProject {
   readonly machine: 'minidyn'
+  reports: SelectableList<MinidynReport>
+}
+
+interface MinidynUnits {
+  modulus: MathUnit
+  deformation: MathUnit
+  force: MathUnit
+  temperature: MathUnit
 }
 
 interface JSONMinidynUnits {

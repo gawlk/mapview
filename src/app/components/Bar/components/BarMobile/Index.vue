@@ -8,13 +8,13 @@
     menus: MenuProp[]
   }>()
 
-  props.menus?.map((menu: any) => {
+  props.menus?.map((menu) => {
     menu.openedOnMobile = false
   })
 
-  const selectMenu = (menuToSelect: any) => {
-    if (store.selectedProject) {
-      props.menus?.forEach((menu: any) => {
+  const selectMenu = (menuToSelect: MenuProp) => {
+    if (store.projects.selected) {
+      props.menus?.forEach((menu) => {
         menu.openedOnMobile =
           menu === menuToSelect ? !menu.openedOnMobile : false
       })
@@ -25,7 +25,7 @@
 <template>
   <div class="flex-none p-2">
     <div
-      v-if="!store.selectedProject"
+      v-if="!store.projects.selected"
       class="absolute inset-x-0 bottom-0 z-10 mb-20 bg-transparent p-2"
     >
       <Initializer class="rounded-lg bg-white p-2" />
@@ -37,7 +37,7 @@
         :name="menu.name"
         :icon="menu.icon"
         :opened="menu.openedOnMobile"
-        :disabled="!store.selectedProject"
+        :disabled="!store.projects.selected"
         @click="selectMenu(menu)"
       >
         <component :is="menu.component" />

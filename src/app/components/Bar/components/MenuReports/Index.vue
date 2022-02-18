@@ -12,18 +12,18 @@
   <DialogInformations
     preID="report-"
     :data="
-      store.selectedProject?.selectedReport
+      store.projects.selected?.reports.selected
         ? [
             {
               title: 'Informations',
               fields: [
-                store.selectedProject.selectedReport.name,
-                ...store.selectedProject.selectedReport.informations,
+                store.projects.selected.reports.selected.name,
+                ...store.projects.selected.reports.selected.informations,
               ],
             },
             {
               title: 'Platform',
-              fields: store.selectedProject.selectedReport.platform,
+              fields: store.projects.selected.reports.selected.platform,
             },
           ]
         : []

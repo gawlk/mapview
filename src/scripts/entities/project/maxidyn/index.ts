@@ -11,8 +11,8 @@ export const createMaxidynProjectFromJSON = async (
 ) => {
   const jsonUnits = json.units as JSONMaxidynUnits
 
-  const units = [
-    createMathUnit(
+  const units: MaxidynUnits = {
+    modulus: createMathUnit(
       'Modulus',
       [
         ['MPa', 0],
@@ -22,7 +22,7 @@ export const createMaxidynProjectFromJSON = async (
         currentUnit: jsonUnits.modulus,
       }
     ),
-    createMathUnit(
+    deformation: createMathUnit(
       'Deformation',
       [
         ['mm', 0],
@@ -34,7 +34,7 @@ export const createMaxidynProjectFromJSON = async (
         currentUnit: jsonUnits.deformation,
       }
     ),
-    createMathUnit(
+    force: createMathUnit(
       'Force',
       [
         ['N', 0],
@@ -44,15 +44,28 @@ export const createMaxidynProjectFromJSON = async (
         currentUnit: jsonUnits.force,
       }
     ),
-  ]
+  }
 
   const project: PartialMachineProject<MaxidynProject> =
     await createBaseProjectFromJSON(json, map, {
       machine: 'maxidyn',
       units,
-      createFieldFromJSON: createMaxidynFieldFromJSON,
-      createReportFromJSON: createMaxidynReportFromJSON,
     })
+
+  project.reports.list.push(
+    ...json.reports.map((report) =>
+      createMaxidynReportFromJSON(report, map, {
+        projectSettings: json.settings,
+        units,
+      })
+    )
+  )
+
+  project.informations.push(
+    ...json.informations.map((field: JSONField) =>
+      createMaxidynFieldFromJSON(field)
+    )
+  )
 
   return project as MaxidynProject
 }

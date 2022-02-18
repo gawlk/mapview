@@ -19,7 +19,7 @@
   <Overlay :isOpen="props.isOpen">
     <div class="flex space-x-4 overflow-x-auto p-4 sm:px-8">
       <div
-        v-for="(screenshot, index) in store.selectedProject?.selectedReport
+        v-for="(screenshot, index) in store.projects.selected?.reports.selected
           ?.screenshots"
         class="flex-none space-y-4"
       >
@@ -31,7 +31,10 @@
         <Button
           :leftIcon="IconTrash"
           @click="
-            store.selectedProject?.selectedReport?.screenshots.splice(index, 1)
+            store.projects.selected?.reports.selected?.screenshots.splice(
+              index,
+              1
+            )
           "
           red
         >

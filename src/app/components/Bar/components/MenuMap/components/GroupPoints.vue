@@ -19,18 +19,16 @@
   const setPointsState = (n: number) => {
     state.pointStateSelected = n
 
-    if (store.selectedProject) {
+    if (store.projects.selected) {
       switch (n) {
         case 0:
-          store.selectedProject.mapviewSettings.pointsState =
-            'number' as PointsState
+          store.projects.selected.settings.pointsState = 'number' as PointsState
           break
         case 1:
-          store.selectedProject.mapviewSettings.pointsState =
-            'value' as PointsState
+          store.projects.selected.settings.pointsState = 'value' as PointsState
           break
         case 2:
-          store.selectedProject.mapviewSettings.pointsState =
+          store.projects.selected.settings.pointsState =
             'nothing' as PointsState
           break
       }
@@ -50,36 +48,34 @@
     />
     <Button
       @click="
-        store.selectedProject &&
-          (store.selectedProject.mapviewSettings.arePointsVisible =
-            !store.selectedProject.mapviewSettings.arePointsVisible)
+        store.projects.selected &&
+          (store.projects.selected.settings.arePointsVisible =
+            !store.projects.selected.settings.arePointsVisible)
       "
       :icon="
-        store.selectedProject?.mapviewSettings.arePointsVisible
+        store.projects.selected?.settings.arePointsVisible
           ? IconEye
           : IconEyeOff
       "
     />
     <Button
       @click="
-        store.selectedProject &&
-          (store.selectedProject.mapviewSettings.arePointsLinked =
-            !store.selectedProject.mapviewSettings.arePointsLinked)
+        store.projects.selected &&
+          (store.projects.selected.settings.arePointsLinked =
+            !store.projects.selected.settings.arePointsLinked)
       "
       :icon="
-        store.selectedProject?.mapviewSettings.arePointsLinked
-          ? IconShare
-          : DotsIcon
+        store.projects.selected?.settings.arePointsLinked ? IconShare : DotsIcon
       "
     />
     <Button
       @click="
-        store.selectedProject &&
-          (store.selectedProject.mapviewSettings.arePointsLocked =
-            !store.selectedProject.mapviewSettings.arePointsLocked)
+        store.projects.selected &&
+          (store.projects.selected.settings.arePointsLocked =
+            !store.projects.selected.settings.arePointsLocked)
       "
       :icon="
-        store.selectedProject?.mapviewSettings.arePointsLocked
+        store.projects.selected?.settings.arePointsLocked
           ? IconLockClosed
           : IconLockOpen
       "

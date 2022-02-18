@@ -18,6 +18,7 @@
     leftIcon?: any
     rightIcon?: any
     iconsClasses?: string
+    buttonColors?: string
   }>()
 
   const iconsColors = props.dark
@@ -46,20 +47,21 @@
         : props.sm
         ? 'rounded-lg py-1 px-2 text-xs font-medium'
         : 'rounded-lg py-2 px-4 text-sm font-medium',
-      props.dark
-        ? 'bg-gray-800 text-white focus:ring-gray-600'
-        : props.blue
-        ? 'bg-blue-200 text-blue-900 focus:ring-blue-100'
-        : props.green
-        ? 'bg-green-200 text-green-900 focus:ring-green-100'
-        : props.red
-        ? 'bg-red-200 text-red-900 focus:ring-red-100'
-        : props.orange
-        ? 'bg-orange-200 text-orange-900 focus:ring-orange-100'
-        : props.transparent
-        ? 'text-gray-900'
-        : 'bg-gray-100 text-gray-900 focus:ring-gray-50',
-      !props.disabled
+      props.buttonColors ||
+        (props.dark
+          ? 'bg-gray-800 text-white focus:ring-gray-600'
+          : props.blue
+          ? 'bg-blue-200 text-blue-900 focus:ring-blue-100'
+          : props.green
+          ? 'bg-green-200 text-green-900 focus:ring-green-100'
+          : props.red
+          ? 'bg-red-200 text-red-900 focus:ring-red-100'
+          : props.orange
+          ? 'bg-orange-200 text-orange-900 focus:ring-orange-100'
+          : props.transparent
+          ? 'text-gray-900'
+          : 'bg-gray-100 text-gray-900 focus:ring-gray-50'),
+      !props.buttonColors && !props.disabled
         ? props.dark
           ? 'hover:bg-gray-700'
           : props.blue
@@ -81,7 +83,7 @@
     <component
       v-if="props.icon || props.leftIcon || props.rightIcon"
       :is="props.icon || props.leftIcon || 'span'"
-      :class="[iconsColors, iconsClasses]"
+      :class="iconsClasses || iconsColors"
       class="h-5 w-5 transition-colors duration-200"
     />
     <span
@@ -97,7 +99,7 @@
     <component
       v-if="props.rightIcon"
       :is="props.rightIcon || 'span'"
-      :class="[iconsColors, iconsClasses]"
+      :class="iconsClasses || iconsColors"
       class="h-5 w-5 transition-colors duration-200"
     />
   </button>

@@ -1,12 +1,11 @@
 interface BaseProject {
   readonly machine: MachineName
-  name: MachineField
-  informations: MachineField[]
-  mapviewSettings: JSONProjectMapviewSettings
-  reports: MachineReport[]
-  selectedReport: MachineReport | null
+  readonly name: MachineField
+  readonly informations: MachineField[]
+  readonly reports: SelectableList<MachineReport>
+  units: MachineUnits
+  settings: JSONProjectSettings
   images: Image[]
-  units: MathUnit[]
   refreshLinesAndImages: () => void
   setMapStyle: (styleIndex: number) => void
   fitOnMap: () => void
@@ -14,11 +13,16 @@ interface BaseProject {
   remove: () => void
 }
 
+interface BaseProjectCreatorParameters {
+  machine: MachineName
+  units: MachineUnits
+}
+
 interface JSONProject {
   name: string
   machine: MachineName
   selectedReport?: number
-  mapviewSettings: JSONProjectMapviewSettings
+  settings: JSONProjectSettings
   images: JSONImage[]
   informations: JSONField[]
   reports: JSONReport[]
@@ -27,7 +31,7 @@ interface JSONProject {
 
 type MachineName = 'heavydyn' | 'maxidyn' | 'minidyn'
 
-interface JSONProjectMapviewSettings {
+interface JSONProjectSettings {
   arePointsVisible: boolean
   arePointsLinked: boolean
   arePointsLocked: boolean

@@ -2,7 +2,7 @@
   "name": "Demo Minidyn",
   "machine": "minidyn",
   "selectedReport": 1,
-  "mapviewSettings": {
+  "settings": {
     "arePointsLinked": true,
     "arePointsLocked": true,
     "arePointsVisible": true,
@@ -57,7 +57,7 @@
   "reports": [
     {
       "name": "Report 1",
-      "mapviewSettings": {
+      "settings": {
         "iconName": "circle",
         "isVisible": true
       },
@@ -246,7 +246,7 @@
     },
     {
       "name": "Report 2",
-      "mapviewSettings": {
+      "settings": {
         "iconName": "square",
         "isVisible": true
       },

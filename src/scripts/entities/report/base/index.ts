@@ -2,6 +2,7 @@ import { LngLatBounds } from 'mapbox-gl'
 import {
   createBaseFieldFromJSON,
   createLine,
+  createSelectableList,
   createWatcherHandler,
   createZone,
   getObjectFromSelectedIndexInSelectableList,
@@ -14,30 +15,54 @@ export const createBaseReportFromJSON = (
 ) => {
   const watcherHandler = createWatcherHandler()
 
-  const settings: JSONReportSettings = reactive(json.settings)
-
   const points: MachinePoint[] = shallowReactive([])
+
+  const tableValuesNamesList: TableValuesNamesParameters[] =
+    parameters.groupedValuesNames.list.map((group) => {
+      const tableValuesNames = json.valuesNames.table.list?.find(
+        (tableValuesNames) => tableValuesNames.from === group.from
+      )
+
+      return shallowReactive({
+        group,
+        index: tableValuesNames?.index ?? 0,
+        valuesNames: shallowReactive(
+          (tableValuesNames?.valuesNames || [])
+            .map((name) =>
+              group.choices.list.find((choice) => choice.name === name)
+            )
+            .filter((valueName) => valueName) as ValueName[]
+        ),
+      })
+    })
+
+  const valuesNames: ReportValuesNames = {
+    groups: parameters.groupedValuesNames,
+    table: createSelectableList(
+      getObjectFromSelectedIndexInSelectableList(
+        json.valuesNames.table.selected,
+        tableValuesNamesList
+      ),
+      tableValuesNamesList,
+      true
+    ),
+  }
 
   const report: BaseReport = shallowReactive({
     machine: parameters.machine,
     name: createBaseFieldFromJSON(
       {
-        name: 'Name',
+        label: 'Name',
         value: json.name,
       },
       true
     ),
     isOnMap: false as boolean,
-    settings,
+    settings: reactive(json.settings),
     screenshots: shallowReactive([] as string[]),
-    valuesNames: generateValuesNames(
-      json,
-      parameters.dropList,
-      parameters.pointList,
-      parameters.zoneList
-    ),
     points,
-    zones: json.zones.map((zone) => createZone(zone)),
+    valuesNames,
+    zones: shallowReactive(json.zones.map((zone) => createZone(zone))),
     line: createLine(points, map),
     platform: shallowReactive([]),
     informations: shallowReactive([]),
@@ -51,15 +76,13 @@ export const createBaseReportFromJSON = (
       map.fitBounds(bounds, { padding: 100 })
     },
     addToMap: function () {
-      console.log('report add to map')
-
       this.isOnMap = true
 
       this.points.forEach((point) => {
         point.addToMap()
       })
 
-      if (json.settings.isVisible) {
+      if (this.settings.isVisible) {
         this.line.addToMap()
       }
 
@@ -105,31 +128,4 @@ export const createBaseReportFromJSON = (
   })
 
   return report
-}
-
-const generateValuesNames = (
-  json: JSONReport,
-  dropList: ValueName[],
-  pointList: ValueName[],
-  zoneList: ValueName[]
-) => {
-  const generateValuesSelectableList = (
-    jsonSelectableList: SelectableOptionalList<number, string>,
-    list: ValueName[]
-  ) => {
-    return {
-      selected: getObjectFromSelectedIndexInSelectableList(
-        jsonSelectableList.selected,
-        list
-      ),
-      list,
-    }
-  }
-
-  return {
-    selectedList: json.values.selectedList,
-    drop: generateValuesSelectableList(json.values.drop, dropList),
-    point: generateValuesSelectableList(json.values.point, pointList),
-    zone: generateValuesSelectableList(json.values.zone, zoneList),
-  }
 }

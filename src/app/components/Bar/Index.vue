@@ -38,12 +38,12 @@
       component: MenuPoints,
       needsReport: true,
     },
-    // {
-    //   name: t('Data'),
-    //   icon: IconTable,
-    //   component: MenuData,
-    //   needsReport: true,
-    // },
+    {
+      name: t('Data'),
+      icon: IconTable,
+      component: MenuData,
+      needsReport: true,
+    },
   ].map((menu) => shallowReactive(menu))
 </script>
 

@@ -29,8 +29,6 @@
 </template>
 
 <i18n lang="yaml">
-en:
-  'All rights reserved.': 'All rights reserved.'
 fr:
   'All rights reserved.': 'Tout droits réservés.'
 </i18n>

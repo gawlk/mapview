@@ -101,6 +101,8 @@ export const createMinidynProjectFromJSON = async (
     )
   )
 
+  project.reports.selected = project.reports.list[0]
+
   project.informations.push(
     ...json.informations.map((field: JSONField) =>
       createMinidynFieldFromJSON(field)

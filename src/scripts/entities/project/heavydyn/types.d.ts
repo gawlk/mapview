@@ -1,6 +1,6 @@
 interface HeavydynProject extends BaseProject {
   readonly machine: 'heavydyn'
-  reports: SelectableList<HeavydynReport>
+  readonly reports: SelectableList<HeavydynReport>
 }
 
 interface HeavydynUnits {

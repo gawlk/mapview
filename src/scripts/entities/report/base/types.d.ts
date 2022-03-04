@@ -1,73 +1,93 @@
 interface BaseReport {
   readonly machine: MachineName
-  name: MachineField
-  screenshots: string[]
-  points: MachinePoint[]
-  zones: Zone[]
-  line: Line
+  readonly name: MachineField
+  readonly points: MachinePoint[]
+  readonly line: Line
+  readonly zones: Zone[]
+  readonly screenshots: string[]
+  readonly valuesNames: ReportValuesNames
+  readonly settings: JSONReportSettings
+  readonly platform: MachineField[]
+  readonly informations: MachineField[]
   isOnMap: boolean
-  settings: JSONReportSettings
-  valuesNames: BaseReportValuesNames
-  platform: MachineField[]
-  informations: MachineField[]
   fitOnMap: () => void
   addToMap: () => void
   remove: () => void
 }
 
+interface ReportValuesNames {
+  groups: SelectableList<GroupedValuesNames>
+  table: SelectableList<TableValuesNamesParameters>
+}
+
+interface GroupedValuesNames {
+  from: ValuesNamesFrom
+  choices: SelectableList<ValueName>
+  indexes?: SelectableList<number>
+}
+
+interface TableValuesNamesParameters {
+  group: GroupedValuesNames
+  index?: number
+  valuesNames: ValueName[]
+}
+
 interface ValueName {
   name: string
   unit: MathUnit
-}
-
-interface BaseReportValuesNames {
-  selectedList: ValuesLists
-  drop: SelectableList<ValueName>
-  point: SelectableList<ValueName>
-  zone: SelectableList<ValueName>
+  // calculate: () => {}
 }
 
 interface BaseReportCreatorParameters extends MachineReportCreatorParameters {
   machine: MachineName
-  dropList: ValueName[]
-  pointList: ValueName[]
-  zoneList: ValueName[]
+  groupedValuesNames: SelectableList<GroupedValuesNames>
 }
 
 interface JSONReport {
   name: string
-  values: JSONReportValuesNames
+  points: JSONPoint[]
+  valuesNames: JSONReportValuesNames
+  zones: JSONZone[]
   settings: JSONReportSettings
-  // thresholdSettings: JSONThresholdSettings
-  // loadBearingCapacity: JSONLoadBearingCapacity
-  // machineDetails: JSONMachineDetails
-  // dropsSettings: JSONDropsSettings
   screenshots: number[]
   platform: JSONField[]
   informations: JSONField[]
-  points: JSONPoint[]
-  zones: JSONZone[]
 }
 
 interface JSONReportValuesNames {
-  selectedList: ValuesLists
-  drop: SelectableOptionalList<number, string>
-  point: SelectableOptionalList<number, string>
-  zone: SelectableOptionalList<number, string>
+  groups: SelectableList<number, JSONGroupedValuesNames>
+  table: SelectableList<number, JSONTableValuesNames>
 }
 
-type ValuesLists = 'Drop' | 'Point' | 'Zone'
+interface JSONGroupedValuesNames {
+  from: ValuesNamesFrom
+  choices: SelectableOptionalList<number, string>
+  indexes?: SelectableList<number>
+}
+
+interface JSONTableValuesNames {
+  from: ValuesNamesFrom
+  index?: number
+  valuesNames: string[]
+}
+
+type ValuesNamesFrom = 'Drop' | 'Test' | 'Zone'
 
 interface JSONReportSettings {
   iconName: IconName
   isVisible: boolean
   selectedColorization: 'Threshold' | 'Zone'
+  threshold: {
+    colors: ThresholdColors
+    custom: {}
+  }
 }
 
-// interface JSONThresholdSettings {
-//   current: string
-//   custom: {}
-// }
+interface ThresholdColors {
+  low: Color
+  middle: Color
+  high: Color
+}
 
 // interface JSONLoadBearingCapacity {
 //   name: string

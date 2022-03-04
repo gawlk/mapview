@@ -32,6 +32,48 @@ export const createMaxidynProjectFromJSON = async (
         minDisplayedValue: 100,
         maxDisplayedValue: 200,
         currentUnit: jsonUnits.deformation,
+        thresholds: [
+          {
+            name: 'N.S',
+            value: 0,
+          },
+          {
+            name: 'AR1',
+            value: 20,
+          },
+          {
+            name: 'AR2',
+            value: 50,
+          },
+          {
+            name: 'AR3',
+            value: 120,
+          },
+          {
+            name: 'AR4',
+            value: 200,
+          },
+          {
+            name: 'PF1',
+            value: 20,
+          },
+          {
+            name: 'PF2',
+            value: 50,
+          },
+          {
+            name: 'PF2+',
+            value: 80,
+          },
+          {
+            name: 'PF3',
+            value: 120,
+          },
+          {
+            name: 'PF4',
+            value: 200,
+          },
+        ],
       }
     ),
     force: createMathUnit(
@@ -60,6 +102,8 @@ export const createMaxidynProjectFromJSON = async (
       })
     )
   )
+
+  project.reports.selected = project.reports.list[0]
 
   project.informations.push(
     ...json.informations.map((field: JSONField) =>

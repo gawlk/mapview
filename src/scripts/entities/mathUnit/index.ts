@@ -17,7 +17,10 @@ export const createMathUnit = (
     possiblePrecisions: options.possiblePrecisions || [0, 1, 2],
     currentUnit: options.currentUnit || possibleSettings[0][0],
     currentPrecision: options.currentPrecision || possibleSettings[0][1],
-    selectedThreshold: options.thresholds?.[0],
-    thresholds: options.thresholds,
+    thresholds: shallowReactive({
+      selected: options.thresholds?.[0] || null,
+      list: options.thresholds || [],
+      // custom: {},
+    }),
   })
 }

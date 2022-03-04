@@ -1,5 +1,5 @@
 interface BaseField {
-  name: string
+  label: string
   value:
     | boolean
     | number
@@ -11,7 +11,7 @@ interface BaseField {
 }
 
 interface JSONField {
-  name: string
+  label: string
   value: boolean | number | string
 }
 

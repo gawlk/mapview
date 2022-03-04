@@ -6,6 +6,9 @@ interface MathUnit {
   possiblePrecisions: number[]
   minDisplayedValue?: number
   maxDisplayedValue?: number
-  selectedThreshold?: PredefinedThreshold
-  thresholds?: PredefinedThreshold[]
+  thresholds?: {
+    selected: PredefinedThreshold | CustomThreshold | null
+    list: PredefinedThreshold[]
+    // custom: CustomThreshold
+  }
 }

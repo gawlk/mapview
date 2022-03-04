@@ -108,9 +108,6 @@
 </template>
 
 <i18n lang="yaml">
-en:
-  'Photograph the map': 'Photograph the map'
-  'View the album': 'View the album'
 fr:
   'Photograph the map': 'Photographier la carte'
   'View the album': "Voir l'album"

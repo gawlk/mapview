@@ -41,7 +41,7 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
     'Comments',
   ].map((label: string) => {
     return {
-      name: label,
+      label,
       value: json.Dossiers[label],
     }
   })
@@ -49,24 +49,62 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
   project.reports = json.PVs.map((json: any) => {
     const report: JSONReport = {
       name: json.PVs.Name,
-      values: {
-        selectedList: 'Drop',
-        drop: {
-          selected: 0,
-        },
-        point: {
-          selected: 0,
-        },
-        zone: {
-          selected: 0,
-        },
-      },
       settings: {
         iconName: 'circle',
         isVisible: true,
         selectedColorization: 'Threshold',
+        threshold: {
+          colors: {
+            low: 'green',
+            middle: 'yellow',
+            high: 'red',
+          },
+          custom: {},
+        },
       },
-      points: [],
+      points: [] as JSONPoint[],
+      valuesNames: {
+        groups: {
+          selected: 0,
+          list: [
+            {
+              from: 'Drop',
+              choices: {
+                selected: 0,
+              },
+            },
+            {
+              from: 'Test',
+              choices: {
+                selected: 0,
+              },
+            },
+            {
+              from: 'Zone',
+              choices: {
+                selected: 0,
+              },
+            },
+          ],
+        },
+        table: {
+          selected: 0,
+          list: [
+            {
+              from: 'Drop',
+              valuesNames: [],
+            },
+            {
+              from: 'Test',
+              valuesNames: [],
+            },
+            {
+              from: 'Zone',
+              valuesNames: [],
+            },
+          ],
+        },
+      },
       zones: [],
       informations: [],
       platform: [],
@@ -83,7 +121,7 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
       'Comment',
     ].map((label: string) => {
       return {
-        name: label,
+        label,
         value: json.PVs[label],
       }
     })
@@ -91,7 +129,7 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
     report.platform = ['Type', 'Layer', 'Material', 'State', 'GTR'].map(
       (label: string) => {
         return {
-          name: label,
+          label,
           value: json.Plateformes[label],
         }
       }

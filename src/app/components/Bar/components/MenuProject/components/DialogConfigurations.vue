@@ -53,8 +53,6 @@
 </template>
 
 <i18n lang="yaml">
-en:
-  'See configurations': 'See configurations'
 fr:
   'See configurations': 'Voir les configurations'
 </i18n>

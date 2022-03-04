@@ -13,8 +13,6 @@
 </template>
 
 <i18n lang="yaml">
-en:
-  'Export the report': 'Export the report'
 fr:
   'Export the report': 'Exporter le rapport'
 </i18n>

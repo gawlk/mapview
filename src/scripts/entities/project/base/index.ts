@@ -19,7 +19,7 @@ export const createBaseProjectFromJSON = async (
     machine: parameters.machine,
     name: createBaseFieldFromJSON(
       {
-        name: 'Name',
+        label: 'Name',
         value: json.name,
       },
       true
@@ -62,8 +62,6 @@ export const createBaseProjectFromJSON = async (
       map.fitBounds(bounds, { padding: 100 })
     },
     addToMap: function () {
-      console.log('project add')
-
       if (this.settings.map.coordinates && this.settings.map.zoom) {
         map.flyTo({
           center: this.settings.map.coordinates,

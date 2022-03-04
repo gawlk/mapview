@@ -38,8 +38,6 @@
 </template>
 
 <i18n lang="yaml">
-en:
-  'Add to album': 'Add to album'
 fr:
   'Add to album': "Ajouter à l'album"
 </i18n>

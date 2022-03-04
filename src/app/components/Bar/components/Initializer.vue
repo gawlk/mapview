@@ -65,11 +65,6 @@
 </template>
 
 <i18n lang="yaml">
-en:
-  'Open a file': 'Open a file'
-  'Drop a file here or click here to choose one': 'Drop a file here or click here to choose one'
-  'Try demo': 'Try demo'
-  'Download templates': 'Download templates'
 fr:
   'Open a file': 'Ouvrir un fichier'
   'Drop a file here or click here to choose one': 'Glisser un fichier ici ou cliquer pour en choisir un'

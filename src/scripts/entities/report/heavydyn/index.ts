@@ -2,6 +2,7 @@ import { createBaseReportFromJSON } from '../base'
 import {
   createHeavydynPointFromJSON,
   createHeavydynFieldFromJSON,
+  createSelectableList,
 } from '/src/scripts'
 
 export const createHeavydynReportFromJSON = (
@@ -9,24 +10,54 @@ export const createHeavydynReportFromJSON = (
   map: mapboxgl.Map,
   parameters: HeavydynReportCreatorParameters
 ) => {
-  const units = parameters.units
+  const dropValuesNamesList: ValueName[] =
+    json.valuesNames.groups.list
+      .find((group) => group.from === 'Drop')
+      ?.choices.list?.map((name) => {
+        return {
+          name: name,
+          unit: parameters.units.deformation,
+        }
+      }) || []
 
-  const dropList: ValueName[] =
-    json.values.drop.list?.map((name) => {
-      return {
-        name: name,
-        unit: units.deformation,
-      }
-    }) || []
+  const groupedValuesNamesList: GroupedValuesNames[] = [
+    {
+      from: 'Drop',
+      choices: createSelectableList(
+        dropValuesNamesList[0] || null,
+        dropValuesNamesList,
+        true
+      ),
+      indexes: createSelectableList(0, [0, 1, 2, 3], true),
+    },
+    {
+      from: 'Test',
+      choices: createSelectableList(
+        dropValuesNamesList[0] || null,
+        dropValuesNamesList,
+        true
+      ),
+    },
+    {
+      from: 'Zone',
+      choices: createSelectableList(
+        dropValuesNamesList[0] || null,
+        dropValuesNamesList,
+        true
+      ),
+    },
+  ]
 
   const report: PartialMachineReport<HeavydynReport> = createBaseReportFromJSON(
     json,
     map,
     {
       machine: 'heavydyn',
-      dropList,
-      pointList: [],
-      zoneList: [],
+      groupedValuesNames: createSelectableList(
+        groupedValuesNamesList[0],
+        groupedValuesNamesList,
+        true
+      ),
       ...parameters,
     }
   )

@@ -5,32 +5,29 @@
   import store from '/src/store'
 
   const { t } = useI18n()
+
+  const pointsTableValuesNames = computed(
+    () => store.projects.selected?.reports.selected?.valuesNames.table
+  )
 </script>
 
 <template>
-  <table class="w-full text-sm font-medium">
+  <table class="inset-x-auto w-full min-w-[444px] text-sm font-medium">
     <thead class="h-8 text-gray-500">
       <td />
-      <td />
+      <td class="text-center">{{ t('Number') }}</td>
       <td
-        v-for="key in store.projects.selected?.reports.selected?.dropsSettings
-          .data.names"
-        :key="key"
-        :class="[
-          key !==
-            store.projects.selected?.reports.selected?.dropsSettings.data.names[
-              store.projects.selected?.reports.selected?.dropsSettings.data
-                .selected
-            ] && 'opacity-50',
-        ]"
-        class="text-right font-bold"
+        v-for="(
+          name, index
+        ) of pointsTableValuesNames?.selected?.valuesNames.map(
+          (valueName) => valueName.name
+        )"
       >
-        {{ t(key) }}
+        {{ t(name) }}
       </td>
       <td />
     </thead>
     <tbody>
-      <tr class="h-0.5" />
       <tr
         v-for="(point, index) in store.projects.selected?.reports.selected
           ?.points"
@@ -40,22 +37,6 @@
           <Button sm :icon="IconHand" />
         </td>
         <td class="text-center font-bold">{{ point.number }}</td>
-        <td
-          v-for="key in store.projects.selected?.reports.selected?.dropsSettings
-            .data.names"
-          :key="`${index}-${key}`"
-          :class="[
-            key !==
-              store.projects.selected?.reports.selected?.dropsSettings.data
-                .names[
-                store.projects.selected?.reports.selected?.dropsSettings.data
-                  .selected
-              ] && 'opacity-50',
-          ]"
-          class="text-right font-bold text-red-800"
-        >
-          <!-- {{ point.finalData[key].displayString || point.finalData[key].value }} -->
-        </td>
         <td class="text-right">
           <Button sm :icon="IconEye" />
         </td>

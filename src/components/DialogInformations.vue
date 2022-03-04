@@ -65,9 +65,9 @@
           <div class="space-y-2">
             <Input
               v-for="field in dataset.fields"
-              :key="field.name"
-              :id="`${props.preID}informations-${field.name}`"
-              :label="t(field.name)"
+              :key="field.label"
+              :id="`${props.preID}informations-${field.label}`"
+              :label="t(field.label)"
               @input="(value) => setValue(field, value)"
               :value="
                 String(
@@ -112,8 +112,6 @@
 </template>
 
 <i18n lang="yaml">
-en:
-  'View informations': 'View informations'
 fr:
   'View informations': 'Voir les informations'
 </i18n>

@@ -142,9 +142,6 @@
 </template>
 
 <i18n lang="yaml">
-en:
-  'Add an image': 'Add an image'
-  'Open image list': 'Open image list'
 fr:
   'Add an image': 'Ajouter une image'
   'Open image list': 'Ouvrir la liste des images'

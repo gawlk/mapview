@@ -23,14 +23,14 @@ export const createBaseFieldFromJSON = (
   //   },
   // } as MachineField,
 
-  const { name, value } = json
+  const { label, value } = json
 
   const field: MachineField = (() => {
-    switch (name) {
+    switch (label) {
       case 'Comment':
       case 'Comments':
         return {
-          name,
+          label,
           value: {
             kind: 'longString',
             value: value as string,
@@ -38,7 +38,7 @@ export const createBaseFieldFromJSON = (
         }
       case 'Date':
         return {
-          name,
+          label,
           value: {
             kind: 'date',
             value: value as string,
@@ -46,7 +46,7 @@ export const createBaseFieldFromJSON = (
         }
       default:
         return {
-          name,
+          label,
           value,
         }
     }

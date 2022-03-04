@@ -3,9 +3,9 @@ interface BaseProject {
   readonly name: MachineField
   readonly informations: MachineField[]
   readonly reports: SelectableList<MachineReport>
-  units: MachineUnits
-  settings: JSONProjectSettings
-  images: Image[]
+  readonly units: MachineUnits
+  readonly settings: JSONProjectSettings
+  readonly images: Image[]
   refreshLinesAndImages: () => void
   setMapStyle: (styleIndex: number) => void
   fitOnMap: () => void

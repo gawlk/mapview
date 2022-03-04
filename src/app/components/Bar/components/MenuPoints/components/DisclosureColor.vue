@@ -10,6 +10,20 @@
   import IconFold from '~icons/octicon/fold-16'
 
   const { t } = useI18n()
+
+  const selectedValueName = computed(
+    () =>
+      store.projects.selected?.reports.selected?.valuesNames.groups.selected
+        ?.choices.selected
+  )
+
+  const formattedTresholdValue = computed(
+    () =>
+      `${
+        selectedValueName.value?.unit.thresholds?.selected?.value.toLocaleString() ||
+        '?'
+      } ${selectedValueName.value?.unit.currentUnit}`
+  )
 </script>
 
 <template>
@@ -46,36 +60,46 @@
     >
       <Listbox
         :icon="IconFold"
-        :values="store.projects.selected?.reports.list.map((report) => 'r')"
+        :values="
+          selectedValueName?.unit.thresholds?.list.map(
+            (threshold) => threshold.name
+          )
+        "
+        @selectIndex="
+          (index) =>
+            selectedValueName?.unit.thresholds?.selected &&
+            (selectedValueName.unit.thresholds.selected =
+              selectedValueName.unit.thresholds.list[index])
+        "
         :preSelected="`${t('Threshold')}${t(':')}`"
-        selected="N.S."
+        :selected="selectedValueName?.unit.thresholds?.selected?.name"
         full
       />
       <ListboxColors
         :icon="IconColorSwatch"
-        :color="'green'"
+        :color="
+          store.projects.selected?.reports.selected?.settings.threshold.colors
+            .low
+        "
         @selectColor="(color: Color) => {
- 
+          store.projects.selected?.reports.selected && (store.projects.selected.reports.selected.settings.threshold.colors.low = color)
         }"
-        :text="`0 < ${
-          ''
-          // t(store.projects.selected?.reports.selected?.dropsSettings.data.names[
-          //   store.projects.selected.reports.selected.dropsSettings.data.selected
-          // ] as string)
-        } < 30,0 um`"
+        :text="`0 < ${t(
+          selectedValueName?.name || ''
+        )} < ${formattedTresholdValue}`"
       />
       <ListboxColors
         :icon="IconColorSwatch"
-        :color="'red'"
+        :color="
+          store.projects.selected.reports.selected.settings.threshold.colors
+            .high
+        "
         @selectColor="(color: Color) => {
- 
+          store.projects.selected?.reports.selected && (store.projects.selected.reports.selected.settings.threshold.colors.high = color)
         }"
-        :text="`30,0 um < ${
-          ''
-          // t(store.projects.selected?.reports.selected?.dropsSettings.data.names[
-          //   store.projects.selected.reports.selected.dropsSettings.data.selected
-          // ] as string)
-        } < ∞`"
+        :text="`${formattedTresholdValue} < ${t(
+          selectedValueName?.name || ''
+        )} < ∞`"
       />
     </div>
     <div v-else class="space-y-2">
@@ -117,11 +141,6 @@
 </template>
 
 <i18n lang="yaml">
-en:
-  'Colors settings': 'Colors settings'
-  'Colorization by threshold': 'Colorization by threshold'
-  'Colorization by zone': 'Colorization by zone'
-  'Create a zone': 'Create a zone'
 fr:
   'Colors settings': 'Configurations des couleurs'
   'Colorization by threshold': 'Colorisation par seuil'

@@ -84,11 +84,6 @@
 </template>
 
 <i18n lang="yaml">
-en:
-  'Display number within points': 'Display number within points'
-  'Show the value': 'Show the value'
-  'Show the number': 'Show the number'
-  'Show nothing': 'Show nothing'
 fr:
   'Display number within points': 'Afficher le nombre des points'
   'Show the value': 'Afficher la valeur'

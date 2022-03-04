@@ -13,7 +13,7 @@
 
   const props = defineProps<{
     values?: string[]
-    selected?: string | number
+    selected?: string | number | string[]
     selectedIndex?: number
     icon?: any
     preSelected?: string

@@ -11,8 +11,6 @@
 </template>
 
 <i18n lang="yaml">
-en:
-  'Save project': 'Save project'
 fr:
   'Save project': 'Sauvegarder le projet'
 </i18n>

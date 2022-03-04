@@ -2,6 +2,7 @@ import { createBaseReportFromJSON } from '../base'
 import {
   createMaxidynPointFromJSON,
   createMaxidynFieldFromJSON,
+  createSelectableList,
 } from '/src/scripts'
 
 export const createMaxidynReportFromJSON = (
@@ -9,7 +10,7 @@ export const createMaxidynReportFromJSON = (
   map: mapboxgl.Map,
   parameters: MaxidynReportCreatorParameters
 ) => {
-  const dropList: ValueName[] = [
+  const dropValuesNamesList: ValueName[] = [
     {
       name: 'Modulus',
       unit: parameters.units.modulus,
@@ -24,14 +25,44 @@ export const createMaxidynReportFromJSON = (
     },
   ]
 
+  const groupedValuesNamesList: GroupedValuesNames[] = [
+    {
+      from: 'Drop',
+      choices: createSelectableList(
+        dropValuesNamesList[0] || null,
+        dropValuesNamesList,
+        true
+      ),
+      indexes: createSelectableList(0, [0, 1, 2, 3], true),
+    },
+    {
+      from: 'Test',
+      choices: createSelectableList(
+        dropValuesNamesList[0] || null,
+        dropValuesNamesList,
+        true
+      ),
+    },
+    {
+      from: 'Zone',
+      choices: createSelectableList(
+        dropValuesNamesList[0] || null,
+        dropValuesNamesList,
+        true
+      ),
+    },
+  ]
+
   const report: PartialMachineReport<MaxidynReport> = createBaseReportFromJSON(
     json,
     map,
     {
       machine: 'maxidyn',
-      dropList,
-      pointList: [],
-      zoneList: [],
+      groupedValuesNames: createSelectableList(
+        groupedValuesNamesList[0],
+        groupedValuesNamesList,
+        true
+      ),
       ...parameters,
     }
   )

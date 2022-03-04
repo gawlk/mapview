@@ -119,7 +119,7 @@ const importScreenshots = (
     .map((key) => key.substring(12))
     .filter((key) => key)
 
-  json.reports.list.forEach((jsonReport, index) => {
+  json.reports.forEach((jsonReport, index) => {
     jsonReport.screenshots.forEach(async (screenshotIndex) => {
       const screenshotFileName = screenshots.find(
         (screenshot) => Number(screenshot.split('.')[0]) === screenshotIndex

@@ -2,6 +2,7 @@ import { createBaseReportFromJSON } from '../base'
 import {
   createMinidynPointFromJSON,
   createMinidynFieldFromJSON,
+  createSelectableList,
 } from '/src/scripts'
 
 export const createMinidynReportFromJSON = (
@@ -9,7 +10,7 @@ export const createMinidynReportFromJSON = (
   map: mapboxgl.Map,
   parameters: MinidynReportCreatorParameters
 ) => {
-  const dropList: ValueName[] = [
+  const dropValuesNamesList: ValueName[] = [
     {
       name: 'Modulus',
       unit: parameters.units.modulus,
@@ -28,14 +29,44 @@ export const createMinidynReportFromJSON = (
     },
   ]
 
+  const groupedValuesNamesList: GroupedValuesNames[] = [
+    {
+      from: 'Drop',
+      choices: createSelectableList(
+        dropValuesNamesList[0] || null,
+        dropValuesNamesList,
+        true
+      ),
+      indexes: createSelectableList(0, [0, 1, 2, 3], true),
+    },
+    {
+      from: 'Test',
+      choices: createSelectableList(
+        dropValuesNamesList[0] || null,
+        dropValuesNamesList,
+        true
+      ),
+    },
+    {
+      from: 'Zone',
+      choices: createSelectableList(
+        dropValuesNamesList[0] || null,
+        dropValuesNamesList,
+        true
+      ),
+    },
+  ]
+
   const report: PartialMachineReport<MinidynReport> = createBaseReportFromJSON(
     json,
     map,
     {
       machine: 'minidyn',
-      dropList,
-      pointList: [],
-      zoneList: [],
+      groupedValuesNames: createSelectableList(
+        groupedValuesNamesList[0],
+        groupedValuesNamesList,
+        true
+      ),
       ...parameters,
     }
   )

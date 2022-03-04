@@ -1,9 +1,9 @@
-interface SelectableList<K, V = K> {
-  selected: K | null
-  readonly list: V[]
+interface SelectableList<S, L = S> {
+  selected: S | null
+  readonly list: L[]
 }
 
-interface SelectableOptionalList<K, V = K> {
-  selected: K | null
-  readonly list?: V[]
+interface SelectableOptionalList<S, L = S> {
+  selected: S | null
+  readonly list?: L[]
 }

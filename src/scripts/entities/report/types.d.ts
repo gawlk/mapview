@@ -8,7 +8,4 @@ type PartialMachineReport<MachineReport> = PartialExtendedObject<
 interface MachineReportCreatorParameters {
   projectSettings: JSONProjectSettings
   units: MachineUnits
-  threshold: {
-    colors: ThresholdColors
-  }
 }

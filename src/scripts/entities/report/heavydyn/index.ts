@@ -10,40 +10,60 @@ export const createHeavydynReportFromJSON = (
   map: mapboxgl.Map,
   parameters: HeavydynReportCreatorParameters
 ) => {
+  const jsonDropGroup = json.valuesNames.groups.list.find(
+    (group) => group.from === 'Drop'
+  )
+
   const dropValuesNamesList: ValueName[] =
-    json.valuesNames.groups.list
-      .find((group) => group.from === 'Drop')
-      ?.choices.list?.map((name) => {
-        return {
-          name: name,
-          unit: parameters.units.deformation,
-        }
-      }) || []
+    jsonDropGroup?.choices.list?.map((name) => {
+      return {
+        name: name,
+        unit: parameters.units.deformation,
+      }
+    }) || []
+
+  const jsonDropIndexes = jsonDropGroup?.indexes?.list || []
 
   const groupedValuesNamesList: GroupedValuesNames[] = [
     {
       from: 'Drop',
       choices: createSelectableList(
-        dropValuesNamesList[0] || null,
+        jsonDropGroup?.choices?.selected || null,
         dropValuesNamesList,
-        true
+        {
+          reactive: true,
+          isSelectedAnIndex: true,
+        }
       ),
-      indexes: createSelectableList(0, [0, 1, 2, 3], true),
+      indexes: createSelectableList(
+        jsonDropGroup?.indexes?.selected || null,
+        jsonDropIndexes,
+        {
+          reactive: true,
+          isSelectedAnIndex: true,
+        }
+      ),
     },
     {
       from: 'Test',
       choices: createSelectableList(
-        dropValuesNamesList[0] || null,
+        jsonDropGroup?.choices?.selected || null,
         dropValuesNamesList,
-        true
+        {
+          reactive: true,
+          isSelectedAnIndex: true,
+        }
       ),
     },
     {
       from: 'Zone',
       choices: createSelectableList(
-        dropValuesNamesList[0] || null,
+        jsonDropGroup?.choices?.selected || null,
         dropValuesNamesList,
-        true
+        {
+          reactive: true,
+          isSelectedAnIndex: true,
+        }
       ),
     },
   ]
@@ -54,9 +74,12 @@ export const createHeavydynReportFromJSON = (
     {
       machine: 'heavydyn',
       groupedValuesNames: createSelectableList(
-        groupedValuesNamesList[0],
+        json.valuesNames.groups.selected,
         groupedValuesNamesList,
-        true
+        {
+          reactive: true,
+          isSelectedAnIndex: true,
+        }
       ),
       ...parameters,
     }

@@ -24,7 +24,9 @@ export const createBaseProjectFromJSON = async (
       },
       true
     ),
-    reports: createSelectableList<MachineReport>(null, [], true),
+    reports: createSelectableList<MachineReport>(null, [], {
+      reactive: true,
+    }),
     images: shallowReactive([] as Image[]),
     units: parameters.units,
     settings,

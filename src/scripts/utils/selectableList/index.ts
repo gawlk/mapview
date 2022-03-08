@@ -1,15 +1,27 @@
-export const createSelectableList = <K, V = K>(
-  selected: K | null,
-  list: V[],
-  reactive?: true
-): SelectableList<K, V> => {
-  return reactive
+export const createSelectableList = <T>(
+  selected: T | number | null,
+  list: T[],
+  parameters: {
+    reactive?: true
+    isSelectedAnIndex?: true
+  }
+): SelectableList<T> => {
+  const _selected = (
+    parameters.isSelectedAnIndex
+      ? getObjectFromSelectedIndexInSelectableList(
+          selected as number | null,
+          list
+        )
+      : selected
+  ) as T | null
+
+  return parameters.reactive
     ? shallowReactive({
-        selected,
+        selected: _selected,
         list: shallowReactive(list),
       })
     : {
-        selected,
+        selected: _selected,
         list,
       }
 }

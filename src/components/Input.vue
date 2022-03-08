@@ -7,8 +7,8 @@
 
   const props = defineProps<{
     id: string
-    type: string
     value: string | number
+    type?: string
     label?: string
     step?: number
     min?: number

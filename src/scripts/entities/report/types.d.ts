@@ -9,3 +9,5 @@ interface MachineReportCreatorParameters {
   projectSettings: JSONProjectSettings
   units: MachineUnits
 }
+
+type MachineDropIndex = HeavydynDropIndex | MaxidynDropIndex | MinidynDropIndex

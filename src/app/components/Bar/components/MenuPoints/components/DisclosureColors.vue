@@ -1,6 +1,10 @@
 <script setup lang="ts">
   import store from '/src/store'
-  import { createZone, colorsClasses } from '/src/scripts'
+  import {
+    createZone,
+    setDisclosureOpenState,
+    getDisclosureOpenState,
+  } from '/src/scripts'
 
   import IconColorSwatch from '~icons/heroicons-solid/color-swatch'
   import IconAdjustments from '~icons/heroicons-solid/adjustments'
@@ -10,6 +14,8 @@
   import IconFold from '~icons/octicon/fold-16'
 
   const { t } = useI18n()
+
+  const key = 'isPointsColorsDisclosureOpen'
 
   const selectedValueName = computed(
     () =>
@@ -30,8 +36,8 @@
   <Disclosure
     :icon="IconColorSwatch"
     :text="t('Colors settings')"
-    @click="() => {}"
-    :defaultOpen="true"
+    @click="(open) => setDisclosureOpenState(key, open)"
+    :defaultOpen="getDisclosureOpenState(key)"
   >
     <Listbox
       :icon="IconAdjustments"
@@ -110,19 +116,21 @@
       >
         <ListboxColors
           :icon="IconIssueDraft"
-          :text="`Zone ${index + 1}`"
-          @selectColor="(color: Color) => {
-            zone.color = color
-          }"
+          @selectColor="(color: Color) => 
+            (zone.color = color)
+          "
           :color="zone.color"
+        />
+        <Input
+          :id="zone.name + '-name'"
+          :value="zone.name"
+          @input="(value) => (zone.name = String(value))"
         />
         <Button
           @click="
             store.projects.selected?.reports.selected?.zones.splice(index, 1)
           "
           :icon="IconTrash"
-          :buttonColors="colorsClasses[zone.color].buttonColors"
-          :iconsClasses="colorsClasses[zone.color].iconsClasses"
         />
       </div>
       <Button
@@ -130,7 +138,13 @@
         :leftIcon="IconPlus"
         @click="
           () => {
-            store.projects.selected?.reports.selected?.zones.push(createZone())
+            store.projects.selected?.reports.selected?.zones.push(
+              createZone({
+                name: `${t('Zone')} ${
+                  store.projects.selected?.reports.selected?.zones.length + 1
+                }`,
+              })
+            )
           }
         "
       >

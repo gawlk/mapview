@@ -5,14 +5,12 @@
     // Element
     element?: any
 
-    // Sizes
-    xxl?: boolean
-    xl?: boolean
-    lg?: boolean
-    sm?: boolean
-
     // Full
     full?: boolean
+
+    // Sizes
+    lg?: boolean
+    sm?: boolean
 
     // Round
     rounded?: boolean
@@ -20,6 +18,9 @@
 
     // Border
     border?: boolean
+
+    // Center
+    center?: boolean
 
     // Colors
     brand?: boolean
@@ -41,7 +42,7 @@
     rightSrc?: string
 
     // Classes
-    buttonClasses?: string
+    classes?: string
     illustrationClasses?: string
     leftIllustrationClasses?: string
     rightIllustrationClasses?: string
@@ -53,6 +54,9 @@
     :is="props.element || 'button'"
     :disabled="props.disabled"
     :class="[
+      // Full
+      props.full ? 'w-full' : '',
+
       // Sizes
       props.lg ? 'text-lg' : props.sm ? 'text-sm' : 'text-base',
 
@@ -76,37 +80,81 @@
         ? 'rounded-lg'
         : '',
 
+      // Center
+      props.center ? 'justify-center' : '',
+
+      // Colors
       props.brand
-        ? 'bg-orange-600 text-white '
+        ? 'text-white '
         : props.brand2
-        ? 'bg-indigo-600 text-white '
+        ? 'text-white '
         : props.primary
-        ? 'bg-black text-white dark:bg-white dark:text-black'
+        ? 'text-white dark:text-black'
         : props.secondary
-        ? 'border-2 border-black bg-white dark:border-white dark:bg-black dark:text-white'
+        ? 'border-2 border-black dark:border-white dark:text-white'
         : 'text-black dark:text-white',
 
-      props.disabled
-        ? 'disabled:transform-none disabled:cursor-default  disabled:transition-none'
+      // Background colors
+      props.inactive
+        ? 'bg-transparent'
         : props.brand
-        ? 'hover:bg-orange-500'
+        ? 'bg-orange-600'
         : props.brand2
-        ? 'hover:bg-indigo-500'
+        ? 'bg-indigo-600'
         : props.primary
-        ? 'hover:bg-gray-800 dark:hover:bg-gray-200'
+        ? 'bg-black dark:bg-white '
         : props.secondary
-        ? 'hover:bg-gray-200 dark:hover:bg-gray-800'
-        : 'hover:bg-gray-200 dark:hover:bg-gray-800',
+        ? 'bg-stone-100 dark:bg-stone-900 '
+        : 'bg-stone-100 dark:bg-stone-900 ',
+
+      // Hover colors
+      !props.disabled
+        ? props.brand
+          ? 'hover:bg-orange-500'
+          : props.brand2
+          ? 'hover:bg-indigo-500'
+          : props.primary
+          ? 'hover:bg-stone-800 dark:hover:bg-stone-200'
+          : props.secondary
+          ? 'hover:bg-stone-200 dark:hover:bg-stone-800'
+          : 'hover:bg-stone-200 dark:hover:bg-stone-800'
+        : '',
+
+      // Disabled
+      disabled
+        ? 'disabled:transform-none disabled:cursor-default  disabled:transition-none'
+        : 'group',
+
+      // Opacity
       props.disabled || props.inactive ? 'opacity-60' : '',
 
-      'group transform font-semibold transition duration-200 active:scale-95 motion-reduce:transform-none motion-reduce:transition-none ',
+      props.classes || '',
+
+      'inline-flex transform items-center font-semibold transition duration-200 focus:outline-none focus-visible:outline-offset-2 focus-visible:outline-black active:scale-95 motion-reduce:transform-none motion-reduce:transition-none dark:focus-visible:outline-white',
     ]"
   >
     <Illustration
       v-if="props.svg || props.leftSvg || props.src || props.leftSrc"
       v-bind="props"
+      :svg="props.svg || props.leftSvg"
+      :src="props.src || props.leftSrc"
+      :left="!!(props.leftSvg || props.leftSrc)"
+      :classes="props.illustrationClasses || props.leftIllustrationClasses"
     />
-    <slot></slot>
-    <Illustration v-if="props.rightSvg || props.rightSrc" v-bind="props" />
+    <span :class="[props.center ? 'text-center' : 'text-left', 'flex-1']"
+      ><slot></slot
+    ></span>
+    <Illustration
+      v-if="
+        props.rightSvg ||
+        props.rightSrc ||
+        (props.center && (props.leftSvg || props.leftSrc))
+      "
+      v-bind="props"
+      :svg="props.rightSvg"
+      :src="props.rightSrc"
+      :right="true"
+      :classes="props.rightIllustrationClasses"
+    />
   </component>
 </template>

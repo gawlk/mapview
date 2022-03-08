@@ -21,8 +21,9 @@ const colors: Color[] = [
   'rose',
 ]
 
-export const createZone = (zone?: JSONZone): Zone => {
+export const createZone = (zone: JSONZone): Zone => {
   return shallowReactive({
+    ...zone,
     color: zone?.color || colors[Math.floor(Math.random() * colors.length)],
   })
 }

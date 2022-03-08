@@ -9,3 +9,10 @@ interface HeavydynReportCreatorParameters
   extends MachineReportCreatorParameters {
   units: HeavydynUnits
 }
+
+type HeavydynDropType = 'Distance' | 'Force'
+
+interface HeavydynDropIndex extends BaseDropIndex {
+  readonly machine: 'heavydyn'
+  readonly type: HeavydynDropType
+}

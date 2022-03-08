@@ -54,7 +54,7 @@
           props.buttonBackground && 'bg-cover bg-center',
           props.buttonColors || 'bg-gray-100 hover:bg-gray-200',
         ]"
-        class="group flex w-full items-center justify-between space-x-4 truncate rounded-lg py-2 px-4 text-sm font-medium leading-6 transition-colors duration-200 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300"
+        class="group flex h-full w-full items-center justify-between space-x-3 truncate rounded-lg py-2 px-4 text-sm font-medium leading-6 transition-colors duration-200 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300"
       >
         <div class="flex items-center">
           <component

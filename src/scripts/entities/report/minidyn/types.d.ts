@@ -9,3 +9,10 @@ interface MinidynReportCreatorParameters
   extends MachineReportCreatorParameters {
   units: MinidynUnits
 }
+
+type MinidynDropType = 'Training' | 'Averaging'
+
+interface MinidynDropIndex extends BaseDropIndex {
+  machine: 'minidyn'
+  type: MinidynDropType
+}

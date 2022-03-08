@@ -5,7 +5,6 @@ import {
   createSelectableList,
   createWatcherHandler,
   createZone,
-  getObjectFromSelectedIndexInSelectableList,
 } from '/src/scripts'
 
 export const createBaseReportFromJSON = (
@@ -25,7 +24,7 @@ export const createBaseReportFromJSON = (
 
       return shallowReactive({
         group,
-        index: tableValuesNames?.index ?? 0,
+        index: group.indexes?.list[tableValuesNames?.index || 0],
         valuesNames: shallowReactive(
           (tableValuesNames?.valuesNames || [])
             .map((name) =>
@@ -39,12 +38,12 @@ export const createBaseReportFromJSON = (
   const valuesNames: ReportValuesNames = {
     groups: parameters.groupedValuesNames,
     table: createSelectableList(
-      getObjectFromSelectedIndexInSelectableList(
-        json.valuesNames.table.selected,
-        tableValuesNamesList
-      ),
+      json.valuesNames.table.selected,
       tableValuesNamesList,
-      true
+      {
+        reactive: true,
+        isSelectedAnIndex: true,
+      }
     ),
   }
 

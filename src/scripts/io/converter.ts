@@ -46,9 +46,9 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
     }
   })
 
-  project.reports = json.PVs.map((json: any) => {
+  project.reports = json.PVs.map((jsonPVs: any) => {
     const report: JSONReport = {
-      name: json.PVs.Name,
+      name: jsonPVs.PVs.Name,
       settings: {
         iconName: 'circle',
         isVisible: true,
@@ -71,6 +71,38 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
               from: 'Drop',
               choices: {
                 selected: 0,
+              },
+              indexes: {
+                selected: 0,
+                list: (() => {
+                  switch (machine) {
+                    case 'heavydyn':
+                      return json.Sequences.Steps.map(
+                        (step: any): HeavydynDropIndex => {
+                          return {
+                            machine,
+                            type: step.TypeDrop as 'Distance' | 'Force',
+                            displayedIndex: step.Name,
+                          }
+                        }
+                      )
+                    default:
+                      return Array(json.ParamsPoint.NbTotal)
+                        .fill(0)
+                        .map(
+                          (_, index): MaxidynDropIndex | MinidynDropIndex => {
+                            return {
+                              machine,
+                              type:
+                                index + 1 <= json.ParamsPoint.NbTraining
+                                  ? 'Training'
+                                  : 'Averaging',
+                              displayedIndex: index + 1,
+                            }
+                          }
+                        )
+                  }
+                })(),
               },
             },
             {
@@ -111,6 +143,8 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
       screenshots: [],
     }
 
+    console.log('json report', report)
+
     report.informations = [
       'Date',
       'Operator',
@@ -122,7 +156,7 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
     ].map((label: string) => {
       return {
         label,
-        value: json.PVs[label],
+        value: jsonPVs.PVs[label],
       }
     })
 
@@ -130,12 +164,12 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
       (label: string) => {
         return {
           label,
-          value: json.Plateformes[label],
+          value: jsonPVs.Plateformes[label],
         }
       }
     )
 
-    report.points = json.Points.map((point: any) => {
+    report.points = jsonPVs.Points.map((point: any) => {
       const jsonPoint: JSONPoint = {
         coordinates: {
           lng: point.Points.Longitude,

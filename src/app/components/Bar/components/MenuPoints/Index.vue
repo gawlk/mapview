@@ -1,11 +1,11 @@
 <script setup lang="ts">
   import ListboxIcon from './components/ListboxIcon.vue'
-  import DisclosureValue from './components/DisclosureValue.vue'
-  import DisclosureColor from './components/DisclosureColor.vue'
+  import DisclosureValues from './components/DisclosureValues.vue'
+  import DisclosureColors from './components/DisclosureColors.vue'
 </script>
 
 <template>
   <ListboxIcon />
-  <DisclosureValue />
-  <DisclosureColor />
+  <DisclosureValues />
+  <DisclosureColors />
 </template>

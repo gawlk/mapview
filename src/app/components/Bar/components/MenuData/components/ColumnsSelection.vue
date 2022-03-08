@@ -47,11 +47,13 @@
     :icon="IconDotsVertical"
     :values="
       tableValuesNames?.selected?.group.indexes?.list.map(
-        (index) => `${index + 1}`
+        (index) => `${index.displayedIndex} - ${t(index.type)}`
       )
     "
     :preSelected="`${t('Index')}${t(':')}`"
-    :selectedIndex="tableValuesNames?.selected?.index"
+    :selectedIndex="
+      (tableValuesNames?.selected?.index?.displayedIndex || 1) - 1
+    "
     @selectIndex="
       (index) =>
         tableValuesNames?.selected &&

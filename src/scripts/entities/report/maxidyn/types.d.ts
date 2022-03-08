@@ -9,3 +9,10 @@ interface MaxidynReportCreatorParameters
   extends MachineReportCreatorParameters {
   units: MaxidynUnits
 }
+
+type MaxidynDropType = 'Training' | 'Averaging'
+
+interface MaxidynDropIndex extends BaseDropIndex {
+  machine: 'maxidyn'
+  type: MaxidynDropType
+}

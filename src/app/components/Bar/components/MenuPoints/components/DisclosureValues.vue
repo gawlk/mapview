@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import store from '/src/store'
+  import { setDisclosureOpenState, getDisclosureOpenState } from '/src/scripts'
 
   import IconNumber from '~icons/octicon/number-16'
   import IconViewList from '~icons/heroicons-solid/view-list'
@@ -7,6 +8,8 @@
   import IconDotsHorizontal from '~icons/heroicons-solid/dots-horizontal'
 
   const { t } = useI18n()
+
+  const key = 'isPointsValuesDisclosureOpen'
 
   const pointsGroupedValuesNames = computed(
     () => store.projects.selected?.reports.selected?.valuesNames.groups
@@ -17,8 +20,8 @@
   <Disclosure
     :icon="IconNumber"
     :text="t('Values settings')"
-    @click="() => {}"
-    :defaultOpen="true"
+    @click="(open) => setDisclosureOpenState(key, open)"
+    :defaultOpen="getDisclosureOpenState(key)"
   >
     <Listbox
       :icon="IconViewList"
@@ -38,11 +41,14 @@
       :icon="IconDotsVertical"
       :values="
         pointsGroupedValuesNames?.selected?.indexes.list.map(
-          (index) => `${index + 1}`
+          (index) => `${index.displayedIndex} - ${t(index.type)}`
         )
       "
       :preSelected="`${t('Index')}${t(':')}`"
-      :selectedIndex="(pointsGroupedValuesNames?.selected?.indexes.selected as number)"
+      :selectedIndex="
+        (pointsGroupedValuesNames?.selected?.indexes.selected?.displayedIndex ||
+          1) - 1
+      "
       @selectIndex="
         (index) =>
           pointsGroupedValuesNames?.selected?.indexes &&

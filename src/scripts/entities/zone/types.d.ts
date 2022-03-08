@@ -1,7 +1,9 @@
 interface Zone {
+  name: string
   color: Color
 }
 
 interface JSONZone {
-  color: Color
+  name: string
+  color?: Color
 }

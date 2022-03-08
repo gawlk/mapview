@@ -23,12 +23,12 @@ interface ReportValuesNames {
 interface GroupedValuesNames {
   from: ValuesNamesFrom
   choices: SelectableList<ValueName>
-  indexes?: SelectableList<number>
+  indexes?: SelectableList<MachineDropIndex>
 }
 
 interface TableValuesNamesParameters {
   group: GroupedValuesNames
-  index?: number
+  index?: MachineDropIndex
   valuesNames: ValueName[]
 }
 
@@ -62,7 +62,7 @@ interface JSONReportValuesNames {
 interface JSONGroupedValuesNames {
   from: ValuesNamesFrom
   choices: SelectableOptionalList<number, string>
-  indexes?: SelectableList<number>
+  indexes?: SelectableList<number, MachineDropIndex>
 }
 
 interface JSONTableValuesNames {
@@ -87,6 +87,12 @@ interface ThresholdColors {
   low: Color
   middle: Color
   high: Color
+}
+
+interface BaseDropIndex {
+  readonly machine: MachineName
+  readonly type: string
+  readonly displayedIndex: number
 }
 
 // interface JSONLoadBearingCapacity {

@@ -6,9 +6,10 @@
   }>()
 
   const props = defineProps<{
-    icon?: any
-    text: string
     color: Color
+    icon?: any
+    text?: string
+    full?: boolean
   }>()
 </script>
 
@@ -17,7 +18,7 @@
     :icon="props.icon"
     :buttonColors="colorsClasses[props.color].buttonColors"
     :iconsClasses="colorsClasses[props.color].iconsClasses"
-    :selectedReplacement="props.text"
+    :selectedReplacement="props.text || ''"
     :selectedIndex="
       Object.keys(colorsClasses).findIndex((color) => color === props.color)
     "
@@ -25,6 +26,6 @@
       emit('selectColor', (Object.keys(colorsClasses) as Color[])[index])
     "
     :classes="Object.values(colorsClasses).map((color) => color.buttonColors)"
-    full
+    :full="props.full"
   />
 </template>

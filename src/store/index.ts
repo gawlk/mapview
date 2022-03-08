@@ -8,7 +8,9 @@ const read = (key: string) => {
 
 const store = shallowReactive({
   // example: read('example') || defaultExample,
-  projects: createSelectableList<MachineProject>(null, [], true),
+  projects: createSelectableList<MachineProject>(null, [], {
+    reactive: true,
+  }),
   map: null,
   save: (key: StoreKey, value: StoreSaveableTypes): void => {
     localStorage.setItem(key, JSON.stringify(value))

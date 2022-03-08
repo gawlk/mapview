@@ -5,9 +5,9 @@
   "homepage": "https://v2.mapview.fr/",
   "scripts": {
     "dev": "vite --host",
-    "build": "vite build",
-    "prod": "vite build && vite preview --host",
     "check": "tsc --noEmit",
+    "build": "$npm_execpath run check && vite build",
+    "prod": "$npm_execpath run build && vite preview --host",
     "test": "vitest",
     "coverage": "vitest --coverage"
   },

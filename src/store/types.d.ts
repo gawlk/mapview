@@ -1,12 +1,14 @@
 interface Store {
   projects: SelectableList<MachineProject>
   map: mapboxgl.Map | null
-  save: (key: StoreKey, value: StoreSaveableTypes) => void
+  save: (key: StoreKeys, value: StoreSaveableTypes) => void
 }
 
-type StoreKey = Exclude<keyof Store, 'save'>
+type StoreKeys = Exclude<keyof Store, 'save'>
+
+type StoreTypes = Store[keyof Store]
 
 type StoreSaveableTypes = Extract<
-  Store[keyof Store],
+  StoreTypes,
   string[] | number[] | boolean[] | string | number | boolean | null
 >

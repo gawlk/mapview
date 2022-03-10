@@ -1,4 +1,4 @@
-type MenuProp = {
+interface MenuProp {
   name: string
   icon: any
   component: any

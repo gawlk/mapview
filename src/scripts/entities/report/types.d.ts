@@ -11,3 +11,8 @@ interface MachineReportCreatorParameters {
 }
 
 type MachineDropIndex = HeavydynDropIndex | MaxidynDropIndex | MinidynDropIndex
+
+type JSONMachineDropIndex =
+  | JSONHeavydynDropIndex
+  | MaxidynDropIndex
+  | MinidynDropIndex

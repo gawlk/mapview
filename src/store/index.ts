@@ -12,7 +12,7 @@ const store = shallowReactive({
     reactive: true,
   }),
   map: null,
-  save: (key: StoreKey, value: StoreSaveableTypes): void => {
+  save: (key: StoreKeys, value: StoreSaveableTypes): void => {
     localStorage.setItem(key, JSON.stringify(value))
     // @ts-ignore
     store[key] = value

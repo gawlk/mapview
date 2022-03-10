@@ -81,8 +81,9 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
                         (step: any): HeavydynDropIndex => {
                           return {
                             machine,
-                            type: step.TypeDrop as 'Distance' | 'Force',
+                            type: step.TypeDrop as HeavydynDropType,
                             displayedIndex: step.Name,
+                            value: step.ValueDrop,
                           }
                         }
                       )

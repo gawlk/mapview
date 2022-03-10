@@ -2,9 +2,7 @@ import { fileURLToPath, URL } from 'url'
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import vueJsx from '@vitejs/plugin-vue-jsx'
-import vueTypeImports from 'vite-plugin-vue-type-imports'
-// import Pages from 'vite-plugin-pages'
+// import pages from 'vite-plugin-pages'
 import i18n from '@intlify/vite-plugin-vue-i18n'
 import icons from 'unplugin-icons/vite'
 import iconsResolver from 'unplugin-icons/resolver'
@@ -18,6 +16,8 @@ import analyze from 'rollup-plugin-analyzer'
 import autoprefixer from 'autoprefixer'
 import tailwindcss from 'tailwindcss'
 
+import packageJSON from './package.json'
+
 export default defineConfig({
   resolve: {
     alias: {
@@ -27,14 +27,8 @@ export default defineConfig({
   plugins: [
     vue(),
 
-    vueJsx({
-      optimize: true,
-    }),
-
-    vueTypeImports(),
-
     // https://github.com/hannoeru/vite-plugin-pages
-    // Pages(),
+    // pages(),
 
     i18n({
       include: [
@@ -42,13 +36,13 @@ export default defineConfig({
       ],
     }),
 
-    // // https://github.com/antfu/unplugin-auto-import
+    // https://github.com/antfu/unplugin-auto-import
     autoImport({
-      imports: ['vue', 'vue-i18n', '@vueuse/head'],
+      imports: ['vue', 'vue-i18n', '@vueuse/core', '@vueuse/head'],
       dts: './src/auto-imports.d.ts',
     }),
 
-    // // https://github.com/antfu/unplugin-vue-components
+    // https://github.com/antfu/unplugin-vue-components
     components({
       resolvers: [
         // https://github.com/antfu/vite-plugin-icons
@@ -59,6 +53,7 @@ export default defineConfig({
       dts: './src/components.d.ts',
     }),
 
+    // https://github.com/antfu/vite-plugin-icons
     icons({
       autoInstall: true,
     }),
@@ -66,6 +61,8 @@ export default defineConfig({
     svgLoader(),
 
     favicons({
+      appName: packageJSON.name[0].toUpperCase() + packageJSON.name.slice(1),
+      appDescription: packageJSON.description,
       icons: {
         favicons: {
           source: './src/assets/svg/mapview/logo.svg',

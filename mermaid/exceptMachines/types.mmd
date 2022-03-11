@@ -1,0 +1,515 @@
+classDiagram
+class MenuProp {
+  <<interface>>
+  name string
+  icon any
+  component any
+  needsReport? boolean
+  openedOnMobile? boolean
+}
+
+
+class Color {
+  <<type>>
+  | 'black'| 'white'| 'gray'| 'red'| 'orange'| 'amber'| 'yellow'| 'lime'| 'green'| 'emerald'| 'teal'| 'cyan'| 'sky'| 'blue'| 'indigo'| 'violet'| 'purple'| 'fuchsia'| 'pink'| 'rose'
+}
+
+
+class MathNumberObject {
+  <<interface>>
+  [key: string] MathNumber | MathNumber[] | MathNumber[][]
+}
+MathNumberObject --> MathNumber
+
+class ComputedData {
+  <<interface>>
+  raw MathNumberObject
+  parameters MathNumberObject
+  computed MathNumberObject
+  compute () => void
+}
+ComputedData --> MathNumberObject
+
+class BaseDrop {
+  <<interface>>
+  data ComputedData
+  additionnalFields MachineField[]
+}
+BaseDrop --> ComputedData
+
+class JSONDrop {
+  <<interface>>
+
+}
+
+
+class BaseField {
+  <<interface>>
+  label string
+  value | boolean| number| string| SlidableNumber| DateValue| LongString| SelectableString
+}
+BaseField --> SlidableNumber
+BaseField --> DateValue
+BaseField --> LongString
+BaseField --> SelectableString
+
+class JSONField {
+  <<interface>>
+  label string
+  value boolean | number | string
+}
+
+
+class SlidableNumber {
+  <<interface>>
+  kind 'slidableNumber'
+  value number
+  step number
+  min number
+  max number
+}
+
+
+class DateValue {
+  <<interface>>
+  kind 'date'
+  value string
+}
+
+
+class LongString {
+  <<interface>>
+  kind 'longString'
+  value string
+}
+
+
+class SelectableString {
+  <<interface>>
+  kind 'selectableString'
+  value string
+  possibleValues string[]
+  strict boolean
+}
+
+
+class Icon {
+  <<interface>>
+  element HTMLElement
+  color string
+  setText (text: string) => void
+  setIcon (iconName: IconName) => void
+}
+
+
+class IconName {
+  <<type>>
+  | 'circle'| 'triangle'| 'square'| 'rhombus'| 'flare'| 'pentagon'| 'hexagon'| 'hexagonAlt'| 'heptagon'| 'octagon'
+}
+
+
+class Image {
+  <<interface>>
+  id string
+  sourceData mapboxgl.ImageSourceRaw
+  markerNW mapboxgl.Marker
+  markerSE mapboxgl.Marker
+  opacity number
+  addToMap (isVisible: boolean) => void
+  remove () => void
+}
+
+
+class JSONImage {
+  <<interface>>
+  name string
+  opacity? number
+  coordinates? #123; nw: LngLatse: LngLat #125;
+}
+JSONImage --> LngLat
+
+class ImageCoordinates {
+  <<interface>>
+  tl XYCoord
+  tr XYCoord
+  bl XYCoord
+  br XYCoord
+}
+ImageCoordinates --> XYCoord
+
+class Line {
+  <<interface>>
+  addToMap () => void
+  update () => void
+  remove () => void
+}
+
+
+class MathNumber {
+  <<interface>>
+  value math.Unit | number
+  unit MathUnit | string
+  displayString string
+  displayStringWithUnit string
+  toDisplayedValue () => void
+}
+MathNumber --> MathUnit
+
+class MathUnit {
+  <<interface>>
+  name string
+  currentUnit string
+  currentPrecision number
+  possibleSettings [string, number][]
+  possiblePrecisions number[]
+  minDisplayedValue? number
+  maxDisplayedValue? number
+  thresholds? #123; selected: PredefinedThreshold | CustomThreshold | nulllist: PredefinedThreshold[]// custom: CustomThreshold #125;
+}
+MathUnit --> PredefinedThreshold
+MathUnit --> CustomThreshold
+
+class BasePoint {
+  <<interface>>
+  machine MachineName
+  number number
+  marker mapboxgl.Marker
+  icon Icon
+  settings JSONPointSettings
+  zone Zone | null
+  updateText () => void
+  updateVisibility () => void
+  addToMap () => void
+  remove () => void
+}
+BasePoint --> Icon
+BasePoint --> JSONPointSettings
+BasePoint --> Zone
+
+class BasePointCreatorParameters {
+  <<interface>>
+  machine MachineName
+}
+
+
+class JSONPoint {
+  <<interface>>
+  coordinates mapboxgl.LngLatLike
+  settings JSONPointSettings
+  informations JSONField[]
+  drops JSONDrop[]
+}
+JSONPoint --> JSONPointSettings
+JSONPoint --> JSONField
+JSONPoint --> JSONDrop
+
+class JSONPointSettings {
+  <<interface>>
+  isVisible boolean
+}
+
+
+class BaseProject {
+  <<interface>>
+  machine MachineName
+  name MachineField
+  informations MachineField[]
+  reports SelectableList<MachineReport>
+  units MachineUnits
+  settings JSONProjectSettings
+  images Image[]
+  refreshLinesAndImages () => void
+  setMapStyle (styleIndex: number) => void
+  fitOnMap () => void
+  addToMap () => void
+  remove () => void
+}
+BaseProject --> SelectableList
+BaseProject --> JSONProjectSettings
+BaseProject --> Image
+
+class BaseProjectCreatorParameters {
+  <<interface>>
+  machine MachineName
+  units MachineUnits
+}
+
+
+class JSONProject {
+  <<interface>>
+  name string
+  machine MachineName
+  selectedReport? number
+  settings JSONProjectSettings
+  images JSONImage[]
+  informations JSONField[]
+  reports JSONReport[]
+  units JSONUnits
+}
+JSONProject --> JSONProjectSettings
+JSONProject --> JSONImage
+JSONProject --> JSONField
+JSONProject --> JSONReport
+JSONProject --> JSONUnits
+
+class JSONProjectSettings {
+  <<interface>>
+  arePointsVisible boolean
+  arePointsLinked boolean
+  arePointsLocked boolean
+  areImagesVisible boolean
+  pointsState PointsState
+  map #123; styleIndex: numbercoordinates?: LngLatzoom?: number #125;
+}
+JSONProjectSettings --> PointsState
+JSONProjectSettings --> LngLat
+
+class PointsState {
+  <<type>>
+  'value' | 'number' | 'nothing'
+}
+
+
+class JSONUnits {
+  <<type>>
+  JSONHeavydynUnits | JSONMaxidynUnits | JSONMinidynUnits
+}
+
+
+class BaseReport {
+  <<interface>>
+  machine MachineName
+  name MachineField
+  points MachinePoint[]
+  line Line
+  zones Zone[]
+  screenshots string[]
+  valuesNames ReportValuesNames
+  settings JSONReportSettings
+  platform MachineField[]
+  informations MachineField[]
+  isOnMap boolean
+  fitOnMap () => void
+  addToMap () => void
+  remove () => void
+}
+BaseReport --> Line
+BaseReport --> Zone
+BaseReport --> ReportValuesNames
+BaseReport --> JSONReportSettings
+
+class ReportValuesNames {
+  <<interface>>
+  groups SelectableList<GroupedValuesNames>
+  table SelectableList<TableValuesNamesParameters>
+}
+ReportValuesNames --> SelectableList
+ReportValuesNames --> GroupedValuesNames
+ReportValuesNames --> TableValuesNamesParameters
+
+class GroupedValuesNames {
+  <<interface>>
+  from ValuesNamesFrom
+  choices SelectableList<ValueName>
+  indexes? SelectableList<MachineDropIndex>
+}
+GroupedValuesNames --> ValuesNamesFrom
+GroupedValuesNames --> SelectableList
+GroupedValuesNames --> ValueName
+
+class TableValuesNamesParameters {
+  <<interface>>
+  group GroupedValuesNames
+  index? MachineDropIndex
+  valuesNames ValueName[]
+}
+TableValuesNamesParameters --> GroupedValuesNames
+TableValuesNamesParameters --> ValueName
+
+class ValueName {
+  <<interface>>
+  name string
+  unit MathUnit
+}
+ValueName --> MathUnit
+
+class BaseReportCreatorParameters {
+  <<interface>>
+  machine MachineName
+  groupedValuesNames SelectableList<GroupedValuesNames>
+}
+BaseReportCreatorParameters --> SelectableList
+BaseReportCreatorParameters --> GroupedValuesNames
+
+class JSONReport {
+  <<interface>>
+  name string
+  points JSONPoint[]
+  valuesNames JSONReportValuesNames
+  zones JSONZone[]
+  settings JSONReportSettings
+  screenshots number[]
+  platform JSONField[]
+  informations JSONField[]
+}
+JSONReport --> JSONPoint
+JSONReport --> JSONReportValuesNames
+JSONReport --> JSONZone
+JSONReport --> JSONReportSettings
+JSONReport --> JSONField
+
+class JSONReportValuesNames {
+  <<interface>>
+  groups SelectableList<number, JSONGroupedValuesNames>
+  table SelectableList<number, JSONTableValuesNamesParameters>
+}
+JSONReportValuesNames --> SelectableList
+JSONReportValuesNames --> JSONGroupedValuesNames
+JSONReportValuesNames --> JSONTableValuesNamesParameters
+
+class JSONGroupedValuesNames {
+  <<interface>>
+  from ValuesNamesFrom
+  choices SelectableOptionalList<number, string>
+  indexes? SelectableList<number, MachineDropIndex>
+}
+JSONGroupedValuesNames --> ValuesNamesFrom
+JSONGroupedValuesNames --> SelectableOptionalList
+JSONGroupedValuesNames --> SelectableList
+
+class JSONTableValuesNamesParameters {
+  <<interface>>
+  from ValuesNamesFrom
+  index? number
+  valuesNames string[]
+}
+JSONTableValuesNamesParameters --> ValuesNamesFrom
+
+class ValuesNamesFrom {
+  <<type>>
+  'Drop' | 'Test' | 'Zone'
+}
+
+
+class JSONReportSettings {
+  <<interface>>
+  iconName IconName
+  isVisible boolean
+  selectedColorization 'Threshold' | 'Zone'
+  threshold #123; colors: ThresholdColorscustom: #123;  #125; #125;
+}
+JSONReportSettings --> IconName
+JSONReportSettings --> ThresholdColors
+
+class ThresholdColors {
+  <<interface>>
+  low Color
+  middle Color
+  high Color
+}
+ThresholdColors --> Color
+
+class BaseDropIndex {
+  <<interface>>
+  machine MachineName
+  type string
+  displayedIndex number
+}
+
+
+class CustomThreshold {
+  <<interface>>
+  name string
+  value number
+}
+
+
+class PredefinedThreshold {
+  <<interface>>
+  name string
+  value number
+}
+
+
+class PartialExtendedObject {
+  <<type>>
+  Required<BaseObject> &Partial<Omit<MachineObject, keyof BaseObject>>
+}
+
+
+class WatcherHandler {
+  <<interface>>
+  [stop: () => void] () => void
+  [stop?: () => void] void
+  [] void
+}
+
+
+class Zone {
+  <<interface>>
+  name string
+  color Color
+}
+Zone --> Color
+
+class JSONZone {
+  <<interface>>
+  name string
+  color? Color
+}
+JSONZone --> Color
+
+class LngLat {
+  <<interface>>
+  lng number
+  lat number
+}
+
+
+class XYCoord {
+  <<interface>>
+  x number
+  y number
+}
+
+
+class SelectableList {
+  <<interface>>
+  selected S | null
+  list L[]
+}
+
+
+class SelectableOptionalList {
+  <<interface>>
+  selected S | null
+  list? L[]
+}
+
+
+class Store {
+  <<interface>>
+  projects SelectableList<MachineProject>
+  map mapboxgl.Map | null
+  save (key: StoreKeys, value: StoreSaveableTypes) => void
+}
+Store --> SelectableList
+
+class StoreKeys {
+  <<type>>
+  Exclude<keyof Store, 'save'>
+}
+StoreKeys --> Store
+
+class StoreTypes {
+  <<type>>
+  Store[keyof Store]
+}
+StoreTypes --> Store
+
+class StoreSaveableTypes {
+  <<type>>
+  Extract<StoreTypes, string[] | number[] | boolean[] | string | number | boolean | null>
+}
+StoreSaveableTypes --> StoreTypes
+

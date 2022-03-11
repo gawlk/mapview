@@ -56,7 +56,7 @@ interface JSONReport {
 
 interface JSONReportValuesNames {
   groups: SelectableList<number, JSONGroupedValuesNames>
-  table: SelectableList<number, JSONTableValuesNames>
+  table: SelectableList<number, JSONTableValuesNamesParameters>
 }
 
 interface JSONGroupedValuesNames {
@@ -65,7 +65,7 @@ interface JSONGroupedValuesNames {
   indexes?: SelectableList<number, MachineDropIndex>
 }
 
-interface JSONTableValuesNames {
+interface JSONTableValuesNamesParameters {
   from: ValuesNamesFrom
   index?: number
   valuesNames: string[]

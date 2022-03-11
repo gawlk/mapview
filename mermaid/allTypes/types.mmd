@@ -1,0 +1,142 @@
+classDiagram
+class Color {
+  <<type>>
+  | 'black'| 'white'| 'gray'| 'red'| 'orange'| 'amber'| 'yellow'| 'lime'| 'green'| 'emerald'| 'teal'| 'cyan'| 'sky'| 'blue'| 'indigo'| 'violet'| 'purple'| 'fuchsia'| 'pink'| 'rose'
+}
+
+
+class MachineField {
+  <<type>>
+  HeavydynField | MaxidynField | MinidynField
+}
+
+
+class IconName {
+  <<type>>
+  | 'circle'| 'triangle'| 'square'| 'rhombus'| 'flare'| 'pentagon'| 'hexagon'| 'hexagonAlt'| 'heptagon'| 'octagon'
+}
+
+
+class MachinePoint {
+  <<type>>
+  HeavydynPoint | MaxidynPoint | MinidynPoint
+}
+
+
+class PartialMachinePoint {
+  <<type>>
+  PartialExtendedObject<BasePoint, MachinePoint>
+}
+PartialMachinePoint --> PartialExtendedObject
+PartialMachinePoint --> MachinePoint
+
+class MachineName {
+  <<type>>
+  'heavydyn' | 'maxidyn' | 'minidyn'
+}
+
+
+class PointsState {
+  <<type>>
+  'value' | 'number' | 'nothing'
+}
+
+
+class MachineProject {
+  <<type>>
+  HeavydynProject | MaxidynProject | MinidynProject
+}
+
+
+class PartialMachineProject {
+  <<type>>
+  PartialExtendedObject<BaseProject, MachineProject>
+}
+PartialMachineProject --> PartialExtendedObject
+PartialMachineProject --> MachineProject
+
+class JSONUnits {
+  <<type>>
+  JSONHeavydynUnits | JSONMaxidynUnits | JSONMinidynUnits
+}
+
+
+class MachineUnits {
+  <<type>>
+  HeavydynUnits | MaxidynUnits | MinidynUnits
+}
+
+
+class ValuesNamesFrom {
+  <<type>>
+  'Drop' | 'Test' | 'Zone'
+}
+
+
+class HeavydynDropType {
+  <<type>>
+  'Distance' | 'Force' | 'Time'
+}
+
+
+class MaxidynDropType {
+  <<type>>
+  'Training' | 'Averaging'
+}
+
+
+class MinidynDropType {
+  <<type>>
+  'Training' | 'Averaging'
+}
+
+
+class MachineReport {
+  <<type>>
+  HeavydynReport | MaxidynReport | MinidynReport
+}
+
+
+class PartialMachineReport {
+  <<type>>
+  PartialExtendedObject<BaseReport, MachineReport>
+}
+PartialMachineReport --> PartialExtendedObject
+PartialMachineReport --> MachineReport
+
+class MachineDropIndex {
+  <<type>>
+  HeavydynDropIndex | MaxidynDropIndex | MinidynDropIndex
+}
+
+
+class JSONMachineDropIndex {
+  <<type>>
+  | JSONHeavydynDropIndex| MaxidynDropIndex| MinidynDropIndex
+}
+
+
+class PartialExtendedObject {
+  <<type>>
+  Required<BaseObject> &Partial<Omit<MachineObject, keyof BaseObject>>
+}
+
+
+class StoreKeys {
+  <<type>>
+  Exclude<keyof Store, 'save'>
+}
+
+
+class StoreTypes {
+  <<type>>
+  Store[keyof Store]
+}
+
+
+class StoreSaveableTypes {
+  <<type>>
+  Extract<StoreTypes, string[] | number[] | boolean[] | string | number | boolean | null>
+}
+StoreSaveableTypes --> StoreTypes
+

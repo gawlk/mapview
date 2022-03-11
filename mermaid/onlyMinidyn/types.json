@@ -1,0 +1,83 @@
+[
+  {
+    "name": "MinidynField",
+    "value": {},
+    "dependencies": []
+  },
+  {
+    "name": "MinidynPoint",
+    "value": {
+      "machine": "'minidyn'"
+    },
+    "dependencies": []
+  },
+  {
+    "name": "MinidynProject",
+    "value": {
+      "machine": "'minidyn'",
+      "reports": "SelectableList<MinidynReport>"
+    },
+    "dependencies": [
+      "SelectableList",
+      "MinidynReport"
+    ]
+  },
+  {
+    "name": "MinidynUnits",
+    "value": {
+      "modulus": "MathUnit",
+      "deformation": "MathUnit",
+      "force": "MathUnit",
+      "temperature": "MathUnit"
+    },
+    "dependencies": [
+      "MathUnit"
+    ]
+  },
+  {
+    "name": "JSONMinidynUnits",
+    "value": {
+      "modulus": "'MPa' | 'kN'",
+      "deformation": "'mm' | 'um'",
+      "force": "'N' | 'kN'"
+    },
+    "dependencies": []
+  },
+  {
+    "name": "MinidynReport",
+    "value": {
+      "machine": "'minidyn'",
+      "points": "MinidynPoint[]",
+      "platform": "MinidynField[]",
+      "informations": "MinidynField[]"
+    },
+    "dependencies": [
+      "MinidynPoint",
+      "MinidynField"
+    ]
+  },
+  {
+    "name": "MinidynReportCreatorParameters",
+    "value": {
+      "units": "MinidynUnits"
+    },
+    "dependencies": [
+      "MinidynUnits"
+    ]
+  },
+  {
+    "name": "MinidynDropType",
+    "value": "'Training' | 'Averaging'",
+    "dependencies": []
+  },
+  {
+    "name": "MinidynDropIndex",
+    "value": {
+      "machine": "'minidyn'",
+      "type": "MinidynDropType"
+    },
+    "dependencies": [
+      "MinidynDropType"
+    ]
+  }
+]

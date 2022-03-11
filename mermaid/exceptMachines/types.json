@@ -1,0 +1,665 @@
+[
+  {
+    "name": "MenuProp",
+    "value": {
+      "name": "string",
+      "icon": "any",
+      "component": "any",
+      "needsReport?": "boolean",
+      "openedOnMobile?": "boolean"
+    },
+    "dependencies": []
+  },
+  {
+    "name": "Color",
+    "value": "| 'black'| 'white'| 'gray'| 'red'| 'orange'| 'amber'| 'yellow'| 'lime'| 'green'| 'emerald'| 'teal'| 'cyan'| 'sky'| 'blue'| 'indigo'| 'violet'| 'purple'| 'fuchsia'| 'pink'| 'rose'",
+    "dependencies": []
+  },
+  {
+    "name": "MathNumberObject",
+    "value": {
+      "[key: string]": "MathNumber | MathNumber[] | MathNumber[][]"
+    },
+    "dependencies": [
+      "MathNumber"
+    ]
+  },
+  {
+    "name": "ComputedData",
+    "value": {
+      "raw": "MathNumberObject",
+      "parameters": "MathNumberObject",
+      "computed": "MathNumberObject",
+      "compute": "() => void"
+    },
+    "dependencies": [
+      "MathNumberObject"
+    ]
+  },
+  {
+    "name": "BaseDrop",
+    "value": {
+      "data": "ComputedData",
+      "additionnalFields": "MachineField[]"
+    },
+    "dependencies": [
+      "ComputedData",
+      "MachineField"
+    ]
+  },
+  {
+    "name": "JSONDrop",
+    "value": {},
+    "dependencies": []
+  },
+  {
+    "name": "BaseField",
+    "value": {
+      "label": "string",
+      "value": "| boolean| number| string| SlidableNumber| DateValue| LongString| SelectableString"
+    },
+    "dependencies": [
+      "SlidableNumber",
+      "DateValue",
+      "LongString",
+      "SelectableString"
+    ]
+  },
+  {
+    "name": "JSONField",
+    "value": {
+      "label": "string",
+      "value": "boolean | number | string"
+    },
+    "dependencies": []
+  },
+  {
+    "name": "SlidableNumber",
+    "value": {
+      "kind": "'slidableNumber'",
+      "value": "number",
+      "step": "number",
+      "min": "number",
+      "max": "number"
+    },
+    "dependencies": []
+  },
+  {
+    "name": "DateValue",
+    "value": {
+      "kind": "'date'",
+      "value": "string"
+    },
+    "dependencies": []
+  },
+  {
+    "name": "LongString",
+    "value": {
+      "kind": "'longString'",
+      "value": "string"
+    },
+    "dependencies": []
+  },
+  {
+    "name": "SelectableString",
+    "value": {
+      "kind": "'selectableString'",
+      "value": "string",
+      "possibleValues": "string[]",
+      "strict": "boolean"
+    },
+    "dependencies": []
+  },
+  {
+    "name": "Icon",
+    "value": {
+      "element": "HTMLElement",
+      "color": "string",
+      "setText": "(text: string) => void",
+      "setIcon": "(iconName: IconName) => void"
+    },
+    "dependencies": [
+      "HTMLElement"
+    ]
+  },
+  {
+    "name": "IconName",
+    "value": "| 'circle'| 'triangle'| 'square'| 'rhombus'| 'flare'| 'pentagon'| 'hexagon'| 'hexagonAlt'| 'heptagon'| 'octagon'",
+    "dependencies": []
+  },
+  {
+    "name": "Image",
+    "value": {
+      "id": "string",
+      "sourceData": "mapboxgl.ImageSourceRaw",
+      "markerNW": "mapboxgl.Marker",
+      "markerSE": "mapboxgl.Marker",
+      "opacity": "number",
+      "addToMap": "(isVisible: boolean) => void",
+      "remove": "() => void"
+    },
+    "dependencies": [
+      "mapboxgl.ImageSourceRaw",
+      "mapboxgl.Marker"
+    ]
+  },
+  {
+    "name": "JSONImage",
+    "value": {
+      "name": "string",
+      "opacity?": "number",
+      "coordinates?": "#123; nw: LngLatse: LngLat #125;"
+    },
+    "dependencies": [
+      "LngLat"
+    ]
+  },
+  {
+    "name": "ImageCoordinates",
+    "value": {
+      "tl": "XYCoord",
+      "tr": "XYCoord",
+      "bl": "XYCoord",
+      "br": "XYCoord"
+    },
+    "dependencies": [
+      "XYCoord"
+    ]
+  },
+  {
+    "name": "Line",
+    "value": {
+      "addToMap": "() => void",
+      "update": "() => void",
+      "remove": "() => void"
+    },
+    "dependencies": []
+  },
+  {
+    "name": "MathNumber",
+    "value": {
+      "value": "math.Unit | number",
+      "unit": "MathUnit | string",
+      "displayString": "string",
+      "displayStringWithUnit": "string",
+      "toDisplayedValue": "() => void"
+    },
+    "dependencies": [
+      "math.Unit",
+      "MathUnit"
+    ]
+  },
+  {
+    "name": "MathUnit",
+    "value": {
+      "name": "string",
+      "currentUnit": "string",
+      "currentPrecision": "number",
+      "possibleSettings": "[string, number][]",
+      "possiblePrecisions": "number[]",
+      "minDisplayedValue?": "number",
+      "maxDisplayedValue?": "number",
+      "thresholds?": "#123; selected: PredefinedThreshold | CustomThreshold | nulllist: PredefinedThreshold[]// custom: CustomThreshold #125;"
+    },
+    "dependencies": [
+      "PredefinedThreshold",
+      "CustomThreshold"
+    ]
+  },
+  {
+    "name": "BasePoint",
+    "value": {
+      "machine": "MachineName",
+      "number": "number",
+      "marker": "mapboxgl.Marker",
+      "icon": "Icon",
+      "settings": "JSONPointSettings",
+      "zone": "Zone | null",
+      "updateText": "() => void",
+      "updateVisibility": "() => void",
+      "addToMap": "() => void",
+      "remove": "() => void"
+    },
+    "dependencies": [
+      "MachineName",
+      "mapboxgl.Marker",
+      "Icon",
+      "JSONPointSettings",
+      "Zone"
+    ]
+  },
+  {
+    "name": "BasePointCreatorParameters",
+    "value": {
+      "machine": "MachineName"
+    },
+    "dependencies": [
+      "MachineName"
+    ]
+  },
+  {
+    "name": "JSONPoint",
+    "value": {
+      "coordinates": "mapboxgl.LngLatLike",
+      "settings": "JSONPointSettings",
+      "informations": "JSONField[]",
+      "drops": "JSONDrop[]"
+    },
+    "dependencies": [
+      "mapboxgl.LngLatLike",
+      "JSONPointSettings",
+      "JSONField",
+      "JSONDrop"
+    ]
+  },
+  {
+    "name": "JSONPointSettings",
+    "value": {
+      "isVisible": "boolean"
+    },
+    "dependencies": []
+  },
+  {
+    "name": "BaseProject",
+    "value": {
+      "machine": "MachineName",
+      "name": "MachineField",
+      "informations": "MachineField[]",
+      "reports": "SelectableList<MachineReport>",
+      "units": "MachineUnits",
+      "settings": "JSONProjectSettings",
+      "images": "Image[]",
+      "refreshLinesAndImages": "() => void",
+      "setMapStyle": "(styleIndex: number) => void",
+      "fitOnMap": "() => void",
+      "addToMap": "() => void",
+      "remove": "() => void"
+    },
+    "dependencies": [
+      "MachineName",
+      "MachineField",
+      "SelectableList",
+      "MachineReport",
+      "MachineUnits",
+      "JSONProjectSettings",
+      "Image"
+    ]
+  },
+  {
+    "name": "BaseProjectCreatorParameters",
+    "value": {
+      "machine": "MachineName",
+      "units": "MachineUnits"
+    },
+    "dependencies": [
+      "MachineName",
+      "MachineUnits"
+    ]
+  },
+  {
+    "name": "JSONProject",
+    "value": {
+      "name": "string",
+      "machine": "MachineName",
+      "selectedReport?": "number",
+      "settings": "JSONProjectSettings",
+      "images": "JSONImage[]",
+      "informations": "JSONField[]",
+      "reports": "JSONReport[]",
+      "units": "JSONUnits"
+    },
+    "dependencies": [
+      "MachineName",
+      "JSONProjectSettings",
+      "JSONImage",
+      "JSONField",
+      "JSONReport",
+      "JSONUnits"
+    ]
+  },
+  {
+    "name": "JSONProjectSettings",
+    "value": {
+      "arePointsVisible": "boolean",
+      "arePointsLinked": "boolean",
+      "arePointsLocked": "boolean",
+      "areImagesVisible": "boolean",
+      "pointsState": "PointsState",
+      "map": "#123; styleIndex: numbercoordinates?: LngLatzoom?: number #125;"
+    },
+    "dependencies": [
+      "PointsState",
+      "LngLat"
+    ]
+  },
+  {
+    "name": "PointsState",
+    "value": "'value' | 'number' | 'nothing'",
+    "dependencies": []
+  },
+  {
+    "name": "JSONUnits",
+    "value": "JSONHeavydynUnits | JSONMaxidynUnits | JSONMinidynUnits",
+    "dependencies": [
+      "JSONHeavydynUnits",
+      "JSONMaxidynUnits",
+      "JSONMinidynUnits"
+    ]
+  },
+  {
+    "name": "BaseReport",
+    "value": {
+      "machine": "MachineName",
+      "name": "MachineField",
+      "points": "MachinePoint[]",
+      "line": "Line",
+      "zones": "Zone[]",
+      "screenshots": "string[]",
+      "valuesNames": "ReportValuesNames",
+      "settings": "JSONReportSettings",
+      "platform": "MachineField[]",
+      "informations": "MachineField[]",
+      "isOnMap": "boolean",
+      "fitOnMap": "() => void",
+      "addToMap": "() => void",
+      "remove": "() => void"
+    },
+    "dependencies": [
+      "MachineName",
+      "MachineField",
+      "MachinePoint",
+      "Line",
+      "Zone",
+      "ReportValuesNames",
+      "JSONReportSettings"
+    ]
+  },
+  {
+    "name": "ReportValuesNames",
+    "value": {
+      "groups": "SelectableList<GroupedValuesNames>",
+      "table": "SelectableList<TableValuesNamesParameters>"
+    },
+    "dependencies": [
+      "SelectableList",
+      "GroupedValuesNames",
+      "TableValuesNamesParameters"
+    ]
+  },
+  {
+    "name": "GroupedValuesNames",
+    "value": {
+      "from": "ValuesNamesFrom",
+      "choices": "SelectableList<ValueName>",
+      "indexes?": "SelectableList<MachineDropIndex>"
+    },
+    "dependencies": [
+      "ValuesNamesFrom",
+      "SelectableList",
+      "ValueName",
+      "MachineDropIndex"
+    ]
+  },
+  {
+    "name": "TableValuesNamesParameters",
+    "value": {
+      "group": "GroupedValuesNames",
+      "index?": "MachineDropIndex",
+      "valuesNames": "ValueName[]"
+    },
+    "dependencies": [
+      "GroupedValuesNames",
+      "MachineDropIndex",
+      "ValueName"
+    ]
+  },
+  {
+    "name": "ValueName",
+    "value": {
+      "name": "string",
+      "unit": "MathUnit"
+    },
+    "dependencies": [
+      "MathUnit"
+    ]
+  },
+  {
+    "name": "BaseReportCreatorParameters",
+    "value": {
+      "machine": "MachineName",
+      "groupedValuesNames": "SelectableList<GroupedValuesNames>"
+    },
+    "dependencies": [
+      "MachineName",
+      "SelectableList",
+      "GroupedValuesNames"
+    ]
+  },
+  {
+    "name": "JSONReport",
+    "value": {
+      "name": "string",
+      "points": "JSONPoint[]",
+      "valuesNames": "JSONReportValuesNames",
+      "zones": "JSONZone[]",
+      "settings": "JSONReportSettings",
+      "screenshots": "number[]",
+      "platform": "JSONField[]",
+      "informations": "JSONField[]"
+    },
+    "dependencies": [
+      "JSONPoint",
+      "JSONReportValuesNames",
+      "JSONZone",
+      "JSONReportSettings",
+      "JSONField"
+    ]
+  },
+  {
+    "name": "JSONReportValuesNames",
+    "value": {
+      "groups": "SelectableList<number, JSONGroupedValuesNames>",
+      "table": "SelectableList<number, JSONTableValuesNamesParameters>"
+    },
+    "dependencies": [
+      "SelectableList",
+      "JSONGroupedValuesNames",
+      "JSONTableValuesNamesParameters"
+    ]
+  },
+  {
+    "name": "JSONGroupedValuesNames",
+    "value": {
+      "from": "ValuesNamesFrom",
+      "choices": "SelectableOptionalList<number, string>",
+      "indexes?": "SelectableList<number, MachineDropIndex>"
+    },
+    "dependencies": [
+      "ValuesNamesFrom",
+      "SelectableOptionalList",
+      "SelectableList",
+      "MachineDropIndex"
+    ]
+  },
+  {
+    "name": "JSONTableValuesNamesParameters",
+    "value": {
+      "from": "ValuesNamesFrom",
+      "index?": "number",
+      "valuesNames": "string[]"
+    },
+    "dependencies": [
+      "ValuesNamesFrom"
+    ]
+  },
+  {
+    "name": "ValuesNamesFrom",
+    "value": "'Drop' | 'Test' | 'Zone'",
+    "dependencies": []
+  },
+  {
+    "name": "JSONReportSettings",
+    "value": {
+      "iconName": "IconName",
+      "isVisible": "boolean",
+      "selectedColorization": "'Threshold' | 'Zone'",
+      "threshold": "#123; colors: ThresholdColorscustom: #123;  #125; #125;"
+    },
+    "dependencies": [
+      "IconName",
+      "ThresholdColors"
+    ]
+  },
+  {
+    "name": "ThresholdColors",
+    "value": {
+      "low": "Color",
+      "middle": "Color",
+      "high": "Color"
+    },
+    "dependencies": [
+      "Color"
+    ]
+  },
+  {
+    "name": "BaseDropIndex",
+    "value": {
+      "machine": "MachineName",
+      "type": "string",
+      "displayedIndex": "number"
+    },
+    "dependencies": [
+      "MachineName"
+    ]
+  },
+  {
+    "name": "CustomThreshold",
+    "value": {
+      "name": "string",
+      "value": "number"
+    },
+    "dependencies": []
+  },
+  {
+    "name": "PredefinedThreshold",
+    "value": {
+      "name": "string",
+      "value": "number"
+    },
+    "dependencies": []
+  },
+  {
+    "name": "PartialExtendedObject",
+    "value": "Required<BaseObject> &Partial<Omit<MachineObject, keyof BaseObject>>",
+    "dependencies": [
+      "Required",
+      "BaseObject",
+      "Partial",
+      "Omit",
+      "MachineObject"
+    ]
+  },
+  {
+    "name": "WatcherHandler",
+    "value": {
+      "[stop: () => void]": "() => void",
+      "[stop?: () => void]": "void",
+      "[]": "void"
+    },
+    "dependencies": []
+  },
+  {
+    "name": "Zone",
+    "value": {
+      "name": "string",
+      "color": "Color"
+    },
+    "dependencies": [
+      "Color"
+    ]
+  },
+  {
+    "name": "JSONZone",
+    "value": {
+      "name": "string",
+      "color?": "Color"
+    },
+    "dependencies": [
+      "Color"
+    ]
+  },
+  {
+    "name": "LngLat",
+    "value": {
+      "lng": "number",
+      "lat": "number"
+    },
+    "dependencies": []
+  },
+  {
+    "name": "XYCoord",
+    "value": {
+      "x": "number",
+      "y": "number"
+    },
+    "dependencies": []
+  },
+  {
+    "name": "SelectableList",
+    "value": {
+      "selected": "S | null",
+      "list": "L[]"
+    },
+    "dependencies": [
+      "S",
+      "L"
+    ]
+  },
+  {
+    "name": "SelectableOptionalList",
+    "value": {
+      "selected": "S | null",
+      "list?": "L[]"
+    },
+    "dependencies": [
+      "S",
+      "L"
+    ]
+  },
+  {
+    "name": "Store",
+    "value": {
+      "projects": "SelectableList<MachineProject>",
+      "map": "mapboxgl.Map | null",
+      "save": "(key: StoreKeys, value: StoreSaveableTypes) => void"
+    },
+    "dependencies": [
+      "SelectableList",
+      "MachineProject",
+      "mapboxgl.Map"
+    ]
+  },
+  {
+    "name": "StoreKeys",
+    "value": "Exclude<keyof Store, 'save'>",
+    "dependencies": [
+      "Exclude",
+      "Store"
+    ]
+  },
+  {
+    "name": "StoreTypes",
+    "value": "Store[keyof Store]",
+    "dependencies": [
+      "Store"
+    ]
+  },
+  {
+    "name": "StoreSaveableTypes",
+    "value": "Extract<StoreTypes, string[] | number[] | boolean[] | string | number | boolean | null>",
+    "dependencies": [
+      "Extract",
+      "StoreTypes"
+    ]
+  }
+]

@@ -1,0 +1,175 @@
+[
+  {
+    "name": "Color",
+    "value": "| 'black'| 'white'| 'gray'| 'red'| 'orange'| 'amber'| 'yellow'| 'lime'| 'green'| 'emerald'| 'teal'| 'cyan'| 'sky'| 'blue'| 'indigo'| 'violet'| 'purple'| 'fuchsia'| 'pink'| 'rose'",
+    "dependencies": []
+  },
+  {
+    "name": "MachineField",
+    "value": "HeavydynField | MaxidynField | MinidynField",
+    "dependencies": [
+      "HeavydynField",
+      "MaxidynField",
+      "MinidynField"
+    ]
+  },
+  {
+    "name": "IconName",
+    "value": "| 'circle'| 'triangle'| 'square'| 'rhombus'| 'flare'| 'pentagon'| 'hexagon'| 'hexagonAlt'| 'heptagon'| 'octagon'",
+    "dependencies": []
+  },
+  {
+    "name": "MachinePoint",
+    "value": "HeavydynPoint | MaxidynPoint | MinidynPoint",
+    "dependencies": [
+      "HeavydynPoint",
+      "MaxidynPoint",
+      "MinidynPoint"
+    ]
+  },
+  {
+    "name": "PartialMachinePoint",
+    "value": "PartialExtendedObject<BasePoint, MachinePoint>",
+    "dependencies": [
+      "PartialExtendedObject",
+      "BasePoint",
+      "MachinePoint"
+    ]
+  },
+  {
+    "name": "MachineName",
+    "value": "'heavydyn' | 'maxidyn' | 'minidyn'",
+    "dependencies": []
+  },
+  {
+    "name": "PointsState",
+    "value": "'value' | 'number' | 'nothing'",
+    "dependencies": []
+  },
+  {
+    "name": "MachineProject",
+    "value": "HeavydynProject | MaxidynProject | MinidynProject",
+    "dependencies": [
+      "HeavydynProject",
+      "MaxidynProject",
+      "MinidynProject"
+    ]
+  },
+  {
+    "name": "PartialMachineProject",
+    "value": "PartialExtendedObject<BaseProject, MachineProject>",
+    "dependencies": [
+      "PartialExtendedObject",
+      "BaseProject",
+      "MachineProject"
+    ]
+  },
+  {
+    "name": "JSONUnits",
+    "value": "JSONHeavydynUnits | JSONMaxidynUnits | JSONMinidynUnits",
+    "dependencies": [
+      "JSONHeavydynUnits",
+      "JSONMaxidynUnits",
+      "JSONMinidynUnits"
+    ]
+  },
+  {
+    "name": "MachineUnits",
+    "value": "HeavydynUnits | MaxidynUnits | MinidynUnits",
+    "dependencies": [
+      "HeavydynUnits",
+      "MaxidynUnits",
+      "MinidynUnits"
+    ]
+  },
+  {
+    "name": "ValuesNamesFrom",
+    "value": "'Drop' | 'Test' | 'Zone'",
+    "dependencies": []
+  },
+  {
+    "name": "HeavydynDropType",
+    "value": "'Distance' | 'Force' | 'Time'",
+    "dependencies": []
+  },
+  {
+    "name": "MaxidynDropType",
+    "value": "'Training' | 'Averaging'",
+    "dependencies": []
+  },
+  {
+    "name": "MinidynDropType",
+    "value": "'Training' | 'Averaging'",
+    "dependencies": []
+  },
+  {
+    "name": "MachineReport",
+    "value": "HeavydynReport | MaxidynReport | MinidynReport",
+    "dependencies": [
+      "HeavydynReport",
+      "MaxidynReport",
+      "MinidynReport"
+    ]
+  },
+  {
+    "name": "PartialMachineReport",
+    "value": "PartialExtendedObject<BaseReport, MachineReport>",
+    "dependencies": [
+      "PartialExtendedObject",
+      "BaseReport",
+      "MachineReport"
+    ]
+  },
+  {
+    "name": "MachineDropIndex",
+    "value": "HeavydynDropIndex | MaxidynDropIndex | MinidynDropIndex",
+    "dependencies": [
+      "HeavydynDropIndex",
+      "MaxidynDropIndex",
+      "MinidynDropIndex"
+    ]
+  },
+  {
+    "name": "JSONMachineDropIndex",
+    "value": "| JSONHeavydynDropIndex| MaxidynDropIndex| MinidynDropIndex",
+    "dependencies": [
+      "JSONHeavydynDropIndex",
+      "MaxidynDropIndex",
+      "MinidynDropIndex"
+    ]
+  },
+  {
+    "name": "PartialExtendedObject",
+    "value": "Required<BaseObject> &Partial<Omit<MachineObject, keyof BaseObject>>",
+    "dependencies": [
+      "Required",
+      "BaseObject",
+      "Partial",
+      "Omit",
+      "MachineObject"
+    ]
+  },
+  {
+    "name": "StoreKeys",
+    "value": "Exclude<keyof Store, 'save'>",
+    "dependencies": [
+      "Exclude",
+      "Store"
+    ]
+  },
+  {
+    "name": "StoreTypes",
+    "value": "Store[keyof Store]",
+    "dependencies": [
+      "Store"
+    ]
+  },
+  {
+    "name": "StoreSaveableTypes",
+    "value": "Extract<StoreTypes, string[] | number[] | boolean[] | string | number | boolean | null>",
+    "dependencies": [
+      "Extract",
+      "StoreTypes"
+    ]
+  }
+]

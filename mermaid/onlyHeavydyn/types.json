@@ -1,0 +1,95 @@
+[
+  {
+    "name": "HeavydynField",
+    "value": {},
+    "dependencies": []
+  },
+  {
+    "name": "HeavydynPoint",
+    "value": {
+      "machine": "'heavydyn'"
+    },
+    "dependencies": []
+  },
+  {
+    "name": "HeavydynProject",
+    "value": {
+      "machine": "'heavydyn'",
+      "reports": "SelectableList<HeavydynReport>"
+    },
+    "dependencies": [
+      "SelectableList",
+      "HeavydynReport"
+    ]
+  },
+  {
+    "name": "HeavydynUnits",
+    "value": {
+      "deformation": "MathUnit",
+      "force": "MathUnit",
+      "temperature": "MathUnit"
+    },
+    "dependencies": [
+      "MathUnit"
+    ]
+  },
+  {
+    "name": "JSONHeavydynUnits",
+    "value": {
+      "deformation": "'mm' | '1/100 mm' | 'um'",
+      "force": "'N' | 'kN' | 'lbs'",
+      "temperature": "'degC' | 'degF' | 'K'"
+    },
+    "dependencies": []
+  },
+  {
+    "name": "HeavydynReport",
+    "value": {
+      "machine": "'heavydyn'",
+      "points": "HeavydynPoint[]",
+      "platform": "HeavydynField[]",
+      "informations": "HeavydynField[]"
+    },
+    "dependencies": [
+      "HeavydynPoint",
+      "HeavydynField"
+    ]
+  },
+  {
+    "name": "HeavydynReportCreatorParameters",
+    "value": {
+      "units": "HeavydynUnits"
+    },
+    "dependencies": [
+      "HeavydynUnits"
+    ]
+  },
+  {
+    "name": "HeavydynDropType",
+    "value": "'Distance' | 'Force' | 'Time'",
+    "dependencies": []
+  },
+  {
+    "name": "HeavydynDropIndex",
+    "value": {
+      "machine": "'heavydyn'",
+      "type": "HeavydynDropType",
+      "value": "MathNumber"
+    },
+    "dependencies": [
+      "HeavydynDropType",
+      "MathNumber"
+    ]
+  },
+  {
+    "name": "JSONHeavydynDropIndex",
+    "value": {
+      "machine": "'heavydyn'",
+      "type": "HeavydynDropType",
+      "value": "number"
+    },
+    "dependencies": [
+      "HeavydynDropType"
+    ]
+  }
+]

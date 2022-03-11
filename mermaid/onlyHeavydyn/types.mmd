@@ -1,0 +1,74 @@
+classDiagram
+class HeavydynField {
+  <<interface>>
+
+}
+
+
+class HeavydynPoint {
+  <<interface>>
+  machine 'heavydyn'
+}
+
+
+class HeavydynProject {
+  <<interface>>
+  machine 'heavydyn'
+  reports SelectableList<HeavydynReport>
+}
+HeavydynProject --> HeavydynReport
+
+class HeavydynUnits {
+  <<interface>>
+  deformation MathUnit
+  force MathUnit
+  temperature MathUnit
+}
+
+
+class JSONHeavydynUnits {
+  <<interface>>
+  deformation 'mm' | '1/100 mm' | 'um'
+  force 'N' | 'kN' | 'lbs'
+  temperature 'degC' | 'degF' | 'K'
+}
+
+
+class HeavydynReport {
+  <<interface>>
+  machine 'heavydyn'
+  points HeavydynPoint[]
+  platform HeavydynField[]
+  informations HeavydynField[]
+}
+HeavydynReport --> HeavydynPoint
+HeavydynReport --> HeavydynField
+
+class HeavydynReportCreatorParameters {
+  <<interface>>
+  units HeavydynUnits
+}
+HeavydynReportCreatorParameters --> HeavydynUnits
+
+class HeavydynDropType {
+  <<type>>
+  'Distance' | 'Force' | 'Time'
+}
+
+
+class HeavydynDropIndex {
+  <<interface>>
+  machine 'heavydyn'
+  type HeavydynDropType
+  value MathNumber
+}
+HeavydynDropIndex --> HeavydynDropType
+
+class JSONHeavydynDropIndex {
+  <<interface>>
+  machine 'heavydyn'
+  type HeavydynDropType
+  value number
+}
+JSONHeavydynDropIndex --> HeavydynDropType
+

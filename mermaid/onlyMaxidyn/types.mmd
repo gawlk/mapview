@@ -1,0 +1,65 @@
+classDiagram
+class MaxidynField {
+  <<interface>>
+
+}
+
+
+class MaxidynPoint {
+  <<interface>>
+  machine 'maxidyn'
+}
+
+
+class MaxidynProject {
+  <<interface>>
+  machine 'maxidyn'
+  reports SelectableList<MaxidynReport>
+}
+MaxidynProject --> MaxidynReport
+
+class MaxidynUnits {
+  <<interface>>
+  modulus MathUnit
+  deformation MathUnit
+  force MathUnit
+}
+
+
+class JSONMaxidynUnits {
+  <<interface>>
+  modulus 'MPa' | 'kN'
+  deformation 'mm' | 'um'
+  force 'N' | 'kN'
+}
+
+
+class MaxidynReport {
+  <<interface>>
+  machine 'maxidyn'
+  points MaxidynPoint[]
+  platform MaxidynField[]
+  informations MaxidynField[]
+}
+MaxidynReport --> MaxidynPoint
+MaxidynReport --> MaxidynField
+
+class MaxidynReportCreatorParameters {
+  <<interface>>
+  units MaxidynUnits
+}
+MaxidynReportCreatorParameters --> MaxidynUnits
+
+class MaxidynDropType {
+  <<type>>
+  'Training' | 'Averaging'
+}
+
+
+class MaxidynDropIndex {
+  <<interface>>
+  machine 'maxidyn'
+  type MaxidynDropType
+}
+MaxidynDropIndex --> MaxidynDropType
+

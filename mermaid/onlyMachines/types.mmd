@@ -1,0 +1,299 @@
+classDiagram
+class HeavydynField {
+  <<interface>>
+
+}
+
+
+class MaxidynField {
+  <<interface>>
+
+}
+
+
+class MinidynField {
+  <<interface>>
+
+}
+
+
+class MachineField {
+  <<type>>
+  HeavydynField | MaxidynField | MinidynField
+}
+MachineField --> HeavydynField
+MachineField --> MaxidynField
+MachineField --> MinidynField
+
+class HeavydynPoint {
+  <<interface>>
+  machine 'heavydyn'
+}
+
+
+class MaxidynPoint {
+  <<interface>>
+  machine 'maxidyn'
+}
+
+
+class MinidynPoint {
+  <<interface>>
+  machine 'minidyn'
+}
+
+
+class MachinePoint {
+  <<type>>
+  HeavydynPoint | MaxidynPoint | MinidynPoint
+}
+MachinePoint --> HeavydynPoint
+MachinePoint --> MaxidynPoint
+MachinePoint --> MinidynPoint
+
+class PartialMachinePoint {
+  <<type>>
+  PartialExtendedObject<BasePoint, MachinePoint>
+}
+PartialMachinePoint --> MachinePoint
+
+class MachinePointCreatorParameters {
+  <<interface>>
+  number number
+  iconName IconName
+  projectSettings JSONProjectSettings
+  reportSettings JSONReportSettings
+}
+
+
+class MachineName {
+  <<type>>
+  'heavydyn' | 'maxidyn' | 'minidyn'
+}
+
+
+class HeavydynProject {
+  <<interface>>
+  machine 'heavydyn'
+  reports SelectableList<HeavydynReport>
+}
+HeavydynProject --> HeavydynReport
+
+class HeavydynUnits {
+  <<interface>>
+  deformation MathUnit
+  force MathUnit
+  temperature MathUnit
+}
+
+
+class JSONHeavydynUnits {
+  <<interface>>
+  deformation 'mm' | '1/100 mm' | 'um'
+  force 'N' | 'kN' | 'lbs'
+  temperature 'degC' | 'degF' | 'K'
+}
+
+
+class MaxidynProject {
+  <<interface>>
+  machine 'maxidyn'
+  reports SelectableList<MaxidynReport>
+}
+MaxidynProject --> MaxidynReport
+
+class MaxidynUnits {
+  <<interface>>
+  modulus MathUnit
+  deformation MathUnit
+  force MathUnit
+}
+
+
+class JSONMaxidynUnits {
+  <<interface>>
+  modulus 'MPa' | 'kN'
+  deformation 'mm' | 'um'
+  force 'N' | 'kN'
+}
+
+
+class MinidynProject {
+  <<interface>>
+  machine 'minidyn'
+  reports SelectableList<MinidynReport>
+}
+MinidynProject --> MinidynReport
+
+class MinidynUnits {
+  <<interface>>
+  modulus MathUnit
+  deformation MathUnit
+  force MathUnit
+  temperature MathUnit
+}
+
+
+class JSONMinidynUnits {
+  <<interface>>
+  modulus 'MPa' | 'kN'
+  deformation 'mm' | 'um'
+  force 'N' | 'kN'
+}
+
+
+class MachineProject {
+  <<type>>
+  HeavydynProject | MaxidynProject | MinidynProject
+}
+MachineProject --> HeavydynProject
+MachineProject --> MaxidynProject
+MachineProject --> MinidynProject
+
+class PartialMachineProject {
+  <<type>>
+  PartialExtendedObject<BaseProject, MachineProject>
+}
+PartialMachineProject --> MachineProject
+
+class MachineUnits {
+  <<type>>
+  HeavydynUnits | MaxidynUnits | MinidynUnits
+}
+MachineUnits --> HeavydynUnits
+MachineUnits --> MaxidynUnits
+MachineUnits --> MinidynUnits
+
+class HeavydynReport {
+  <<interface>>
+  machine 'heavydyn'
+  points HeavydynPoint[]
+  platform HeavydynField[]
+  informations HeavydynField[]
+}
+HeavydynReport --> HeavydynPoint
+HeavydynReport --> HeavydynField
+
+class HeavydynReportCreatorParameters {
+  <<interface>>
+  units HeavydynUnits
+}
+HeavydynReportCreatorParameters --> HeavydynUnits
+
+class HeavydynDropType {
+  <<type>>
+  'Distance' | 'Force' | 'Time'
+}
+
+
+class HeavydynDropIndex {
+  <<interface>>
+  machine 'heavydyn'
+  type HeavydynDropType
+  value MathNumber
+}
+HeavydynDropIndex --> HeavydynDropType
+
+class JSONHeavydynDropIndex {
+  <<interface>>
+  machine 'heavydyn'
+  type HeavydynDropType
+  value number
+}
+JSONHeavydynDropIndex --> HeavydynDropType
+
+class MaxidynReport {
+  <<interface>>
+  machine 'maxidyn'
+  points MaxidynPoint[]
+  platform MaxidynField[]
+  informations MaxidynField[]
+}
+MaxidynReport --> MaxidynPoint
+MaxidynReport --> MaxidynField
+
+class MaxidynReportCreatorParameters {
+  <<interface>>
+  units MaxidynUnits
+}
+MaxidynReportCreatorParameters --> MaxidynUnits
+
+class MaxidynDropType {
+  <<type>>
+  'Training' | 'Averaging'
+}
+
+
+class MaxidynDropIndex {
+  <<interface>>
+  machine 'maxidyn'
+  type MaxidynDropType
+}
+MaxidynDropIndex --> MaxidynDropType
+
+class MinidynReport {
+  <<interface>>
+  machine 'minidyn'
+  points MinidynPoint[]
+  platform MinidynField[]
+  informations MinidynField[]
+}
+MinidynReport --> MinidynPoint
+MinidynReport --> MinidynField
+
+class MinidynReportCreatorParameters {
+  <<interface>>
+  units MinidynUnits
+}
+MinidynReportCreatorParameters --> MinidynUnits
+
+class MinidynDropType {
+  <<type>>
+  'Training' | 'Averaging'
+}
+
+
+class MinidynDropIndex {
+  <<interface>>
+  machine 'minidyn'
+  type MinidynDropType
+}
+MinidynDropIndex --> MinidynDropType
+
+class MachineReport {
+  <<type>>
+  HeavydynReport | MaxidynReport | MinidynReport
+}
+MachineReport --> HeavydynReport
+MachineReport --> MaxidynReport
+MachineReport --> MinidynReport
+
+class PartialMachineReport {
+  <<type>>
+  PartialExtendedObject<BaseReport, MachineReport>
+}
+PartialMachineReport --> MachineReport
+
+class MachineReportCreatorParameters {
+  <<interface>>
+  projectSettings JSONProjectSettings
+  units MachineUnits
+}
+MachineReportCreatorParameters --> MachineUnits
+
+class MachineDropIndex {
+  <<type>>
+  HeavydynDropIndex | MaxidynDropIndex | MinidynDropIndex
+}
+MachineDropIndex --> HeavydynDropIndex
+MachineDropIndex --> MaxidynDropIndex
+MachineDropIndex --> MinidynDropIndex
+
+class JSONMachineDropIndex {
+  <<type>>
+  | JSONHeavydynDropIndex| MaxidynDropIndex| MinidynDropIndex
+}
+JSONMachineDropIndex --> JSONHeavydynDropIndex
+JSONMachineDropIndex --> MaxidynDropIndex
+JSONMachineDropIndex --> MinidynDropIndex
+

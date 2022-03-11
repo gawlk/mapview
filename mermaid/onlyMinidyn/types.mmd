@@ -1,0 +1,66 @@
+classDiagram
+class MinidynField {
+  <<interface>>
+
+}
+
+
+class MinidynPoint {
+  <<interface>>
+  machine 'minidyn'
+}
+
+
+class MinidynProject {
+  <<interface>>
+  machine 'minidyn'
+  reports SelectableList<MinidynReport>
+}
+MinidynProject --> MinidynReport
+
+class MinidynUnits {
+  <<interface>>
+  modulus MathUnit
+  deformation MathUnit
+  force MathUnit
+  temperature MathUnit
+}
+
+
+class JSONMinidynUnits {
+  <<interface>>
+  modulus 'MPa' | 'kN'
+  deformation 'mm' | 'um'
+  force 'N' | 'kN'
+}
+
+
+class MinidynReport {
+  <<interface>>
+  machine 'minidyn'
+  points MinidynPoint[]
+  platform MinidynField[]
+  informations MinidynField[]
+}
+MinidynReport --> MinidynPoint
+MinidynReport --> MinidynField
+
+class MinidynReportCreatorParameters {
+  <<interface>>
+  units MinidynUnits
+}
+MinidynReportCreatorParameters --> MinidynUnits
+
+class MinidynDropType {
+  <<type>>
+  'Training' | 'Averaging'
+}
+
+
+class MinidynDropIndex {
+  <<interface>>
+  machine 'minidyn'
+  type MinidynDropType
+}
+MinidynDropIndex --> MinidynDropType
+

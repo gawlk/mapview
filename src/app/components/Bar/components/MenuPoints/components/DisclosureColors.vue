@@ -17,18 +17,18 @@
 
   const key = 'isPointsColorsDisclosureOpen'
 
-  const selectedValueName = computed(
+  const selectedDataLabel = computed(
     () =>
-      store.projects.selected?.reports.selected?.valuesNames.groups.selected
+      store.projects.selected?.reports.selected?.dataLabels.groups.selected
         ?.choices.selected
   )
 
   const formattedTresholdValue = computed(
     () =>
       `${
-        selectedValueName.value?.unit.thresholds?.selected?.value.toLocaleString() ||
+        selectedDataLabel.value?.unit.thresholds?.selected?.value.toLocaleString() ||
         '?'
-      } ${selectedValueName.value?.unit.currentUnit}`
+      } ${selectedDataLabel.value?.unit.currentUnit}`
   )
 </script>
 
@@ -67,18 +67,18 @@
       <Listbox
         :icon="IconFold"
         :values="
-          selectedValueName?.unit.thresholds?.list.map(
+          selectedDataLabel?.unit.thresholds?.list.map(
             (threshold) => threshold.name
           )
         "
         @selectIndex="
           (index) =>
-            selectedValueName?.unit.thresholds?.selected &&
-            (selectedValueName.unit.thresholds.selected =
-              selectedValueName.unit.thresholds.list[index])
+            selectedDataLabel?.unit.thresholds?.selected &&
+            (selectedDataLabel.unit.thresholds.selected =
+              selectedDataLabel.unit.thresholds.list[index])
         "
         :preSelected="`${t('Threshold')}${t(':')}`"
-        :selected="selectedValueName?.unit.thresholds?.selected?.name"
+        :selected="selectedDataLabel?.unit.thresholds?.selected?.name"
         full
       />
       <ListboxColors
@@ -91,7 +91,7 @@
           store.projects.selected?.reports.selected && (store.projects.selected.reports.selected.settings.threshold.colors.low = color)
         }"
         :text="`0 < ${t(
-          selectedValueName?.name || ''
+          selectedDataLabel?.name || ''
         )} < ${formattedTresholdValue}`"
       />
       <ListboxColors
@@ -104,7 +104,7 @@
           store.projects.selected?.reports.selected && (store.projects.selected.reports.selected.settings.threshold.colors.high = color)
         }"
         :text="`${formattedTresholdValue} < ${t(
-          selectedValueName?.name || ''
+          selectedDataLabel?.name || ''
         )} < ∞`"
       />
     </div>

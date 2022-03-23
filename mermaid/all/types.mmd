@@ -1,42 +1,123 @@
 classDiagram
 class MenuProp {
   <<interface>>
-  name string
-  icon any
-  component any
-  needsReport? boolean
-  openedOnMobile? boolean
+  name: string
+  icon: any
+  component: any
+  needsReport?: boolean
+  openedOnMobile?: boolean
 }
 
+
+
+class GenericContainerProps {
+  <<interface>>
+  element?: any
+  xxxl?: boolean
+  xxl?: boolean
+  xl?: boolean
+  lg?: boolean
+  sm?: boolean
+  full?: boolean
+  horizontal?: boolean
+  vertical?: boolean
+  rounded?: boolean
+  colorless?: boolean
+  transparent?: boolean
+  primary?: boolean
+  secondary?: boolean
+  tertiary?: boolean
+  black?: boolean
+  red?: boolean
+  orange?: boolean
+  amber?: boolean
+  yellow?: boolean
+  lime?: boolean
+  green?: boolean
+  emerald?: boolean
+  teal?: boolean
+  cyan?: boolean
+  sky?: boolean
+  blue?: boolean
+  indigo?: boolean
+  violet?: boolean
+  purple?: boolean
+  fuchsia?: boolean
+  pink?: boolean
+  rose?: boolean
+  clickable?: boolean
+  focusable?: boolean
+  disabled?: boolean
+  svg?: any
+  leftSvg?: any
+  rightSvg?: any
+  src?: string
+  leftSrc?: string
+  rightSrc?: string
+  containerClasses?: string
+  illustrationClasses?: string
+  leftIllustrationClasses?: string
+  rightIllustrationClasses?: string
+}
+
+
+
+class GenericIllustrationProps {
+  <<interface>>
+  right?: boolean
+}
+
+GenericContainerProps <|-- GenericIllustrationProps
 
 class Color {
   <<type>>
-  | 'black'| 'white'| 'gray'| 'red'| 'orange'| 'amber'| 'yellow'| 'lime'| 'green'| 'emerald'| 'teal'| 'cyan'| 'sky'| 'blue'| 'indigo'| 'violet'| 'purple'| 'fuchsia'| 'pink'| 'rose'
+  | 'black'   | 'white'   | 'gray'   | 'red'   | 'orange'   | 'amber'   | 'yellow'   | 'lime'   | 'green'   | 'emerald'   | 'teal'   | 'cyan'   | 'sky'   | 'blue'   | 'indigo'   | 'violet'   | 'purple'   | 'fuchsia'   | 'pink'   | 'rose'
 }
+
 
 
 class MathNumberObject {
   <<interface>>
-  [key: string] MathNumber | MathNumber[] | MathNumber[][]
+  [key: string]: MathNumber | MathNumber[] | MathNumber[][]
 }
-MathNumberObject --> MathNumber
+MathNumberObject <.. MathNumber
+
 
 class ComputedData {
   <<interface>>
-  raw MathNumberObject
-  parameters MathNumberObject
-  computed MathNumberObject
-  compute () => void
+  raw: MathNumberObject
+  parameters: MathNumberObject
+  computed: MathNumberObject
+  compute: #40;#41; =#62; void
 }
-ComputedData --> MathNumberObject
+ComputedData <.. MathNumberObject
+
+
+class DataLabel {
+  <<interface>>
+  name: string
+  unit: MathUnit
+}
+DataLabel <.. MathUnit
+
+
+class DataValue {
+  <<interface>>
+  label: DataLabel
+  value: MathNumber | MathNumber[] | MathNumber[][]
+}
+DataValue <.. DataLabel
+DataValue <.. MathNumber
+
 
 class BaseDrop {
   <<interface>>
-  data ComputedData
-  additionnalFields MachineField[]
+  data: ComputedData
+  additionnalFields: MachineField[]
 }
-BaseDrop --> ComputedData
-BaseDrop --> MachineField
+BaseDrop <.. ComputedData
+BaseDrop <.. MachineField
+
 
 class JSONDrop {
   <<interface>>
@@ -44,54 +125,61 @@ class JSONDrop {
 }
 
 
+
 class BaseField {
   <<interface>>
-  label string
-  value | boolean| number| string| SlidableNumber| DateValue| LongString| SelectableString
+  label: string
+  value: | boolean     | number     | string     | SlidableNumber     | DateValue     | LongString     | SelectableString
 }
-BaseField --> SlidableNumber
-BaseField --> DateValue
-BaseField --> LongString
-BaseField --> SelectableString
+BaseField <.. SlidableNumber
+BaseField <.. DateValue
+BaseField <.. LongString
+BaseField <.. SelectableString
+
 
 class JSONField {
   <<interface>>
-  label string
-  value boolean | number | string
+  label: string
+  value: boolean | number | string
 }
+
 
 
 class SlidableNumber {
   <<interface>>
-  kind 'slidableNumber'
-  value number
-  step number
-  min number
-  max number
+  kind: 'slidableNumber'
+  value: number
+  step: number
+  min: number
+  max: number
 }
+
 
 
 class DateValue {
   <<interface>>
-  kind 'date'
-  value string
+  kind: 'date'
+  value: string
 }
+
 
 
 class LongString {
   <<interface>>
-  kind 'longString'
-  value string
+  kind: 'longString'
+  value: string
 }
+
 
 
 class SelectableString {
   <<interface>>
-  kind 'selectableString'
-  value string
-  possibleValues string[]
-  strict boolean
+  kind: 'selectableString'
+  value: string
+  possibleValues: string[]
+  strict: boolean
 }
+
 
 
 class HeavydynField {
@@ -99,237 +187,262 @@ class HeavydynField {
 
 }
 
+BaseField <|-- HeavydynField
 
 class MaxidynField {
   <<interface>>
 
 }
 
+BaseField <|-- MaxidynField
 
 class MinidynField {
   <<interface>>
 
 }
 
+BaseField <|-- MinidynField
 
 class MachineField {
   <<type>>
   HeavydynField | MaxidynField | MinidynField
 }
-MachineField --> HeavydynField
-MachineField --> MaxidynField
-MachineField --> MinidynField
+MachineField <.. HeavydynField
+MachineField <.. MaxidynField
+MachineField <.. MinidynField
+
 
 class Icon {
   <<interface>>
-  element HTMLElement
-  color string
-  setText (text: string) => void
-  setIcon (iconName: IconName) => void
+  element: HTMLElement
+  color: string
+  setText: #40;text: string#41; =#62; void
+  setIcon: #40;iconName: IconName#41; =#62; void
 }
+
 
 
 class IconName {
   <<type>>
-  | 'circle'| 'triangle'| 'square'| 'rhombus'| 'flare'| 'pentagon'| 'hexagon'| 'hexagonAlt'| 'heptagon'| 'octagon'
+  | 'circle'   | 'triangle'   | 'square'   | 'rhombus'   | 'flare'   | 'pentagon'   | 'hexagon'   | 'hexagonAlt'   | 'heptagon'   | 'octagon'
 }
+
 
 
 class Image {
   <<interface>>
-  id string
-  sourceData mapboxgl.ImageSourceRaw
-  markerNW mapboxgl.Marker
-  markerSE mapboxgl.Marker
-  opacity number
-  addToMap (isVisible: boolean) => void
-  remove () => void
+  id: string
+  sourceData: mapboxgl.ImageSourceRaw
+  markerNW: mapboxgl.Marker
+  markerSE: mapboxgl.Marker
+  opacity: number
+  addToMap: #40;isVisible: boolean#41; =#62; void
+  remove: #40;#41; =#62; void
 }
+
 
 
 class JSONImage {
   <<interface>>
-  name string
-  opacity? number
-  coordinates? #123; nw: LngLatse: LngLat #125;
+  name: string
+  opacity?: number
+  coordinates?: #123;     nw: LngLat     se: LngLat   #125;
 }
-JSONImage --> LngLat
+JSONImage <.. LngLat
+
 
 class ImageCoordinates {
   <<interface>>
-  tl XYCoord
-  tr XYCoord
-  bl XYCoord
-  br XYCoord
+  tl: XYCoord
+  tr: XYCoord
+  bl: XYCoord
+  br: XYCoord
 }
-ImageCoordinates --> XYCoord
+ImageCoordinates <.. XYCoord
+
 
 class Line {
   <<interface>>
-  addToMap () => void
-  update () => void
-  remove () => void
+  addToMap: #40;#41; =#62; void
+  update: #40;#41; =#62; void
+  remove: #40;#41; =#62; void
 }
+
 
 
 class MathNumber {
   <<interface>>
-  value math.Unit | number
-  unit MathUnit | string
-  displayString string
-  displayStringWithUnit string
-  toDisplayedValue () => void
+  value: math.Unit | number
+  unit: MathUnit | string
+  displayString: string
+  displayStringWithUnit: string
+  toDisplayedValue: #40;#41; =#62; void
 }
-MathNumber --> MathUnit
+MathNumber <.. MathUnit
+
 
 class MathUnit {
   <<interface>>
-  name string
-  currentUnit string
-  currentPrecision number
-  possibleSettings [string, number][]
-  possiblePrecisions number[]
-  minDisplayedValue? number
-  maxDisplayedValue? number
-  thresholds? #123; selected: PredefinedThreshold | CustomThreshold | nulllist: PredefinedThreshold[]// custom: CustomThreshold #125;
+  name: string
+  currentUnit: string
+  currentPrecision: number
+  possibleSettings: [string, number][]
+  possiblePrecisions: number[]
+  minDisplayedValue?: number
+  maxDisplayedValue?: number
+  thresholds?: #123;     selected: PredefinedThreshold | CustomThreshold | null     list: PredefinedThreshold[]     // custom: CustomThreshold   #125;
 }
-MathUnit --> PredefinedThreshold
-MathUnit --> CustomThreshold
+MathUnit <.. PredefinedThreshold
+MathUnit <.. CustomThreshold
+
 
 class BasePoint {
   <<interface>>
-  machine MachineName
-  number number
-  marker mapboxgl.Marker
-  icon Icon
-  settings JSONPointSettings
-  zone Zone | null
-  updateText () => void
-  updateVisibility () => void
-  addToMap () => void
-  remove () => void
+  machine: MachineName
+  number: number
+  marker: mapboxgl.Marker
+  icon: Icon
+  settings: JSONPointSettings
+  zone: Zone | null
+  data: DataValue[]
+  updateText: #40;#41; =#62; void
+  updateVisibility: #40;#41; =#62; void
+  addToMap: #40;#41; =#62; void
+  remove: #40;#41; =#62; void
 }
-BasePoint --> MachineName
-BasePoint --> Icon
-BasePoint --> JSONPointSettings
-BasePoint --> Zone
+BasePoint <.. MachineName
+BasePoint <.. Icon
+BasePoint <.. JSONPointSettings
+BasePoint <.. Zone
+BasePoint <.. DataValue
+
 
 class BasePointCreatorParameters {
   <<interface>>
-  machine MachineName
+  machine: MachineName
 }
-BasePointCreatorParameters --> MachineName
+BasePointCreatorParameters <.. MachineName
+MachinePointCreatorParameters <|-- BasePointCreatorParameters
 
 class JSONPoint {
   <<interface>>
-  coordinates mapboxgl.LngLatLike
-  settings JSONPointSettings
-  informations JSONField[]
-  drops JSONDrop[]
+  coordinates: mapboxgl.LngLatLike
+  settings: JSONPointSettings
+  informations: JSONField[]
+  drops: JSONDrop[]
 }
-JSONPoint --> JSONPointSettings
-JSONPoint --> JSONField
-JSONPoint --> JSONDrop
+JSONPoint <.. JSONPointSettings
+JSONPoint <.. JSONField
+JSONPoint <.. JSONDrop
+
 
 class JSONPointSettings {
   <<interface>>
-  isVisible boolean
+  isVisible: boolean
 }
+
 
 
 class HeavydynPoint {
   <<interface>>
-  machine 'heavydyn'
+  machine: 'heavydyn'
 }
 
+BasePoint <|-- HeavydynPoint
 
 class MaxidynPoint {
   <<interface>>
-  machine 'maxidyn'
+  machine: 'maxidyn'
 }
 
+BasePoint <|-- MaxidynPoint
 
 class MinidynPoint {
   <<interface>>
-  machine 'minidyn'
+  machine: 'minidyn'
 }
 
+BasePoint <|-- MinidynPoint
 
 class MachinePoint {
   <<type>>
   HeavydynPoint | MaxidynPoint | MinidynPoint
 }
-MachinePoint --> HeavydynPoint
-MachinePoint --> MaxidynPoint
-MachinePoint --> MinidynPoint
+MachinePoint <.. HeavydynPoint
+MachinePoint <.. MaxidynPoint
+MachinePoint <.. MinidynPoint
 
-class PartialMachinePoint {
+
+class PartialMachinePoint~MachinePoint~ {
   <<type>>
-  PartialExtendedObject<BasePoint, MachinePoint>
+  PartialExtendedObject#60;   BasePoint,   MachinePoint #62;
 }
-PartialMachinePoint --> PartialExtendedObject
-PartialMachinePoint --> BasePoint
-PartialMachinePoint --> MachinePoint
+PartialMachinePoint~MachinePoint~ <.. BasePoint
+PartialMachinePoint~MachinePoint~ <.. MachinePoint
+
 
 class MachinePointCreatorParameters {
   <<interface>>
-  number number
-  iconName IconName
-  projectSettings JSONProjectSettings
-  reportSettings JSONReportSettings
+  number: number
+  iconName: IconName
+  projectSettings: JSONProjectSettings
+  reportSettings: JSONReportSettings
 }
-MachinePointCreatorParameters --> IconName
-MachinePointCreatorParameters --> JSONProjectSettings
-MachinePointCreatorParameters --> JSONReportSettings
+MachinePointCreatorParameters <.. IconName
+MachinePointCreatorParameters <.. JSONProjectSettings
+MachinePointCreatorParameters <.. JSONReportSettings
+
 
 class BaseProject {
   <<interface>>
-  machine MachineName
-  name MachineField
-  informations MachineField[]
-  reports SelectableList<MachineReport>
-  units MachineUnits
-  settings JSONProjectSettings
-  images Image[]
-  refreshLinesAndImages () => void
-  setMapStyle (styleIndex: number) => void
-  fitOnMap () => void
-  addToMap () => void
-  remove () => void
+  machine: MachineName
+  name: MachineField
+  informations: MachineField[]
+  reports: SelectableList#60;MachineReport#62;
+  units: MachineUnits
+  settings: JSONProjectSettings
+  images: Image[]
+  refreshLinesAndImages: #40;#41; =#62; void
+  setMapStyle: #40;styleIndex: number#41; =#62; void
+  fitOnMap: #40;#41; =#62; void
+  addToMap: #40;#41; =#62; void
+  remove: #40;#41; =#62; void
 }
-BaseProject --> MachineName
-BaseProject --> MachineField
-BaseProject --> SelectableList
-BaseProject --> MachineReport
-BaseProject --> MachineUnits
-BaseProject --> JSONProjectSettings
-BaseProject --> Image
+BaseProject <.. MachineName
+BaseProject <.. MachineField
+BaseProject <.. MachineReport
+BaseProject <.. MachineUnits
+BaseProject <.. JSONProjectSettings
+BaseProject <.. Image
+
 
 class BaseProjectCreatorParameters {
   <<interface>>
-  machine MachineName
-  units MachineUnits
+  machine: MachineName
+  units: MachineUnits
 }
-BaseProjectCreatorParameters --> MachineName
-BaseProjectCreatorParameters --> MachineUnits
+BaseProjectCreatorParameters <.. MachineName
+BaseProjectCreatorParameters <.. MachineUnits
+
 
 class JSONProject {
   <<interface>>
-  name string
-  machine MachineName
-  selectedReport? number
-  settings JSONProjectSettings
-  images JSONImage[]
-  informations JSONField[]
-  reports JSONReport[]
-  units JSONUnits
+  name: string
+  machine: MachineName
+  selectedReport?: number
+  settings: JSONProjectSettings
+  images: JSONImage[]
+  informations: JSONField[]
+  reports: JSONReport[]
+  units: JSONUnits
 }
-JSONProject --> MachineName
-JSONProject --> JSONProjectSettings
-JSONProject --> JSONImage
-JSONProject --> JSONField
-JSONProject --> JSONReport
-JSONProject --> JSONUnits
+JSONProject <.. MachineName
+JSONProject <.. JSONProjectSettings
+JSONProject <.. JSONImage
+JSONProject <.. JSONField
+JSONProject <.. JSONReport
+JSONProject <.. JSONUnits
+
 
 class MachineName {
   <<type>>
@@ -337,17 +450,19 @@ class MachineName {
 }
 
 
+
 class JSONProjectSettings {
   <<interface>>
-  arePointsVisible boolean
-  arePointsLinked boolean
-  arePointsLocked boolean
-  areImagesVisible boolean
-  pointsState PointsState
-  map #123; styleIndex: numbercoordinates?: LngLatzoom?: number #125;
+  arePointsVisible: boolean
+  arePointsLinked: boolean
+  arePointsLocked: boolean
+  areImagesVisible: boolean
+  pointsState: PointsState
+  map: #123;     styleIndex: number     coordinates?: LngLat     zoom?: number   #125;
 }
-JSONProjectSettings --> PointsState
-JSONProjectSettings --> LngLat
+JSONProjectSettings <.. PointsState
+JSONProjectSettings <.. LngLat
+
 
 class PointsState {
   <<type>>
@@ -355,274 +470,286 @@ class PointsState {
 }
 
 
+
 class HeavydynProject {
   <<interface>>
-  machine 'heavydyn'
-  reports SelectableList<HeavydynReport>
+  machine: 'heavydyn'
+  reports: SelectableList#60;HeavydynReport#62;
 }
-HeavydynProject --> SelectableList
-HeavydynProject --> HeavydynReport
+HeavydynProject <.. HeavydynReport
+BaseProject <|-- HeavydynProject
 
 class HeavydynUnits {
   <<interface>>
-  deformation MathUnit
-  force MathUnit
-  temperature MathUnit
+  deformation: MathUnit
+  force: MathUnit
+  temperature: MathUnit
 }
-HeavydynUnits --> MathUnit
+HeavydynUnits <.. MathUnit
+
 
 class JSONHeavydynUnits {
   <<interface>>
-  deformation 'mm' | '1/100 mm' | 'um'
-  force 'N' | 'kN' | 'lbs'
-  temperature 'degC' | 'degF' | 'K'
+  deformation: 'mm' | '1/100 mm' | 'um'
+  force: 'N' | 'kN' | 'lbs'
+  temperature: 'degC' | 'degF' | 'K'
 }
+
 
 
 class MaxidynProject {
   <<interface>>
-  machine 'maxidyn'
-  reports SelectableList<MaxidynReport>
+  machine: 'maxidyn'
+  reports: SelectableList#60;MaxidynReport#62;
 }
-MaxidynProject --> SelectableList
-MaxidynProject --> MaxidynReport
+MaxidynProject <.. MaxidynReport
+BaseProject <|-- MaxidynProject
 
 class MaxidynUnits {
   <<interface>>
-  modulus MathUnit
-  deformation MathUnit
-  force MathUnit
+  modulus: MathUnit
+  deformation: MathUnit
+  force: MathUnit
 }
-MaxidynUnits --> MathUnit
+MaxidynUnits <.. MathUnit
+
 
 class JSONMaxidynUnits {
   <<interface>>
-  modulus 'MPa' | 'kN'
-  deformation 'mm' | 'um'
-  force 'N' | 'kN'
+  modulus: 'MPa' | 'kN'
+  deformation: 'mm' | 'um'
+  force: 'N' | 'kN'
 }
+
 
 
 class MinidynProject {
   <<interface>>
-  machine 'minidyn'
-  reports SelectableList<MinidynReport>
+  machine: 'minidyn'
+  reports: SelectableList#60;MinidynReport#62;
 }
-MinidynProject --> SelectableList
-MinidynProject --> MinidynReport
+MinidynProject <.. MinidynReport
+BaseProject <|-- MinidynProject
 
 class MinidynUnits {
   <<interface>>
-  modulus MathUnit
-  deformation MathUnit
-  force MathUnit
-  temperature MathUnit
+  modulus: MathUnit
+  deformation: MathUnit
+  force: MathUnit
+  temperature: MathUnit
 }
-MinidynUnits --> MathUnit
+MinidynUnits <.. MathUnit
+
 
 class JSONMinidynUnits {
   <<interface>>
-  modulus 'MPa' | 'kN'
-  deformation 'mm' | 'um'
-  force 'N' | 'kN'
+  modulus: 'MPa' | 'kN'
+  deformation: 'mm' | 'um'
+  force: 'N' | 'kN'
 }
+
 
 
 class MachineProject {
   <<type>>
   HeavydynProject | MaxidynProject | MinidynProject
 }
-MachineProject --> HeavydynProject
-MachineProject --> MaxidynProject
-MachineProject --> MinidynProject
+MachineProject <.. HeavydynProject
+MachineProject <.. MaxidynProject
+MachineProject <.. MinidynProject
 
-class PartialMachineProject {
+
+class PartialMachineProject~MachineProject~ {
   <<type>>
-  PartialExtendedObject<BaseProject, MachineProject>
+  PartialExtendedObject#60;   BaseProject,   MachineProject #62;
 }
-PartialMachineProject --> PartialExtendedObject
-PartialMachineProject --> BaseProject
-PartialMachineProject --> MachineProject
+PartialMachineProject~MachineProject~ <.. BaseProject
+PartialMachineProject~MachineProject~ <.. MachineProject
+
 
 class JSONUnits {
   <<type>>
   JSONHeavydynUnits | JSONMaxidynUnits | JSONMinidynUnits
 }
-JSONUnits --> JSONHeavydynUnits
-JSONUnits --> JSONMaxidynUnits
-JSONUnits --> JSONMinidynUnits
+JSONUnits <.. JSONHeavydynUnits
+JSONUnits <.. JSONMaxidynUnits
+JSONUnits <.. JSONMinidynUnits
+
 
 class MachineUnits {
   <<type>>
   HeavydynUnits | MaxidynUnits | MinidynUnits
 }
-MachineUnits --> HeavydynUnits
-MachineUnits --> MaxidynUnits
-MachineUnits --> MinidynUnits
+MachineUnits <.. HeavydynUnits
+MachineUnits <.. MaxidynUnits
+MachineUnits <.. MinidynUnits
+
 
 class BaseReport {
   <<interface>>
-  machine MachineName
-  name MachineField
-  points MachinePoint[]
-  line Line
-  zones Zone[]
-  screenshots string[]
-  valuesNames ReportValuesNames
-  settings JSONReportSettings
-  platform MachineField[]
-  informations MachineField[]
-  isOnMap boolean
-  fitOnMap () => void
-  addToMap () => void
-  remove () => void
+  machine: MachineName
+  name: MachineField
+  points: MachinePoint[]
+  line: Line
+  zones: Zone[]
+  screenshots: string[]
+  dataLabels: ReportDataLabels
+  settings: JSONReportSettings
+  platform: MachineField[]
+  informations: MachineField[]
+  isOnMap: boolean
+  fitOnMap: #40;#41; =#62; void
+  addToMap: #40;#41; =#62; void
+  remove: #40;#41; =#62; void
 }
-BaseReport --> MachineName
-BaseReport --> MachineField
-BaseReport --> MachinePoint
-BaseReport --> Line
-BaseReport --> Zone
-BaseReport --> ReportValuesNames
-BaseReport --> JSONReportSettings
+BaseReport <.. MachineName
+BaseReport <.. MachineField
+BaseReport <.. MachinePoint
+BaseReport <.. Line
+BaseReport <.. Zone
+BaseReport <.. ReportDataLabels
+BaseReport <.. JSONReportSettings
 
-class ReportValuesNames {
-  <<interface>>
-  groups SelectableList<GroupedValuesNames>
-  table SelectableList<TableValuesNamesParameters>
-}
-ReportValuesNames --> SelectableList
-ReportValuesNames --> GroupedValuesNames
-ReportValuesNames --> TableValuesNamesParameters
 
-class GroupedValuesNames {
+class ReportDataLabels {
   <<interface>>
-  from ValuesNamesFrom
-  choices SelectableList<ValueName>
-  indexes? SelectableList<MachineDropIndex>
+  groups: SelectableList#60;GroupedDataLabels#62;
+  table: SelectableList#60;TableDataLabelsParameters#62;
 }
-GroupedValuesNames --> ValuesNamesFrom
-GroupedValuesNames --> SelectableList
-GroupedValuesNames --> ValueName
-GroupedValuesNames --> MachineDropIndex
+ReportDataLabels <.. GroupedDataLabels
+ReportDataLabels <.. TableDataLabelsParameters
 
-class TableValuesNamesParameters {
-  <<interface>>
-  group GroupedValuesNames
-  index? MachineDropIndex
-  valuesNames ValueName[]
-}
-TableValuesNamesParameters --> GroupedValuesNames
-TableValuesNamesParameters --> MachineDropIndex
-TableValuesNamesParameters --> ValueName
 
-class ValueName {
+class GroupedDataLabels {
   <<interface>>
-  name string
-  unit MathUnit
+  from: DataLabelsFrom
+  choices: SelectableList#60;DataLabel#62;
+  indexes?: SelectableList#60;MachineDropIndex#62;
 }
-ValueName --> MathUnit
+GroupedDataLabels <.. DataLabelsFrom
+GroupedDataLabels <.. DataLabel
+GroupedDataLabels <.. MachineDropIndex
+
+
+class TableDataLabelsParameters {
+  <<interface>>
+  group: GroupedDataLabels
+  index?: MachineDropIndex
+  dataLabels: DataLabel[]
+}
+TableDataLabelsParameters <.. GroupedDataLabels
+TableDataLabelsParameters <.. MachineDropIndex
+TableDataLabelsParameters <.. DataLabel
+
 
 class BaseReportCreatorParameters {
   <<interface>>
-  machine MachineName
-  groupedValuesNames SelectableList<GroupedValuesNames>
+  machine: MachineName
+  groupedDataLabels: SelectableList#60;GroupedDataLabels#62;
 }
-BaseReportCreatorParameters --> MachineName
-BaseReportCreatorParameters --> SelectableList
-BaseReportCreatorParameters --> GroupedValuesNames
+BaseReportCreatorParameters <.. MachineName
+BaseReportCreatorParameters <.. GroupedDataLabels
+MachineReportCreatorParameters <|-- BaseReportCreatorParameters
 
 class JSONReport {
   <<interface>>
-  name string
-  points JSONPoint[]
-  valuesNames JSONReportValuesNames
-  zones JSONZone[]
-  settings JSONReportSettings
-  screenshots number[]
-  platform JSONField[]
-  informations JSONField[]
+  name: string
+  points: JSONPoint[]
+  dataLabels: JSONReportDataLabels
+  zones: JSONZone[]
+  settings: JSONReportSettings
+  screenshots: number[]
+  platform: JSONField[]
+  informations: JSONField[]
 }
-JSONReport --> JSONPoint
-JSONReport --> JSONReportValuesNames
-JSONReport --> JSONZone
-JSONReport --> JSONReportSettings
-JSONReport --> JSONField
+JSONReport <.. JSONPoint
+JSONReport <.. JSONReportDataLabels
+JSONReport <.. JSONZone
+JSONReport <.. JSONReportSettings
+JSONReport <.. JSONField
 
-class JSONReportValuesNames {
+
+class JSONReportDataLabels {
   <<interface>>
-  groups SelectableList<number, JSONGroupedValuesNames>
-  table SelectableList<number, JSONTableValuesNamesParameters>
+  groups: SelectableList#60;number, JSONGroupedDataLabels#62;
+  table: SelectableList#60;number, JSONTableDataLabelsParameters#62;
 }
-JSONReportValuesNames --> SelectableList
-JSONReportValuesNames --> JSONGroupedValuesNames
-JSONReportValuesNames --> JSONTableValuesNamesParameters
+JSONReportDataLabels <.. JSONGroupedDataLabels
+JSONReportDataLabels <.. JSONTableDataLabelsParameters
 
-class JSONGroupedValuesNames {
+
+class JSONGroupedDataLabels {
   <<interface>>
-  from ValuesNamesFrom
-  choices SelectableOptionalList<number, string>
-  indexes? SelectableList<number, MachineDropIndex>
+  from: DataLabelsFrom
+  choices: SelectableOptionalList#60;number, string#62;
+  indexes?: SelectableList#60;number, MachineDropIndex#62;
 }
-JSONGroupedValuesNames --> ValuesNamesFrom
-JSONGroupedValuesNames --> SelectableOptionalList
-JSONGroupedValuesNames --> SelectableList
-JSONGroupedValuesNames --> MachineDropIndex
+JSONGroupedDataLabels <.. DataLabelsFrom
+JSONGroupedDataLabels <.. MachineDropIndex
 
-class JSONTableValuesNamesParameters {
+
+class JSONTableDataLabelsParameters {
   <<interface>>
-  from ValuesNamesFrom
-  index? number
-  valuesNames string[]
+  from: DataLabelsFrom
+  index?: number
+  dataLabels: string[]
 }
-JSONTableValuesNamesParameters --> ValuesNamesFrom
+JSONTableDataLabelsParameters <.. DataLabelsFrom
 
-class ValuesNamesFrom {
+
+class DataLabelsFrom {
   <<type>>
   'Drop' | 'Test' | 'Zone'
 }
 
 
+
 class JSONReportSettings {
   <<interface>>
-  iconName IconName
-  isVisible boolean
-  selectedColorization 'Threshold' | 'Zone'
-  threshold #123; colors: ThresholdColorscustom: #123;  #125; #125;
+  iconName: IconName
+  isVisible: boolean
+  selectedColorization: 'Threshold' | 'Zone'
+  threshold: #123;     colors: ThresholdColors     custom: #123;#125;   #125;
 }
-JSONReportSettings --> IconName
-JSONReportSettings --> ThresholdColors
+JSONReportSettings <.. IconName
+JSONReportSettings <.. ThresholdColors
+
 
 class ThresholdColors {
   <<interface>>
-  low Color
-  middle Color
-  high Color
+  low: Color
+  middle: Color
+  high: Color
 }
-ThresholdColors --> Color
+ThresholdColors <.. Color
+
 
 class BaseDropIndex {
   <<interface>>
-  machine MachineName
-  type string
-  displayedIndex number
+  machine: MachineName
+  type: string
+  displayedIndex: number
 }
-BaseDropIndex --> MachineName
+BaseDropIndex <.. MachineName
+
 
 class HeavydynReport {
   <<interface>>
-  machine 'heavydyn'
-  points HeavydynPoint[]
-  platform HeavydynField[]
-  informations HeavydynField[]
+  machine: 'heavydyn'
+  points: HeavydynPoint[]
+  platform: HeavydynField[]
+  informations: HeavydynField[]
 }
-HeavydynReport --> HeavydynPoint
-HeavydynReport --> HeavydynField
+HeavydynReport <.. HeavydynPoint
+HeavydynReport <.. HeavydynField
+BaseReport <|-- HeavydynReport
 
 class HeavydynReportCreatorParameters {
   <<interface>>
-  units HeavydynUnits
+  units: HeavydynUnits
 }
-HeavydynReportCreatorParameters --> HeavydynUnits
+HeavydynReportCreatorParameters <.. HeavydynUnits
+MachineReportCreatorParameters <|-- HeavydynReportCreatorParameters
 
 class HeavydynDropType {
   <<type>>
@@ -630,38 +757,43 @@ class HeavydynDropType {
 }
 
 
+
 class HeavydynDropIndex {
   <<interface>>
-  machine 'heavydyn'
-  type HeavydynDropType
-  value MathNumber
+  machine: 'heavydyn'
+  type: HeavydynDropType
+  value: MathNumber
 }
-HeavydynDropIndex --> HeavydynDropType
-HeavydynDropIndex --> MathNumber
+HeavydynDropIndex <.. HeavydynDropType
+HeavydynDropIndex <.. MathNumber
+BaseDropIndex <|-- HeavydynDropIndex
 
 class JSONHeavydynDropIndex {
   <<interface>>
-  machine 'heavydyn'
-  type HeavydynDropType
-  value number
+  machine: 'heavydyn'
+  type: HeavydynDropType
+  value: number
 }
-JSONHeavydynDropIndex --> HeavydynDropType
+JSONHeavydynDropIndex <.. HeavydynDropType
+BaseDropIndex <|-- JSONHeavydynDropIndex
 
 class MaxidynReport {
   <<interface>>
-  machine 'maxidyn'
-  points MaxidynPoint[]
-  platform MaxidynField[]
-  informations MaxidynField[]
+  machine: 'maxidyn'
+  points: MaxidynPoint[]
+  platform: MaxidynField[]
+  informations: MaxidynField[]
 }
-MaxidynReport --> MaxidynPoint
-MaxidynReport --> MaxidynField
+MaxidynReport <.. MaxidynPoint
+MaxidynReport <.. MaxidynField
+BaseReport <|-- MaxidynReport
 
 class MaxidynReportCreatorParameters {
   <<interface>>
-  units MaxidynUnits
+  units: MaxidynUnits
 }
-MaxidynReportCreatorParameters --> MaxidynUnits
+MaxidynReportCreatorParameters <.. MaxidynUnits
+MachineReportCreatorParameters <|-- MaxidynReportCreatorParameters
 
 class MaxidynDropType {
   <<type>>
@@ -669,28 +801,32 @@ class MaxidynDropType {
 }
 
 
+
 class MaxidynDropIndex {
   <<interface>>
-  machine 'maxidyn'
-  type MaxidynDropType
+  machine: 'maxidyn'
+  type: MaxidynDropType
 }
-MaxidynDropIndex --> MaxidynDropType
+MaxidynDropIndex <.. MaxidynDropType
+BaseDropIndex <|-- MaxidynDropIndex
 
 class MinidynReport {
   <<interface>>
-  machine 'minidyn'
-  points MinidynPoint[]
-  platform MinidynField[]
-  informations MinidynField[]
+  machine: 'minidyn'
+  points: MinidynPoint[]
+  platform: MinidynField[]
+  informations: MinidynField[]
 }
-MinidynReport --> MinidynPoint
-MinidynReport --> MinidynField
+MinidynReport <.. MinidynPoint
+MinidynReport <.. MinidynField
+BaseReport <|-- MinidynReport
 
 class MinidynReportCreatorParameters {
   <<interface>>
-  units MinidynUnits
+  units: MinidynUnits
 }
-MinidynReportCreatorParameters --> MinidynUnits
+MinidynReportCreatorParameters <.. MinidynUnits
+MachineReportCreatorParameters <|-- MinidynReportCreatorParameters
 
 class MinidynDropType {
   <<type>>
@@ -698,147 +834,173 @@ class MinidynDropType {
 }
 
 
+
 class MinidynDropIndex {
   <<interface>>
-  machine 'minidyn'
-  type MinidynDropType
+  machine: 'minidyn'
+  type: MinidynDropType
 }
-MinidynDropIndex --> MinidynDropType
+MinidynDropIndex <.. MinidynDropType
+BaseDropIndex <|-- MinidynDropIndex
 
 class MachineReport {
   <<type>>
   HeavydynReport | MaxidynReport | MinidynReport
 }
-MachineReport --> HeavydynReport
-MachineReport --> MaxidynReport
-MachineReport --> MinidynReport
+MachineReport <.. HeavydynReport
+MachineReport <.. MaxidynReport
+MachineReport <.. MinidynReport
 
-class PartialMachineReport {
+
+class PartialMachineReport~MachineReport~ {
   <<type>>
-  PartialExtendedObject<BaseReport, MachineReport>
+  PartialExtendedObject#60;   BaseReport,   MachineReport #62;
 }
-PartialMachineReport --> PartialExtendedObject
-PartialMachineReport --> BaseReport
-PartialMachineReport --> MachineReport
+PartialMachineReport~MachineReport~ <.. BaseReport
+PartialMachineReport~MachineReport~ <.. MachineReport
+
 
 class MachineReportCreatorParameters {
   <<interface>>
-  projectSettings JSONProjectSettings
-  units MachineUnits
+  projectSettings: JSONProjectSettings
+  units: MachineUnits
 }
-MachineReportCreatorParameters --> JSONProjectSettings
-MachineReportCreatorParameters --> MachineUnits
+MachineReportCreatorParameters <.. JSONProjectSettings
+MachineReportCreatorParameters <.. MachineUnits
+
 
 class MachineDropIndex {
   <<type>>
   HeavydynDropIndex | MaxidynDropIndex | MinidynDropIndex
 }
-MachineDropIndex --> HeavydynDropIndex
-MachineDropIndex --> MaxidynDropIndex
-MachineDropIndex --> MinidynDropIndex
+MachineDropIndex <.. HeavydynDropIndex
+MachineDropIndex <.. MaxidynDropIndex
+MachineDropIndex <.. MinidynDropIndex
+
 
 class JSONMachineDropIndex {
   <<type>>
-  | JSONHeavydynDropIndex| MaxidynDropIndex| MinidynDropIndex
+  | JSONHeavydynDropIndex   | MaxidynDropIndex   | MinidynDropIndex
 }
-JSONMachineDropIndex --> JSONHeavydynDropIndex
-JSONMachineDropIndex --> MaxidynDropIndex
-JSONMachineDropIndex --> MinidynDropIndex
+JSONMachineDropIndex <.. JSONHeavydynDropIndex
+JSONMachineDropIndex <.. MaxidynDropIndex
+JSONMachineDropIndex <.. MinidynDropIndex
+
 
 class CustomThreshold {
   <<interface>>
-  name string
-  value number
+  name: string
+  value: number
 }
+
 
 
 class PredefinedThreshold {
   <<interface>>
-  name string
-  value number
+  name: string
+  value: number
 }
 
 
-class PartialExtendedObject {
+
+class PartialExtendedObject~BaseObject, MachineObject~ {
   <<type>>
-  Required<BaseObject> &Partial<Omit<MachineObject, keyof BaseObject>>
+  Required#60;BaseObject#62; &   Partial#60;Omit#60;MachineObject, keyof BaseObject#62;#62;
 }
+
 
 
 class WatcherHandler {
   <<interface>>
-  [stop: () => void] () => void
-  [stop?: () => void] void
-  [] void
+  add: #40;stop: #40;#41; =#62; void#41; =#62; void
+  remove: #40;stop: #40;#41; =#62; void#41; =#62; void
+  clean: #40;#41; =#62; void
 }
+
 
 
 class Zone {
   <<interface>>
-  name string
-  color Color
+  name: string
+  color: Color
 }
-Zone --> Color
+Zone <.. Color
+
 
 class JSONZone {
   <<interface>>
-  name string
-  color? Color
+  name: string
+  color?: Color
 }
-JSONZone --> Color
+JSONZone <.. Color
+
 
 class LngLat {
   <<interface>>
-  lng number
-  lat number
+  lng: number
+  lat: number
 }
+
 
 
 class XYCoord {
   <<interface>>
-  x number
-  y number
+  x: number
+  y: number
 }
 
 
-class SelectableList {
+
+class SelectableList~S, L~ {
   <<interface>>
-  selected S | null
-  list L[]
+  selected: S | null
+  list: L[]
 }
 
 
-class SelectableOptionalList {
+
+class SelectableOptionalList~S, L~ {
   <<interface>>
-  selected S | null
-  list? L[]
+  selected: S | null
+  list?: L[]
 }
+
+
+
+class DeepRequired~T~ {
+  <<type>>
+  #123;   [K in keyof T]: Required#60;DeepRequired#60;T[K]#62;#62; #125;
+}
+
 
 
 class Store {
   <<interface>>
-  projects SelectableList<MachineProject>
-  map mapboxgl.Map | null
-  save (key: StoreKeys, value: StoreSaveableTypes) => void
+  projects: SelectableList#60;MachineProject#62;
+  map: mapboxgl.Map | null
+  save: #40;key: StoreKeys, value: StoreSaveableTypes#41; =#62; void
 }
-Store --> SelectableList
-Store --> MachineProject
+Store <.. MachineProject
+
 
 class StoreKeys {
   <<type>>
-  Exclude<keyof Store, 'save'>
+  Exclude#60;keyof Store, 'save'#62;
 }
-StoreKeys --> Store
+StoreKeys <.. Store
+
 
 class StoreTypes {
   <<type>>
   Store[keyof Store]
 }
-StoreTypes --> Store
+StoreTypes <.. Store
+
 
 class StoreSaveableTypes {
   <<type>>
-  Extract<StoreTypes, string[] | number[] | boolean[] | string | number | boolean | null>
+  Extract#60;   StoreTypes,   string[] | number[] | boolean[] | string | number | boolean | null #62;
 }
-StoreSaveableTypes --> StoreTypes
+StoreSaveableTypes <.. StoreTypes
+
 

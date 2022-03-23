@@ -1,0 +1,937 @@
+classDiagram
+class MenuProp {
+  <<interface>>
+  name: string
+  icon: any
+  component: any
+  needsReport?: boolean
+  openedOnMobile?: boolean
+}
+
+
+
+class GenericContainerProps {
+  <<interface>>
+  element?: any
+  xxxl?: boolean
+  xxl?: boolean
+  xl?: boolean
+  lg?: boolean
+  sm?: boolean
+  full?: boolean
+  horizontal?: boolean
+  vertical?: boolean
+  rounded?: boolean
+  colorless?: boolean
+  transparent?: boolean
+  primary?: boolean
+  secondary?: boolean
+  tertiary?: boolean
+  black?: boolean
+  red?: boolean
+  orange?: boolean
+  amber?: boolean
+  yellow?: boolean
+  lime?: boolean
+  green?: boolean
+  emerald?: boolean
+  teal?: boolean
+  cyan?: boolean
+  sky?: boolean
+  blue?: boolean
+  indigo?: boolean
+  violet?: boolean
+  purple?: boolean
+  fuchsia?: boolean
+  pink?: boolean
+  rose?: boolean
+  clickable?: boolean
+  focusable?: boolean
+  disabled?: boolean
+  svg?: any
+  leftSvg?: any
+  rightSvg?: any
+  src?: string
+  leftSrc?: string
+  rightSrc?: string
+  containerClasses?: string
+  illustrationClasses?: string
+  leftIllustrationClasses?: string
+  rightIllustrationClasses?: string
+}
+
+
+
+class GenericIllustrationProps {
+  <<interface>>
+  right?: boolean
+}
+
+GenericContainerProps <|-- GenericIllustrationProps
+
+class Color {
+  <<type>>
+  | 'black'   | 'white'   | 'gray'   | 'red'   | 'orange'   | 'amber'   | 'yellow'   | 'lime'   | 'green'   | 'emerald'   | 'teal'   | 'cyan'   | 'sky'   | 'blue'   | 'indigo'   | 'violet'   | 'purple'   | 'fuchsia'   | 'pink'   | 'rose'
+}
+
+
+
+class MathNumberObject {
+  <<interface>>
+  [key: string]: MathNumber | MathNumber[] | MathNumber[][]
+}
+
+
+
+class ComputedData {
+  <<interface>>
+  raw: MathNumberObject
+  parameters: MathNumberObject
+  computed: MathNumberObject
+  compute: #40;#41; =#62; void
+}
+
+
+
+class DataLabel {
+  <<interface>>
+  name: string
+  unit: MathUnit
+}
+
+
+
+class DataValue {
+  <<interface>>
+  label: DataLabel
+  value: MathNumber | MathNumber[] | MathNumber[][]
+}
+
+
+
+class BaseDrop {
+  <<interface>>
+  data: ComputedData
+  additionnalFields: MachineField[]
+}
+
+
+
+class JSONDrop {
+  <<interface>>
+
+}
+
+
+
+class BaseField {
+  <<interface>>
+  label: string
+  value: | boolean     | number     | string     | SlidableNumber     | DateValue     | LongString     | SelectableString
+}
+
+
+
+class JSONField {
+  <<interface>>
+  label: string
+  value: boolean | number | string
+}
+
+
+
+class SlidableNumber {
+  <<interface>>
+  kind: 'slidableNumber'
+  value: number
+  step: number
+  min: number
+  max: number
+}
+
+
+
+class DateValue {
+  <<interface>>
+  kind: 'date'
+  value: string
+}
+
+
+
+class LongString {
+  <<interface>>
+  kind: 'longString'
+  value: string
+}
+
+
+
+class SelectableString {
+  <<interface>>
+  kind: 'selectableString'
+  value: string
+  possibleValues: string[]
+  strict: boolean
+}
+
+
+
+class HeavydynField {
+  <<interface>>
+
+}
+
+BaseField <|-- HeavydynField
+
+class MaxidynField {
+  <<interface>>
+
+}
+
+BaseField <|-- MaxidynField
+
+class MinidynField {
+  <<interface>>
+
+}
+
+BaseField <|-- MinidynField
+
+class MachineField {
+  <<type>>
+  HeavydynField | MaxidynField | MinidynField
+}
+
+
+
+class Icon {
+  <<interface>>
+  element: HTMLElement
+  color: string
+  setText: #40;text: string#41; =#62; void
+  setIcon: #40;iconName: IconName#41; =#62; void
+}
+
+
+
+class IconName {
+  <<type>>
+  | 'circle'   | 'triangle'   | 'square'   | 'rhombus'   | 'flare'   | 'pentagon'   | 'hexagon'   | 'hexagonAlt'   | 'heptagon'   | 'octagon'
+}
+
+
+
+class Image {
+  <<interface>>
+  id: string
+  sourceData: mapboxgl.ImageSourceRaw
+  markerNW: mapboxgl.Marker
+  markerSE: mapboxgl.Marker
+  opacity: number
+  addToMap: #40;isVisible: boolean#41; =#62; void
+  remove: #40;#41; =#62; void
+}
+
+
+
+class JSONImage {
+  <<interface>>
+  name: string
+  opacity?: number
+  coordinates?: #123;     nw: LngLat     se: LngLat   #125;
+}
+
+
+
+class ImageCoordinates {
+  <<interface>>
+  tl: XYCoord
+  tr: XYCoord
+  bl: XYCoord
+  br: XYCoord
+}
+
+
+
+class Line {
+  <<interface>>
+  addToMap: #40;#41; =#62; void
+  update: #40;#41; =#62; void
+  remove: #40;#41; =#62; void
+}
+
+
+
+class MathNumber {
+  <<interface>>
+  value: math.Unit | number
+  unit: MathUnit | string
+  displayString: string
+  displayStringWithUnit: string
+  toDisplayedValue: #40;#41; =#62; void
+}
+
+
+
+class MathUnit {
+  <<interface>>
+  name: string
+  currentUnit: string
+  currentPrecision: number
+  possibleSettings: [string, number][]
+  possiblePrecisions: number[]
+  minDisplayedValue?: number
+  maxDisplayedValue?: number
+  thresholds?: #123;     selected: PredefinedThreshold | CustomThreshold | null     list: PredefinedThreshold[]     // custom: CustomThreshold   #125;
+}
+
+
+
+class BasePoint {
+  <<interface>>
+  machine: MachineName
+  number: number
+  marker: mapboxgl.Marker
+  icon: Icon
+  settings: JSONPointSettings
+  zone: Zone | null
+  data: DataValue[]
+  updateText: #40;#41; =#62; void
+  updateVisibility: #40;#41; =#62; void
+  addToMap: #40;#41; =#62; void
+  remove: #40;#41; =#62; void
+}
+
+
+
+class BasePointCreatorParameters {
+  <<interface>>
+  machine: MachineName
+}
+
+MachinePointCreatorParameters <|-- BasePointCreatorParameters
+
+class JSONPoint {
+  <<interface>>
+  coordinates: mapboxgl.LngLatLike
+  settings: JSONPointSettings
+  informations: JSONField[]
+  drops: JSONDrop[]
+}
+
+
+
+class JSONPointSettings {
+  <<interface>>
+  isVisible: boolean
+}
+
+
+
+class HeavydynPoint {
+  <<interface>>
+  machine: 'heavydyn'
+}
+
+BasePoint <|-- HeavydynPoint
+
+class MaxidynPoint {
+  <<interface>>
+  machine: 'maxidyn'
+}
+
+BasePoint <|-- MaxidynPoint
+
+class MinidynPoint {
+  <<interface>>
+  machine: 'minidyn'
+}
+
+BasePoint <|-- MinidynPoint
+
+class MachinePoint {
+  <<type>>
+  HeavydynPoint | MaxidynPoint | MinidynPoint
+}
+
+
+
+class PartialMachinePoint~MachinePoint~ {
+  <<type>>
+  PartialExtendedObject#60;   BasePoint,   MachinePoint #62;
+}
+
+
+
+class MachinePointCreatorParameters {
+  <<interface>>
+  number: number
+  iconName: IconName
+  projectSettings: JSONProjectSettings
+  reportSettings: JSONReportSettings
+}
+
+
+
+class BaseProject {
+  <<interface>>
+  machine: MachineName
+  name: MachineField
+  informations: MachineField[]
+  reports: SelectableList#60;MachineReport#62;
+  units: MachineUnits
+  settings: JSONProjectSettings
+  images: Image[]
+  refreshLinesAndImages: #40;#41; =#62; void
+  setMapStyle: #40;styleIndex: number#41; =#62; void
+  fitOnMap: #40;#41; =#62; void
+  addToMap: #40;#41; =#62; void
+  remove: #40;#41; =#62; void
+}
+
+
+
+class BaseProjectCreatorParameters {
+  <<interface>>
+  machine: MachineName
+  units: MachineUnits
+}
+
+
+
+class JSONProject {
+  <<interface>>
+  name: string
+  machine: MachineName
+  selectedReport?: number
+  settings: JSONProjectSettings
+  images: JSONImage[]
+  informations: JSONField[]
+  reports: JSONReport[]
+  units: JSONUnits
+}
+
+
+
+class MachineName {
+  <<type>>
+  'heavydyn' | 'maxidyn' | 'minidyn'
+}
+
+
+
+class JSONProjectSettings {
+  <<interface>>
+  arePointsVisible: boolean
+  arePointsLinked: boolean
+  arePointsLocked: boolean
+  areImagesVisible: boolean
+  pointsState: PointsState
+  map: #123;     styleIndex: number     coordinates?: LngLat     zoom?: number   #125;
+}
+
+
+
+class PointsState {
+  <<type>>
+  'value' | 'number' | 'nothing'
+}
+
+
+
+class HeavydynProject {
+  <<interface>>
+  machine: 'heavydyn'
+  reports: SelectableList#60;HeavydynReport#62;
+}
+
+BaseProject <|-- HeavydynProject
+
+class HeavydynUnits {
+  <<interface>>
+  deformation: MathUnit
+  force: MathUnit
+  temperature: MathUnit
+}
+
+
+
+class JSONHeavydynUnits {
+  <<interface>>
+  deformation: 'mm' | '1/100 mm' | 'um'
+  force: 'N' | 'kN' | 'lbs'
+  temperature: 'degC' | 'degF' | 'K'
+}
+
+
+
+class MaxidynProject {
+  <<interface>>
+  machine: 'maxidyn'
+  reports: SelectableList#60;MaxidynReport#62;
+}
+
+BaseProject <|-- MaxidynProject
+
+class MaxidynUnits {
+  <<interface>>
+  modulus: MathUnit
+  deformation: MathUnit
+  force: MathUnit
+}
+
+
+
+class JSONMaxidynUnits {
+  <<interface>>
+  modulus: 'MPa' | 'kN'
+  deformation: 'mm' | 'um'
+  force: 'N' | 'kN'
+}
+
+
+
+class MinidynProject {
+  <<interface>>
+  machine: 'minidyn'
+  reports: SelectableList#60;MinidynReport#62;
+}
+
+BaseProject <|-- MinidynProject
+
+class MinidynUnits {
+  <<interface>>
+  modulus: MathUnit
+  deformation: MathUnit
+  force: MathUnit
+  temperature: MathUnit
+}
+
+
+
+class JSONMinidynUnits {
+  <<interface>>
+  modulus: 'MPa' | 'kN'
+  deformation: 'mm' | 'um'
+  force: 'N' | 'kN'
+}
+
+
+
+class MachineProject {
+  <<type>>
+  HeavydynProject | MaxidynProject | MinidynProject
+}
+
+
+
+class PartialMachineProject~MachineProject~ {
+  <<type>>
+  PartialExtendedObject#60;   BaseProject,   MachineProject #62;
+}
+
+
+
+class JSONUnits {
+  <<type>>
+  JSONHeavydynUnits | JSONMaxidynUnits | JSONMinidynUnits
+}
+
+
+
+class MachineUnits {
+  <<type>>
+  HeavydynUnits | MaxidynUnits | MinidynUnits
+}
+
+
+
+class BaseReport {
+  <<interface>>
+  machine: MachineName
+  name: MachineField
+  points: MachinePoint[]
+  line: Line
+  zones: Zone[]
+  screenshots: string[]
+  dataLabels: ReportDataLabels
+  settings: JSONReportSettings
+  platform: MachineField[]
+  informations: MachineField[]
+  isOnMap: boolean
+  fitOnMap: #40;#41; =#62; void
+  addToMap: #40;#41; =#62; void
+  remove: #40;#41; =#62; void
+}
+
+
+
+class ReportDataLabels {
+  <<interface>>
+  groups: SelectableList#60;GroupedDataLabels#62;
+  table: SelectableList#60;TableDataLabelsParameters#62;
+}
+
+
+
+class GroupedDataLabels {
+  <<interface>>
+  from: DataLabelsFrom
+  choices: SelectableList#60;DataLabel#62;
+  indexes?: SelectableList#60;MachineDropIndex#62;
+}
+
+
+
+class TableDataLabelsParameters {
+  <<interface>>
+  group: GroupedDataLabels
+  index?: MachineDropIndex
+  dataLabels: DataLabel[]
+}
+
+
+
+class BaseReportCreatorParameters {
+  <<interface>>
+  machine: MachineName
+  groupedDataLabels: SelectableList#60;GroupedDataLabels#62;
+}
+
+MachineReportCreatorParameters <|-- BaseReportCreatorParameters
+
+class JSONReport {
+  <<interface>>
+  name: string
+  points: JSONPoint[]
+  dataLabels: JSONReportDataLabels
+  zones: JSONZone[]
+  settings: JSONReportSettings
+  screenshots: number[]
+  platform: JSONField[]
+  informations: JSONField[]
+}
+
+
+
+class JSONReportDataLabels {
+  <<interface>>
+  groups: SelectableList#60;number, JSONGroupedDataLabels#62;
+  table: SelectableList#60;number, JSONTableDataLabelsParameters#62;
+}
+
+
+
+class JSONGroupedDataLabels {
+  <<interface>>
+  from: DataLabelsFrom
+  choices: SelectableOptionalList#60;number, string#62;
+  indexes?: SelectableList#60;number, MachineDropIndex#62;
+}
+
+
+
+class JSONTableDataLabelsParameters {
+  <<interface>>
+  from: DataLabelsFrom
+  index?: number
+  dataLabels: string[]
+}
+
+
+
+class DataLabelsFrom {
+  <<type>>
+  'Drop' | 'Test' | 'Zone'
+}
+
+
+
+class JSONReportSettings {
+  <<interface>>
+  iconName: IconName
+  isVisible: boolean
+  selectedColorization: 'Threshold' | 'Zone'
+  threshold: #123;     colors: ThresholdColors     custom: #123;#125;   #125;
+}
+
+
+
+class ThresholdColors {
+  <<interface>>
+  low: Color
+  middle: Color
+  high: Color
+}
+
+
+
+class BaseDropIndex {
+  <<interface>>
+  machine: MachineName
+  type: string
+  displayedIndex: number
+}
+
+
+
+class HeavydynReport {
+  <<interface>>
+  machine: 'heavydyn'
+  points: HeavydynPoint[]
+  platform: HeavydynField[]
+  informations: HeavydynField[]
+}
+
+BaseReport <|-- HeavydynReport
+
+class HeavydynReportCreatorParameters {
+  <<interface>>
+  units: HeavydynUnits
+}
+
+MachineReportCreatorParameters <|-- HeavydynReportCreatorParameters
+
+class HeavydynDropType {
+  <<type>>
+  'Distance' | 'Force' | 'Time'
+}
+
+
+
+class HeavydynDropIndex {
+  <<interface>>
+  machine: 'heavydyn'
+  type: HeavydynDropType
+  value: MathNumber
+}
+
+BaseDropIndex <|-- HeavydynDropIndex
+
+class JSONHeavydynDropIndex {
+  <<interface>>
+  machine: 'heavydyn'
+  type: HeavydynDropType
+  value: number
+}
+
+BaseDropIndex <|-- JSONHeavydynDropIndex
+
+class MaxidynReport {
+  <<interface>>
+  machine: 'maxidyn'
+  points: MaxidynPoint[]
+  platform: MaxidynField[]
+  informations: MaxidynField[]
+}
+
+BaseReport <|-- MaxidynReport
+
+class MaxidynReportCreatorParameters {
+  <<interface>>
+  units: MaxidynUnits
+}
+
+MachineReportCreatorParameters <|-- MaxidynReportCreatorParameters
+
+class MaxidynDropType {
+  <<type>>
+  'Training' | 'Averaging'
+}
+
+
+
+class MaxidynDropIndex {
+  <<interface>>
+  machine: 'maxidyn'
+  type: MaxidynDropType
+}
+
+BaseDropIndex <|-- MaxidynDropIndex
+
+class MinidynReport {
+  <<interface>>
+  machine: 'minidyn'
+  points: MinidynPoint[]
+  platform: MinidynField[]
+  informations: MinidynField[]
+}
+
+BaseReport <|-- MinidynReport
+
+class MinidynReportCreatorParameters {
+  <<interface>>
+  units: MinidynUnits
+}
+
+MachineReportCreatorParameters <|-- MinidynReportCreatorParameters
+
+class MinidynDropType {
+  <<type>>
+  'Training' | 'Averaging'
+}
+
+
+
+class MinidynDropIndex {
+  <<interface>>
+  machine: 'minidyn'
+  type: MinidynDropType
+}
+
+BaseDropIndex <|-- MinidynDropIndex
+
+class MachineReport {
+  <<type>>
+  HeavydynReport | MaxidynReport | MinidynReport
+}
+
+
+
+class PartialMachineReport~MachineReport~ {
+  <<type>>
+  PartialExtendedObject#60;   BaseReport,   MachineReport #62;
+}
+
+
+
+class MachineReportCreatorParameters {
+  <<interface>>
+  projectSettings: JSONProjectSettings
+  units: MachineUnits
+}
+
+
+
+class MachineDropIndex {
+  <<type>>
+  HeavydynDropIndex | MaxidynDropIndex | MinidynDropIndex
+}
+
+
+
+class JSONMachineDropIndex {
+  <<type>>
+  | JSONHeavydynDropIndex   | MaxidynDropIndex   | MinidynDropIndex
+}
+
+
+
+class CustomThreshold {
+  <<interface>>
+  name: string
+  value: number
+}
+
+
+
+class PredefinedThreshold {
+  <<interface>>
+  name: string
+  value: number
+}
+
+
+
+class PartialExtendedObject~BaseObject, MachineObject~ {
+  <<type>>
+  Required#60;BaseObject#62; &   Partial#60;Omit#60;MachineObject, keyof BaseObject#62;#62;
+}
+
+
+
+class WatcherHandler {
+  <<interface>>
+  add: #40;stop: #40;#41; =#62; void#41; =#62; void
+  remove: #40;stop: #40;#41; =#62; void#41; =#62; void
+  clean: #40;#41; =#62; void
+}
+
+
+
+class Zone {
+  <<interface>>
+  name: string
+  color: Color
+}
+
+
+
+class JSONZone {
+  <<interface>>
+  name: string
+  color?: Color
+}
+
+
+
+class LngLat {
+  <<interface>>
+  lng: number
+  lat: number
+}
+
+
+
+class XYCoord {
+  <<interface>>
+  x: number
+  y: number
+}
+
+
+
+class SelectableList~S, L~ {
+  <<interface>>
+  selected: S | null
+  list: L[]
+}
+
+
+
+class SelectableOptionalList~S, L~ {
+  <<interface>>
+  selected: S | null
+  list?: L[]
+}
+
+
+
+class DeepRequired~T~ {
+  <<type>>
+  #123;   [K in keyof T]: Required#60;DeepRequired#60;T[K]#62;#62; #125;
+}
+
+
+
+class Store {
+  <<interface>>
+  projects: SelectableList#60;MachineProject#62;
+  map: mapboxgl.Map | null
+  save: #40;key: StoreKeys, value: StoreSaveableTypes#41; =#62; void
+}
+
+
+
+class StoreKeys {
+  <<type>>
+  Exclude#60;keyof Store, 'save'#62;
+}
+
+
+
+class StoreTypes {
+  <<type>>
+  Store[keyof Store]
+}
+
+
+
+class StoreSaveableTypes {
+  <<type>>
+  Extract#60;   StoreTypes,   string[] | number[] | boolean[] | string | number | boolean | null #62;
+}
+
+
+

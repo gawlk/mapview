@@ -10,11 +10,11 @@ export const createMinidynReportFromJSON = (
   map: mapboxgl.Map,
   parameters: MinidynReportCreatorParameters
 ) => {
-  const jsonDropGroup = json.valuesNames.groups.list.find(
+  const jsonDropGroup = json.dataLabels.groups.list.find(
     (group) => group.from === 'Drop'
   )
 
-  const dropValuesNamesList: ValueName[] = [
+  const dropDataLabelsList: DataLabel[] = [
     {
       name: 'Modulus',
       unit: parameters.units.modulus,
@@ -35,12 +35,12 @@ export const createMinidynReportFromJSON = (
 
   const jsonDropIndexes = jsonDropGroup?.indexes?.list || []
 
-  const groupedValuesNamesList: GroupedValuesNames[] = [
+  const groupedDataLabelsList: GroupedDataLabels[] = [
     {
       from: 'Drop',
       choices: createSelectableList(
         jsonDropGroup?.choices?.selected || null,
-        dropValuesNamesList,
+        dropDataLabelsList,
         {
           reactive: true,
           isSelectedAnIndex: true,
@@ -59,7 +59,7 @@ export const createMinidynReportFromJSON = (
       from: 'Test',
       choices: createSelectableList(
         jsonDropGroup?.choices?.selected || null,
-        dropValuesNamesList,
+        dropDataLabelsList,
         {
           reactive: true,
           isSelectedAnIndex: true,
@@ -70,7 +70,7 @@ export const createMinidynReportFromJSON = (
       from: 'Zone',
       choices: createSelectableList(
         jsonDropGroup?.choices?.selected || null,
-        dropValuesNamesList,
+        dropDataLabelsList,
         {
           reactive: true,
           isSelectedAnIndex: true,
@@ -84,9 +84,9 @@ export const createMinidynReportFromJSON = (
     map,
     {
       machine: 'minidyn',
-      groupedValuesNames: createSelectableList(
-        json.valuesNames.groups.selected,
-        groupedValuesNamesList,
+      groupedDataLabels: createSelectableList(
+        json.dataLabels.groups.selected,
+        groupedDataLabelsList,
         {
           reactive: true,
           isSelectedAnIndex: true,

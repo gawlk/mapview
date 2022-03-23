@@ -10,6 +10,4 @@ interface MachinePointCreatorParameters {
   iconName: IconName
   projectSettings: JSONProjectSettings
   reportSettings: JSONReportSettings
-  // rawData: MathNumberObject
-  // parametersData: MathNumberObject
 }

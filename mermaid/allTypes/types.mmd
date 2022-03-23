@@ -1,8 +1,9 @@
 classDiagram
 class Color {
   <<type>>
-  | 'black'| 'white'| 'gray'| 'red'| 'orange'| 'amber'| 'yellow'| 'lime'| 'green'| 'emerald'| 'teal'| 'cyan'| 'sky'| 'blue'| 'indigo'| 'violet'| 'purple'| 'fuchsia'| 'pink'| 'rose'
+  | 'black'   | 'white'   | 'gray'   | 'red'   | 'orange'   | 'amber'   | 'yellow'   | 'lime'   | 'green'   | 'emerald'   | 'teal'   | 'cyan'   | 'sky'   | 'blue'   | 'indigo'   | 'violet'   | 'purple'   | 'fuchsia'   | 'pink'   | 'rose'
 }
+
 
 
 class MachineField {
@@ -11,10 +12,12 @@ class MachineField {
 }
 
 
+
 class IconName {
   <<type>>
-  | 'circle'| 'triangle'| 'square'| 'rhombus'| 'flare'| 'pentagon'| 'hexagon'| 'hexagonAlt'| 'heptagon'| 'octagon'
+  | 'circle'   | 'triangle'   | 'square'   | 'rhombus'   | 'flare'   | 'pentagon'   | 'hexagon'   | 'hexagonAlt'   | 'heptagon'   | 'octagon'
 }
+
 
 
 class MachinePoint {
@@ -23,17 +26,19 @@ class MachinePoint {
 }
 
 
-class PartialMachinePoint {
+
+class PartialMachinePoint~MachinePoint~ {
   <<type>>
-  PartialExtendedObject<BasePoint, MachinePoint>
+  PartialExtendedObject#60;   BasePoint,   MachinePoint #62;
 }
-PartialMachinePoint --> PartialExtendedObject
-PartialMachinePoint --> MachinePoint
+PartialMachinePoint~MachinePoint~ <.. MachinePoint
+
 
 class MachineName {
   <<type>>
   'heavydyn' | 'maxidyn' | 'minidyn'
 }
+
 
 
 class PointsState {
@@ -42,23 +47,26 @@ class PointsState {
 }
 
 
+
 class MachineProject {
   <<type>>
   HeavydynProject | MaxidynProject | MinidynProject
 }
 
 
-class PartialMachineProject {
+
+class PartialMachineProject~MachineProject~ {
   <<type>>
-  PartialExtendedObject<BaseProject, MachineProject>
+  PartialExtendedObject#60;   BaseProject,   MachineProject #62;
 }
-PartialMachineProject --> PartialExtendedObject
-PartialMachineProject --> MachineProject
+PartialMachineProject~MachineProject~ <.. MachineProject
+
 
 class JSONUnits {
   <<type>>
   JSONHeavydynUnits | JSONMaxidynUnits | JSONMinidynUnits
 }
+
 
 
 class MachineUnits {
@@ -67,10 +75,12 @@ class MachineUnits {
 }
 
 
-class ValuesNamesFrom {
+
+class DataLabelsFrom {
   <<type>>
   'Drop' | 'Test' | 'Zone'
 }
+
 
 
 class HeavydynDropType {
@@ -79,10 +89,12 @@ class HeavydynDropType {
 }
 
 
+
 class MaxidynDropType {
   <<type>>
   'Training' | 'Averaging'
 }
+
 
 
 class MinidynDropType {
@@ -91,18 +103,20 @@ class MinidynDropType {
 }
 
 
+
 class MachineReport {
   <<type>>
   HeavydynReport | MaxidynReport | MinidynReport
 }
 
 
-class PartialMachineReport {
+
+class PartialMachineReport~MachineReport~ {
   <<type>>
-  PartialExtendedObject<BaseReport, MachineReport>
+  PartialExtendedObject#60;   BaseReport,   MachineReport #62;
 }
-PartialMachineReport --> PartialExtendedObject
-PartialMachineReport --> MachineReport
+PartialMachineReport~MachineReport~ <.. MachineReport
+
 
 class MachineDropIndex {
   <<type>>
@@ -110,22 +124,33 @@ class MachineDropIndex {
 }
 
 
+
 class JSONMachineDropIndex {
   <<type>>
-  | JSONHeavydynDropIndex| MaxidynDropIndex| MinidynDropIndex
+  | JSONHeavydynDropIndex   | MaxidynDropIndex   | MinidynDropIndex
 }
 
 
-class PartialExtendedObject {
+
+class PartialExtendedObject~BaseObject, MachineObject~ {
   <<type>>
-  Required<BaseObject> &Partial<Omit<MachineObject, keyof BaseObject>>
+  Required#60;BaseObject#62; &   Partial#60;Omit#60;MachineObject, keyof BaseObject#62;#62;
 }
+
+
+
+class DeepRequired~T~ {
+  <<type>>
+  #123;   [K in keyof T]: Required#60;DeepRequired#60;T[K]#62;#62; #125;
+}
+
 
 
 class StoreKeys {
   <<type>>
-  Exclude<keyof Store, 'save'>
+  Exclude#60;keyof Store, 'save'#62;
 }
+
 
 
 class StoreTypes {
@@ -134,9 +159,11 @@ class StoreTypes {
 }
 
 
+
 class StoreSaveableTypes {
   <<type>>
-  Extract<StoreTypes, string[] | number[] | boolean[] | string | number | boolean | null>
+  Extract#60;   StoreTypes,   string[] | number[] | boolean[] | string | number | boolean | null #62;
 }
-StoreSaveableTypes --> StoreTypes
+StoreSaveableTypes <.. StoreTypes
+
 

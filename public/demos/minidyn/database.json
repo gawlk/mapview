@@ -1,302 +1,582 @@
 {
-  "name": "Demo Minidyn",
-  "machine": "minidyn",
-  "selectedReport": 1,
-  "settings": {
-    "arePointsLinked": true,
-    "arePointsLocked": true,
-    "arePointsVisible": true,
-    "areImagesVisible": true,
-    "pointsState": "number",
-    "map": {
-      "coordinates": {
-        "lng": -74.5,
-        "lat": 40
-      },
-      "zoom": "9",
-      "styleIndex": 2
-    }
+  "JSON file format": "Dynamic measurements database from acquisition software",
+  "Version": 1,
+  "Database": {
+    "Version": 3,
+    "Software": "Minidyn",
+    "Local": "fr_FR",
+    "TimeZone": "heure normale d’Europe centrale"
   },
-  "units": [],
-  "images": [
+  "Project": {
+    "Version": 1,
+    "Name": "Demo Mapview",
+    "Client": "Rincent",
+    "Project": "Ccrn",
+    "Town": "Courcouronnes",
+    "Site": "Bous Briard",
+    "Date": "2022-03-09T14:38:41.000Z"
+  },
+  "ParamsBearing": {
+    "Version": 1,
+    "Name": "FR NFP94160 equ.",
+    "DPlate": 0.3,
+    "CPoisson": 0.35,
+    "FForme": 4,
+    "K": 2.34,
+    "Alpha": 0.86,
+    "MinBearing": 10000000,
+    "MaxBearing": 250000000,
+    "AlgoBearing": "Max",
+    "HasQuality": false,
+    "AlgoProcessing1": "Boussinesq",
+    "AlgoProcessing2": "Exponential"
+  },
+  "TypeResultBearing": {
+    "Version": 1,
+    "Name": "Module (MPa)",
+    "ResultStr": "Module",
+    "ResultUnitStr": "MPa"
+  },
+  "ParamsPoint": {
+    "Version": 1,
+    "NbTraining": 1,
+    "NbAveraging": 2,
+    "NbTotal": 3
+  },
+  "ParamsAcqu": {
+    "Version": 1,
+    "NbSamples": 750,
+    "FreqAcqu": 15000,
+    "PreTrig": 0.008
+  },
+  "Hardware": {
+    "Version": 1,
+    "Serial": "MIN-190F",
+    "Attribution": "",
+    "MAC": "AF-AE-8E-5E-F7-FC-52-C3",
+    "LicStart": "1999-11-30T00:00:00.000Z",
+    "LicEnd": "1999-11-30T00:00:00.000Z",
+    "CertStart": "1999-11-30T00:00:00.000Z",
+    "CertEnd": "1999-11-30T00:00:00.000Z"
+  },
+  "PVs": [
     {
-      "name": "screen.jpeg",
-      "opacity": 0.5,
-      "coordinates": {
-        "nw": { "lng": -74.66342163086014, "lat": 39.91526133679724 },
-        "se": { "lng": -74.31323242187531, "lat": 39.784982356239794 }
-      }
-    }
-  ],
-  "informations": [
-    {
-      "name": "Client",
-      "value": "Rincent NDT"
-    },
-    {
-      "name": "Folder",
-      "value": "21-1258"
-    },
-    {
-      "name": "Locality",
-      "value": "Bordeaux"
-    },
-    {
-      "name": "Date",
-      "value": "09/03/2020"
-    },
-    {
-      "name": "Work",
-      "value": "Parc de Bercy"
-    },
-    {
-      "name": "Comment",
-      "value": ""
-    }
-  ],
-  "reports": [
-    {
-      "name": "Report 1",
-      "settings": {
-        "iconName": "circle",
-        "isVisible": true
+      "PV": {
+        "Version": 1,
+        "Name": "ccrn",
+        "Date": "2022-03-09T14:39:07.000Z",
+        "Operator": "John Doe",
+        "Lane": "na",
+        "Sens": "na",
+        "Site": "Jardin",
+        "Weather": "soleil",
+        "Temperature": 25,
+        "Comments": "Commentaires"
       },
-      "thresholdSettings": {
-        "current": "PF2",
-        "custom": {}
+      "Plateform": {
+        "Version": 1,
+        "Type": "Tranchée",
+        "Support": "Espaces verts",
+        "Layer": "Terrain en place",
+        "Material": "Sablon",
+        "GTR": "B1"
       },
-      "loadBearingCapacity": {
-        "Nom": "Ecor Exp.",
-        "AlgoRaideur": "Max",
-        "AlgoProcessing1": "Boussinesq",
-        "AlgoProcessing2": "Cor. exponentielle",
-        "DPlaque": 0.3,
-        "CPoisson": 0.35,
-        "FForme": 4,
-        "K": 2.34,
-        "Alpha": 0.86,
-        "MinPortance": 10,
-        "MaxPortance": 110
-      },
-      "machine": {
-        "serial": "MIN-117E",
-        "assignment": "Rincent NDT",
-        "MAC": "A0-B4-14-A7-84-A8-74-36",
-        "licenceStart": "06/12/2019",
-        "licenceEnd": "13/08/2033",
-        "certificationStart": "06/12/2019",
-        "certificationEnd": "26/12/2020"
-      },
-      "dropsSettings": {
-        "count": {
-          "training": 1,
-          "total": 3,
-          "selected": 1
-        },
-        "data": {
-          "selected": 0,
-          "names": [
-            "Load bearing cap.",
-            "Quality",
-            "Max. load",
-            "Max. displacement",
-            "Pulse time"
-          ]
-        }
-      },
-      "screenshots": [0],
-      "platform": [
+      "Threshold": { "Version": 1, "Class": "PF2", "Threshold": 50000000 },
+      "Points": [
         {
-          "name": "Type",
-          "value": "Voirie"
-        },
-        {
-          "name": "Support",
-          "value": ""
-        },
-        {
-          "name": "Layer",
-          "value": "Couche de forme"
-        },
-        {
-          "name": "Material",
-          "value": "Sablon"
-        },
-        {
-          "name": "GTR",
-          "value": "N.S"
-        }
-      ],
-      "informations": [
-        {
-          "name": "Date",
-          "value": "09/03/2020"
-        },
-        {
-          "name": "Operator",
-          "value": "Sébastien Pellevrault"
-        },
-        {
-          "name": "Track",
-          "value": "11 Quai de Conti PARIS"
-        },
-        {
-          "name": "Direction",
-          "value": "Gauche"
-        },
-        {
-          "name": "Work part",
-          "value": "Voie Vélo"
-        },
-        {
-          "name": "Climate",
-          "value": "Enseillé"
-        },
-        {
-          "name": "Temperature",
-          "value": 12
-        },
-        {
-          "name": "Comment",
-          "value": ""
-        }
-      ],
-      "points": [
-        {
-          "coordinates": {
-            "lat": 48.85606,
-            "lng": 2.338203
+          "Point": {
+            "Version": 1,
+            "ID": "1",
+            "Number": 1,
+            "Date": "2022-03-09T14:45:26.000Z",
+            "BearingCapacity": 2.02443695e7,
+            "Latitude": 48.6214509,
+            "Longitude": 2.4201913,
+            "DOP": 0.5856400728225708,
+            "Comments": ""
           },
-          "data": {
-            "DOP": 1.0,
-            "Chainage": 0
-          },
-          "informations": [
-            { "name": "Comment", "value": "" },
+          "Drops": [
             {
-              "name": "Date",
-              "value": "09/03/2021 12:07"
-            }
-          ],
-          "drops": [
-            {
-              "Portance": 39.2,
-              "Qualite": "NaN",
-              "Fmax": 7.2,
-              "Umax": 793.2,
-              "PulseTime": 14.6
+              "Version": 1,
+              "Number": 0,
+              "BearingCapacity": 22802663,
+              "Fmax": 6409.64437816023,
+              "Umax": 0.0013280901771022325,
+              "PulseTime": 0.016533333333333334
             },
             {
-              "Portance": 43.4,
-              "Qualite": "NaN",
-              "Fmax": 8.2,
-              "Umax": 805.4,
-              "PulseTime": 13.7
+              "Version": 1,
+              "Number": 1,
+              "BearingCapacity": 20099026,
+              "Fmax": 7257.419214102682,
+              "Umax": 0.0017414420712092349,
+              "PulseTime": 0.01626666666666667
             },
             {
-              "Portance": 38.5,
-              "Qualite": "NaN",
-              "Fmax": 7.5,
-              "Umax": 849.0,
-              "PulseTime": 15.1
+              "Version": 1,
+              "Number": 2,
+              "BearingCapacity": 20389713,
+              "Fmax": 7372.718652669713,
+              "Umax": 0.001739815537922185,
+              "PulseTime": 0.0162
             }
           ]
         },
         {
-          "coordinates": {
-            "lat": 48.856117,
-            "lng": 2.338184
+          "Point": {
+            "Version": 1,
+            "ID": "2",
+            "Number": 2,
+            "Date": "2022-03-09T14:45:49.000Z",
+            "BearingCapacity": 2.39243625e7,
+            "Latitude": 48.6214575,
+            "Longitude": 2.42020296,
+            "DOP": 0.6416600346565247,
+            "Comments": ""
           },
-          "data": {
-            "DOP": 1.0,
-            "Chainage": 0
-          },
-          "informations": [
-            { "name": "Comment", "value": "" },
+          "Drops": [
             {
-              "name": "Date",
-              "value": "09/03/2021 12:08"
+              "Version": 1,
+              "Number": 0,
+              "BearingCapacity": 715398165,
+              "Fmax": 2902.5511439151055,
+              "Umax": 1.0939182916729313e-5,
+              "PulseTime": 0.010933333333333333
+            },
+            {
+              "Version": 1,
+              "Number": 1,
+              "BearingCapacity": 23805514,
+              "Fmax": 6593.911090229871,
+              "Umax": 0.001299576477906441,
+              "PulseTime": 0.016933333333333335
+            },
+            {
+              "Version": 1,
+              "Number": 2,
+              "BearingCapacity": 24043211,
+              "Fmax": 6723.086912316361,
+              "Umax": 0.0013098155768479437,
+              "PulseTime": 0.016800000000000002
             }
-          ],
-          "drops": [
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "3",
+            "Number": 3,
+            "Date": "2022-03-09T14:46:17.000Z",
+            "BearingCapacity": 22247364,
+            "Latitude": 48.62148918,
+            "Longitude": 2.42013912,
+            "DOP": 0.5734200477600098,
+            "Comments": ""
+          },
+          "Drops": [
             {
-              "Portance": 42.5,
-              "Qualite": "NaN",
-              "Fmax": 7.6,
-              "Umax": 761.3,
-              "PulseTime": 14.7
+              "Version": 1,
+              "Number": 0,
+              "BearingCapacity": 26910594,
+              "Fmax": 5387.877500380659,
+              "Umax": 9.207947681169312e-4,
+              "PulseTime": 0.01626666666666667
             },
             {
-              "Portance": 44.3,
-              "Qualite": "NaN",
-              "Fmax": 7.6,
-              "Umax": 725.1,
-              "PulseTime": 15.0
+              "Version": 1,
+              "Number": 1,
+              "BearingCapacity": 22156853,
+              "Fmax": 6909.245144929625,
+              "Umax": 0.0014802427775920184,
+              "PulseTime": 0.016466666666666668
             },
             {
-              "Portance": 46.3,
-              "Qualite": "NaN",
-              "Fmax": 7.6,
-              "Umax": 690.1,
-              "PulseTime": 14.6
+              "Version": 1,
+              "Number": 2,
+              "BearingCapacity": 22337875,
+              "Fmax": 6965.506788155548,
+              "Umax": 0.001478243660519249,
+              "PulseTime": 0.0164
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "4",
+            "Number": 4,
+            "Date": "2022-03-09T14:46:44.000Z",
+            "BearingCapacity": 21460735,
+            "Latitude": 48.62148992,
+            "Longitude": 2.42015092,
+            "DOP": 0.6399399638175964,
+            "Comments": ""
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 0,
+              "BearingCapacity": 25083390,
+              "Fmax": 6808.378913911736,
+              "Umax": 0.0012626908850171426,
+              "PulseTime": 0.0164
+            },
+            {
+              "Version": 1,
+              "Number": 1,
+              "BearingCapacity": 20746600,
+              "Fmax": 7204.5608407239115,
+              "Umax": 0.0016661745451573002,
+              "PulseTime": 0.016133333333333333
+            },
+            {
+              "Version": 1,
+              "Number": 2,
+              "BearingCapacity": 22174870,
+              "Fmax": 7141.813589456492,
+              "Umax": 0.001528622985163364,
+              "PulseTime": 0.016066666666666667
             }
           ]
         }
       ]
     },
     {
-      "name": "Report 2",
-      "settings": {
-        "iconName": "square",
-        "isVisible": true
+      "PV": {
+        "Version": 1,
+        "Name": "parking",
+        "Date": "2022-03-09T14:48:57.000Z",
+        "Operator": "John Doe",
+        "Lane": "na",
+        "Sens": "na",
+        "Site": "parking",
+        "Weather": "beau",
+        "Temperature": 0,
+        "Comments": "Commentaires"
       },
-      "thresholdSettings": {
-        "current": "PF2",
-        "custom": {}
+      "Plateform": {
+        "Version": 1,
+        "Type": "Bâtiment",
+        "Support": "Plateforme",
+        "Layer": "Fond de forme",
+        "Material": "Grave traitée",
+        "GTR": "B5"
       },
-      "loadBearingCapacity": {
-        "Nom": "Ecor Exp.",
-        "AlgoRaideur": "Max",
-        "AlgoProcessing1": "Boussinesq",
-        "AlgoProcessing2": "Cor. exponentielle",
-        "DPlaque": 0.3,
-        "CPoisson": 0.35,
-        "FForme": 4,
-        "K": 2.34,
-        "Alpha": 0.86,
-        "MinPortance": 10,
-        "MaxPortance": 110
-      },
-      "machine": {
-        "serial": "MIN-117E",
-        "assignment": "Rincent NDT",
-        "MAC": "A0-B4-14-A7-84-A8-74-36",
-        "licenceStart": "06/12/2019",
-        "licenceEnd": "13/08/2033",
-        "certificationStart": "06/12/2019",
-        "certificationEnd": "26/12/2020"
-      },
-      "dropsSettings": {
-        "count": {
-          "training": 1,
-          "total": 3,
-          "selected": 3
+      "Threshold": { "Version": 1, "Class": "PF4", "Threshold": 200000000 },
+      "Points": [
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "5",
+            "Number": 1,
+            "Date": "2022-03-09T14:49:07.000Z",
+            "BearingCapacity": 22715423,
+            "Latitude": 48.621240875,
+            "Longitude": 2.4202136999999997,
+            "DOP": 0.45399999618530273,
+            "Comments": ""
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 0,
+              "BearingCapacity": 22447059,
+              "Fmax": 5832.045941209494,
+              "Umax": 0.0012306991968310224,
+              "PulseTime": 0.0172
+            },
+            {
+              "Version": 1,
+              "Number": 1,
+              "BearingCapacity": 22915644,
+              "Fmax": 6176.381976473389,
+              "Umax": 0.001272424014621071,
+              "PulseTime": 0.017
+            },
+            {
+              "Version": 1,
+              "Number": 2,
+              "BearingCapacity": 22515202,
+              "Fmax": 5998.766960718509,
+              "Umax": 0.0012614274489499884,
+              "PulseTime": 0.017
+            }
+          ]
         },
-        "data": {
-          "selected": 2,
-          "names": [
-            "Load bearing cap.",
-            "Quality",
-            "Max. load",
-            "Max. displacement",
-            "Pulse time"
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "6",
+            "Number": 2,
+            "Date": "2022-03-09T14:50:02.000Z",
+            "BearingCapacity": 22364789,
+            "Latitude": 48.62111426,
+            "Longitude": 2.42016466,
+            "DOP": 0.7018599510192871,
+            "Comments": ""
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 0,
+              "BearingCapacity": 23500765,
+              "Fmax": 6273.215935034184,
+              "Umax": 0.001255033884572378,
+              "PulseTime": 0.016800000000000002
+            },
+            {
+              "Version": 1,
+              "Number": 1,
+              "BearingCapacity": 22237163,
+              "Fmax": 6252.619347714199,
+              "Umax": 0.0013339428541585456,
+              "PulseTime": 0.016666666666666666
+            },
+            {
+              "Version": 1,
+              "Number": 2,
+              "BearingCapacity": 22492415,
+              "Fmax": 6342.648234702763,
+              "Umax": 0.0013353104581334627,
+              "PulseTime": 0.016733333333333333
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "7",
+            "Number": 3,
+            "Date": "2022-03-09T14:50:19.000Z",
+            "BearingCapacity": 2.15005685e7,
+            "Latitude": 48.621137780000005,
+            "Longitude": 2.4201871200000005,
+            "DOP": 0.8022001385688782,
+            "Comments": ""
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 0,
+              "BearingCapacity": 21582844,
+              "Fmax": 5290.17669114819,
+              "Umax": 0.0011684971203844078,
+              "PulseTime": 0.0172
+            },
+            {
+              "Version": 1,
+              "Number": 1,
+              "BearingCapacity": 21105663,
+              "Fmax": 5921.364883394106,
+              "Umax": 0.0013423618244041541,
+              "PulseTime": 0.017
+            },
+            {
+              "Version": 1,
+              "Number": 2,
+              "BearingCapacity": 21895474,
+              "Fmax": 6313.951471566048,
+              "Umax": 0.0013715014994854695,
+              "PulseTime": 0.016933333333333335
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "8",
+            "Number": 4,
+            "Date": "2022-03-09T14:50:44.000Z",
+            "BearingCapacity": 21827064,
+            "Latitude": 48.62118472499999,
+            "Longitude": 2.420236075,
+            "DOP": 0.8662750124931335,
+            "Comments": ""
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 0,
+              "BearingCapacity": 21567041,
+              "Fmax": 5897.931062145624,
+              "Umax": 0.0013038482662384454,
+              "PulseTime": 0.017066666666666667
+            },
+            {
+              "Version": 1,
+              "Number": 1,
+              "BearingCapacity": 22050344,
+              "Fmax": 6355.868144202749,
+              "Umax": 0.0013693378490397246,
+              "PulseTime": 0.017
+            },
+            {
+              "Version": 1,
+              "Number": 2,
+              "BearingCapacity": 21603784,
+              "Fmax": 6389.486868714158,
+              "Umax": 0.0014097228376581204,
+              "PulseTime": 0.016933333333333335
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "9",
+            "Number": 5,
+            "Date": "2022-03-09T14:51:10.000Z",
+            "BearingCapacity": 4.207465055e8,
+            "Latitude": 48.621159925,
+            "Longitude": 2.420361025,
+            "DOP": 0.8672249913215637,
+            "Comments": ""
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 0,
+              "BearingCapacity": 248167007,
+              "Fmax": 7754.414886927197,
+              "Umax": 1.0009435499900363e-4,
+              "PulseTime": 0.015066666666666667
+            },
+            {
+              "Version": 1,
+              "Number": 1,
+              "BearingCapacity": 424590300,
+              "Fmax": 7751.093367340388,
+              "Umax": 5.3583425275860085e-5,
+              "PulseTime": 0.015066666666666667
+            },
+            {
+              "Version": 1,
+              "Number": 2,
+              "BearingCapacity": 416902711,
+              "Fmax": 7777.92788538477,
+              "Umax": 5.492354561357552e-5,
+              "PulseTime": 0.015000000000000001
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "A",
+            "Number": 6,
+            "Date": "2022-03-09T14:51:36.000Z",
+            "BearingCapacity": 2.760684505e8,
+            "Latitude": 48.62116364,
+            "Longitude": 2.4203905800000003,
+            "DOP": 0.846579909324646,
+            "Comments": ""
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 0,
+              "BearingCapacity": 227003020,
+              "Fmax": 7872.212492815484,
+              "Umax": 1.1271242328607783e-4,
+              "PulseTime": 0.014933333333333333
+            },
+            {
+              "Version": 1,
+              "Number": 1,
+              "BearingCapacity": 210359778,
+              "Fmax": 7670.526368486966,
+              "Umax": 1.1999202721618329e-4,
+              "PulseTime": 0.015133333333333334
+            },
+            {
+              "Version": 1,
+              "Number": 2,
+              "BearingCapacity": 341777123,
+              "Fmax": 7411.371516290566,
+              "Umax": 6.593749684424884e-5,
+              "PulseTime": 0.015266666666666668
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "B",
+            "Number": 7,
+            "Date": "2022-03-09T14:52:08.000Z",
+            "BearingCapacity": 1.937252715e8,
+            "Latitude": 48.621305359999994,
+            "Longitude": 2.4203364,
+            "DOP": 0.7066599726676941,
+            "Comments": ""
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 0,
+              "BearingCapacity": 160913443,
+              "Fmax": 7668.824831058825,
+              "Umax": 1.6382132310900047e-4,
+              "PulseTime": 0.015133333333333334
+            },
+            {
+              "Version": 1,
+              "Number": 1,
+              "BearingCapacity": 178168263,
+              "Fmax": 7695.254420896189,
+              "Umax": 1.4602426814550615e-4,
+              "PulseTime": 0.015000000000000001
+            },
+            {
+              "Version": 1,
+              "Number": 2,
+              "BearingCapacity": 209282280,
+              "Fmax": 7776.18112481622,
+              "Umax": 1.223733643285902e-4,
+              "PulseTime": 0.015133333333333334
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "C",
+            "Number": 8,
+            "Date": "2022-03-09T14:52:31.000Z",
+            "BearingCapacity": 271648448,
+            "Latitude": 48.62130865,
+            "Longitude": 2.420262075,
+            "DOP": 0.9180999994277954,
+            "Comments": ""
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 0,
+              "BearingCapacity": 41607024,
+              "Fmax": 7452.603695708552,
+              "Umax": 7.673663173143661e-4,
+              "PulseTime": 0.0152
+            },
+            {
+              "Version": 1,
+              "Number": 1,
+              "BearingCapacity": 245553057,
+              "Fmax": 7665.741334472095,
+              "Umax": 1.0017561896216292e-4,
+              "PulseTime": 0.015133333333333334
+            },
+            {
+              "Version": 1,
+              "Number": 2,
+              "BearingCapacity": 297743839,
+              "Fmax": 7880.360850886729,
+              "Umax": 8.230597771053969e-5,
+              "PulseTime": 0.015066666666666667
+            }
           ]
         }
-      },
-      "screenshots": [],
-      "platform": [],
-      "informations": [],
-      "points": []
+      ]
     }
   ]
 }

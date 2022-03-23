@@ -5,51 +5,58 @@ class MinidynField {
 }
 
 
+
 class MinidynPoint {
   <<interface>>
-  machine 'minidyn'
+  machine: 'minidyn'
 }
+
 
 
 class MinidynProject {
   <<interface>>
-  machine 'minidyn'
-  reports SelectableList<MinidynReport>
+  machine: 'minidyn'
+  reports: SelectableList#60;MinidynReport#62;
 }
-MinidynProject --> MinidynReport
+MinidynProject <.. MinidynReport
+
 
 class MinidynUnits {
   <<interface>>
-  modulus MathUnit
-  deformation MathUnit
-  force MathUnit
-  temperature MathUnit
+  modulus: MathUnit
+  deformation: MathUnit
+  force: MathUnit
+  temperature: MathUnit
 }
+
 
 
 class JSONMinidynUnits {
   <<interface>>
-  modulus 'MPa' | 'kN'
-  deformation 'mm' | 'um'
-  force 'N' | 'kN'
+  modulus: 'MPa' | 'kN'
+  deformation: 'mm' | 'um'
+  force: 'N' | 'kN'
 }
+
 
 
 class MinidynReport {
   <<interface>>
-  machine 'minidyn'
-  points MinidynPoint[]
-  platform MinidynField[]
-  informations MinidynField[]
+  machine: 'minidyn'
+  points: MinidynPoint[]
+  platform: MinidynField[]
+  informations: MinidynField[]
 }
-MinidynReport --> MinidynPoint
-MinidynReport --> MinidynField
+MinidynReport <.. MinidynPoint
+MinidynReport <.. MinidynField
+
 
 class MinidynReportCreatorParameters {
   <<interface>>
-  units MinidynUnits
+  units: MinidynUnits
 }
-MinidynReportCreatorParameters --> MinidynUnits
+MinidynReportCreatorParameters <.. MinidynUnits
+
 
 class MinidynDropType {
   <<type>>
@@ -57,10 +64,12 @@ class MinidynDropType {
 }
 
 
+
 class MinidynDropIndex {
   <<interface>>
-  machine 'minidyn'
-  type MinidynDropType
+  machine: 'minidyn'
+  type: MinidynDropType
 }
-MinidynDropIndex --> MinidynDropType
+MinidynDropIndex <.. MinidynDropType
+
 

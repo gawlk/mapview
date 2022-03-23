@@ -6,7 +6,7 @@ interface BasePoint {
   icon: Icon
   settings: JSONPointSettings
   zone: Zone | null
-  // data: MathUnit[]
+  data: DataValue[]
   // drops: MachineDrop[]
   updateText: () => void
   updateVisibility: () => void

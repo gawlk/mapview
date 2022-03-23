@@ -5,7 +5,7 @@ interface BaseReport {
   readonly line: Line
   readonly zones: Zone[]
   readonly screenshots: string[]
-  readonly valuesNames: ReportValuesNames
+  readonly dataLabels: ReportDataLabels
   readonly settings: JSONReportSettings
   readonly platform: MachineField[]
   readonly informations: MachineField[]
@@ -15,38 +15,32 @@ interface BaseReport {
   remove: () => void
 }
 
-interface ReportValuesNames {
-  groups: SelectableList<GroupedValuesNames>
-  table: SelectableList<TableValuesNamesParameters>
+interface ReportDataLabels {
+  groups: SelectableList<GroupedDataLabels>
+  table: SelectableList<TableDataLabelsParameters>
 }
 
-interface GroupedValuesNames {
-  from: ValuesNamesFrom
-  choices: SelectableList<ValueName>
+interface GroupedDataLabels {
+  from: DataLabelsFrom
+  choices: SelectableList<DataLabel>
   indexes?: SelectableList<MachineDropIndex>
 }
 
-interface TableValuesNamesParameters {
-  group: GroupedValuesNames
+interface TableDataLabelsParameters {
+  group: GroupedDataLabels
   index?: MachineDropIndex
-  valuesNames: ValueName[]
-}
-
-interface ValueName {
-  name: string
-  unit: MathUnit
-  // calculate: () => {}
+  dataLabels: DataLabel[]
 }
 
 interface BaseReportCreatorParameters extends MachineReportCreatorParameters {
   machine: MachineName
-  groupedValuesNames: SelectableList<GroupedValuesNames>
+  groupedDataLabels: SelectableList<GroupedDataLabels>
 }
 
 interface JSONReport {
   name: string
   points: JSONPoint[]
-  valuesNames: JSONReportValuesNames
+  dataLabels: JSONReportDataLabels
   zones: JSONZone[]
   settings: JSONReportSettings
   screenshots: number[]
@@ -54,24 +48,24 @@ interface JSONReport {
   informations: JSONField[]
 }
 
-interface JSONReportValuesNames {
-  groups: SelectableList<number, JSONGroupedValuesNames>
-  table: SelectableList<number, JSONTableValuesNamesParameters>
+interface JSONReportDataLabels {
+  groups: SelectableList<number, JSONGroupedDataLabels>
+  table: SelectableList<number, JSONTableDataLabelsParameters>
 }
 
-interface JSONGroupedValuesNames {
-  from: ValuesNamesFrom
+interface JSONGroupedDataLabels {
+  from: DataLabelsFrom
   choices: SelectableOptionalList<number, string>
   indexes?: SelectableList<number, MachineDropIndex>
 }
 
-interface JSONTableValuesNamesParameters {
-  from: ValuesNamesFrom
+interface JSONTableDataLabelsParameters {
+  from: DataLabelsFrom
   index?: number
-  valuesNames: string[]
+  dataLabels: string[]
 }
 
-type ValuesNamesFrom = 'Drop' | 'Test' | 'Zone'
+type DataLabelsFrom = 'Drop' | 'Test' | 'Zone'
 
 interface JSONReportSettings {
   iconName: IconName

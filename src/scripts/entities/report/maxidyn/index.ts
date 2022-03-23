@@ -10,11 +10,11 @@ export const createMaxidynReportFromJSON = (
   map: mapboxgl.Map,
   parameters: MaxidynReportCreatorParameters
 ) => {
-  const jsonDropGroup = json.valuesNames.groups.list.find(
+  const jsonDropGroup = json.dataLabels.groups.list.find(
     (group) => group.from === 'Drop'
   )
 
-  const dropValuesNamesList: ValueName[] = [
+  const dropDataLabelsList: DataLabel[] = [
     {
       name: 'Modulus',
       unit: parameters.units.modulus,
@@ -31,12 +31,12 @@ export const createMaxidynReportFromJSON = (
 
   const jsonDropIndexes = jsonDropGroup?.indexes?.list || []
 
-  const groupedValuesNamesList: GroupedValuesNames[] = [
+  const groupedDataLabelsList: GroupedDataLabels[] = [
     {
       from: 'Drop',
       choices: createSelectableList(
         jsonDropGroup?.choices?.selected || null,
-        dropValuesNamesList,
+        dropDataLabelsList,
         {
           reactive: true,
           isSelectedAnIndex: true,
@@ -55,7 +55,7 @@ export const createMaxidynReportFromJSON = (
       from: 'Test',
       choices: createSelectableList(
         jsonDropGroup?.choices?.selected || null,
-        dropValuesNamesList,
+        dropDataLabelsList,
         {
           reactive: true,
           isSelectedAnIndex: true,
@@ -66,7 +66,7 @@ export const createMaxidynReportFromJSON = (
       from: 'Zone',
       choices: createSelectableList(
         jsonDropGroup?.choices?.selected || null,
-        dropValuesNamesList,
+        dropDataLabelsList,
         {
           reactive: true,
           isSelectedAnIndex: true,
@@ -80,9 +80,9 @@ export const createMaxidynReportFromJSON = (
     map,
     {
       machine: 'maxidyn',
-      groupedValuesNames: createSelectableList(
-        json.valuesNames.groups.selected,
-        groupedValuesNamesList,
+      groupedDataLabels: createSelectableList(
+        json.dataLabels.groups.selected,
+        groupedDataLabelsList,
         {
           reactive: true,
           isSelectedAnIndex: true,

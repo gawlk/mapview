@@ -16,30 +16,30 @@ export const createBaseReportFromJSON = (
 
   const points: MachinePoint[] = shallowReactive([])
 
-  const tableValuesNamesList: TableValuesNamesParameters[] =
-    parameters.groupedValuesNames.list.map((group) => {
-      const tableValuesNames = json.valuesNames.table.list?.find(
-        (tableValuesNames) => tableValuesNames.from === group.from
+  const tableDataLabelsList: TableDataLabelsParameters[] =
+    parameters.groupedDataLabels.list.map((group) => {
+      const tableDataLabels = json.dataLabels.table.list?.find(
+        (tableDataLabels) => tableDataLabels.from === group.from
       )
 
       return shallowReactive({
         group,
-        index: group.indexes?.list[tableValuesNames?.index || 0],
-        valuesNames: shallowReactive(
-          (tableValuesNames?.valuesNames || [])
+        index: group.indexes?.list[tableDataLabels?.index || 0],
+        dataLabels: shallowReactive(
+          (tableDataLabels?.dataLabels || [])
             .map((name) =>
               group.choices.list.find((choice) => choice.name === name)
             )
-            .filter((valueName) => valueName) as ValueName[]
+            .filter((dataLabel) => dataLabel) as DataLabel[]
         ),
       })
     })
 
-  const valuesNames: ReportValuesNames = {
-    groups: parameters.groupedValuesNames,
+  const dataLabels: ReportDataLabels = {
+    groups: parameters.groupedDataLabels,
     table: createSelectableList(
-      json.valuesNames.table.selected,
-      tableValuesNamesList,
+      json.dataLabels.table.selected,
+      tableDataLabelsList,
       {
         reactive: true,
         isSelectedAnIndex: true,
@@ -60,7 +60,7 @@ export const createBaseReportFromJSON = (
     settings: reactive(json.settings),
     screenshots: shallowReactive([] as string[]),
     points,
-    valuesNames,
+    dataLabels,
     zones: shallowReactive(json.zones.map((zone) => createZone(zone))),
     line: createLine(points, map),
     platform: shallowReactive([]),

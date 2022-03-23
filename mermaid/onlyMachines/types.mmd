@@ -5,10 +5,12 @@ class HeavydynField {
 }
 
 
+
 class MaxidynField {
   <<interface>>
 
 }
+
 
 
 class MinidynField {
@@ -17,53 +19,61 @@ class MinidynField {
 }
 
 
+
 class MachineField {
   <<type>>
   HeavydynField | MaxidynField | MinidynField
 }
-MachineField --> HeavydynField
-MachineField --> MaxidynField
-MachineField --> MinidynField
+MachineField <.. HeavydynField
+MachineField <.. MaxidynField
+MachineField <.. MinidynField
+
 
 class HeavydynPoint {
   <<interface>>
-  machine 'heavydyn'
+  machine: 'heavydyn'
 }
+
 
 
 class MaxidynPoint {
   <<interface>>
-  machine 'maxidyn'
+  machine: 'maxidyn'
 }
+
 
 
 class MinidynPoint {
   <<interface>>
-  machine 'minidyn'
+  machine: 'minidyn'
 }
+
 
 
 class MachinePoint {
   <<type>>
   HeavydynPoint | MaxidynPoint | MinidynPoint
 }
-MachinePoint --> HeavydynPoint
-MachinePoint --> MaxidynPoint
-MachinePoint --> MinidynPoint
+MachinePoint <.. HeavydynPoint
+MachinePoint <.. MaxidynPoint
+MachinePoint <.. MinidynPoint
 
-class PartialMachinePoint {
+
+class PartialMachinePoint~MachinePoint~ {
   <<type>>
-  PartialExtendedObject<BasePoint, MachinePoint>
+  PartialExtendedObject#60;   BasePoint,   MachinePoint #62;
 }
-PartialMachinePoint --> MachinePoint
+PartialMachinePoint~MachinePoint~ <.. MachinePoint
+
 
 class MachinePointCreatorParameters {
   <<interface>>
-  number number
-  iconName IconName
-  projectSettings JSONProjectSettings
-  reportSettings JSONReportSettings
+  number: number
+  iconName: IconName
+  projectSettings: JSONProjectSettings
+  reportSettings: JSONReportSettings
 }
+
 
 
 class MachineName {
@@ -72,113 +82,128 @@ class MachineName {
 }
 
 
+
 class HeavydynProject {
   <<interface>>
-  machine 'heavydyn'
-  reports SelectableList<HeavydynReport>
+  machine: 'heavydyn'
+  reports: SelectableList#60;HeavydynReport#62;
 }
-HeavydynProject --> HeavydynReport
+HeavydynProject <.. HeavydynReport
+
 
 class HeavydynUnits {
   <<interface>>
-  deformation MathUnit
-  force MathUnit
-  temperature MathUnit
+  deformation: MathUnit
+  force: MathUnit
+  temperature: MathUnit
 }
+
 
 
 class JSONHeavydynUnits {
   <<interface>>
-  deformation 'mm' | '1/100 mm' | 'um'
-  force 'N' | 'kN' | 'lbs'
-  temperature 'degC' | 'degF' | 'K'
+  deformation: 'mm' | '1/100 mm' | 'um'
+  force: 'N' | 'kN' | 'lbs'
+  temperature: 'degC' | 'degF' | 'K'
 }
+
 
 
 class MaxidynProject {
   <<interface>>
-  machine 'maxidyn'
-  reports SelectableList<MaxidynReport>
+  machine: 'maxidyn'
+  reports: SelectableList#60;MaxidynReport#62;
 }
-MaxidynProject --> MaxidynReport
+MaxidynProject <.. MaxidynReport
+
 
 class MaxidynUnits {
   <<interface>>
-  modulus MathUnit
-  deformation MathUnit
-  force MathUnit
+  modulus: MathUnit
+  deformation: MathUnit
+  force: MathUnit
 }
+
 
 
 class JSONMaxidynUnits {
   <<interface>>
-  modulus 'MPa' | 'kN'
-  deformation 'mm' | 'um'
-  force 'N' | 'kN'
+  modulus: 'MPa' | 'kN'
+  deformation: 'mm' | 'um'
+  force: 'N' | 'kN'
 }
+
 
 
 class MinidynProject {
   <<interface>>
-  machine 'minidyn'
-  reports SelectableList<MinidynReport>
+  machine: 'minidyn'
+  reports: SelectableList#60;MinidynReport#62;
 }
-MinidynProject --> MinidynReport
+MinidynProject <.. MinidynReport
+
 
 class MinidynUnits {
   <<interface>>
-  modulus MathUnit
-  deformation MathUnit
-  force MathUnit
-  temperature MathUnit
+  modulus: MathUnit
+  deformation: MathUnit
+  force: MathUnit
+  temperature: MathUnit
 }
+
 
 
 class JSONMinidynUnits {
   <<interface>>
-  modulus 'MPa' | 'kN'
-  deformation 'mm' | 'um'
-  force 'N' | 'kN'
+  modulus: 'MPa' | 'kN'
+  deformation: 'mm' | 'um'
+  force: 'N' | 'kN'
 }
+
 
 
 class MachineProject {
   <<type>>
   HeavydynProject | MaxidynProject | MinidynProject
 }
-MachineProject --> HeavydynProject
-MachineProject --> MaxidynProject
-MachineProject --> MinidynProject
+MachineProject <.. HeavydynProject
+MachineProject <.. MaxidynProject
+MachineProject <.. MinidynProject
 
-class PartialMachineProject {
+
+class PartialMachineProject~MachineProject~ {
   <<type>>
-  PartialExtendedObject<BaseProject, MachineProject>
+  PartialExtendedObject#60;   BaseProject,   MachineProject #62;
 }
-PartialMachineProject --> MachineProject
+PartialMachineProject~MachineProject~ <.. MachineProject
+
 
 class MachineUnits {
   <<type>>
   HeavydynUnits | MaxidynUnits | MinidynUnits
 }
-MachineUnits --> HeavydynUnits
-MachineUnits --> MaxidynUnits
-MachineUnits --> MinidynUnits
+MachineUnits <.. HeavydynUnits
+MachineUnits <.. MaxidynUnits
+MachineUnits <.. MinidynUnits
+
 
 class HeavydynReport {
   <<interface>>
-  machine 'heavydyn'
-  points HeavydynPoint[]
-  platform HeavydynField[]
-  informations HeavydynField[]
+  machine: 'heavydyn'
+  points: HeavydynPoint[]
+  platform: HeavydynField[]
+  informations: HeavydynField[]
 }
-HeavydynReport --> HeavydynPoint
-HeavydynReport --> HeavydynField
+HeavydynReport <.. HeavydynPoint
+HeavydynReport <.. HeavydynField
+
 
 class HeavydynReportCreatorParameters {
   <<interface>>
-  units HeavydynUnits
+  units: HeavydynUnits
 }
-HeavydynReportCreatorParameters --> HeavydynUnits
+HeavydynReportCreatorParameters <.. HeavydynUnits
+MachineReportCreatorParameters <|-- HeavydynReportCreatorParameters
 
 class HeavydynDropType {
   <<type>>
@@ -186,37 +211,42 @@ class HeavydynDropType {
 }
 
 
+
 class HeavydynDropIndex {
   <<interface>>
-  machine 'heavydyn'
-  type HeavydynDropType
-  value MathNumber
+  machine: 'heavydyn'
+  type: HeavydynDropType
+  value: MathNumber
 }
-HeavydynDropIndex --> HeavydynDropType
+HeavydynDropIndex <.. HeavydynDropType
+
 
 class JSONHeavydynDropIndex {
   <<interface>>
-  machine 'heavydyn'
-  type HeavydynDropType
-  value number
+  machine: 'heavydyn'
+  type: HeavydynDropType
+  value: number
 }
-JSONHeavydynDropIndex --> HeavydynDropType
+JSONHeavydynDropIndex <.. HeavydynDropType
+
 
 class MaxidynReport {
   <<interface>>
-  machine 'maxidyn'
-  points MaxidynPoint[]
-  platform MaxidynField[]
-  informations MaxidynField[]
+  machine: 'maxidyn'
+  points: MaxidynPoint[]
+  platform: MaxidynField[]
+  informations: MaxidynField[]
 }
-MaxidynReport --> MaxidynPoint
-MaxidynReport --> MaxidynField
+MaxidynReport <.. MaxidynPoint
+MaxidynReport <.. MaxidynField
+
 
 class MaxidynReportCreatorParameters {
   <<interface>>
-  units MaxidynUnits
+  units: MaxidynUnits
 }
-MaxidynReportCreatorParameters --> MaxidynUnits
+MaxidynReportCreatorParameters <.. MaxidynUnits
+MachineReportCreatorParameters <|-- MaxidynReportCreatorParameters
 
 class MaxidynDropType {
   <<type>>
@@ -224,28 +254,32 @@ class MaxidynDropType {
 }
 
 
+
 class MaxidynDropIndex {
   <<interface>>
-  machine 'maxidyn'
-  type MaxidynDropType
+  machine: 'maxidyn'
+  type: MaxidynDropType
 }
-MaxidynDropIndex --> MaxidynDropType
+MaxidynDropIndex <.. MaxidynDropType
+
 
 class MinidynReport {
   <<interface>>
-  machine 'minidyn'
-  points MinidynPoint[]
-  platform MinidynField[]
-  informations MinidynField[]
+  machine: 'minidyn'
+  points: MinidynPoint[]
+  platform: MinidynField[]
+  informations: MinidynField[]
 }
-MinidynReport --> MinidynPoint
-MinidynReport --> MinidynField
+MinidynReport <.. MinidynPoint
+MinidynReport <.. MinidynField
+
 
 class MinidynReportCreatorParameters {
   <<interface>>
-  units MinidynUnits
+  units: MinidynUnits
 }
-MinidynReportCreatorParameters --> MinidynUnits
+MinidynReportCreatorParameters <.. MinidynUnits
+MachineReportCreatorParameters <|-- MinidynReportCreatorParameters
 
 class MinidynDropType {
   <<type>>
@@ -253,47 +287,61 @@ class MinidynDropType {
 }
 
 
+
 class MinidynDropIndex {
   <<interface>>
-  machine 'minidyn'
-  type MinidynDropType
+  machine: 'minidyn'
+  type: MinidynDropType
 }
-MinidynDropIndex --> MinidynDropType
+MinidynDropIndex <.. MinidynDropType
+
 
 class MachineReport {
   <<type>>
   HeavydynReport | MaxidynReport | MinidynReport
 }
-MachineReport --> HeavydynReport
-MachineReport --> MaxidynReport
-MachineReport --> MinidynReport
+MachineReport <.. HeavydynReport
+MachineReport <.. MaxidynReport
+MachineReport <.. MinidynReport
 
-class PartialMachineReport {
+
+class PartialMachineReport~MachineReport~ {
   <<type>>
-  PartialExtendedObject<BaseReport, MachineReport>
+  PartialExtendedObject#60;   BaseReport,   MachineReport #62;
 }
-PartialMachineReport --> MachineReport
+PartialMachineReport~MachineReport~ <.. MachineReport
+
 
 class MachineReportCreatorParameters {
   <<interface>>
-  projectSettings JSONProjectSettings
-  units MachineUnits
+  projectSettings: JSONProjectSettings
+  units: MachineUnits
 }
-MachineReportCreatorParameters --> MachineUnits
+MachineReportCreatorParameters <.. MachineUnits
+
 
 class MachineDropIndex {
   <<type>>
   HeavydynDropIndex | MaxidynDropIndex | MinidynDropIndex
 }
-MachineDropIndex --> HeavydynDropIndex
-MachineDropIndex --> MaxidynDropIndex
-MachineDropIndex --> MinidynDropIndex
+MachineDropIndex <.. HeavydynDropIndex
+MachineDropIndex <.. MaxidynDropIndex
+MachineDropIndex <.. MinidynDropIndex
+
 
 class JSONMachineDropIndex {
   <<type>>
-  | JSONHeavydynDropIndex| MaxidynDropIndex| MinidynDropIndex
+  | JSONHeavydynDropIndex   | MaxidynDropIndex   | MinidynDropIndex
 }
-JSONMachineDropIndex --> JSONHeavydynDropIndex
-JSONMachineDropIndex --> MaxidynDropIndex
-JSONMachineDropIndex --> MinidynDropIndex
+JSONMachineDropIndex <.. JSONHeavydynDropIndex
+JSONMachineDropIndex <.. MaxidynDropIndex
+JSONMachineDropIndex <.. MinidynDropIndex
+
+
+class PartialExtendedObject~BaseObject, MachineObject~ {
+  <<type>>
+  Required#60;BaseObject#62; &   Partial#60;Omit#60;MachineObject, keyof BaseObject#62;#62;
+}
+
+
 

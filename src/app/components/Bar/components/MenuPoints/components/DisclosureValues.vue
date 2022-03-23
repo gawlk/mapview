@@ -11,8 +11,8 @@
 
   const key = 'isPointsValuesDisclosureOpen'
 
-  const pointsGroupedValuesNames = computed(
-    () => store.projects.selected?.reports.selected?.valuesNames.groups
+  const pointsGroupedDataLabels = computed(
+    () => store.projects.selected?.reports.selected?.dataLabels.groups
   )
 </script>
 
@@ -25,54 +25,54 @@
   >
     <Listbox
       :icon="IconViewList"
-      :values="pointsGroupedValuesNames?.list.map((list) => t(list.from))"
-      :selected="t(pointsGroupedValuesNames?.selected?.from || '')"
+      :values="pointsGroupedDataLabels?.list.map((list) => t(list.from))"
+      :selected="t(pointsGroupedDataLabels?.selected?.from || '')"
       @selectIndex="
         (index) =>
-          pointsGroupedValuesNames &&
-          (pointsGroupedValuesNames.selected =
-            pointsGroupedValuesNames.list[index])
+          pointsGroupedDataLabels &&
+          (pointsGroupedDataLabels.selected =
+            pointsGroupedDataLabels.list[index])
       "
       :preSelected="`${t('Values from')}${t(':')}`"
       full
     />
     <Listbox
-      v-if="pointsGroupedValuesNames?.selected?.indexes"
+      v-if="pointsGroupedDataLabels?.selected?.indexes"
       :icon="IconDotsVertical"
       :values="
-        pointsGroupedValuesNames?.selected?.indexes.list.map(
+        pointsGroupedDataLabels?.selected?.indexes.list.map(
           (index) => `${index.displayedIndex} - ${t(index.type)}`
         )
       "
       :preSelected="`${t('Index')}${t(':')}`"
       :selectedIndex="
-        (pointsGroupedValuesNames?.selected?.indexes.selected?.displayedIndex ||
+        (pointsGroupedDataLabels?.selected?.indexes.selected?.displayedIndex ||
           1) - 1
       "
       @selectIndex="
         (index) =>
-          pointsGroupedValuesNames?.selected?.indexes &&
-          (pointsGroupedValuesNames.selected.indexes.selected =
-            pointsGroupedValuesNames.selected.indexes.list[index])
+          pointsGroupedDataLabels?.selected?.indexes &&
+          (pointsGroupedDataLabels.selected.indexes.selected =
+            pointsGroupedDataLabels.selected.indexes.list[index])
       "
       full
     />
     <Listbox
       :icon="IconDotsHorizontal"
       :values="
-        pointsGroupedValuesNames?.selected?.choices.list.map((valueName) =>
-          t(valueName.name)
+        pointsGroupedDataLabels?.selected?.choices.list.map((dataLabel) =>
+          t(dataLabel.name)
         )
       "
       :preSelected="`${t('Value')}${t(':')}`"
       :selected="
-        t(pointsGroupedValuesNames?.selected?.choices.selected?.name || '')
+        t(pointsGroupedDataLabels?.selected?.choices.selected?.name || '')
       "
       @selectIndex="
         (index) =>
-          pointsGroupedValuesNames?.selected &&
-          (pointsGroupedValuesNames.selected.choices.selected =
-            pointsGroupedValuesNames.selected.choices.list[index])
+          pointsGroupedDataLabels?.selected &&
+          (pointsGroupedDataLabels.selected.choices.selected =
+            pointsGroupedDataLabels.selected.choices.list[index])
       "
       full
     />

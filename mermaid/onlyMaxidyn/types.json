@@ -2,24 +2,33 @@
   {
     "name": "MaxidynField",
     "value": {},
-    "dependencies": []
+    "dependencies": [],
+    "extends": [
+      "BaseField"
+    ]
   },
   {
     "name": "MaxidynPoint",
     "value": {
       "machine": "'maxidyn'"
     },
-    "dependencies": []
+    "dependencies": [],
+    "extends": [
+      "BasePoint"
+    ]
   },
   {
     "name": "MaxidynProject",
     "value": {
       "machine": "'maxidyn'",
-      "reports": "SelectableList<MaxidynReport>"
+      "reports": "SelectableList#60;MaxidynReport#62;"
     },
     "dependencies": [
       "SelectableList",
       "MaxidynReport"
+    ],
+    "extends": [
+      "BaseProject"
     ]
   },
   {
@@ -31,7 +40,8 @@
     },
     "dependencies": [
       "MathUnit"
-    ]
+    ],
+    "extends": []
   },
   {
     "name": "JSONMaxidynUnits",
@@ -40,7 +50,8 @@
       "deformation": "'mm' | 'um'",
       "force": "'N' | 'kN'"
     },
-    "dependencies": []
+    "dependencies": [],
+    "extends": []
   },
   {
     "name": "MaxidynReport",
@@ -53,6 +64,9 @@
     "dependencies": [
       "MaxidynPoint",
       "MaxidynField"
+    ],
+    "extends": [
+      "BaseReport"
     ]
   },
   {
@@ -62,12 +76,16 @@
     },
     "dependencies": [
       "MaxidynUnits"
+    ],
+    "extends": [
+      "MachineReportCreatorParameters"
     ]
   },
   {
     "name": "MaxidynDropType",
     "value": "'Training' | 'Averaging'",
-    "dependencies": []
+    "dependencies": [],
+    "extends": []
   },
   {
     "name": "MaxidynDropIndex",
@@ -77,6 +95,9 @@
     },
     "dependencies": [
       "MaxidynDropType"
+    ],
+    "extends": [
+      "BaseDropIndex"
     ]
   }
 ]

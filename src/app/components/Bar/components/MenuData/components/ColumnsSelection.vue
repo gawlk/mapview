@@ -11,23 +11,23 @@
 
   const { t } = useI18n()
 
-  const tableValuesNames = computed(
-    () => store.projects.selected?.reports.selected?.valuesNames.table
+  const tableDataLabels = computed(
+    () => store.projects.selected?.reports.selected?.dataLabels.table
   )
 
-  const filteredValuesNames = computed(() =>
-    tableValuesNames.value?.selected?.group.choices.list.filter(
-      (valueName) =>
-        !tableValuesNames.value?.selected?.valuesNames.find(
-          (valueName2) => valueName === valueName2
+  const filteredDataLabels = computed(() =>
+    tableDataLabels.value?.selected?.group.choices.list.filter(
+      (dataLabel) =>
+        !tableDataLabels.value?.selected?.dataLabels.find(
+          (dataLabel2) => dataLabel === dataLabel2
         )
     )
   )
 
-  const selectGroupedValuesNames = (index: number) => {
-    tableValuesNames.value?.selected &&
-      (tableValuesNames.value.selected = tableValuesNames.value?.list[index])
-    console.log(tableValuesNames.value?.selected?.group.from)
+  const selectGroupedDataLabels = (index: number) => {
+    tableDataLabels.value?.selected &&
+      (tableDataLabels.value.selected = tableDataLabels.value?.list[index])
+    console.log(tableDataLabels.value?.selected?.group.from)
   }
 </script>
 
@@ -35,56 +35,49 @@
   <Listbox
     :icon="IconViewList"
     :values="
-      tableValuesNames?.list.map((parameters) => t(parameters.group.from))
+      tableDataLabels?.list.map((parameters) => t(parameters.group.from))
     "
-    :selected="t(tableValuesNames?.selected?.group.from || '')"
-    @selectIndex="selectGroupedValuesNames"
+    :selected="t(tableDataLabels?.selected?.group.from || '')"
+    @selectIndex="selectGroupedDataLabels"
     :preSelected="`${t('Values from')}${t(':')}`"
     full
   />
   <Listbox
-    v-if="tableValuesNames?.selected?.group.indexes"
+    v-if="tableDataLabels?.selected?.group.indexes"
     :icon="IconDotsVertical"
     :values="
-      tableValuesNames?.selected?.group.indexes?.list.map(
+      tableDataLabels?.selected?.group.indexes?.list.map(
         (index) => `${index.displayedIndex} - ${t(index.type)}`
       )
     "
     :preSelected="`${t('Index')}${t(':')}`"
-    :selectedIndex="
-      (tableValuesNames?.selected?.index?.displayedIndex || 1) - 1
-    "
+    :selectedIndex="(tableDataLabels?.selected?.index?.displayedIndex || 1) - 1"
     @selectIndex="
       (index) =>
-        tableValuesNames?.selected &&
-        (tableValuesNames.selected.index =
-          tableValuesNames?.selected?.group.indexes?.list[index])
+        tableDataLabels?.selected &&
+        (tableDataLabels.selected.index =
+          tableDataLabels?.selected?.group.indexes?.list[index])
     "
     full
   />
   <Popover
-    v-if="tableValuesNames?.selected"
+    v-if="tableDataLabels?.selected"
     :icon="IconViewBoards"
     :buttonText="`${t('Columns')}${t(':')} ${
-      tableValuesNames.selected.valuesNames
-        .map((valueName) => t(valueName.name))
+      tableDataLabels.selected.dataLabels
+        .map((dataLabel) => t(dataLabel.name))
         .join(', ') || t('None')
     }`"
     full
   >
     <div class="space-y-2">
-      <div
-        v-if="tableValuesNames.selected.valuesNames.length"
-        class="space-y-1"
-      >
+      <div v-if="tableDataLabels.selected.dataLabels.length" class="space-y-1">
         <Button
-          v-for="(name, index) of tableValuesNames.selected.valuesNames.map(
-            (valueName) => valueName.name
+          v-for="(name, index) of tableDataLabels.selected.dataLabels.map(
+            (dataLabel) => dataLabel.name
           )"
           :key="name"
-          @click="
-            () => tableValuesNames?.selected?.valuesNames.splice(index, 1)
-          "
+          @click="() => tableDataLabels?.selected?.dataLabels.splice(index, 1)"
           :leftIcon="IconCheck"
           :rightIcon="IconX"
           truncate
@@ -95,21 +88,21 @@
       </div>
       <Empty v-else />
       <Divider class="-mx-1" />
-      <div v-if="filteredValuesNames?.length" class="space-y-1">
+      <div v-if="filteredDataLabels?.length" class="space-y-1">
         <Button
-          v-for="valueName of filteredValuesNames"
-          :key="valueName.name"
+          v-for="dataLabel of filteredDataLabels"
+          :key="dataLabel.name"
           @click="
             () =>
-              tableValuesNames?.selected?.valuesNames.find(
-                (valueName2) => valueName === valueName2
-              ) || tableValuesNames?.selected?.valuesNames.push(valueName)
+              tableDataLabels?.selected?.dataLabels.find(
+                (dataLabel2) => dataLabel === dataLabel2
+              ) || tableDataLabels?.selected?.dataLabels.push(dataLabel)
           "
           :leftIcon="IconPlus"
           truncate
           full
         >
-          {{ t(valueName.name) }}
+          {{ t(dataLabel.name) }}
         </Button>
       </div>
       <Empty v-else />

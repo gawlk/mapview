@@ -63,7 +63,7 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
         },
       },
       points: [] as JSONPoint[],
-      valuesNames: {
+      dataLabels: {
         groups: {
           selected: 0,
           list: [
@@ -125,15 +125,15 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
           list: [
             {
               from: 'Drop',
-              valuesNames: [],
+              dataLabels: [],
             },
             {
               from: 'Test',
-              valuesNames: [],
+              dataLabels: [],
             },
             {
               from: 'Zone',
-              valuesNames: [],
+              dataLabels: [],
             },
           ],
         },

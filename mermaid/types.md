@@ -2,6 +2,14 @@
 
 ![all](./all/types.svg)
 
+# allWithoutDependencies
+
+![allWithoutDependencies](./allWithoutDependencies/types.svg)
+
+# allWithoutExtends
+
+![allWithoutExtends](./allWithoutExtends/types.svg)
+
 # allInterfaces
 
 ![allInterfaces](./allInterfaces/types.svg)

@@ -12,6 +12,7 @@ import svgLoader from 'vite-svg-loader'
 import sw from 'vite-plugin-sw'
 import favicons from '@darkobits/vite-plugin-favicons'
 import analyze from 'rollup-plugin-analyzer'
+import { viteTS2Mermaid } from 'ts2mermaid'
 
 import autoprefixer from 'autoprefixer'
 import tailwindcss from 'tailwindcss'
@@ -38,7 +39,7 @@ export default defineConfig({
 
     // https://github.com/antfu/unplugin-auto-import
     autoImport({
-      imports: ['vue', 'vue-i18n', '@vueuse/core', '@vueuse/head'],
+      imports: ['vue', 'vue-i18n', '@vueuse/head'],
       dts: './src/auto-imports.d.ts',
     }),
 
@@ -81,6 +82,48 @@ export default defineConfig({
     analyze({
       summaryOnly: true,
     }),
+
+    viteTS2Mermaid([
+      {
+        name: 'all',
+      },
+      {
+        name: 'allWithoutDependencies',
+        hideDependencies: true,
+      },
+      {
+        name: 'allWithoutExtends',
+        hideExtends: true,
+      },
+      {
+        name: 'allInterfaces',
+        hideTypes: true,
+      },
+      {
+        name: 'allTypes',
+        hideInterfaces: true,
+      },
+      {
+        name: 'onlyHeavydyn',
+        include: [/[H|h]eavydyn/],
+      },
+      {
+        name: 'onlyMaxidyn',
+        include: [/[M|m]axidyn/],
+      },
+      {
+        name: 'onlyMinidyn',
+        include: [/[M|m]inidyn/],
+      },
+      {
+        name: 'onlyMachines',
+        include: [/[H|h]eavydyn/, /[M|m]axidyn/, /[M|m]inidyn/, /[M|m]achine/],
+      },
+      {
+        name: 'exceptMachines',
+        exclude: [/[H|h]eavydyn/, /[M|m]axidyn/, /[M|m]inidyn/, /[M|m]achine/],
+      },
+    ]),
   ],
   css: {
     postcss: {

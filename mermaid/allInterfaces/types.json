@@ -8,7 +8,71 @@
       "needsReport?": "boolean",
       "openedOnMobile?": "boolean"
     },
-    "dependencies": []
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "GenericContainerProps",
+    "value": {
+      "element?": "any",
+      "xxxl?": "boolean",
+      "xxl?": "boolean",
+      "xl?": "boolean",
+      "lg?": "boolean",
+      "sm?": "boolean",
+      "full?": "boolean",
+      "horizontal?": "boolean",
+      "vertical?": "boolean",
+      "rounded?": "boolean",
+      "colorless?": "boolean",
+      "transparent?": "boolean",
+      "primary?": "boolean",
+      "secondary?": "boolean",
+      "tertiary?": "boolean",
+      "black?": "boolean",
+      "red?": "boolean",
+      "orange?": "boolean",
+      "amber?": "boolean",
+      "yellow?": "boolean",
+      "lime?": "boolean",
+      "green?": "boolean",
+      "emerald?": "boolean",
+      "teal?": "boolean",
+      "cyan?": "boolean",
+      "sky?": "boolean",
+      "blue?": "boolean",
+      "indigo?": "boolean",
+      "violet?": "boolean",
+      "purple?": "boolean",
+      "fuchsia?": "boolean",
+      "pink?": "boolean",
+      "rose?": "boolean",
+      "clickable?": "boolean",
+      "focusable?": "boolean",
+      "disabled?": "boolean",
+      "svg?": "any",
+      "leftSvg?": "any",
+      "rightSvg?": "any",
+      "src?": "string",
+      "leftSrc?": "string",
+      "rightSrc?": "string",
+      "containerClasses?": "string",
+      "illustrationClasses?": "string",
+      "leftIllustrationClasses?": "string",
+      "rightIllustrationClasses?": "string"
+    },
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "GenericIllustrationProps",
+    "value": {
+      "right?": "boolean"
+    },
+    "dependencies": [],
+    "extends": [
+      "GenericContainerProps"
+    ]
   },
   {
     "name": "MathNumberObject",
@@ -17,7 +81,8 @@
     },
     "dependencies": [
       "MathNumber"
-    ]
+    ],
+    "extends": []
   },
   {
     "name": "ComputedData",
@@ -25,11 +90,35 @@
       "raw": "MathNumberObject",
       "parameters": "MathNumberObject",
       "computed": "MathNumberObject",
-      "compute": "() => void"
+      "compute": "#40;#41; =#62; void"
     },
     "dependencies": [
       "MathNumberObject"
-    ]
+    ],
+    "extends": []
+  },
+  {
+    "name": "DataLabel",
+    "value": {
+      "name": "string",
+      "unit": "MathUnit"
+    },
+    "dependencies": [
+      "MathUnit"
+    ],
+    "extends": []
+  },
+  {
+    "name": "DataValue",
+    "value": {
+      "label": "DataLabel",
+      "value": "MathNumber | MathNumber[] | MathNumber[][]"
+    },
+    "dependencies": [
+      "DataLabel",
+      "MathNumber"
+    ],
+    "extends": []
   },
   {
     "name": "BaseDrop",
@@ -40,25 +129,28 @@
     "dependencies": [
       "ComputedData",
       "MachineField"
-    ]
+    ],
+    "extends": []
   },
   {
     "name": "JSONDrop",
     "value": {},
-    "dependencies": []
+    "dependencies": [],
+    "extends": []
   },
   {
     "name": "BaseField",
     "value": {
       "label": "string",
-      "value": "| boolean| number| string| SlidableNumber| DateValue| LongString| SelectableString"
+      "value": "| boolean     | number     | string     | SlidableNumber     | DateValue     | LongString     | SelectableString"
     },
     "dependencies": [
       "SlidableNumber",
       "DateValue",
       "LongString",
       "SelectableString"
-    ]
+    ],
+    "extends": []
   },
   {
     "name": "JSONField",
@@ -66,7 +158,8 @@
       "label": "string",
       "value": "boolean | number | string"
     },
-    "dependencies": []
+    "dependencies": [],
+    "extends": []
   },
   {
     "name": "SlidableNumber",
@@ -77,7 +170,8 @@
       "min": "number",
       "max": "number"
     },
-    "dependencies": []
+    "dependencies": [],
+    "extends": []
   },
   {
     "name": "DateValue",
@@ -85,7 +179,8 @@
       "kind": "'date'",
       "value": "string"
     },
-    "dependencies": []
+    "dependencies": [],
+    "extends": []
   },
   {
     "name": "LongString",
@@ -93,7 +188,8 @@
       "kind": "'longString'",
       "value": "string"
     },
-    "dependencies": []
+    "dependencies": [],
+    "extends": []
   },
   {
     "name": "SelectableString",
@@ -103,34 +199,45 @@
       "possibleValues": "string[]",
       "strict": "boolean"
     },
-    "dependencies": []
+    "dependencies": [],
+    "extends": []
   },
   {
     "name": "HeavydynField",
     "value": {},
-    "dependencies": []
+    "dependencies": [],
+    "extends": [
+      "BaseField"
+    ]
   },
   {
     "name": "MaxidynField",
     "value": {},
-    "dependencies": []
+    "dependencies": [],
+    "extends": [
+      "BaseField"
+    ]
   },
   {
     "name": "MinidynField",
     "value": {},
-    "dependencies": []
+    "dependencies": [],
+    "extends": [
+      "BaseField"
+    ]
   },
   {
     "name": "Icon",
     "value": {
       "element": "HTMLElement",
       "color": "string",
-      "setText": "(text: string) => void",
-      "setIcon": "(iconName: IconName) => void"
+      "setText": "#40;text: string#41; =#62; void",
+      "setIcon": "#40;iconName: IconName#41; =#62; void"
     },
     "dependencies": [
       "HTMLElement"
-    ]
+    ],
+    "extends": []
   },
   {
     "name": "Image",
@@ -140,24 +247,26 @@
       "markerNW": "mapboxgl.Marker",
       "markerSE": "mapboxgl.Marker",
       "opacity": "number",
-      "addToMap": "(isVisible: boolean) => void",
-      "remove": "() => void"
+      "addToMap": "#40;isVisible: boolean#41; =#62; void",
+      "remove": "#40;#41; =#62; void"
     },
     "dependencies": [
       "mapboxgl.ImageSourceRaw",
       "mapboxgl.Marker"
-    ]
+    ],
+    "extends": []
   },
   {
     "name": "JSONImage",
     "value": {
       "name": "string",
       "opacity?": "number",
-      "coordinates?": "#123; nw: LngLatse: LngLat #125;"
+      "coordinates?": "#123;     nw: LngLat     se: LngLat   #125;"
     },
     "dependencies": [
       "LngLat"
-    ]
+    ],
+    "extends": []
   },
   {
     "name": "ImageCoordinates",
@@ -169,16 +278,18 @@
     },
     "dependencies": [
       "XYCoord"
-    ]
+    ],
+    "extends": []
   },
   {
     "name": "Line",
     "value": {
-      "addToMap": "() => void",
-      "update": "() => void",
-      "remove": "() => void"
+      "addToMap": "#40;#41; =#62; void",
+      "update": "#40;#41; =#62; void",
+      "remove": "#40;#41; =#62; void"
     },
-    "dependencies": []
+    "dependencies": [],
+    "extends": []
   },
   {
     "name": "MathNumber",
@@ -187,12 +298,13 @@
       "unit": "MathUnit | string",
       "displayString": "string",
       "displayStringWithUnit": "string",
-      "toDisplayedValue": "() => void"
+      "toDisplayedValue": "#40;#41; =#62; void"
     },
     "dependencies": [
       "math.Unit",
       "MathUnit"
-    ]
+    ],
+    "extends": []
   },
   {
     "name": "MathUnit",
@@ -204,12 +316,13 @@
       "possiblePrecisions": "number[]",
       "minDisplayedValue?": "number",
       "maxDisplayedValue?": "number",
-      "thresholds?": "#123; selected: PredefinedThreshold | CustomThreshold | nulllist: PredefinedThreshold[]// custom: CustomThreshold #125;"
+      "thresholds?": "#123;     selected: PredefinedThreshold | CustomThreshold | null     list: PredefinedThreshold[]     // custom: CustomThreshold   #125;"
     },
     "dependencies": [
       "PredefinedThreshold",
       "CustomThreshold"
-    ]
+    ],
+    "extends": []
   },
   {
     "name": "BasePoint",
@@ -220,18 +333,21 @@
       "icon": "Icon",
       "settings": "JSONPointSettings",
       "zone": "Zone | null",
-      "updateText": "() => void",
-      "updateVisibility": "() => void",
-      "addToMap": "() => void",
-      "remove": "() => void"
+      "data": "DataValue[]",
+      "updateText": "#40;#41; =#62; void",
+      "updateVisibility": "#40;#41; =#62; void",
+      "addToMap": "#40;#41; =#62; void",
+      "remove": "#40;#41; =#62; void"
     },
     "dependencies": [
       "MachineName",
       "mapboxgl.Marker",
       "Icon",
       "JSONPointSettings",
-      "Zone"
-    ]
+      "Zone",
+      "DataValue"
+    ],
+    "extends": []
   },
   {
     "name": "BasePointCreatorParameters",
@@ -240,6 +356,9 @@
     },
     "dependencies": [
       "MachineName"
+    ],
+    "extends": [
+      "MachinePointCreatorParameters"
     ]
   },
   {
@@ -255,35 +374,46 @@
       "JSONPointSettings",
       "JSONField",
       "JSONDrop"
-    ]
+    ],
+    "extends": []
   },
   {
     "name": "JSONPointSettings",
     "value": {
       "isVisible": "boolean"
     },
-    "dependencies": []
+    "dependencies": [],
+    "extends": []
   },
   {
     "name": "HeavydynPoint",
     "value": {
       "machine": "'heavydyn'"
     },
-    "dependencies": []
+    "dependencies": [],
+    "extends": [
+      "BasePoint"
+    ]
   },
   {
     "name": "MaxidynPoint",
     "value": {
       "machine": "'maxidyn'"
     },
-    "dependencies": []
+    "dependencies": [],
+    "extends": [
+      "BasePoint"
+    ]
   },
   {
     "name": "MinidynPoint",
     "value": {
       "machine": "'minidyn'"
     },
-    "dependencies": []
+    "dependencies": [],
+    "extends": [
+      "BasePoint"
+    ]
   },
   {
     "name": "MachinePointCreatorParameters",
@@ -297,7 +427,8 @@
       "IconName",
       "JSONProjectSettings",
       "JSONReportSettings"
-    ]
+    ],
+    "extends": []
   },
   {
     "name": "BaseProject",
@@ -305,15 +436,15 @@
       "machine": "MachineName",
       "name": "MachineField",
       "informations": "MachineField[]",
-      "reports": "SelectableList<MachineReport>",
+      "reports": "SelectableList#60;MachineReport#62;",
       "units": "MachineUnits",
       "settings": "JSONProjectSettings",
       "images": "Image[]",
-      "refreshLinesAndImages": "() => void",
-      "setMapStyle": "(styleIndex: number) => void",
-      "fitOnMap": "() => void",
-      "addToMap": "() => void",
-      "remove": "() => void"
+      "refreshLinesAndImages": "#40;#41; =#62; void",
+      "setMapStyle": "#40;styleIndex: number#41; =#62; void",
+      "fitOnMap": "#40;#41; =#62; void",
+      "addToMap": "#40;#41; =#62; void",
+      "remove": "#40;#41; =#62; void"
     },
     "dependencies": [
       "MachineName",
@@ -323,7 +454,8 @@
       "MachineUnits",
       "JSONProjectSettings",
       "Image"
-    ]
+    ],
+    "extends": []
   },
   {
     "name": "BaseProjectCreatorParameters",
@@ -334,7 +466,8 @@
     "dependencies": [
       "MachineName",
       "MachineUnits"
-    ]
+    ],
+    "extends": []
   },
   {
     "name": "JSONProject",
@@ -355,7 +488,8 @@
       "JSONField",
       "JSONReport",
       "JSONUnits"
-    ]
+    ],
+    "extends": []
   },
   {
     "name": "JSONProjectSettings",
@@ -365,22 +499,26 @@
       "arePointsLocked": "boolean",
       "areImagesVisible": "boolean",
       "pointsState": "PointsState",
-      "map": "#123; styleIndex: numbercoordinates?: LngLatzoom?: number #125;"
+      "map": "#123;     styleIndex: number     coordinates?: LngLat     zoom?: number   #125;"
     },
     "dependencies": [
       "PointsState",
       "LngLat"
-    ]
+    ],
+    "extends": []
   },
   {
     "name": "HeavydynProject",
     "value": {
       "machine": "'heavydyn'",
-      "reports": "SelectableList<HeavydynReport>"
+      "reports": "SelectableList#60;HeavydynReport#62;"
     },
     "dependencies": [
       "SelectableList",
       "HeavydynReport"
+    ],
+    "extends": [
+      "BaseProject"
     ]
   },
   {
@@ -392,7 +530,8 @@
     },
     "dependencies": [
       "MathUnit"
-    ]
+    ],
+    "extends": []
   },
   {
     "name": "JSONHeavydynUnits",
@@ -401,17 +540,21 @@
       "force": "'N' | 'kN' | 'lbs'",
       "temperature": "'degC' | 'degF' | 'K'"
     },
-    "dependencies": []
+    "dependencies": [],
+    "extends": []
   },
   {
     "name": "MaxidynProject",
     "value": {
       "machine": "'maxidyn'",
-      "reports": "SelectableList<MaxidynReport>"
+      "reports": "SelectableList#60;MaxidynReport#62;"
     },
     "dependencies": [
       "SelectableList",
       "MaxidynReport"
+    ],
+    "extends": [
+      "BaseProject"
     ]
   },
   {
@@ -423,7 +566,8 @@
     },
     "dependencies": [
       "MathUnit"
-    ]
+    ],
+    "extends": []
   },
   {
     "name": "JSONMaxidynUnits",
@@ -432,17 +576,21 @@
       "deformation": "'mm' | 'um'",
       "force": "'N' | 'kN'"
     },
-    "dependencies": []
+    "dependencies": [],
+    "extends": []
   },
   {
     "name": "MinidynProject",
     "value": {
       "machine": "'minidyn'",
-      "reports": "SelectableList<MinidynReport>"
+      "reports": "SelectableList#60;MinidynReport#62;"
     },
     "dependencies": [
       "SelectableList",
       "MinidynReport"
+    ],
+    "extends": [
+      "BaseProject"
     ]
   },
   {
@@ -455,7 +603,8 @@
     },
     "dependencies": [
       "MathUnit"
-    ]
+    ],
+    "extends": []
   },
   {
     "name": "JSONMinidynUnits",
@@ -464,7 +613,8 @@
       "deformation": "'mm' | 'um'",
       "force": "'N' | 'kN'"
     },
-    "dependencies": []
+    "dependencies": [],
+    "extends": []
   },
   {
     "name": "BaseReport",
@@ -475,14 +625,14 @@
       "line": "Line",
       "zones": "Zone[]",
       "screenshots": "string[]",
-      "valuesNames": "ReportValuesNames",
+      "dataLabels": "ReportDataLabels",
       "settings": "JSONReportSettings",
       "platform": "MachineField[]",
       "informations": "MachineField[]",
       "isOnMap": "boolean",
-      "fitOnMap": "() => void",
-      "addToMap": "() => void",
-      "remove": "() => void"
+      "fitOnMap": "#40;#41; =#62; void",
+      "addToMap": "#40;#41; =#62; void",
+      "remove": "#40;#41; =#62; void"
     },
     "dependencies": [
       "MachineName",
@@ -490,69 +640,66 @@
       "MachinePoint",
       "Line",
       "Zone",
-      "ReportValuesNames",
+      "ReportDataLabels",
       "JSONReportSettings"
-    ]
+    ],
+    "extends": []
   },
   {
-    "name": "ReportValuesNames",
+    "name": "ReportDataLabels",
     "value": {
-      "groups": "SelectableList<GroupedValuesNames>",
-      "table": "SelectableList<TableValuesNamesParameters>"
+      "groups": "SelectableList#60;GroupedDataLabels#62;",
+      "table": "SelectableList#60;TableDataLabelsParameters#62;"
     },
     "dependencies": [
       "SelectableList",
-      "GroupedValuesNames",
-      "TableValuesNamesParameters"
-    ]
+      "GroupedDataLabels",
+      "TableDataLabelsParameters"
+    ],
+    "extends": []
   },
   {
-    "name": "GroupedValuesNames",
+    "name": "GroupedDataLabels",
     "value": {
-      "from": "ValuesNamesFrom",
-      "choices": "SelectableList<ValueName>",
-      "indexes?": "SelectableList<MachineDropIndex>"
+      "from": "DataLabelsFrom",
+      "choices": "SelectableList#60;DataLabel#62;",
+      "indexes?": "SelectableList#60;MachineDropIndex#62;"
     },
     "dependencies": [
-      "ValuesNamesFrom",
+      "DataLabelsFrom",
       "SelectableList",
-      "ValueName",
+      "DataLabel",
       "MachineDropIndex"
-    ]
+    ],
+    "extends": []
   },
   {
-    "name": "TableValuesNamesParameters",
+    "name": "TableDataLabelsParameters",
     "value": {
-      "group": "GroupedValuesNames",
+      "group": "GroupedDataLabels",
       "index?": "MachineDropIndex",
-      "valuesNames": "ValueName[]"
+      "dataLabels": "DataLabel[]"
     },
     "dependencies": [
-      "GroupedValuesNames",
+      "GroupedDataLabels",
       "MachineDropIndex",
-      "ValueName"
-    ]
-  },
-  {
-    "name": "ValueName",
-    "value": {
-      "name": "string",
-      "unit": "MathUnit"
-    },
-    "dependencies": [
-      "MathUnit"
-    ]
+      "DataLabel"
+    ],
+    "extends": []
   },
   {
     "name": "BaseReportCreatorParameters",
     "value": {
       "machine": "MachineName",
-      "groupedValuesNames": "SelectableList<GroupedValuesNames>"
+      "groupedDataLabels": "SelectableList#60;GroupedDataLabels#62;"
     },
     "dependencies": [
       "MachineName",
       "SelectableList",
-      "GroupedValuesNames"
+      "GroupedDataLabels"
+    ],
+    "extends": [
+      "MachineReportCreatorParameters"
     ]
   },
   {
@@ -560,7 +707,7 @@
     "value": {
       "name": "string",
       "points": "JSONPoint[]",
-      "valuesNames": "JSONReportValuesNames",
+      "dataLabels": "JSONReportDataLabels",
       "zones": "JSONZone[]",
       "settings": "JSONReportSettings",
       "screenshots": "number[]",
@@ -569,48 +716,52 @@
     },
     "dependencies": [
       "JSONPoint",
-      "JSONReportValuesNames",
+      "JSONReportDataLabels",
       "JSONZone",
       "JSONReportSettings",
       "JSONField"
-    ]
+    ],
+    "extends": []
   },
   {
-    "name": "JSONReportValuesNames",
+    "name": "JSONReportDataLabels",
     "value": {
-      "groups": "SelectableList<number, JSONGroupedValuesNames>",
-      "table": "SelectableList<number, JSONTableValuesNamesParameters>"
+      "groups": "SelectableList#60;number, JSONGroupedDataLabels#62;",
+      "table": "SelectableList#60;number, JSONTableDataLabelsParameters#62;"
     },
     "dependencies": [
       "SelectableList",
-      "JSONGroupedValuesNames",
-      "JSONTableValuesNamesParameters"
-    ]
+      "JSONGroupedDataLabels",
+      "JSONTableDataLabelsParameters"
+    ],
+    "extends": []
   },
   {
-    "name": "JSONGroupedValuesNames",
+    "name": "JSONGroupedDataLabels",
     "value": {
-      "from": "ValuesNamesFrom",
-      "choices": "SelectableOptionalList<number, string>",
-      "indexes?": "SelectableList<number, MachineDropIndex>"
+      "from": "DataLabelsFrom",
+      "choices": "SelectableOptionalList#60;number, string#62;",
+      "indexes?": "SelectableList#60;number, MachineDropIndex#62;"
     },
     "dependencies": [
-      "ValuesNamesFrom",
+      "DataLabelsFrom",
       "SelectableOptionalList",
       "SelectableList",
       "MachineDropIndex"
-    ]
+    ],
+    "extends": []
   },
   {
-    "name": "JSONTableValuesNamesParameters",
+    "name": "JSONTableDataLabelsParameters",
     "value": {
-      "from": "ValuesNamesFrom",
+      "from": "DataLabelsFrom",
       "index?": "number",
-      "valuesNames": "string[]"
+      "dataLabels": "string[]"
     },
     "dependencies": [
-      "ValuesNamesFrom"
-    ]
+      "DataLabelsFrom"
+    ],
+    "extends": []
   },
   {
     "name": "JSONReportSettings",
@@ -618,12 +769,13 @@
       "iconName": "IconName",
       "isVisible": "boolean",
       "selectedColorization": "'Threshold' | 'Zone'",
-      "threshold": "#123; colors: ThresholdColorscustom: #123;  #125; #125;"
+      "threshold": "#123;     colors: ThresholdColors     custom: #123;#125;   #125;"
     },
     "dependencies": [
       "IconName",
       "ThresholdColors"
-    ]
+    ],
+    "extends": []
   },
   {
     "name": "ThresholdColors",
@@ -634,7 +786,8 @@
     },
     "dependencies": [
       "Color"
-    ]
+    ],
+    "extends": []
   },
   {
     "name": "BaseDropIndex",
@@ -645,7 +798,8 @@
     },
     "dependencies": [
       "MachineName"
-    ]
+    ],
+    "extends": []
   },
   {
     "name": "HeavydynReport",
@@ -658,6 +812,9 @@
     "dependencies": [
       "HeavydynPoint",
       "HeavydynField"
+    ],
+    "extends": [
+      "BaseReport"
     ]
   },
   {
@@ -667,6 +824,9 @@
     },
     "dependencies": [
       "HeavydynUnits"
+    ],
+    "extends": [
+      "MachineReportCreatorParameters"
     ]
   },
   {
@@ -679,6 +839,9 @@
     "dependencies": [
       "HeavydynDropType",
       "MathNumber"
+    ],
+    "extends": [
+      "BaseDropIndex"
     ]
   },
   {
@@ -690,6 +853,9 @@
     },
     "dependencies": [
       "HeavydynDropType"
+    ],
+    "extends": [
+      "BaseDropIndex"
     ]
   },
   {
@@ -703,6 +869,9 @@
     "dependencies": [
       "MaxidynPoint",
       "MaxidynField"
+    ],
+    "extends": [
+      "BaseReport"
     ]
   },
   {
@@ -712,6 +881,9 @@
     },
     "dependencies": [
       "MaxidynUnits"
+    ],
+    "extends": [
+      "MachineReportCreatorParameters"
     ]
   },
   {
@@ -722,6 +894,9 @@
     },
     "dependencies": [
       "MaxidynDropType"
+    ],
+    "extends": [
+      "BaseDropIndex"
     ]
   },
   {
@@ -735,6 +910,9 @@
     "dependencies": [
       "MinidynPoint",
       "MinidynField"
+    ],
+    "extends": [
+      "BaseReport"
     ]
   },
   {
@@ -744,6 +922,9 @@
     },
     "dependencies": [
       "MinidynUnits"
+    ],
+    "extends": [
+      "MachineReportCreatorParameters"
     ]
   },
   {
@@ -754,6 +935,9 @@
     },
     "dependencies": [
       "MinidynDropType"
+    ],
+    "extends": [
+      "BaseDropIndex"
     ]
   },
   {
@@ -765,7 +949,8 @@
     "dependencies": [
       "JSONProjectSettings",
       "MachineUnits"
-    ]
+    ],
+    "extends": []
   },
   {
     "name": "CustomThreshold",
@@ -773,7 +958,8 @@
       "name": "string",
       "value": "number"
     },
-    "dependencies": []
+    "dependencies": [],
+    "extends": []
   },
   {
     "name": "PredefinedThreshold",
@@ -781,16 +967,18 @@
       "name": "string",
       "value": "number"
     },
-    "dependencies": []
+    "dependencies": [],
+    "extends": []
   },
   {
     "name": "WatcherHandler",
     "value": {
-      "[stop: () => void]": "() => void",
-      "[stop?: () => void]": "void",
-      "[]": "void"
+      "add": "#40;stop: #40;#41; =#62; void#41; =#62; void",
+      "remove": "#40;stop: #40;#41; =#62; void#41; =#62; void",
+      "clean": "#40;#41; =#62; void"
     },
-    "dependencies": []
+    "dependencies": [],
+    "extends": []
   },
   {
     "name": "Zone",
@@ -800,7 +988,8 @@
     },
     "dependencies": [
       "Color"
-    ]
+    ],
+    "extends": []
   },
   {
     "name": "JSONZone",
@@ -810,7 +999,8 @@
     },
     "dependencies": [
       "Color"
-    ]
+    ],
+    "extends": []
   },
   {
     "name": "LngLat",
@@ -818,7 +1008,8 @@
       "lng": "number",
       "lat": "number"
     },
-    "dependencies": []
+    "dependencies": [],
+    "extends": []
   },
   {
     "name": "XYCoord",
@@ -826,10 +1017,11 @@
       "x": "number",
       "y": "number"
     },
-    "dependencies": []
+    "dependencies": [],
+    "extends": []
   },
   {
-    "name": "SelectableList",
+    "name": "SelectableList~S, L~",
     "value": {
       "selected": "S | null",
       "list": "L[]"
@@ -837,10 +1029,11 @@
     "dependencies": [
       "S",
       "L"
-    ]
+    ],
+    "extends": []
   },
   {
-    "name": "SelectableOptionalList",
+    "name": "SelectableOptionalList~S, L~",
     "value": {
       "selected": "S | null",
       "list?": "L[]"
@@ -848,19 +1041,21 @@
     "dependencies": [
       "S",
       "L"
-    ]
+    ],
+    "extends": []
   },
   {
     "name": "Store",
     "value": {
-      "projects": "SelectableList<MachineProject>",
+      "projects": "SelectableList#60;MachineProject#62;",
       "map": "mapboxgl.Map | null",
-      "save": "(key: StoreKeys, value: StoreSaveableTypes) => void"
+      "save": "#40;key: StoreKeys, value: StoreSaveableTypes#41; =#62; void"
     },
     "dependencies": [
       "SelectableList",
       "MachineProject",
       "mapboxgl.Map"
-    ]
+    ],
+    "extends": []
   }
 ]

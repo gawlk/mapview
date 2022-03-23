@@ -6,8 +6,8 @@
 
   const { t } = useI18n()
 
-  const pointsTableValuesNames = computed(
-    () => store.projects.selected?.reports.selected?.valuesNames.table
+  const pointsTableDataLabels = computed(
+    () => store.projects.selected?.reports.selected?.dataLabels.table
   )
 </script>
 
@@ -17,10 +17,8 @@
       <td />
       <td class="text-center">{{ t('Number') }}</td>
       <td
-        v-for="(
-          name, index
-        ) of pointsTableValuesNames?.selected?.valuesNames.map(
-          (valueName) => valueName.name
+        v-for="(name, index) of pointsTableDataLabels?.selected?.dataLabels.map(
+          (dataLabel) => dataLabel.name
         )"
       >
         {{ t(name) }}

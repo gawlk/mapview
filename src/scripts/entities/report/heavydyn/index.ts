@@ -10,11 +10,11 @@ export const createHeavydynReportFromJSON = (
   map: mapboxgl.Map,
   parameters: HeavydynReportCreatorParameters
 ) => {
-  const jsonDropGroup = json.valuesNames.groups.list.find(
+  const jsonDropGroup = json.dataLabels.groups.list.find(
     (group) => group.from === 'Drop'
   )
 
-  const dropValuesNamesList: ValueName[] =
+  const dropDataLabelsList: DataLabel[] =
     jsonDropGroup?.choices.list?.map((name) => {
       return {
         name: name,
@@ -24,12 +24,12 @@ export const createHeavydynReportFromJSON = (
 
   const jsonDropIndexes = jsonDropGroup?.indexes?.list || []
 
-  const groupedValuesNamesList: GroupedValuesNames[] = [
+  const groupedDataLabelsList: GroupedDataLabels[] = [
     {
       from: 'Drop',
       choices: createSelectableList(
         jsonDropGroup?.choices?.selected || null,
-        dropValuesNamesList,
+        dropDataLabelsList,
         {
           reactive: true,
           isSelectedAnIndex: true,
@@ -48,7 +48,7 @@ export const createHeavydynReportFromJSON = (
       from: 'Test',
       choices: createSelectableList(
         jsonDropGroup?.choices?.selected || null,
-        dropValuesNamesList,
+        dropDataLabelsList,
         {
           reactive: true,
           isSelectedAnIndex: true,
@@ -59,7 +59,7 @@ export const createHeavydynReportFromJSON = (
       from: 'Zone',
       choices: createSelectableList(
         jsonDropGroup?.choices?.selected || null,
-        dropValuesNamesList,
+        dropDataLabelsList,
         {
           reactive: true,
           isSelectedAnIndex: true,
@@ -73,9 +73,9 @@ export const createHeavydynReportFromJSON = (
     map,
     {
       machine: 'heavydyn',
-      groupedValuesNames: createSelectableList(
-        json.valuesNames.groups.selected,
-        groupedValuesNamesList,
+      groupedDataLabels: createSelectableList(
+        json.dataLabels.groups.selected,
+        groupedDataLabelsList,
         {
           reactive: true,
           isSelectedAnIndex: true,

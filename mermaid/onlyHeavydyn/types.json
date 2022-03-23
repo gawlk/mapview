@@ -2,24 +2,33 @@
   {
     "name": "HeavydynField",
     "value": {},
-    "dependencies": []
+    "dependencies": [],
+    "extends": [
+      "BaseField"
+    ]
   },
   {
     "name": "HeavydynPoint",
     "value": {
       "machine": "'heavydyn'"
     },
-    "dependencies": []
+    "dependencies": [],
+    "extends": [
+      "BasePoint"
+    ]
   },
   {
     "name": "HeavydynProject",
     "value": {
       "machine": "'heavydyn'",
-      "reports": "SelectableList<HeavydynReport>"
+      "reports": "SelectableList#60;HeavydynReport#62;"
     },
     "dependencies": [
       "SelectableList",
       "HeavydynReport"
+    ],
+    "extends": [
+      "BaseProject"
     ]
   },
   {
@@ -31,7 +40,8 @@
     },
     "dependencies": [
       "MathUnit"
-    ]
+    ],
+    "extends": []
   },
   {
     "name": "JSONHeavydynUnits",
@@ -40,7 +50,8 @@
       "force": "'N' | 'kN' | 'lbs'",
       "temperature": "'degC' | 'degF' | 'K'"
     },
-    "dependencies": []
+    "dependencies": [],
+    "extends": []
   },
   {
     "name": "HeavydynReport",
@@ -53,6 +64,9 @@
     "dependencies": [
       "HeavydynPoint",
       "HeavydynField"
+    ],
+    "extends": [
+      "BaseReport"
     ]
   },
   {
@@ -62,12 +76,16 @@
     },
     "dependencies": [
       "HeavydynUnits"
+    ],
+    "extends": [
+      "MachineReportCreatorParameters"
     ]
   },
   {
     "name": "HeavydynDropType",
     "value": "'Distance' | 'Force' | 'Time'",
-    "dependencies": []
+    "dependencies": [],
+    "extends": []
   },
   {
     "name": "HeavydynDropIndex",
@@ -79,6 +97,9 @@
     "dependencies": [
       "HeavydynDropType",
       "MathNumber"
+    ],
+    "extends": [
+      "BaseDropIndex"
     ]
   },
   {
@@ -90,6 +111,9 @@
     },
     "dependencies": [
       "HeavydynDropType"
+    ],
+    "extends": [
+      "BaseDropIndex"
     ]
   }
 ]

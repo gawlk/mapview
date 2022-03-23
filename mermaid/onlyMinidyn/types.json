@@ -2,24 +2,33 @@
   {
     "name": "MinidynField",
     "value": {},
-    "dependencies": []
+    "dependencies": [],
+    "extends": [
+      "BaseField"
+    ]
   },
   {
     "name": "MinidynPoint",
     "value": {
       "machine": "'minidyn'"
     },
-    "dependencies": []
+    "dependencies": [],
+    "extends": [
+      "BasePoint"
+    ]
   },
   {
     "name": "MinidynProject",
     "value": {
       "machine": "'minidyn'",
-      "reports": "SelectableList<MinidynReport>"
+      "reports": "SelectableList#60;MinidynReport#62;"
     },
     "dependencies": [
       "SelectableList",
       "MinidynReport"
+    ],
+    "extends": [
+      "BaseProject"
     ]
   },
   {
@@ -32,7 +41,8 @@
     },
     "dependencies": [
       "MathUnit"
-    ]
+    ],
+    "extends": []
   },
   {
     "name": "JSONMinidynUnits",
@@ -41,7 +51,8 @@
       "deformation": "'mm' | 'um'",
       "force": "'N' | 'kN'"
     },
-    "dependencies": []
+    "dependencies": [],
+    "extends": []
   },
   {
     "name": "MinidynReport",
@@ -54,6 +65,9 @@
     "dependencies": [
       "MinidynPoint",
       "MinidynField"
+    ],
+    "extends": [
+      "BaseReport"
     ]
   },
   {
@@ -63,12 +77,16 @@
     },
     "dependencies": [
       "MinidynUnits"
+    ],
+    "extends": [
+      "MachineReportCreatorParameters"
     ]
   },
   {
     "name": "MinidynDropType",
     "value": "'Training' | 'Averaging'",
-    "dependencies": []
+    "dependencies": [],
+    "extends": []
   },
   {
     "name": "MinidynDropIndex",
@@ -78,6 +96,9 @@
     },
     "dependencies": [
       "MinidynDropType"
+    ],
+    "extends": [
+      "BaseDropIndex"
     ]
   }
 ]

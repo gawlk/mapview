@@ -1,7 +1,6 @@
 <script setup lang="ts">
   import store from '/src/store'
   import {
-    createZone,
     setDisclosureOpenState,
     getDisclosureOpenState,
     convertValueFromBaseUnitToCurrentUnit,
@@ -11,18 +10,15 @@
   } from '/src/scripts'
 
   import IconColorSwatch from '~icons/heroicons-solid/color-swatch'
+  import IconViewList from '~icons/heroicons-solid/view-list'
   import IconAdjustments from '~icons/heroicons-solid/adjustments'
-  import IconPlus from '~icons/heroicons-solid/plus'
-  import IconTrash from '~icons/heroicons-solid/trash'
-  import IconCog from '~icons/heroicons-solid/cog'
-  import IconIssueDraft from '~icons/octicon/issue-draft-16'
   import IconFold from '~icons/octicon/fold-16'
   import IconPencilAlt from '~icons/heroicons-solid/pencil-alt'
   import Button from '/src/components/Button.vue'
 
   const { t } = useI18n()
 
-  const key = 'isPointsColorsDisclosureOpen'
+  const key = 'isThresholdsDisclosureOpen'
 
   const selectedReport = computed(
     () => store.projects.selected?.reports.selected
@@ -69,32 +65,14 @@
 
 <template>
   <Disclosure
-    :icon="IconColorSwatch"
-    :text="t('Colors settings')"
+    :icon="IconFold"
+    :text="t('Thresholds settings')"
     @click="(open) => setDisclosureOpenState(key, open)"
-    :defaultOpen="getDisclosureOpenState(key)"
+    :defaultOpen="getDisclosureOpenState(key, false)"
   >
-    <Listbox
-      :icon="IconAdjustments"
-      :values="[t('Colorization by threshold'), t('Colorization by zone')]"
-      :selectedIndex="
-        selectedReport?.settings.selectedColorization === 'Threshold' ? 0 : 1
-      "
-      @selectIndex="
-        (index) =>
-          selectedReport &&
-          (selectedReport.settings.selectedColorization =
-            index === 0 ? 'Threshold' : 'Zone')
-      "
-      full
-    />
-    <Divider />
-    <div
-      v-if="selectedReport?.settings.selectedColorization === 'Threshold'"
-      class="space-y-2"
-    >
+    <div class="space-y-2">
       <Listbox
-        :icon="IconFold"
+        :icon="IconViewList"
         :values="
           currentGroupedThresholds?.choices.list.map((threshold) =>
             t(threshold.name)
@@ -110,9 +88,12 @@
         :selected="t(currentGroupedThresholds?.choices.selected.name)"
         full
       />
+      <Divider
+        v-if="currentGroupedThresholds?.choices.selected?.kind === 'custom'"
+      />
       <Listbox
         v-if="currentGroupedThresholds?.choices.selected?.kind === 'custom'"
-        :icon="IconCog"
+        :icon="IconColorSwatch"
         :values="[t('Bicolor'), t('Gradient'), t('Tricolor')]"
         @selectIndex="
           (index) =>
@@ -334,52 +315,10 @@
         }`"
       />
     </div>
-    <div v-else class="space-y-2">
-      <div
-        v-for="(zone, index) of selectedReport?.zones"
-        class="flex space-x-2"
-      >
-        <ListboxColors
-          :icon="IconIssueDraft"
-          @selectColor="(color: ColorName) => 
-            (zone.color = color)
-          "
-          :color="zone.color"
-        />
-        <Input
-          :id="zone.name + '-name'"
-          :value="zone.name"
-          @input="(value) => (zone.name = String(value))"
-        />
-        <Button
-          @click="selectedReport?.zones.splice(index, 1)"
-          :icon="IconTrash"
-        />
-      </div>
-      <Button
-        full
-        :leftIcon="IconPlus"
-        @click="
-          () => {
-            selectedReport?.zones.push(
-              createZone({
-                name: `${t('Zone')} ${selectedReport?.zones.length + 1}`,
-                isVisible: true,
-              })
-            )
-          }
-        "
-      >
-        {{ t('Create a zone') }}
-      </Button>
-    </div>
   </Disclosure>
 </template>
 
 <i18n lang="yaml">
 fr:
-  'Colors settings': 'Configurations des couleurs'
-  'Colorization by threshold': 'Colorisation par seuil'
-  'Colorization by zone': 'Colorisation par zone'
-  'Create a zone': 'Créer une zone'
+  'Thresholds settings': 'Configuration des seuils'
 </i18n>

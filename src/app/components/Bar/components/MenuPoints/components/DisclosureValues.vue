@@ -21,7 +21,7 @@
     :icon="IconNumber"
     :text="t('Values settings')"
     @click="(open) => setDisclosureOpenState(key, open)"
-    :defaultOpen="getDisclosureOpenState(key)"
+    :defaultOpen="getDisclosureOpenState(key, false)"
   >
     <Listbox
       :icon="IconViewList"
@@ -81,6 +81,6 @@
 
 <i18n lang="yaml">
 fr:
-  'Values settings': 'Configurations des valeurs'
+  'Values settings': 'Configuration des valeurs'
   'Values from': 'Valeurs de'
 </i18n>

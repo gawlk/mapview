@@ -45,12 +45,14 @@
     "@vitejs/plugin-vue": "^2.3.1",
     "@vue/compiler-sfc": "^3.2.33",
     "autoprefixer": "^10.4.4",
+    "cypress": "^4.5.0",
+    "jest": "^26.6.3",
     "postcss": "^8.4.12",
     "prettier": "^2.6.2",
     "prettier-plugin-tailwindcss": "^0.1.10",
     "rollup-plugin-analyzer": "^4.0.0",
     "tailwindcss": "^3.0.24",
-    "ts2mermaid": "^0.2.2",
+    "ts2mermaid": "^0.2.3",
     "typescript": "^4.6.3",
     "unplugin-auto-import": "^0.7.1",
     "unplugin-icons": "^0.14.1",
@@ -59,7 +61,7 @@
     "vite": "2.9.5",
     "vite-plugin-sw": "^1.0.0",
     "vite-svg-loader": "^3.2.0",
-    "vitest": "^0.9.3",
-    "vue-tsc": "^0.34.8"
+    "vitest": "^0.9.4",
+    "vue-tsc": "^0.34.9"
   }
 }

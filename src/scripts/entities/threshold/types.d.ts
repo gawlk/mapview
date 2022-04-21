@@ -1,0 +1,1 @@
+type AnyThreshold = PredefinedThreshold | CustomThreshold

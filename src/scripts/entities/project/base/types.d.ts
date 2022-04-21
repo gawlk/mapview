@@ -3,7 +3,7 @@ interface BaseProject {
   readonly name: MachineField
   readonly informations: MachineField[]
   readonly reports: SelectableList<MachineReport>
-  readonly units: MachineUnits
+  readonly units: MachineMathUnits
   readonly settings: JSONProjectSettings
   readonly images: Image[]
   refreshLinesAndImages: () => void
@@ -15,7 +15,7 @@ interface BaseProject {
 
 interface BaseProjectCreatorParameters {
   machine: MachineName
-  units: MachineUnits
+  units: MachineMathUnits
 }
 
 interface JSONProject {
@@ -26,7 +26,7 @@ interface JSONProject {
   images: JSONImage[]
   informations: JSONField[]
   reports: JSONReport[]
-  units: JSONUnits
+  units: JSONMachineUnits
 }
 
 type MachineName = 'heavydyn' | 'maxidyn' | 'minidyn'
@@ -45,3 +45,8 @@ interface JSONProjectSettings {
 }
 
 type PointsState = 'value' | 'number' | 'nothing'
+
+interface MathUnitWithThresholds {
+  unit: MathUnit
+  thresholds: AnyThreshold[]
+}

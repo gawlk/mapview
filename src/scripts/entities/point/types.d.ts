@@ -10,4 +10,6 @@ interface MachinePointCreatorParameters {
   iconName: IconName
   projectSettings: JSONProjectSettings
   reportSettings: JSONReportSettings
+  reportDataLabels: ReportDataLabels
+  reportThresholds: ReportThresholds
 }

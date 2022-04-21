@@ -11,79 +11,67 @@ export const createMaxidynProjectFromJSON = async (
 ) => {
   const jsonUnits = json.units as JSONMaxidynUnits
 
-  const units: MaxidynUnits = {
-    modulus: createMathUnit(
+  const units: MaxidynMathUnits = {
+    modulus: createMathUnit<PossibleMaxidynModulusUnits>(
       'Modulus',
-      [
-        ['MPa', 0],
-        ['kN', 0],
-      ],
+      'Pa',
+      [['MPa', 0]],
       {
         currentUnit: jsonUnits.modulus,
       }
     ),
-    deformation: createMathUnit(
-      'Deformation',
+    stiffness: createMathUnit<PossibleMaxidynStiffnessUnits>(
+      'Stiffness',
+      'N / m',
+      [['MN / m', 0]],
+      {
+        currentUnit: jsonUnits.stiffness,
+      }
+    ),
+    deflection: createMathUnit<PossibleMaxidynDeflectionUnits>(
+      'Deflection',
+      'm',
       [
         ['mm', 0],
         ['um', 0],
       ],
       {
-        minDisplayedValue: 100,
-        maxDisplayedValue: 200,
-        currentUnit: jsonUnits.deformation,
-        thresholds: [
-          {
-            name: 'N.S',
-            value: 0,
-          },
-          {
-            name: 'AR1',
-            value: 20,
-          },
-          {
-            name: 'AR2',
-            value: 50,
-          },
-          {
-            name: 'AR3',
-            value: 120,
-          },
-          {
-            name: 'AR4',
-            value: 200,
-          },
-          {
-            name: 'PF1',
-            value: 20,
-          },
-          {
-            name: 'PF2',
-            value: 50,
-          },
-          {
-            name: 'PF2+',
-            value: 80,
-          },
-          {
-            name: 'PF3',
-            value: 120,
-          },
-          {
-            name: 'PF4',
-            value: 200,
-          },
-        ],
+        currentUnit: jsonUnits.deflection,
       }
     ),
-    force: createMathUnit(
+    force: createMathUnit<PossibleMaxidynForceUnits>(
       'Force',
+      'N',
       [
         ['N', 0],
         ['kN', 0],
       ],
       {
         currentUnit: jsonUnits.force,
+      }
+    ),
+    distance: createMathUnit<PossibleMaxidynDistanceUnits>(
+      'Distance',
+      'm',
+      [
+        ['m', 0],
+        ['km', 0],
+        ['mi', 0],
+      ],
+      {
+        currentUnit: jsonUnits.distance,
+      }
+    ),
+    time: createMathUnit<PossibleMaxidynTimeUnits>(
+      'Time',
+      's',
+      [
+        ['s', 0],
+        ['ms', 0],
+        ['us', 0],
+      ],
+      {
+        currentUnit: jsonUnits.time,
       }
     ),
   }

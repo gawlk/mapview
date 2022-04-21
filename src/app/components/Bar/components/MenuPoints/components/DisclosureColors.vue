@@ -4,30 +4,65 @@
     createZone,
     setDisclosureOpenState,
     getDisclosureOpenState,
+    convertValueFromBaseUnitToCurrentUnit,
+    convertValueFromCurrentUnitToBaseUnit,
+    blend,
+    colorsClasses,
   } from '/src/scripts'
 
   import IconColorSwatch from '~icons/heroicons-solid/color-swatch'
   import IconAdjustments from '~icons/heroicons-solid/adjustments'
   import IconPlus from '~icons/heroicons-solid/plus'
   import IconTrash from '~icons/heroicons-solid/trash'
+  import IconCog from '~icons/heroicons-solid/cog'
   import IconIssueDraft from '~icons/octicon/issue-draft-16'
   import IconFold from '~icons/octicon/fold-16'
+  import IconPencilAlt from '~icons/heroicons-solid/pencil-alt'
+  import Button from '/src/components/Button.vue'
 
   const { t } = useI18n()
 
   const key = 'isPointsColorsDisclosureOpen'
 
+  const selectedReport = computed(
+    () => store.projects.selected?.reports.selected
+  )
+
   const selectedDataLabel = computed(
-    () =>
-      store.projects.selected?.reports.selected?.dataLabels.groups.selected
-        ?.choices.selected
+    () => selectedReport.value?.dataLabels.groups.selected?.choices.selected
+  )
+
+  const currentGroupedThresholds = computed(() =>
+    selectedReport.value?.thresholds.groups.find(
+      (group) => group.unit === selectedDataLabel.value?.unit
+    )
   )
 
   const formattedTresholdValue = computed(
     () =>
       `${
-        selectedDataLabel.value?.unit.thresholds?.selected?.value.toLocaleString() ||
-        '?'
+        currentGroupedThresholds.value?.choices.selected &&
+        selectedDataLabel.value
+          ? convertValueFromBaseUnitToCurrentUnit(
+              currentGroupedThresholds.value.choices.selected.value,
+              selectedDataLabel.value.unit
+            ).toLocaleString()
+          : '?'
+      } ${selectedDataLabel.value?.unit.currentUnit}`
+  )
+
+  const formattedTresholdValueHigh = computed(
+    () =>
+      `${
+        currentGroupedThresholds.value?.choices.selected &&
+        selectedDataLabel.value
+          ? convertValueFromBaseUnitToCurrentUnit(
+              currentGroupedThresholds.value.choices.selected.kind === 'custom'
+                ? currentGroupedThresholds.value.choices.selected.valueHigh
+                : currentGroupedThresholds.value.choices.selected.value,
+              selectedDataLabel.value.unit
+            )?.toLocaleString()
+          : '?'
       } ${selectedDataLabel.value?.unit.currentUnit}`
   )
 </script>
@@ -43,80 +78,270 @@
       :icon="IconAdjustments"
       :values="[t('Colorization by threshold'), t('Colorization by zone')]"
       :selectedIndex="
-        store.projects.selected?.reports.selected?.settings
-          .selectedColorization === 'Threshold'
-          ? 0
-          : 1
+        selectedReport?.settings.selectedColorization === 'Threshold' ? 0 : 1
       "
       @selectIndex="
         (index) =>
-          store.projects.selected?.reports.selected &&
-          (store.projects.selected.reports.selected.settings.selectedColorization =
+          selectedReport &&
+          (selectedReport.settings.selectedColorization =
             index === 0 ? 'Threshold' : 'Zone')
       "
       full
     />
     <Divider />
     <div
-      v-if="
-        store.projects.selected?.reports.selected?.settings
-          .selectedColorization === 'Threshold'
-      "
+      v-if="selectedReport?.settings.selectedColorization === 'Threshold'"
       class="space-y-2"
     >
       <Listbox
         :icon="IconFold"
         :values="
-          selectedDataLabel?.unit.thresholds?.list.map(
-            (threshold) => threshold.name
+          currentGroupedThresholds?.choices.list.map((threshold) =>
+            t(threshold.name)
           )
         "
         @selectIndex="
           (index) =>
-            selectedDataLabel?.unit.thresholds?.selected &&
-            (selectedDataLabel.unit.thresholds.selected =
-              selectedDataLabel.unit.thresholds.list[index])
+            currentGroupedThresholds &&
+            (currentGroupedThresholds.choices.selected =
+              currentGroupedThresholds.choices.list[index])
         "
         :preSelected="`${t('Threshold')}${t(':')}`"
-        :selected="selectedDataLabel?.unit.thresholds?.selected?.name"
+        :selected="t(currentGroupedThresholds?.choices.selected.name)"
+        full
+      />
+      <Listbox
+        v-if="currentGroupedThresholds?.choices.selected?.kind === 'custom'"
+        :icon="IconCog"
+        :values="[t('Bicolor'), t('Gradient'), t('Tricolor')]"
+        @selectIndex="
+          (index) =>
+            currentGroupedThresholds &&
+            currentGroupedThresholds.choices.selected?.kind === 'custom' &&
+            (currentGroupedThresholds.choices.selected.type =
+              index === 0 ? 'Bicolor' : index === 1 ? 'Gradient' : 'Tricolor')
+        "
+        :preSelected="`${t('Type')}${t(':')}`"
+        :selected="t(currentGroupedThresholds?.choices.selected.type)"
         full
       />
       <ListboxColors
         :icon="IconColorSwatch"
-        :color="
-          store.projects.selected?.reports.selected?.settings.threshold.colors
-            .low
-        "
-        @selectColor="(color: Color) => {
-          store.projects.selected?.reports.selected && (store.projects.selected.reports.selected.settings.threshold.colors.low = color)
+        :color="selectedReport.thresholds.colors.low"
+        @selectColor="(color: ColorName) => {
+          selectedReport && (selectedReport.thresholds.colors.low = color)
         }"
-        :text="`0 < ${t(
+        :text="`0 ${selectedDataLabel?.unit.currentUnit} ≤ ${t(
           selectedDataLabel?.name || ''
         )} < ${formattedTresholdValue}`"
       />
+      <div
+        v-if="currentGroupedThresholds.choices.selected?.kind === 'custom'"
+        class="flex space-x-2"
+      >
+        <Switch
+          :leftIcon="IconPencilAlt"
+          :rightIcon="IconAdjustments"
+          :value="selectedReport.thresholds.inputs.isRequiredARange"
+          @input="
+            (value) =>
+              (selectedReport.thresholds.inputs.isRequiredARange = value)
+          "
+        />
+        <Input
+          id="threshold-input"
+          @input="
+            (value) => {
+              if (currentGroupedThresholds.choices.selected) {
+                value = convertValueFromCurrentUnitToBaseUnit(
+                  value,
+                  selectedDataLabel.unit
+                )
+
+                value =
+                  value < selectedDataLabel.unit.min
+                    ? selectedDataLabel.unit.min
+                    : value > selectedDataLabel.unit.max
+                    ? selectedDataLabel.unit.max
+                    : value
+
+                currentGroupedThresholds.choices.selected.value = value
+
+                if (
+                  currentGroupedThresholds.choices.selected.kind === 'custom' &&
+                  currentGroupedThresholds.choices.selected.valueHigh < value
+                ) {
+                  currentGroupedThresholds.choices.selected.valueHigh = value
+                }
+              }
+            }
+          "
+          :value="
+            String(
+              convertValueFromBaseUnitToCurrentUnit(
+                currentGroupedThresholds.choices.selected?.value,
+                selectedDataLabel.unit
+              )
+            )
+          "
+          :type="
+            selectedReport.thresholds.inputs.isRequiredARange
+              ? 'range'
+              : 'number'
+          "
+          :step="selectedDataLabel.unit.step"
+          :min="
+            convertValueFromBaseUnitToCurrentUnit(
+              selectedDataLabel.unit.min,
+              selectedDataLabel.unit
+            )
+          "
+          :max="
+            convertValueFromBaseUnitToCurrentUnit(
+              selectedDataLabel.unit.max,
+              selectedDataLabel.unit
+            )
+          "
+        />
+      </div>
+      <div
+        v-if="
+          currentGroupedThresholds.choices.selected?.kind === 'custom' &&
+          currentGroupedThresholds.choices.selected.type !== 'Bicolor'
+        "
+        class="space-y-2"
+      >
+        <ListboxColors
+          v-if="currentGroupedThresholds.choices.selected.type === 'Tricolor'"
+          :icon="IconColorSwatch"
+          :color="selectedReport.thresholds.colors.middle"
+          @selectColor="(color: ColorName) => {
+          selectedReport && (selectedReport.thresholds.colors.middle = color)
+        }"
+          :text="`${formattedTresholdValue} ≤ ${t(
+            selectedDataLabel?.name || ''
+          )} < ${formattedTresholdValueHigh}`"
+        />
+        <Button
+          v-else
+          :leftIcon="'span'"
+          as="div"
+          full
+          :style="[
+            `color: ${blend(
+              blend(
+                colorsClasses[selectedReport.thresholds.colors.low].hexColor,
+                colorsClasses[selectedReport.thresholds.colors.high].hexColor
+              ),
+              '#000000',
+              0.75
+            )}`,
+            `background: linear-gradient(180deg,${
+              colorsClasses[selectedReport.thresholds.colors.low].hexColor
+            },${
+              colorsClasses[selectedReport.thresholds.colors.high].hexColor
+            })`,
+          ]"
+        >
+          {{
+            `${formattedTresholdValue} ≤ ${t(
+              selectedDataLabel?.name || ''
+            )} < ${formattedTresholdValueHigh}`
+          }}
+        </Button>
+        <div class="flex space-x-2">
+          <Switch
+            :leftIcon="IconPencilAlt"
+            :rightIcon="IconAdjustments"
+            :value="selectedReport.thresholds.inputs.isOptionalARange"
+            @input="
+              (value) =>
+                (selectedReport.thresholds.inputs.isOptionalARange = value)
+            "
+          />
+          <Input
+            id="threshold-high-input"
+            @input="
+              (value) => {
+                if (
+                  currentGroupedThresholds.choices.selected?.kind === 'custom'
+                ) {
+                  value = convertValueFromCurrentUnitToBaseUnit(
+                    value,
+                    selectedDataLabel.unit
+                  )
+
+                  value =
+                    value < selectedDataLabel.unit.min
+                      ? selectedDataLabel.unit.min
+                      : value > selectedDataLabel.unit.max
+                      ? selectedDataLabel.unit.max
+                      : value
+
+                  currentGroupedThresholds.choices.selected.valueHigh = value
+
+                  if (
+                    currentGroupedThresholds.choices.selected.value >
+                    currentGroupedThresholds.choices.selected.valueHigh
+                  ) {
+                    currentGroupedThresholds.choices.selected.value = value
+                  }
+                }
+              }
+            "
+            :value="
+              String(
+                convertValueFromBaseUnitToCurrentUnit(
+                  currentGroupedThresholds.choices.selected?.valueHigh,
+                  selectedDataLabel.unit
+                )
+              )
+            "
+            :type="
+              selectedReport.thresholds.inputs.isOptionalARange
+                ? 'range'
+                : 'number'
+            "
+            :step="selectedDataLabel.unit.step"
+            :min="
+              convertValueFromBaseUnitToCurrentUnit(
+                selectedDataLabel.unit.min,
+                selectedDataLabel.unit
+              )
+            "
+            :max="
+              convertValueFromBaseUnitToCurrentUnit(
+                selectedDataLabel.unit.max,
+                selectedDataLabel.unit
+              )
+            "
+          />
+        </div>
+      </div>
       <ListboxColors
         :icon="IconColorSwatch"
-        :color="
-          store.projects.selected.reports.selected.settings.threshold.colors
-            .high
-        "
-        @selectColor="(color: Color) => {
-          store.projects.selected?.reports.selected && (store.projects.selected.reports.selected.settings.threshold.colors.high = color)
+        :color="selectedReport.thresholds.colors.high"
+        @selectColor="(color: ColorName) => {
+          selectedReport && (selectedReport.thresholds.colors.high = color)
         }"
-        :text="`${formattedTresholdValue} < ${t(
-          selectedDataLabel?.name || ''
-        )} < ∞`"
+        :text="`${
+          currentGroupedThresholds.choices.selected?.kind === 'custom' &&
+          currentGroupedThresholds.choices.selected.type !== 'Tricolor'
+            ? formattedTresholdValue
+            : formattedTresholdValueHigh
+        } ≤ ${t(selectedDataLabel?.name || '')} < ∞ ${
+          selectedDataLabel?.unit.currentUnit
+        }`"
       />
     </div>
     <div v-else class="space-y-2">
       <div
-        v-for="(zone, index) of store.projects.selected?.reports.selected
-          ?.zones"
+        v-for="(zone, index) of selectedReport?.zones"
         class="flex space-x-2"
       >
         <ListboxColors
           :icon="IconIssueDraft"
-          @selectColor="(color: Color) => 
+          @selectColor="(color: ColorName) => 
             (zone.color = color)
           "
           :color="zone.color"
@@ -127,9 +352,7 @@
           @input="(value) => (zone.name = String(value))"
         />
         <Button
-          @click="
-            store.projects.selected?.reports.selected?.zones.splice(index, 1)
-          "
+          @click="selectedReport?.zones.splice(index, 1)"
           :icon="IconTrash"
         />
       </div>
@@ -138,11 +361,10 @@
         :leftIcon="IconPlus"
         @click="
           () => {
-            store.projects.selected?.reports.selected?.zones.push(
+            selectedReport?.zones.push(
               createZone({
-                name: `${t('Zone')} ${
-                  store.projects.selected?.reports.selected?.zones.length + 1
-                }`,
+                name: `${t('Zone')} ${selectedReport?.zones.length + 1}`,
+                isVisible: true,
               })
             )
           }

@@ -1,9 +1,11 @@
 interface Zone {
   name: string
-  color: Color
+  color: ColorName
+  isVisible: boolean
 }
 
 interface JSONZone {
   name: string
-  color?: Color
+  color: ColorName
+  isVisible: boolean
 }

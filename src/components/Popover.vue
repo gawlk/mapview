@@ -26,7 +26,9 @@
         :is="props.icon"
         class="mr-1 h-5 w-5 text-gray-400 transition-colors duration-200 group-hover:text-gray-500"
       />
-      <span class="flex-1 text-left">{{ props.buttonText }}</span>
+      <span class="flex-1 truncate text-left">
+        {{ props.buttonText }}
+      </span>
       <IconHeroiconsSolidChevronDown
         class="h-5 w-5 text-gray-400 transition-colors duration-200 group-hover:text-gray-500"
       />

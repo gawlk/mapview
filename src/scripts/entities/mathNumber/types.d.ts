@@ -1,7 +1,7 @@
 interface MathNumber {
-  value: math.Unit | number
+  value: number
   unit: MathUnit | string
-  displayString: string
-  displayStringWithUnit: string
+  displayedString: string
+  displayedStringWithUnit: string
   toDisplayedValue: () => void
 }

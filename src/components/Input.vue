@@ -94,9 +94,9 @@
       :value="new Date(props.value).toLocaleDateString(getBrowserLocale())"
       :class="classes"
     />
-    <input
-      v-else
-      @input="
+    <div class="flex h-10 items-center" v-else>
+      <input
+        @input="
         (event) =>
           emit(
             'input',
@@ -105,12 +105,14 @@
               : (event.target as HTMLInputElement).value
           )
       "
-      :id="props.id"
-      :type="props.type"
-      :value="props.value"
-      :min="props.min"
-      :max="props.max"
-      :class="classes"
-    />
+        :id="props.id"
+        :type="props.type"
+        :value="props.value"
+        :min="props.min"
+        :max="props.max"
+        :step="props.step"
+        :class="classes"
+      />
+    </div>
   </div>
 </template>

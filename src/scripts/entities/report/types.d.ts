@@ -7,10 +7,15 @@ type PartialMachineReport<MachineReport> = PartialExtendedObject<
 
 interface MachineReportCreatorParameters {
   projectSettings: JSONProjectSettings
-  units: MachineUnits
+  units: MachineMathUnits | string
 }
 
 type MachineDropIndex = HeavydynDropIndex | MaxidynDropIndex | MinidynDropIndex
+
+type MachineThresholds =
+  | HeavydynThresholds
+  | MaxidynThresholds
+  | MinidynThresholds
 
 type JSONMachineDropIndex =
   | JSONHeavydynDropIndex

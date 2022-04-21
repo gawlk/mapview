@@ -27,7 +27,6 @@
   const selectGroupedDataLabels = (index: number) => {
     tableDataLabels.value?.selected &&
       (tableDataLabels.value.selected = tableDataLabels.value?.list[index])
-    console.log(tableDataLabels.value?.selected?.group.from)
   }
 </script>
 

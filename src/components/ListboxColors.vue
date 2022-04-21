@@ -2,11 +2,11 @@
   import { colorsClasses } from '/src/scripts'
 
   const emit = defineEmits<{
-    (event: 'selectColor', value: Color): void
+    (event: 'selectColor', value: ColorName): void
   }>()
 
   const props = defineProps<{
-    color: Color
+    color: ColorName
     icon?: any
     text?: string
     full?: boolean
@@ -23,7 +23,7 @@
       Object.keys(colorsClasses).findIndex((color) => color === props.color)
     "
     @selectIndex="(index) => 
-      emit('selectColor', (Object.keys(colorsClasses) as Color[])[index])
+      emit('selectColor', (Object.keys(colorsClasses) as ColorName[])[index])
     "
     :classes="Object.values(colorsClasses).map((color) => color.buttonColors)"
     :full="props.full"

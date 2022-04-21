@@ -7,13 +7,13 @@
     "Local": "fr-FR",
     "TimeZone": "Paris, Madrid"
   },
-  "Dossiers": {
+  "Project": {
     "Version": 1,
-    "Name": "Toreilles - Rd 11",
+    "Name": "P39-27",
     "Client": "",
-    "Project": "936 981",
+    "Project": "",
     "Town": "",
-    "Date": "2021-10-11T11:38:30",
+    "Date": "2022-03-09T14:51:05",
     "Site": "",
     "Comments": ""
   },
@@ -21,6 +21,7 @@
     "Version": 1,
     "Name": "Maxidyn Edyn2",
     "AlgoBearing": "Dynaplaque",
+    "HasQuality": true,
     "AlgoProcessing1": "Boussinesq",
     "AlgoProcessing2": "Aucun",
     "DPlate": 0.6,
@@ -28,14 +29,8 @@
     "FForme": 4.0,
     "K": 0.0,
     "Alpha": 0.0,
-    "MinBearing": 10.0,
-    "MaxBearing": 250.0
-  },
-  "TypesResultBearing": {
-    "Version": 1,
-    "Name": "Module (MPa)",
-    "ResultStr": "Module",
-    "ResultUnitStr": "MPa"
+    "MinBearing": 10000000.0,
+    "MaxBearing": 250000000.0
   },
   "ParamsPoint": {
     "Version": 1,
@@ -43,15 +38,40 @@
     "NbAveraging": 1,
     "NbTotal": 3
   },
-  "Machines": {
+  "ExportedData": {
     "Version": 1,
-    "Serial": "MAX-112E",
-    "Attribution": "Spie Malet",
-    "MAC": "16-B4-D9-B7-B1-ED-63-30",
+    "Points": [
+      {
+        "Version": 1,
+        "Name": "BearingCapacity",
+        "Type": "Modulus",
+        "Unit": "MPa"
+      },
+      { "Version": 1, "Name": "Quality", "Type": "Number", "Unit": "%" },
+      { "Version": 1, "Name": "Chainage", "Type": "Distance", "Unit": "m" }
+    ],
+    "Drops": [
+      { "Version": 1, "Name": "PulseTime", "Type": "Time", "Unit": "ms" },
+      { "Version": 1, "Name": "Fmax", "Type": "Force", "Unit": "kN" },
+      { "Version": 1, "Name": "Umax", "Type": "Deflection", "Unit": "mm" },
+      {
+        "Version": 1,
+        "Name": "BearingCapacity",
+        "Type": "Modulus",
+        "Unit": "MPa"
+      },
+      { "Version": 1, "Name": "Quality", "Type": "Number", "Unit": "%" }
+    ]
+  },
+  "Hardware": {
+    "Version": 1,
+    "Serial": "MAX-122E",
+    "Attribution": "Rincent Bourgogne",
+    "MAC": "B8-8B-E1-C3-B4-C5-EF-20",
     "LicStart": "2020-01-01T23:59:00",
     "LicEnd": "2050-01-01T23:59:00",
-    "CertStart": "2020-01-31T23:59:00",
-    "CertEnd": "2021-01-31T23:59:00"
+    "CertStart": "2021-05-05T23:59:00",
+    "CertEnd": "2022-05-05T23:59:00"
   },
   "ParamsAcqu": {
     "Version": 1,
@@ -61,10 +81,10 @@
   },
   "PVs": [
     {
-      "PVs": {
+      "PV": {
         "Version": 1,
-        "Name": "2022-01-21",
-        "Date": "2022-01-21T13:28:54",
+        "Name": "P39-27",
+        "Date": "2022-03-09T14:51:13",
         "Operator": "",
         "Lane": "",
         "Sens": "",
@@ -73,568 +93,1157 @@
         "Temperature": "",
         "Comments": ""
       },
-      "Plateformes": {
+      "Plateform": {
         "Version": 1,
-        "Type": "Voirie",
+        "Type": "",
         "Support": "",
-        "Layer": "Arase de terrassement",
-        "Material": "GNT 0/80 sur 60 à 80cm",
-        "GTR": "N.S.",
-        "Class": "N.S.",
-        "Thresold": 0.0
+        "Layer": "",
+        "Material": "",
+        "GTR": "N.S."
       },
+      "Threshold": { "Version": 1, "Class": "N.S.", "Threshold": 0.0 },
       "Points": [
         {
-          "Points": {
+          "Point": {
             "Version": 1,
-            "ID": "2E143414620272D1",
+            "ID": "7756F63E3CDB7BD7",
             "Number": 1,
-            "Date": "2022-01-21T13:31:16",
-            "BearingCapacity": "NaN",
-            "Quality": "NaN",
-            "Chainage": 8827.754,
+            "Date": "2022-03-09T14:53:44",
+            "BearingCapacity": 64053219.562394731,
+            "Quality": 92.721852152979281,
+            "Chainage": 495947.0,
             "Comments": "",
-            "Latitude": 42.761079833333334,
-            "Longitude": 2.9890916666666669,
+            "Latitude": 46.3815595,
+            "Longitude": 4.481654,
             "DOP": 1.7999999999999998
           },
           "Drops": [
             {
               "Version": 1,
               "Number": 1,
-              "BearingCapacity": 93505881.466840073,
-              "Quality": 77.6139352851349,
-              "Fmax": 62321.636242992317,
-              "Umax": 0.0010414056859536524,
-              "PulseTime": 0.017066666666666667
+              "BearingCapacity": 20378020.211408738,
+              "Quality": 92.234911752465877,
+              "Fmax": 57566.55032291048,
+              "Umax": 0.0044139584683103774,
+              "PulseTime": 0.019966666666666667
             },
             {
               "Version": 1,
               "Number": 2,
-              "BearingCapacity": 128723672.89890847,
-              "Quality": 72.160679049477466,
-              "Fmax": 54544.653646165265,
-              "Umax": 0.00066208506487430957,
-              "PulseTime": 0.016533333333333334
+              "BearingCapacity": 52170455.648343638,
+              "Quality": 94.408231035145278,
+              "Fmax": 47549.642395919422,
+              "Umax": 0.0014685233924642768,
+              "PulseTime": 0.018533333333333336
             },
             {
               "Version": 1,
               "Number": 3,
-              "BearingCapacity": "NaN",
-              "Quality": "NaN",
-              "Fmax": 85660.898481584372,
-              "Umax": 0.0072991419461957705,
-              "PulseTime": 0.016533333333333334
+              "BearingCapacity": 64053219.562394731,
+              "Quality": 92.721852152979281,
+              "Fmax": 46478.993780785757,
+              "Umax": 0.0011845375304414909,
+              "PulseTime": 0.018433333333333333
             }
           ]
         },
         {
-          "Points": {
+          "Point": {
             "Version": 1,
-            "ID": "9E13779D51457799",
+            "ID": "0ED37838C8C2FB72",
             "Number": 2,
-            "Date": "2022-01-21T13:31:55",
-            "BearingCapacity": 105778546.93624306,
-            "Quality": 90.0928149486506,
-            "Chainage": 8827.754,
+            "Date": "2022-03-09T14:54:42",
+            "BearingCapacity": 75302549.702228427,
+            "Quality": 93.400614319849154,
+            "Chainage": 495978.0,
             "Comments": "",
-            "Latitude": 42.761091666666665,
-            "Longitude": 2.9891103333333335,
+            "Latitude": 46.381555666666664,
+            "Longitude": 4.481378,
             "DOP": 1.7999999999999998
           },
           "Drops": [
             {
               "Version": 1,
               "Number": 1,
-              "BearingCapacity": "NaN",
-              "Quality": "NaN",
-              "Fmax": 61434.909219554509,
-              "Umax": 0.0020010758454137786,
-              "PulseTime": 0.016533333333333334
+              "BearingCapacity": 29231931.376142334,
+              "Quality": 92.035077563988366,
+              "Fmax": 52883.411568399322,
+              "Umax": 0.0029755321166146913,
+              "PulseTime": 0.019733333333333335
             },
             {
               "Version": 1,
               "Number": 2,
-              "BearingCapacity": 103281990.08892453,
-              "Quality": 89.781095232242976,
-              "Fmax": 56261.424317161262,
-              "Umax": 0.00085115009325320275,
-              "PulseTime": 0.016566666666666667
+              "BearingCapacity": 69774767.153299034,
+              "Quality": 93.362719057161243,
+              "Fmax": 45943.969478438557,
+              "Umax": 0.0011037381446357859,
+              "PulseTime": 0.018533333333333336
             },
             {
               "Version": 1,
               "Number": 3,
-              "BearingCapacity": 105778546.93624306,
-              "Quality": 90.0928149486506,
-              "Fmax": 56247.157419956427,
-              "Umax": 0.000830850734995012,
-              "PulseTime": 0.0165
+              "BearingCapacity": 75302549.702228427,
+              "Quality": 93.400614319849154,
+              "Fmax": 45592.2462283919,
+              "Umax": 0.0010121233950262567,
+              "PulseTime": 0.018466666666666666
             }
           ]
         },
         {
-          "Points": {
+          "Point": {
             "Version": 1,
-            "ID": "87A8AE9B19370229",
+            "ID": "540C48B767FD3816",
             "Number": 3,
-            "Date": "2022-01-21T13:33:52",
-            "BearingCapacity": 63715603.483810313,
-            "Quality": 97.394866031191071,
-            "Chainage": 8855.138,
+            "Date": "2022-03-09T14:55:34",
+            "BearingCapacity": 89306216.104297161,
+            "Quality": 92.455798955614853,
+            "Chainage": 496009.0,
             "Comments": "",
-            "Latitude": 42.7608545,
-            "Longitude": 2.9892456666666667,
+            "Latitude": 46.3815585,
+            "Longitude": 4.4811365,
             "DOP": 1.7999999999999998
           },
           "Drops": [
             {
               "Version": 1,
               "Number": 1,
-              "BearingCapacity": 42123963.227368928,
-              "Quality": 91.766831823641354,
-              "Fmax": 65182.819715434453,
-              "Umax": 0.0024178198821328662,
-              "PulseTime": 0.017766666666666667
+              "BearingCapacity": 19904437.184898388,
+              "Quality": 88.674011479705754,
+              "Fmax": 57596.329383182245,
+              "Umax": 0.0045213167207511619,
+              "PulseTime": 0.020833333333333336
             },
             {
               "Version": 1,
               "Number": 2,
-              "BearingCapacity": 62139658.904642053,
-              "Quality": 97.321416041395764,
-              "Fmax": 62988.557085893357,
-              "Umax": 0.0015838455212272829,
-              "PulseTime": 0.017066666666666667
+              "BearingCapacity": 79253268.2251975,
+              "Quality": 93.006912686419113,
+              "Fmax": 45245.061813104541,
+              "Umax": 0.00096942535861515742,
+              "PulseTime": 0.0184
             },
             {
               "Version": 1,
               "Number": 3,
-              "BearingCapacity": 63715603.483810313,
-              "Quality": 97.394866031191071,
-              "Fmax": 62035.795082585122,
-              "Umax": 0.0015213059991053639,
-              "PulseTime": 0.017033333333333334
+              "BearingCapacity": 89306216.104297161,
+              "Quality": 92.455798955614853,
+              "Fmax": 44712.207861416689,
+              "Umax": 0.00085062390238632192,
+              "PulseTime": 0.0183
             }
           ]
         },
         {
-          "Points": {
+          "Point": {
             "Version": 1,
-            "ID": "D180FC9F2FEE5DD6",
+            "ID": "29A3FE8C70947D3A",
             "Number": 4,
-            "Date": "2022-01-21T13:35:34",
-            "BearingCapacity": 129661328.72538777,
-            "Quality": 79.269047496698548,
-            "Chainage": 8887.575,
+            "Date": "2022-03-09T14:56:31",
+            "BearingCapacity": 81075235.144462258,
+            "Quality": 91.097298800042267,
+            "Chainage": 496042.0,
             "Comments": "",
-            "Latitude": 42.760668,
-            "Longitude": 2.9894296666666667,
+            "Latitude": 46.381559,
+            "Longitude": 4.4808593333333331,
             "DOP": 1.7999999999999998
           },
           "Drops": [
             {
               "Version": 1,
               "Number": 1,
-              "BearingCapacity": 81725653.168181241,
-              "Quality": 75.000100096453011,
-              "Fmax": 71981.4883925671,
-              "Umax": 0.0013762028353806436,
-              "PulseTime": 0.016900000000000002
+              "BearingCapacity": 21403902.259024534,
+              "Quality": 89.251828495589635,
+              "Fmax": 55756.011459691443,
+              "Umax": 0.0040702282626541133,
+              "PulseTime": 0.0201
             },
             {
               "Version": 1,
               "Number": 2,
-              "BearingCapacity": 114314412.77878964,
-              "Quality": 82.220803158749476,
-              "Fmax": 57130.2609884651,
-              "Umax": 0.00078088169833156421,
-              "PulseTime": 0.016733333333333333
+              "BearingCapacity": 71073662.916979849,
+              "Quality": 92.302037266557193,
+              "Fmax": 45508.979092299014,
+              "Umax": 0.0010892120090756463,
+              "PulseTime": 0.018500000000000003
             },
             {
               "Version": 1,
               "Number": 3,
-              "BearingCapacity": 129661328.72538777,
-              "Quality": 79.269047496698548,
-              "Fmax": 57599.523969260496,
-              "Umax": 0.000694110241555373,
-              "PulseTime": 0.0167
+              "BearingCapacity": 81075235.144462258,
+              "Quality": 91.097298800042267,
+              "Fmax": 45004.28888297308,
+              "Umax": 0.00095143422796731551,
+              "PulseTime": 0.018433333333333333
             }
           ]
         },
         {
-          "Points": {
+          "Point": {
             "Version": 1,
-            "ID": "90D2B67A00534991",
+            "ID": "44359F9DE5F56845",
             "Number": 5,
-            "Date": "2022-01-21T13:37:41",
-            "BearingCapacity": 70737259.789433837,
-            "Quality": 96.740788718227591,
-            "Chainage": 8918.056,
+            "Date": "2022-03-09T14:57:23",
+            "BearingCapacity": 81274604.306357354,
+            "Quality": 92.397062573215663,
+            "Chainage": 496072.0,
             "Comments": "",
-            "Latitude": 42.760426666666667,
-            "Longitude": 2.989623,
+            "Latitude": 46.381551666666667,
+            "Longitude": 4.4806146666666669,
             "DOP": 1.7999999999999998
           },
           "Drops": [
             {
               "Version": 1,
               "Number": 1,
-              "BearingCapacity": 53527350.539988957,
-              "Quality": 88.053391304955483,
-              "Fmax": 70704.705495191069,
-              "Umax": 0.0020639187484854512,
-              "PulseTime": 0.017133333333333334
+              "BearingCapacity": 30672007.076854166,
+              "Quality": 94.594730846317958,
+              "Fmax": 52521.667990298367,
+              "Umax": 0.003065385738842102,
+              "PulseTime": 0.019866666666666668
             },
             {
               "Version": 1,
               "Number": 2,
-              "BearingCapacity": 65912782.151888683,
-              "Quality": 96.927016297580522,
-              "Fmax": 59398.527785252809,
-              "Umax": 0.0014080758941503444,
-              "PulseTime": 0.016966666666666668
+              "BearingCapacity": 67810474.984859675,
+              "Quality": 93.54922429701351,
+              "Fmax": 45936.718398653953,
+              "Umax": 0.0011404438959054166,
+              "PulseTime": 0.018533333333333336
             },
             {
               "Version": 1,
               "Number": 3,
-              "BearingCapacity": 70737259.789433837,
-              "Quality": 96.740788718227591,
-              "Fmax": 59438.813623850423,
-              "Umax": 0.0013129310714568975,
-              "PulseTime": 0.016966666666666668
+              "BearingCapacity": 81274604.306357354,
+              "Quality": 92.397062573215663,
+              "Fmax": 45091.702170950688,
+              "Umax": 0.00093280704594794761,
+              "PulseTime": 0.0184
             }
           ]
         },
         {
-          "Points": {
+          "Point": {
             "Version": 1,
-            "ID": "4E698BCB9AB1DE38",
+            "ID": "38E6F7F42A89EF5B",
             "Number": 6,
-            "Date": "2022-01-21T13:39:28",
-            "BearingCapacity": 52444775.569308676,
-            "Quality": 95.499306684677123,
-            "Chainage": 8954.894,
+            "Date": "2022-03-09T14:58:27",
+            "BearingCapacity": 98040446.976914436,
+            "Quality": 91.01337162268841,
+            "Chainage": 496104.0,
             "Comments": "",
-            "Latitude": 42.760133833333335,
-            "Longitude": 2.98984,
+            "Latitude": 46.381566833333331,
+            "Longitude": 4.4803388333333336,
             "DOP": 1.7999999999999998
           },
           "Drops": [
             {
               "Version": 1,
               "Number": 1,
-              "BearingCapacity": 34126067.097541794,
-              "Quality": 86.8733210358618,
-              "Fmax": 73963.007932310313,
-              "Umax": 0.0033864787162233389,
-              "PulseTime": 0.0177
+              "BearingCapacity": 16467080.052430634,
+              "Quality": 88.196744604857727,
+              "Fmax": 61128.279382187611,
+              "Umax": 0.0058002351497993656,
+              "PulseTime": 0.020166666666666666
             },
             {
               "Version": 1,
               "Number": 2,
-              "BearingCapacity": 49226039.464095861,
-              "Quality": 94.259164366908962,
-              "Fmax": 59367.209512992886,
-              "Umax": 0.0018843942326846942,
-              "PulseTime": 0.0172
+              "BearingCapacity": 84827263.417562664,
+              "Quality": 92.241615518547235,
+              "Fmax": 45774.694697070423,
+              "Umax": 0.00092091240828895448,
+              "PulseTime": 0.018366666666666667
             },
             {
               "Version": 1,
               "Number": 3,
-              "BearingCapacity": 52444775.569308676,
-              "Quality": 95.499306684677123,
-              "Fmax": 59115.989345949543,
-              "Umax": 0.0017612571004518031,
-              "PulseTime": 0.0171
+              "BearingCapacity": 98040446.976914436,
+              "Quality": 91.01337162268841,
+              "Fmax": 45262.045596188575,
+              "Umax": 0.00079133363265764,
+              "PulseTime": 0.0183
             }
           ]
         },
         {
-          "Points": {
+          "Point": {
             "Version": 1,
-            "ID": "577BCF46CB93540B",
+            "ID": "750715532B206BD4",
             "Number": 7,
-            "Date": "2022-01-21T13:41:25",
-            "BearingCapacity": 59513523.71366626,
-            "Quality": 94.317710056417454,
-            "Chainage": 8994.992,
+            "Date": "2022-03-09T14:59:20",
+            "BearingCapacity": 94249915.895715535,
+            "Quality": 90.917598812115969,
+            "Chainage": 496136.0,
             "Comments": "",
-            "Latitude": 42.759886166666668,
-            "Longitude": 2.9900771666666666,
+            "Latitude": 46.381586,
+            "Longitude": 4.480092,
             "DOP": 1.7999999999999998
           },
           "Drops": [
             {
               "Version": 1,
               "Number": 1,
-              "BearingCapacity": 44973305.667510539,
-              "Quality": 85.185996679176029,
-              "Fmax": 69898.474858242713,
-              "Umax": 0.00242847096394126,
-              "PulseTime": 0.017266666666666666
+              "BearingCapacity": 18638522.880722463,
+              "Quality": 88.617986685399842,
+              "Fmax": 59674.898240634619,
+              "Umax": 0.005002651180981213,
+              "PulseTime": 0.022133333333333335
             },
             {
               "Version": 1,
               "Number": 2,
-              "BearingCapacity": 57234061.177043177,
-              "Quality": 94.210189954070913,
-              "Fmax": 56807.33883763734,
-              "Umax": 0.0015508504046085577,
-              "PulseTime": 0.016966666666666668
+              "BearingCapacity": 78247643.734198064,
+              "Quality": 92.407754525728265,
+              "Fmax": 46486.274653992361,
+              "Umax": 0.0010158173401603389,
+              "PulseTime": 0.0184
             },
             {
               "Version": 1,
               "Number": 3,
-              "BearingCapacity": 59513523.71366626,
-              "Quality": 94.317710056417454,
-              "Fmax": 57154.222198546413,
-              "Umax": 0.0015005576314870727,
-              "PulseTime": 0.016900000000000002
+              "BearingCapacity": 94249915.895715535,
+              "Quality": 90.917598812115969,
+              "Fmax": 45733.837335184238,
+              "Umax": 0.0008317658463788349,
+              "PulseTime": 0.018266666666666667
             }
           ]
         },
         {
-          "Points": {
+          "Point": {
             "Version": 1,
-            "ID": "367B81EAA26091F7",
+            "ID": "25CFD64CD339F138",
             "Number": 8,
-            "Date": "2022-01-21T13:44:22",
-            "BearingCapacity": 59582298.139266774,
-            "Quality": 96.249843542235041,
-            "Chainage": 9019.768,
+            "Date": "2022-03-09T15:00:12",
+            "BearingCapacity": 83470300.9220276,
+            "Quality": 88.948934315516027,
+            "Chainage": 496166.0,
             "Comments": "",
-            "Latitude": 42.759686333333335,
-            "Longitude": 2.9902146666666667,
+            "Latitude": 46.3816055,
+            "Longitude": 4.4798333333333336,
             "DOP": 1.7999999999999998
           },
           "Drops": [
             {
               "Version": 1,
               "Number": 1,
-              "BearingCapacity": 40827105.632553257,
-              "Quality": 92.2100302948521,
-              "Fmax": 60035.956834219833,
-              "Umax": 0.0022976446921741294,
-              "PulseTime": 0.017766666666666667
+              "BearingCapacity": 16148630.030729415,
+              "Quality": 90.542734280852,
+              "Fmax": 63467.828383604632,
+              "Umax": 0.0061409841987012754,
+              "PulseTime": 0.020366666666666668
             },
             {
               "Version": 1,
               "Number": 2,
-              "BearingCapacity": 57513511.224348329,
-              "Quality": 96.439588078234678,
-              "Fmax": 57648.812803905836,
-              "Umax": 0.001566175809623828,
-              "PulseTime": 0.017333333333333333
+              "BearingCapacity": 75480276.0446487,
+              "Quality": 89.4153322597092,
+              "Fmax": 46396.320278704487,
+              "Umax": 0.0010728686311060984,
+              "PulseTime": 0.018466666666666666
             },
             {
               "Version": 1,
               "Number": 3,
-              "BearingCapacity": 59582298.139266774,
-              "Quality": 96.249843542235041,
-              "Fmax": 57287.41392681768,
-              "Umax": 0.0015023184243653977,
-              "PulseTime": 0.017266666666666666
+              "BearingCapacity": 83470300.9220276,
+              "Quality": 88.948934315516027,
+              "Fmax": 45964.760352645375,
+              "Umax": 0.00096290800343372461,
+              "PulseTime": 0.018433333333333333
             }
           ]
-        }
-      ]
-    },
-    {
-      "PVs": {
-        "Version": 1,
-        "Name": "PV01",
-        "Date": "2021-10-11T11:40:01",
-        "Operator": "",
-        "Lane": "",
-        "Sens": "",
-        "Site": "",
-        "Weather": "",
-        "Temperature": "",
-        "Comments": ""
-      },
-      "Plateformes": {
-        "Version": 1,
-        "Type": "Voirie",
-        "Support": "",
-        "Layer": "Arase de terrassement",
-        "Material": "GNT 0/80 sur 60 à 80cm",
-        "GTR": "N.S.",
-        "Class": "N.S.",
-        "Thresold": 0.0
-      },
-      "Points": [
+        },
         {
-          "Points": {
+          "Point": {
             "Version": 1,
-            "ID": "5ED72B5353009A57",
-            "Number": 1,
-            "Date": "2021-10-11T11:40:01",
-            "BearingCapacity": 102630548.20901069,
-            "Quality": 87.459362597912687,
-            "Chainage": 21790.329,
+            "ID": "F1EA1B79A3519121",
+            "Number": 9,
+            "Date": "2022-03-09T15:01:03",
+            "BearingCapacity": 66035914.569990054,
+            "Quality": 92.43216714608424,
+            "Chainage": 496195.0,
             "Comments": "",
-            "Latitude": 42.762055333333336,
-            "Longitude": 2.988089,
+            "Latitude": 46.38162883333333,
+            "Longitude": 4.4795931666666666,
+            "DOP": 1.7999999999999998
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 1,
+              "BearingCapacity": 12742832.516085714,
+              "Quality": 88.839641591507728,
+              "Fmax": 69859.996327347035,
+              "Umax": 0.0085660895349356642,
+              "PulseTime": 0.021400000000000002
+            },
+            {
+              "Version": 1,
+              "Number": 2,
+              "BearingCapacity": 55646991.453984469,
+              "Quality": 93.5066431539029,
+              "Fmax": 47713.4245710542,
+              "Umax": 0.0014345448449517007,
+              "PulseTime": 0.018666666666666668
+            },
+            {
+              "Version": 1,
+              "Number": 3,
+              "BearingCapacity": 66035914.569990054,
+              "Quality": 92.43216714608424,
+              "Fmax": 46818.821304507546,
+              "Umax": 0.00119893368125798,
+              "PulseTime": 0.018566666666666669
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "444C3D2D6627FD59",
+            "Number": 10,
+            "Date": "2022-03-09T15:01:55",
+            "BearingCapacity": 85445148.3771585,
+            "Quality": 92.115172633226976,
+            "Chainage": 496228.0,
+            "Comments": "",
+            "Latitude": 46.381643,
+            "Longitude": 4.4793086666666664,
+            "DOP": 1.7999999999999998
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 1,
+              "BearingCapacity": 13291887.052864306,
+              "Quality": 87.709813075177522,
+              "Fmax": 68327.714326734844,
+              "Umax": 0.0080321216401336142,
+              "PulseTime": 0.021966666666666669
+            },
+            {
+              "Version": 1,
+              "Number": 2,
+              "BearingCapacity": 72390194.3753493,
+              "Quality": 92.847137269148433,
+              "Fmax": 46335.190521715384,
+              "Umax": 0.0010861965053506838,
+              "PulseTime": 0.018600000000000002
+            },
+            {
+              "Version": 1,
+              "Number": 3,
+              "BearingCapacity": 85445148.3771585,
+              "Quality": 92.115172633226976,
+              "Fmax": 45598.353223540878,
+              "Umax": 0.00090628649892393392,
+              "PulseTime": 0.018500000000000003
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "6B0EB0CEE75AE0F7",
+            "Number": 11,
+            "Date": "2022-03-09T15:02:49",
+            "BearingCapacity": 93236091.165940091,
+            "Quality": 85.9032377223954,
+            "Chainage": 496258.0,
+            "Comments": "",
+            "Latitude": 46.38166833333333,
+            "Longitude": 4.479058,
+            "DOP": 1.7999999999999998
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 1,
+              "BearingCapacity": 17807694.276601423,
+              "Quality": 89.226338361283709,
+              "Fmax": 60501.238656555193,
+              "Umax": 0.0053085584204508839,
+              "PulseTime": 0.0206
+            },
+            {
+              "Version": 1,
+              "Number": 2,
+              "BearingCapacity": 62908090.852793023,
+              "Quality": 89.601973071540215,
+              "Fmax": 47644.528805292379,
+              "Umax": 0.0013448270123332217,
+              "PulseTime": 0.018666666666666668
+            },
+            {
+              "Version": 1,
+              "Number": 3,
+              "BearingCapacity": 93236091.165940091,
+              "Quality": 85.9032377223954,
+              "Fmax": 45771.030006128873,
+              "Umax": 0.00087607617425314852,
+              "PulseTime": 0.018366666666666667
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "FB6A030CEC81B3E3",
+            "Number": 12,
+            "Date": "2022-03-09T15:03:44",
+            "BearingCapacity": 93677897.548333734,
+            "Quality": 84.506799737343059,
+            "Chainage": 496288.0,
+            "Comments": "",
+            "Latitude": 46.381701166666666,
+            "Longitude": 4.4787958333333338,
+            "DOP": 1.7999999999999998
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 1,
+              "BearingCapacity": 36352372.828373685,
+              "Quality": 90.37314993796835,
+              "Fmax": 52495.329662822856,
+              "Umax": 0.0027239336866057553,
+              "PulseTime": 0.0193
+            },
+            {
+              "Version": 1,
+              "Number": 2,
+              "BearingCapacity": 87190870.149775028,
+              "Quality": 84.671135245272168,
+              "Fmax": 46102.637541459233,
+              "Umax": 0.00097104718581782375,
+              "PulseTime": 0.0184
+            },
+            {
+              "Version": 1,
+              "Number": 3,
+              "BearingCapacity": 93677897.548333734,
+              "Quality": 84.506799737343059,
+              "Fmax": 45819.594730382378,
+              "Umax": 0.00089611540924593538,
+              "PulseTime": 0.018333333333333333
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "7B09AAE2BB8246F0",
+            "Number": 13,
+            "Date": "2022-03-09T15:04:38",
+            "BearingCapacity": 85596916.550873786,
+            "Quality": 86.17123353326626,
+            "Chainage": 496317.0,
+            "Comments": "",
+            "Latitude": 46.381735666666664,
+            "Longitude": 4.4785553333333334,
+            "DOP": 1.7999999999999998
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 1,
+              "BearingCapacity": 26038492.886726886,
+              "Quality": 94.289150251802013,
+              "Fmax": 55769.356238786233,
+              "Umax": 0.0037066757216357841,
+              "PulseTime": 0.0198
+            },
+            {
+              "Version": 1,
+              "Number": 2,
+              "BearingCapacity": 77141171.081482619,
+              "Quality": 86.800556721158671,
+              "Fmax": 46166.6716074976,
+              "Umax": 0.0010674092725469148,
+              "PulseTime": 0.018500000000000003
+            },
+            {
+              "Version": 1,
+              "Number": 3,
+              "BearingCapacity": 85596916.550873786,
+              "Quality": 86.17123353326626,
+              "Fmax": 45713.865470080018,
+              "Umax": 0.00095173707321023618,
+              "PulseTime": 0.018433333333333333
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "39A598A081C45FC7",
+            "Number": 14,
+            "Date": "2022-03-09T15:08:53",
+            "BearingCapacity": 84295173.73283729,
+            "Quality": 91.161881243200725,
+            "Chainage": 496677.0,
+            "Comments": "",
+            "Latitude": 46.381524166666665,
+            "Longitude": 4.481629166666667,
+            "DOP": 1.7999999999999998
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 1,
+              "BearingCapacity": 16195567.126703402,
+              "Quality": 88.821594114795943,
+              "Fmax": 62561.71984808358,
+              "Umax": 0.00603576808998896,
+              "PulseTime": 0.022566666666666669
+            },
+            {
+              "Version": 1,
+              "Number": 2,
+              "BearingCapacity": 68163110.558743685,
+              "Quality": 89.4865349946706,
+              "Fmax": 46227.884789412208,
+              "Umax": 0.0011950453832137997,
+              "PulseTime": 0.018566666666666669
+            },
+            {
+              "Version": 1,
+              "Number": 3,
+              "BearingCapacity": 84295173.73283729,
+              "Quality": 91.161881243200725,
+              "Fmax": 45191.175674527469,
+              "Umax": 0.00092022664043227254,
+              "PulseTime": 0.018433333333333333
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "7626885B5980EA06",
+            "Number": 15,
+            "Date": "2022-03-09T15:09:49",
+            "BearingCapacity": 85502971.30725123,
+            "Quality": 90.7524073522374,
+            "Chainage": 496708.0,
+            "Comments": "",
+            "Latitude": 46.381528,
+            "Longitude": 4.481381,
+            "DOP": 1.7999999999999998
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 1,
+              "BearingCapacity": 41394817.134587981,
+              "Quality": 93.089026949421921,
+              "Fmax": 50300.791618499505,
+              "Umax": 0.0023176185684636395,
+              "PulseTime": 0.020300000000000002
+            },
+            {
+              "Version": 1,
+              "Number": 2,
+              "BearingCapacity": 78745745.926709563,
+              "Quality": 90.924026119855213,
+              "Fmax": 45418.428041486812,
+              "Umax": 0.000998754765581247,
+              "PulseTime": 0.018500000000000003
+            },
+            {
+              "Version": 1,
+              "Number": 3,
+              "BearingCapacity": 85502971.30725123,
+              "Quality": 90.7524073522374,
+              "Fmax": 45047.101392316472,
+              "Umax": 0.00090933177057595741,
+              "PulseTime": 0.018433333333333333
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "7A37AAE963DCACA8",
+            "Number": 16,
+            "Date": "2022-03-09T15:10:41",
+            "BearingCapacity": 87200688.505118713,
+            "Quality": 92.304559690641355,
+            "Chainage": 496737.0,
+            "Comments": "",
+            "Latitude": 46.381532,
+            "Longitude": 4.481123,
+            "DOP": 1.7999999999999998
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 1,
+              "BearingCapacity": 10084752.984394858,
+              "Quality": 88.694182731573235,
+              "Fmax": 77229.80082690563,
+              "Umax": 0.01196574313508394,
+              "PulseTime": 0.021833333333333333
+            },
+            {
+              "Version": 1,
+              "Number": 2,
+              "BearingCapacity": 77112801.665085927,
+              "Quality": 92.753172840147045,
+              "Fmax": 45404.6008773861,
+              "Umax": 0.0010027709801849181,
+              "PulseTime": 0.018466666666666666
+            },
+            {
+              "Version": 1,
+              "Number": 3,
+              "BearingCapacity": 87200688.505118713,
+              "Quality": 92.304559690641355,
+              "Fmax": 44955.712537652682,
+              "Umax": 0.00087875515073343024,
+              "PulseTime": 0.0184
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "9B6017477731370B",
+            "Number": 17,
+            "Date": "2022-03-09T15:11:34",
+            "BearingCapacity": 70328358.076415032,
+            "Quality": 92.232384027594833,
+            "Chainage": 496767.0,
+            "Comments": "",
+            "Latitude": 46.381533166666664,
+            "Longitude": 4.4808706666666662,
+            "DOP": 1.7999999999999998
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 1,
+              "BearingCapacity": 18125922.438795615,
+              "Quality": 91.453338115827691,
+              "Fmax": 59108.974249389867,
+              "Umax": 0.0050953419102685088,
+              "PulseTime": 0.020966666666666668
+            },
+            {
+              "Version": 1,
+              "Number": 2,
+              "BearingCapacity": 49860905.516255364,
+              "Quality": 93.7564953377897,
+              "Fmax": 48086.100680631571,
+              "Umax": 0.0016637142311824577,
+              "PulseTime": 0.019033333333333333
+            },
+            {
+              "Version": 1,
+              "Number": 3,
+              "BearingCapacity": 70328358.076415032,
+              "Quality": 92.232384027594833,
+              "Fmax": 45979.538785952711,
+              "Umax": 0.0011164661845612263,
+              "PulseTime": 0.018666666666666668
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "AB55EA474E60230D",
+            "Number": 18,
+            "Date": "2022-03-09T15:12:24",
+            "BearingCapacity": 84116776.454666436,
+            "Quality": 91.935481818351377,
+            "Chainage": 496798.0,
+            "Comments": "",
+            "Latitude": 46.381542666666668,
+            "Longitude": 4.4806008333333329,
             "DOP": 2.0999999999999996
           },
           "Drops": [
             {
               "Version": 1,
               "Number": 1,
-              "BearingCapacity": 27336143.066009887,
-              "Quality": 78.00506115523757,
-              "Fmax": 84061.056418799446,
-              "Umax": 0.0048048256236151582,
+              "BearingCapacity": 15582743.646976814,
+              "Quality": 83.704789554999678,
+              "Fmax": 62773.046776313859,
+              "Umax": 0.0062943270973349627,
+              "PulseTime": 0.021566666666666668
+            },
+            {
+              "Version": 1,
+              "Number": 2,
+              "BearingCapacity": 68555172.40205425,
+              "Quality": 93.132134822710171,
+              "Fmax": 46096.038771321117,
+              "Umax": 0.0011417511724327639,
+              "PulseTime": 0.018666666666666668
+            },
+            {
+              "Version": 1,
+              "Number": 3,
+              "BearingCapacity": 84116776.454666436,
+              "Quality": 91.935481818351377,
+              "Fmax": 45179.746704862337,
+              "Umax": 0.00091513310723539585,
+              "PulseTime": 0.018500000000000003
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "83686E4A632F86A2",
+            "Number": 19,
+            "Date": "2022-03-09T15:13:18",
+            "BearingCapacity": 86674489.96728304,
+            "Quality": 91.52507433687353,
+            "Chainage": 496830.0,
+            "Comments": "",
+            "Latitude": 46.381559,
+            "Longitude": 4.4803345,
+            "DOP": 2.0999999999999996
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 1,
+              "BearingCapacity": 14958800.57828592,
+              "Quality": 90.5298024974419,
+              "Fmax": 63823.109495558536,
+              "Umax": 0.006666551109155653,
+              "PulseTime": 0.0206
+            },
+            {
+              "Version": 1,
+              "Number": 2,
+              "BearingCapacity": 78253724.4876543,
+              "Quality": 92.294163311133985,
+              "Fmax": 45374.8189783949,
+              "Umax": 0.00098357193812692026,
+              "PulseTime": 0.018566666666666669
+            },
+            {
+              "Version": 1,
+              "Number": 3,
+              "BearingCapacity": 86674489.96728304,
+              "Quality": 91.52507433687353,
+              "Fmax": 44974.6825170109,
+              "Umax": 0.00088145948882388135,
+              "PulseTime": 0.018466666666666666
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "82B69D9E3C503AF2",
+            "Number": 20,
+            "Date": "2022-03-09T15:14:09",
+            "BearingCapacity": 92322433.0412317,
+            "Quality": 90.988790864267273,
+            "Chainage": 496859.0,
+            "Comments": "",
+            "Latitude": 46.38157833333333,
+            "Longitude": 4.4800881666666665,
+            "DOP": 2.0999999999999996
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 1,
+              "BearingCapacity": 23289179.215091214,
+              "Quality": 88.857295109293261,
+              "Fmax": 54765.106853847814,
+              "Umax": 0.0036742591342028997,
+              "PulseTime": 0.0196
+            },
+            {
+              "Version": 1,
+              "Number": 2,
+              "BearingCapacity": 85594867.5420329,
+              "Quality": 91.304081618233283,
+              "Fmax": 45061.495291616586,
+              "Umax": 0.00090507699508022459,
               "PulseTime": 0.018433333333333333
             },
             {
               "Version": 1,
-              "Number": 2,
-              "BearingCapacity": 87460964.47936669,
-              "Quality": 88.140903716622375,
-              "Fmax": 53339.860974822179,
-              "Umax": 0.00095292263547838653,
-              "PulseTime": 0.017266666666666666
-            },
-            {
-              "Version": 1,
               "Number": 3,
-              "BearingCapacity": 102630548.20901069,
-              "Quality": 87.459362597912687,
-              "Fmax": 52776.793893391987,
-              "Umax": 0.00080350092538222339,
-              "PulseTime": 0.017266666666666666
+              "BearingCapacity": 92322433.0412317,
+              "Quality": 90.988790864267273,
+              "Fmax": 44797.238214509314,
+              "Umax": 0.00083422587794590387,
+              "PulseTime": 0.0184
             }
           ]
         },
         {
-          "Points": {
+          "Point": {
             "Version": 1,
-            "ID": "2FB5A51815A2CC6C",
-            "Number": 2,
-            "Date": "2021-10-11T11:42:11",
-            "BearingCapacity": 101529244.09534185,
-            "Quality": 87.546845853077144,
-            "Chainage": 21804.836,
+            "ID": "23D50E9282DAC69F",
+            "Number": 21,
+            "Date": "2022-03-09T15:14:59",
+            "BearingCapacity": 89053356.565508619,
+            "Quality": 90.249511861455275,
+            "Chainage": 496890.0,
             "Comments": "",
-            "Latitude": 42.762052333333337,
-            "Longitude": 2.9878943333333332,
-            "DOP": 2.0999999999999996
+            "Latitude": 46.381579666666667,
+            "Longitude": 4.4798203333333335,
+            "DOP": 1.7999999999999998
           },
           "Drops": [
             {
               "Version": 1,
               "Number": 1,
-              "BearingCapacity": 25297317.858692475,
-              "Quality": 83.475994611156253,
-              "Fmax": 88787.581694931141,
-              "Umax": 0.0054840041609652444,
-              "PulseTime": 0.017833333333333333
+              "BearingCapacity": 14731652.421527373,
+              "Quality": 89.264468507864564,
+              "Fmax": 63975.625764764212,
+              "Umax": 0.0067855195328508887,
+              "PulseTime": 0.0204
             },
             {
               "Version": 1,
               "Number": 2,
-              "BearingCapacity": 87412236.842524886,
-              "Quality": 88.573143495372236,
-              "Fmax": 55561.793937220747,
-              "Umax": 0.0009931710497616843,
-              "PulseTime": 0.0172
+              "BearingCapacity": 80401679.003605619,
+              "Quality": 90.470977961078162,
+              "Fmax": 45338.061840863244,
+              "Umax": 0.000980413856393702,
+              "PulseTime": 0.018500000000000003
             },
             {
               "Version": 1,
               "Number": 3,
-              "BearingCapacity": 101529244.09534185,
-              "Quality": 87.546845853077144,
-              "Fmax": 53728.440547546554,
-              "Umax": 0.00082686214305611224,
-              "PulseTime": 0.017166666666666667
+              "BearingCapacity": 89053356.565508619,
+              "Quality": 90.249511861455275,
+              "Fmax": 44918.750746628226,
+              "Umax": 0.000871588596308303,
+              "PulseTime": 0.018433333333333333
             }
           ]
         },
         {
-          "Points": {
+          "Point": {
             "Version": 1,
-            "ID": "A8F772D103A72945",
-            "Number": 3,
-            "Date": "2021-10-11T11:43:46",
-            "BearingCapacity": 106404857.78603359,
-            "Quality": 87.72225689220285,
-            "Chainage": 21814.453,
+            "ID": "AD856CA73CA8064E",
+            "Number": 22,
+            "Date": "2022-03-09T15:15:52",
+            "BearingCapacity": 81637120.023114055,
+            "Quality": 90.724099612642632,
+            "Chainage": 496920.0,
             "Comments": "",
-            "Latitude": 42.762135166666667,
-            "Longitude": 2.9878966666666669,
-            "DOP": 2.0999999999999996
+            "Latitude": 46.381602333333333,
+            "Longitude": 4.4795616666666671,
+            "DOP": 1.7999999999999998
           },
           "Drops": [
             {
               "Version": 1,
               "Number": 1,
-              "BearingCapacity": 39870786.526122257,
-              "Quality": 83.531356390613837,
-              "Fmax": 69470.239812752465,
-              "Umax": 0.0027224757564365707,
-              "PulseTime": 0.0182
+              "BearingCapacity": 14715516.923550366,
+              "Quality": 86.172200456318009,
+              "Fmax": 64013.911225058568,
+              "Umax": 0.0067970249912921235,
+              "PulseTime": 0.021033333333333334
             },
             {
               "Version": 1,
               "Number": 2,
-              "BearingCapacity": 100583884.64698423,
-              "Quality": 88.657277826188547,
-              "Fmax": 55001.1096658998,
-              "Umax": 0.00085440360704486988,
-              "PulseTime": 0.017033333333333334
+              "BearingCapacity": 65646323.361198887,
+              "Quality": 92.014047205912789,
+              "Fmax": 46274.657780082576,
+              "Umax": 0.0012137681037744574,
+              "PulseTime": 0.018666666666666668
             },
             {
               "Version": 1,
               "Number": 3,
-              "BearingCapacity": 106404857.78603359,
-              "Quality": 87.72225689220285,
-              "Fmax": 55343.083094951871,
-              "Umax": 0.00081268439369327919,
-              "PulseTime": 0.017033333333333334
+              "BearingCapacity": 81637120.023114055,
+              "Quality": 90.724099612642632,
+              "Fmax": 45276.2001113143,
+              "Umax": 0.00095514323777761486,
+              "PulseTime": 0.018533333333333336
             }
           ]
         },
         {
-          "Points": {
+          "Point": {
             "Version": 1,
-            "ID": "8AD791CEEE58FD8B",
-            "Number": 4,
-            "Date": "2021-10-11T11:45:16",
-            "BearingCapacity": 94298269.38358897,
-            "Quality": 94.796009130323384,
-            "Chainage": 21836.458000000002,
+            "ID": "CC5B4AAEBFADB447",
+            "Number": 23,
+            "Date": "2022-03-09T15:16:47",
+            "BearingCapacity": 81137211.432135478,
+            "Quality": 92.7606549123455,
+            "Chainage": 496951.0,
             "Comments": "",
-            "Latitude": 42.762079166666666,
-            "Longitude": 2.9877646666666666,
-            "DOP": 2.0999999999999996
+            "Latitude": 46.3816265,
+            "Longitude": 4.4793041666666671,
+            "DOP": 1.7999999999999998
           },
           "Drops": [
             {
               "Version": 1,
               "Number": 1,
-              "BearingCapacity": 35716964.559913069,
-              "Quality": 75.572227986393941,
-              "Fmax": 111102.44096444227,
-              "Umax": 0.004860367227336509,
-              "PulseTime": 0.017133333333333334
+              "BearingCapacity": 18420141.774040993,
+              "Quality": 87.959136215625989,
+              "Fmax": 58833.751952382991,
+              "Umax": 0.0049906096572584309,
+              "PulseTime": 0.020233333333333336
             },
             {
               "Version": 1,
               "Number": 2,
-              "BearingCapacity": 70575269.589563683,
-              "Quality": 94.376659164092743,
-              "Fmax": 68447.575105340919,
-              "Umax": 0.0015153939435735477,
-              "PulseTime": 0.017400000000000002
+              "BearingCapacity": 71605085.091921031,
+              "Quality": 93.822106241013287,
+              "Fmax": 45666.625332729047,
+              "Umax": 0.00105907765975424,
+              "PulseTime": 0.018666666666666668
             },
             {
               "Version": 1,
               "Number": 3,
-              "BearingCapacity": 94298269.38358897,
-              "Quality": 94.796009130323384,
-              "Fmax": 64043.648130423317,
-              "Umax": 0.0010611880881580805,
-              "PulseTime": 0.017166666666666667
+              "BearingCapacity": 81137211.432135478,
+              "Quality": 92.7606549123455,
+              "Fmax": 45172.70160446786,
+              "Umax": 0.00092628278360074739,
+              "PulseTime": 0.018633333333333335
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "11BBE11D8AFC2E4F",
+            "Number": 24,
+            "Date": "2022-03-09T15:17:48",
+            "BearingCapacity": 89358078.496627882,
+            "Quality": 84.047232063467362,
+            "Chainage": 496984.0,
+            "Comments": "",
+            "Latitude": 46.381651,
+            "Longitude": 4.4790295,
+            "DOP": 1.7999999999999998
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 1,
+              "BearingCapacity": 19692191.727741346,
+              "Quality": 87.660056325947636,
+              "Fmax": 57589.709469199239,
+              "Umax": 0.0045695228997216751,
+              "PulseTime": 0.0199
+            },
+            {
+              "Version": 1,
+              "Number": 2,
+              "BearingCapacity": 83759281.88764751,
+              "Quality": 84.568586875816123,
+              "Fmax": 45312.985143364633,
+              "Umax": 0.00098358710455584,
+              "PulseTime": 0.018433333333333333
+            },
+            {
+              "Version": 1,
+              "Number": 3,
+              "BearingCapacity": 89358078.496627882,
+              "Quality": 84.047232063467362,
+              "Fmax": 45059.922905777421,
+              "Umax": 0.00091539485886528318,
+              "PulseTime": 0.0184
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "33B65610EDC770F7",
+            "Number": 25,
+            "Date": "2022-03-09T15:18:54",
+            "BearingCapacity": 76556384.880285338,
+            "Quality": 85.067702003453576,
+            "Chainage": 497012.0,
+            "Comments": "",
+            "Latitude": 46.381677833333335,
+            "Longitude": 4.4787926666666671,
+            "DOP": 1.7999999999999998
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 1,
+              "BearingCapacity": 17189905.1601829,
+              "Quality": 88.435101419713519,
+              "Fmax": 61121.045916926254,
+              "Umax": 0.0057998295096351087,
+              "PulseTime": 0.020633333333333333
+            },
+            {
+              "Version": 1,
+              "Number": 2,
+              "BearingCapacity": 66316004.156172648,
+              "Quality": 86.467471357179676,
+              "Fmax": 46514.926311072646,
+              "Umax": 0.0012914821850684832,
+              "PulseTime": 0.018666666666666668
+            },
+            {
+              "Version": 1,
+              "Number": 3,
+              "BearingCapacity": 76556384.880285338,
+              "Quality": 85.067702003453576,
+              "Fmax": 45766.26964902554,
+              "Umax": 0.0011001507161136903,
+              "PulseTime": 0.018566666666666669
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "7EF35478E196BCFE",
+            "Number": 26,
+            "Date": "2022-03-09T15:19:48",
+            "BearingCapacity": 64873083.884185091,
+            "Quality": 87.741016957886075,
+            "Chainage": 497042.0,
+            "Comments": "",
+            "Latitude": 46.3817135,
+            "Longitude": 4.478533,
+            "DOP": 1.7999999999999998
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 1,
+              "BearingCapacity": 16224479.83010686,
+              "Quality": 88.32911334600233,
+              "Fmax": 64730.559495428359,
+              "Umax": 0.0070869347839295519,
+              "PulseTime": 0.021633333333333334
+            },
+            {
+              "Version": 1,
+              "Number": 2,
+              "BearingCapacity": 54037585.608027875,
+              "Quality": 89.002879037357829,
+              "Fmax": 47498.123815308558,
+              "Umax": 0.0015447458840449511,
+              "PulseTime": 0.0189
+            },
+            {
+              "Version": 1,
+              "Number": 3,
+              "BearingCapacity": 64873083.884185091,
+              "Quality": 87.741016957886075,
+              "Fmax": 46375.682225764926,
+              "Umax": 0.0012550053196579423,
+              "PulseTime": 0.018733333333333334
             }
           ]
         }

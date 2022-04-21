@@ -6,6 +6,7 @@ interface BaseReport {
   readonly zones: Zone[]
   readonly screenshots: string[]
   readonly dataLabels: ReportDataLabels
+  readonly thresholds: ReportThresholds
   readonly settings: JSONReportSettings
   readonly platform: MachineField[]
   readonly informations: MachineField[]
@@ -32,15 +33,34 @@ interface TableDataLabelsParameters {
   dataLabels: DataLabel[]
 }
 
+interface ReportThresholds {
+  groups: GroupedThresolds[]
+  colors: ThresholdColors
+  inputs: ThresholdInputs
+}
+
+interface GroupedThresolds {
+  unit: MathUnit
+  choices: SelectableList<AnyThreshold>
+}
+
+interface ThresholdColors {
+  low: ColorName
+  middle: ColorName
+  high: ColorName
+}
+
 interface BaseReportCreatorParameters extends MachineReportCreatorParameters {
   machine: MachineName
-  groupedDataLabels: SelectableList<GroupedDataLabels>
+  units: MachineMathUnits
+  thresholds: MachineThresholds
 }
 
 interface JSONReport {
   name: string
   points: JSONPoint[]
   dataLabels: JSONReportDataLabels
+  thresholds: JSONReportThresholds
   zones: JSONZone[]
   settings: JSONReportSettings
   screenshots: number[]
@@ -55,8 +75,13 @@ interface JSONReportDataLabels {
 
 interface JSONGroupedDataLabels {
   from: DataLabelsFrom
-  choices: SelectableOptionalList<number, string>
-  indexes?: SelectableList<number, MachineDropIndex>
+  choices: SelectableList<number, JSONChoice>
+  indexes?: SelectableList<number, JSONMachineDropIndex>
+}
+
+interface JSONChoice {
+  name: string
+  unit: string
 }
 
 interface JSONTableDataLabelsParameters {
@@ -65,22 +90,29 @@ interface JSONTableDataLabelsParameters {
   dataLabels: string[]
 }
 
+interface JSONReportThresholds {
+  groups: MachineMathUnitsSkeleton<number>
+  colors: ThresholdColors
+  inputs: ThresholdInputs
+}
+
 type DataLabelsFrom = 'Drop' | 'Test' | 'Zone'
 
 interface JSONReportSettings {
   iconName: IconName
   isVisible: boolean
   selectedColorization: 'Threshold' | 'Zone'
-  threshold: {
-    colors: ThresholdColors
-    custom: {}
-  }
 }
 
 interface ThresholdColors {
-  low: Color
-  middle: Color
-  high: Color
+  low: ColorName
+  middle: ColorName
+  high: ColorName
+}
+
+interface ThresholdInputs {
+  isRequiredARange: boolean
+  isOptionalARange: boolean
 }
 
 interface BaseDropIndex {

@@ -5,6 +5,16 @@ type PartialMachineProject<MachineProject> = PartialExtendedObject<
   MachineProject
 >
 
-type JSONUnits = JSONHeavydynUnits | JSONMaxidynUnits | JSONMinidynUnits
+type JSONMachineUnits = JSONHeavydynUnits | JSONMaxidynUnits | JSONMinidynUnits
 
-type MachineUnits = HeavydynUnits | MaxidynUnits | MinidynUnits
+type MachineMathUnits = HeavydynMathUnits | MaxidynMathUnits | MinidynMathUnits
+
+type MachineMathUnitsSkeleton<T> =
+  | HeavydynMathUnitsSkeleton<T>
+  | MaxidynMathUnitsSkeleton<T>
+  | MinidynMathUnitsSkeleton<T>
+
+type MachineMathUnitsNames =
+  | HeavydynMathUnitsNames
+  | MaxidynMathUnitsNames
+  | MinidynMathUnitsNames

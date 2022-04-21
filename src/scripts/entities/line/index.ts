@@ -9,8 +9,6 @@ export const createLine = (points: MachinePoint[], map: mapboxgl.Map): Line => {
 
   const line: Line = {
     addToMap: (): void => {
-      console.log('add line', id)
-
       map.addLayer(
         {
           id,
@@ -51,12 +49,8 @@ export const createLine = (points: MachinePoint[], map: mapboxgl.Map): Line => {
           }
         )
       )
-
-      console.log('line layer, source', map.getLayer(id), map.getSource(id))
     },
     remove: (): void => {
-      console.log('remove line', id)
-
       map.getLayer(id) && map.removeLayer(id)
       map.getSource(id) && map.removeSource(id)
 
@@ -71,7 +65,7 @@ export const createLine = (points: MachinePoint[], map: mapboxgl.Map): Line => {
         features.push({
           type: 'Feature',
           properties: {
-            color: '#666666',
+            color: visiblePoints[i - 1].icon.color,
           },
           geometry: {
             type: 'LineString',

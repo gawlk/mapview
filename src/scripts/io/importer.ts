@@ -37,6 +37,8 @@ export const importFile = async (file: File) => {
         ? (importedJSON as JSONProject)
         : convertJSONFromPRJZToMPVZ(importedJSON)
 
+    console.log('json project', jsonProject)
+
     const project = await generateProjectFromJSON(jsonProject)
 
     if (project) {

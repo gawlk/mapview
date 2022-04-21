@@ -7,10 +7,10 @@ interface HeavydynReport extends BaseReport {
 
 interface HeavydynReportCreatorParameters
   extends MachineReportCreatorParameters {
-  units: HeavydynUnits
+  units: HeavydynMathUnits
 }
 
-type HeavydynDropType = 'Distance' | 'Force' | 'Time'
+type HeavydynDropType = 'Distance' | 'Force' | 'Time' | 'Load' | 'Height'
 
 interface HeavydynDropIndex extends BaseDropIndex {
   readonly machine: 'heavydyn'
@@ -22,4 +22,10 @@ interface JSONHeavydynDropIndex extends BaseDropIndex {
   readonly machine: 'heavydyn'
   readonly type: HeavydynDropType
   readonly value: number
+}
+
+type HeavydynThresholds = HeavydynMathUnitsSkeleton<AnyThreshold[]>
+
+interface JSONHeavydynChoice extends JSONChoice {
+  unit: HeavydynMathUnitsNames | string
 }

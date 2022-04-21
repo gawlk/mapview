@@ -31,11 +31,27 @@
     "AlgoProcessing1": "Boussinesq",
     "AlgoProcessing2": "Exponential"
   },
-  "TypeResultBearing": {
+  "ExportedData": {
     "Version": 1,
-    "Name": "Module (MPa)",
-    "ResultStr": "Module",
-    "ResultUnitStr": "MPa"
+    "Points": [
+      {
+        "Version": 1,
+        "Name": "BearingCapacity",
+        "Type": "Modulus",
+        "Unit": "MPa"
+      }
+    ],
+    "Drops": [
+      { "Version": 1, "Name": "PulseTime", "Type": "Time", "Unit": "ms" },
+      { "Version": 1, "Name": "Fmax", "Type": "Force", "Unit": "kN" },
+      { "Version": 1, "Name": "Umax", "Type": "Deflection", "Unit": "mm" },
+      {
+        "Version": 1,
+        "Name": "BearingCapacity",
+        "Type": "Modulus",
+        "Unit": "MPa"
+      }
+    ]
   },
   "ParamsPoint": {
     "Version": 1,

@@ -7,9 +7,18 @@ export const createWatcherHandler = (): WatcherHandler => {
       return stop
     },
     remove: (stop: () => void): void => {
-      const index = stops.findIndex(stop)
-      stops[index]()
-      stops.splice(index, 1)
+      let index: number | undefined
+
+      stops.some((_stop, _index) => {
+        const found = stop === _stop
+        found && (index = _index)
+        return found
+      })
+
+      if (index !== undefined) {
+        stops[index]()
+        stops.splice(index, 1)
+      }
     },
     clean: () => {
       stops.forEach((stop) => {

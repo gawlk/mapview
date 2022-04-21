@@ -47,7 +47,7 @@
       :preSelected="`${t('Index')}${t(':')}`"
       :selectedIndex="
         (pointsGroupedDataLabels?.selected?.indexes.selected?.displayedIndex ||
-          1) - 1
+          0) - 1
       "
       @selectIndex="
         (index) =>

@@ -26,15 +26,15 @@
   }
 
   const openDemo = async () => {
-    // const demoMinidyn = await getDemoFile('minidyn/demo.mpvz')
-    const demoMaxidyn = await getDemoFile('maxidyn/demo.prjz')
     const demoHeavydyn = await getDemoFile('heavydyn/demo.prjz')
+    const demoMaxidyn = await getDemoFile('maxidyn/demo.prjz')
+    const demoMinidyn = await getDemoFile('minidyn/demo.dynz')
 
-    // const projectMinidyn = await importFile(demoMinidyn)
-    const projectMaxidyn = await importFile(demoMaxidyn)
     const projectHeavydyn = await importFile(demoHeavydyn)
+    const projectMaxidyn = await importFile(demoMaxidyn)
+    const projectMinidyn = await importFile(demoMinidyn)
 
-    store.projects.selected = projectMaxidyn
+    store.projects.selected = projectHeavydyn
   }
 
   const downloadTemplates = () => {}

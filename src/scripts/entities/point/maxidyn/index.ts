@@ -1,9 +1,10 @@
 import { createBasePointFromJSON } from '../base'
+import { createMaxidynDropFromJSON } from '/src/scripts'
 
 export const createMaxidynPointFromJSON = (
   json: JSONPoint,
   map: mapboxgl.Map,
-  parameters: MachinePointCreatorParameters
+  parameters: MaxidynPointCreatorParameters
 ) => {
   const point: PartialMachinePoint<MaxidynPoint> = createBasePointFromJSON(
     json,
@@ -12,6 +13,12 @@ export const createMaxidynPointFromJSON = (
       machine: 'maxidyn',
       ...parameters,
     }
+  )
+
+  point.drops = json.drops.map((jsonDrop) =>
+    createMaxidynDropFromJSON(jsonDrop, {
+      reportDataLabels: parameters.reportDataLabels,
+    })
   )
 
   return point as MaxidynPoint

@@ -22,14 +22,13 @@
     if (store.projects.selected) {
       switch (n) {
         case 0:
-          store.projects.selected.settings.pointsState = 'number' as PointsState
+          store.projects.selected.settings.pointsState = 'number'
           break
         case 1:
-          store.projects.selected.settings.pointsState = 'value' as PointsState
+          store.projects.selected.settings.pointsState = 'value'
           break
         case 2:
-          store.projects.selected.settings.pointsState =
-            'nothing' as PointsState
+          store.projects.selected.settings.pointsState = 'nothing'
           break
       }
     }

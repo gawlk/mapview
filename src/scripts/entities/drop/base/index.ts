@@ -1,10 +1,27 @@
-import { createComputedData } from '/src/scripts'
+import { createMathNumber } from '/src/scripts'
 
-export const createBaseDrop = (rawData: unknown): BaseDrop => {
-  const data = createComputedData(rawData)
+export const createBaseDropFromJSON = (
+  json: JSONDrop,
+  parameters: BaseDropCreatorParameters
+): BaseDrop => {
+  const dropList = parameters.reportDataLabels.groups.list.find(
+    (groupedDataLabels) => groupedDataLabels.from === 'Drop'
+  ) as GroupedDataLabels
+
+  const index = dropList.indexes?.list[json.index] as MachineDropIndex
 
   return {
-    data,
+    index,
+    data: json.data.map((jsonDataValue): DataValue => {
+      const label = dropList.choices.list.find(
+        (dataLabel) => dataLabel.name === jsonDataValue.label
+      ) as DataLabel
+
+      return {
+        label,
+        value: createMathNumber(jsonDataValue.value, label.unit),
+      }
+    }),
     additionnalFields: [],
   }
 }

@@ -1,6 +1,12 @@
-type Color =
-  | 'black'
-  | 'white'
+interface Color {
+  buttonColors: string
+  iconsClasses: string
+  hexColor: string
+}
+
+type ColorName =
+  // | 'black'
+  // | 'white'
   | 'gray'
   | 'red'
   | 'orange'

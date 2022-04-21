@@ -1,5 +1,6 @@
 <script setup lang="ts">
   const props = defineProps<{
+    as?: any
     disabled?: boolean
     dark?: boolean
     green?: boolean
@@ -35,7 +36,8 @@
 </script>
 
 <template>
-  <button
+  <component
+    :is="props.as || 'button'"
     :disabled="props.disabled"
     :class="[
       props.xxl
@@ -102,5 +104,5 @@
       :class="iconsClasses || iconsColors"
       class="h-5 w-5 transition-colors duration-200"
     />
-  </button>
+  </component>
 </template>

@@ -7,7 +7,7 @@ interface MaxidynReport extends BaseReport {
 
 interface MaxidynReportCreatorParameters
   extends MachineReportCreatorParameters {
-  units: MaxidynUnits
+  units: MaxidynMathUnits
 }
 
 type MaxidynDropType = 'Training' | 'Averaging'
@@ -15,4 +15,10 @@ type MaxidynDropType = 'Training' | 'Averaging'
 interface MaxidynDropIndex extends BaseDropIndex {
   machine: 'maxidyn'
   type: MaxidynDropType
+}
+
+type MaxidynThresholds = MaxidynMathUnitsSkeleton<AnyThreshold[]>
+
+interface JSONMaxidynChoice extends JSONChoice {
+  unit: MaxidynMathUnitsNames | string
 }

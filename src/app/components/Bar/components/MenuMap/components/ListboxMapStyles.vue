@@ -17,8 +17,6 @@
 
   const setStyle = (index: number) => {
     if (store.projects.selected) {
-      console.log(index)
-
       store.projects.selected.settings.map.styleIndex = index
     }
   }

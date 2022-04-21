@@ -1,4 +1,4 @@
-import { blend, getBrowser } from '/src/scripts'
+import { blend, getBrowser, colorsClasses } from '/src/scripts'
 
 import CircleIcon from 'iconoir/icons/circle.svg?raw'
 import FlareIcon from 'iconoir/icons/flare.svg?raw'
@@ -24,11 +24,11 @@ export const icons: Record<IconName, string> = {
   octagon: OctagonIcon,
 }
 
+const baseColor = colorsClasses.gray.hexColor
+
 export const createIcon = (iconName: IconName): Icon => {
   const div: HTMLDivElement = document.createElement('div')
   div.classList.add('relative')
-
-  const color = '#444444'
 
   const subDiv = document.createElement('div')
   div.appendChild(subDiv)
@@ -50,15 +50,19 @@ export const createIcon = (iconName: IconName): Icon => {
 
   const icon = {
     element: div,
-    color,
-    setText: (text: string) => {
+    color: baseColor,
+    setColor: function (color?: string) {
+      const svg = subDiv.firstElementChild as HTMLElement
+      this.color = color || this.color
+      svg.setAttribute('fill', this.color)
+      svg.setAttribute('color', blend(this.color, '#000000'))
+    },
+    setText: function (text: string) {
       p.innerHTML = text
     },
-    setIcon: (iconName: IconName) => {
+    setIcon: function (iconName: IconName) {
       subDiv.innerHTML = icons[iconName] || icons.circle
-      const svg = subDiv.firstElementChild as HTMLElement
-      svg.setAttribute('fill', color)
-      svg.setAttribute('stroke', '#ff0000')
+      this.setColor()
     },
   }
 

@@ -7,7 +7,7 @@ interface MinidynReport extends BaseReport {
 
 interface MinidynReportCreatorParameters
   extends MachineReportCreatorParameters {
-  units: MinidynUnits
+  units: MinidynMathUnits
 }
 
 type MinidynDropType = 'Training' | 'Averaging'
@@ -15,4 +15,10 @@ type MinidynDropType = 'Training' | 'Averaging'
 interface MinidynDropIndex extends BaseDropIndex {
   machine: 'minidyn'
   type: MinidynDropType
+}
+
+type MinidynThresholds = MinidynMathUnitsSkeleton<AnyThreshold[]>
+
+interface JSONMinidynChoice extends JSONChoice {
+  unit: MinidynMathUnitsNames | string
 }

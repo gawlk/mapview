@@ -83,47 +83,66 @@ export default defineConfig({
       summaryOnly: true,
     }),
 
-    viteTS2Mermaid([
-      {
-        name: 'all',
+    viteTS2Mermaid({
+      global: {
+        pathToSave: 'docs/mermaid',
       },
-      {
-        name: 'allWithoutDependencies',
-        hideDependencies: true,
-      },
-      {
-        name: 'allWithoutExtends',
-        hideExtends: true,
-      },
-      {
-        name: 'allInterfaces',
-        hideTypes: true,
-      },
-      {
-        name: 'allTypes',
-        hideInterfaces: true,
-      },
-      {
-        name: 'onlyHeavydyn',
-        include: [/[H|h]eavydyn/],
-      },
-      {
-        name: 'onlyMaxidyn',
-        include: [/[M|m]axidyn/],
-      },
-      {
-        name: 'onlyMinidyn',
-        include: [/[M|m]inidyn/],
-      },
-      {
-        name: 'onlyMachines',
-        include: [/[H|h]eavydyn/, /[M|m]axidyn/, /[M|m]inidyn/, /[M|m]achine/],
-      },
-      {
-        name: 'exceptMachines',
-        exclude: [/[H|h]eavydyn/, /[M|m]axidyn/, /[M|m]inidyn/, /[M|m]achine/],
-      },
-    ]),
+      list: [
+        {
+          name: 'labelsAndLists',
+          include: [/GroupedDataLabels/, /[L|l]ist/],
+        },
+        // {
+        //   name: 'all',
+        // },
+        // {
+        //   name: 'allWithoutDependencies',
+        //   hideDependencies: true,
+        // },
+        // {
+        //   name: 'allWithoutExtends',
+        //   hideExtends: true,
+        // },
+        // {
+        //   name: 'allInterfaces',
+        //   hideTypes: true,
+        // },
+        // {
+        //   name: 'allTypes',
+        //   hideInterfaces: true,
+        // },
+        // {
+        //   name: 'onlyHeavydyn',
+        //   include: [/[H|h]eavydyn/],
+        // },
+        // {
+        //   name: 'onlyMaxidyn',
+        //   include: [/[M|m]axidyn/],
+        // },
+        // {
+        //   name: 'onlyMinidyn',
+        //   include: [/[M|m]inidyn/],
+        // },
+        // {
+        //   name: 'onlyMachines',
+        //   include: [
+        //     /[H|h]eavydyn/,
+        //     /[M|m]axidyn/,
+        //     /[M|m]inidyn/,
+        //     /[M|m]achine/,
+        //   ],
+        // },
+        // {
+        //   name: 'exceptMachines',
+        //   exclude: [
+        //     /[H|h]eavydyn/,
+        //     /[M|m]axidyn/,
+        //     /[M|m]inidyn/,
+        //     /[M|m]achine/,
+        //   ],
+        // },
+      ],
+    }),
   ],
   css: {
     postcss: {

@@ -57,7 +57,9 @@ export const createBaseProjectFromJSON = async (
 
       this.reports.list.forEach((report: MachineReport) => {
         report.points.forEach((point: MachinePoint) => {
-          bounds.extend(point.marker.getLngLat())
+          if (point.settings.isVisible) {
+            bounds.extend(point.marker.getLngLat())
+          }
         })
       })
 
@@ -68,7 +70,6 @@ export const createBaseProjectFromJSON = async (
         map.flyTo({
           center: this.settings.map.coordinates,
           zoom: this.settings.map.zoom,
-          essential: true,
         })
       } else {
         this.reports.selected?.fitOnMap()
@@ -146,7 +147,7 @@ export const createBaseProjectFromJSON = async (
         watch(
           () => this.settings.pointsState,
           () => {
-            this.reports.list.forEach((report: MachineReport) => {
+            this.reports.list.forEach((report) => {
               report.points.forEach((point) => {
                 point.updateText()
               })
@@ -158,7 +159,7 @@ export const createBaseProjectFromJSON = async (
       watcherHandler.add(
         watch(
           () => this.settings.map.styleIndex,
-          (styleIndex: number) => {
+          (styleIndex) => {
             this.setMapStyle(styleIndex)
           }
         )
@@ -168,14 +169,41 @@ export const createBaseProjectFromJSON = async (
         watch(
           () => this.images,
           (images, oldImages) => {
-            console.log('images update', images, oldImages)
-
             images.forEach((image) => {
               if (!oldImages.includes(image)) {
                 image.addToMap(this.settings.areImagesVisible)
               }
             })
           }
+        )
+      )
+
+      Object.values(this.units).forEach((mathUnit) =>
+        watcherHandler.add(
+          watch(mathUnit, () => {
+            this.reports.list.forEach((report) => {
+              report.points.forEach((point) => {
+                const selectedReportUnit =
+                  report.dataLabels.groups.selected?.choices.selected?.unit
+
+                point.data.forEach((dataValue) => {
+                  dataValue.label.unit === mathUnit &&
+                    dataValue.value.toDisplayedValue()
+                })
+
+                point.drops.forEach((drop) =>
+                  drop.data.forEach((dataValue) => {
+                    dataValue.label.unit === mathUnit &&
+                      dataValue.value.toDisplayedValue()
+                  })
+                )
+
+                selectedReportUnit === mathUnit && point.updateText()
+              })
+            })
+
+            // TODO: Same thing for all zones
+          })
         )
       )
     },

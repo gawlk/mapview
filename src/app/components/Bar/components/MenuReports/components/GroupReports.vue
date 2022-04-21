@@ -60,7 +60,11 @@
           :icon="report.settings.isVisible ? IconEye : IconEyeOff"
           @click="toggleReport(report)"
         />
-        <Button :icon="IconTrash" @click="deleteReport(index)" />
+        <Button
+          v-if="store.projects.selected?.reports.list.length > 1"
+          :icon="IconTrash"
+          @click="deleteReport(index)"
+        />
       </div>
     </Popover>
   </div>

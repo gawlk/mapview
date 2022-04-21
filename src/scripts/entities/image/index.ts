@@ -48,8 +48,6 @@ export const createImage = async (
     markerSE,
     opacity: parameters.opacity || 0.5,
     addToMap(areImagesVisible: boolean): void {
-      console.log('add image', id)
-
       if (areImagesVisible) {
         markerNW.addTo(map)
         markerSE.addTo(map)
@@ -70,11 +68,7 @@ export const createImage = async (
         'images'
       )
 
-      console.log('image layer', map.getLayer(id))
-
       const source = map.getSource(id) as mapboxgl.ImageSource
-
-      console.log('image source', source)
 
       setImageCoordinates(markerNW, markerSE, source, width, height)
 
@@ -95,8 +89,6 @@ export const createImage = async (
       )
     },
     remove: (): void => {
-      console.log('remove image', id)
-
       map.getLayer(id) && map.removeLayer(id)
       map.getSource(id) && map.removeSource(id)
 

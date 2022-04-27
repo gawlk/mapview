@@ -78,7 +78,9 @@
         : '',
       props.full && 'w-full',
       props.truncate && 'truncate',
-      props.disabled ? 'cursor-default opacity-75' : 'cursor-pointer',
+      props.disabled
+        ? 'cursor-default opacity-75'
+        : !props.as && 'cursor-pointer',
     ]"
     class="group inline-flex items-center space-x-2 leading-6 transition-colors duration-200 focus:outline-none focus:ring"
   >

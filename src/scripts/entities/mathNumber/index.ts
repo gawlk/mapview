@@ -1,4 +1,6 @@
-import { unit as Unit, createUnit } from 'mathjs'
+import { createUnit } from 'mathjs'
+
+import { convertValueFromBaseUnitToCurrentUnit } from '/src/scripts'
 
 import { numberToLocaleString } from '/src/locales'
 
@@ -6,37 +8,6 @@ createUnit({
   cmm: '10 um',
   nlbs: '4.448221628250858 N',
 })
-
-const convertCurrentUnitToMathJSUnit = (currentUnit: string) =>
-  currentUnit === '°C'
-    ? 'degC'
-    : currentUnit === '°F'
-    ? 'degF'
-    : currentUnit === '1/100 mm'
-    ? 'cmm'
-    : currentUnit === 'lbs'
-    ? 'nlbs'
-    : currentUnit
-
-export const convertValueFromBaseUnitToCurrentUnit = (
-  value: number,
-  unit: MathUnit | string
-) =>
-  typeof unit !== 'string'
-    ? Unit(value, convertCurrentUnitToMathJSUnit(unit.baseUnit)).toNumber(
-        convertCurrentUnitToMathJSUnit(unit.currentUnit)
-      )
-    : value
-
-export const convertValueFromCurrentUnitToBaseUnit = (
-  value: number,
-  unit: MathUnit | string
-) =>
-  typeof unit !== 'string'
-    ? Unit(value, convertCurrentUnitToMathJSUnit(unit.currentUnit)).toNumber(
-        convertCurrentUnitToMathJSUnit(unit.baseUnit)
-      )
-    : value
 
 export const createMathNumber = (
   value: number,

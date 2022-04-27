@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import ListboxIcon from './components/ListboxIcon.vue'
-  import ListboxColors from './components/ListboxColors.vue'
+  import ListboxColorization from './components/ListboxColorization.vue'
   import DisclosureValues from './components/DisclosureValues.vue'
   import DisclosureThresholds from './components/DisclosureThresholds.vue'
   import DisclosureZones from './components/DisclosureZones.vue'
@@ -8,7 +8,7 @@
 
 <template>
   <ListboxIcon />
-  <ListboxColors />
+  <ListboxColorization />
   <DisclosureValues />
   <DisclosureThresholds />
   <DisclosureZones />

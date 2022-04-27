@@ -5,7 +5,7 @@
   import { fileToBase64 } from '/src/scripts'
 
   import IconCamera from '~icons/heroicons-solid/camera'
-  import IconChevronRight from '~icons/heroicons-solid/chevron-right'
+  import IconArrowSmRight from '~icons/heroicons-solid/arrow-sm-right'
   import IconPhotograph from '~icons/heroicons-solid/photograph'
   import IconPlus from '~icons/heroicons-solid/plus'
 
@@ -67,7 +67,7 @@
     >
       <Button
         :leftIcon="IconPhotograph"
-        :rightIcon="IconChevronRight"
+        :rightIcon="IconArrowSmRight"
         full
         @click="state.isAlbumOpen = true"
       >
@@ -83,7 +83,7 @@
       v-else
       full
       :leftIcon="IconCamera"
-      :rightIcon="IconChevronRight"
+      :rightIcon="IconArrowSmRight"
       @click="screenshot"
     >
       {{ t('Photograph the map') }}

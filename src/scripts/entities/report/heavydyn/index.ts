@@ -35,6 +35,7 @@ export const createHeavydynReportFromJSON = (
         reportSettings: report.settings,
         reportDataLabels: report.dataLabels,
         reportThresholds: report.thresholds,
+        zone: report.zones[jsonPoint.zone],
       })
     )
   )

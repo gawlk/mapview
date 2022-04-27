@@ -1,4 +1,4 @@
-import { blend, getBrowser, colorsClasses } from '/src/scripts'
+import { blend, baseHexColor } from '/src/scripts'
 
 import CircleIcon from 'iconoir/icons/circle.svg?raw'
 import FlareIcon from 'iconoir/icons/flare.svg?raw'
@@ -24,8 +24,6 @@ export const icons: Record<IconName, string> = {
   octagon: OctagonIcon,
 }
 
-const baseColor = colorsClasses.gray.hexColor
-
 export const createIcon = (iconName: IconName): Icon => {
   const div: HTMLDivElement = document.createElement('div')
   div.classList.add('relative')
@@ -48,12 +46,12 @@ export const createIcon = (iconName: IconName): Icon => {
   p.style.right = '-100%'
   p.style.textShadow = '-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black'
 
-  const icon = {
+  const icon = shallowReactive({
     element: div,
-    color: baseColor,
+    color: baseHexColor,
     setColor: function (color?: string) {
       const svg = subDiv.firstElementChild as HTMLElement
-      this.color = color || this.color
+      this.color = color || baseHexColor
       svg.setAttribute('fill', this.color)
       svg.setAttribute('color', blend(this.color, '#000000'))
     },
@@ -64,7 +62,7 @@ export const createIcon = (iconName: IconName): Icon => {
       subDiv.innerHTML = icons[iconName] || icons.circle
       this.setColor()
     },
-  }
+  })
 
   icon.setIcon(iconName)
 

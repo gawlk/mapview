@@ -2,32 +2,31 @@
   // @ts-ignore
   import { Sortable } from '@shopify/draggable'
 
-  import AverageRow from './AverageRow.vue'
+  import Head from './Head.vue'
   import Row from './Row.vue'
 
   import store from '/src/store'
 
-  const { t } = useI18n()
+  const props = defineProps<{
+    points: MachinePoint[]
+  }>()
 
   let tbody = ref(null)
 
-  const pointsTableDataLabels = computed(
-    () => store.projects.selected?.reports.selected?.dataLabels.table
+  const selectedReport = computed(
+    () => store.projects.selected?.reports.selected
   )
 
   onMounted(() => {
-    if (tbody) {
+    if (tbody && selectedReport.value?.settings.groupBy === 'Nothing') {
       new Sortable(tbody.value, {
         draggable: 'tr',
         handle: '.handle',
       }).on('sortable:stop', (event: any) => {
         const { oldIndex, newIndex } = event.data
 
-        if (
-          oldIndex !== newIndex &&
-          store.projects.selected?.reports.selected
-        ) {
-          const points = store.projects.selected.reports.selected.points
+        if (oldIndex !== newIndex && selectedReport.value) {
+          const points = selectedReport.value.points
 
           points.forEach((point) => (point.settings.previousNumber = null))
 
@@ -56,41 +55,11 @@
 </script>
 
 <template>
-  <div class="-mx-2 min-w-[444px] overflow-x-auto">
+  <div class="overflow-x-auto">
     <table class="w-full text-sm font-medium">
-      <thead class="h-8 text-gray-500">
-        <td class="border-2 border-l-0 border-gray-100 bg-gray-100" />
-        <td class="border-2 border-gray-100 px-1 text-center font-semibold">
-          {{ t('Number') }}
-        </td>
-        <td
-          v-for="dataLabel of pointsTableDataLabels?.selected?.dataLabels"
-          class="font border-2 border-gray-100 px-1 text-right"
-        >
-          <p class="font-semibold">{{ t(dataLabel.name) }}</p>
-          <div class="-space-y-0.5">
-            <p class="text-xs">
-              {{
-                typeof dataLabel.unit === 'object'
-                  ? t(dataLabel.unit.currentUnit).replaceAll(' ', '&nbsp;')
-                  : dataLabel.unit ?? ''
-              }}
-            </p>
-          </div>
-        </td>
-        <td class="border-2 border-r-0 border-gray-100 bg-gray-100" />
-      </thead>
+      <Head :points="props.points" />
       <tbody ref="tbody">
-        <AverageRow
-          :points="store.projects.selected?.reports.selected?.points || []"
-          :pointsTableDataLabels="pointsTableDataLabels"
-        />
-        <Row
-          v-for="point in store.projects.selected?.reports.selected?.points"
-          :key="point.id"
-          :point="point"
-          :pointsTableDataLabels="pointsTableDataLabels"
-        />
+        <Row v-for="point in props.points" :key="point.id" :point="point" />
       </tbody>
     </table>
   </div>

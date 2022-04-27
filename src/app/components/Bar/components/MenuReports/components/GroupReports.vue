@@ -5,6 +5,7 @@
   import IconEye from '~icons/heroicons-solid/eye'
   import IconEyeOff from '~icons/heroicons-solid/eye-off'
   import IconTrash from '~icons/heroicons-solid/trash'
+  import IconZoomIn from '~icons/heroicons-solid/zoom-in'
 
   const { t } = useI18n()
 
@@ -53,7 +54,12 @@
         :key="(report.name.value as string)"
         class="flex space-x-1"
       >
-        <Button @click="selectReport(report)" truncate full>
+        <Button
+          :leftIcon="IconZoomIn"
+          @click="selectReport(report)"
+          truncate
+          full
+        >
           {{ report.name.value }}
         </Button>
         <Button

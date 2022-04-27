@@ -26,5 +26,6 @@ export const createWatcherHandler = (): WatcherHandler => {
       })
       stops.splice(0, stops.length)
     },
+    stops,
   }
 }

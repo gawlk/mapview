@@ -102,3 +102,5 @@ export const colorsClasses: {
     hexColor: '#e67a8b',
   },
 }
+
+export const baseHexColor = colorsClasses.gray.hexColor

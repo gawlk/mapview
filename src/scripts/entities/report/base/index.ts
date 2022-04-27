@@ -14,6 +14,7 @@ export const createBaseReportFromJSON = (
 ) => {
   const watcherHandler = createWatcherHandler()
   const pointsWatcherHandlers = createWatcherHandler()
+  const zonesWatcherHandlers = createWatcherHandler()
 
   const points: MachinePoint[] = shallowReactive([])
 
@@ -165,7 +166,14 @@ export const createBaseReportFromJSON = (
       colors: shallowReactive(json.thresholds.colors),
       inputs: shallowReactive(json.thresholds.inputs),
     },
-    zones: shallowReactive(json.zones.map((zone) => createZone(zone))),
+    zones: shallowReactive([
+      createZone({
+        name: 'Default',
+        color: 'gray',
+        isVisible: true,
+      }),
+      ...json.zones.map((zone) => createZone(zone)),
+    ]),
     line: createLine(points, map),
     platform: shallowReactive([]),
     informations: shallowReactive([]),
@@ -230,7 +238,7 @@ export const createBaseReportFromJSON = (
 
       watcherHandler.add(
         watch(
-          () => this.points,
+          () => this.points.length,
           () => {
             pointsWatcherHandlers.clean()
 
@@ -241,6 +249,43 @@ export const createBaseReportFromJSON = (
                   () => {
                     point.updateVisibility()
                     this.updatePointsNumbers()
+                  }
+                )
+              )
+            })
+          },
+          {
+            immediate: true,
+          }
+        )
+      )
+
+      watcherHandler.add(
+        watch(
+          () => this.zones.length,
+          () => {
+            zonesWatcherHandlers.clean()
+
+            this.zones.forEach((zone) => {
+              zonesWatcherHandlers.add(
+                watch(
+                  () => zone.color,
+                  () => {
+                    this.points.forEach((point) => {
+                      point.zone === zone && point.updateColor()
+                    })
+                  }
+                )
+              )
+
+              zonesWatcherHandlers.add(
+                watch(
+                  () => zone.isVisible,
+                  () => {
+                    this.points.forEach((point) => {
+                      point.zone === zone && point.updateVisibility()
+                      this.line.update()
+                    })
                   }
                 )
               )
@@ -272,7 +317,7 @@ export const createBaseReportFromJSON = (
 
       watcherHandler.add(
         watch(
-          [() => this.settings.selectedColorization, this.thresholds.colors],
+          [() => this.settings.colorization, this.thresholds.colors],
           () => {
             points.forEach((point) => {
               point.updateColor()
@@ -314,6 +359,7 @@ export const createBaseReportFromJSON = (
 
       watcherHandler.clean()
       pointsWatcherHandlers.clean()
+      zonesWatcherHandlers.clean()
     },
   })
 

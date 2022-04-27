@@ -12,4 +12,5 @@ interface MachinePointCreatorParameters {
   reportSettings: JSONReportSettings
   reportDataLabels: ReportDataLabels
   reportThresholds: ReportThresholds
+  zone: Zone
 }

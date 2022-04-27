@@ -6,7 +6,7 @@ interface BasePoint {
   marker: mapboxgl.Marker
   icon: Icon
   settings: JSONPointSettings
-  zone: Zone | null
+  zone: Zone
   data: DataValue[]
   drops: MachineDrop[]
   getSelectedMathNumber: (
@@ -36,6 +36,7 @@ interface JSONPoint {
   settings: JSONPointSettings
   informations: JSONField[]
   drops: JSONDrop[]
+  zone: number
 }
 
 interface JSONPointSettings {

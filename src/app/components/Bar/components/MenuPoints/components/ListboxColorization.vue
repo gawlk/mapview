@@ -5,6 +5,8 @@
 
   const { t } = useI18n()
 
+  const possibilities: ReportColorizationPossibilities[] = ['Threshold', 'Zone']
+
   const selectedReport = computed(
     () => store.projects.selected?.reports.selected
   )
@@ -13,15 +15,13 @@
 <template>
   <Listbox
     :icon="IconColorSwatch"
-    :values="[t('Colorization by threshold'), t('Colorization by zone')]"
-    :selectedIndex="
-      selectedReport?.settings.selectedColorization === 'Threshold' ? 0 : 1
-    "
+    :preSelected="`${t('Colorization by')}${t(':')}`"
+    :values="possibilities.map((possibility) => t(possibility))"
+    :selected="t(selectedReport?.settings.colorization)"
     @selectIndex="
       (index) =>
         selectedReport &&
-        (selectedReport.settings.selectedColorization =
-          index === 0 ? 'Threshold' : 'Zone')
+        (selectedReport.settings.colorization = possibilities[index])
     "
     full
   />
@@ -29,6 +29,5 @@
 
 <i18n lang="yaml">
 fr:
-  'Colorization by threshold': 'Colorisation par seuil'
-  'Colorization by zone': 'Colorisation par zone'
+  'Colorization by': 'Colorisation par'
 </i18n>

@@ -7,7 +7,7 @@
     DialogTitle,
   } from '@headlessui/vue'
 
-  import IconChevronRight from '~icons/heroicons-solid/chevron-right'
+  import IconArrowSmRight from '~icons/heroicons-solid/arrow-sm-right'
 
   const emit = defineEmits<{
     (event: 'close'): void
@@ -50,7 +50,7 @@
       @click="open"
       full
       :leftIcon="props.buttonIcon"
-      :rightIcon="IconChevronRight"
+      :rightIcon="IconArrowSmRight"
       :blue="props.buttonBlue"
     >
       <slot name="button" />

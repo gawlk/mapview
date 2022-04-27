@@ -5,6 +5,7 @@
   import IconViewList from '~icons/heroicons-solid/view-list'
   import IconPlus from '~icons/heroicons-solid/plus'
   import IconTrash from '~icons/heroicons-solid/trash'
+  import IconZoomIn from '~icons/heroicons-solid/zoom-in'
 
   const { t } = useI18n()
 
@@ -51,7 +52,12 @@
         :key="name"
         class="flex space-x-1"
       >
-        <Button @click="selectProject(index)" truncate full>
+        <Button
+          :leftIcon="IconZoomIn"
+          @click="selectProject(index)"
+          truncate
+          full
+        >
           {{ name }}
         </Button>
         <Button :icon="IconTrash" @click="deleteProject(index)" />

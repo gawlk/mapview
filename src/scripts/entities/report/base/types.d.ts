@@ -101,8 +101,13 @@ type DataLabelsFrom = 'Drop' | 'Test' | 'Zone'
 interface JSONReportSettings {
   iconName: IconName
   isVisible: boolean
-  selectedColorization: 'Threshold' | 'Zone'
+  colorization: ReportColorizationPossibilities
+  groupBy: ReportGroupByPossibilities
 }
+
+type ReportColorizationPossibilities = 'Threshold' | 'Zone'
+
+type ReportGroupByPossibilities = 'Nothing' | 'Zone'
 
 interface ThresholdColors {
   low: ColorName

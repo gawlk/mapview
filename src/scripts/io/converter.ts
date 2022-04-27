@@ -97,7 +97,8 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
       settings: {
         iconName: 'circle',
         isVisible: true,
-        selectedColorization: 'Threshold',
+        colorization: 'Threshold',
+        groupBy: 'Nothing',
       },
       thresholds: {
         groups: ((): MachineMathUnitsSkeleton<number> => {
@@ -211,6 +212,7 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
           isVisible: true,
         },
         informations: [],
+        zone: 0,
         data: json.ExportedData.Points.map(
           (exportedData: any): JSONDataValue => {
             return {

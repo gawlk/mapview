@@ -17,6 +17,9 @@
 
   const key = 'isPointsColorsDisclosureOpen'
 
+  store.projects.selected?.reports.selected &&
+    (store.projects.selected.reports.selected.zones[0].name = t('Default'))
+
   const selectedReport = computed(
     () => store.projects.selected?.reports.selected
   )
@@ -47,11 +50,19 @@
           @input="(value) => (zone.name = String(value))"
         />
         <Button
-          @click="selectedReport?.zones.splice(index, 1)"
+          v-if="index !== 0"
+          @click="
+            () => {
+              selectedReport?.points.forEach(
+                (point) => point.zone === zone && (point.zone = null)
+              )
+              selectedReport?.zones.splice(index, 1)
+            }
+          "
           :icon="IconTrash"
         />
       </div>
-      <Divider v-if="selectedReport?.zones.length > 0" />
+      <Divider />
       <Button
         full
         :leftIcon="IconPlus"

@@ -1,4 +1,5 @@
-import { Marker } from 'mapbox-gl'
+import { Marker, Popup } from 'mapbox-gl'
+import { colorsClasses } from '../../color'
 
 import {
   createIcon,
@@ -42,7 +43,7 @@ export const createBasePointFromJSON = (
       }
     }),
     drops: [],
-    zone: null,
+    zone: parameters.zone,
     getSelectedMathNumber: function (
       groupFrom: DataLabelsFrom,
       dataLabel: DataLabel,
@@ -78,8 +79,10 @@ export const createBasePointFromJSON = (
       return typeof value === 'object' ? value.displayedString : ''
     },
     updateColor: function () {
-      if (parameters.reportSettings.selectedColorization === 'Zone') {
-        this.icon.setColor(this.zone?.color)
+      if (parameters.reportSettings.colorization === 'Zone') {
+        this.icon.setColor(
+          this.zone?.color && colorsClasses[this.zone.color].hexColor
+        )
       } else {
         const group = parameters.reportDataLabels.groups.selected
 
@@ -162,10 +165,39 @@ export const createBasePointFromJSON = (
         this.marker.remove()
       }
     },
+    updatePopup: function () {
+      let html: string = ''
+
+      // Object.entries(this.values).forEach(([key, value]: any) => {
+      //   if (key && key !== 'NumeroReportPoints' && key !== 'Numero') {
+      //     html += `<b>${router.app.$t(key)}${router.app.$t('colon')}</b> `
+      //     switch (value.kind) {
+      //       case 'unit':
+      //         html += value.value.toString()
+      //         break
+      //       default:
+      //         html += value.value
+      //         break
+      //     }
+      //     html += '<br>'
+      //   }
+      // })
+
+      this.marker.setPopup(new Popup({ offset: 20 }).setHTML(html))
+    },
     addToMap: function () {
       this.updateVisibility()
       this.updateText()
       this.updateColor()
+
+      watcherHandler.add(
+        watch(
+          () => this.zone,
+          () => {
+            this.updateColor()
+          }
+        )
+      )
     },
     remove: function () {
       this.marker.remove()

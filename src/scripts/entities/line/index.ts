@@ -57,7 +57,10 @@ export const createLine = (points: MachinePoint[], map: mapboxgl.Map): Line => {
       watcherHandler.clean()
     },
     update: (): void => {
-      const visiblePoints = points.filter((point) => point.settings.isVisible)
+      const visiblePoints = points.filter(
+        (point) =>
+          point.settings.isVisible && (!point.zone || point.zone.isVisible)
+      )
 
       features = []
 

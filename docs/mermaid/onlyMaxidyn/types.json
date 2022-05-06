@@ -3,33 +3,24 @@
     "name": "MaxidynField",
     "value": {},
     "dependencies": [],
-    "extends": [
-      "BaseField"
-    ]
+    "extends": ["BaseField"]
   },
   {
     "name": "MaxidynPoint",
     "value": {
-      "machine": "'maxidyn'"
+      "machine": "'Maxidyn'"
     },
     "dependencies": [],
-    "extends": [
-      "BasePoint"
-    ]
+    "extends": ["BasePoint"]
   },
   {
     "name": "MaxidynProject",
     "value": {
-      "machine": "'maxidyn'",
+      "machine": "'Maxidyn'",
       "reports": "SelectableList#60;MaxidynReport#62;"
     },
-    "dependencies": [
-      "SelectableList",
-      "MaxidynReport"
-    ],
-    "extends": [
-      "BaseProject"
-    ]
+    "dependencies": ["SelectableList", "MaxidynReport"],
+    "extends": ["BaseProject"]
   },
   {
     "name": "MaxidynUnits",
@@ -38,9 +29,7 @@
       "deformation": "MathUnit",
       "force": "MathUnit"
     },
-    "dependencies": [
-      "MathUnit"
-    ],
+    "dependencies": ["MathUnit"],
     "extends": []
   },
   {
@@ -56,30 +45,21 @@
   {
     "name": "MaxidynReport",
     "value": {
-      "machine": "'maxidyn'",
+      "machine": "'Maxidyn'",
       "points": "MaxidynPoint[]",
       "platform": "MaxidynField[]",
       "informations": "MaxidynField[]"
     },
-    "dependencies": [
-      "MaxidynPoint",
-      "MaxidynField"
-    ],
-    "extends": [
-      "BaseReport"
-    ]
+    "dependencies": ["MaxidynPoint", "MaxidynField"],
+    "extends": ["BaseReport"]
   },
   {
     "name": "MaxidynReportCreatorParameters",
     "value": {
       "units": "MaxidynUnits"
     },
-    "dependencies": [
-      "MaxidynUnits"
-    ],
-    "extends": [
-      "MachineReportCreatorParameters"
-    ]
+    "dependencies": ["MaxidynUnits"],
+    "extends": ["MachineReportCreatorParameters"]
   },
   {
     "name": "MaxidynDropType",
@@ -90,14 +70,10 @@
   {
     "name": "MaxidynDropIndex",
     "value": {
-      "machine": "'maxidyn'",
+      "machine": "'Maxidyn'",
       "type": "MaxidynDropType"
     },
-    "dependencies": [
-      "MaxidynDropType"
-    ],
-    "extends": [
-      "BaseDropIndex"
-    ]
+    "dependencies": ["MaxidynDropType"],
+    "extends": ["BaseDropIndex"]
   }
 ]

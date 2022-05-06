@@ -1,6 +1,8 @@
 <script setup lang="ts">
   import IconCloudDownload from '~icons/heroicons-solid/cloud-download'
 
+  import Dialog from '/src/components/Dialog.vue'
+
   const { t } = useI18n()
 </script>
 

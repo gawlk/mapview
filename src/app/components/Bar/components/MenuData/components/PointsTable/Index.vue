@@ -2,8 +2,8 @@
   // @ts-ignore
   import { Sortable } from '@shopify/draggable'
 
-  import Head from './Head.vue'
-  import Row from './Row.vue'
+  import PointsHead from './components/Head.vue'
+  import PointsRow from './components/Row.vue'
 
   import store from '/src/store'
 
@@ -26,7 +26,7 @@
         const { oldIndex, newIndex } = event.data
 
         if (oldIndex !== newIndex && selectedReport.value) {
-          const points = selectedReport.value.points
+          const points = props.points
 
           points.forEach((point) => (point.settings.previousNumber = null))
 
@@ -56,11 +56,20 @@
 
 <template>
   <div class="overflow-x-auto">
-    <table class="w-full text-sm font-medium">
-      <Head :points="props.points" />
+    <table class="w-full table-auto text-sm font-medium">
+      <thead>
+        <PointsHead :points="props.points" />
+      </thead>
       <tbody ref="tbody">
-        <Row v-for="point in props.points" :key="point.id" :point="point" />
+        <PointsRow
+          v-for="point in props.points"
+          :key="point.id"
+          :point="point"
+        />
       </tbody>
+      <tfoot v-if="props.points.length >= 20">
+        <PointsHead :points="props.points" />
+      </tfoot>
     </table>
   </div>
 </template>

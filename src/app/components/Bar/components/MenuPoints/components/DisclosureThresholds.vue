@@ -14,7 +14,13 @@
   import IconAdjustments from '~icons/heroicons-solid/adjustments'
   import IconFold from '~icons/octicon/fold-16'
   import IconPencilAlt from '~icons/heroicons-solid/pencil-alt'
+
   import Button from '/src/components/Button.vue'
+  import Disclosure from '/src/components/Disclosure.vue'
+  import Listbox from '/src/components/Listbox.vue'
+  import ListboxColors from '/src/components/ListboxColors.vue'
+  import Switch from '/src/components/Switch.vue'
+  import Input from '/src/components/Input.vue'
 
   const { t } = useI18n()
 
@@ -65,8 +71,9 @@
 
 <template>
   <Disclosure
+    v-if="selectedReport"
     :icon="IconFold"
-    :text="t('Thresholds settings')"
+    :text="`${t('Thresholds settings')} - ${t(selectedDataLabel?.unit.name)}`"
     @click="(open) => setDisclosureOpenState(key, open)"
     :defaultOpen="getDisclosureOpenState(key, false)"
   >
@@ -84,7 +91,7 @@
             (currentGroupedThresholds.choices.selected =
               currentGroupedThresholds.choices.list[index])
         "
-        :preSelected="`${t('Threshold')}${t(':')}`"
+        :preSelected="`${t('Selected')}${t(':')}`"
         :selected="t(currentGroupedThresholds?.choices.selected.name)"
         full
       />
@@ -117,15 +124,16 @@
         )} < ${formattedTresholdValue}`"
       />
       <div
-        v-if="currentGroupedThresholds.choices.selected?.kind === 'custom'"
+        v-if="currentGroupedThresholds?.choices.selected?.kind === 'custom'"
         class="flex space-x-2"
       >
         <Switch
           :leftIcon="IconPencilAlt"
           :rightIcon="IconAdjustments"
-          :value="selectedReport.thresholds.inputs.isRequiredARange"
+          :value="selectedReport?.thresholds.inputs.isRequiredARange"
           @input="
             (value) =>
+              selectedReport &&
               (selectedReport.thresholds.inputs.isRequiredARange = value)
           "
         />
@@ -133,9 +141,12 @@
           id="threshold-input"
           @input="
             (value) => {
-              if (currentGroupedThresholds.choices.selected) {
+              if (
+                currentGroupedThresholds?.choices.selected &&
+                selectedDataLabel
+              ) {
                 value = convertValueFromCurrentUnitToBaseUnit(
-                  value,
+                  value as number,
                   selectedDataLabel.unit
                 )
 
@@ -161,7 +172,7 @@
             String(
               convertValueFromBaseUnitToCurrentUnit(
                 currentGroupedThresholds.choices.selected?.value,
-                selectedDataLabel.unit
+                selectedDataLabel?.unit
               )
             )
           "
@@ -170,24 +181,24 @@
               ? 'range'
               : 'number'
           "
-          :step="selectedDataLabel.unit.step"
+          :step="selectedDataLabel?.unit.step"
           :min="
             convertValueFromBaseUnitToCurrentUnit(
-              selectedDataLabel.unit.min,
-              selectedDataLabel.unit
+              selectedDataLabel?.unit.min,
+              selectedDataLabel?.unit
             )
           "
           :max="
             convertValueFromBaseUnitToCurrentUnit(
-              selectedDataLabel.unit.max,
-              selectedDataLabel.unit
+              selectedDataLabel?.unit.max,
+              selectedDataLabel?.unit
             )
           "
         />
       </div>
       <div
         v-if="
-          currentGroupedThresholds.choices.selected?.kind === 'custom' &&
+          currentGroupedThresholds?.choices.selected?.kind === 'custom' &&
           currentGroupedThresholds.choices.selected.type !== 'Bicolor'
         "
         class="space-y-2"
@@ -237,6 +248,7 @@
             :value="selectedReport.thresholds.inputs.isOptionalARange"
             @input="
               (value) =>
+                selectedReport &&
                 (selectedReport.thresholds.inputs.isOptionalARange = value)
             "
           />
@@ -245,10 +257,11 @@
             @input="
               (value) => {
                 if (
-                  currentGroupedThresholds.choices.selected?.kind === 'custom'
+                  selectedDataLabel &&
+                  currentGroupedThresholds?.choices.selected?.kind === 'custom'
                 ) {
                   value = convertValueFromCurrentUnitToBaseUnit(
-                    value,
+                    value as number,
                     selectedDataLabel.unit
                   )
 
@@ -274,7 +287,7 @@
               String(
                 convertValueFromBaseUnitToCurrentUnit(
                   currentGroupedThresholds.choices.selected?.valueHigh,
-                  selectedDataLabel.unit
+                  selectedDataLabel?.unit
                 )
               )
             "
@@ -283,17 +296,17 @@
                 ? 'range'
                 : 'number'
             "
-            :step="selectedDataLabel.unit.step"
+            :step="selectedDataLabel?.unit.step"
             :min="
               convertValueFromBaseUnitToCurrentUnit(
-                selectedDataLabel.unit.min,
-                selectedDataLabel.unit
+                selectedDataLabel?.unit.min,
+                selectedDataLabel?.unit
               )
             "
             :max="
               convertValueFromBaseUnitToCurrentUnit(
-                selectedDataLabel.unit.max,
-                selectedDataLabel.unit
+                selectedDataLabel?.unit.max,
+                selectedDataLabel?.unit
               )
             "
           />
@@ -306,8 +319,8 @@
           selectedReport && (selectedReport.thresholds.colors.high = color)
         }"
         :text="`${
-          currentGroupedThresholds.choices.selected?.kind === 'custom' &&
-          currentGroupedThresholds.choices.selected.type !== 'Tricolor'
+          currentGroupedThresholds?.choices.selected?.kind === 'custom' &&
+          currentGroupedThresholds?.choices.selected.type !== 'Tricolor'
             ? formattedTresholdValue
             : formattedTresholdValueHigh
         } ≤ ${t(selectedDataLabel?.name || '')} < ∞ ${

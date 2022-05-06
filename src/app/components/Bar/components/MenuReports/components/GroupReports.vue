@@ -7,6 +7,9 @@
   import IconTrash from '~icons/heroicons-solid/trash'
   import IconZoomIn from '~icons/heroicons-solid/zoom-in'
 
+  import Button from '/src/components/Button.vue'
+  import Popover from '/src/components/Popover.vue'
+
   const { t } = useI18n()
 
   const selectReport = (report: MachineReport) => {
@@ -44,9 +47,8 @@
   <div class="flex space-x-2">
     <Popover
       :icon="IconViewList"
-      :buttonText="`${t('Name')}${t(':')} ${
-        store.projects.selected?.reports.selected?.name.value
-      } (${store.projects.selected?.machine})`"
+      :preText="`${t('Selected')}${t(':')}`"
+      :buttonText="`${store.projects.selected?.reports.selected?.name.value}`"
       full
     >
       <div

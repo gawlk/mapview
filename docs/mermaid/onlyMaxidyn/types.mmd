@@ -8,14 +8,14 @@ class MaxidynField {
 
 class MaxidynPoint {
   <<interface>>
-  machine: 'maxidyn'
+  machine: 'Maxidyn'
 }
 
 
 
 class MaxidynProject {
   <<interface>>
-  machine: 'maxidyn'
+  machine: 'Maxidyn'
   reports: SelectableList#60;MaxidynReport#62;
 }
 MaxidynProject <.. MaxidynReport
@@ -41,7 +41,7 @@ class JSONMaxidynUnits {
 
 class MaxidynReport {
   <<interface>>
-  machine: 'maxidyn'
+  machine: 'Maxidyn'
   points: MaxidynPoint[]
   platform: MaxidynField[]
   informations: MaxidynField[]
@@ -66,7 +66,7 @@ class MaxidynDropType {
 
 class MaxidynDropIndex {
   <<interface>>
-  machine: 'maxidyn'
+  machine: 'Maxidyn'
   type: MaxidynDropType
 }
 MaxidynDropIndex <.. MaxidynDropType

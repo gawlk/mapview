@@ -1,6 +1,6 @@
 import { createBaseReportFromJSON } from '../base'
 import {
-  createHeavydynPointFromJSON,
+  createHeavydynZoneFromJSON,
   createHeavydynFieldFromJSON,
   createCustomThreshold,
 } from '/src/scripts'
@@ -14,7 +14,7 @@ export const createHeavydynReportFromJSON = (
     json,
     map,
     {
-      machine: 'heavydyn',
+      machine: 'Heavydyn',
       thresholds: {
         deflection: [createCustomThreshold(0)],
         force: [createCustomThreshold(0)],
@@ -26,16 +26,13 @@ export const createHeavydynReportFromJSON = (
     }
   )
 
-  report.points.push(
-    ...json.points.map((jsonPoint, index) =>
-      createHeavydynPointFromJSON(jsonPoint, map, {
-        iconName: json.settings.iconName,
-        number: index + 1,
+  report.zones.push(
+    ...json.zones.map((jsonZone) =>
+      createHeavydynZoneFromJSON(jsonZone, map, {
         projectSettings: parameters.projectSettings,
         reportSettings: report.settings,
         reportDataLabels: report.dataLabels,
         reportThresholds: report.thresholds,
-        zone: report.zones[jsonPoint.zone],
       })
     )
   )

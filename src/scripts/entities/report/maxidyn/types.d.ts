@@ -1,6 +1,6 @@
 interface MaxidynReport extends BaseReport {
-  readonly machine: 'maxidyn'
-  points: MaxidynPoint[]
+  readonly machine: 'Maxidyn'
+  zones: MaxidynZone[]
   platform: MaxidynField[]
   informations: MaxidynField[]
 }
@@ -13,7 +13,7 @@ interface MaxidynReportCreatorParameters
 type MaxidynDropType = 'Training' | 'Averaging'
 
 interface MaxidynDropIndex extends BaseDropIndex {
-  machine: 'maxidyn'
+  machine: 'Maxidyn'
   type: MaxidynDropType
 }
 

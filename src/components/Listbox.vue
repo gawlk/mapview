@@ -7,8 +7,8 @@
   } from '@headlessui/vue'
 
   const emit = defineEmits<{
-    (event: 'select', value: string): void
-    (event: 'selectIndex', value: number): void
+    (e: 'select', value: string): void
+    (e: 'selectIndex', value: number): void
   }>()
 
   const props = defineProps<{
@@ -72,10 +72,7 @@
             ]"
             class="mr-1 flex-none transition-colors duration-200"
           />
-          <span
-            v-if="props.preSelected"
-            class="ml-1 hidden text-gray-500 sm:block"
-          >
+          <span v-if="props.preSelected" class="ml-1 text-gray-500">
             {{ props.preSelected }}
           </span>
           <span
@@ -114,7 +111,7 @@
           :class="
             props.sm ? 'rounded-md border p-0.5' : 'rounded-lg border-2 p-1'
           "
-          class="absolute bottom-0 z-10 mb-11 max-h-60 w-full space-y-1 overflow-auto border-gray-100 bg-white text-left text-sm shadow-md focus:outline-none lg:bottom-auto lg:mt-1 lg:mb-0 lg:shadow-lg"
+          class="absolute bottom-0 z-20 mb-11 max-h-60 w-full space-y-1 overflow-auto border-gray-100 bg-white text-left text-sm shadow-md focus:outline-none lg:bottom-auto lg:mt-1 lg:mb-0 lg:shadow-lg"
         >
           <ListboxOption
             v-slot="{ active, selected }"

@@ -20,7 +20,8 @@
       "geojson",
       "@types/mapbox-gl",
       "mathjs",
-      "fflate"
+      "fflate",
+      "vue"
     ],
     "paths": {
       "/src/*": ["src/*"]

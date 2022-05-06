@@ -7,11 +7,14 @@
   import IconDotsVertical from '~icons/heroicons-solid/dots-vertical'
   import IconDotsHorizontal from '~icons/heroicons-solid/dots-horizontal'
 
+  import Disclosure from '/src/components/Disclosure.vue'
+  import Listbox from '/src/components/Listbox.vue'
+
   const { t } = useI18n()
 
   const key = 'isPointsValuesDisclosureOpen'
 
-  const pointsGroupedDataLabels = computed(
+  const groupedDataLabels = computed(
     () => store.projects.selected?.reports.selected?.dataLabels.groups
   )
 </script>
@@ -19,60 +22,67 @@
 <template>
   <Disclosure
     :icon="IconNumber"
-    :text="t('Values settings')"
+    :text="t('Value settings')"
     @click="(open) => setDisclosureOpenState(key, open)"
     :defaultOpen="getDisclosureOpenState(key, false)"
   >
     <Listbox
-      :icon="IconViewList"
-      :values="pointsGroupedDataLabels?.list.map((list) => t(list.from))"
-      :selected="t(pointsGroupedDataLabels?.selected?.from || '')"
+      :icon="IconDotsHorizontal"
+      :values="
+        groupedDataLabels?.list
+          .filter((list) => list.from !== 'Zone')
+          .map((list) => t(list.from))
+      "
+      :selected="t(groupedDataLabels?.selected?.from || '')"
       @selectIndex="
         (index) =>
-          pointsGroupedDataLabels &&
-          (pointsGroupedDataLabels.selected =
-            pointsGroupedDataLabels.list[index])
+          groupedDataLabels &&
+          (groupedDataLabels.selected = groupedDataLabels.list[index])
       "
-      :preSelected="`${t('Values from')}${t(':')}`"
+      :preSelected="`${t('Source')}${t(':')}`"
       full
     />
     <Listbox
-      v-if="pointsGroupedDataLabels?.selected?.indexes"
+      v-if="groupedDataLabels?.selected?.indexes"
       :icon="IconDotsVertical"
       :values="
-        pointsGroupedDataLabels?.selected?.indexes.list.map(
-          (index) => `${index.displayedIndex} - ${t(index.type)}`
+        groupedDataLabels?.selected?.indexes.list.map(
+          (index) =>
+            `${index.displayedIndex} - ${t(index.type)}${
+              index.machine === 'Heavydyn' && index.value
+                ? ` (${index.value.displayedStringWithUnit})`
+                : ''
+            }`
         )
       "
       :preSelected="`${t('Index')}${t(':')}`"
       :selectedIndex="
-        (pointsGroupedDataLabels?.selected?.indexes.selected?.displayedIndex ||
-          0) - 1
+        (groupedDataLabels?.selected?.indexes.selected?.displayedIndex || 0) - 1
       "
       @selectIndex="
         (index) =>
-          pointsGroupedDataLabels?.selected?.indexes &&
-          (pointsGroupedDataLabels.selected.indexes.selected =
-            pointsGroupedDataLabels.selected.indexes.list[index])
+          groupedDataLabels?.selected?.indexes &&
+          (groupedDataLabels.selected.indexes.selected =
+            groupedDataLabels.selected.indexes.list[index])
       "
       full
     />
     <Listbox
-      :icon="IconDotsHorizontal"
+      :icon="IconViewList"
       :values="
-        pointsGroupedDataLabels?.selected?.choices.list.map((dataLabel) =>
-          t(dataLabel.name)
+        groupedDataLabels?.selected?.choices.list.map(
+          (dataLabel) => `${t(dataLabel.name)} - ${t(dataLabel.unit.name)}`
         )
       "
-      :preSelected="`${t('Value')}${t(':')}`"
-      :selected="
-        t(pointsGroupedDataLabels?.selected?.choices.selected?.name || '')
-      "
+      :preSelected="`${t('Selected')}${t(':')}`"
+      :selected="`${t(
+        groupedDataLabels?.selected?.choices.selected?.name || ''
+      )} - ${t(groupedDataLabels?.selected?.choices.selected?.unit.name)}`"
       @selectIndex="
         (index) =>
-          pointsGroupedDataLabels?.selected &&
-          (pointsGroupedDataLabels.selected.choices.selected =
-            pointsGroupedDataLabels.selected.choices.list[index])
+          groupedDataLabels?.selected &&
+          (groupedDataLabels.selected.choices.selected =
+            groupedDataLabels.selected.choices.list[index])
       "
       full
     />
@@ -81,6 +91,5 @@
 
 <i18n lang="yaml">
 fr:
-  'Values settings': 'Configuration des valeurs'
-  'Values from': 'Valeurs de'
+  'Value settings': 'Configuration de la valeur'
 </i18n>

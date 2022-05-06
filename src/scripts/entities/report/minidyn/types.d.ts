@@ -1,6 +1,6 @@
 interface MinidynReport extends BaseReport {
-  readonly machine: 'minidyn'
-  points: MinidynPoint[]
+  readonly machine: 'Minidyn'
+  zones: MinidynZone[]
   platform: MinidynField[]
   informations: MinidynField[]
 }
@@ -13,7 +13,7 @@ interface MinidynReportCreatorParameters
 type MinidynDropType = 'Training' | 'Averaging'
 
 interface MinidynDropIndex extends BaseDropIndex {
-  machine: 'minidyn'
+  machine: 'Minidyn'
   type: MinidynDropType
 }
 

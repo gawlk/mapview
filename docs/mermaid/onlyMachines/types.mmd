@@ -31,21 +31,21 @@ MachineField <.. MinidynField
 
 class HeavydynPoint {
   <<interface>>
-  machine: 'heavydyn'
+  machine: 'Heavydyn'
 }
 
 
 
 class MaxidynPoint {
   <<interface>>
-  machine: 'maxidyn'
+  machine: 'Maxidyn'
 }
 
 
 
 class MinidynPoint {
   <<interface>>
-  machine: 'minidyn'
+  machine: 'Minidyn'
 }
 
 
@@ -78,14 +78,14 @@ class MachinePointCreatorParameters {
 
 class MachineName {
   <<type>>
-  'heavydyn' | 'maxidyn' | 'minidyn'
+  'Heavydyn' | 'Maxidyn' | 'Minidyn'
 }
 
 
 
 class HeavydynProject {
   <<interface>>
-  machine: 'heavydyn'
+  machine: 'Heavydyn'
   reports: SelectableList#60;HeavydynReport#62;
 }
 HeavydynProject <.. HeavydynReport
@@ -111,7 +111,7 @@ class JSONHeavydynUnits {
 
 class MaxidynProject {
   <<interface>>
-  machine: 'maxidyn'
+  machine: 'Maxidyn'
   reports: SelectableList#60;MaxidynReport#62;
 }
 MaxidynProject <.. MaxidynReport
@@ -137,7 +137,7 @@ class JSONMaxidynUnits {
 
 class MinidynProject {
   <<interface>>
-  machine: 'minidyn'
+  machine: 'Minidyn'
   reports: SelectableList#60;MinidynReport#62;
 }
 MinidynProject <.. MinidynReport
@@ -189,7 +189,7 @@ MachineUnits <.. MinidynUnits
 
 class HeavydynReport {
   <<interface>>
-  machine: 'heavydyn'
+  machine: 'Heavydyn'
   points: HeavydynPoint[]
   platform: HeavydynField[]
   informations: HeavydynField[]
@@ -214,7 +214,7 @@ class HeavydynDropType {
 
 class HeavydynDropIndex {
   <<interface>>
-  machine: 'heavydyn'
+  machine: 'Heavydyn'
   type: HeavydynDropType
   value: MathNumber
 }
@@ -223,7 +223,7 @@ HeavydynDropIndex <.. HeavydynDropType
 
 class JSONHeavydynDropIndex {
   <<interface>>
-  machine: 'heavydyn'
+  machine: 'Heavydyn'
   type: HeavydynDropType
   value: number
 }
@@ -232,7 +232,7 @@ JSONHeavydynDropIndex <.. HeavydynDropType
 
 class MaxidynReport {
   <<interface>>
-  machine: 'maxidyn'
+  machine: 'Maxidyn'
   points: MaxidynPoint[]
   platform: MaxidynField[]
   informations: MaxidynField[]
@@ -257,7 +257,7 @@ class MaxidynDropType {
 
 class MaxidynDropIndex {
   <<interface>>
-  machine: 'maxidyn'
+  machine: 'Maxidyn'
   type: MaxidynDropType
 }
 MaxidynDropIndex <.. MaxidynDropType
@@ -265,7 +265,7 @@ MaxidynDropIndex <.. MaxidynDropType
 
 class MinidynReport {
   <<interface>>
-  machine: 'minidyn'
+  machine: 'Minidyn'
   points: MinidynPoint[]
   platform: MinidynField[]
   informations: MinidynField[]
@@ -290,7 +290,7 @@ class MinidynDropType {
 
 class MinidynDropIndex {
   <<interface>>
-  machine: 'minidyn'
+  machine: 'Minidyn'
   type: MinidynDropType
 }
 MinidynDropIndex <.. MinidynDropType

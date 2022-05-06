@@ -1,6 +1,8 @@
 <script setup lang="ts">
   import { getBrowserLocale } from '/src/locales'
 
+  import Listbox from '/src/components/Listbox.vue'
+
   const emit = defineEmits<{
     (event: 'input', value: string | number): void
   }>()

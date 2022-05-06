@@ -5,7 +5,7 @@ export const createMinidynDropFromJSON = (
   parameters: MinidynDropCreatorParameters
 ) => {
   const drop: PartialMachineDrop<MinidynDrop> = createBaseDropFromJSON(json, {
-    machine: 'minidyn',
+    machine: 'Minidyn',
     ...parameters,
   })
 

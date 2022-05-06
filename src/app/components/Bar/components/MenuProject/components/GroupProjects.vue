@@ -2,6 +2,9 @@
   import store from '/src/store'
   import { importFile } from '/src/scripts'
 
+  import Button from '/src/components/Button.vue'
+  import Popover from '/src/components/Popover.vue'
+
   import IconViewList from '~icons/heroicons-solid/view-list'
   import IconPlus from '~icons/heroicons-solid/plus'
   import IconTrash from '~icons/heroicons-solid/trash'
@@ -40,17 +43,16 @@
   <div class="flex space-x-2">
     <Popover
       :icon="IconViewList"
-      :buttonText="`${t('Name')}${t(':')} ${
-        store.projects.selected?.name.value
-      } (${store.projects.selected?.machine})`"
+      :preText="`${t('Selected')}${t(':')}`"
+      :buttonText="`${store.projects.selected?.name.value} - ${store.projects.selected?.machine}`"
       full
     >
       <div
         v-for="(name, index) of store.projects.list.map(
-          (project) => project.name.value as string
+          (project) => `${project.name.value} - ${project.machine}`
         )"
         :key="name"
-        class="flex space-x-1"
+        class="flex space-x-1 truncate"
       >
         <Button
           :leftIcon="IconZoomIn"

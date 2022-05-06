@@ -8,14 +8,14 @@ class HeavydynField {
 
 class HeavydynPoint {
   <<interface>>
-  machine: 'heavydyn'
+  machine: 'Heavydyn'
 }
 
 
 
 class HeavydynProject {
   <<interface>>
-  machine: 'heavydyn'
+  machine: 'Heavydyn'
   reports: SelectableList#60;HeavydynReport#62;
 }
 HeavydynProject <.. HeavydynReport
@@ -41,7 +41,7 @@ class JSONHeavydynUnits {
 
 class HeavydynReport {
   <<interface>>
-  machine: 'heavydyn'
+  machine: 'Heavydyn'
   points: HeavydynPoint[]
   platform: HeavydynField[]
   informations: HeavydynField[]
@@ -66,7 +66,7 @@ class HeavydynDropType {
 
 class HeavydynDropIndex {
   <<interface>>
-  machine: 'heavydyn'
+  machine: 'Heavydyn'
   type: HeavydynDropType
   value: MathNumber
 }
@@ -75,7 +75,7 @@ HeavydynDropIndex <.. HeavydynDropType
 
 class JSONHeavydynDropIndex {
   <<interface>>
-  machine: 'heavydyn'
+  machine: 'Heavydyn'
   type: HeavydynDropType
   value: number
 }

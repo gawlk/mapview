@@ -8,14 +8,14 @@ class MinidynField {
 
 class MinidynPoint {
   <<interface>>
-  machine: 'minidyn'
+  machine: 'Minidyn'
 }
 
 
 
 class MinidynProject {
   <<interface>>
-  machine: 'minidyn'
+  machine: 'Minidyn'
   reports: SelectableList#60;MinidynReport#62;
 }
 MinidynProject <.. MinidynReport
@@ -42,7 +42,7 @@ class JSONMinidynUnits {
 
 class MinidynReport {
   <<interface>>
-  machine: 'minidyn'
+  machine: 'Minidyn'
   points: MinidynPoint[]
   platform: MinidynField[]
   informations: MinidynField[]
@@ -67,7 +67,7 @@ class MinidynDropType {
 
 class MinidynDropIndex {
   <<interface>>
-  machine: 'minidyn'
+  machine: 'Minidyn'
   type: MinidynDropType
 }
 MinidynDropIndex <.. MinidynDropType

@@ -1,28 +1,69 @@
 <script setup lang="ts">
   import store from '/src/store'
   import {
-    createZone,
+    createHeavydynZoneFromJSON,
+    createMaxidynZoneFromJSON,
+    createMinidynZoneFromJSON,
     setDisclosureOpenState,
     getDisclosureOpenState,
+    colorsClasses,
   } from '/src/scripts'
 
   import IconColorSwatch from '~icons/heroicons-solid/color-swatch'
   import IconPlus from '~icons/heroicons-solid/plus'
   import IconTrash from '~icons/heroicons-solid/trash'
   import IconIssueDraft from '~icons/octicon/issue-draft-16'
+
   import Button from '/src/components/Button.vue'
   import Divider from '/src/components/Divider.vue'
+  import Disclosure from '/src/components/Disclosure.vue'
+  import ListboxColors from '/src/components/ListboxColors.vue'
+  import Input from '/src/components/Input.vue'
 
   const { t } = useI18n()
 
   const key = 'isPointsColorsDisclosureOpen'
 
   store.projects.selected?.reports.selected &&
+    store.projects.selected.reports.selected.zones[0].name === '' &&
     (store.projects.selected.reports.selected.zones[0].name = t('Default'))
 
   const selectedReport = computed(
     () => store.projects.selected?.reports.selected
   )
+
+  const createZone = () => {
+    const colorNames = Object.keys(colorsClasses)
+
+    if (store.projects.selected && selectedReport.value && store.map) {
+      const json: JSONZone = {
+        name: `Zone ${selectedReport.value.zones.length + 1}`,
+        settings: {
+          color: colorNames[
+            Math.floor(Math.random() * colorNames.length)
+          ] as ColorName,
+          isVisible: true,
+        },
+        points: [],
+      }
+
+      const createZone =
+        selectedReport.value?.machine === 'Heavydyn'
+          ? createHeavydynZoneFromJSON
+          : selectedReport.value?.machine === 'Maxidyn'
+          ? createMaxidynZoneFromJSON
+          : createMinidynZoneFromJSON
+
+      ;(selectedReport.value.zones as MachineZone[]).push(
+        createZone(json, store.map, {
+          projectSettings: store.projects.selected.settings,
+          reportSettings: selectedReport.value.settings,
+          reportDataLabels: selectedReport.value.dataLabels,
+          reportThresholds: selectedReport.value.thresholds,
+        })
+      )
+    }
+  }
 </script>
 
 <template>
@@ -40,9 +81,9 @@
         <ListboxColors
           :icon="IconColorSwatch"
           @selectColor="(color: ColorName) => 
-            (zone.color = color)
+            (zone.settings.color = color)
           "
-          :color="zone.color"
+          :color="zone.settings.color"
         />
         <Input
           :id="zone.name + '-name'"
@@ -53,9 +94,8 @@
           v-if="index !== 0"
           @click="
             () => {
-              selectedReport?.points.forEach(
-                (point) => point.zone === zone && (point.zone = null)
-              )
+              (selectedReport?.zones[0].points as MachinePoint[]).push(...zone.points)
+
               selectedReport?.zones.splice(index, 1)
             }
           "
@@ -63,20 +103,7 @@
         />
       </div>
       <Divider />
-      <Button
-        full
-        :leftIcon="IconPlus"
-        @click="
-          () => {
-            selectedReport?.zones.push(
-              createZone({
-                name: `${t('Zone')} ${selectedReport?.zones.length + 1}`,
-                isVisible: true,
-              })
-            )
-          }
-        "
-      >
+      <Button full :leftIcon="IconPlus" @click="createZone">
         {{ t('Create a zone') }}
       </Button>
     </div>

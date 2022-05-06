@@ -1,13 +1,18 @@
 <script setup lang="ts">
   import store from '/src/store'
 
-  import Empty from './Empty.vue'
   import IconViewList from '~icons/heroicons-solid/view-list'
   import IconDotsVertical from '~icons/heroicons-solid/dots-vertical'
   import IconViewBoards from '~icons/heroicons-solid/view-boards'
   import IconCheck from '~icons/heroicons-solid/check'
   import IconPlus from '~icons/heroicons-solid/plus'
   import IconX from '~icons/heroicons-solid/x'
+
+  import Button from '/src/components/Button.vue'
+  import Listbox from '/src/components/Listbox.vue'
+  import Popover from '/src/components/Popover.vue'
+
+  import Empty from './Empty.vue'
 
   const { t } = useI18n()
 
@@ -46,7 +51,12 @@
     :icon="IconDotsVertical"
     :values="
       tableDataLabels?.selected?.group.indexes?.list.map(
-        (index) => `${index.displayedIndex} - ${t(index.type)}`
+        (index) =>
+          `${index.displayedIndex} - ${t(index.type)}${
+            index.machine === 'Heavydyn' && index.value
+              ? ` (${index.value.displayedStringWithUnit})`
+              : ''
+          }`
       )
     "
     :preSelected="`${t('Index')}${t(':')}`"
@@ -62,7 +72,8 @@
   <Popover
     v-if="tableDataLabels?.selected"
     :icon="IconViewBoards"
-    :buttonText="`${t('Columns')}${t(':')} ${
+    :preText="`${t('Columns')}${t(':')}`"
+    :buttonText="`${
       tableDataLabels.selected.dataLabels
         .map((dataLabel) => t(dataLabel.name))
         .join(', ') || t('None')

@@ -2,6 +2,9 @@
   import DialogExport from './components/DialogExport.vue'
   import GroupAlbum from './components/GroupAlbum/Index.vue'
   import GroupReports from './components/GroupReports.vue'
+  import DisclosureZones from './components/DisclosureZones.vue'
+
+  import DialogInformations from '/src/components/DialogInformations.vue'
 
   import store from '/src/store'
 </script>
@@ -30,4 +33,5 @@
     "
   />
   <DialogExport />
+  <DisclosureZones />
 </template>

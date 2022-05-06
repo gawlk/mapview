@@ -1,5 +1,4 @@
 import { Marker, Popup } from 'mapbox-gl'
-import { colorsClasses } from '../../color'
 
 import {
   createIcon,
@@ -12,7 +11,7 @@ export const createBasePointFromJSON = (
   map: mapboxgl.Map,
   parameters: BasePointCreatorParameters
 ): MachinePoint => {
-  const icon = createIcon(parameters.iconName)
+  const icon = createIcon(parameters.reportSettings.iconName)
 
   const marker = new Marker({
     element: icon.element,
@@ -26,7 +25,7 @@ export const createBasePointFromJSON = (
   const point = shallowReactive({
     machine: parameters.machine,
     id: `${+new Date()}-${Math.random()}`,
-    number: parameters.number,
+    number: json.number,
     marker,
     icon,
     settings: reactive(json.settings),
@@ -43,7 +42,6 @@ export const createBasePointFromJSON = (
       }
     }),
     drops: [],
-    zone: parameters.zone,
     getSelectedMathNumber: function (
       groupFrom: DataLabelsFrom,
       dataLabel: DataLabel,
@@ -80,9 +78,7 @@ export const createBasePointFromJSON = (
     },
     updateColor: function () {
       if (parameters.reportSettings.colorization === 'Zone') {
-        this.icon.setColor(
-          this.zone?.color && colorsClasses[this.zone.color].hexColor
-        )
+        this.icon.setColor(parameters.zoneSettings.color)
       } else {
         const group = parameters.reportDataLabels.groups.selected
 
@@ -157,7 +153,7 @@ export const createBasePointFromJSON = (
       if (
         parameters.projectSettings.arePointsVisible &&
         parameters.reportSettings.isVisible &&
-        (!this.zone || this.zone?.isVisible) &&
+        parameters.zoneSettings.isVisible &&
         this.settings.isVisible
       ) {
         this.marker.addTo(map)
@@ -168,35 +164,24 @@ export const createBasePointFromJSON = (
     updatePopup: function () {
       let html: string = ''
 
-      // Object.entries(this.values).forEach(([key, value]: any) => {
-      //   if (key && key !== 'NumeroReportPoints' && key !== 'Numero') {
-      //     html += `<b>${router.app.$t(key)}${router.app.$t('colon')}</b> `
-      //     switch (value.kind) {
-      //       case 'unit':
-      //         html += value.value.toString()
-      //         break
-      //       default:
-      //         html += value.value
-      //         break
-      //     }
-      //     html += '<br>'
-      //   }
-      // })
+      this.data.forEach((dataValue) => {
+        html += `<p><strong>${dataValue.label.name}:</strong> ${dataValue.value.displayedStringWithUnit}</p>`
+      })
 
-      this.marker.setPopup(new Popup({ offset: 20 }).setHTML(html))
+      this.marker.setPopup(new Popup().setHTML(html))
     },
     addToMap: function () {
       this.updateVisibility()
       this.updateText()
       this.updateColor()
-
-      watcherHandler.add(
-        watch(
-          () => this.zone,
-          () => {
-            this.updateColor()
-          }
-        )
+      this.updatePopup()
+    },
+    isOnMap: function () {
+      return (
+        parameters.projectSettings.arePointsVisible &&
+        parameters.reportSettings.isVisible &&
+        parameters.zoneSettings.isVisible &&
+        this.settings.isVisible
       )
     },
     remove: function () {

@@ -9,6 +9,7 @@
     buttonText: string
     full: boolean
     icon: any
+    preText?: string
   }>()
 </script>
 
@@ -26,6 +27,9 @@
         :is="props.icon"
         class="mr-1 h-5 w-5 text-gray-400 transition-colors duration-200 group-hover:text-gray-500"
       />
+      <span v-if="props.preText" class="ml-1 text-gray-500">
+        {{ props.preText }}
+      </span>
       <span class="flex-1 truncate text-left">
         {{ props.buttonText }}
       </span>

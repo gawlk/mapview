@@ -4,6 +4,7 @@ import {
   createSelectableList,
   createWatcherHandler,
   mapStyles,
+  debounce,
 } from '/src/scripts'
 
 export const createBaseProjectFromJSON = async (
@@ -56,10 +57,12 @@ export const createBaseProjectFromJSON = async (
       const bounds = new LngLatBounds()
 
       this.reports.list.forEach((report: MachineReport) => {
-        report.points.forEach((point: MachinePoint) => {
-          if (point.settings.isVisible) {
-            bounds.extend(point.marker.getLngLat())
-          }
+        report.zones.forEach((zone) => {
+          zone.points.forEach((point: MachinePoint) => {
+            if (point.settings.isVisible) {
+              bounds.extend(point.marker.getLngLat())
+            }
+          })
         })
       })
 
@@ -86,8 +89,10 @@ export const createBaseProjectFromJSON = async (
           () => this.settings.arePointsVisible,
           () => {
             this.reports.list.forEach((report: MachineReport) => {
-              report.points.forEach((point) => {
-                point.updateVisibility()
+              report.zones.forEach((zone) => {
+                zone.points.forEach((point) => {
+                  point.updateVisibility()
+                })
               })
             })
           }
@@ -112,8 +117,10 @@ export const createBaseProjectFromJSON = async (
           () => this.settings.arePointsLocked,
           (arePointsLocked: boolean) => {
             this.reports.list.forEach((report: MachineReport) => {
-              report.points.forEach((point) => {
-                point.marker.setDraggable(!arePointsLocked)
+              report.zones.forEach((zone) => {
+                zone.points.forEach((point) => {
+                  point.marker.setDraggable(!arePointsLocked)
+                })
               })
             })
           }
@@ -148,8 +155,10 @@ export const createBaseProjectFromJSON = async (
           () => this.settings.pointsState,
           () => {
             this.reports.list.forEach((report) => {
-              report.points.forEach((point) => {
-                point.updateText()
+              report.zones.forEach((zone) => {
+                zone.points.forEach((point) => {
+                  point.updateText()
+                })
               })
             })
           }
@@ -180,30 +189,44 @@ export const createBaseProjectFromJSON = async (
 
       Object.values(this.units).forEach((mathUnit) =>
         watcherHandler.add(
-          watch(mathUnit, () => {
-            this.reports.list.forEach((report) => {
-              report.points.forEach((point) => {
-                const selectedReportUnit =
-                  report.dataLabels.groups.selected?.choices.selected?.unit
+          watch(
+            mathUnit,
+            debounce(() => {
+              this.reports.list.forEach((report) => {
+                report.zones.forEach((zone) => {
+                  zone.points.forEach((point) => {
+                    const selectedReportUnit =
+                      report.dataLabels.groups.selected?.choices.selected?.unit
 
-                point.data.forEach((dataValue) => {
-                  dataValue.label.unit === mathUnit &&
-                    dataValue.value.toDisplayedValue()
-                })
+                    let foundMatchingUnit = false
 
-                point.drops.forEach((drop) =>
-                  drop.data.forEach((dataValue) => {
-                    dataValue.label.unit === mathUnit &&
-                      dataValue.value.toDisplayedValue()
+                    point.data.forEach((dataValue) => {
+                      const areUnitsMatching = dataValue.label.unit === mathUnit
+
+                      if (!foundMatchingUnit) {
+                        foundMatchingUnit = areUnitsMatching
+                      }
+
+                      areUnitsMatching && dataValue.value.toDisplayedValue()
+                    })
+
+                    foundMatchingUnit && point.updatePopup()
+
+                    point.drops.forEach((drop) =>
+                      drop.data.forEach((dataValue) => {
+                        dataValue.label.unit === mathUnit &&
+                          dataValue.value.toDisplayedValue()
+                      })
+                    )
+
+                    selectedReportUnit === mathUnit && point.updateText()
                   })
-                )
-
-                selectedReportUnit === mathUnit && point.updateText()
+                })
               })
-            })
 
-            // TODO: Same thing for all zones
-          })
+              // TODO: Same thing for all zones
+            })
+          )
         )
       )
     },

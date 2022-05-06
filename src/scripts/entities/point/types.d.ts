@@ -6,11 +6,9 @@ type PartialMachinePoint<MachinePoint> = PartialExtendedObject<
 >
 
 interface MachinePointCreatorParameters {
-  number: number
-  iconName: IconName
   projectSettings: JSONProjectSettings
   reportSettings: JSONReportSettings
   reportDataLabels: ReportDataLabels
   reportThresholds: ReportThresholds
-  zone: Zone
+  zoneSettings: JSONZoneSettings
 }

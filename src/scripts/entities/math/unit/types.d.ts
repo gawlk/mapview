@@ -8,4 +8,5 @@ interface MathUnit {
   min: number
   max: number
   step: number
+  getAverage: (values: number[]) => number
 }

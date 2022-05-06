@@ -1,6 +1,6 @@
 import { createBaseReportFromJSON } from '../base'
 import {
-  createMinidynPointFromJSON,
+  createMinidynZoneFromJSON,
   createMinidynFieldFromJSON,
   createPredefinedThreshold,
   createCustomThreshold,
@@ -15,7 +15,7 @@ export const createMinidynReportFromJSON = (
     json,
     map,
     {
-      machine: 'minidyn',
+      machine: 'Minidyn',
       thresholds: {
         modulus: [
           createPredefinedThreshold('N.S.', 0),
@@ -39,16 +39,13 @@ export const createMinidynReportFromJSON = (
     }
   )
 
-  report.points.push(
-    ...json.points.map((jsonPoint, index) =>
-      createMinidynPointFromJSON(jsonPoint, map, {
-        iconName: json.settings.iconName,
-        number: index + 1,
+  report.zones.push(
+    ...json.zones.map((jsonZone) =>
+      createMinidynZoneFromJSON(jsonZone, map, {
         projectSettings: parameters.projectSettings,
         reportSettings: report.settings,
         reportDataLabels: report.dataLabels,
         reportThresholds: report.thresholds,
-        zone: report.zones[jsonPoint.zone],
       })
     )
   )

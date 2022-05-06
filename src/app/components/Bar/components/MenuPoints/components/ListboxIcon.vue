@@ -4,6 +4,8 @@
 
   import IconColorStar from '~icons/heroicons-solid/star'
 
+  import Listbox from '/src/components/Listbox.vue'
+
   const { t } = useI18n()
 
   const pointIconValues = Object.keys(icons).map((key) => {
@@ -44,26 +46,15 @@
 </template>
 
 <i18n lang="yaml">
-en:
-  'circle': 'Circle'
-  'triangle': 'Triangle'
-  'square': 'Square'
-  'rhombus': 'Rhombus'
-  'flare': 'Flare'
-  'pentagon': 'Pentagon'
-  'hexagon': 'Hexagon'
-  'hexagonAlt': 'Hexagon alt.'
-  'heptagon': 'Heptagon'
-  'octagon': 'Octagon'
 fr:
-  'circle': 'Cercle'
-  'triangle': 'Triangle'
-  'square': 'Carré'
-  'rhombus': 'Losange'
-  'flare': 'Éclat'
-  'pentagon': 'Pentagone'
-  'hexagon': 'Hexagone'
-  'hexagonAlt': 'Hexagone alt.'
-  'heptagon': 'Heptagone'
-  'octagon': 'Octagone'
+  'Circle': 'Cercle'
+  'Triangle': 'Triangle'
+  'Square': 'Carré'
+  'Rhombus': 'Losange'
+  'Flare': 'Éclat'
+  'Pentagon': 'Pentagone'
+  'Hexagon': 'Hexagone'
+  'HexagonAlt': 'Hexagone alt.'
+  'Heptagon': 'Heptagone'
+  'Octagon': 'Octagone'
 </i18n>

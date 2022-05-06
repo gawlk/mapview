@@ -10,7 +10,7 @@ export const createMinidynPointFromJSON = (
     json,
     map,
     {
-      machine: 'minidyn',
+      machine: 'Minidyn',
       ...parameters,
     }
   )

@@ -1,5 +1,5 @@
 interface MinidynPoint extends BasePoint {
-  readonly machine: 'minidyn'
+  readonly machine: 'Minidyn'
 }
 
 interface MinidynPointCreatorParameters extends MachinePointCreatorParameters {}

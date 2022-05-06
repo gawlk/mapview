@@ -4,6 +4,9 @@
   import IconLogout from '~icons/heroicons-solid/logout'
   import IconTrash from '~icons/heroicons-solid/trash'
 
+  import Button from '/src/components/Button.vue'
+  import Overlay from '/src/components/Overlay.vue'
+
   const props = defineProps<{
     isOpen: boolean
   }>()

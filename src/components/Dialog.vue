@@ -9,6 +9,8 @@
 
   import IconArrowSmRight from '~icons/heroicons-solid/arrow-sm-right'
 
+  import Button from './Button.vue'
+
   const emit = defineEmits<{
     (event: 'close'): void
     (event: 'open'): void

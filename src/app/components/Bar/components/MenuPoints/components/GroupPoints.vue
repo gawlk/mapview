@@ -9,6 +9,9 @@
   import DotIcon from '/src/assets/svg/custom/dot.svg?component'
   import DotsIcon from '/src/assets/svg/custom/dots.svg?component'
 
+  import Button from '/src/components/Button.vue'
+  import Listbox from '/src/components/Listbox.vue'
+
   const { t } = useI18n()
 
   const state = reactive({
@@ -40,7 +43,7 @@
     <Listbox
       full
       :icon="DotIcon"
-      :preSelected="`${t('Point')}${t(':')}`"
+      :preSelected="`${t('Content')}${t(':')}`"
       :selected="state.pointStateValues[state.pointStateSelected]"
       :values="state.pointStateValues"
       @selectIndex="setPointsState"

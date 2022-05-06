@@ -1,11 +1,13 @@
-interface Zone {
-  name: string
-  color: ColorName
-  isVisible: boolean
-}
+type MachineZone = HeavydynZone | MaxidynZone | MinidynZone
 
-interface JSONZone {
-  name: string
-  color: ColorName
-  isVisible: boolean
+type PartialMachineZone<MachineZone> = PartialExtendedObject<
+  BaseZone,
+  MachineZone
+>
+
+interface MachineZoneCreatorParameters {
+  projectSettings: JSONProjectSettings
+  reportSettings: JSONReportSettings
+  reportDataLabels: ReportDataLabels
+  reportThresholds: ReportThresholds
 }

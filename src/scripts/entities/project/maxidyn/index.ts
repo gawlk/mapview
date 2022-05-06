@@ -78,7 +78,7 @@ export const createMaxidynProjectFromJSON = async (
 
   const project: PartialMachineProject<MaxidynProject> =
     await createBaseProjectFromJSON(json, map, {
-      machine: 'maxidyn',
+      machine: 'Maxidyn',
       units,
     })
 

@@ -1,8 +1,10 @@
 <script setup lang="ts">
   import { colorsClasses } from '/src/scripts'
 
+  import Button from '/src/components/Button.vue'
+
   import ColumnsSelection from './components/ColumnsSelection.vue'
-  import Table from './components/Table.vue'
+  import PointsTable from './components/PointsTable/Index.vue'
   import ListboxGroupBy from './components/ListboxGroupBy.vue'
 
   import IconArrowsExpand from '~icons/heroicons-solid/arrows-expand'
@@ -21,43 +23,40 @@
 <template>
   <ColumnsSelection />
   <ListboxGroupBy />
-  <div class="-mx-2 border-t-2 border-gray-100">
-    <Table
+  <div
+    v-if="selectedReport?.dataLabels.table.selected?.group.from !== 'Zone'"
+    class="-mx-2"
+  >
+    <PointsTable
       v-if="selectedReport?.settings.groupBy === 'Nothing'"
-      :points="selectedReport.points"
+      :points="selectedReport.line.sortedPoints.value"
     />
-    <div
-      v-else
-      v-for="{zone, points} of 
-        selectedReport?.zones.map((zone) => {
-          return {
-            zone,
-            points: selectedReport ? (selectedReport.points as MachinePoint[]).filter((point) => point.zone === zone) : [],
-          }
-        })
-      "
-    >
-      <div class="flex items-center space-x-4 p-2">
-        <span
-          class="block h-6 w-6 flex-none rounded-full"
-          :style="`background-color: ${colorsClasses[zone.color].hexColor}`"
-        />
-        <div class="flex-none space-x-2 text-sm">
-          <span class="font-medium text-gray-500">{{
-            `${t('Zone')}${t(':')}`
-          }}</span>
-          <span class="font-semibold">
-            {{ zone?.name || t('None') }}
-          </span>
+    <div v-else class="border-t-2 border-gray-100">
+      <div v-for="zone of selectedReport?.zones">
+        <div class="flex items-center space-x-4 p-2">
+          <span
+            class="block h-6 w-6 flex-none rounded-full"
+            :style="`background-color: ${
+              colorsClasses[zone.settings.color].hexColor
+            }`"
+          />
+          <div class="flex-none space-x-2 text-sm">
+            <span class="font-medium text-gray-500">{{
+              `${t('Zone')}${t(':')}`
+            }}</span>
+            <span class="font-semibold">
+              {{ zone?.name || t('None') }}
+            </span>
+          </div>
+          <div class="w-full" />
+          <Button
+            sm
+            :icon="zone.settings.isVisible ? IconEye : IconEyeOff"
+            @click="zone.settings.isVisible = !zone.settings.isVisible"
+          />
         </div>
-        <div class="w-full" />
-        <Button
-          sm
-          :icon="zone.isVisible ? IconEye : IconEyeOff"
-          @click="zone.isVisible = !zone.isVisible"
-        />
+        <PointsTable :points="zone.points" />
       </div>
-      <Table :points="points" />
     </div>
   </div>
   <Button full :leftIcon="IconArrowsExpand" disabled>Fullscreen</Button>

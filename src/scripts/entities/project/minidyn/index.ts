@@ -78,7 +78,7 @@ export const createMinidynProjectFromJSON = async (
 
   const project: PartialMachineProject<MinidynProject> =
     await createBaseProjectFromJSON(json, map, {
-      machine: 'minidyn',
+      machine: 'Minidyn',
       units,
     })
 

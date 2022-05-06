@@ -1,14 +1,23 @@
 import { createWatcherHandler } from '/src/scripts'
 
-export const createLine = (points: MachinePoint[], map: mapboxgl.Map): Line => {
+export const createLine = (zones: MachineZone[], map: mapboxgl.Map): Line => {
   const id = `line-${+new Date()}${Math.random()}`
+
   let features: GeoJSON.Feature<GeoJSON.Geometry, GeoJSON.GeoJsonProperties>[] =
     []
 
   const watcherHandler = createWatcherHandler()
 
   const line: Line = {
-    addToMap: (): void => {
+    sortedPoints: computed(
+      () =>
+        Array.prototype
+          .concat(...zones.map((zone) => zone.points))
+          .sort((pointA: MachinePoint, pointB: MachinePoint) => {
+            return pointA.number - pointB.number
+          }) as MachinePoint[]
+    ),
+    addToMap: function () {
       map.addLayer(
         {
           id,
@@ -34,11 +43,11 @@ export const createLine = (points: MachinePoint[], map: mapboxgl.Map): Line => {
 
       watcherHandler.add(
         watch(
-          points,
+          () => this.sortedPoints.value.length,
           () => {
             line.update()
 
-            points.forEach((point) => {
+            this.sortedPoints.value.forEach((point) => {
               point.marker.on('drag', () => {
                 line.update()
               })
@@ -50,16 +59,15 @@ export const createLine = (points: MachinePoint[], map: mapboxgl.Map): Line => {
         )
       )
     },
-    remove: (): void => {
+    remove: function (): void {
       map.getLayer(id) && map.removeLayer(id)
       map.getSource(id) && map.removeSource(id)
 
       watcherHandler.clean()
     },
-    update: (): void => {
-      const visiblePoints = points.filter(
-        (point) =>
-          point.settings.isVisible && (!point.zone || point.zone.isVisible)
+    update: function (): void {
+      const visiblePoints = this.sortedPoints.value.filter((point) =>
+        point.isOnMap()
       )
 
       features = []

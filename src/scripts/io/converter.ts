@@ -1,20 +1,18 @@
-import { createMathNumber } from '/src/scripts'
-
 export const convertJSONFromPRJZToMPVZ = (json: any) => {
   // Update prjz here
 
   const machine =
     json.Database.Software === 'Fwddyn'
-      ? 'heavydyn'
+      ? 'Heavydyn'
       : json.Hardware.Serial.split('-')[0] === 'MAX'
-      ? 'maxidyn'
-      : 'minidyn'
+      ? 'Maxidyn'
+      : 'Minidyn'
 
   const units = convertUnits(json, machine)
 
   const jsonDropChoices: JSONChoice[] = (() => {
     switch (machine) {
-      case 'heavydyn':
+      case 'Heavydyn':
         return [
           ...json.ExportedData.Drops.map((exportedUnit: any) =>
             convertExportedUnitToJSONChoice(exportedUnit)
@@ -40,7 +38,7 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
   const jsonDropIndexes: JSONMachineDropIndex[] =
     ((): JSONMachineDropIndex[] => {
       switch (machine) {
-        case 'heavydyn':
+        case 'Heavydyn':
           return json.Sequences.Steps.map((step: any): HeavydynDropIndex => {
             return {
               machine,
@@ -95,7 +93,7 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
     const report: JSONReport = {
       name: jsonPV.PV.Name,
       settings: {
-        iconName: 'circle',
+        iconName: 'Circle',
         isVisible: true,
         colorization: 'Threshold',
         groupBy: 'Nothing',
@@ -103,7 +101,7 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
       thresholds: {
         groups: ((): MachineMathUnitsSkeleton<number> => {
           switch (machine) {
-            case 'heavydyn':
+            case 'Heavydyn':
               return {
                 deflection: 0,
                 force: 0,
@@ -111,7 +109,7 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
                 distance: 0,
                 time: 0,
               } as HeavydynMathUnitsSkeleton<number>
-            case 'maxidyn':
+            case 'Maxidyn':
               return {
                 modulus: 0,
                 deflection: 0,
@@ -119,7 +117,7 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
                 distance: 0,
                 time: 0,
               } as MachineMathUnitsSkeleton<number>
-            case 'minidyn':
+            case 'Minidyn':
               return {
                 modulus: 0,
                 deflection: 0,
@@ -139,26 +137,67 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
           isOptionalARange: false,
         },
       },
-      points: [] as JSONPoint[],
+      zones: [
+        {
+          name: '',
+          settings: {
+            color: 'gray',
+            isVisible: true,
+          },
+          points: [] as JSONPoint[],
+        },
+      ],
       dataLabels: {
         groups: {
-          selected: 0,
+          selected: ((): number => {
+            switch (machine) {
+              case 'Heavydyn':
+                return 0
+              case 'Maxidyn':
+              case 'Minidyn':
+                return 1
+            }
+          })(),
           list: [
             {
               from: 'Drop',
               choices: {
-                selected: 0,
+                selected: ((): number => {
+                  switch (machine) {
+                    case 'Heavydyn':
+                      return (
+                        jsonDropChoices.findIndex(
+                          (choice) => choice.name === 'D0'
+                        ) || 0
+                      )
+                    case 'Maxidyn':
+                    case 'Minidyn':
+                      return 0
+                  }
+                })(),
                 list: jsonDropChoices,
               },
               indexes: {
-                selected: 0,
+                selected: json.ExportedData.Drops.length - 1,
                 list: jsonDropIndexes,
               },
             },
             {
               from: 'Test',
               choices: {
-                selected: 0,
+                selected: ((): number => {
+                  switch (machine) {
+                    case 'Heavydyn':
+                      return 0
+                    case 'Maxidyn':
+                    case 'Minidyn':
+                      return (
+                        jsonTestChoices.findIndex(
+                          (choice) => choice.name === 'BearingCapacity'
+                        ) || 0
+                      )
+                  }
+                })(),
                 list: jsonTestChoices,
               },
             },
@@ -172,15 +211,42 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
           ],
         },
         table: {
-          selected: 0,
+          selected: ((): number => {
+            switch (machine) {
+              case 'Heavydyn':
+                return 0
+              case 'Maxidyn':
+              case 'Minidyn':
+                return 1
+            }
+          })(),
           list: [
             {
               from: 'Drop',
-              dataLabels: jsonDropChoices.map((choice) => choice.name),
+              index: json.ExportedData.Drops.length - 1,
+              dataLabels: jsonDropChoices
+                .map((choice) => choice.name)
+                .filter(
+                  (name) => name.startsWith('D') && !name.startsWith('D-')
+                )
+                .slice(0, 4),
             },
             {
               from: 'Test',
-              dataLabels: jsonTestChoices.map((choice) => choice.name),
+              dataLabels: ((): string[] => {
+                switch (machine) {
+                  case 'Heavydyn':
+                    return jsonTestChoices.map((choice) => choice.name)
+                  case 'Maxidyn':
+                  case 'Minidyn':
+                    return jsonTestChoices
+                      .map((choice) => choice.name)
+                      .filter(
+                        (name) =>
+                          name === 'BearingCapacity' || name === 'Quality'
+                      )
+                }
+              })(),
             },
             {
               from: 'Zone',
@@ -189,7 +255,6 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
           ],
         },
       },
-      zones: [],
       informations: [],
       platform: [],
       screenshots: [],
@@ -202,8 +267,9 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
 
     report.platform = objectToJSONFields(jsonPV.Plateform)
 
-    report.points = jsonPV.Points.map((point: any) => {
+    report.zones[0].points = jsonPV.Points.map((point: any) => {
       const jsonPoint: JSONPoint = {
+        number: point.Point.Number,
         coordinates: {
           lng: point.Point.Longitude,
           lat: point.Point.Latitude,
@@ -212,7 +278,6 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
           isVisible: true,
         },
         informations: [],
-        zone: 0,
         data: json.ExportedData.Points.map(
           (exportedData: any): JSONDataValue => {
             return {
@@ -273,7 +338,7 @@ const objectToJSONFields = (object: any): JSONField[] =>
 
 const convertUnits = (json: any, machine: MachineName): JSONMachineUnits => {
   switch (machine) {
-    case 'heavydyn':
+    case 'Heavydyn':
       return {
         deflection: ((): PossibleHeavydynDeflectionUnits => {
           switch (
@@ -332,8 +397,8 @@ const convertUnits = (json: any, machine: MachineName): JSONMachineUnits => {
         })(),
       } as JSONHeavydynUnits
 
-    case 'maxidyn':
-    case 'minidyn':
+    case 'Maxidyn':
+    case 'Minidyn':
       return {
         modulus: (():
           | PossibleMaxidynModulusUnits

@@ -1,6 +1,8 @@
 <script setup lang="ts">
   import IconSave from '~icons/heroicons-solid/save'
 
+  import Button from '/src/components/Button.vue'
+
   const { t } = useI18n()
 </script>
 

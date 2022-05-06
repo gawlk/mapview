@@ -7,13 +7,13 @@ interface Icon {
 }
 
 type IconName =
-  | 'circle'
-  | 'triangle'
-  | 'square'
-  | 'rhombus'
-  | 'flare'
-  | 'pentagon'
-  | 'hexagon'
-  | 'hexagonAlt'
-  | 'heptagon'
-  | 'octagon'
+  | 'Circle'
+  | 'Triangle'
+  | 'Square'
+  | 'Rhombus'
+  | 'Flare'
+  | 'Pentagon'
+  | 'Hexagon'
+  | 'HexagonAlt'
+  | 'Heptagon'
+  | 'Octagon'

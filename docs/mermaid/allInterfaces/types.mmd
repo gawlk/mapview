@@ -320,21 +320,21 @@ class JSONPointSettings {
 
 class HeavydynPoint {
   <<interface>>
-  machine: 'heavydyn'
+  machine: 'Heavydyn'
 }
 
 BasePoint <|-- HeavydynPoint
 
 class MaxidynPoint {
   <<interface>>
-  machine: 'maxidyn'
+  machine: 'Maxidyn'
 }
 
 BasePoint <|-- MaxidynPoint
 
 class MinidynPoint {
   <<interface>>
-  machine: 'minidyn'
+  machine: 'Minidyn'
 }
 
 BasePoint <|-- MinidynPoint
@@ -408,7 +408,7 @@ JSONProjectSettings <.. LngLat
 
 class HeavydynProject {
   <<interface>>
-  machine: 'heavydyn'
+  machine: 'Heavydyn'
   reports: SelectableList#60;HeavydynReport#62;
 }
 HeavydynProject <.. HeavydynReport
@@ -434,7 +434,7 @@ class JSONHeavydynUnits {
 
 class MaxidynProject {
   <<interface>>
-  machine: 'maxidyn'
+  machine: 'Maxidyn'
   reports: SelectableList#60;MaxidynReport#62;
 }
 MaxidynProject <.. MaxidynReport
@@ -460,7 +460,7 @@ class JSONMaxidynUnits {
 
 class MinidynProject {
   <<interface>>
-  machine: 'minidyn'
+  machine: 'Minidyn'
   reports: SelectableList#60;MinidynReport#62;
 }
 MinidynProject <.. MinidynReport
@@ -619,7 +619,7 @@ class BaseDropIndex {
 
 class HeavydynReport {
   <<interface>>
-  machine: 'heavydyn'
+  machine: 'Heavydyn'
   points: HeavydynPoint[]
   platform: HeavydynField[]
   informations: HeavydynField[]
@@ -637,7 +637,7 @@ MachineReportCreatorParameters <|-- HeavydynReportCreatorParameters
 
 class HeavydynDropIndex {
   <<interface>>
-  machine: 'heavydyn'
+  machine: 'Heavydyn'
   type: HeavydynDropType
   value: MathNumber
 }
@@ -646,7 +646,7 @@ BaseDropIndex <|-- HeavydynDropIndex
 
 class JSONHeavydynDropIndex {
   <<interface>>
-  machine: 'heavydyn'
+  machine: 'Heavydyn'
   type: HeavydynDropType
   value: number
 }
@@ -655,7 +655,7 @@ BaseDropIndex <|-- JSONHeavydynDropIndex
 
 class MaxidynReport {
   <<interface>>
-  machine: 'maxidyn'
+  machine: 'Maxidyn'
   points: MaxidynPoint[]
   platform: MaxidynField[]
   informations: MaxidynField[]
@@ -673,7 +673,7 @@ MachineReportCreatorParameters <|-- MaxidynReportCreatorParameters
 
 class MaxidynDropIndex {
   <<interface>>
-  machine: 'maxidyn'
+  machine: 'Maxidyn'
   type: MaxidynDropType
 }
 
@@ -681,7 +681,7 @@ BaseDropIndex <|-- MaxidynDropIndex
 
 class MinidynReport {
   <<interface>>
-  machine: 'minidyn'
+  machine: 'Minidyn'
   points: MinidynPoint[]
   platform: MinidynField[]
   informations: MinidynField[]
@@ -699,7 +699,7 @@ MachineReportCreatorParameters <|-- MinidynReportCreatorParameters
 
 class MinidynDropIndex {
   <<interface>>
-  machine: 'minidyn'
+  machine: 'Minidyn'
   type: MinidynDropType
 }
 

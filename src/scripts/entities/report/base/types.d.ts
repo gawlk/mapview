@@ -1,9 +1,8 @@
 interface BaseReport {
   readonly machine: MachineName
   readonly name: MachineField
-  readonly points: MachinePoint[]
   readonly line: Line
-  readonly zones: Zone[]
+  readonly zones: MachineZone[]
   readonly screenshots: string[]
   readonly dataLabels: ReportDataLabels
   readonly thresholds: ReportThresholds
@@ -58,7 +57,6 @@ interface BaseReportCreatorParameters extends MachineReportCreatorParameters {
 
 interface JSONReport {
   name: string
-  points: JSONPoint[]
   dataLabels: JSONReportDataLabels
   thresholds: JSONReportThresholds
   zones: JSONZone[]

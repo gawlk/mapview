@@ -3,33 +3,24 @@
     "name": "HeavydynField",
     "value": {},
     "dependencies": [],
-    "extends": [
-      "BaseField"
-    ]
+    "extends": ["BaseField"]
   },
   {
     "name": "HeavydynPoint",
     "value": {
-      "machine": "'heavydyn'"
+      "machine": "'Heavydyn'"
     },
     "dependencies": [],
-    "extends": [
-      "BasePoint"
-    ]
+    "extends": ["BasePoint"]
   },
   {
     "name": "HeavydynProject",
     "value": {
-      "machine": "'heavydyn'",
+      "machine": "'Heavydyn'",
       "reports": "SelectableList#60;HeavydynReport#62;"
     },
-    "dependencies": [
-      "SelectableList",
-      "HeavydynReport"
-    ],
-    "extends": [
-      "BaseProject"
-    ]
+    "dependencies": ["SelectableList", "HeavydynReport"],
+    "extends": ["BaseProject"]
   },
   {
     "name": "HeavydynUnits",
@@ -38,9 +29,7 @@
       "force": "MathUnit",
       "temperature": "MathUnit"
     },
-    "dependencies": [
-      "MathUnit"
-    ],
+    "dependencies": ["MathUnit"],
     "extends": []
   },
   {
@@ -56,30 +45,21 @@
   {
     "name": "HeavydynReport",
     "value": {
-      "machine": "'heavydyn'",
+      "machine": "'Heavydyn'",
       "points": "HeavydynPoint[]",
       "platform": "HeavydynField[]",
       "informations": "HeavydynField[]"
     },
-    "dependencies": [
-      "HeavydynPoint",
-      "HeavydynField"
-    ],
-    "extends": [
-      "BaseReport"
-    ]
+    "dependencies": ["HeavydynPoint", "HeavydynField"],
+    "extends": ["BaseReport"]
   },
   {
     "name": "HeavydynReportCreatorParameters",
     "value": {
       "units": "HeavydynUnits"
     },
-    "dependencies": [
-      "HeavydynUnits"
-    ],
-    "extends": [
-      "MachineReportCreatorParameters"
-    ]
+    "dependencies": ["HeavydynUnits"],
+    "extends": ["MachineReportCreatorParameters"]
   },
   {
     "name": "HeavydynDropType",
@@ -90,30 +70,21 @@
   {
     "name": "HeavydynDropIndex",
     "value": {
-      "machine": "'heavydyn'",
+      "machine": "'Heavydyn'",
       "type": "HeavydynDropType",
       "value": "MathNumber"
     },
-    "dependencies": [
-      "HeavydynDropType",
-      "MathNumber"
-    ],
-    "extends": [
-      "BaseDropIndex"
-    ]
+    "dependencies": ["HeavydynDropType", "MathNumber"],
+    "extends": ["BaseDropIndex"]
   },
   {
     "name": "JSONHeavydynDropIndex",
     "value": {
-      "machine": "'heavydyn'",
+      "machine": "'Heavydyn'",
       "type": "HeavydynDropType",
       "value": "number"
     },
-    "dependencies": [
-      "HeavydynDropType"
-    ],
-    "extends": [
-      "BaseDropIndex"
-    ]
+    "dependencies": ["HeavydynDropType"],
+    "extends": ["BaseDropIndex"]
   }
 ]

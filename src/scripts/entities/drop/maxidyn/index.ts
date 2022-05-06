@@ -5,7 +5,7 @@ export const createMaxidynDropFromJSON = (
   parameters: HeavydynDropCreatorParameters
 ) => {
   const drop: PartialMachineDrop<MaxidynDrop> = createBaseDropFromJSON(json, {
-    machine: 'maxidyn',
+    machine: 'Maxidyn',
     ...parameters,
   })
 

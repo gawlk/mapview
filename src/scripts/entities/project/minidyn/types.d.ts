@@ -1,5 +1,5 @@
 interface MinidynProject extends BaseProject {
-  readonly machine: 'minidyn'
+  readonly machine: 'Minidyn'
   readonly reports: SelectableList<MinidynReport>
 }
 

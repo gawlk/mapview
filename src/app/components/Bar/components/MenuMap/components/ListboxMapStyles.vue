@@ -3,6 +3,8 @@
 
   import store from '/src/store'
 
+  import Listbox from '/src/components/Listbox.vue'
+
   import mapboxDarkStyle from '/src/assets/png/mapboxStyles/dark.png'
   import mapboxLightStyle from '/src/assets/png/mapboxStyles/light.png'
   import mapboxSatelliteStyle from '/src/assets/png/mapboxStyles/satellite.png'

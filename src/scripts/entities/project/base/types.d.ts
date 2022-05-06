@@ -29,7 +29,7 @@ interface JSONProject {
   units: JSONMachineUnits
 }
 
-type MachineName = 'heavydyn' | 'maxidyn' | 'minidyn'
+type MachineName = 'Heavydyn' | 'Maxidyn' | 'Minidyn'
 
 interface JSONProjectSettings {
   arePointsVisible: boolean

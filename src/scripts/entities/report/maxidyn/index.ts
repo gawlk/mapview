@@ -1,6 +1,6 @@
 import { createBaseReportFromJSON } from '../base'
 import {
-  createMaxidynPointFromJSON,
+  createMaxidynZoneFromJSON,
   createMaxidynFieldFromJSON,
   createPredefinedThreshold,
   createCustomThreshold,
@@ -15,7 +15,7 @@ export const createMaxidynReportFromJSON = (
     json,
     map,
     {
-      machine: 'maxidyn',
+      machine: 'Maxidyn',
       thresholds: {
         modulus: [
           createPredefinedThreshold('N.S.', 0),
@@ -39,16 +39,13 @@ export const createMaxidynReportFromJSON = (
     }
   )
 
-  report.points.push(
-    ...json.points.map((jsonPoint, index) =>
-      createMaxidynPointFromJSON(jsonPoint, map, {
-        iconName: json.settings.iconName,
-        number: index + 1,
+  report.zones.push(
+    ...json.zones.map((jsonZone) =>
+      createMaxidynZoneFromJSON(jsonZone, map, {
         projectSettings: parameters.projectSettings,
         reportSettings: report.settings,
         reportDataLabels: report.dataLabels,
         reportThresholds: report.thresholds,
-        zone: report.zones[jsonPoint.zone],
       })
     )
   )

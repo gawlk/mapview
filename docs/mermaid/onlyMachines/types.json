@@ -3,84 +3,60 @@
     "name": "HeavydynField",
     "value": {},
     "dependencies": [],
-    "extends": [
-      "BaseField"
-    ]
+    "extends": ["BaseField"]
   },
   {
     "name": "MaxidynField",
     "value": {},
     "dependencies": [],
-    "extends": [
-      "BaseField"
-    ]
+    "extends": ["BaseField"]
   },
   {
     "name": "MinidynField",
     "value": {},
     "dependencies": [],
-    "extends": [
-      "BaseField"
-    ]
+    "extends": ["BaseField"]
   },
   {
     "name": "MachineField",
     "value": "HeavydynField | MaxidynField | MinidynField",
-    "dependencies": [
-      "HeavydynField",
-      "MaxidynField",
-      "MinidynField"
-    ],
+    "dependencies": ["HeavydynField", "MaxidynField", "MinidynField"],
     "extends": []
   },
   {
     "name": "HeavydynPoint",
     "value": {
-      "machine": "'heavydyn'"
+      "machine": "'Heavydyn'"
     },
     "dependencies": [],
-    "extends": [
-      "BasePoint"
-    ]
+    "extends": ["BasePoint"]
   },
   {
     "name": "MaxidynPoint",
     "value": {
-      "machine": "'maxidyn'"
+      "machine": "'Maxidyn'"
     },
     "dependencies": [],
-    "extends": [
-      "BasePoint"
-    ]
+    "extends": ["BasePoint"]
   },
   {
     "name": "MinidynPoint",
     "value": {
-      "machine": "'minidyn'"
+      "machine": "'Minidyn'"
     },
     "dependencies": [],
-    "extends": [
-      "BasePoint"
-    ]
+    "extends": ["BasePoint"]
   },
   {
     "name": "MachinePoint",
     "value": "HeavydynPoint | MaxidynPoint | MinidynPoint",
-    "dependencies": [
-      "HeavydynPoint",
-      "MaxidynPoint",
-      "MinidynPoint"
-    ],
+    "dependencies": ["HeavydynPoint", "MaxidynPoint", "MinidynPoint"],
     "extends": []
   },
   {
     "name": "PartialMachinePoint~MachinePoint~",
     "value": "PartialExtendedObject#60;   BasePoint,   MachinePoint #62;",
-    "dependencies": [
-      "PartialExtendedObject",
-      "BasePoint",
-      "MachinePoint"
-    ],
+    "dependencies": ["PartialExtendedObject", "BasePoint", "MachinePoint"],
     "extends": []
   },
   {
@@ -91,32 +67,23 @@
       "projectSettings": "JSONProjectSettings",
       "reportSettings": "JSONReportSettings"
     },
-    "dependencies": [
-      "IconName",
-      "JSONProjectSettings",
-      "JSONReportSettings"
-    ],
+    "dependencies": ["IconName", "JSONProjectSettings", "JSONReportSettings"],
     "extends": []
   },
   {
     "name": "MachineName",
-    "value": "'heavydyn' | 'maxidyn' | 'minidyn'",
+    "value": "'Heavydyn' | 'Maxidyn' | 'Minidyn'",
     "dependencies": [],
     "extends": []
   },
   {
     "name": "HeavydynProject",
     "value": {
-      "machine": "'heavydyn'",
+      "machine": "'Heavydyn'",
       "reports": "SelectableList#60;HeavydynReport#62;"
     },
-    "dependencies": [
-      "SelectableList",
-      "HeavydynReport"
-    ],
-    "extends": [
-      "BaseProject"
-    ]
+    "dependencies": ["SelectableList", "HeavydynReport"],
+    "extends": ["BaseProject"]
   },
   {
     "name": "HeavydynUnits",
@@ -125,9 +92,7 @@
       "force": "MathUnit",
       "temperature": "MathUnit"
     },
-    "dependencies": [
-      "MathUnit"
-    ],
+    "dependencies": ["MathUnit"],
     "extends": []
   },
   {
@@ -143,16 +108,11 @@
   {
     "name": "MaxidynProject",
     "value": {
-      "machine": "'maxidyn'",
+      "machine": "'Maxidyn'",
       "reports": "SelectableList#60;MaxidynReport#62;"
     },
-    "dependencies": [
-      "SelectableList",
-      "MaxidynReport"
-    ],
-    "extends": [
-      "BaseProject"
-    ]
+    "dependencies": ["SelectableList", "MaxidynReport"],
+    "extends": ["BaseProject"]
   },
   {
     "name": "MaxidynUnits",
@@ -161,9 +121,7 @@
       "deformation": "MathUnit",
       "force": "MathUnit"
     },
-    "dependencies": [
-      "MathUnit"
-    ],
+    "dependencies": ["MathUnit"],
     "extends": []
   },
   {
@@ -179,16 +137,11 @@
   {
     "name": "MinidynProject",
     "value": {
-      "machine": "'minidyn'",
+      "machine": "'Minidyn'",
       "reports": "SelectableList#60;MinidynReport#62;"
     },
-    "dependencies": [
-      "SelectableList",
-      "MinidynReport"
-    ],
-    "extends": [
-      "BaseProject"
-    ]
+    "dependencies": ["SelectableList", "MinidynReport"],
+    "extends": ["BaseProject"]
   },
   {
     "name": "MinidynUnits",
@@ -198,9 +151,7 @@
       "force": "MathUnit",
       "temperature": "MathUnit"
     },
-    "dependencies": [
-      "MathUnit"
-    ],
+    "dependencies": ["MathUnit"],
     "extends": []
   },
   {
@@ -216,60 +167,39 @@
   {
     "name": "MachineProject",
     "value": "HeavydynProject | MaxidynProject | MinidynProject",
-    "dependencies": [
-      "HeavydynProject",
-      "MaxidynProject",
-      "MinidynProject"
-    ],
+    "dependencies": ["HeavydynProject", "MaxidynProject", "MinidynProject"],
     "extends": []
   },
   {
     "name": "PartialMachineProject~MachineProject~",
     "value": "PartialExtendedObject#60;   BaseProject,   MachineProject #62;",
-    "dependencies": [
-      "PartialExtendedObject",
-      "BaseProject",
-      "MachineProject"
-    ],
+    "dependencies": ["PartialExtendedObject", "BaseProject", "MachineProject"],
     "extends": []
   },
   {
     "name": "MachineUnits",
     "value": "HeavydynUnits | MaxidynUnits | MinidynUnits",
-    "dependencies": [
-      "HeavydynUnits",
-      "MaxidynUnits",
-      "MinidynUnits"
-    ],
+    "dependencies": ["HeavydynUnits", "MaxidynUnits", "MinidynUnits"],
     "extends": []
   },
   {
     "name": "HeavydynReport",
     "value": {
-      "machine": "'heavydyn'",
+      "machine": "'Heavydyn'",
       "points": "HeavydynPoint[]",
       "platform": "HeavydynField[]",
       "informations": "HeavydynField[]"
     },
-    "dependencies": [
-      "HeavydynPoint",
-      "HeavydynField"
-    ],
-    "extends": [
-      "BaseReport"
-    ]
+    "dependencies": ["HeavydynPoint", "HeavydynField"],
+    "extends": ["BaseReport"]
   },
   {
     "name": "HeavydynReportCreatorParameters",
     "value": {
       "units": "HeavydynUnits"
     },
-    "dependencies": [
-      "HeavydynUnits"
-    ],
-    "extends": [
-      "MachineReportCreatorParameters"
-    ]
+    "dependencies": ["HeavydynUnits"],
+    "extends": ["MachineReportCreatorParameters"]
   },
   {
     "name": "HeavydynDropType",
@@ -280,59 +210,41 @@
   {
     "name": "HeavydynDropIndex",
     "value": {
-      "machine": "'heavydyn'",
+      "machine": "'Heavydyn'",
       "type": "HeavydynDropType",
       "value": "MathNumber"
     },
-    "dependencies": [
-      "HeavydynDropType",
-      "MathNumber"
-    ],
-    "extends": [
-      "BaseDropIndex"
-    ]
+    "dependencies": ["HeavydynDropType", "MathNumber"],
+    "extends": ["BaseDropIndex"]
   },
   {
     "name": "JSONHeavydynDropIndex",
     "value": {
-      "machine": "'heavydyn'",
+      "machine": "'Heavydyn'",
       "type": "HeavydynDropType",
       "value": "number"
     },
-    "dependencies": [
-      "HeavydynDropType"
-    ],
-    "extends": [
-      "BaseDropIndex"
-    ]
+    "dependencies": ["HeavydynDropType"],
+    "extends": ["BaseDropIndex"]
   },
   {
     "name": "MaxidynReport",
     "value": {
-      "machine": "'maxidyn'",
+      "machine": "'Maxidyn'",
       "points": "MaxidynPoint[]",
       "platform": "MaxidynField[]",
       "informations": "MaxidynField[]"
     },
-    "dependencies": [
-      "MaxidynPoint",
-      "MaxidynField"
-    ],
-    "extends": [
-      "BaseReport"
-    ]
+    "dependencies": ["MaxidynPoint", "MaxidynField"],
+    "extends": ["BaseReport"]
   },
   {
     "name": "MaxidynReportCreatorParameters",
     "value": {
       "units": "MaxidynUnits"
     },
-    "dependencies": [
-      "MaxidynUnits"
-    ],
-    "extends": [
-      "MachineReportCreatorParameters"
-    ]
+    "dependencies": ["MaxidynUnits"],
+    "extends": ["MachineReportCreatorParameters"]
   },
   {
     "name": "MaxidynDropType",
@@ -343,43 +255,30 @@
   {
     "name": "MaxidynDropIndex",
     "value": {
-      "machine": "'maxidyn'",
+      "machine": "'Maxidyn'",
       "type": "MaxidynDropType"
     },
-    "dependencies": [
-      "MaxidynDropType"
-    ],
-    "extends": [
-      "BaseDropIndex"
-    ]
+    "dependencies": ["MaxidynDropType"],
+    "extends": ["BaseDropIndex"]
   },
   {
     "name": "MinidynReport",
     "value": {
-      "machine": "'minidyn'",
+      "machine": "'Minidyn'",
       "points": "MinidynPoint[]",
       "platform": "MinidynField[]",
       "informations": "MinidynField[]"
     },
-    "dependencies": [
-      "MinidynPoint",
-      "MinidynField"
-    ],
-    "extends": [
-      "BaseReport"
-    ]
+    "dependencies": ["MinidynPoint", "MinidynField"],
+    "extends": ["BaseReport"]
   },
   {
     "name": "MinidynReportCreatorParameters",
     "value": {
       "units": "MinidynUnits"
     },
-    "dependencies": [
-      "MinidynUnits"
-    ],
-    "extends": [
-      "MachineReportCreatorParameters"
-    ]
+    "dependencies": ["MinidynUnits"],
+    "extends": ["MachineReportCreatorParameters"]
   },
   {
     "name": "MinidynDropType",
@@ -390,34 +289,22 @@
   {
     "name": "MinidynDropIndex",
     "value": {
-      "machine": "'minidyn'",
+      "machine": "'Minidyn'",
       "type": "MinidynDropType"
     },
-    "dependencies": [
-      "MinidynDropType"
-    ],
-    "extends": [
-      "BaseDropIndex"
-    ]
+    "dependencies": ["MinidynDropType"],
+    "extends": ["BaseDropIndex"]
   },
   {
     "name": "MachineReport",
     "value": "HeavydynReport | MaxidynReport | MinidynReport",
-    "dependencies": [
-      "HeavydynReport",
-      "MaxidynReport",
-      "MinidynReport"
-    ],
+    "dependencies": ["HeavydynReport", "MaxidynReport", "MinidynReport"],
     "extends": []
   },
   {
     "name": "PartialMachineReport~MachineReport~",
     "value": "PartialExtendedObject#60;   BaseReport,   MachineReport #62;",
-    "dependencies": [
-      "PartialExtendedObject",
-      "BaseReport",
-      "MachineReport"
-    ],
+    "dependencies": ["PartialExtendedObject", "BaseReport", "MachineReport"],
     "extends": []
   },
   {
@@ -426,10 +313,7 @@
       "projectSettings": "JSONProjectSettings",
       "units": "MachineUnits"
     },
-    "dependencies": [
-      "JSONProjectSettings",
-      "MachineUnits"
-    ],
+    "dependencies": ["JSONProjectSettings", "MachineUnits"],
     "extends": []
   },
   {

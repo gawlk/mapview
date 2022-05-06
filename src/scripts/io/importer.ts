@@ -61,15 +61,15 @@ const generateProjectFromJSON = async (
   let project = null
 
   switch (json.machine) {
-    case 'heavydyn':
+    case 'Heavydyn':
       project = await createHeavydynProjectFromJSON(json, map)
       break
 
-    case 'maxidyn':
+    case 'Maxidyn':
       project = await createMaxidynProjectFromJSON(json, map)
       break
 
-    case 'minidyn':
+    case 'Minidyn':
       project = await createMinidynProjectFromJSON(json, map)
       break
   }

@@ -3,33 +3,24 @@
     "name": "MinidynField",
     "value": {},
     "dependencies": [],
-    "extends": [
-      "BaseField"
-    ]
+    "extends": ["BaseField"]
   },
   {
     "name": "MinidynPoint",
     "value": {
-      "machine": "'minidyn'"
+      "machine": "'Minidyn'"
     },
     "dependencies": [],
-    "extends": [
-      "BasePoint"
-    ]
+    "extends": ["BasePoint"]
   },
   {
     "name": "MinidynProject",
     "value": {
-      "machine": "'minidyn'",
+      "machine": "'Minidyn'",
       "reports": "SelectableList#60;MinidynReport#62;"
     },
-    "dependencies": [
-      "SelectableList",
-      "MinidynReport"
-    ],
-    "extends": [
-      "BaseProject"
-    ]
+    "dependencies": ["SelectableList", "MinidynReport"],
+    "extends": ["BaseProject"]
   },
   {
     "name": "MinidynUnits",
@@ -39,9 +30,7 @@
       "force": "MathUnit",
       "temperature": "MathUnit"
     },
-    "dependencies": [
-      "MathUnit"
-    ],
+    "dependencies": ["MathUnit"],
     "extends": []
   },
   {
@@ -57,30 +46,21 @@
   {
     "name": "MinidynReport",
     "value": {
-      "machine": "'minidyn'",
+      "machine": "'Minidyn'",
       "points": "MinidynPoint[]",
       "platform": "MinidynField[]",
       "informations": "MinidynField[]"
     },
-    "dependencies": [
-      "MinidynPoint",
-      "MinidynField"
-    ],
-    "extends": [
-      "BaseReport"
-    ]
+    "dependencies": ["MinidynPoint", "MinidynField"],
+    "extends": ["BaseReport"]
   },
   {
     "name": "MinidynReportCreatorParameters",
     "value": {
       "units": "MinidynUnits"
     },
-    "dependencies": [
-      "MinidynUnits"
-    ],
-    "extends": [
-      "MachineReportCreatorParameters"
-    ]
+    "dependencies": ["MinidynUnits"],
+    "extends": ["MachineReportCreatorParameters"]
   },
   {
     "name": "MinidynDropType",
@@ -91,14 +71,10 @@
   {
     "name": "MinidynDropIndex",
     "value": {
-      "machine": "'minidyn'",
+      "machine": "'Minidyn'",
       "type": "MinidynDropType"
     },
-    "dependencies": [
-      "MinidynDropType"
-    ],
-    "extends": [
-      "BaseDropIndex"
-    ]
+    "dependencies": ["MinidynDropType"],
+    "extends": ["BaseDropIndex"]
   }
 ]

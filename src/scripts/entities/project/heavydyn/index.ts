@@ -81,7 +81,7 @@ export const createHeavydynProjectFromJSON = async (
 
   const project: PartialMachineProject<HeavydynProject> =
     await createBaseProjectFromJSON(json, map, {
-      machine: 'heavydyn',
+      machine: 'Heavydyn',
       units,
     })
 

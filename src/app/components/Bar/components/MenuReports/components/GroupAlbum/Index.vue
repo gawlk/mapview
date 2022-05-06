@@ -12,6 +12,8 @@
   import OverlayAlbum from './components/OverlayAlbum.vue'
   import OverlayScreenshot from './components/OverlayScreenshot.vue'
 
+  import Button from '/src/components/Button.vue'
+
   const { t } = useI18n()
 
   const state = reactive({

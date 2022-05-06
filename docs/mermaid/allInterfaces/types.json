@@ -70,18 +70,14 @@
       "right?": "boolean"
     },
     "dependencies": [],
-    "extends": [
-      "GenericContainerProps"
-    ]
+    "extends": ["GenericContainerProps"]
   },
   {
     "name": "MathNumberObject",
     "value": {
       "[key: string]": "MathNumber | MathNumber[] | MathNumber[][]"
     },
-    "dependencies": [
-      "MathNumber"
-    ],
+    "dependencies": ["MathNumber"],
     "extends": []
   },
   {
@@ -92,9 +88,7 @@
       "computed": "MathNumberObject",
       "compute": "#40;#41; =#62; void"
     },
-    "dependencies": [
-      "MathNumberObject"
-    ],
+    "dependencies": ["MathNumberObject"],
     "extends": []
   },
   {
@@ -103,9 +97,7 @@
       "name": "string",
       "unit": "MathUnit"
     },
-    "dependencies": [
-      "MathUnit"
-    ],
+    "dependencies": ["MathUnit"],
     "extends": []
   },
   {
@@ -114,10 +106,7 @@
       "label": "DataLabel",
       "value": "MathNumber | MathNumber[] | MathNumber[][]"
     },
-    "dependencies": [
-      "DataLabel",
-      "MathNumber"
-    ],
+    "dependencies": ["DataLabel", "MathNumber"],
     "extends": []
   },
   {
@@ -126,10 +115,7 @@
       "data": "ComputedData",
       "additionnalFields": "MachineField[]"
     },
-    "dependencies": [
-      "ComputedData",
-      "MachineField"
-    ],
+    "dependencies": ["ComputedData", "MachineField"],
     "extends": []
   },
   {
@@ -206,25 +192,19 @@
     "name": "HeavydynField",
     "value": {},
     "dependencies": [],
-    "extends": [
-      "BaseField"
-    ]
+    "extends": ["BaseField"]
   },
   {
     "name": "MaxidynField",
     "value": {},
     "dependencies": [],
-    "extends": [
-      "BaseField"
-    ]
+    "extends": ["BaseField"]
   },
   {
     "name": "MinidynField",
     "value": {},
     "dependencies": [],
-    "extends": [
-      "BaseField"
-    ]
+    "extends": ["BaseField"]
   },
   {
     "name": "Icon",
@@ -234,9 +214,7 @@
       "setText": "#40;text: string#41; =#62; void",
       "setIcon": "#40;iconName: IconName#41; =#62; void"
     },
-    "dependencies": [
-      "HTMLElement"
-    ],
+    "dependencies": ["HTMLElement"],
     "extends": []
   },
   {
@@ -250,10 +228,7 @@
       "addToMap": "#40;isVisible: boolean#41; =#62; void",
       "remove": "#40;#41; =#62; void"
     },
-    "dependencies": [
-      "mapboxgl.ImageSourceRaw",
-      "mapboxgl.Marker"
-    ],
+    "dependencies": ["mapboxgl.ImageSourceRaw", "mapboxgl.Marker"],
     "extends": []
   },
   {
@@ -263,9 +238,7 @@
       "opacity?": "number",
       "coordinates?": "#123;     nw: LngLat     se: LngLat   #125;"
     },
-    "dependencies": [
-      "LngLat"
-    ],
+    "dependencies": ["LngLat"],
     "extends": []
   },
   {
@@ -276,9 +249,7 @@
       "bl": "XYCoord",
       "br": "XYCoord"
     },
-    "dependencies": [
-      "XYCoord"
-    ],
+    "dependencies": ["XYCoord"],
     "extends": []
   },
   {
@@ -300,10 +271,7 @@
       "displayStringWithUnit": "string",
       "toDisplayedValue": "#40;#41; =#62; void"
     },
-    "dependencies": [
-      "math.Unit",
-      "MathUnit"
-    ],
+    "dependencies": ["math.Unit", "MathUnit"],
     "extends": []
   },
   {
@@ -318,10 +286,7 @@
       "maxDisplayedValue?": "number",
       "thresholds?": "#123;     selected: PredefinedThreshold | CustomThreshold | null     list: PredefinedThreshold[]     // custom: CustomThreshold   #125;"
     },
-    "dependencies": [
-      "PredefinedThreshold",
-      "CustomThreshold"
-    ],
+    "dependencies": ["PredefinedThreshold", "CustomThreshold"],
     "extends": []
   },
   {
@@ -354,12 +319,8 @@
     "value": {
       "machine": "MachineName"
     },
-    "dependencies": [
-      "MachineName"
-    ],
-    "extends": [
-      "MachinePointCreatorParameters"
-    ]
+    "dependencies": ["MachineName"],
+    "extends": ["MachinePointCreatorParameters"]
   },
   {
     "name": "JSONPoint",
@@ -388,32 +349,26 @@
   {
     "name": "HeavydynPoint",
     "value": {
-      "machine": "'heavydyn'"
+      "machine": "'Heavydyn'"
     },
     "dependencies": [],
-    "extends": [
-      "BasePoint"
-    ]
+    "extends": ["BasePoint"]
   },
   {
     "name": "MaxidynPoint",
     "value": {
-      "machine": "'maxidyn'"
+      "machine": "'Maxidyn'"
     },
     "dependencies": [],
-    "extends": [
-      "BasePoint"
-    ]
+    "extends": ["BasePoint"]
   },
   {
     "name": "MinidynPoint",
     "value": {
-      "machine": "'minidyn'"
+      "machine": "'Minidyn'"
     },
     "dependencies": [],
-    "extends": [
-      "BasePoint"
-    ]
+    "extends": ["BasePoint"]
   },
   {
     "name": "MachinePointCreatorParameters",
@@ -423,11 +378,7 @@
       "projectSettings": "JSONProjectSettings",
       "reportSettings": "JSONReportSettings"
     },
-    "dependencies": [
-      "IconName",
-      "JSONProjectSettings",
-      "JSONReportSettings"
-    ],
+    "dependencies": ["IconName", "JSONProjectSettings", "JSONReportSettings"],
     "extends": []
   },
   {
@@ -463,10 +414,7 @@
       "machine": "MachineName",
       "units": "MachineUnits"
     },
-    "dependencies": [
-      "MachineName",
-      "MachineUnits"
-    ],
+    "dependencies": ["MachineName", "MachineUnits"],
     "extends": []
   },
   {
@@ -501,25 +449,17 @@
       "pointsState": "PointsState",
       "map": "#123;     styleIndex: number     coordinates?: LngLat     zoom?: number   #125;"
     },
-    "dependencies": [
-      "PointsState",
-      "LngLat"
-    ],
+    "dependencies": ["PointsState", "LngLat"],
     "extends": []
   },
   {
     "name": "HeavydynProject",
     "value": {
-      "machine": "'heavydyn'",
+      "machine": "'Heavydyn'",
       "reports": "SelectableList#60;HeavydynReport#62;"
     },
-    "dependencies": [
-      "SelectableList",
-      "HeavydynReport"
-    ],
-    "extends": [
-      "BaseProject"
-    ]
+    "dependencies": ["SelectableList", "HeavydynReport"],
+    "extends": ["BaseProject"]
   },
   {
     "name": "HeavydynUnits",
@@ -528,9 +468,7 @@
       "force": "MathUnit",
       "temperature": "MathUnit"
     },
-    "dependencies": [
-      "MathUnit"
-    ],
+    "dependencies": ["MathUnit"],
     "extends": []
   },
   {
@@ -546,16 +484,11 @@
   {
     "name": "MaxidynProject",
     "value": {
-      "machine": "'maxidyn'",
+      "machine": "'Maxidyn'",
       "reports": "SelectableList#60;MaxidynReport#62;"
     },
-    "dependencies": [
-      "SelectableList",
-      "MaxidynReport"
-    ],
-    "extends": [
-      "BaseProject"
-    ]
+    "dependencies": ["SelectableList", "MaxidynReport"],
+    "extends": ["BaseProject"]
   },
   {
     "name": "MaxidynUnits",
@@ -564,9 +497,7 @@
       "deformation": "MathUnit",
       "force": "MathUnit"
     },
-    "dependencies": [
-      "MathUnit"
-    ],
+    "dependencies": ["MathUnit"],
     "extends": []
   },
   {
@@ -582,16 +513,11 @@
   {
     "name": "MinidynProject",
     "value": {
-      "machine": "'minidyn'",
+      "machine": "'Minidyn'",
       "reports": "SelectableList#60;MinidynReport#62;"
     },
-    "dependencies": [
-      "SelectableList",
-      "MinidynReport"
-    ],
-    "extends": [
-      "BaseProject"
-    ]
+    "dependencies": ["SelectableList", "MinidynReport"],
+    "extends": ["BaseProject"]
   },
   {
     "name": "MinidynUnits",
@@ -601,9 +527,7 @@
       "force": "MathUnit",
       "temperature": "MathUnit"
     },
-    "dependencies": [
-      "MathUnit"
-    ],
+    "dependencies": ["MathUnit"],
     "extends": []
   },
   {
@@ -680,11 +604,7 @@
       "index?": "MachineDropIndex",
       "dataLabels": "DataLabel[]"
     },
-    "dependencies": [
-      "GroupedDataLabels",
-      "MachineDropIndex",
-      "DataLabel"
-    ],
+    "dependencies": ["GroupedDataLabels", "MachineDropIndex", "DataLabel"],
     "extends": []
   },
   {
@@ -693,14 +613,8 @@
       "machine": "MachineName",
       "groupedDataLabels": "SelectableList#60;GroupedDataLabels#62;"
     },
-    "dependencies": [
-      "MachineName",
-      "SelectableList",
-      "GroupedDataLabels"
-    ],
-    "extends": [
-      "MachineReportCreatorParameters"
-    ]
+    "dependencies": ["MachineName", "SelectableList", "GroupedDataLabels"],
+    "extends": ["MachineReportCreatorParameters"]
   },
   {
     "name": "JSONReport",
@@ -758,9 +672,7 @@
       "index?": "number",
       "dataLabels": "string[]"
     },
-    "dependencies": [
-      "DataLabelsFrom"
-    ],
+    "dependencies": ["DataLabelsFrom"],
     "extends": []
   },
   {
@@ -771,10 +683,7 @@
       "selectedColorization": "'Threshold' | 'Zone'",
       "threshold": "#123;     colors: ThresholdColors     custom: #123;#125;   #125;"
     },
-    "dependencies": [
-      "IconName",
-      "ThresholdColors"
-    ],
+    "dependencies": ["IconName", "ThresholdColors"],
     "extends": []
   },
   {
@@ -784,9 +693,7 @@
       "middle": "Color",
       "high": "Color"
     },
-    "dependencies": [
-      "Color"
-    ],
+    "dependencies": ["Color"],
     "extends": []
   },
   {
@@ -796,149 +703,103 @@
       "type": "string",
       "displayedIndex": "number"
     },
-    "dependencies": [
-      "MachineName"
-    ],
+    "dependencies": ["MachineName"],
     "extends": []
   },
   {
     "name": "HeavydynReport",
     "value": {
-      "machine": "'heavydyn'",
+      "machine": "'Heavydyn'",
       "points": "HeavydynPoint[]",
       "platform": "HeavydynField[]",
       "informations": "HeavydynField[]"
     },
-    "dependencies": [
-      "HeavydynPoint",
-      "HeavydynField"
-    ],
-    "extends": [
-      "BaseReport"
-    ]
+    "dependencies": ["HeavydynPoint", "HeavydynField"],
+    "extends": ["BaseReport"]
   },
   {
     "name": "HeavydynReportCreatorParameters",
     "value": {
       "units": "HeavydynUnits"
     },
-    "dependencies": [
-      "HeavydynUnits"
-    ],
-    "extends": [
-      "MachineReportCreatorParameters"
-    ]
+    "dependencies": ["HeavydynUnits"],
+    "extends": ["MachineReportCreatorParameters"]
   },
   {
     "name": "HeavydynDropIndex",
     "value": {
-      "machine": "'heavydyn'",
+      "machine": "'Heavydyn'",
       "type": "HeavydynDropType",
       "value": "MathNumber"
     },
-    "dependencies": [
-      "HeavydynDropType",
-      "MathNumber"
-    ],
-    "extends": [
-      "BaseDropIndex"
-    ]
+    "dependencies": ["HeavydynDropType", "MathNumber"],
+    "extends": ["BaseDropIndex"]
   },
   {
     "name": "JSONHeavydynDropIndex",
     "value": {
-      "machine": "'heavydyn'",
+      "machine": "'Heavydyn'",
       "type": "HeavydynDropType",
       "value": "number"
     },
-    "dependencies": [
-      "HeavydynDropType"
-    ],
-    "extends": [
-      "BaseDropIndex"
-    ]
+    "dependencies": ["HeavydynDropType"],
+    "extends": ["BaseDropIndex"]
   },
   {
     "name": "MaxidynReport",
     "value": {
-      "machine": "'maxidyn'",
+      "machine": "'Maxidyn'",
       "points": "MaxidynPoint[]",
       "platform": "MaxidynField[]",
       "informations": "MaxidynField[]"
     },
-    "dependencies": [
-      "MaxidynPoint",
-      "MaxidynField"
-    ],
-    "extends": [
-      "BaseReport"
-    ]
+    "dependencies": ["MaxidynPoint", "MaxidynField"],
+    "extends": ["BaseReport"]
   },
   {
     "name": "MaxidynReportCreatorParameters",
     "value": {
       "units": "MaxidynUnits"
     },
-    "dependencies": [
-      "MaxidynUnits"
-    ],
-    "extends": [
-      "MachineReportCreatorParameters"
-    ]
+    "dependencies": ["MaxidynUnits"],
+    "extends": ["MachineReportCreatorParameters"]
   },
   {
     "name": "MaxidynDropIndex",
     "value": {
-      "machine": "'maxidyn'",
+      "machine": "'Maxidyn'",
       "type": "MaxidynDropType"
     },
-    "dependencies": [
-      "MaxidynDropType"
-    ],
-    "extends": [
-      "BaseDropIndex"
-    ]
+    "dependencies": ["MaxidynDropType"],
+    "extends": ["BaseDropIndex"]
   },
   {
     "name": "MinidynReport",
     "value": {
-      "machine": "'minidyn'",
+      "machine": "'Minidyn'",
       "points": "MinidynPoint[]",
       "platform": "MinidynField[]",
       "informations": "MinidynField[]"
     },
-    "dependencies": [
-      "MinidynPoint",
-      "MinidynField"
-    ],
-    "extends": [
-      "BaseReport"
-    ]
+    "dependencies": ["MinidynPoint", "MinidynField"],
+    "extends": ["BaseReport"]
   },
   {
     "name": "MinidynReportCreatorParameters",
     "value": {
       "units": "MinidynUnits"
     },
-    "dependencies": [
-      "MinidynUnits"
-    ],
-    "extends": [
-      "MachineReportCreatorParameters"
-    ]
+    "dependencies": ["MinidynUnits"],
+    "extends": ["MachineReportCreatorParameters"]
   },
   {
     "name": "MinidynDropIndex",
     "value": {
-      "machine": "'minidyn'",
+      "machine": "'Minidyn'",
       "type": "MinidynDropType"
     },
-    "dependencies": [
-      "MinidynDropType"
-    ],
-    "extends": [
-      "BaseDropIndex"
-    ]
+    "dependencies": ["MinidynDropType"],
+    "extends": ["BaseDropIndex"]
   },
   {
     "name": "MachineReportCreatorParameters",
@@ -946,10 +807,7 @@
       "projectSettings": "JSONProjectSettings",
       "units": "MachineUnits"
     },
-    "dependencies": [
-      "JSONProjectSettings",
-      "MachineUnits"
-    ],
+    "dependencies": ["JSONProjectSettings", "MachineUnits"],
     "extends": []
   },
   {
@@ -986,9 +844,7 @@
       "name": "string",
       "color": "Color"
     },
-    "dependencies": [
-      "Color"
-    ],
+    "dependencies": ["Color"],
     "extends": []
   },
   {
@@ -997,9 +853,7 @@
       "name": "string",
       "color?": "Color"
     },
-    "dependencies": [
-      "Color"
-    ],
+    "dependencies": ["Color"],
     "extends": []
   },
   {
@@ -1026,10 +880,7 @@
       "selected": "S | null",
       "list": "L[]"
     },
-    "dependencies": [
-      "S",
-      "L"
-    ],
+    "dependencies": ["S", "L"],
     "extends": []
   },
   {
@@ -1038,10 +889,7 @@
       "selected": "S | null",
       "list?": "L[]"
     },
-    "dependencies": [
-      "S",
-      "L"
-    ],
+    "dependencies": ["S", "L"],
     "extends": []
   },
   {
@@ -1051,11 +899,7 @@
       "map": "mapboxgl.Map | null",
       "save": "#40;key: StoreKeys, value: StoreSaveableTypes#41; =#62; void"
     },
-    "dependencies": [
-      "SelectableList",
-      "MachineProject",
-      "mapboxgl.Map"
-    ],
+    "dependencies": ["SelectableList", "MachineProject", "mapboxgl.Map"],
     "extends": []
   }
 ]

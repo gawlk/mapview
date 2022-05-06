@@ -45,6 +45,7 @@ export default defineConfig({
 
     // https://github.com/antfu/unplugin-vue-components
     components({
+      dirs: [],
       resolvers: [
         // https://github.com/antfu/vite-plugin-icons
         iconsResolver({

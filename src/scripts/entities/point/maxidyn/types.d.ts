@@ -1,5 +1,5 @@
 interface MaxidynPoint extends BasePoint {
-  readonly machine: 'maxidyn'
+  readonly machine: 'Maxidyn'
 }
 
 interface MaxidynPointCreatorParameters extends MachinePointCreatorParameters {}

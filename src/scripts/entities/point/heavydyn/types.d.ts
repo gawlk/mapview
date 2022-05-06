@@ -1,5 +1,5 @@
 interface HeavydynPoint extends BasePoint {
-  readonly machine: 'heavydyn'
+  readonly machine: 'Heavydyn'
 }
 
 interface HeavydynPointCreatorParameters

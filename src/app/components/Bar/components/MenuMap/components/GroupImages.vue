@@ -15,6 +15,9 @@
   import Sun75 from '/src/assets/svg/custom/sun75.svg'
   import Sun100 from '/src/assets/svg/custom/sun100.svg'
 
+  import Button from '/src/components/Button.vue'
+  import Popover from '/src/components/Popover.vue'
+
   const { t } = useI18n()
 
   const inputFile = ref()

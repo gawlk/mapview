@@ -1,5 +1,5 @@
 interface MaxidynProject extends BaseProject {
-  readonly machine: 'maxidyn'
+  readonly machine: 'Maxidyn'
   readonly reports: SelectableList<MaxidynReport>
 }
 

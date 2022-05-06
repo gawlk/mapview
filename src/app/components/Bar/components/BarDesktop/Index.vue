@@ -1,6 +1,8 @@
 <script setup lang="ts">
   import store from '/src/store'
 
+  import Button from '/src/components/Button.vue'
+
   import Initializer from '../Initializer.vue'
   import Footer from './components/Footer.vue'
   import Logo from './components/Logo.vue'
@@ -12,7 +14,7 @@
 </script>
 
 <template>
-  <div class="w-[480px] flex-none space-y-8 overflow-scroll py-8 px-2">
+  <div class="w-[520px] flex-none space-y-8 overflow-scroll py-8 px-2">
     <Logo />
 
     <Initializer v-if="!store.projects.selected" />

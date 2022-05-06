@@ -3,6 +3,9 @@
 
   import IconCog from '~icons/heroicons-solid/cog'
 
+  import Dialog from '/src/components/Dialog.vue'
+  import Input from '/src/components/Input.vue'
+
   const { t } = useI18n()
 </script>
 

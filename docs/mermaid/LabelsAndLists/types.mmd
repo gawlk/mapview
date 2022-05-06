@@ -5,7 +5,7 @@ class GroupedDataLabels {
   choices: SelectableList#60;DataLabel#62;
   indexes?: SelectableList#60;MachineDropIndex#62;
 }
-
+GroupedDataLabels <.. SelectableList~S, L~
 
 
 class JSONGroupedDataLabels {
@@ -14,7 +14,7 @@ class JSONGroupedDataLabels {
   choices: SelectableList#60;number, JSONChoice#62;
   indexes?: SelectableList#60;number, JSONMachineDropIndex#62;
 }
-
+JSONGroupedDataLabels <.. SelectableList~S, L~
 
 
 class SelectableList~S, L~ {

@@ -12,16 +12,16 @@ import SquareIcon from 'iconoir/icons/square.svg?raw'
 import TriangleIcon from 'iconoir/icons/triangle.svg?raw'
 
 export const icons: Record<IconName, string> = {
-  circle: CircleIcon,
-  triangle: TriangleIcon,
-  square: SquareIcon,
-  rhombus: RhombusIcon,
-  flare: FlareIcon,
-  pentagon: PentagonIcon,
-  hexagon: HexagonIcon,
-  hexagonAlt: HexagonAltIcon,
-  heptagon: HeptagonIcon,
-  octagon: OctagonIcon,
+  Circle: CircleIcon,
+  Triangle: TriangleIcon,
+  Square: SquareIcon,
+  Rhombus: RhombusIcon,
+  Flare: FlareIcon,
+  Pentagon: PentagonIcon,
+  Hexagon: HexagonIcon,
+  HexagonAlt: HexagonAltIcon,
+  Heptagon: HeptagonIcon,
+  Octagon: OctagonIcon,
 }
 
 export const createIcon = (iconName: IconName): Icon => {
@@ -31,19 +31,24 @@ export const createIcon = (iconName: IconName): Icon => {
   const subDiv = document.createElement('div')
   div.appendChild(subDiv)
 
+  const subDiv2 = document.createElement('div')
+  div.appendChild(subDiv2)
+
+  subDiv2.classList.add('absolute', 'inset-0', 'flex', 'items-center')
+  subDiv2.style.left = '-100%'
+  subDiv2.style.right = '-100%'
+
   const p = document.createElement('p')
-  div.appendChild(p)
+  subDiv2.appendChild(p)
 
   p.classList.add(
-    'absolute',
-    'inset-0',
     'font-medium',
     'text-white',
     'serif',
-    'text-center'
+    'w-full',
+    'text-center',
+    'mb-0.5'
   )
-  p.style.left = '-100%'
-  p.style.right = '-100%'
   p.style.textShadow = '-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black'
 
   const icon = shallowReactive({
@@ -59,7 +64,7 @@ export const createIcon = (iconName: IconName): Icon => {
       p.innerHTML = text
     },
     setIcon: function (iconName: IconName) {
-      subDiv.innerHTML = icons[iconName] || icons.circle
+      subDiv.innerHTML = icons[iconName] || icons.Circle
       this.setColor()
     },
   })

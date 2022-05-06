@@ -5,6 +5,9 @@
   import IconSave from '~icons/heroicons-solid/save'
   import store from '/src/store'
 
+  import Button from '/src/components/Button.vue'
+  import DragAndDrop from '/src/components/DragAndDrop.vue'
+
   const { t } = useI18n()
 
   const openFiles = (files: FileList | null) => {

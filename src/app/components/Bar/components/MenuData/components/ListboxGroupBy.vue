@@ -3,9 +3,11 @@
 
   import IconViewGrid from '~icons/heroicons-solid/view-grid'
 
+  import Listbox from '/src/components/Listbox.vue'
+
   const { t } = useI18n()
 
-  const possibilities: ReportGroupByPossibilities = ['Nothing', 'Zone']
+  const possibilities: ReportGroupByPossibilities[] = ['Nothing', 'Zone']
 
   const selectedReport = computed(
     () => store.projects.selected?.reports.selected
@@ -14,7 +16,10 @@
 
 <template>
   <Listbox
-    v-if="selectedReport?.zones.length > 1"
+    v-if="
+      selectedReport?.zones.length > 1 &&
+      selectedReport?.dataLabels.table.selected?.group.from !== 'Zone'
+    "
     :icon="IconViewGrid"
     :values="[t('Nothing'), t('Zone')]"
     :preSelected="`${t('Group by')}${t(':')}`"

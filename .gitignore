@@ -32,6 +32,12 @@ node_modules
 * 2*
 
 # ---
+# Test
+# ---
+
+__snapshots__
+
+# ---
 # Services
 # ---
 

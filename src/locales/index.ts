@@ -22,8 +22,14 @@ export const getBrowserLocales = (languageCodeOnly = false) => {
   })
 }
 
-export const numberToLocaleString = (value: number, precision: number = 0) =>
-  value.toLocaleString(navigator.language, {
-    minimumFractionDigits: precision,
-    maximumFractionDigits: precision,
+export const numberToLocaleString = (
+  value: number,
+  options: {
+    locale?: string
+    precision?: number
+  } = {}
+) =>
+  value.toLocaleString(options.locale || navigator.language, {
+    minimumFractionDigits: options.precision || 0,
+    maximumFractionDigits: options.precision || 0,
   })

@@ -6,6 +6,8 @@
   import ButtonSave from './components/ButtonSave.vue'
   import DialogConfigurations from './components/DialogConfigurations.vue'
   import GroupProjects from './components/GroupProjects.vue'
+
+  const { t } = useI18n()
 </script>
 
 <template>
@@ -14,13 +16,17 @@
     preID="project-"
     :data="[
       {
-        title: 'Informations',
+        title: t('Informations'),
         fields: store.projects.selected
           ? [
               store.projects.selected.name,
               ...store.projects.selected.informations,
             ]
           : [],
+      },
+      {
+        title: t('Hardware'),
+        fields: store.projects.selected ? store.projects.selected.hardware : [],
       },
     ]"
   />

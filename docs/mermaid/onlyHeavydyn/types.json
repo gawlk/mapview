@@ -26,7 +26,7 @@
     "name": "HeavydynUnits",
     "value": {
       "deformation": "MathUnit",
-      "force": "MathUnit",
+      "load": "MathUnit",
       "temperature": "MathUnit"
     },
     "dependencies": ["MathUnit"],
@@ -36,7 +36,7 @@
     "name": "JSONHeavydynUnits",
     "value": {
       "deformation": "'mm' | '1/100 mm' | 'um'",
-      "force": "'N' | 'kN' | 'lbs'",
+      "load": "'N' | 'kN' | 'lbs'",
       "temperature": "'degC' | 'degF' | 'K'"
     },
     "dependencies": [],
@@ -63,7 +63,7 @@
   },
   {
     "name": "HeavydynDropType",
-    "value": "'Distance' | 'Force' | 'Time'",
+    "value": "'Distance' | 'Load' | 'Time'",
     "dependencies": [],
     "extends": []
   },

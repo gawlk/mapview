@@ -1,4 +1,5 @@
 import { LngLatBounds } from 'mapbox-gl'
+
 import {
   createBaseFieldFromJSON,
   createLine,
@@ -139,8 +140,11 @@ export const createBaseReportFromJSON = (
       {
         label: 'Name',
         value: json.name,
+        settings: {},
       },
-      true
+      {
+        reactive: true,
+      }
     ),
     isOnMap: false as boolean,
     settings: reactive(json.settings),
@@ -230,6 +234,7 @@ export const createBaseReportFromJSON = (
             this.zones.forEach((zone) => {
               zone.points.forEach((point) => {
                 point.icon.setIcon(iconName)
+                point.updateColor()
               })
             })
           }
@@ -322,6 +327,8 @@ export const createBaseReportFromJSON = (
           )
         )
       })
+
+      parameters.addToMap?.()
     },
     remove: function () {
       this.isOnMap = false
@@ -335,6 +342,8 @@ export const createBaseReportFromJSON = (
       watcherHandler.clean()
       pointsWatcherHandlers.clean()
       zonesWatcherHandlers.clean()
+
+      parameters.remove?.()
     },
   })
 

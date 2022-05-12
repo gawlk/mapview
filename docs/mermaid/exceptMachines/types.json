@@ -70,9 +70,7 @@
       "right?": "boolean"
     },
     "dependencies": [],
-    "extends": [
-      "GenericContainerProps"
-    ]
+    "extends": ["GenericContainerProps"]
   },
   {
     "name": "Color",
@@ -85,9 +83,7 @@
     "value": {
       "[key: string]": "MathNumber | MathNumber[] | MathNumber[][]"
     },
-    "dependencies": [
-      "MathNumber"
-    ],
+    "dependencies": ["MathNumber"],
     "extends": []
   },
   {
@@ -98,9 +94,7 @@
       "computed": "MathNumberObject",
       "compute": "#40;#41; =#62; void"
     },
-    "dependencies": [
-      "MathNumberObject"
-    ],
+    "dependencies": ["MathNumberObject"],
     "extends": []
   },
   {
@@ -109,9 +103,7 @@
       "name": "string",
       "unit": "MathUnit"
     },
-    "dependencies": [
-      "MathUnit"
-    ],
+    "dependencies": ["MathUnit"],
     "extends": []
   },
   {
@@ -120,10 +112,7 @@
       "label": "DataLabel",
       "value": "MathNumber | MathNumber[] | MathNumber[][]"
     },
-    "dependencies": [
-      "DataLabel",
-      "MathNumber"
-    ],
+    "dependencies": ["DataLabel", "MathNumber"],
     "extends": []
   },
   {
@@ -132,10 +121,7 @@
       "data": "ComputedData",
       "additionnalFields": "MachineField[]"
     },
-    "dependencies": [
-      "ComputedData",
-      "MachineField"
-    ],
+    "dependencies": ["ComputedData", "MachineField"],
     "extends": []
   },
   {
@@ -216,9 +202,7 @@
       "setText": "#40;text: string#41; =#62; void",
       "setIcon": "#40;iconName: IconName#41; =#62; void"
     },
-    "dependencies": [
-      "HTMLElement"
-    ],
+    "dependencies": ["HTMLElement"],
     "extends": []
   },
   {
@@ -238,10 +222,7 @@
       "addToMap": "#40;isVisible: boolean#41; =#62; void",
       "remove": "#40;#41; =#62; void"
     },
-    "dependencies": [
-      "mapboxgl.ImageSourceRaw",
-      "mapboxgl.Marker"
-    ],
+    "dependencies": ["mapboxgl.ImageSourceRaw", "mapboxgl.Marker"],
     "extends": []
   },
   {
@@ -251,9 +232,7 @@
       "opacity?": "number",
       "coordinates?": "#123;     nw: LngLat     se: LngLat   #125;"
     },
-    "dependencies": [
-      "LngLat"
-    ],
+    "dependencies": ["LngLat"],
     "extends": []
   },
   {
@@ -264,9 +243,7 @@
       "bl": "XYCoord",
       "br": "XYCoord"
     },
-    "dependencies": [
-      "XYCoord"
-    ],
+    "dependencies": ["XYCoord"],
     "extends": []
   },
   {
@@ -286,12 +263,9 @@
       "unit": "MathUnit | string",
       "displayString": "string",
       "displayStringWithUnit": "string",
-      "toDisplayedValue": "#40;#41; =#62; void"
+      "updateDisplayedStrings": "#40;#41; =#62; void"
     },
-    "dependencies": [
-      "math.Unit",
-      "MathUnit"
-    ],
+    "dependencies": ["math.Unit", "MathUnit"],
     "extends": []
   },
   {
@@ -306,10 +280,7 @@
       "maxDisplayedValue?": "number",
       "thresholds?": "#123;     selected: PredefinedThreshold | CustomThreshold | null     list: PredefinedThreshold[]     // custom: CustomThreshold   #125;"
     },
-    "dependencies": [
-      "PredefinedThreshold",
-      "CustomThreshold"
-    ],
+    "dependencies": ["PredefinedThreshold", "CustomThreshold"],
     "extends": []
   },
   {
@@ -342,12 +313,8 @@
     "value": {
       "machine": "MachineName"
     },
-    "dependencies": [
-      "MachineName"
-    ],
-    "extends": [
-      "MachinePointCreatorParameters"
-    ]
+    "dependencies": ["MachineName"],
+    "extends": ["MachinePointCreatorParameters"]
   },
   {
     "name": "JSONPoint",
@@ -406,10 +373,7 @@
       "machine": "MachineName",
       "units": "MachineUnits"
     },
-    "dependencies": [
-      "MachineName",
-      "MachineUnits"
-    ],
+    "dependencies": ["MachineName", "MachineUnits"],
     "extends": []
   },
   {
@@ -444,10 +408,7 @@
       "pointsState": "PointsState",
       "map": "#123;     styleIndex: number     coordinates?: LngLat     zoom?: number   #125;"
     },
-    "dependencies": [
-      "PointsState",
-      "LngLat"
-    ],
+    "dependencies": ["PointsState", "LngLat"],
     "extends": []
   },
   {
@@ -530,11 +491,7 @@
       "index?": "MachineDropIndex",
       "dataLabels": "DataLabel[]"
     },
-    "dependencies": [
-      "GroupedDataLabels",
-      "MachineDropIndex",
-      "DataLabel"
-    ],
+    "dependencies": ["GroupedDataLabels", "MachineDropIndex", "DataLabel"],
     "extends": []
   },
   {
@@ -543,14 +500,8 @@
       "machine": "MachineName",
       "groupedDataLabels": "SelectableList#60;GroupedDataLabels#62;"
     },
-    "dependencies": [
-      "MachineName",
-      "SelectableList",
-      "GroupedDataLabels"
-    ],
-    "extends": [
-      "MachineReportCreatorParameters"
-    ]
+    "dependencies": ["MachineName", "SelectableList", "GroupedDataLabels"],
+    "extends": ["MachineReportCreatorParameters"]
   },
   {
     "name": "JSONReport",
@@ -608,9 +559,7 @@
       "index?": "number",
       "dataLabels": "string[]"
     },
-    "dependencies": [
-      "DataLabelsFrom"
-    ],
+    "dependencies": ["DataLabelsFrom"],
     "extends": []
   },
   {
@@ -627,10 +576,7 @@
       "selectedColorization": "'Threshold' | 'Zone'",
       "threshold": "#123;     colors: ThresholdColors     custom: #123;#125;   #125;"
     },
-    "dependencies": [
-      "IconName",
-      "ThresholdColors"
-    ],
+    "dependencies": ["IconName", "ThresholdColors"],
     "extends": []
   },
   {
@@ -640,9 +586,7 @@
       "middle": "Color",
       "high": "Color"
     },
-    "dependencies": [
-      "Color"
-    ],
+    "dependencies": ["Color"],
     "extends": []
   },
   {
@@ -652,9 +596,7 @@
       "type": "string",
       "displayedIndex": "number"
     },
-    "dependencies": [
-      "MachineName"
-    ],
+    "dependencies": ["MachineName"],
     "extends": []
   },
   {
@@ -691,9 +633,7 @@
       "name": "string",
       "color": "Color"
     },
-    "dependencies": [
-      "Color"
-    ],
+    "dependencies": ["Color"],
     "extends": []
   },
   {
@@ -702,9 +642,7 @@
       "name": "string",
       "color?": "Color"
     },
-    "dependencies": [
-      "Color"
-    ],
+    "dependencies": ["Color"],
     "extends": []
   },
   {
@@ -731,10 +669,7 @@
       "selected": "S | null",
       "list": "L[]"
     },
-    "dependencies": [
-      "S",
-      "L"
-    ],
+    "dependencies": ["S", "L"],
     "extends": []
   },
   {
@@ -743,21 +678,13 @@
       "selected": "S | null",
       "list?": "L[]"
     },
-    "dependencies": [
-      "S",
-      "L"
-    ],
+    "dependencies": ["S", "L"],
     "extends": []
   },
   {
     "name": "DeepRequired~T~",
     "value": "#123;   [K in keyof T]: Required#60;DeepRequired#60;T[K]#62;#62; #125;",
-    "dependencies": [
-      "T",
-      "Required",
-      "DeepRequired",
-      "K"
-    ],
+    "dependencies": ["T", "Required", "DeepRequired", "K"],
     "extends": []
   },
   {
@@ -767,37 +694,25 @@
       "map": "mapboxgl.Map | null",
       "save": "#40;key: StoreKeys, value: StoreSaveableTypes#41; =#62; void"
     },
-    "dependencies": [
-      "SelectableList",
-      "MachineProject",
-      "mapboxgl.Map"
-    ],
+    "dependencies": ["SelectableList", "MachineProject", "mapboxgl.Map"],
     "extends": []
   },
   {
     "name": "StoreKeys",
     "value": "Exclude#60;keyof Store, 'save'#62;",
-    "dependencies": [
-      "Exclude",
-      "Store"
-    ],
+    "dependencies": ["Exclude", "Store"],
     "extends": []
   },
   {
     "name": "StoreTypes",
     "value": "Store[keyof Store]",
-    "dependencies": [
-      "Store"
-    ],
+    "dependencies": ["Store"],
     "extends": []
   },
   {
     "name": "StoreSaveableTypes",
     "value": "Extract#60;   StoreTypes,   string[] | number[] | boolean[] | string | number | boolean | null #62;",
-    "dependencies": [
-      "Extract",
-      "StoreTypes"
-    ],
+    "dependencies": ["Extract", "StoreTypes"],
     "extends": []
   }
 ]

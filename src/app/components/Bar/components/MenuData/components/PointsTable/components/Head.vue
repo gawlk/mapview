@@ -33,6 +33,10 @@
   const filteredPoints = computed(() =>
     (props.points as MachinePoint[]).filter((point) => point.settings.isVisible)
   )
+
+  const getBasicAverage = (values: number[]) =>
+    values.reduce((total, currentValue) => total + currentValue, 0) /
+    values.length
 </script>
 
 <template>
@@ -65,7 +69,9 @@
       return {
         mathNumber: groupFrom
           ? createMathNumber(
-              dataLabel.unit.getAverage(
+              (typeof dataLabel.unit === 'string'
+                ? getBasicAverage
+                : dataLabel.unit.getAverage)(
                 filteredPoints.map(
                   (point) =>
                     (groupFrom &&
@@ -75,7 +81,7 @@
                         selectedTableDataLabelsParameters?.index
                       )?.value) ||
                     0
-                ) || []
+                )
               ),
               dataLabel.unit
             )

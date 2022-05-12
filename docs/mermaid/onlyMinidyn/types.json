@@ -27,7 +27,7 @@
     "value": {
       "modulus": "MathUnit",
       "deformation": "MathUnit",
-      "force": "MathUnit",
+      "load": "MathUnit",
       "temperature": "MathUnit"
     },
     "dependencies": ["MathUnit"],
@@ -38,7 +38,7 @@
     "value": {
       "modulus": "'MPa' | 'kN'",
       "deformation": "'mm' | 'um'",
-      "force": "'N' | 'kN'"
+      "load": "'N' | 'kN'"
     },
     "dependencies": [],
     "extends": []

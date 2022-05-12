@@ -6,7 +6,7 @@
   import store from '/src/store'
 
   import Button from '/src/components/Button.vue'
-  import Listbox from '/src/components/Listbox.vue'
+  import Select from '/src/components/Select.vue'
 
   const props = defineProps<{
     point: MachinePoint
@@ -47,8 +47,7 @@
       v-if="selectedReport && selectedReport.zones.length > 1"
       class="border-2 border-gray-100 bg-gray-100 px-1 text-right"
     >
-      <Listbox
-        sm
+      <Select
         :selected="(selectedReport.zones as MachineZone[]).find((zone) => (zone.points as MachinePoint[]).find((_point) => _point === point))?.name"
         :values="selectedReport.zones.map((zone) => zone.name) || []"
         @selectIndex="(index) => (point.zone = selectedReport?.zones[index])"

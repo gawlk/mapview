@@ -287,7 +287,7 @@
       "unit": "MathUnit | string",
       "displayString": "string",
       "displayStringWithUnit": "string",
-      "toDisplayedValue": "#40;#41; =#62; void"
+      "updateDisplayedStrings": "#40;#41; =#62; void"
     },
     "dependencies": ["math.Unit", "MathUnit"],
     "extends": []
@@ -507,7 +507,7 @@
     "name": "HeavydynUnits",
     "value": {
       "deformation": "MathUnit",
-      "force": "MathUnit",
+      "load": "MathUnit",
       "temperature": "MathUnit"
     },
     "dependencies": ["MathUnit"],
@@ -517,7 +517,7 @@
     "name": "JSONHeavydynUnits",
     "value": {
       "deformation": "'mm' | '1/100 mm' | 'um'",
-      "force": "'N' | 'kN' | 'lbs'",
+      "load": "'N' | 'kN' | 'lbs'",
       "temperature": "'degC' | 'degF' | 'K'"
     },
     "dependencies": [],
@@ -537,7 +537,7 @@
     "value": {
       "modulus": "MathUnit",
       "deformation": "MathUnit",
-      "force": "MathUnit"
+      "load": "MathUnit"
     },
     "dependencies": ["MathUnit"],
     "extends": []
@@ -547,7 +547,7 @@
     "value": {
       "modulus": "'MPa' | 'kN'",
       "deformation": "'mm' | 'um'",
-      "force": "'N' | 'kN'"
+      "load": "'N' | 'kN'"
     },
     "dependencies": [],
     "extends": []
@@ -566,7 +566,7 @@
     "value": {
       "modulus": "MathUnit",
       "deformation": "MathUnit",
-      "force": "MathUnit",
+      "load": "MathUnit",
       "temperature": "MathUnit"
     },
     "dependencies": ["MathUnit"],
@@ -577,7 +577,7 @@
     "value": {
       "modulus": "'MPa' | 'kN'",
       "deformation": "'mm' | 'um'",
-      "force": "'N' | 'kN'"
+      "load": "'N' | 'kN'"
     },
     "dependencies": [],
     "extends": []
@@ -803,7 +803,7 @@
   },
   {
     "name": "HeavydynDropType",
-    "value": "'Distance' | 'Force' | 'Time'",
+    "value": "'Distance' | 'Load' | 'Time'",
     "dependencies": [],
     "extends": []
   },

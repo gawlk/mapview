@@ -1,7 +1,8 @@
 <script setup lang="ts">
   import { getBrowserLocale } from '/src/locales'
 
-  import Listbox from '/src/components/Listbox.vue'
+  import Listbox from './Listbox.vue'
+  import Label from './Label.vue'
 
   const emit = defineEmits<{
     (event: 'input', value: string | number): void
@@ -17,6 +18,7 @@
     max?: number
     list?: any
     strict?: boolean
+    disabled?: boolean
   }>()
 
   const classes = `
@@ -35,6 +37,7 @@
     focus:outline-none
     transition-colors
     duration-200
+    disabled:bg-gray-50
   `
 </script>
 
@@ -50,6 +53,7 @@
         :min="props.min"
         :max="props.max"
         :step="props.step"
+        :disabled="props.disabled"
         :class="classes"
       />
       <input
@@ -60,6 +64,7 @@
         :min="props.min"
         :value="props.value"
         :step="props.step"
+        :disabled="props.disabled"
         :class="classes"
         class="px-0 focus:ring-0"
       />
@@ -70,6 +75,7 @@
         :id="`${props.id}-text`"
         @input="(event) => emit('input', (event.target as HTMLInputElement).value)"
         :value="props.value"
+        :disabled="props.disabled"
         :class="classes"
         class="w-full flex-1"
       />
@@ -78,6 +84,7 @@
         :selected="props.value"
         @select="(value) => emit('input', value)"
         full
+        :disabled="props.disabled"
         class="flex-1"
       />
     </div>
@@ -87,6 +94,7 @@
       :id="props.id"
       rows="3"
       :value="props.value"
+      :disabled="props.disabled"
       :class="classes"
     />
     <input
@@ -94,6 +102,7 @@
       :id="props.id"
       disabled
       :value="new Date(props.value).toLocaleDateString(getBrowserLocale())"
+      :disabled="props.disabled"
       :class="classes"
     />
     <div class="flex h-10 items-center" v-else>
@@ -113,6 +122,7 @@
         :min="props.min"
         :max="props.max"
         :step="props.step"
+        :disabled="props.disabled"
         :class="classes"
       />
     </div>

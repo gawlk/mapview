@@ -1,6 +1,8 @@
 export const createBaseFieldFromJSON = (
   json: JSONField,
-  reactive?: boolean
+  options?: {
+    reactive?: boolean
+  }
 ): MachineField => {
   // {
   //   name: 'Slidable number',
@@ -23,34 +25,43 @@ export const createBaseFieldFromJSON = (
   //   },
   // } as MachineField,
 
-  const { label, value } = json
+  const { label, value, settings } = json
 
-  const field: MachineField = (() => {
-    switch (label) {
-      case 'Comment':
-      case 'Comments':
-        return {
-          label,
-          value: {
+  const field: MachineField = {
+    label,
+    value: (():
+      | boolean
+      | number
+      | string
+      | SlidableNumber
+      | DateValue
+      | LongString
+      | SelectableString => {
+      switch (label) {
+        case 'Comment':
+        case 'Comments':
+          return {
             kind: 'longString',
             value: value as string,
-          },
-        }
-      case 'Date':
-        return {
-          label,
-          value: {
+          }
+
+        case 'Date':
+        case 'License start':
+        case 'License end':
+        case 'Certificate start':
+        case 'Certificate end':
+          return {
             kind: 'date',
             value: value as string,
-          },
-        }
-      default:
-        return {
-          label,
-          value,
-        }
-    }
-  })()
+          }
+        default:
+          return value
+      }
+    })(),
+    settings: shallowReactive(settings),
+  }
 
-  return reactive ? shallowReactive(field) : field
+  console.log(settings, field)
+
+  return options?.reactive ? shallowReactive(field) : field
 }

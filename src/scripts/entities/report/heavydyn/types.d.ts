@@ -10,18 +10,19 @@ interface HeavydynReportCreatorParameters
   units: HeavydynMathUnits
 }
 
-type HeavydynDropType = 'Distance' | 'Force' | 'Time' | 'Load' | 'Height'
+type HeavydynDropType = 'Distance' | 'Load' | 'Time' | 'Load' | 'Height'
 
 interface HeavydynDropIndex extends BaseDropIndex {
   readonly machine: 'Heavydyn'
   readonly type: HeavydynDropType
-  readonly value: MathNumber
+  value: MathNumber
 }
 
 interface JSONHeavydynDropIndex extends BaseDropIndex {
   readonly machine: 'Heavydyn'
   readonly type: HeavydynDropType
-  readonly value: number
+  value: number
+  readonly unit: string
 }
 
 type HeavydynThresholds = HeavydynMathUnitsSkeleton<AnyThreshold[]>

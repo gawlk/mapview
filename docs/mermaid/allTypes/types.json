@@ -77,7 +77,7 @@
   },
   {
     "name": "HeavydynDropType",
-    "value": "'Distance' | 'Force' | 'Time'",
+    "value": "'Distance' | 'Load' | 'Time'",
     "dependencies": [],
     "extends": []
   },

@@ -5,6 +5,8 @@
     PopoverPanel,
   } from '@headlessui/vue'
 
+  import TransitionDropdown from './TransitionDropdown.vue'
+
   const props = defineProps<{
     buttonText: string
     full: boolean
@@ -40,7 +42,7 @@
 
     <TransitionDropdown>
       <PopoverPanel
-        class="absolute z-10 mb-11 max-h-60 w-full space-y-1 overflow-auto rounded-lg border-2 border-gray-100 bg-white p-1 text-sm shadow-md focus:outline-none lg:bottom-auto lg:mt-1 lg:shadow-lg"
+        class="absolute bottom-0 z-10 mb-11 max-h-60 w-full space-y-1 overflow-auto rounded-lg border-2 border-gray-100 bg-white p-1 text-sm shadow-md focus:outline-none lg:bottom-auto lg:mt-1 lg:shadow-lg"
       >
         <slot />
       </PopoverPanel>

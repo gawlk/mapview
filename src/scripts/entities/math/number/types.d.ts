@@ -3,5 +3,14 @@ interface MathNumber {
   unit: MathUnit | string
   displayedString: string
   displayedStringWithUnit: string
-  toDisplayedValue: () => void
+  updateDisplayedStrings: () => void
+  getLocaleString: (options: MathNumberGetLocaleStringOptions) => void
+}
+
+interface MathNumberGetLocaleStringOptions {
+  appendUnitToString?: true
+  locale?: string
+  precision?: number
+  disablePreString?: true
+  unit?: string
 }

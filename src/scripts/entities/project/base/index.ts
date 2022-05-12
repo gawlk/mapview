@@ -22,8 +22,11 @@ export const createBaseProjectFromJSON = async (
       {
         label: 'Name',
         value: json.name,
+        settings: {},
       },
-      true
+      {
+        reactive: true,
+      }
     ),
     reports: createSelectableList<MachineReport>(null, [], {
       reactive: true,
@@ -32,6 +35,7 @@ export const createBaseProjectFromJSON = async (
     units: parameters.units,
     settings,
     informations: shallowReactive([]),
+    hardware: shallowReactive([]),
     refreshLinesAndImages: function () {
       if (this.settings.arePointsLinked) {
         this.reports.list.forEach((report) => {
@@ -207,7 +211,8 @@ export const createBaseProjectFromJSON = async (
                         foundMatchingUnit = areUnitsMatching
                       }
 
-                      areUnitsMatching && dataValue.value.toDisplayedValue()
+                      areUnitsMatching &&
+                        dataValue.value.updateDisplayedStrings()
                     })
 
                     foundMatchingUnit && point.updatePopup()
@@ -215,7 +220,7 @@ export const createBaseProjectFromJSON = async (
                     point.drops.forEach((drop) =>
                       drop.data.forEach((dataValue) => {
                         dataValue.label.unit === mathUnit &&
-                          dataValue.value.toDisplayedValue()
+                          dataValue.value.updateDisplayedStrings()
                       })
                     )
 

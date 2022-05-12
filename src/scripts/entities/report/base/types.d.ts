@@ -53,6 +53,8 @@ interface BaseReportCreatorParameters extends MachineReportCreatorParameters {
   machine: MachineName
   units: MachineMathUnits
   thresholds: MachineThresholds
+  addToMap?: () => void
+  remove?: () => void
 }
 
 interface JSONReport {

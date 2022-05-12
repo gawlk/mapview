@@ -16,7 +16,6 @@
 
 <template>
   <Listbox
-    v-if="selectedReport?.zones.length > 1"
     :icon="IconColorSwatch"
     :preSelected="`${t('Colorization by')}${t(':')}`"
     :values="possibilities.map((possibility) => t(possibility))"

@@ -74,6 +74,11 @@
         @click="state.isAlbumOpen = true"
       >
         {{ t('View the album') }}
+        <span class="text-gray-500"
+          >({{
+            store.projects.selected?.reports.selected?.screenshots.length
+          }})</span
+        >
       </Button>
       <OverlayAlbum
         :isOpen="state.isAlbumOpen"

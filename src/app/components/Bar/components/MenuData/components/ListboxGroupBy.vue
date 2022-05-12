@@ -16,10 +16,6 @@
 
 <template>
   <Listbox
-    v-if="
-      selectedReport?.zones.length > 1 &&
-      selectedReport?.dataLabels.table.selected?.group.from !== 'Zone'
-    "
     :icon="IconViewGrid"
     :values="[t('Nothing'), t('Zone')]"
     :preSelected="`${t('Group by')}${t(':')}`"

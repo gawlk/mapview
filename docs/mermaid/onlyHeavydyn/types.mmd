@@ -24,7 +24,7 @@ HeavydynProject <.. HeavydynReport
 class HeavydynUnits {
   <<interface>>
   deformation: MathUnit
-  force: MathUnit
+  load: MathUnit
   temperature: MathUnit
 }
 
@@ -33,7 +33,7 @@ class HeavydynUnits {
 class JSONHeavydynUnits {
   <<interface>>
   deformation: 'mm' | '1/100 mm' | 'um'
-  force: 'N' | 'kN' | 'lbs'
+  load: 'N' | 'kN' | 'lbs'
   temperature: 'degC' | 'degF' | 'K'
 }
 
@@ -59,7 +59,7 @@ HeavydynReportCreatorParameters <.. HeavydynUnits
 
 class HeavydynDropType {
   <<type>>
-  'Distance' | 'Force' | 'Time'
+  'Distance' | 'Load' | 'Time'
 }
 
 

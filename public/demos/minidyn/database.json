@@ -9,55 +9,51 @@
   },
   "Project": {
     "Version": 1,
-    "Name": "Demo Mapview",
-    "Client": "Rincent",
-    "Project": "Ccrn",
-    "Town": "Courcouronnes",
-    "Site": "Bous Briard",
-    "Date": "2022-03-09T14:38:41.000Z"
+    "Name": "Min193",
+    "Client": "_Heh",
+    "Project": "Aaj__",
+    "Town": "__Eu",
+    "Site": "Ee__",
+    "Date": "2022-05-02T09:54:33.000Z"
   },
   "ParamsBearing": {
     "Version": 1,
-    "Name": "FR NFP94160 equ.",
-    "DPlate": 0.3,
-    "CPoisson": 0.35,
-    "FForme": 4,
-    "K": 2.34,
-    "Alpha": 0.86,
+    "Name": "Raideur",
+    "DPlate": 0,
+    "CPoisson": 0,
+    "FForme": 0,
+    "K": 0,
+    "Alpha": 0,
     "MinBearing": 10000000,
-    "MaxBearing": 250000000,
+    "MaxBearing": 200000000,
     "AlgoBearing": "Max",
     "HasQuality": false,
-    "AlgoProcessing1": "Boussinesq",
-    "AlgoProcessing2": "Exponential"
+    "AlgoProcessing1": "None",
+    "AlgoProcessing2": "None"
   },
   "ExportedData": {
     "Version": 1,
     "Points": [
-      {
-        "Version": 1,
-        "Name": "BearingCapacity",
-        "Type": "Modulus",
-        "Unit": "MPa"
-      }
+      { "Version": 1, "Name": "Stifness", "Type": "Stifness", "Unit": "kN/m" }
     ],
     "Drops": [
-      { "Version": 1, "Name": "PulseTime", "Type": "Time", "Unit": "ms" },
-      { "Version": 1, "Name": "Fmax", "Type": "Force", "Unit": "kN" },
-      { "Version": 1, "Name": "Umax", "Type": "Deflection", "Unit": "mm" },
       {
         "Version": 1,
-        "Name": "BearingCapacity",
-        "Type": "Modulus",
-        "Unit": "MPa"
-      }
+        "Name": "Time pulse",
+        "SciName": "tp",
+        "Type": "Time",
+        "Unit": "ms"
+      },
+      { "Version": 1, "Name": "Fmax", "Type": "Load", "Unit": "kN" },
+      { "Version": 1, "Name": "Umax", "Type": "Deflection", "Unit": "mm" },
+      { "Version": 1, "Name": "Stifness", "Type": "Stifness", "Unit": "kN/m" }
     ]
   },
   "ParamsPoint": {
     "Version": 1,
-    "NbTraining": 1,
-    "NbAveraging": 2,
-    "NbTotal": 3
+    "NbTraining": 0,
+    "NbAveraging": 1,
+    "NbTotal": 1
   },
   "ParamsAcqu": {
     "Version": 1,
@@ -67,191 +63,380 @@
   },
   "Hardware": {
     "Version": 1,
-    "Serial": "MIN-190F",
-    "Attribution": "",
-    "MAC": "AF-AE-8E-5E-F7-FC-52-C3",
-    "LicStart": "1999-11-30T00:00:00.000Z",
-    "LicEnd": "1999-11-30T00:00:00.000Z",
-    "CertStart": "1999-11-30T00:00:00.000Z",
-    "CertEnd": "1999-11-30T00:00:00.000Z"
+    "Serial": "MIN-193G",
+    "Attribution": "LCBTP",
+    "MAC": "7C-33-F9-AE-32-ED-3C-F0",
+    "LicStart": "2019-11-29T00:00:00.000Z",
+    "LicEnd": "2050-01-01T00:00:00.000Z",
+    "CertStart": "2022-05-02T00:00:00.000Z",
+    "CertEnd": "2023-05-02T00:00:00.000Z"
   },
   "PVs": [
     {
       "PV": {
         "Version": 1,
-        "Name": "ccrn",
-        "Date": "2022-03-09T14:39:07.000Z",
+        "Name": "2s1p",
+        "Date": "2022-05-02T09:58:05.000Z",
         "Operator": "John Doe",
-        "Lane": "na",
-        "Sens": "na",
-        "Site": "Jardin",
-        "Weather": "soleil",
-        "Temperature": 25,
+        "Lane": "",
+        "Sens": "",
+        "Site": "",
+        "Weather": "",
+        "Temperature": 0,
         "Comments": "Commentaires"
       },
       "Plateform": {
         "Version": 1,
-        "Type": "Tranchée",
-        "Support": "Espaces verts",
-        "Layer": "Terrain en place",
-        "Material": "Sablon",
-        "GTR": "B1"
+        "Type": "",
+        "Support": "",
+        "Layer": "",
+        "Material": "",
+        "GTR": "N.S"
       },
-      "Threshold": { "Version": 1, "Class": "PF2", "Threshold": 50000000 },
+      "Threshold": { "Version": 1, "Class": "N.S", "Threshold": 0 },
       "Points": [
         {
           "Point": {
             "Version": 1,
-            "ID": "1",
+            "ID": "3D",
             "Number": 1,
-            "Date": "2022-03-09T14:45:26.000Z",
-            "BearingCapacity": 2.02443695e7,
-            "Latitude": 48.6214509,
-            "Longitude": 2.4201913,
-            "DOP": 0.5856400728225708,
+            "Date": "2022-05-02T10:04:24.000Z",
+            "Stifness": 24748438,
+            "Latitude": 48.6217289,
+            "Longitude": 2.4202711,
+            "DOP": 7.97659969329834,
             "Comments": ""
           },
           "Drops": [
             {
               "Version": 1,
               "Number": 0,
-              "BearingCapacity": 22802663,
-              "Fmax": 6409.64437816023,
-              "Umax": 0.0013280901771022325,
-              "PulseTime": 0.016533333333333334
-            },
-            {
-              "Version": 1,
-              "Number": 1,
-              "BearingCapacity": 20099026,
-              "Fmax": 7257.419214102682,
-              "Umax": 0.0017414420712092349,
-              "PulseTime": 0.01626666666666667
-            },
-            {
-              "Version": 1,
-              "Number": 2,
-              "BearingCapacity": 20389713,
-              "Fmax": 7372.718652669713,
-              "Umax": 0.001739815537922185,
-              "PulseTime": 0.0162
+              "Stifness": 24748438,
+              "Fmax": 7831.143685085815,
+              "Umax": 3.164298117789945e-4,
+              "Time pulse": 0.015266666666666668
             }
           ]
         },
         {
           "Point": {
             "Version": 1,
-            "ID": "2",
+            "ID": "3E",
             "Number": 2,
-            "Date": "2022-03-09T14:45:49.000Z",
-            "BearingCapacity": 2.39243625e7,
-            "Latitude": 48.6214575,
-            "Longitude": 2.42020296,
-            "DOP": 0.6416600346565247,
+            "Date": "2022-05-02T10:04:27.000Z",
+            "Stifness": 24408501,
+            "Latitude": 48.6217259,
+            "Longitude": 2.4202735,
+            "DOP": 10.40999984741211,
             "Comments": ""
           },
           "Drops": [
             {
               "Version": 1,
               "Number": 0,
-              "BearingCapacity": 715398165,
-              "Fmax": 2902.5511439151055,
-              "Umax": 1.0939182916729313e-5,
-              "PulseTime": 0.010933333333333333
-            },
-            {
-              "Version": 1,
-              "Number": 1,
-              "BearingCapacity": 23805514,
-              "Fmax": 6593.911090229871,
-              "Umax": 0.001299576477906441,
-              "PulseTime": 0.016933333333333335
-            },
-            {
-              "Version": 1,
-              "Number": 2,
-              "BearingCapacity": 24043211,
-              "Fmax": 6723.086912316361,
-              "Umax": 0.0013098155768479437,
-              "PulseTime": 0.016800000000000002
+              "Stifness": 24408501,
+              "Fmax": 7917.608208544194,
+              "Umax": 3.243791151475736e-4,
+              "Time pulse": 0.015266666666666668
             }
           ]
         },
         {
           "Point": {
             "Version": 1,
-            "ID": "3",
+            "ID": "3F",
             "Number": 3,
-            "Date": "2022-03-09T14:46:17.000Z",
-            "BearingCapacity": 22247364,
-            "Latitude": 48.62148918,
-            "Longitude": 2.42013912,
-            "DOP": 0.5734200477600098,
+            "Date": "2022-05-02T10:04:31.000Z",
+            "Stifness": 24779496,
+            "Latitude": 48.6217259,
+            "Longitude": 2.4202735,
+            "DOP": 10.40999984741211,
             "Comments": ""
           },
           "Drops": [
             {
               "Version": 1,
               "Number": 0,
-              "BearingCapacity": 26910594,
-              "Fmax": 5387.877500380659,
-              "Umax": 9.207947681169312e-4,
-              "PulseTime": 0.01626666666666667
-            },
-            {
-              "Version": 1,
-              "Number": 1,
-              "BearingCapacity": 22156853,
-              "Fmax": 6909.245144929625,
-              "Umax": 0.0014802427775920184,
-              "PulseTime": 0.016466666666666668
-            },
-            {
-              "Version": 1,
-              "Number": 2,
-              "BearingCapacity": 22337875,
-              "Fmax": 6965.506788155548,
-              "Umax": 0.001478243660519249,
-              "PulseTime": 0.0164
+              "Stifness": 24779496,
+              "Fmax": 7810.184337520185,
+              "Umax": 3.1518736419855177e-4,
+              "Time pulse": 0.0152
             }
           ]
         },
         {
           "Point": {
             "Version": 1,
-            "ID": "4",
+            "ID": "40",
             "Number": 4,
-            "Date": "2022-03-09T14:46:44.000Z",
-            "BearingCapacity": 21460735,
-            "Latitude": 48.62148992,
-            "Longitude": 2.42015092,
-            "DOP": 0.6399399638175964,
+            "Date": "2022-05-02T10:04:35.000Z",
+            "Stifness": 24785368,
+            "Latitude": 48.6217271,
+            "Longitude": 2.4202704,
+            "DOP": 9.289999961853027,
             "Comments": ""
           },
           "Drops": [
             {
               "Version": 1,
               "Number": 0,
-              "BearingCapacity": 25083390,
-              "Fmax": 6808.378913911736,
-              "Umax": 0.0012626908850171426,
-              "PulseTime": 0.0164
-            },
+              "Stifness": 24785368,
+              "Fmax": 7662.706457616931,
+              "Umax": 3.09162496133083e-4,
+              "Time pulse": 0.015333333333333334
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "41",
+            "Number": 5,
+            "Date": "2022-05-02T10:04:45.000Z",
+            "Stifness": 24539379,
+            "Latitude": 48.6217275,
+            "Longitude": 2.4202686,
+            "DOP": 31.550601959228516,
+            "Comments": ""
+          },
+          "Drops": [
             {
               "Version": 1,
-              "Number": 1,
-              "BearingCapacity": 20746600,
-              "Fmax": 7204.5608407239115,
-              "Umax": 0.0016661745451573002,
-              "PulseTime": 0.016133333333333333
-            },
+              "Number": 0,
+              "Stifness": 24539379,
+              "Fmax": 7821.624617146025,
+              "Umax": 3.187376741691242e-4,
+              "Time pulse": 0.015333333333333334
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "42",
+            "Number": 6,
+            "Date": "2022-05-02T10:05:00.000Z",
+            "Stifness": 24660437,
+            "Latitude": 48.6217281,
+            "Longitude": 2.420268,
+            "DOP": 9.84000015258789,
+            "Comments": ""
+          },
+          "Drops": [
             {
               "Version": 1,
-              "Number": 2,
-              "BearingCapacity": 22174870,
-              "Fmax": 7141.813589456492,
-              "Umax": 0.001528622985163364,
-              "PulseTime": 0.016066666666666667
+              "Number": 0,
+              "Stifness": 24660437,
+              "Fmax": 7901.128166316724,
+              "Umax": 3.203969129968235e-4,
+              "Time pulse": 0.015266666666666668
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "43",
+            "Number": 7,
+            "Date": "2022-05-02T10:05:02.000Z",
+            "Stifness": 24680509,
+            "Latitude": 48.6217276,
+            "Longitude": 2.4202685,
+            "DOP": 10.212499618530273,
+            "Comments": ""
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 0,
+              "Stifness": 24680509,
+              "Fmax": 7877.771745134916,
+              "Umax": 3.1918999563958623e-4,
+              "Time pulse": 0.0152
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "44",
+            "Number": 8,
+            "Date": "2022-05-02T10:05:06.000Z",
+            "Stifness": 25062638,
+            "Latitude": 48.6217276,
+            "Longitude": 2.4202685,
+            "DOP": 10.212499618530273,
+            "Comments": ""
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 0,
+              "Stifness": 25062638,
+              "Fmax": 7895.645170076447,
+              "Umax": 3.150364719121408e-4,
+              "Time pulse": 0.0152
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "45",
+            "Number": 9,
+            "Date": "2022-05-02T10:05:08.000Z",
+            "Stifness": 24905222,
+            "Latitude": 48.6217271,
+            "Longitude": 2.420269,
+            "DOP": 11.336599349975586,
+            "Comments": ""
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 0,
+              "Stifness": 24905222,
+              "Fmax": 7866.627461130431,
+              "Umax": 3.1586255882606114e-4,
+              "Time pulse": 0.0152
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "46",
+            "Number": 10,
+            "Date": "2022-05-02T10:05:10.000Z",
+            "Stifness": 24927870,
+            "Latitude": 48.6217271,
+            "Longitude": 2.420269,
+            "DOP": 11.336599349975586,
+            "Comments": ""
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 0,
+              "Stifness": 24927870,
+              "Fmax": 7929.217116593618,
+              "Umax": 3.180864275800857e-4,
+              "Time pulse": 0.0152
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "47",
+            "Number": 11,
+            "Date": "2022-05-02T10:05:13.000Z",
+            "Stifness": 25315191,
+            "Latitude": 48.6217269,
+            "Longitude": 2.4202692,
+            "DOP": 12.087699890136719,
+            "Comments": ""
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 0,
+              "Stifness": 25315191,
+              "Fmax": 7660.5812177011685,
+              "Umax": 3.026080694454197e-4,
+              "Time pulse": 0.015266666666666668
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "48",
+            "Number": 12,
+            "Date": "2022-05-02T10:05:15.000Z",
+            "Stifness": 25127775,
+            "Latitude": 48.6217269,
+            "Longitude": 2.4202692,
+            "DOP": 12.087699890136719,
+            "Comments": ""
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 0,
+              "Stifness": 25127775,
+              "Fmax": 7561.360709358389,
+              "Umax": 3.0091644073071357e-4,
+              "Time pulse": 0.015266666666666668
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "49",
+            "Number": 13,
+            "Date": "2022-05-02T10:05:17.000Z",
+            "Stifness": 25127574,
+            "Latitude": 48.6217269,
+            "Longitude": 2.4202692,
+            "DOP": 12.433099746704102,
+            "Comments": ""
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 0,
+              "Stifness": 25127574,
+              "Fmax": 7858.472951697074,
+              "Umax": 3.1274300072537043e-4,
+              "Time pulse": 0.0152
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "4A",
+            "Number": 14,
+            "Date": "2022-05-02T10:05:20.000Z",
+            "Stifness": 25489136,
+            "Latitude": 48.6217269,
+            "Longitude": 2.4202692,
+            "DOP": 12.433099746704102,
+            "Comments": ""
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 0,
+              "Stifness": 25489136,
+              "Fmax": 7856.274260069647,
+              "Umax": 3.082204912050814e-4,
+              "Time pulse": 0.015266666666666668
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "4B",
+            "Number": 15,
+            "Date": "2022-05-02T10:05:24.000Z",
+            "Stifness": 25565113,
+            "Latitude": 48.6217245,
+            "Longitude": 2.4202711,
+            "DOP": 10.40999984741211,
+            "Comments": ""
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 0,
+              "Stifness": 25565113,
+              "Fmax": 7877.760416548663,
+              "Umax": 3.081449364539576e-4,
+              "Time pulse": 0.015266666666666668
             }
           ]
         }
@@ -260,335 +445,738 @@
     {
       "PV": {
         "Version": 1,
-        "Name": "parking",
-        "Date": "2022-03-09T14:48:57.000Z",
+        "Name": "4s1p",
+        "Date": "2022-05-02T10:00:48.000Z",
         "Operator": "John Doe",
-        "Lane": "na",
-        "Sens": "na",
-        "Site": "parking",
-        "Weather": "beau",
+        "Lane": "",
+        "Sens": "",
+        "Site": "",
+        "Weather": "",
         "Temperature": 0,
         "Comments": "Commentaires"
       },
       "Plateform": {
         "Version": 1,
-        "Type": "Bâtiment",
-        "Support": "Plateforme",
-        "Layer": "Fond de forme",
-        "Material": "Grave traitée",
-        "GTR": "B5"
+        "Type": "",
+        "Support": "",
+        "Layer": "",
+        "Material": "",
+        "GTR": "N.S"
       },
-      "Threshold": { "Version": 1, "Class": "PF4", "Threshold": 200000000 },
+      "Threshold": { "Version": 1, "Class": "N.S", "Threshold": 0 },
       "Points": [
         {
           "Point": {
             "Version": 1,
-            "ID": "5",
+            "ID": "2E",
             "Number": 1,
-            "Date": "2022-03-09T14:49:07.000Z",
-            "BearingCapacity": 22715423,
-            "Latitude": 48.621240875,
-            "Longitude": 2.4202136999999997,
-            "DOP": 0.45399999618530273,
+            "Date": "2022-05-02T10:01:29.000Z",
+            "Stifness": 30585439,
+            "Latitude": 48.6217275,
+            "Longitude": 2.4202686,
+            "DOP": 9.289999961853027,
             "Comments": ""
           },
           "Drops": [
             {
               "Version": 1,
               "Number": 0,
-              "BearingCapacity": 22447059,
-              "Fmax": 5832.045941209494,
-              "Umax": 0.0012306991968310224,
-              "PulseTime": 0.0172
-            },
-            {
-              "Version": 1,
-              "Number": 1,
-              "BearingCapacity": 22915644,
-              "Fmax": 6176.381976473389,
-              "Umax": 0.001272424014621071,
-              "PulseTime": 0.017
-            },
-            {
-              "Version": 1,
-              "Number": 2,
-              "BearingCapacity": 22515202,
-              "Fmax": 5998.766960718509,
-              "Umax": 0.0012614274489499884,
-              "PulseTime": 0.017
+              "Stifness": 30585439,
+              "Fmax": 8160.097841101463,
+              "Umax": 2.6679681587525687e-4,
+              "Time pulse": 0.015000000000000001
             }
           ]
         },
         {
           "Point": {
             "Version": 1,
-            "ID": "6",
+            "ID": "2F",
             "Number": 2,
-            "Date": "2022-03-09T14:50:02.000Z",
-            "BearingCapacity": 22364789,
-            "Latitude": 48.62111426,
-            "Longitude": 2.42016466,
-            "DOP": 0.7018599510192871,
+            "Date": "2022-05-02T10:01:36.000Z",
+            "Stifness": 30690341,
+            "Latitude": 48.6217284,
+            "Longitude": 2.4202681,
+            "DOP": 9.030000686645508,
             "Comments": ""
           },
           "Drops": [
             {
               "Version": 1,
               "Number": 0,
-              "BearingCapacity": 23500765,
-              "Fmax": 6273.215935034184,
-              "Umax": 0.001255033884572378,
-              "PulseTime": 0.016800000000000002
-            },
-            {
-              "Version": 1,
-              "Number": 1,
-              "BearingCapacity": 22237163,
-              "Fmax": 6252.619347714199,
-              "Umax": 0.0013339428541585456,
-              "PulseTime": 0.016666666666666666
-            },
-            {
-              "Version": 1,
-              "Number": 2,
-              "BearingCapacity": 22492415,
-              "Fmax": 6342.648234702763,
-              "Umax": 0.0013353104581334627,
-              "PulseTime": 0.016733333333333333
+              "Stifness": 30690341,
+              "Fmax": 7963.23883272834,
+              "Umax": 2.5947052286722096e-4,
+              "Time pulse": 0.015066666666666667
             }
           ]
         },
         {
           "Point": {
             "Version": 1,
-            "ID": "7",
+            "ID": "30",
             "Number": 3,
-            "Date": "2022-03-09T14:50:19.000Z",
-            "BearingCapacity": 2.15005685e7,
-            "Latitude": 48.621137780000005,
-            "Longitude": 2.4201871200000005,
-            "DOP": 0.8022001385688782,
+            "Date": "2022-05-02T10:01:38.000Z",
+            "Stifness": 30903494,
+            "Latitude": 48.6217287,
+            "Longitude": 2.4202689,
+            "DOP": 7.759999752044678,
             "Comments": ""
           },
           "Drops": [
             {
               "Version": 1,
               "Number": 0,
-              "BearingCapacity": 21582844,
-              "Fmax": 5290.17669114819,
-              "Umax": 0.0011684971203844078,
-              "PulseTime": 0.0172
-            },
-            {
-              "Version": 1,
-              "Number": 1,
-              "BearingCapacity": 21105663,
-              "Fmax": 5921.364883394106,
-              "Umax": 0.0013423618244041541,
-              "PulseTime": 0.017
-            },
-            {
-              "Version": 1,
-              "Number": 2,
-              "BearingCapacity": 21895474,
-              "Fmax": 6313.951471566048,
-              "Umax": 0.0013715014994854695,
-              "PulseTime": 0.016933333333333335
+              "Stifness": 30903494,
+              "Fmax": 8256.765370338075,
+              "Umax": 2.6717901754916897e-4,
+              "Time pulse": 0.015000000000000001
             }
           ]
         },
         {
           "Point": {
             "Version": 1,
-            "ID": "8",
+            "ID": "31",
             "Number": 4,
-            "Date": "2022-03-09T14:50:44.000Z",
-            "BearingCapacity": 21827064,
-            "Latitude": 48.62118472499999,
-            "Longitude": 2.420236075,
-            "DOP": 0.8662750124931335,
+            "Date": "2022-05-02T10:01:40.000Z",
+            "Stifness": 30066748,
+            "Latitude": 48.6217287,
+            "Longitude": 2.4202689,
+            "DOP": 7.759999752044678,
             "Comments": ""
           },
           "Drops": [
             {
               "Version": 1,
               "Number": 0,
-              "BearingCapacity": 21567041,
-              "Fmax": 5897.931062145624,
-              "Umax": 0.0013038482662384454,
-              "PulseTime": 0.017066666666666667
-            },
-            {
-              "Version": 1,
-              "Number": 1,
-              "BearingCapacity": 22050344,
-              "Fmax": 6355.868144202749,
-              "Umax": 0.0013693378490397246,
-              "PulseTime": 0.017
-            },
-            {
-              "Version": 1,
-              "Number": 2,
-              "BearingCapacity": 21603784,
-              "Fmax": 6389.486868714158,
-              "Umax": 0.0014097228376581204,
-              "PulseTime": 0.016933333333333335
+              "Stifness": 30066748,
+              "Fmax": 8168.601500070982,
+              "Umax": 2.7168223950761836e-4,
+              "Time pulse": 0.015000000000000001
             }
           ]
         },
         {
           "Point": {
             "Version": 1,
-            "ID": "9",
+            "ID": "32",
             "Number": 5,
-            "Date": "2022-03-09T14:51:10.000Z",
-            "BearingCapacity": 4.207465055e8,
-            "Latitude": 48.621159925,
-            "Longitude": 2.420361025,
-            "DOP": 0.8672249913215637,
+            "Date": "2022-05-02T10:01:43.000Z",
+            "Stifness": 30153898,
+            "Latitude": 48.6217289,
+            "Longitude": 2.4202698,
+            "DOP": 7.759999752044678,
             "Comments": ""
           },
           "Drops": [
             {
               "Version": 1,
               "Number": 0,
-              "BearingCapacity": 248167007,
-              "Fmax": 7754.414886927197,
-              "Umax": 1.0009435499900363e-4,
-              "PulseTime": 0.015066666666666667
-            },
-            {
-              "Version": 1,
-              "Number": 1,
-              "BearingCapacity": 424590300,
-              "Fmax": 7751.093367340388,
-              "Umax": 5.3583425275860085e-5,
-              "PulseTime": 0.015066666666666667
-            },
-            {
-              "Version": 1,
-              "Number": 2,
-              "BearingCapacity": 416902711,
-              "Fmax": 7777.92788538477,
-              "Umax": 5.492354561357552e-5,
-              "PulseTime": 0.015000000000000001
+              "Stifness": 30153898,
+              "Fmax": 8304.547905685818,
+              "Umax": 2.7540544505300345e-4,
+              "Time pulse": 0.014866666666666667
             }
           ]
         },
         {
           "Point": {
             "Version": 1,
-            "ID": "A",
+            "ID": "33",
             "Number": 6,
-            "Date": "2022-03-09T14:51:36.000Z",
-            "BearingCapacity": 2.760684505e8,
-            "Latitude": 48.62116364,
-            "Longitude": 2.4203905800000003,
-            "DOP": 0.846579909324646,
+            "Date": "2022-05-02T10:01:45.000Z",
+            "Stifness": 29757671,
+            "Latitude": 48.6217289,
+            "Longitude": 2.4202698,
+            "DOP": 7.759999752044678,
             "Comments": ""
           },
           "Drops": [
             {
               "Version": 1,
               "Number": 0,
-              "BearingCapacity": 227003020,
-              "Fmax": 7872.212492815484,
-              "Umax": 1.1271242328607783e-4,
-              "PulseTime": 0.014933333333333333
-            },
-            {
-              "Version": 1,
-              "Number": 1,
-              "BearingCapacity": 210359778,
-              "Fmax": 7670.526368486966,
-              "Umax": 1.1999202721618329e-4,
-              "PulseTime": 0.015133333333333334
-            },
-            {
-              "Version": 1,
-              "Number": 2,
-              "BearingCapacity": 341777123,
-              "Fmax": 7411.371516290566,
-              "Umax": 6.593749684424884e-5,
-              "PulseTime": 0.015266666666666668
+              "Stifness": 29757671,
+              "Fmax": 8287.043519853647,
+              "Umax": 2.784842721669727e-4,
+              "Time pulse": 0.014933333333333333
             }
           ]
         },
         {
           "Point": {
             "Version": 1,
-            "ID": "B",
+            "ID": "34",
             "Number": 7,
-            "Date": "2022-03-09T14:52:08.000Z",
-            "BearingCapacity": 1.937252715e8,
-            "Latitude": 48.621305359999994,
-            "Longitude": 2.4203364,
-            "DOP": 0.7066599726676941,
+            "Date": "2022-05-02T10:01:47.000Z",
+            "Stifness": 30113868,
+            "Latitude": 48.6217292,
+            "Longitude": 2.4202702,
+            "DOP": 30.217199325561523,
             "Comments": ""
           },
           "Drops": [
             {
               "Version": 1,
               "Number": 0,
-              "BearingCapacity": 160913443,
-              "Fmax": 7668.824831058825,
-              "Umax": 1.6382132310900047e-4,
-              "PulseTime": 0.015133333333333334
-            },
-            {
-              "Version": 1,
-              "Number": 1,
-              "BearingCapacity": 178168263,
-              "Fmax": 7695.254420896189,
-              "Umax": 1.4602426814550615e-4,
-              "PulseTime": 0.015000000000000001
-            },
-            {
-              "Version": 1,
-              "Number": 2,
-              "BearingCapacity": 209282280,
-              "Fmax": 7776.18112481622,
-              "Umax": 1.223733643285902e-4,
-              "PulseTime": 0.015133333333333334
+              "Stifness": 30113868,
+              "Fmax": 8263.315912466118,
+              "Umax": 2.744023409903257e-4,
+              "Time pulse": 0.014933333333333333
             }
           ]
         },
         {
           "Point": {
             "Version": 1,
-            "ID": "C",
+            "ID": "35",
             "Number": 8,
-            "Date": "2022-03-09T14:52:31.000Z",
-            "BearingCapacity": 271648448,
-            "Latitude": 48.62130865,
-            "Longitude": 2.420262075,
-            "DOP": 0.9180999994277954,
+            "Date": "2022-05-02T10:01:50.000Z",
+            "Stifness": 30156046,
+            "Latitude": 48.6217292,
+            "Longitude": 2.4202702,
+            "DOP": 30.217199325561523,
             "Comments": ""
           },
           "Drops": [
             {
               "Version": 1,
               "Number": 0,
-              "BearingCapacity": 41607024,
-              "Fmax": 7452.603695708552,
-              "Umax": 7.673663173143661e-4,
-              "PulseTime": 0.0152
-            },
+              "Stifness": 30156046,
+              "Fmax": 8137.806610968305,
+              "Umax": 2.6985654606362396e-4,
+              "Time pulse": 0.015133333333333334
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "36",
+            "Number": 9,
+            "Date": "2022-05-02T10:01:55.000Z",
+            "Stifness": 30340970,
+            "Latitude": 48.6192547,
+            "Longitude": 2.4234816,
+            "DOP": 69.9999008178711,
+            "Comments": ""
+          },
+          "Drops": [
             {
               "Version": 1,
-              "Number": 1,
-              "BearingCapacity": 245553057,
-              "Fmax": 7665.741334472095,
-              "Umax": 1.0017561896216292e-4,
-              "PulseTime": 0.015133333333333334
-            },
+              "Number": 0,
+              "Stifness": 30340970,
+              "Fmax": 8174.192850019653,
+              "Umax": 2.6941105754992186e-4,
+              "Time pulse": 0.015066666666666667
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "37",
+            "Number": 10,
+            "Date": "2022-05-02T10:01:57.000Z",
+            "Stifness": 30081255,
+            "Latitude": 48.6192547,
+            "Longitude": 2.4234816,
+            "DOP": 69.9999008178711,
+            "Comments": ""
+          },
+          "Drops": [
             {
               "Version": 1,
-              "Number": 2,
-              "BearingCapacity": 297743839,
-              "Fmax": 7880.360850886729,
-              "Umax": 8.230597771053969e-5,
-              "PulseTime": 0.015066666666666667
+              "Number": 0,
+              "Stifness": 30081255,
+              "Fmax": 8173.817684399422,
+              "Umax": 2.7172462331282913e-4,
+              "Time pulse": 0.015133333333333334
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "38",
+            "Number": 11,
+            "Date": "2022-05-02T10:01:59.000Z",
+            "Stifness": 30307632,
+            "Latitude": 48.6217287,
+            "Longitude": 2.4202702,
+            "DOP": 8.25,
+            "Comments": ""
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 0,
+              "Stifness": 30307632,
+              "Fmax": 8187.534780268271,
+              "Umax": 2.7014762405440205e-4,
+              "Time pulse": 0.015133333333333334
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "39",
+            "Number": 12,
+            "Date": "2022-05-02T10:02:02.000Z",
+            "Stifness": 29843829,
+            "Latitude": 48.6217287,
+            "Longitude": 2.4202702,
+            "DOP": 8.25,
+            "Comments": ""
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 0,
+              "Stifness": 29843829,
+              "Fmax": 8228.146848244702,
+              "Umax": 2.757068061259316e-4,
+              "Time pulse": 0.015066666666666667
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "3A",
+            "Number": 13,
+            "Date": "2022-05-02T10:02:05.000Z",
+            "Stifness": 29969312,
+            "Latitude": 48.6217288,
+            "Longitude": 2.4202689,
+            "DOP": 8.505000114440918,
+            "Comments": ""
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 0,
+              "Stifness": 29969312,
+              "Fmax": 8207.244013889698,
+              "Umax": 2.738549314170639e-4,
+              "Time pulse": 0.015066666666666667
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "3B",
+            "Number": 14,
+            "Date": "2022-05-02T10:02:08.000Z",
+            "Stifness": 29756867,
+            "Latitude": 48.6217288,
+            "Longitude": 2.4202688,
+            "DOP": 8.25,
+            "Comments": ""
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 0,
+              "Stifness": 29756867,
+              "Fmax": 8163.350766953721,
+              "Umax": 2.743350162048566e-4,
+              "Time pulse": 0.015066666666666667
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "3C",
+            "Number": 15,
+            "Date": "2022-05-02T10:02:11.000Z",
+            "Stifness": 29855844,
+            "Latitude": 48.6217288,
+            "Longitude": 2.4202688,
+            "DOP": 8.25,
+            "Comments": ""
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 0,
+              "Stifness": 29855844,
+              "Fmax": 8132.325355289899,
+              "Umax": 2.723863750916642e-4,
+              "Time pulse": 0.015066666666666667
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "PV": {
+        "Version": 1,
+        "Name": "2s2p",
+        "Date": "2022-05-02T10:05:40.000Z",
+        "Operator": "John Doe",
+        "Lane": "",
+        "Sens": "",
+        "Site": "",
+        "Weather": "",
+        "Temperature": 0,
+        "Comments": "Commentaires"
+      },
+      "Plateform": {
+        "Version": 1,
+        "Type": "",
+        "Support": "",
+        "Layer": "",
+        "Material": "",
+        "GTR": "N.S"
+      },
+      "Threshold": { "Version": 1, "Class": "N.S", "Threshold": 0 },
+      "Points": [
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "4C",
+            "Number": 1,
+            "Date": "2022-05-02T10:08:26.000Z",
+            "Stifness": 11348841,
+            "Latitude": 48.621729,
+            "Longitude": 2.420274,
+            "DOP": 6.5,
+            "Comments": ""
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 0,
+              "Stifness": 11348841,
+              "Fmax": 7889.036870135424,
+              "Umax": 6.951402797668446e-4,
+              "Time pulse": 0.0146
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "4D",
+            "Number": 2,
+            "Date": "2022-05-02T10:08:29.000Z",
+            "Stifness": 11595803,
+            "Latitude": 48.621729,
+            "Longitude": 2.420274,
+            "DOP": 6.5,
+            "Comments": ""
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 0,
+              "Stifness": 11595803,
+              "Fmax": 7917.059555009206,
+              "Umax": 6.827521154412625e-4,
+              "Time pulse": 0.0146
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "4E",
+            "Number": 3,
+            "Date": "2022-05-02T10:08:31.000Z",
+            "Stifness": 11557498,
+            "Latitude": 48.6217292,
+            "Longitude": 2.4202755,
+            "DOP": 6.882499694824219,
+            "Comments": ""
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 0,
+              "Stifness": 11557498,
+              "Fmax": 7743.135617457708,
+              "Umax": 6.699663737082822e-4,
+              "Time pulse": 0.014733333333333334
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "4F",
+            "Number": 4,
+            "Date": "2022-05-02T10:08:34.000Z",
+            "Stifness": 11702819,
+            "Latitude": 48.6217292,
+            "Longitude": 2.4202755,
+            "DOP": 6.882499694824219,
+            "Comments": ""
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 0,
+              "Stifness": 11702819,
+              "Fmax": 7779.756048356381,
+              "Umax": 6.647762057692924e-4,
+              "Time pulse": 0.0148
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "50",
+            "Number": 5,
+            "Date": "2022-05-02T10:08:36.000Z",
+            "Stifness": 11680731,
+            "Latitude": 48.6217293,
+            "Longitude": 2.4202732,
+            "DOP": 9.024999618530273,
+            "Comments": ""
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 0,
+              "Stifness": 11680731,
+              "Fmax": 7865.562075058768,
+              "Umax": 6.733792401486975e-4,
+              "Time pulse": 0.0148
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "51",
+            "Number": 6,
+            "Date": "2022-05-02T10:08:39.000Z",
+            "Stifness": 11683121,
+            "Latitude": 48.6217293,
+            "Longitude": 2.4202732,
+            "DOP": 9.024999618530273,
+            "Comments": ""
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 0,
+              "Stifness": 11683121,
+              "Fmax": 7854.588109267941,
+              "Umax": 6.723021690365965e-4,
+              "Time pulse": 0.014666666666666668
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "52",
+            "Number": 7,
+            "Date": "2022-05-02T10:08:42.000Z",
+            "Stifness": 11760728,
+            "Latitude": 48.6217292,
+            "Longitude": 2.4202706,
+            "DOP": 8.760000228881836,
+            "Comments": ""
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 0,
+              "Stifness": 11760728,
+              "Fmax": 7951.384461582079,
+              "Umax": 6.760962575286e-4,
+              "Time pulse": 0.014733333333333334
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "53",
+            "Number": 8,
+            "Date": "2022-05-02T10:08:44.000Z",
+            "Stifness": 11831647,
+            "Latitude": 48.6217292,
+            "Longitude": 2.4202706,
+            "DOP": 8.760000228881836,
+            "Comments": ""
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 0,
+              "Stifness": 11831647,
+              "Fmax": 7882.718869529313,
+              "Umax": 6.662401836138685e-4,
+              "Time pulse": 0.014733333333333334
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "54",
+            "Number": 9,
+            "Date": "2022-05-02T10:08:46.000Z",
+            "Stifness": 11894826,
+            "Latitude": 48.621729,
+            "Longitude": 2.4202693,
+            "DOP": 8.25,
+            "Comments": ""
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 0,
+              "Stifness": 11894826,
+              "Fmax": 7935.896811931026,
+              "Umax": 6.671721524968833e-4,
+              "Time pulse": 0.014666666666666668
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "55",
+            "Number": 10,
+            "Date": "2022-05-02T10:08:48.000Z",
+            "Stifness": 11810312,
+            "Latitude": 48.621729,
+            "Longitude": 2.4202693,
+            "DOP": 8.25,
+            "Comments": ""
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 0,
+              "Stifness": 11810312,
+              "Fmax": 7789.145615555487,
+              "Umax": 6.595206918660885e-4,
+              "Time pulse": 0.014666666666666668
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "56",
+            "Number": 11,
+            "Date": "2022-05-02T10:08:50.000Z",
+            "Stifness": 11835532,
+            "Latitude": 48.621729,
+            "Longitude": 2.4202693,
+            "DOP": 8.25,
+            "Comments": ""
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 0,
+              "Stifness": 11835532,
+              "Fmax": 7756.705452710189,
+              "Umax": 6.553744291253159e-4,
+              "Time pulse": 0.014733333333333334
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "57",
+            "Number": 12,
+            "Date": "2022-05-02T10:08:53.000Z",
+            "Stifness": 11845652,
+            "Latitude": 48.621729,
+            "Longitude": 2.4202683,
+            "DOP": 30.48819923400879,
+            "Comments": ""
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 0,
+              "Stifness": 11845652,
+              "Fmax": 7754.134296017058,
+              "Umax": 6.545974878547468e-4,
+              "Time pulse": 0.0148
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "58",
+            "Number": 13,
+            "Date": "2022-05-02T10:08:55.000Z",
+            "Stifness": 11827771,
+            "Latitude": 48.621729,
+            "Longitude": 2.4202683,
+            "DOP": 30.48819923400879,
+            "Comments": ""
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 0,
+              "Stifness": 11827771,
+              "Fmax": 7691.954177347953,
+              "Umax": 6.503299774867325e-4,
+              "Time pulse": 0.014933333333333333
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "59",
+            "Number": 14,
+            "Date": "2022-05-02T10:08:57.000Z",
+            "Stifness": 11764495,
+            "Latitude": 48.6217289,
+            "Longitude": 2.4202682,
+            "DOP": 9.748300552368164,
+            "Comments": ""
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 0,
+              "Stifness": 11764495,
+              "Fmax": 7689.029419410243,
+              "Umax": 6.53579175824542e-4,
+              "Time pulse": 0.014733333333333334
+            }
+          ]
+        },
+        {
+          "Point": {
+            "Version": 1,
+            "ID": "5A",
+            "Number": 15,
+            "Date": "2022-05-02T10:08:59.000Z",
+            "Stifness": 11843144,
+            "Latitude": 48.6217287,
+            "Longitude": 2.4202677,
+            "DOP": 9.519100189208984,
+            "Comments": ""
+          },
+          "Drops": [
+            {
+              "Version": 1,
+              "Number": 0,
+              "Stifness": 11843144,
+              "Fmax": 7766.472703837932,
+              "Umax": 6.557778991567195e-4,
+              "Time pulse": 0.014866666666666667
             }
           ]
         }

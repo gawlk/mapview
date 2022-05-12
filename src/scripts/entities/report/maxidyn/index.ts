@@ -31,7 +31,7 @@ export const createMaxidynReportFromJSON = (
         ],
         stiffness: [createCustomThreshold(0)],
         deflection: [createCustomThreshold(0)],
-        force: [createCustomThreshold(0)],
+        load: [createCustomThreshold(0)],
         distance: [createCustomThreshold(0)],
         time: [createCustomThreshold(0)],
       },

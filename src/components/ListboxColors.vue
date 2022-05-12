@@ -1,6 +1,8 @@
 <script setup lang="ts">
   import { colorsClasses } from '/src/scripts'
 
+  import Listbox from './Listbox.vue'
+
   const emit = defineEmits<{
     (event: 'selectColor', value: ColorName): void
   }>()

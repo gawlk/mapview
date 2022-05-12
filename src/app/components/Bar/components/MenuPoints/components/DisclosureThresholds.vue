@@ -3,8 +3,7 @@
   import {
     setDisclosureOpenState,
     getDisclosureOpenState,
-    convertValueFromBaseUnitToCurrentUnit,
-    convertValueFromCurrentUnitToBaseUnit,
+    convertValueFromUnitAToUnitB,
     blend,
     colorsClasses,
   } from '/src/scripts'
@@ -21,6 +20,7 @@
   import ListboxColors from '/src/components/ListboxColors.vue'
   import Switch from '/src/components/Switch.vue'
   import Input from '/src/components/Input.vue'
+  import Divider from '/src/components/Divider.vue'
 
   const { t } = useI18n()
 
@@ -145,9 +145,10 @@
                 currentGroupedThresholds?.choices.selected &&
                 selectedDataLabel
               ) {
-                value = convertValueFromCurrentUnitToBaseUnit(
+                value = convertValueFromUnitAToUnitB(
                   value as number,
-                  selectedDataLabel.unit
+                  selectedDataLabel.unit.currentUnit,
+                  selectedDataLabel.unit.baseUnit
                 )
 
                 value =
@@ -260,9 +261,10 @@
                   selectedDataLabel &&
                   currentGroupedThresholds?.choices.selected?.kind === 'custom'
                 ) {
-                  value = convertValueFromCurrentUnitToBaseUnit(
+                  value = convertValueFromUnitAToUnitB(
                     value as number,
-                    selectedDataLabel.unit
+                    selectedDataLabel.unit.currentUnit,
+                    selectedDataLabel.unit.baseUnit
                   )
 
                   value =

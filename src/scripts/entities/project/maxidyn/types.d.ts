@@ -7,7 +7,7 @@ interface MaxidynMathUnitsSkeleton<A, B = A, C = A, D = A, E = A, F = A> {
   modulus: A
   stiffness: B
   deflection: C
-  force: D
+  load: D
   distance: E
   time: F
 }

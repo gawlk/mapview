@@ -39,15 +39,15 @@ export const createMinidynProjectFromJSON = async (
         currentUnit: jsonUnits.deflection,
       }
     ),
-    force: createMathUnit<PossibleMinidynForceUnits>(
-      'Force',
+    load: createMathUnit<PossibleMinidynForceUnits>(
+      'Load',
       'N',
       [
         ['N', 0],
         ['kN', 0],
       ],
       {
-        currentUnit: jsonUnits.force,
+        currentUnit: jsonUnits.load,
       }
     ),
     temperature: createMathUnit<PossibleMinidynTemperatureUnits>(
@@ -95,6 +95,12 @@ export const createMinidynProjectFromJSON = async (
 
   project.informations.push(
     ...json.informations.map((field: JSONField) =>
+      createMinidynFieldFromJSON(field)
+    )
+  )
+
+  project.hardware.push(
+    ...json.hardware.map((field: JSONField) =>
       createMinidynFieldFromJSON(field)
     )
   )

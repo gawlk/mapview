@@ -11,6 +11,7 @@
   import Button from '/src/components/Button.vue'
   import Listbox from '/src/components/Listbox.vue'
   import Popover from '/src/components/Popover.vue'
+  import Divider from '/src/components/Divider.vue'
 
   import Empty from './Empty.vue'
 

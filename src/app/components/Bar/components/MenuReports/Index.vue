@@ -7,6 +7,8 @@
   import DialogInformations from '/src/components/DialogInformations.vue'
 
   import store from '/src/store'
+
+  const { t } = useI18n()
 </script>
 
 <template>
@@ -18,14 +20,14 @@
       store.projects.selected?.reports.selected
         ? [
             {
-              title: 'Informations',
+              title: t('Informations'),
               fields: [
                 store.projects.selected.reports.selected.name,
                 ...store.projects.selected.reports.selected.informations,
               ],
             },
             {
-              title: 'Platform',
+              title: t('Platform'),
               fields: store.projects.selected.reports.selected.platform,
             },
           ]

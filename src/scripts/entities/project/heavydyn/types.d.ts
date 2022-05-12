@@ -5,7 +5,7 @@ interface HeavydynProject extends BaseProject {
 
 interface HeavydynMathUnitsSkeleton<A, B = A, C = A, D = A, E = A> {
   deflection: A
-  force: B
+  load: B
   temperature: C
   distance: D
   time: E

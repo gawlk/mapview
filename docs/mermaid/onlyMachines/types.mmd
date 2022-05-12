@@ -94,7 +94,7 @@ HeavydynProject <.. HeavydynReport
 class HeavydynUnits {
   <<interface>>
   deformation: MathUnit
-  force: MathUnit
+  load: MathUnit
   temperature: MathUnit
 }
 
@@ -103,7 +103,7 @@ class HeavydynUnits {
 class JSONHeavydynUnits {
   <<interface>>
   deformation: 'mm' | '1/100 mm' | 'um'
-  force: 'N' | 'kN' | 'lbs'
+  load: 'N' | 'kN' | 'lbs'
   temperature: 'degC' | 'degF' | 'K'
 }
 
@@ -121,7 +121,7 @@ class MaxidynUnits {
   <<interface>>
   modulus: MathUnit
   deformation: MathUnit
-  force: MathUnit
+  load: MathUnit
 }
 
 
@@ -130,7 +130,7 @@ class JSONMaxidynUnits {
   <<interface>>
   modulus: 'MPa' | 'kN'
   deformation: 'mm' | 'um'
-  force: 'N' | 'kN'
+  load: 'N' | 'kN'
 }
 
 
@@ -147,7 +147,7 @@ class MinidynUnits {
   <<interface>>
   modulus: MathUnit
   deformation: MathUnit
-  force: MathUnit
+  load: MathUnit
   temperature: MathUnit
 }
 
@@ -157,7 +157,7 @@ class JSONMinidynUnits {
   <<interface>>
   modulus: 'MPa' | 'kN'
   deformation: 'mm' | 'um'
-  force: 'N' | 'kN'
+  load: 'N' | 'kN'
 }
 
 
@@ -207,7 +207,7 @@ MachineReportCreatorParameters <|-- HeavydynReportCreatorParameters
 
 class HeavydynDropType {
   <<type>>
-  'Distance' | 'Force' | 'Time'
+  'Distance' | 'Load' | 'Time'
 }
 
 

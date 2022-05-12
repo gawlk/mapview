@@ -52,7 +52,7 @@
     ],
     "Drops": [
       { "Version": 1, "Name": "PulseTime", "Type": "Time", "Unit": "ms" },
-      { "Version": 1, "Name": "Fmax", "Type": "Force", "Unit": "kN" },
+      { "Version": 1, "Name": "Fmax", "Type": "Load", "Unit": "kN" },
       { "Version": 1, "Name": "Umax", "Type": "Deflection", "Unit": "mm" },
       {
         "Version": 1,

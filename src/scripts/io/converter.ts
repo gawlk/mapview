@@ -39,15 +39,17 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
     ((): JSONMachineDropIndex[] => {
       switch (machine) {
         case 'Heavydyn':
-          return json.Sequences.Steps.map((step: any): HeavydynDropIndex => {
-            return {
-              machine,
-              type: step.TypeDrop as HeavydynDropType,
-              displayedIndex: step.NumStep,
-              value: step.ValueDrop, // TODO: Display this and don't forget to convert it
-              // value: createMathNumber(step.ValueDrop as number, )
+          return json.Sequences.Steps.map(
+            (step: any): JSONHeavydynDropIndex => {
+              return {
+                machine,
+                type: step.TypeDrop as HeavydynDropType,
+                displayedIndex: step.NumStep,
+                value: step.ValueDrop,
+                unit: step.TypeDrop,
+              }
             }
-          })
+          )
         default:
           return Array(json.ParamsPoint.NbTotal)
             .fill(0)
@@ -84,10 +86,15 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
     units,
     images: [],
     informations: [],
+    hardware: [],
     reports: [],
   }
 
   project.informations = objectToJSONFields(json.Project)
+
+  project.hardware = objectToJSONFields(json.Hardware, {
+    readOnly: true,
+  })
 
   project.reports = json.PVs.map((jsonPV: any) => {
     const report: JSONReport = {
@@ -104,7 +111,7 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
             case 'Heavydyn':
               return {
                 deflection: 0,
-                force: 0,
+                load: 0,
                 temperature: 0,
                 distance: 0,
                 time: 0,
@@ -113,7 +120,7 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
               return {
                 modulus: 0,
                 deflection: 0,
-                force: 0,
+                load: 0,
                 distance: 0,
                 time: 0,
               } as MachineMathUnitsSkeleton<number>
@@ -121,7 +128,7 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
               return {
                 modulus: 0,
                 deflection: 0,
-                force: 0,
+                load: 0,
                 temperature: 0,
                 time: 0,
               } as MinidynMathUnitsSkeleton<number>
@@ -326,13 +333,36 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
   return project
 }
 
-const objectToJSONFields = (object: any): JSONField[] =>
+const objectToJSONFields = (
+  object: any,
+  settings: FieldSettings = {}
+): JSONField[] =>
   Object.entries(object)
-    .filter(([key]) => key !== 'Version' && key !== 'Name')
+    .filter(
+      ([key]) => key !== 'Version' && key !== 'Name' && key !== 'TypeBoard'
+    )
     .map(([key, value]) => {
       return {
-        label: key,
+        label: (() => {
+          switch (key) {
+            case 'Serial':
+              return 'Serial number'
+            case 'MAC':
+              return 'MAC address'
+            case 'LicStart':
+              return 'License start'
+            case 'LicEnd':
+              return 'License end'
+            case 'CertStart':
+              return 'Certificate start'
+            case 'CertEnd':
+              return 'Certificate end'
+            default:
+              return key
+          }
+        })(),
         value: value as string | number,
+        settings,
       }
     })
 
@@ -354,10 +384,10 @@ const convertUnits = (json: any, machine: MachineName): JSONMachineUnits => {
               return '1/100 mm'
           }
         })(),
-        force: ((): PossibleHeavydynForceUnits => {
+        load: ((): PossibleHeavydynForceUnits => {
           switch (
             (json.ExportedData.Drops as any[]).find(
-              (exportedUnit) => exportedUnit.Type === 'Force'
+              (exportedUnit) => exportedUnit.Type === 'Load'
             )?.Unit
           ) {
             case 'N':
@@ -438,10 +468,10 @@ const convertUnits = (json: any, machine: MachineName): JSONMachineUnits => {
               return 'um'
           }
         })(),
-        force: ((): PossibleMaxidynForceUnits | PossibleMinidynForceUnits => {
+        load: ((): PossibleMaxidynForceUnits | PossibleMinidynForceUnits => {
           switch (
             (json.ExportedData.Drops as any[]).find(
-              (exportedUnit) => exportedUnit.Type === 'Force'
+              (exportedUnit) => exportedUnit.Type === 'Load'
             )?.Unit
           ) {
             case 'N':

@@ -8,11 +8,17 @@ interface BaseField {
     | DateValue
     | LongString
     | SelectableString
+  settings: FieldSettings
 }
 
 interface JSONField {
   label: string
   value: boolean | number | string
+  settings: FieldSettings
+}
+
+interface FieldSettings {
+  readOnly?: true
 }
 
 interface SlidableNumber {
@@ -37,5 +43,4 @@ interface SelectableString {
   kind: 'selectableString'
   value: string
   possibleValues: string[]
-  strict: boolean
 }

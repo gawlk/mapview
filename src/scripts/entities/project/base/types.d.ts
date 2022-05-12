@@ -2,6 +2,7 @@ interface BaseProject {
   readonly machine: MachineName
   readonly name: MachineField
   readonly informations: MachineField[]
+  readonly hardware: MachineField[]
   readonly reports: SelectableList<MachineReport>
   readonly units: MachineMathUnits
   readonly settings: JSONProjectSettings
@@ -25,6 +26,7 @@ interface JSONProject {
   settings: JSONProjectSettings
   images: JSONImage[]
   informations: JSONField[]
+  hardware: JSONField[]
   reports: JSONReport[]
   units: JSONMachineUnits
 }

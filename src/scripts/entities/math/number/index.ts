@@ -1,6 +1,6 @@
 import { createUnit } from 'mathjs'
 
-import { convertValueFromBaseUnitToCurrentUnit } from '/src/scripts'
+import { convertValueFromUnitAToUnitB } from '/src/scripts'
 
 import { numberToLocaleString } from '/src/locales'
 
@@ -18,45 +18,53 @@ export const createMathNumber = (
     unit,
     displayedString: '',
     displayedStringWithUnit: '',
-    toDisplayedValue: function () {
-      const convertedValue = convertValueFromBaseUnitToCurrentUnit(
-        this.value,
-        this.unit
-      )
+    updateDisplayedStrings: function () {
+      this.displayedString = this.getLocaleString()
 
-      if (this.unit !== 'string') {
-        const mathUnit = this.unit as MathUnit
-
-        // We assume there is only one unit so there is no need to specify the unit of min and max displayed values
-
-        if (mathUnit.min && this.value < mathUnit.min) {
-          this.displayedString = `< ${numberToLocaleString(
-            convertValueFromBaseUnitToCurrentUnit(mathUnit.min, this.unit),
-            mathUnit.currentPrecision
-          )}`
-        } else if (mathUnit.max && this.value > mathUnit.max) {
-          this.displayedString = `> ${numberToLocaleString(
-            convertValueFromBaseUnitToCurrentUnit(mathUnit.max, this.unit),
-            mathUnit.currentPrecision
-          )}`
-        } else {
-          this.displayedString = numberToLocaleString(
-            convertedValue,
-            mathUnit.currentPrecision
-          )
-        }
-      } else {
-        this.displayedString = numberToLocaleString(Math.floor(convertedValue))
+      this.displayedStringWithUnit = this.getLocaleString({
+        appendUnitToString: true,
+      })
+    },
+    getLocaleString: function (options: MathNumberGetLocaleStringOptions = {}) {
+      const numberToLocaleOptions = {
+        locale: options.locale,
+        precision: options.precision,
       }
 
-      const unit =
-        typeof this.unit !== 'string' ? this.unit.currentUnit : this.unit
+      let value = this.value
+      let preString = ''
 
-      this.displayedStringWithUnit = `${this.displayedString} ${unit}`
+      if (typeof this.unit !== 'string') {
+        numberToLocaleOptions.precision ??= this.unit.currentPrecision
+
+        if (this.value < this.unit.min) {
+          value = this.unit.min
+          preString = '<'
+        } else if (this.value > this.unit.max) {
+          value = this.unit.max
+          preString = '>'
+        }
+
+        value = convertValueFromUnitAToUnitB(
+          value,
+          this.unit.baseUnit,
+          options.unit ?? this.unit.currentUnit
+        )
+      }
+
+      return `${
+        options.disablePreString ? '' : preString
+      } ${numberToLocaleString(value, numberToLocaleOptions)} ${
+        options.appendUnitToString
+          ? typeof this.unit !== 'string'
+            ? this.unit.currentUnit
+            : this.unit
+          : ''
+      }`.trim()
     },
   })
 
-  mathNumber.toDisplayedValue()
+  mathNumber.updateDisplayedStrings()
 
   return mathNumber
 }

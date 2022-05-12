@@ -1,6 +1,8 @@
 <script setup lang="ts">
   import IconSolidDocumentAdd from '~icons/heroicons-solid/document-add'
 
+  import Button from './Button.vue'
+
   const emit = defineEmits<{
     (event: 'input', value: FileList | null): void
   }>()
@@ -29,7 +31,7 @@
   <div>
     <div
       :class="state.dragging ? 'bg-gray-200' : 'bg-gray-100'"
-      class="group relative hidden h-[60vh] w-full cursor-pointer items-center justify-center rounded-lg p-1.5 transition-colors duration-200 hover:bg-gray-200 lg:block"
+      class="group relative hidden h-[55vh] w-full cursor-pointer items-center justify-center rounded-lg p-1.5 transition-colors duration-200 hover:bg-gray-200 lg:block"
     >
       <div
         :class="state.dragging ? 'border-gray-400' : 'border-gray-300'"

@@ -67,22 +67,11 @@ const convertCurrentUnitToMathJSUnit = (currentUnit: string) =>
     ? 'nlbs'
     : currentUnit
 
-export const convertValueFromBaseUnitToCurrentUnit = (
+export const convertValueFromUnitAToUnitB = (
   value: number,
-  unit: MathUnit | string
+  unitA: string,
+  unitB: string
 ) =>
-  typeof unit !== 'string'
-    ? Unit(value, convertCurrentUnitToMathJSUnit(unit.baseUnit)).toNumber(
-        convertCurrentUnitToMathJSUnit(unit.currentUnit)
-      )
-    : value
-
-export const convertValueFromCurrentUnitToBaseUnit = (
-  value: number,
-  unit: MathUnit | string
-) =>
-  typeof unit !== 'string'
-    ? Unit(value, convertCurrentUnitToMathJSUnit(unit.currentUnit)).toNumber(
-        convertCurrentUnitToMathJSUnit(unit.baseUnit)
-      )
-    : value
+  Unit(value, convertCurrentUnitToMathJSUnit(unitA)).toNumber(
+    convertCurrentUnitToMathJSUnit(unitB)
+  )

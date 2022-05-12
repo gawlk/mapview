@@ -1,6 +1,9 @@
 <script setup lang="ts">
   import { cloneDeep } from 'lodash-es'
 
+  import Input from './Input.vue'
+  import Dialog from './Dialog.vue'
+
   import IconInformationCircle from '~icons/heroicons-solid/information-circle'
 
   const { t } = useI18n()
@@ -103,6 +106,7 @@
                   ? field.value.strict
                   : undefined
               "
+              :disabled="field.settings.readOnly"
             />
           </div>
         </div>
@@ -114,4 +118,10 @@
 <i18n lang="yaml">
 fr:
   'View informations': 'Voir les informations'
+  'Serial number': 'Numéro de série'
+  'MAC address': 'Adresse MAC'
+  'License start': 'Début de la licence'
+  'License end': 'Fin de la licence'
+  'Certificate start': 'Début du certificat'
+  'Certificate end': 'Fin du certificat'
 </i18n>

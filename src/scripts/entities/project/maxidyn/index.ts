@@ -39,15 +39,15 @@ export const createMaxidynProjectFromJSON = async (
         currentUnit: jsonUnits.deflection,
       }
     ),
-    force: createMathUnit<PossibleMaxidynForceUnits>(
-      'Force',
+    load: createMathUnit<PossibleMaxidynForceUnits>(
+      'Load',
       'N',
       [
         ['N', 0],
         ['kN', 0],
       ],
       {
-        currentUnit: jsonUnits.force,
+        currentUnit: jsonUnits.load,
       }
     ),
     distance: createMathUnit<PossibleMaxidynDistanceUnits>(
@@ -95,6 +95,12 @@ export const createMaxidynProjectFromJSON = async (
 
   project.informations.push(
     ...json.informations.map((field: JSONField) =>
+      createMaxidynFieldFromJSON(field)
+    )
+  )
+
+  project.hardware.push(
+    ...json.hardware.map((field: JSONField) =>
       createMaxidynFieldFromJSON(field)
     )
   )

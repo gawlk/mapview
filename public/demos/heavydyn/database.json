@@ -27,8 +27,20 @@
       { "Version": 1, "Name": "Chainage", "Type": "Distance", "Unit": "m" }
     ],
     "Drops": [
-      { "Version": 1, "Name": "PulseTime", "Type": "Time", "Unit": "ms" },
-      { "Version": 1, "Name": "Load", "Type": "Force", "Unit": "kN" },
+      {
+        "Version": 1,
+        "Name": "PulseTime",
+        "SciName": "tp",
+        "Type": "Time",
+        "Unit": "ms"
+      },
+      {
+        "Version": 1,
+        "Name": "Load",
+        "SciName": "F",
+        "Type": "Load",
+        "Unit": "kN"
+      },
       {
         "Version": 1,
         "Name": "Deflections",
@@ -210,7 +222,7 @@
     "Version": 1,
     "Name": "FR-65KN",
     "Steps": [
-      { "Version": 1, "NumStep": 1, "ValueDrop": 0.1, "TypeDrop": "Height" },
+      { "Version": 1, "NumStep": 1, "ValueDrop": 0.1, "TypeDrop": "Distance" },
       { "Version": 1, "NumStep": 2, "ValueDrop": 60000.0, "TypeDrop": "Load" },
       { "Version": 1, "NumStep": 3, "ValueDrop": 60000.0, "TypeDrop": "Load" }
     ]

@@ -30,11 +30,11 @@
 
   const openDemo = async () => {
     const demoHeavydyn = await getDemoFile('heavydyn/demo.prjz')
-    const demoMaxidyn = await getDemoFile('maxidyn/demo.prjz')
+    // const demoMaxidyn = await getDemoFile('maxidyn/demo.prjz')
     const demoMinidyn = await getDemoFile('minidyn/demo.dynz')
 
     const projectHeavydyn = await importFile(demoHeavydyn)
-    const projectMaxidyn = await importFile(demoMaxidyn)
+    // const projectMaxidyn = await importFile(demoMaxidyn)
     const projectMinidyn = await importFile(demoMinidyn)
 
     store.projects.selected = projectHeavydyn

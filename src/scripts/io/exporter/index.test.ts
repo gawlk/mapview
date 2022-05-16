@@ -1,7 +1,34 @@
-import { assert, describe, expect, it } from 'vitest'
+import { assert, describe, expect, it, vi } from 'vitest'
+import * as fs from 'fs'
+import { Unzipped, unzipSync } from 'fflate'
+import { convertJSONFromPRJZToMPVZ } from '../converter'
+import { generateProjectFromJSON } from '../importer'
+import { JSDOM } from 'jsdom'
+
+const getProject = async () => {
+  const buffer = fs.readFileSync(__dirname + '/MR.prjz')
+  const zip = unzipSync(new Uint8Array(buffer))
+  const jsonUint = zip['database.json']
+
+  const importedJSON: any = JSON.parse(new TextDecoder().decode(jsonUint))
+  const jsonProject = convertJSONFromPRJZToMPVZ(importedJSON)
+
+  const project = await generateProjectFromJSON(jsonProject)
+  return project
+}
+
+global.navigator = {
+  agent: 'Windows',
+  language: 'en-US',
+}
+
+const { document } = new JSDOM(`<!DOCTYPE html><p>Hello world</p>`).window
+global.document = document
 
 describe('suite name', () => {
-  it('foo', () => {
+  it('foo', async () => {
+    const project = await getProject()
+    console.log('project', project)
     expect(1 + 1).toEqual(2)
     expect(true).to.be.true
   })

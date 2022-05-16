@@ -53,7 +53,7 @@ export const importFile = async (file: File) => {
   }
 }
 
-const generateProjectFromJSON = async (
+export const generateProjectFromJSON = async (
   json: JSONProject
 ): Promise<MachineProject | null> => {
   const map = store.map as mapboxgl.Map

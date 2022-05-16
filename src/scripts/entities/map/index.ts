@@ -15,7 +15,7 @@ export const mapStyles = [
 export const createMap = (container: string): mapboxgl.Map => {
   const map = new Map({
     container,
-    style: window.navigator.onLine
+    style: navigator?.onLine
       ? mapStyles[store.projects.selected?.settings.map?.styleIndex || 0]
       : { version: 8, sources: {}, layers: [] },
     center: [2.419263, 48.621551], // [lng, lat]
@@ -25,7 +25,7 @@ export const createMap = (container: string): mapboxgl.Map => {
       'pk.eyJ1Ijoia2dhd2xpayIsImEiOiJjam1nMHE0Z2kwaTMzM3FwYTc0eDd1N2g0In0.eAfnfMMVkmrAiwj5RdUKYw',
   }).addControl(new NavigationControl(), 'top-left')
 
-  if (!window.navigator.onLine) {
+  if (navigator?.onLine) {
     window.addEventListener(
       'online',
       () => {
@@ -39,7 +39,7 @@ export const createMap = (container: string): mapboxgl.Map => {
     )
   }
 
-  if (navigator.geolocation) {
+  if (navigator?.geolocation) {
     const marker = new Marker({
       element: createSVGElement(SVGUserCircle),
     })

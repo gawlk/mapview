@@ -84,7 +84,10 @@
           @click="toggleReport(report)"
         />
         <Button
-          v-if="store.projects.selected?.reports.list.length > 1"
+          v-if="
+            store.projects.selected &&
+            store.projects.selected.reports.list.length > 1
+          "
           :icon="IconTrash"
           @click="deleteReport(index)"
         />

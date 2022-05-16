@@ -7,6 +7,7 @@ interface BaseProject {
   readonly units: MachineMathUnits
   readonly settings: JSONProjectSettings
   readonly images: Image[]
+  readonly channels: JSONChannel[]
   refreshLinesAndImages: () => void
   setMapStyle: (styleIndex: number) => void
   fitOnMap: () => void
@@ -29,6 +30,7 @@ interface JSONProject {
   hardware: JSONField[]
   reports: JSONReport[]
   units: JSONMachineUnits
+  channels: JSONChannel[]
 }
 
 type MachineName = 'Heavydyn' | 'Maxidyn' | 'Minidyn'
@@ -51,4 +53,11 @@ type PointsState = 'value' | 'number' | 'nothing'
 interface MathUnitWithThresholds {
   unit: MathUnit
   thresholds: AnyThreshold[]
+}
+
+interface JSONChannel {
+  name: string
+  position: string
+  gain: number
+  acquisition: number
 }

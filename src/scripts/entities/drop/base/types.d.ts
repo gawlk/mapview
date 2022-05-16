@@ -2,6 +2,7 @@ interface BaseDrop {
   index: MachineDropIndex
   data: DataValue[]
   additionnalFields: MachineField[]
+  point: MachinePoint
 }
 
 interface JSONDrop {

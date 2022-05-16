@@ -1,6 +1,7 @@
 interface HeavydynProject extends BaseProject {
   readonly machine: 'Heavydyn'
   readonly reports: SelectableList<HeavydynReport>
+  readonly units: HeavydynMathUnits
 }
 
 interface HeavydynMathUnitsSkeleton<A, B = A, C = A, D = A, E = A> {

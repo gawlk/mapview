@@ -33,12 +33,36 @@
   const groupFrom = computed(
     () => selectedTableDataLabelsParameters.value?.group.from
   )
+
+  const movePointToZoneIndex = (point: MachinePoint, zoneIndex: number) => {
+    const zones = selectedReport.value?.zones as MachineZone[] | undefined
+
+    zones?.some((zone) => {
+      const index = (zone.points as MachinePoint[]).findIndex(
+        (_point) => _point === point
+      )
+
+      if (index !== -1) {
+        zone.points.splice(index, 1)
+        ;(zones[zoneIndex].points as MachinePoint[]).push(point)
+        point.zone = zones[zoneIndex]
+
+        return true
+      } else {
+        return false
+      }
+    })
+
+    // (index) => (
+    //       selectedReport.zones.map((zone) => zone.name)
+    //       point.zone = selectedReport?.zones[index])
+  }
 </script>
 
 <template>
-  <tr class="odd:bg-gray-50">
+  <tr class="odd:bg-gray-100">
     <td
-      v-if="selectedReport?.settings.groupBy === 'Nothing'"
+      v-if="selectedReport?.settings.groupBy === 'Number'"
       class="border-2 border-gray-100 bg-gray-100 px-1 text-right"
     >
       <Button sm :icon="IconHand" class="handle" />
@@ -48,9 +72,9 @@
       class="border-2 border-gray-100 bg-gray-100 px-1 text-right"
     >
       <Select
-        :selected="(selectedReport.zones as MachineZone[]).find((zone) => (zone.points as MachinePoint[]).find((_point) => _point === point))?.name"
+        :selected="point.zone.name"
         :values="selectedReport.zones.map((zone) => zone.name) || []"
-        @selectIndex="(index) => (point.zone = selectedReport?.zones[index])"
+        @selectIndex="(index) => movePointToZoneIndex(point, index)"
       />
     </td>
     <td
@@ -60,6 +84,7 @@
           zoom: 20,
         })
       "
+      :style="`background-color: ${point.icon.color}44`"
       class="cursor-pointer border-2 border-gray-100 px-2 font-bold"
       :class="[!props.point.settings.isVisible && 'opacity-0']"
     >
@@ -77,13 +102,13 @@
     </td>
     <td
       v-for="dataLabel of selectedTableDataLabelsParameters?.dataLabels"
-      :class="!props.point.settings.isVisible && 'italic opacity-50'"
-      :style="
+      :class="[!props.point.settings.isVisible && 'italic opacity-50']"
+      :style="`background-color: ${point.icon.color}${
         matchingGroupAndIndex &&
         dataLabels?.groups.selected?.choices.selected === dataLabel
-          ? `background-color: ${point.icon.color}88;`
-          : ''
-      "
+          ? '88'
+          : '44'
+      };`"
       class="border-2 border-gray-100 px-2 text-right"
     >
       {{

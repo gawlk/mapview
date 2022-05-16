@@ -11,7 +11,7 @@ import SVGRotate from '/src/assets/svg/custom/rotate.svg?raw'
 
 export const createImage = async (
   data64: string,
-  map: mapboxgl.Map,
+  map: mapboxgl.Map | null,
   parameters: JSONImage
 ): Promise<Image> => {
   const id = `image-${parameters.name}-${+new Date()}_${Math.random()}`
@@ -35,9 +35,9 @@ export const createImage = async (
     ],
   }
 
-  const markerNW = createMarker(nw, map)
+  const markerNW = createMarker(nw)
 
-  const markerSE = createMarker(se, map)
+  const markerSE = createMarker(se)
 
   const watcherHandler = createWatcherHandler()
 
@@ -48,14 +48,14 @@ export const createImage = async (
     markerSE,
     opacity: parameters.opacity || 0.5,
     addToMap(areImagesVisible: boolean): void {
-      if (areImagesVisible) {
+      if (areImagesVisible && map) {
         markerNW.addTo(map)
         markerSE.addTo(map)
       }
 
-      map.addSource(id, sourceData)
+      map?.addSource(id, sourceData)
 
-      map.addLayer(
+      map?.addLayer(
         {
           id,
           source: id,
@@ -68,7 +68,7 @@ export const createImage = async (
         'images'
       )
 
-      const source = map.getSource(id) as mapboxgl.ImageSource
+      const source = map?.getSource(id) as mapboxgl.ImageSource | undefined
 
       setImageCoordinates(markerNW, markerSE, source, width, height)
 
@@ -83,14 +83,16 @@ export const createImage = async (
         watch(
           () => image.opacity,
           (opacity: number) => {
-            map.setPaintProperty(id, 'raster-opacity', opacity)
+            map?.setPaintProperty(id, 'raster-opacity', opacity)
           }
         )
       )
     },
     remove: (): void => {
-      map.getLayer(id) && map.removeLayer(id)
-      map.getSource(id) && map.removeSource(id)
+      if (map) {
+        map.getLayer(id) && map.removeLayer(id)
+        map.getSource(id) && map.removeSource(id)
+      }
 
       markerNW.remove()
       markerSE.remove()
@@ -103,11 +105,24 @@ export const createImage = async (
 }
 
 const initialiseNWAndSECoords = async (
-  map: mapboxgl.Map
+  map: mapboxgl.Map | null
 ): Promise<{
   nw: LngLat
   se: LngLat
 }> => {
+  if (!map) {
+    return {
+      nw: {
+        lng: 0,
+        lat: 0,
+      },
+      se: {
+        lng: 0,
+        lat: 0,
+      },
+    }
+  }
+
   const center = map.getCenter()
   const bounds = map.getBounds()
 
@@ -140,7 +155,7 @@ const getImageDimensions = async (data64: string) =>
     }
   })
 
-const createMarker = (coordinates: LngLat, map: mapboxgl.Map) =>
+const createMarker = (coordinates: LngLat) =>
   new Marker({
     element: createSVGElement(SVGRotate),
   })
@@ -150,7 +165,7 @@ const createMarker = (coordinates: LngLat, map: mapboxgl.Map) =>
 const setImageCoordinates = (
   markerNW: mapboxgl.Marker,
   markerSE: mapboxgl.Marker,
-  sourceImage: mapboxgl.ImageSource,
+  sourceImage: mapboxgl.ImageSource | undefined,
   imageWidth: number,
   imageHeight: number
 ) => {
@@ -179,7 +194,7 @@ const setImageCoordinates = (
     [markerWGSTR.lng, markerWGSTR.lat],
   ]
 
-  sourceImage.setCoordinates(coordinates)
+  sourceImage?.setCoordinates(coordinates)
 }
 
 const getImageCoordinates = (

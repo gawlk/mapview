@@ -1,6 +1,9 @@
 import { createWatcherHandler } from '/src/scripts'
 
-export const createLine = (zones: MachineZone[], map: mapboxgl.Map): Line => {
+export const createLine = (
+  zones: MachineZone[],
+  map: mapboxgl.Map | null
+): Line => {
   const id = `line-${+new Date()}${Math.random()}`
 
   let features: GeoJSON.Feature<GeoJSON.Geometry, GeoJSON.GeoJsonProperties>[] =
@@ -9,16 +12,19 @@ export const createLine = (zones: MachineZone[], map: mapboxgl.Map): Line => {
   const watcherHandler = createWatcherHandler()
 
   const line: Line = {
-    sortedPoints: computed(
-      () =>
-        Array.prototype
-          .concat(...zones.map((zone) => zone.points))
-          .sort((pointA: MachinePoint, pointB: MachinePoint) => {
-            return pointA.number - pointB.number
-          }) as MachinePoint[]
+    sortedPoints: computed(() =>
+      Array.prototype
+        .concat(...zones.map((zone) => zone.points))
+        .sort((pointA: MachinePoint, pointB: MachinePoint) => {
+          return pointA.number - pointB.number
+        })
+        .map((point, index) => {
+          point.number = index + 1
+          return point
+        })
     ),
     addToMap: function () {
-      map.addLayer(
+      map?.addLayer(
         {
           id,
           layout: {
@@ -60,14 +66,16 @@ export const createLine = (zones: MachineZone[], map: mapboxgl.Map): Line => {
       )
     },
     remove: function (): void {
-      map.getLayer(id) && map.removeLayer(id)
-      map.getSource(id) && map.removeSource(id)
+      if (map) {
+        map.getLayer(id) && map.removeLayer(id)
+        map.getSource(id) && map.removeSource(id)
+      }
 
       watcherHandler.clean()
     },
     update: function (): void {
       const visiblePoints = this.sortedPoints.value.filter((point) =>
-        point.isOnMap()
+        point.checkVisibility()
       )
 
       features = []
@@ -94,7 +102,7 @@ export const createLine = (zones: MachineZone[], map: mapboxgl.Map): Line => {
         })
       }
 
-      ;(map.getSource(id) as mapboxgl.GeoJSONSource).setData({
+      ;(map?.getSource(id) as mapboxgl.GeoJSONSource).setData({
         type: 'FeatureCollection',
         features,
       })

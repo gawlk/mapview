@@ -16,7 +16,7 @@
 
   const state = reactive({
     pointStateSelected: 0,
-    pointStateValues: [t('Number'), t('Value'), t('Nothing')],
+    pointStateValues: [t('Number'), t('Value'), t('Empty')],
   })
 
   const setPointsState = (n: number) => {

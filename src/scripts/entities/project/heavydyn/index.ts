@@ -7,7 +7,7 @@ import {
 
 export const createHeavydynProjectFromJSON = async (
   json: JSONProject,
-  map: mapboxgl.Map
+  map: mapboxgl.Map | null
 ) => {
   const jsonUnits = json.units as JSONHeavydynUnits
 
@@ -88,8 +88,7 @@ export const createHeavydynProjectFromJSON = async (
   project.reports.list.push(
     ...json.reports.map((report) =>
       createHeavydynReportFromJSON(report, map, {
-        projectSettings: json.settings,
-        units,
+        project: project as HeavydynProject,
       })
     )
   )

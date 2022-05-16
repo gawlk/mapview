@@ -3,6 +3,7 @@ interface BaseZone {
   name: string
   readonly points: MachinePoint[]
   readonly settings: JSONZoneSettings
+  report: MachineReport
   init: () => void
   clean: () => void
 }

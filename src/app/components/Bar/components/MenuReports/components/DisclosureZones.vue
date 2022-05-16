@@ -54,14 +54,12 @@
           ? createMaxidynZoneFromJSON
           : createMinidynZoneFromJSON
 
-      ;(selectedReport.value.zones as MachineZone[]).push(
-        createZone(json, store.map, {
-          projectSettings: store.projects.selected.settings,
-          reportSettings: selectedReport.value.settings,
-          reportDataLabels: selectedReport.value.dataLabels,
-          reportThresholds: selectedReport.value.thresholds,
-        })
-      )
+      const zone = createZone(json, store.map, {
+        report: selectedReport.value,
+      })
+
+      zone.init()
+      ;(selectedReport.value.zones as MachineZone[]).push(zone)
     }
   }
 </script>
@@ -95,6 +93,8 @@
           @click="
             () => {
               (selectedReport?.zones[0].points as MachinePoint[]).push(...zone.points)
+
+              zone.clean()
 
               selectedReport?.zones.splice(index, 1)
             }

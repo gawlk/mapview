@@ -8,7 +8,7 @@ import {
 
 export const createMinidynReportFromJSON = (
   json: JSONReport,
-  map: mapboxgl.Map,
+  map: mapboxgl.Map | null,
   parameters: MinidynReportCreatorParameters
 ) => {
   const report: PartialMachineReport<MinidynReport> = createBaseReportFromJSON(
@@ -42,10 +42,7 @@ export const createMinidynReportFromJSON = (
   report.zones.push(
     ...json.zones.map((jsonZone) =>
       createMinidynZoneFromJSON(jsonZone, map, {
-        projectSettings: parameters.projectSettings,
-        reportSettings: report.settings,
-        reportDataLabels: report.dataLabels,
-        reportThresholds: report.thresholds,
+        report: report as MinidynReport,
       })
     )
   )

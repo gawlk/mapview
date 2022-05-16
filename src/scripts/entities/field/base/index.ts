@@ -61,7 +61,5 @@ export const createBaseFieldFromJSON = (
     settings: shallowReactive(settings),
   }
 
-  console.log(settings, field)
-
   return options?.reactive ? shallowReactive(field) : field
 }

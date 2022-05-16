@@ -3,7 +3,7 @@ import { createHeavydynDropFromJSON } from '/src/scripts'
 
 export const createHeavydynPointFromJSON = (
   json: JSONPoint,
-  map: mapboxgl.Map,
+  map: mapboxgl.Map | null,
   parameters: HeavydynPointCreatorParameters
 ) => {
   const point: PartialMachinePoint<HeavydynPoint> = createBasePointFromJSON(
@@ -15,10 +15,12 @@ export const createHeavydynPointFromJSON = (
     }
   )
 
-  point.drops = json.drops.map((jsonDrop) =>
-    createHeavydynDropFromJSON(jsonDrop, {
-      reportDataLabels: parameters.reportDataLabels,
-    })
+  point.drops.push(
+    ...json.drops.map((jsonDrop) =>
+      createHeavydynDropFromJSON(jsonDrop, {
+        point: point as HeavydynPoint,
+      })
+    )
   )
 
   return point as HeavydynPoint

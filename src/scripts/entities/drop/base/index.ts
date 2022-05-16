@@ -4,7 +4,7 @@ export const createBaseDropFromJSON = (
   json: JSONDrop,
   parameters: BaseDropCreatorParameters
 ): BaseDrop => {
-  const dropList = parameters.reportDataLabels.groups.list.find(
+  const dropList = parameters.point.zone.report.dataLabels.groups.list.find(
     (groupedDataLabels) => groupedDataLabels.from === 'Drop'
   ) as GroupedDataLabels
 
@@ -23,5 +23,6 @@ export const createBaseDropFromJSON = (
       }
     }),
     additionnalFields: [],
+    point: parameters.point,
   }
 }

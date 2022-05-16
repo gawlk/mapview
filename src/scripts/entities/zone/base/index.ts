@@ -9,10 +9,20 @@ export const createBaseZoneFromJSON = (
   return shallowReactive({
     machine: parameters.machine,
     name: json.name,
-    points: [] as MachinePoint[],
+    points: shallowReactive([] as MachinePoint[]),
     settings: shallowReactive(json.settings),
+    report: parameters.report,
     init: function () {
       this.points.forEach((point) => point.addToMap())
+
+      watcherHandler.add(
+        watch(
+          () => this.points.length,
+          () => {
+            this.points.sort((pointA, pointB) => pointA.number - pointB.number)
+          }
+        )
+      )
 
       watcherHandler.add(
         watch(

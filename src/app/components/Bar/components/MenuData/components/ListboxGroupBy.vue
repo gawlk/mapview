@@ -7,7 +7,7 @@
 
   const { t } = useI18n()
 
-  const possibilities: ReportGroupByPossibilities[] = ['Nothing', 'Zone']
+  const possibilities: ReportGroupByPossibilities[] = ['Number', 'Zone']
 
   const selectedReport = computed(
     () => store.projects.selected?.reports.selected
@@ -17,9 +17,9 @@
 <template>
   <Listbox
     :icon="IconViewGrid"
-    :values="[t('Nothing'), t('Zone')]"
+    :values="[t('Number'), t('Zone')]"
     :preSelected="`${t('Group by')}${t(':')}`"
-    :selected="t(selectedReport?.settings.groupBy)"
+    :selected="t(selectedReport?.settings.groupBy || '')"
     @selectIndex="
       (index) =>
         selectedReport &&

@@ -9,8 +9,8 @@ export const debounce = (
     latestArgs = args
 
     if (!timeoutId) {
-      timeoutId = window.setTimeout(() => {
-        callback.apply(null, latestArgs as [])
+      timeoutId = window.setTimeout(async () => {
+        await callback.apply(null, latestArgs as [])
 
         timeoutId = undefined
       }, wait)

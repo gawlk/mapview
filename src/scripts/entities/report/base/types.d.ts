@@ -9,6 +9,7 @@ interface BaseReport {
   readonly settings: JSONReportSettings
   readonly platform: MachineField[]
   readonly informations: MachineField[]
+  project: MachineProject
   isOnMap: boolean
   fitOnMap: () => void
   addToMap: () => void
@@ -51,7 +52,6 @@ interface ThresholdColors {
 
 interface BaseReportCreatorParameters extends MachineReportCreatorParameters {
   machine: MachineName
-  units: MachineMathUnits
   thresholds: MachineThresholds
   addToMap?: () => void
   remove?: () => void
@@ -107,7 +107,7 @@ interface JSONReportSettings {
 
 type ReportColorizationPossibilities = 'Threshold' | 'Zone'
 
-type ReportGroupByPossibilities = 'Nothing' | 'Zone'
+type ReportGroupByPossibilities = 'Number' | 'Zone'
 
 interface ThresholdColors {
   low: ColorName

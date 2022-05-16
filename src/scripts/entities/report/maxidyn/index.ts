@@ -8,7 +8,7 @@ import {
 
 export const createMaxidynReportFromJSON = (
   json: JSONReport,
-  map: mapboxgl.Map,
+  map: mapboxgl.Map | null,
   parameters: MaxidynReportCreatorParameters
 ) => {
   const report: PartialMachineReport<MaxidynReport> = createBaseReportFromJSON(
@@ -42,10 +42,7 @@ export const createMaxidynReportFromJSON = (
   report.zones.push(
     ...json.zones.map((jsonZone) =>
       createMaxidynZoneFromJSON(jsonZone, map, {
-        projectSettings: parameters.projectSettings,
-        reportSettings: report.settings,
-        reportDataLabels: report.dataLabels,
-        reportThresholds: report.thresholds,
+        report: report as MaxidynReport,
       })
     )
   )

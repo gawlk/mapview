@@ -1,6 +1,7 @@
 interface MaxidynProject extends BaseProject {
   readonly machine: 'Maxidyn'
   readonly reports: SelectableList<MaxidynReport>
+  readonly units: MaxidynMathUnits
 }
 
 interface MaxidynMathUnitsSkeleton<A, B = A, C = A, D = A, E = A, F = A> {

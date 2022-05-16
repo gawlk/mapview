@@ -92,7 +92,7 @@ const importImages = async (
     json.images.map(async (jsonImage) => {
       const array = zip[`images/${jsonImage.name}`]
 
-      if (array && store.map) {
+      if (array) {
         const data64 = Uint8ArrayToData64Image(
           array,
           jsonImage.name.split('.').pop() as string
@@ -102,7 +102,7 @@ const importImages = async (
           ...jsonImage,
         })
 
-        if (store.projects.selected === project && store.map.isStyleLoaded()) {
+        if (store.projects.selected === project && store.map?.isStyleLoaded()) {
           image.addToMap(store.projects.selected.settings.areImagesVisible)
         }
 

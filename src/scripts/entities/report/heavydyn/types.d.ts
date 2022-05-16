@@ -1,13 +1,14 @@
 interface HeavydynReport extends BaseReport {
   readonly machine: 'Heavydyn'
-  zones: HeavydynZone[]
+  readonly zones: HeavydynZone[]
   platform: HeavydynField[]
   informations: HeavydynField[]
+  project: HeavydynProject
 }
 
 interface HeavydynReportCreatorParameters
   extends MachineReportCreatorParameters {
-  units: HeavydynMathUnits
+  project: HeavydynProject
 }
 
 type HeavydynDropType = 'Distance' | 'Load' | 'Time' | 'Load' | 'Height'

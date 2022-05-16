@@ -18,7 +18,7 @@
   )
 
   onMounted(() => {
-    if (tbody && selectedReport.value?.settings.groupBy === 'Nothing') {
+    if (tbody && selectedReport.value?.settings.groupBy === 'Number') {
       new Sortable(tbody.value, {
         draggable: 'tr',
         handle: '.handle',

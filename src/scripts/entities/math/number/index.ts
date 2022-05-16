@@ -1,13 +1,6 @@
-import { createUnit } from 'mathjs'
-
 import { convertValueFromUnitAToUnitB } from '/src/scripts'
 
 import { numberToLocaleString } from '/src/locales'
-
-createUnit({
-  cmm: '10 um',
-  nlbs: '4.448221628250858 N',
-})
 
 export const createMathNumber = (
   value: number,

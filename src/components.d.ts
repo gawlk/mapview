@@ -9,6 +9,7 @@ declare module '@vue/runtime-core' {
     IconHeroiconsSolidCheck: typeof import('~icons/heroicons-solid/check')['default']
     IconHeroiconsSolidChevronDown: typeof import('~icons/heroicons-solid/chevron-down')['default']
     IconHeroiconsSolidChevronRight: typeof import('~icons/heroicons-solid/chevron-right')['default']
+    IconHeroiconsSolidDownload: typeof import('~icons/heroicons-solid/download')['default']
     IconHeroiconsSolidExclamationCircle: typeof import('~icons/heroicons-solid/exclamation-circle')['default']
     IconHeroiconsSolidSelector: typeof import('~icons/heroicons-solid/selector')['default']
     IconTablerBrandGitlab: typeof import('~icons/tabler/brand-gitlab')['default']

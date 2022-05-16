@@ -45,9 +45,10 @@
       `${
         currentGroupedThresholds.value?.choices.selected &&
         selectedDataLabel.value
-          ? convertValueFromBaseUnitToCurrentUnit(
+          ? convertValueFromUnitAToUnitB(
               currentGroupedThresholds.value.choices.selected.value,
-              selectedDataLabel.value.unit
+              selectedDataLabel.value.unit.baseUnit,
+              selectedDataLabel.value.unit.currentUnit
             ).toLocaleString()
           : '?'
       } ${selectedDataLabel.value?.unit.currentUnit}`
@@ -58,11 +59,12 @@
       `${
         currentGroupedThresholds.value?.choices.selected &&
         selectedDataLabel.value
-          ? convertValueFromBaseUnitToCurrentUnit(
+          ? convertValueFromUnitAToUnitB(
               currentGroupedThresholds.value.choices.selected.kind === 'custom'
                 ? currentGroupedThresholds.value.choices.selected.valueHigh
                 : currentGroupedThresholds.value.choices.selected.value,
-              selectedDataLabel.value.unit
+              selectedDataLabel.value.unit.baseUnit,
+              selectedDataLabel.value.unit.currentUnit
             )?.toLocaleString()
           : '?'
       } ${selectedDataLabel.value?.unit.currentUnit}`
@@ -73,7 +75,9 @@
   <Disclosure
     v-if="selectedReport"
     :icon="IconFold"
-    :text="`${t('Thresholds settings')} - ${t(selectedDataLabel?.unit.name)}`"
+    :text="`${t('Thresholds settings')} - ${t(
+      selectedDataLabel?.unit.name || ''
+    )}`"
     @click="(open) => setDisclosureOpenState(key, open)"
     :defaultOpen="getDisclosureOpenState(key, false)"
   >
@@ -92,7 +96,7 @@
               currentGroupedThresholds.choices.list[index])
         "
         :preSelected="`${t('Selected')}${t(':')}`"
-        :selected="t(currentGroupedThresholds?.choices.selected.name)"
+        :selected="t(currentGroupedThresholds?.choices.selected?.name || '')"
         full
       />
       <Divider
@@ -138,6 +142,7 @@
           "
         />
         <Input
+          v-if="selectedDataLabel"
           id="threshold-input"
           @input="
             (value) => {
@@ -171,9 +176,10 @@
           "
           :value="
             String(
-              convertValueFromBaseUnitToCurrentUnit(
+              convertValueFromUnitAToUnitB(
                 currentGroupedThresholds.choices.selected?.value,
-                selectedDataLabel?.unit
+                selectedDataLabel.unit.baseUnit,
+                selectedDataLabel.unit.currentUnit
               )
             )
           "
@@ -182,17 +188,19 @@
               ? 'range'
               : 'number'
           "
-          :step="selectedDataLabel?.unit.step"
+          :step="selectedDataLabel.unit.step"
           :min="
-            convertValueFromBaseUnitToCurrentUnit(
-              selectedDataLabel?.unit.min,
-              selectedDataLabel?.unit
+            convertValueFromUnitAToUnitB(
+              selectedDataLabel.unit.min,
+              selectedDataLabel.unit.baseUnit,
+              selectedDataLabel.unit.currentUnit
             )
           "
           :max="
-            convertValueFromBaseUnitToCurrentUnit(
-              selectedDataLabel?.unit.max,
-              selectedDataLabel?.unit
+            convertValueFromUnitAToUnitB(
+              selectedDataLabel.unit.max,
+              selectedDataLabel.unit.baseUnit,
+              selectedDataLabel.unit.currentUnit
             )
           "
         />
@@ -254,6 +262,7 @@
             "
           />
           <Input
+            v-if="selectedDataLabel"
             id="threshold-high-input"
             @input="
               (value) => {
@@ -287,9 +296,10 @@
             "
             :value="
               String(
-                convertValueFromBaseUnitToCurrentUnit(
+                convertValueFromUnitAToUnitB(
                   currentGroupedThresholds.choices.selected?.valueHigh,
-                  selectedDataLabel?.unit
+                  selectedDataLabel.unit.baseUnit,
+                  selectedDataLabel.unit.currentUnit
                 )
               )
             "
@@ -300,15 +310,17 @@
             "
             :step="selectedDataLabel?.unit.step"
             :min="
-              convertValueFromBaseUnitToCurrentUnit(
-                selectedDataLabel?.unit.min,
-                selectedDataLabel?.unit
+              convertValueFromUnitAToUnitB(
+                selectedDataLabel.unit.min,
+                selectedDataLabel.unit.baseUnit,
+                selectedDataLabel.unit.currentUnit
               )
             "
             :max="
-              convertValueFromBaseUnitToCurrentUnit(
-                selectedDataLabel?.unit.max,
-                selectedDataLabel?.unit
+              convertValueFromUnitAToUnitB(
+                selectedDataLabel.unit.max,
+                selectedDataLabel.unit.baseUnit,
+                selectedDataLabel.unit.currentUnit
               )
             "
           />

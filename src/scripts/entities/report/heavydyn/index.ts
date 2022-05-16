@@ -9,7 +9,7 @@ import {
 
 export const createHeavydynReportFromJSON = (
   json: JSONReport,
-  map: mapboxgl.Map,
+  map: mapboxgl.Map | null,
   parameters: HeavydynReportCreatorParameters
 ) => {
   const watcherHandler = createWatcherHandler()
@@ -21,7 +21,7 @@ export const createHeavydynReportFromJSON = (
   dropIndexes.forEach((jsonDropIndex: JSONHeavydynDropIndex) => {
     ;(jsonDropIndex as unknown as HeavydynDropIndex).value = createMathNumber(
       jsonDropIndex.value,
-      parameters.units[
+      parameters.project.units[
         jsonDropIndex.unit.toLocaleLowerCase() as keyof HeavydynMathUnits
       ]
     )
@@ -62,10 +62,7 @@ export const createHeavydynReportFromJSON = (
   report.zones.push(
     ...json.zones.map((jsonZone) =>
       createHeavydynZoneFromJSON(jsonZone, map, {
-        projectSettings: parameters.projectSettings,
-        reportSettings: report.settings,
-        reportDataLabels: report.dataLabels,
-        reportThresholds: report.thresholds,
+        report: report as HeavydynReport,
       })
     )
   )

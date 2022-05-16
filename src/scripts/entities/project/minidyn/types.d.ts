@@ -1,6 +1,7 @@
 interface MinidynProject extends BaseProject {
   readonly machine: 'Minidyn'
   readonly reports: SelectableList<MinidynReport>
+  readonly units: MinidynMathUnits
 }
 
 interface MinidynMathUnitsSkeleton<A, B = A, C = A, D = A, E = A, F = A> {

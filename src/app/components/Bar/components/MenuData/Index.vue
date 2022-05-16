@@ -28,7 +28,7 @@
     class="-mx-2"
   >
     <PointsTable
-      v-if="selectedReport?.settings.groupBy === 'Nothing'"
+      v-if="selectedReport?.settings.groupBy === 'Number'"
       :points="selectedReport.line.sortedPoints.value"
     />
     <div v-else class="border-t-2 border-gray-100">

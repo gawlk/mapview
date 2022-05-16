@@ -10,11 +10,11 @@
 
   const { t } = useI18n()
 
-  const openFiles = (files: FileList | null) => {
+  const openFiles = async (files: FileList | null) => {
     const file = files?.[0]
 
     if (file) {
-      importFile(file)
+      store.projects.selected = await importFile(file)
     }
   }
 
@@ -47,7 +47,7 @@
   <div class="space-y-2">
     <DragAndDrop
       @input="openFiles"
-      accept=".prjz, .mpvz"
+      accept=".prjz, .mpvz, .dynz"
       :buttonText="t('Open a file')"
     >
       {{ t('Drop a file here or click here to choose one') }}
@@ -61,8 +61,14 @@
       :leftIcon="IconSave"
       href="/public/demos/templates.zip"
       download
+      class="group inline-flex w-full cursor-pointer items-center space-x-2 rounded-lg bg-gray-100 py-2 px-4 text-sm font-medium leading-6 text-gray-900 transition-colors duration-200 hover:bg-gray-200 focus:outline-none focus:ring focus:ring-gray-50"
     >
-      {{ t('Download templates') }}
+      <IconHeroiconsSolidDownload
+        class="h-5 w-5 text-gray-400 group-hover:text-gray-500"
+      />
+      <span>
+        {{ t('Download templates') }}
+      </span>
     </a>
   </div>
 </template>

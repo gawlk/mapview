@@ -85,16 +85,29 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
     },
     units,
     images: [],
-    informations: [],
-    hardware: [],
+    informations: [...objectToJSONFields(json.Project)],
+    hardware: objectToJSONFields(json.Hardware, {
+      readOnly: true,
+    }),
     reports: [],
+    channels:
+      json.Calibrations?.Channels.map((channel: any) => {
+        return {
+          name: channel.Name,
+          position: channel.Position,
+          gain: channel.Gain,
+          acquisition: channel.ChannelAcqu,
+        }
+      }) || [],
   }
 
-  project.informations = objectToJSONFields(json.Project)
-
-  project.hardware = objectToJSONFields(json.Hardware, {
-    readOnly: true,
-  })
+  if (json.Sequences) {
+    project.informations.push({
+      label: 'Sequence',
+      value: json.Sequences.Name,
+      settings: {},
+    })
+  }
 
   project.reports = json.PVs.map((jsonPV: any) => {
     const report: JSONReport = {
@@ -103,7 +116,7 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
         iconName: 'Circle',
         isVisible: true,
         colorization: 'Threshold',
-        groupBy: 'Nothing',
+        groupBy: 'Number',
       },
       thresholds: {
         groups: ((): MachineMathUnitsSkeleton<number> => {
@@ -262,21 +275,18 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
           ],
         },
       },
-      informations: [],
-      platform: [],
+      informations: objectToJSONFields(jsonPV.PV),
+      platform: objectToJSONFields(jsonPV.Plateform),
       screenshots: [],
     }
 
     console.log('json pv', jsonPV)
     console.log('json report', report)
 
-    report.informations = objectToJSONFields(jsonPV.PV)
-
-    report.platform = objectToJSONFields(jsonPV.Plateform)
-
     report.zones[0].points = jsonPV.Points.map((point: any) => {
       const jsonPoint: JSONPoint = {
         number: point.Point.Number,
+        date: point.Point.date,
         coordinates: {
           lng: point.Point.Longitude,
           lat: point.Point.Latitude,

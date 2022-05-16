@@ -24,7 +24,11 @@ export const icons: Record<IconName, string> = {
   Octagon: OctagonIcon,
 }
 
-export const createIcon = (iconName: IconName): Icon => {
+export const createIcon = (iconName: IconName) => {
+  if (!document) {
+    return null
+  }
+
   const div: HTMLDivElement = document.createElement('div')
   div.classList.add('relative')
 
@@ -75,7 +79,11 @@ export const createIcon = (iconName: IconName): Icon => {
 }
 
 export const createSVGElement = (svg: string) => {
-  const div = document.createElement('div')
-  div.innerHTML = svg
-  return div.firstElementChild as HTMLElement
+  if (document) {
+    const div = document.createElement('div')
+    div.innerHTML = svg
+    return div.firstElementChild as HTMLElement
+  } else {
+    return undefined
+  }
 }

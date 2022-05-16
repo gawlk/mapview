@@ -1,4 +1,20 @@
-import { unit as Unit } from 'mathjs'
+import { unit as Unit, createUnit } from 'mathjs'
+
+createUnit({
+  cmm: '10 um',
+  nlbs: '4.448221628250858 N',
+})
+
+const convertMapviewUnitToMathJSUnit = (unit: string) =>
+  unit === '°C'
+    ? 'degC'
+    : unit === '°F'
+    ? 'degF'
+    : unit === '1/100 mm'
+    ? 'cmm'
+    : unit === 'lbs'
+    ? 'nlbs'
+    : unit
 
 export const createMathUnit = <PossibleUnits extends string>(
   name: string,
@@ -38,40 +54,29 @@ export const createMathUnit = <PossibleUnits extends string>(
           : true
       )
 
-      return (
-        filteredValues.reduce(
-          (total, currentValue) =>
-            total +
-            (options.averageFunction === 'capOutliers'
-              ? currentValue > this.max
-                ? this.max
-                : currentValue < this.min
-                ? this.min
-                : currentValue
-              : currentValue),
-          0
-        ) / filteredValues.length
-      )
+      return filteredValues.length > 0
+        ? filteredValues.reduce(
+            (total, currentValue) =>
+              total +
+              (options.averageFunction === 'capOutliers'
+                ? currentValue > this.max
+                  ? this.max
+                  : currentValue < this.min
+                  ? this.min
+                  : currentValue
+                : currentValue),
+            0
+          ) / filteredValues.length
+        : 0
     },
   })
 }
-
-const convertCurrentUnitToMathJSUnit = (currentUnit: string) =>
-  currentUnit === '°C'
-    ? 'degC'
-    : currentUnit === '°F'
-    ? 'degF'
-    : currentUnit === '1/100 mm'
-    ? 'cmm'
-    : currentUnit === 'lbs'
-    ? 'nlbs'
-    : currentUnit
 
 export const convertValueFromUnitAToUnitB = (
   value: number,
   unitA: string,
   unitB: string
 ) =>
-  Unit(value, convertCurrentUnitToMathJSUnit(unitA)).toNumber(
-    convertCurrentUnitToMathJSUnit(unitB)
+  Unit(value, convertMapviewUnitToMathJSUnit(unitA)).toNumber(
+    convertMapviewUnitToMathJSUnit(unitB)
   )

@@ -8,14 +8,14 @@ import {
 
 export const createBasePointFromJSON = (
   json: JSONPoint,
-  map: mapboxgl.Map,
+  map: mapboxgl.Map | null,
   parameters: BasePointCreatorParameters
-): MachinePoint => {
-  const icon = createIcon(parameters.reportSettings.iconName)
+) => {
+  const icon = createIcon(parameters.zone.report.settings.iconName)
 
   const marker = new Marker({
-    element: icon.element,
-    draggable: !parameters.projectSettings.arePointsLocked,
+    element: icon?.element,
+    draggable: !parameters.zone.report.project.settings.arePointsLocked,
   }).setLngLat(json.coordinates)
 
   const watcherHandler = createWatcherHandler()
@@ -26,11 +26,13 @@ export const createBasePointFromJSON = (
     machine: parameters.machine,
     id: `${+new Date()}-${Math.random()}`,
     number: json.number,
+    date: new Date(json.date),
     marker,
     icon,
     settings: reactive(json.settings),
+    zone: parameters.zone,
     data: json.data.map((jsonDataValue): DataValue => {
-      const label = parameters.reportDataLabels.groups.list
+      const label = parameters.zone.report.dataLabels.groups.list
         .find((groupedDataLabels) => groupedDataLabels.from === 'Test')
         ?.choices.list.find(
           (dataLabel) => dataLabel.name === jsonDataValue.label
@@ -77,10 +79,10 @@ export const createBasePointFromJSON = (
       return typeof value === 'object' ? value.displayedString : ''
     },
     updateColor: function () {
-      if (parameters.reportSettings.colorization === 'Zone') {
-        this.icon.setColor(parameters.zoneSettings.color)
+      if (parameters.zone.report.settings.colorization === 'Zone') {
+        this.icon.setColor(parameters.zone.settings.color)
       } else {
-        const group = parameters.reportDataLabels.groups.selected
+        const group = parameters.zone.report.dataLabels.groups.selected
 
         if (group && group.choices.selected) {
           const mathNumber = this.getSelectedMathNumber(
@@ -91,14 +93,14 @@ export const createBasePointFromJSON = (
 
           const unit = mathNumber?.unit
 
-          const threshold = parameters.reportThresholds.groups.find(
+          const threshold = parameters.zone.report.thresholds.groups.find(
             (group) => group.unit === unit
           )?.choices.selected
 
           if (unit && threshold) {
             const color = threshold.getColor(
               mathNumber,
-              parameters.reportThresholds.colors
+              parameters.zone.report.thresholds.colors
             )
 
             this.icon.setColor(color)
@@ -113,7 +115,7 @@ export const createBasePointFromJSON = (
         watcherMarkersString = watcherHandler.remove(watcherMarkersString)
       }
 
-      switch (parameters.projectSettings.pointsState) {
+      switch (parameters.zone.report.project.settings.pointsState) {
         case 'number':
           watcherMarkersString = watcherHandler.add(
             watch(
@@ -129,7 +131,7 @@ export const createBasePointFromJSON = (
 
           break
         case 'value':
-          const group = parameters.reportDataLabels.groups.selected
+          const group = parameters.zone.report.dataLabels.groups.selected
 
           let text = ''
 
@@ -150,13 +152,8 @@ export const createBasePointFromJSON = (
       }
     },
     updateVisibility: function () {
-      if (
-        parameters.projectSettings.arePointsVisible &&
-        parameters.reportSettings.isVisible &&
-        parameters.zoneSettings.isVisible &&
-        this.settings.isVisible
-      ) {
-        this.marker.addTo(map)
+      if (this.checkVisibility()) {
+        map && this.marker.addTo(map)
       } else {
         this.marker.remove()
       }
@@ -176,12 +173,12 @@ export const createBasePointFromJSON = (
       this.updateColor()
       this.updatePopup()
     },
-    isOnMap: function () {
+    checkVisibility: function () {
       return (
-        parameters.projectSettings.arePointsVisible &&
-        parameters.reportSettings.isVisible &&
-        parameters.zoneSettings.isVisible &&
-        this.settings.isVisible
+        this.settings.isVisible &&
+        parameters.zone.settings.isVisible &&
+        parameters.zone.report.settings.isVisible &&
+        parameters.zone.report.project.settings.arePointsVisible
       )
     },
     remove: function () {

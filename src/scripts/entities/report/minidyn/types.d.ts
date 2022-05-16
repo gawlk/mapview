@@ -1,13 +1,14 @@
 interface MinidynReport extends BaseReport {
   readonly machine: 'Minidyn'
-  zones: MinidynZone[]
+  readonly zones: MinidynZone[]
   platform: MinidynField[]
   informations: MinidynField[]
+  project: MinidynProject
 }
 
 interface MinidynReportCreatorParameters
   extends MachineReportCreatorParameters {
-  units: MinidynMathUnits
+  project: MinidynProject
 }
 
 type MinidynDropType = 'Training' | 'Averaging'

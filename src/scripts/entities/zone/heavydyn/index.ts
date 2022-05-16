@@ -3,7 +3,7 @@ import { createHeavydynPointFromJSON } from '/src/scripts'
 
 export const createHeavydynZoneFromJSON = (
   json: JSONZone,
-  map: mapboxgl.Map,
+  map: mapboxgl.Map | null,
   parameters: HeavydynZoneCreatorParameters
 ) => {
   const zone: PartialMachineZone<HeavydynZone> = createBaseZoneFromJSON(json, {
@@ -14,11 +14,7 @@ export const createHeavydynZoneFromJSON = (
   zone.points.push(
     ...json.points.map((jsonPoint) =>
       createHeavydynPointFromJSON(jsonPoint, map, {
-        projectSettings: parameters.projectSettings,
-        reportSettings: parameters.reportSettings,
-        reportDataLabels: parameters.reportDataLabels,
-        reportThresholds: parameters.reportThresholds,
-        zoneSettings: zone.settings,
+        zone: zone as HeavydynZone,
       })
     )
   )

@@ -7,7 +7,7 @@ import {
 
 export const createMaxidynProjectFromJSON = async (
   json: JSONProject,
-  map: mapboxgl.Map
+  map: mapboxgl.Map | null
 ) => {
   const jsonUnits = json.units as JSONMaxidynUnits
 
@@ -85,8 +85,7 @@ export const createMaxidynProjectFromJSON = async (
   project.reports.list.push(
     ...json.reports.map((report) =>
       createMaxidynReportFromJSON(report, map, {
-        projectSettings: json.settings,
-        units,
+        project: project as MaxidynProject,
       })
     )
   )

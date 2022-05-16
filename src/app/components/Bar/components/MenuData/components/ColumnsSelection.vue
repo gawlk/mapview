@@ -44,7 +44,7 @@
     "
     :selected="t(tableDataLabels?.selected?.group.from || '')"
     @selectIndex="selectGroupedDataLabels"
-    :preSelected="`${t('Values from')}${t(':')}`"
+    :preSelected="`${t('Source')}${t(':')}`"
     full
   />
   <Listbox

@@ -7,7 +7,7 @@ import {
 
 export const createMinidynProjectFromJSON = async (
   json: JSONProject,
-  map: mapboxgl.Map
+  map: mapboxgl.Map | null
 ) => {
   const jsonUnits = json.units as JSONMinidynUnits
 
@@ -85,8 +85,7 @@ export const createMinidynProjectFromJSON = async (
   project.reports.list.push(
     ...json.reports.map((report) =>
       createMinidynReportFromJSON(report, map, {
-        projectSettings: json.settings,
-        units,
+        project: project as MinidynProject,
       })
     )
   )

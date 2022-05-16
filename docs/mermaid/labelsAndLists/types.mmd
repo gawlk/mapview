@@ -1,0 +1,35 @@
+classDiagram
+class GroupedDataLabels {
+  <<interface>>
+  from: DataLabelsFrom
+  choices: SelectableList#60;DataLabel#62;
+  indexes?: SelectableList#60;MachineDropIndex#62;
+}
+GroupedDataLabels <.. SelectableList~S, L~
+
+
+class JSONGroupedDataLabels {
+  <<interface>>
+  from: DataLabelsFrom
+  choices: SelectableList#60;number, JSONChoice#62;
+  indexes?: SelectableList#60;number, JSONMachineDropIndex#62;
+}
+JSONGroupedDataLabels <.. SelectableList~S, L~
+
+
+class SelectableList~S, L~ {
+  <<interface>>
+  selected: S | null
+  list: L[]
+}
+
+
+
+class SelectableOptionalList~S, L~ {
+  <<interface>>
+  selected: S | null
+  list?: L[]
+}
+
+
+

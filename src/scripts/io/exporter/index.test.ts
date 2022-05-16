@@ -17,14 +17,6 @@ const getProject = async () => {
   return project
 }
 
-global.navigator = {
-  agent: 'Windows',
-  language: 'en-US',
-}
-
-const { document } = new JSDOM(`<!DOCTYPE html><p>Hello world</p>`).window
-global.document = document
-
 describe('suite name', () => {
   it('foo', async () => {
     const project = await getProject()

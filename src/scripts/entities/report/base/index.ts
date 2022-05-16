@@ -184,7 +184,7 @@ export const createBaseReportFromJSON = (
 
       this.zones.forEach((zone) => {
         zone.points.forEach((point: MachinePoint) => {
-          if (point.settings.isVisible) {
+          if (point.settings.isVisible && point.marker) {
             bounds.extend(point.marker.getLngLat())
           }
         })

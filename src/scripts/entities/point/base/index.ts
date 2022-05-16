@@ -13,10 +13,14 @@ export const createBasePointFromJSON = (
 ) => {
   const icon = createIcon(parameters.zone.report.settings.iconName)
 
-  const marker = new Marker({
-    element: icon?.element,
-    draggable: !parameters.zone.report.project.settings.arePointsLocked,
-  }).setLngLat(json.coordinates)
+  console.log('icon', icon)
+
+  const marker = icon
+    ? new Marker({
+        element: icon.element,
+        draggable: !parameters.zone.report.project.settings.arePointsLocked,
+      }).setLngLat(json.coordinates)
+    : null
 
   const watcherHandler = createWatcherHandler()
 
@@ -153,9 +157,9 @@ export const createBasePointFromJSON = (
     },
     updateVisibility: function () {
       if (this.checkVisibility()) {
-        map && this.marker.addTo(map)
+        map && this.marker?.addTo(map)
       } else {
-        this.marker.remove()
+        this.marker?.remove()
       }
     },
     updatePopup: function () {
@@ -165,7 +169,7 @@ export const createBasePointFromJSON = (
         html += `<p><strong>${dataValue.label.name}:</strong> ${dataValue.value.displayedStringWithUnit}</p>`
       })
 
-      this.marker.setPopup(new Popup().setHTML(html))
+      this.marker?.setPopup(new Popup().setHTML(html))
     },
     addToMap: function () {
       this.updateVisibility()
@@ -182,7 +186,7 @@ export const createBasePointFromJSON = (
       )
     },
     remove: function () {
-      this.marker.remove()
+      this.marker?.remove()
       watcherHandler.clean()
     },
   } as BasePoint)

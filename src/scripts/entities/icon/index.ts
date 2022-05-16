@@ -25,7 +25,7 @@ export const icons: Record<IconName, string> = {
 }
 
 export const createIcon = (iconName: IconName) => {
-  if (!document) {
+  if (typeof document === 'undefined') {
     return null
   }
 

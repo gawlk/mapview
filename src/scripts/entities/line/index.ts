@@ -54,7 +54,7 @@ export const createLine = (
             line.update()
 
             this.sortedPoints.value.forEach((point) => {
-              point.marker.on('drag', () => {
+              point.marker?.on('drag', () => {
                 line.update()
               })
             })
@@ -90,12 +90,12 @@ export const createLine = (
             type: 'LineString',
             coordinates: [
               [
-                visiblePoints[i - 1].marker.getLngLat().lng,
-                visiblePoints[i - 1].marker.getLngLat().lat,
+                visiblePoints[i - 1].marker?.getLngLat().lng || 0,
+                visiblePoints[i - 1].marker?.getLngLat().lat || 0,
               ],
               [
-                visiblePoints[i].marker.getLngLat().lng,
-                visiblePoints[i].marker.getLngLat().lat,
+                visiblePoints[i].marker?.getLngLat().lng || 0,
+                visiblePoints[i].marker?.getLngLat().lat || 0,
               ],
             ],
           },

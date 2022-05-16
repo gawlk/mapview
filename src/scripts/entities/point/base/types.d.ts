@@ -3,7 +3,7 @@ interface BasePoint {
   readonly id: string
   number: number
   date: Date
-  marker: mapboxgl.Marker
+  marker: mapboxgl.Marker | null
   icon: Icon
   settings: JSONPointSettings
   data: DataValue[]

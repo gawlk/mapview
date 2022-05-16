@@ -1,0 +1,56 @@
+[
+  {
+    "name": "GroupedDataLabels",
+    "value": {
+      "from": "DataLabelsFrom",
+      "choices": "SelectableList#60;DataLabel#62;",
+      "indexes?": "SelectableList#60;MachineDropIndex#62;"
+    },
+    "dependencies": [
+      "DataLabelsFrom",
+      "SelectableList",
+      "DataLabel",
+      "MachineDropIndex"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONGroupedDataLabels",
+    "value": {
+      "from": "DataLabelsFrom",
+      "choices": "SelectableList#60;number, JSONChoice#62;",
+      "indexes?": "SelectableList#60;number, JSONMachineDropIndex#62;"
+    },
+    "dependencies": [
+      "DataLabelsFrom",
+      "SelectableList",
+      "JSONChoice",
+      "JSONMachineDropIndex"
+    ],
+    "extends": []
+  },
+  {
+    "name": "SelectableList~S, L~",
+    "value": {
+      "selected": "S | null",
+      "list": "L[]"
+    },
+    "dependencies": [
+      "S",
+      "L"
+    ],
+    "extends": []
+  },
+  {
+    "name": "SelectableOptionalList~S, L~",
+    "value": {
+      "selected": "S | null",
+      "list?": "L[]"
+    },
+    "dependencies": [
+      "S",
+      "L"
+    ],
+    "extends": []
+  }
+]

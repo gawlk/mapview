@@ -286,7 +286,7 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
     report.zones[0].points = jsonPV.Points.map((point: any) => {
       const jsonPoint: JSONPoint = {
         number: point.Point.Number,
-        date: point.Point.date,
+        date: point.Point.Date,
         coordinates: {
           lng: point.Point.Longitude,
           lat: point.Point.Latitude,

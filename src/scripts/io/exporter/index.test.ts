@@ -1,9 +1,10 @@
 import { assert, describe, expect, it, vi } from 'vitest'
 import * as fs from 'fs'
-import { Unzipped, unzipSync } from 'fflate'
+import { unzipSync } from 'fflate'
 import { convertJSONFromPRJZToMPVZ } from '../converter'
 import { generateProjectFromJSON } from '../importer'
-import { JSDOM } from 'jsdom'
+import Context from '.'
+import { F25ExportStrategy } from './heavydyn'
 
 const getProject = async () => {
   const buffer = fs.readFileSync(__dirname + '/MR.prjz')
@@ -17,19 +18,19 @@ const getProject = async () => {
   return project
 }
 
-describe('suite name', () => {
-  it('foo', async () => {
-    const project = await getProject()
-    console.log('project', project)
-    expect(1 + 1).toEqual(2)
-    expect(true).to.be.true
-  })
+describe('suite name', async () => {
+  const project = await getProject()
 
-  it('bar', () => {
-    assert.equal(Math.sqrt(4), 2)
-  })
+  if (project) {
+    const context = new Context(new F25ExportStrategy())
+    context.doExport(project)
+    const goodFileContent = fs.readFileSync(__dirname + '/mr.F25').toString()
 
-  it('snapshot', () => {
-    expect({ foo: 'bar' }).toMatchSnapshot()
-  })
+    const linesGoodFile = goodFileContent.replaceAll('\r', '').split('\n')
+    context.fileContent.split('\n').forEach((line, i) => {
+      it('test line ' + i, () => {
+        expect(line).toEqual(linesGoodFile[i])
+      })
+    })
+  }
 })

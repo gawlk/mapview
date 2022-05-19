@@ -11,6 +11,7 @@ specifiers:
   '@intlify/vite-plugin-vue-i18n': ^3.4.0
   '@mermaid-js/mermaid-cli': ^9.0.3
   '@shopify/draggable': ^1.0.0-beta.8
+  '@types/dedent': ^0.7.0
   '@types/file-saver': ^2.0.5
   '@types/geojson': ^7946.0.8
   '@types/jsdom': ^16.2.14
@@ -26,6 +27,7 @@ specifiers:
   '@vueuse/head': ^0.7.6
   autoprefixer: ^10.4.7
   cypress: 4.12.1
+  dedent: ^0.7.0
   fflate: ^0.7.3
   file-saver: ^2.0.5
   html2canvas: ^1.4.1
@@ -60,6 +62,7 @@ dependencies:
   '@shopify/draggable': 1.0.0-beta.8
   '@vueuse/core': 8.5.0_vue@3.2.33
   '@vueuse/head': 0.7.6_vue@3.2.33
+  dedent: 0.7.0
   fflate: 0.7.3
   file-saver: 2.0.5
   html2canvas: 1.4.1
@@ -81,6 +84,7 @@ devDependencies:
   '@iconify-json/tabler': 1.1.13
   '@intlify/vite-plugin-vue-i18n': 3.4.0_vite@2.9.8+vue-i18n@9.1.10
   '@mermaid-js/mermaid-cli': 9.0.3
+  '@types/dedent': 0.7.0
   '@types/file-saver': 2.0.5
   '@types/geojson': 7946.0.8
   '@types/jsdom': 16.2.14
@@ -1545,6 +1549,10 @@ packages:
 
   /@types/chai/4.3.1:
     resolution: {integrity: sha512-/zPMqDkzSZ8t3VtxOa4KPq7uzzW978M9Tvh+j7GHKuo6k6GTLxPJ4J5gE5cjfJ26pnXst0N5Hax8Sr0T2Mi9zQ==}
+    dev: true
+
+  /@types/dedent/0.7.0:
+    resolution: {integrity: sha512-EGlKlgMhnLt/cM4DbUSafFdrkeJoC9Mvnj0PUCU7tFmTjMjNRT957kXCx0wYm3JuEq4o4ZsS5vG+NlkM2DMd2A==}
     dev: true
 
   /@types/error-stack-parser/2.0.0:
@@ -3642,6 +3650,10 @@ packages:
     dependencies:
       mimic-response: 2.1.0
     dev: true
+
+  /dedent/0.7.0:
+    resolution: {integrity: sha1-JJXduvbrh0q7Dhvp3yLS5aVEMmw=}
+    dev: false
 
   /deep-eql/3.0.1:
     resolution: {integrity: sha512-+QeIQyN5ZuO+3Uk5DYh6/1eKO0m0YmJFGNmFHGACpf1ClL1nmlV/p4gNgbl2pJGxgXb4faqo6UE+M5ACEMyVcw==}

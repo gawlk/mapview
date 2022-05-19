@@ -1,10 +1,12 @@
 export * from './prjz'
 
-class Context {
+export default class Context {
+  public fileContent: string
   private strategy: ExportStrategy
 
   constructor(strategy: ExportStrategy) {
     this.strategy = strategy
+    this.fileContent = ''
   }
 
   public setStrategy(strategy: ExportStrategy) {
@@ -12,7 +14,6 @@ class Context {
   }
 
   public doExport(project: MachineProject): void {
-    const fileString = this.strategy.doExport(project)
-    // save
+    this.fileContent = this.strategy.doExport(project)
   }
 }

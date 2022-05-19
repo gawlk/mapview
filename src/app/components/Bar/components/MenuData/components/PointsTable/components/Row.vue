@@ -52,10 +52,6 @@
         return false
       }
     })
-
-    // (index) => (
-    //       selectedReport.zones.map((zone) => zone.name)
-    //       point.zone = selectedReport?.zones[index])
   }
 </script>
 
@@ -80,20 +76,20 @@
     <td
       @click="
         store.map?.flyTo({
-          center: point.marker.getLngLat(),
+          center: point.marker?.getLngLat(),
           zoom: 20,
         })
       "
       :style="`background-color: ${point.icon.color}44`"
       class="cursor-pointer border-2 border-gray-100 px-2 font-bold"
-      :class="[!props.point.settings.isVisible && 'opacity-0']"
+      :class="[!props.point.settings.isVisible && 'italic opacity-50']"
     >
-      <div class="flex justify-end space-x-1">
+      <div :title="props.point.id" class="flex justify-end space-x-1">
         <span
           v-if="typeof props.point.settings.previousNumber === 'number'"
-          class="opacity-50"
+          class="whitespace-nowrap opacity-50"
         >
-          {{ props.point.settings.previousNumber }}&nbsp;→
+          {{ props.point.settings.previousNumber }} →
         </span>
         <span>
           {{ props.point.number }}
@@ -109,17 +105,15 @@
           ? '88'
           : '44'
       };`"
-      class="border-2 border-gray-100 px-2 text-right"
+      class="whitespace-nowrap border-2 border-gray-100 px-2 text-right"
     >
       {{
         groupFrom &&
-        props.point
-          .getDisplayedString(
-            groupFrom,
-            dataLabel,
-            selectedTableDataLabelsParameters?.index
-          )
-          .replaceAll(' ', '&nbsp;')
+        props.point.getDisplayedString(
+          groupFrom,
+          dataLabel,
+          selectedTableDataLabelsParameters?.index
+        )
       }}
     </td>
     <td class="border-2 border-gray-100 bg-gray-100 px-1 text-right">

@@ -10,7 +10,7 @@
 </script>
 
 <template>
-  <Dialog :title="t('Configurations')" :buttonIcon="IconCog">
+  <Dialog :title="t('Configurations')" :leftIcon="IconCog" full>
     <template v-slot:button>
       {{ t('See configurations') }}
     </template>

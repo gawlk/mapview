@@ -6,7 +6,7 @@ import {
 } from '/src/scripts'
 
 export const createHeavydynProjectFromJSON = async (
-  json: JSONProject,
+  json: JSONHeavydynProject,
   map: mapboxgl.Map | null
 ) => {
   const jsonUnits = json.units as JSONHeavydynUnits
@@ -106,6 +106,11 @@ export const createHeavydynProjectFromJSON = async (
       createHeavydynFieldFromJSON(field)
     )
   )
+
+  project.calibrations = {
+    dPlate: json.calibrations.dPlate,
+    channels: json.calibrations.channels,
+  }
 
   return project as HeavydynProject
 }

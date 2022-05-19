@@ -110,7 +110,7 @@ export class F25ExportStrategy implements ExportStrategy {
   }
 
   public writeSensors(project: MachineProject): string {
-    const firstSensor = project.channels.find(
+    const firstSensor = project.calibrations.channels.find(
       (channel) => channel.acquisition === 0
     )
     if (typeof firstSensor === 'undefined') {
@@ -123,13 +123,16 @@ export class F25ExportStrategy implements ExportStrategy {
       3
     )}, 0.00,  1.000\n
     `
-    const nbrSensors = project.channels.length - 1
+    const nbrSensors = project.calibrations.channels.length - 1
     for (let i = 0; i < nbrSensors; i++) {
       sensorsString += dedent`
-      ${5200 + i},"${project.channels[i + 1].name.padEnd(
+      ${5200 + i},"${project.calibrations.channels[i + 1].name.padEnd(
         8,
         ' '
-      )}",1.000,${formatExponential(project.channels[i + 1].gain, 3)}\n 
+      )}",1.000,${formatExponential(
+        project.calibrations.channels[i + 1].gain,
+        3
+      )}\n 
       `
     }
 
@@ -140,7 +143,9 @@ export class F25ExportStrategy implements ExportStrategy {
 
     let s5020 = '5020,   150'
     for (let i = 1; i < nbrSensors + 1; i++)
-      s5020 += `,${Math.round(Number(project.channels[i].position) * 1000)
+      s5020 += `,${Math.round(
+        Number(project.calibrations.channels[i].position) * 1000
+      )
         .toString()
         .padStart(6, ' ')}`
     for (let i = nbrSensors; i < 19; i++) s5020 += ',N0    '

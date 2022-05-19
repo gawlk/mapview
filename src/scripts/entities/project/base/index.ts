@@ -34,7 +34,6 @@ export const createBaseProjectFromJSON = async (
     images: shallowReactive([] as Image[]),
     units: parameters.units,
     settings,
-    channels: json.channels,
     informations: shallowReactive([]),
     hardware: shallowReactive([]),
     refreshLinesAndImages: function () {

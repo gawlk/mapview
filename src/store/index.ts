@@ -1,14 +1,8 @@
 import { createSelectableList } from '/src/scripts'
 
-const read = (key: string) => {
-  const item = localStorage.getItem(key)
-
-  return typeof item === 'string' ? JSON.parse(item) : null
-}
-
 const store = shallowReactive({
   // example: read('example') || defaultExample,
-  projects: createSelectableList<MachineProject>(null, [], {
+  projects: createSelectableList(null, [], {
     reactive: true,
   }),
   map: null,

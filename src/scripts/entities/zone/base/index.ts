@@ -1,4 +1,4 @@
-import { createWatcherHandler } from '/src/scripts'
+import { createWatcherHandler, sortPoints } from '/src/scripts'
 
 export const createBaseZoneFromJSON = (
   json: JSONZone,
@@ -19,7 +19,7 @@ export const createBaseZoneFromJSON = (
         watch(
           () => this.points.length,
           () => {
-            this.points.sort((pointA, pointB) => pointA.number - pointB.number)
+            sortPoints(this.points)
           }
         )
       )

@@ -15,13 +15,18 @@
     (event: 'close'): void
     (event: 'open'): void
     (event: 'save'): void
+    (event: 'delete'): void
   }>()
 
   const props = defineProps<{
     title: string
-    buttonIcon: any
     saveable?: boolean
-    buttonBlue?: boolean
+    deletable?: boolean
+    icon?: any
+    leftIcon?: any
+    blue?: boolean
+    red?: boolean
+    full?: boolean
   }>()
 
   const state = reactive({
@@ -44,16 +49,24 @@
     close()
     emit('save')
   }
+
+  const del = () => {
+    close()
+    emit('delete')
+  }
 </script>
 
 <template>
-  <div class="w-full">
+  <div :class="[props.full ? 'w-full' : '']">
     <Button
       @click="open"
-      full
-      :leftIcon="props.buttonIcon"
+      :leftIcon="props.leftIcon"
+      :icon="props.icon"
       :rightIcon="IconArrowSmRight"
-      :blue="props.buttonBlue"
+      :blue="props.blue"
+      :red="props.red"
+      :full="props.full"
+      class="h-full"
     >
       <slot name="button" />
     </Button>
@@ -105,6 +118,9 @@
               </Button>
               <Button v-if="props.saveable" @click="save" centered orange>
                 {{ t('Save') }}
+              </Button>
+              <Button v-if="props.deletable" @click="del" centered red>
+                {{ t('Delete') }}
               </Button>
             </div>
           </div>

@@ -45,7 +45,6 @@ export const createMap = (container: string): mapboxgl.Map => {
     })
       .setLngLat([0, -90])
       .addTo(map)
-
     navigator.geolocation.watchPosition((position) => {
       marker.setLngLat({
         lng: position.coords.longitude,

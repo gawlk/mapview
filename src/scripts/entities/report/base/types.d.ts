@@ -125,39 +125,3 @@ interface BaseDropIndex {
   readonly type: string
   readonly displayedIndex: number
 }
-
-// interface JSONLoadBearingCapacity {
-//   name: string
-//   AlgoRaideur: string
-//   AlgoProcessing1: string
-//   AlgoProcessing2: string
-//   DPlaque: number
-//   CPoisson: number
-//   FForme: number
-//   k: number
-//   alpha: number
-//   minPortance: number
-//   maxPortance: number
-// }
-
-// interface JSONMachineDetails {
-//   serial: string
-//   assignment: string
-//   MAC: string
-//   licenceStart: string
-//   licenceEnd: string
-//   certificationStart: string
-//   certificationEnd: string
-// }
-
-// interface JSONDropsSettings {
-//   count: {
-//     training: number
-//     total: number
-//     selected: number
-//   }
-//   data: {
-//     selected: number
-//     names: string[]
-//   }
-// }

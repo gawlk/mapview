@@ -192,17 +192,6 @@ export const createBaseReportFromJSON = (
 
       map?.fitBounds(bounds, { padding: 100 })
     },
-    updatePointsNumbers: function () {
-      this.zones.forEach((zone) => {
-        ;(zone.points as MachinePoint[])
-          .filter((point) => point.settings.isVisible)
-          .forEach((point, index) => {
-            if (point.number !== index + 1) {
-              point.number = index + 1
-            }
-          })
-      })
-    },
     addToMap: function () {
       this.isOnMap = true
 
@@ -260,9 +249,18 @@ export const createBaseReportFromJSON = (
                   watch(
                     () => point.settings.isVisible,
                     () => {
+                      const sortedPoints = this.line.sortedPoints.value
+
                       point.updateVisibility()
 
-                      this.updatePointsNumbers()
+                      let index =
+                        sortedPoints.findIndex((_point) => point === _point) + 1
+
+                      for (index; index < sortedPoints.length; index++) {
+                        sortedPoints[index].number += point.settings.isVisible
+                          ? 1
+                          : -1
+                      }
 
                       this.line.update()
                     }

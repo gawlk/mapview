@@ -90,15 +90,15 @@
     class="min-w-[4rem] border-2 border-gray-100 px-2 text-right text-gray-600"
   >
     <p class="font-semibold">{{ t(dataLabel.name) }}</p>
-    <p class="text-xs">
+    <p class="whitespace-nowrap text-xs">
       {{
         typeof dataLabel.unit === 'object'
-          ? t(dataLabel.unit.currentUnit).replaceAll(' ', '&nbsp;')
+          ? t(dataLabel.unit.currentUnit)
           : dataLabel.unit ?? ''
       }}
     </p>
-    <p class="font-semibold text-black">
-      {{ mathNumber.displayedString.replaceAll(' ', '&nbsp;') }}
+    <p class="whitespace-nowrap font-semibold text-black">
+      {{ mathNumber.displayedString }}
     </p>
   </td>
   <td class="w-12 border-2 border-gray-100 bg-gray-100" />

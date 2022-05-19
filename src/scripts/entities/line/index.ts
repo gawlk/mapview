@@ -1,5 +1,18 @@
 import { createWatcherHandler } from '/src/scripts'
 
+export const sortPoints = (points: MachinePoint[]) =>
+  points.sort((pointA, pointB) =>
+    pointA.number === pointB.number
+      ? pointA.settings.isVisible && pointB.settings.isVisible
+        ? 0
+        : !pointA.settings.isVisible && !pointB.settings.isVisible
+        ? 0
+        : pointA.settings.isVisible && !pointB.settings.isVisible
+        ? 1
+        : -1
+      : pointA.number - pointB.number
+  )
+
 export const createLine = (
   zones: MachineZone[],
   map: mapboxgl.Map | null
@@ -13,15 +26,7 @@ export const createLine = (
 
   const line: Line = {
     sortedPoints: computed(() =>
-      Array.prototype
-        .concat(...zones.map((zone) => zone.points))
-        .sort((pointA: MachinePoint, pointB: MachinePoint) => {
-          return pointA.number - pointB.number
-        })
-        .map((point, index) => {
-          point.number = index + 1
-          return point
-        })
+      Array.prototype.concat(...zones.map((zone) => zone.points))
     ),
     addToMap: function () {
       map?.addLayer(
@@ -74,8 +79,8 @@ export const createLine = (
       watcherHandler.clean()
     },
     update: function (): void {
-      const visiblePoints = this.sortedPoints.value.filter((point) =>
-        point.checkVisibility()
+      const visiblePoints = sortPoints(this.sortedPoints.value).filter(
+        (point) => point.checkVisibility()
       )
 
       features = []
@@ -108,6 +113,8 @@ export const createLine = (
       })
     },
   }
+
+  sortPoints(line.sortedPoints.value)
 
   return line
 }

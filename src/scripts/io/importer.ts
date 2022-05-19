@@ -21,7 +21,11 @@ const waitForMap = () =>
   })
 
 export const importFile = async (file: File) => {
+  console.log('a')
+
   await waitForMap()
+
+  console.log('b')
 
   const extension = file.name.split('.').pop()
 
@@ -62,7 +66,10 @@ export const generateProjectFromJSON = async (
 
   switch (json.machine) {
     case 'Heavydyn':
-      project = await createHeavydynProjectFromJSON(json, map)
+      project = await createHeavydynProjectFromJSON(
+        json as JSONHeavydynProject,
+        map
+      )
       break
 
     case 'Maxidyn':

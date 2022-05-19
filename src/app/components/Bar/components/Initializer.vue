@@ -37,6 +37,8 @@
     // const projectMaxidyn = await importFile(demoMaxidyn)
     const projectMinidyn = await importFile(demoMinidyn)
 
+    console.log(projectHeavydyn)
+
     store.projects.selected = projectHeavydyn
   }
 
@@ -47,7 +49,7 @@
   <div class="space-y-2">
     <DragAndDrop
       @input="openFiles"
-      accept=".prjz, .mpvz, .dynz"
+      accept=".prjz, .mpvz, .dynz, .json"
       :buttonText="t('Open a file')"
     >
       {{ t('Drop a file here or click here to choose one') }}

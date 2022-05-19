@@ -70,7 +70,7 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
     (exportedUnit: any) => convertExportedUnitToJSONChoice(exportedUnit)
   )
 
-  const project: JSONProject = {
+  const project: JSONProject | JSONHeavydynProject = {
     name: json.Project.Name,
     machine,
     settings: {
@@ -90,15 +90,27 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
       readOnly: true,
     }),
     reports: [],
-    channels:
-      json.Calibrations?.Channels.map((channel: any) => {
-        return {
-          name: channel.Name,
-          position: channel.Position,
-          gain: channel.Gain,
-          acquisition: channel.ChannelAcqu,
-        }
-      }) || [],
+    ...(() => {
+      switch (machine) {
+        case 'Heavydyn':
+          return {
+            calibrations: {
+              dPlate: json.Calibrations.Dplate,
+              channels:
+                json.Calibrations.Channels.map((channel: any) => {
+                  return {
+                    name: channel.Name,
+                    position: channel.Position,
+                    gain: channel.Gain,
+                    acquisition: channel.ChannelAcqu,
+                  }
+                }) || [],
+            },
+          }
+        default:
+          return {}
+      }
+    })(),
   }
 
   if (json.Sequences) {

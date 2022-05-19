@@ -34,20 +34,29 @@
             for (let i = oldIndex + 1; i <= newIndex; i++) {
               const point = points[i]
               point.settings.previousNumber = point.number
-              point.number = point.number - 1
+              point.number--
             }
           } else {
             for (let i = newIndex; i <= oldIndex - 1; i++) {
               const point = points[i]
               point.settings.previousNumber = point.number
-              point.number = point.number + 1
+              point.number++
             }
           }
 
-          points[oldIndex].settings.previousNumber = points[oldIndex].number
-          points[oldIndex].number = newIndex + 1
+          const movedPoint = points[oldIndex]
 
-          points.sort((pointA, pointB) => pointA.number - pointB.number)
+          movedPoint.settings.previousNumber = movedPoint.number
+
+          const numberOfHiddenPoints = points
+            .slice(0, newIndex + (oldIndex < newIndex ? 1 : 0))
+            .filter(
+              (point) => point !== movedPoint && !point.settings.isVisible
+            ).length
+
+          movedPoint.number = newIndex + 1 - numberOfHiddenPoints
+
+          selectedReport.value.line.update()
         }
       })
     }

@@ -13,8 +13,6 @@ export const createBasePointFromJSON = (
 ) => {
   const icon = createIcon(parameters.zone.report.settings.iconName)
 
-  console.log('icon', icon)
-
   const marker = icon
     ? new Marker({
         element: icon.element,

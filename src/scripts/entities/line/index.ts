@@ -1,17 +1,7 @@
 import { createWatcherHandler } from '/src/scripts'
 
 export const sortPoints = (points: MachinePoint[]) =>
-  points.sort((pointA, pointB) =>
-    pointA.number === pointB.number
-      ? pointA.settings.isVisible && pointB.settings.isVisible
-        ? 0
-        : !pointA.settings.isVisible && !pointB.settings.isVisible
-        ? 0
-        : pointA.settings.isVisible && !pointB.settings.isVisible
-        ? 1
-        : -1
-      : pointA.number - pointB.number
-  )
+  points.sort((pointA, pointB) => pointA.index - pointB.index)
 
 export const createLine = (
   zones: MachineZone[],

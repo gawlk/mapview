@@ -28,6 +28,7 @@ export const createBasePointFromJSON = (
     machine: parameters.machine,
     id: `${+new Date()}-${Math.random()}`,
     number: json.number,
+    index: json.index,
     date: new Date(json.date),
     marker,
     icon,

@@ -2,6 +2,7 @@ interface BasePoint {
   readonly machine: MachineName
   readonly id: string
   number: number
+  index: number
   date: Date
   marker: mapboxgl.Marker | null
   icon: Icon
@@ -34,6 +35,7 @@ interface BasePointCreatorParameters extends MachinePointCreatorParameters {
 
 interface JSONPoint {
   number: number
+  index: number
   date: string
   coordinates: mapboxgl.LngLatLike
   data: JSONDataValue[]
@@ -44,5 +46,4 @@ interface JSONPoint {
 
 interface JSONPointSettings {
   isVisible: boolean
-  previousNumber?: number | null
 }

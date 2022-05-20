@@ -81,20 +81,10 @@
         })
       "
       :style="`background-color: ${point.icon.color}44`"
-      class="cursor-pointer border-2 border-gray-100 px-2 font-bold"
+      class="cursor-pointer border-2 border-gray-100 px-2 text-right font-bold"
       :class="[!props.point.settings.isVisible && 'italic opacity-50']"
     >
-      <div :title="props.point.id" class="flex justify-end space-x-1">
-        <span
-          v-if="typeof props.point.settings.previousNumber === 'number'"
-          class="whitespace-nowrap opacity-50"
-        >
-          {{ props.point.settings.previousNumber }} →
-        </span>
-        <span>
-          {{ props.point.number }}
-        </span>
-      </div>
+      {{ props.point.index }} {{ props.point.number }}
     </td>
     <td
       v-for="dataLabel of selectedTableDataLabelsParameters?.dataLabels"

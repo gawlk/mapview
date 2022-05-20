@@ -26,35 +26,26 @@
         const { oldIndex, newIndex } = event.data
 
         if (oldIndex !== newIndex && selectedReport.value) {
-          const points = props.points
+          let points = [...props.points]
 
-          points.forEach((point) => (point.settings.previousNumber = null))
+          const [movedPoint] = points.splice(oldIndex, 1)
 
-          if (oldIndex < newIndex) {
-            for (let i = oldIndex + 1; i <= newIndex; i++) {
-              const point = points[i]
-              point.settings.previousNumber = point.number
-              point.number--
+          points = [
+            ...points.slice(0, newIndex),
+            movedPoint,
+            ...points.slice(newIndex),
+          ]
+
+          let number = 1
+
+          points.forEach((point, index) => {
+            point.index = index
+            point.number = number
+
+            if (point.settings.isVisible) {
+              number++
             }
-          } else {
-            for (let i = newIndex; i <= oldIndex - 1; i++) {
-              const point = points[i]
-              point.settings.previousNumber = point.number
-              point.number++
-            }
-          }
-
-          const movedPoint = points[oldIndex]
-
-          movedPoint.settings.previousNumber = movedPoint.number
-
-          const numberOfHiddenPoints = points
-            .slice(0, newIndex + (oldIndex < newIndex ? 1 : 0))
-            .filter(
-              (point) => point !== movedPoint && !point.settings.isVisible
-            ).length
-
-          movedPoint.number = newIndex + 1 - numberOfHiddenPoints
+          })
 
           selectedReport.value.line.update()
         }

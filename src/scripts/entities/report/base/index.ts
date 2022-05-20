@@ -6,6 +6,7 @@ import {
   createSelectableList,
   createWatcherHandler,
   debounce,
+  sortPoints,
 } from '/src/scripts'
 
 export const createBaseReportFromJSON = (
@@ -248,6 +249,8 @@ export const createBaseReportFromJSON = (
                 watch(
                   () => zone.points.length,
                   () => {
+                    sortPoints(zone.points)
+
                     this.line.sortedPoints = Array.prototype.concat(
                       ...zones.map((zone) => zone.points)
                     ) as MachinePoint[]

@@ -4,6 +4,7 @@ import {
   createIcon,
   createWatcherHandler,
   createMathNumber,
+  colorsClasses,
 } from '/src/scripts'
 
 export const createBasePointFromJSON = (
@@ -82,10 +83,12 @@ export const createBasePointFromJSON = (
       return typeof value === 'object' ? value.displayedString : ''
     },
     updateColor: function () {
-      if (parameters.zone.report.settings.colorization === 'Zone') {
-        this.icon.setColor(parameters.zone.settings.color)
+      if (this.zone.report.settings.colorization === 'Zone') {
+        this.icon.setColor(
+          colorsClasses[this.zone.settings.color as ColorName].hexColor
+        )
       } else {
-        const group = parameters.zone.report.dataLabels.groups.selected
+        const group = this.zone.report.dataLabels.groups.selected
 
         if (group && group.choices.selected) {
           const mathNumber = this.getSelectedMathNumber(
@@ -96,14 +99,14 @@ export const createBasePointFromJSON = (
 
           const unit = mathNumber?.unit
 
-          const threshold = parameters.zone.report.thresholds.groups.find(
+          const threshold = this.zone.report.thresholds.groups.find(
             (group) => group.unit === unit
           )?.choices.selected
 
           if (unit && threshold) {
             const color = threshold.getColor(
               mathNumber,
-              parameters.zone.report.thresholds.colors
+              this.zone.report.thresholds.colors
             )
 
             this.icon.setColor(color)
@@ -118,7 +121,7 @@ export const createBasePointFromJSON = (
         watcherMarkersString = watcherHandler.remove(watcherMarkersString)
       }
 
-      switch (parameters.zone.report.project.settings.pointsState) {
+      switch (this.zone.report.project.settings.pointsState) {
         case 'number':
           watcherMarkersString = watcherHandler.add(
             watch(
@@ -134,7 +137,7 @@ export const createBasePointFromJSON = (
 
           break
         case 'value':
-          const group = parameters.zone.report.dataLabels.groups.selected
+          const group = this.zone.report.dataLabels.groups.selected
 
           let text = ''
 
@@ -179,9 +182,9 @@ export const createBasePointFromJSON = (
     checkVisibility: function () {
       return (
         this.settings.isVisible &&
-        parameters.zone.settings.isVisible &&
-        parameters.zone.report.settings.isVisible &&
-        parameters.zone.report.project.settings.arePointsVisible
+        this.zone.settings.isVisible &&
+        this.zone.report.settings.isVisible &&
+        this.zone.report.project.settings.arePointsVisible
       )
     },
     remove: function () {

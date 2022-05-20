@@ -92,7 +92,7 @@ export const createLine = (map: mapboxgl.Map | null): Line => {
         })
       }
 
-      ;(map?.getSource(id) as mapboxgl.GeoJSONSource).setData({
+      ;(map?.getSource(id) as mapboxgl.GeoJSONSource)?.setData({
         type: 'FeatureCollection',
         features,
       })

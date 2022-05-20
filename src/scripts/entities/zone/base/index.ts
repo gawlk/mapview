@@ -17,18 +17,11 @@ export const createBaseZoneFromJSON = (
 
       watcherHandler.add(
         watch(
-          () => this.points.length,
-          () => {
-            sortPoints(this.points)
-          }
-        )
-      )
-
-      watcherHandler.add(
-        watch(
           () => this.settings.color,
           () => {
             this.points.forEach((point) => point.updateColor())
+
+            this.report.line.update()
           }
         )
       )

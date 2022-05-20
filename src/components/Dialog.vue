@@ -26,6 +26,7 @@
     leftIcon?: any
     blue?: boolean
     red?: boolean
+    orange?: boolean
     full?: boolean
   }>()
 
@@ -65,6 +66,7 @@
       :rightIcon="IconArrowSmRight"
       :blue="props.blue"
       :red="props.red"
+      :orange="props.orange"
       :full="props.full"
       class="h-full"
     >

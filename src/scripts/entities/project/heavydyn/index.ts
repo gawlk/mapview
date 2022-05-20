@@ -108,6 +108,7 @@ export const createHeavydynProjectFromJSON = async (
   )
 
   project.calibrations = {
+    date: new Date(json.calibrations.date),
     dPlate: json.calibrations.dPlate,
     channels: json.calibrations.channels,
     sensors: json.calibrations.sensors,

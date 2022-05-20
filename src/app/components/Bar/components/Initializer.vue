@@ -49,7 +49,7 @@
   <div class="space-y-2">
     <DragAndDrop
       @input="openFiles"
-      accept=".prjz, .mpvz, .dynz, .json"
+      accept=".prjz, .mpvz, .dynz"
       :buttonText="t('Open a file')"
     >
       {{ t('Drop a file here or click here to choose one') }}

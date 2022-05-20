@@ -48,6 +48,11 @@
         ;(zones[zoneIndex].points as MachinePoint[]).push(point)
         point.zone = zones[zoneIndex]
 
+        if (selectedReport.value?.settings.colorization === 'Zone') {
+          point.updateColor()
+          selectedReport.value?.line.update()
+        }
+
         return true
       } else {
         return false
@@ -90,6 +95,12 @@
     <td
       v-for="dataLabel of selectedTableDataLabelsParameters?.dataLabels"
       :class="[!props.point.settings.isVisible && 'italic opacity-50']"
+      @click="
+        store.map?.flyTo({
+          center: point.marker?.getLngLat(),
+          zoom: 20,
+        })
+      "
       :style="`background-color: ${point.icon.color}${
         matchingGroupAndIndex &&
         dataLabels?.groups.selected?.choices.selected === dataLabel

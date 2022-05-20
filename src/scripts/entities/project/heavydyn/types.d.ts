@@ -2,10 +2,18 @@ interface HeavydynProject extends BaseProject {
   readonly machine: 'Heavydyn'
   readonly reports: SelectableList<HeavydynReport>
   readonly units: HeavydynMathUnits
-  calibrations: JSONCalibrations
+  calibrations: Calibrations
+}
+
+interface Calibrations {
+  readonly date: Date
+  readonly dPlate: number
+  readonly channels: JSONChannel[]
+  readonly sensors: JSONSensor[]
 }
 
 interface JSONCalibrations {
+  readonly date: string
   readonly dPlate: number
   readonly channels: JSONChannel[]
   readonly sensors: JSONSensor[]

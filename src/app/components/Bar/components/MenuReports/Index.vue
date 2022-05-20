@@ -34,6 +34,6 @@
         : []
     "
   />
-  <DialogExport />
   <DisclosureZones />
+  <DialogExport />
 </template>

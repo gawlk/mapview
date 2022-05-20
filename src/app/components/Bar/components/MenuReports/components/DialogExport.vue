@@ -7,7 +7,7 @@
 </script>
 
 <template>
-  <Dialog :title="t('Export')" full :leftIcon="IconCloudDownload" blue>
+  <Dialog :title="t('Export')" full :leftIcon="IconCloudDownload" orange>
     <template v-slot:button>
       {{ t('Export the report') }}
     </template>

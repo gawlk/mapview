@@ -95,6 +95,7 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
         case 'Heavydyn':
           return {
             calibrations: {
+              date: json.Calibrations.Date,
               dPlate: json.Calibrations.Dplate,
               channels:
                 json.Calibrations.Channels.map((channel: any) => {
@@ -263,12 +264,24 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
             {
               from: 'Drop',
               index: json.ExportedData.Drops.length - 1,
-              dataLabels: jsonDropChoices
-                .map((choice) => choice.name)
-                .filter(
-                  (name) => name.startsWith('D') && !name.startsWith('D-')
-                )
-                .slice(0, 4),
+              dataLabels: [
+                'Load',
+                ...(() => {
+                  const indexD0 = jsonDropChoices.findIndex(
+                    (choice) => choice.name === 'D0'
+                  )
+
+                  return jsonDropChoices
+                    .map((choice) => choice.name)
+                    .slice(indexD0, indexD0 + 3)
+                })(),
+              ],
+              // jsonDropChoices
+              //   .map((choice) => choice.name)
+              //   .filter(
+              //     (name) => name.startsWith('D') && !name.startsWith('D-')
+              //   )
+              //   .slice(0, 4),
             },
             {
               from: 'Test',

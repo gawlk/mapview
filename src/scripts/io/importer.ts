@@ -21,11 +21,7 @@ const waitForMap = () =>
   })
 
 export const importFile = async (file: File) => {
-  console.log('a')
-
   await waitForMap()
-
-  console.log('b')
 
   const extension = file.name.split('.').pop()
 

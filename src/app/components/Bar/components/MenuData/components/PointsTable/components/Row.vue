@@ -4,6 +4,7 @@
   import IconHand from '~icons/heroicons-solid/hand'
 
   import store from '/src/store'
+  import { sortPoints } from '/src/scripts'
 
   import Button from '/src/components/Button.vue'
   import Select from '/src/components/Select.vue'
@@ -84,7 +85,7 @@
       class="cursor-pointer border-2 border-gray-100 px-2 text-right font-bold"
       :class="[!props.point.settings.isVisible && 'italic opacity-50']"
     >
-      {{ props.point.index }} {{ props.point.number }}
+      {{ props.point.number }}
     </td>
     <td
       v-for="dataLabel of selectedTableDataLabelsParameters?.dataLabels"

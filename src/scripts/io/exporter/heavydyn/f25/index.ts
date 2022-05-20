@@ -54,7 +54,7 @@ export class F25ExportStrategy implements ExportStrategy {
   }
 
   public writeEndHeader(project: MachineProject): string {
-    const d = project.reports.selected?.line.sortedPoints.value
+    const d = project.reports.selected?.line.sortedPoints
       .map((point) =>
         Number(
           point.data.find((pointData) => pointData.label.name === 'Chainage')

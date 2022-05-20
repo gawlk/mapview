@@ -8,6 +8,19 @@ interface HeavydynProject extends BaseProject {
 interface JSONCalibrations {
   readonly dPlate: number
   readonly channels: JSONChannel[]
+  readonly sensors: JSONSensor[]
+}
+
+interface JSONChannel {
+  name: string
+  position: string
+  gain: number
+  acquisition: number
+}
+
+interface JSONSensor {
+  name: string
+  gain: number
 }
 
 interface JSONHeavydynProject extends JSONProject {

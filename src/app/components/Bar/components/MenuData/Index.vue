@@ -29,7 +29,7 @@
   >
     <PointsTable
       v-if="selectedReport?.settings.groupBy === 'Number'"
-      :points="selectedReport.line.sortedPoints.value"
+      :points="selectedReport.line.sortedPoints"
     />
     <div v-else class="border-t-2 border-gray-100">
       <div v-for="zone of selectedReport?.zones">

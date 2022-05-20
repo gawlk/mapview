@@ -14,7 +14,7 @@ export const createBaseReportFromJSON = (
   parameters: BaseReportCreatorParameters
 ) => {
   const watcherHandler = createWatcherHandler()
-  const pointsWatcherHandlers = createWatcherHandler()
+  const zonesWatcherHandlers = createWatcherHandler()
 
   const zones = shallowReactive([] as MachineZone[])
 
@@ -175,7 +175,7 @@ export const createBaseReportFromJSON = (
       inputs: shallowReactive(json.thresholds.inputs),
     },
     zones,
-    line: createLine(zones, map),
+    line: createLine(map),
     platform: shallowReactive([]),
     informations: shallowReactive([]),
     project: parameters.project,
@@ -241,15 +241,31 @@ export const createBaseReportFromJSON = (
           () =>
             this.zones.reduce((count, zone) => count + zone.points.length, 0),
           () => {
-            pointsWatcherHandlers.clean()
+            zonesWatcherHandlers.clean()
 
             this.zones.forEach((zone) => {
+              zonesWatcherHandlers.add(
+                watch(
+                  () => zone.points.length,
+                  () => {
+                    this.line.sortedPoints = Array.prototype.concat(
+                      ...zones.map((zone) => zone.points)
+                    ) as MachinePoint[]
+
+                    this.line.update()
+                  },
+                  {
+                    immediate: true,
+                  }
+                )
+              )
+
               zone.points.forEach((point) => {
-                pointsWatcherHandlers.add(
+                zonesWatcherHandlers.add(
                   watch(
                     () => point.settings.isVisible,
                     () => {
-                      const sortedPoints = this.line.sortedPoints.value
+                      const sortedPoints = this.line.sortedPoints
 
                       point.updateVisibility()
 
@@ -344,7 +360,7 @@ export const createBaseReportFromJSON = (
       this.line.remove()
 
       watcherHandler.clean()
-      pointsWatcherHandlers.clean()
+      zonesWatcherHandlers.clean()
 
       parameters.remove?.()
     },

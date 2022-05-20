@@ -52,10 +52,3 @@ interface MathUnitWithThresholds {
   unit: MathUnit
   thresholds: AnyThreshold[]
 }
-
-interface JSONChannel {
-  name: string
-  position: string
-  gain: number
-  acquisition: number
-}

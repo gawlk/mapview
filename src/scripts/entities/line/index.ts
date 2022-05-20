@@ -3,10 +3,7 @@ import { createWatcherHandler } from '/src/scripts'
 export const sortPoints = (points: MachinePoint[]) =>
   points.sort((pointA, pointB) => pointA.index - pointB.index)
 
-export const createLine = (
-  zones: MachineZone[],
-  map: mapboxgl.Map | null
-): Line => {
+export const createLine = (map: mapboxgl.Map | null): Line => {
   const id = `line-${+new Date()}${Math.random()}`
 
   let features: GeoJSON.Feature<GeoJSON.Geometry, GeoJSON.GeoJsonProperties>[] =
@@ -15,9 +12,7 @@ export const createLine = (
   const watcherHandler = createWatcherHandler()
 
   const line: Line = {
-    sortedPoints: computed(() =>
-      Array.prototype.concat(...zones.map((zone) => zone.points))
-    ),
+    sortedPoints: [],
     addToMap: function () {
       map?.addLayer(
         {
@@ -44,11 +39,11 @@ export const createLine = (
 
       watcherHandler.add(
         watch(
-          () => this.sortedPoints.value.length,
+          () => this.sortedPoints.length,
           () => {
             line.update()
 
-            this.sortedPoints.value.forEach((point) => {
+            this.sortedPoints.forEach((point) => {
               point.marker?.on('drag', () => {
                 line.update()
               })
@@ -69,8 +64,8 @@ export const createLine = (
       watcherHandler.clean()
     },
     update: function (): void {
-      const visiblePoints = sortPoints(this.sortedPoints.value).filter(
-        (point) => point.checkVisibility()
+      const visiblePoints = sortPoints(this.sortedPoints).filter((point) =>
+        point.checkVisibility()
       )
 
       features = []
@@ -103,8 +98,6 @@ export const createLine = (
       })
     },
   }
-
-  sortPoints(line.sortedPoints.value)
 
   return line
 }

@@ -105,6 +105,13 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
                     acquisition: channel.ChannelAcqu,
                   }
                 }) || [],
+              sensors:
+                json.Calibrations.Sensors.map((sensor: any) => {
+                  return {
+                    name: sensor.Name,
+                    gain: sensor.Gain,
+                  }
+                }) || [],
             },
           }
         default:

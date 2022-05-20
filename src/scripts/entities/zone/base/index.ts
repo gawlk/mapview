@@ -40,6 +40,7 @@ export const createBaseZoneFromJSON = (
             this.points.forEach((point) => {
               point.updateVisibility()
             })
+            this.report.line.update()
           }
         )
       )

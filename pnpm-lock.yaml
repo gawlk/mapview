@@ -28,6 +28,7 @@ specifiers:
   '@vueuse/head': ^0.7.6
   autoprefixer: ^10.4.7
   cypress: 4.12.1
+  dayjs: ^1.11.2
   dedent: ^0.7.0
   fflate: ^0.7.3
   file-saver: ^2.0.5
@@ -62,8 +63,9 @@ specifiers:
 dependencies:
   '@headlessui/vue': 1.6.2_vue@3.2.36
   '@shopify/draggable': 1.0.0-beta.8
-  '@vueuse/core': 8.5.0_vue@3.2.36
-  '@vueuse/head': 0.7.6_vue@3.2.36
+  '@vueuse/core': 8.5.0_vue@3.2.33
+  '@vueuse/head': 0.7.6_vue@3.2.33
+  dayjs: 1.11.2
   dedent: 0.7.0
   fflate: 0.7.3
   file-saver: 2.0.5
@@ -3546,6 +3548,10 @@ packages:
     resolution: {integrity: sha512-8d35hViGYx/QH0icHYCeLmsLmMUheMmTyV9Fcm6gvNwdw31yXXH+O85sOBJ+OLnLQMKZowvpKb6FgMIQjcpvQw==}
     engines: {node: '>=0.11'}
     dev: true
+
+  /dayjs/1.11.2:
+    resolution: {integrity: sha512-F4LXf1OeU9hrSYRPTTj/6FbO4HTjPKXvEIC1P2kcnFurViINCVk3ZV0xAS3XVx9MkMsXbbqlK6hjseaYbgKEHw==}
+    dev: false
 
   /debug/2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}

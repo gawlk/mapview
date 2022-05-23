@@ -175,7 +175,7 @@ export class F25ExportStrategy implements ExportStrategy {
           ${this.writePointHeader(point, project.reports.selected)}
         `
       const values = this.writeDrops(point)
-      return `${header}\n${values}`
+      return `${header}${values}`
     } else throw new Error()
   }
 
@@ -249,10 +249,19 @@ export class F25ExportStrategy implements ExportStrategy {
         const nbr = drop.index.displayedIndex.toString().padStart(3, ' ')
         const force =
           ((drop.data[1].value.value * 1e-3) / Math.PI / dplate / dplate) * 4
-        const values = dedent`
-            ,${Math.round(force).toString().padStart(6, ' ')}\n
+        let values = ''
+        for (let i = 2; i < drop.data.length; i++) {
+          console.log(drop.data[i].value.getLocaleString({ unit: '1/100 mm' }))
+          values += `,${drop.data[i].value
+            .getLocaleString({
+              unit: '1/100 mm',
+            })
+            .padStart(6, ' ')}`
+        }
+        const valuesString = dedent`
+            ,${Math.round(force).toString().padStart(6, ' ')}${values}
           `
-        return `${nbr}${values}`
+        return `\n${nbr}${valuesString}`
       })
       .join('')
   }

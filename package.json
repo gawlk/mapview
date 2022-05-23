@@ -17,6 +17,7 @@
     "@shopify/draggable": "^1.0.0-beta.8",
     "@vueuse/core": "^8.5.0",
     "@vueuse/head": "^0.7.6",
+    "dayjs": "^1.11.2",
     "dedent": "^0.7.0",
     "fflate": "^0.7.3",
     "file-saver": "^2.0.5",

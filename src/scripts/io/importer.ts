@@ -1,4 +1,4 @@
-import { Unzipped, unzipSync } from 'fflate'
+import { type Unzipped, unzipSync } from 'fflate'
 
 import store from '/src/store'
 import {
@@ -24,6 +24,12 @@ export const importFile = async (file: File) => {
   await waitForMap()
 
   const extension = file.name.split('.').pop()
+
+  console.log(
+    file,
+    await file.arrayBuffer(),
+    new Uint8Array(await file.arrayBuffer())
+  )
 
   const zip = unzipSync(new Uint8Array(await file.arrayBuffer()))
 

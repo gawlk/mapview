@@ -71,13 +71,22 @@
       :icon="IconViewList"
       :values="
         groupedDataLabels?.selected?.choices.list.map(
-          (dataLabel) => `${t(dataLabel.name)} - ${t(dataLabel.unit.name)}`
+          (dataLabel) =>
+            `${t(dataLabel.name)} - ${t(
+              typeof dataLabel.unit === 'string'
+                ? dataLabel.unit
+                : dataLabel.unit.name
+            )}`
         )
       "
       :preSelected="`${t('Selected')}${t(':')}`"
       :selected="`${t(
         groupedDataLabels?.selected?.choices.selected?.name || ''
-      )} - ${t(groupedDataLabels?.selected?.choices.selected?.unit.name)}`"
+      )} - ${t(
+        typeof groupedDataLabels?.selected?.choices.selected?.unit === 'string'
+          ? groupedDataLabels?.selected?.choices.selected?.unit
+          : groupedDataLabels?.selected?.choices.selected?.unit.name || ''
+      )}`"
       @selectIndex="
         (index) =>
           groupedDataLabels?.selected &&

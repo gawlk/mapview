@@ -33,7 +33,7 @@ export const createMathNumber = (
         if (this.value < this.unit.min) {
           value = this.unit.min
           preString = '<'
-        } else if (this.value > this.unit.max) {
+        } else if (this.unit.max && this.value > this.unit.max) {
           value = this.unit.max
           preString = '>'
         }

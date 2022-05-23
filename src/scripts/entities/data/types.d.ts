@@ -1,6 +1,6 @@
 interface DataLabel {
   name: string
-  unit: MathUnit
+  unit: MathUnit | string
   scientificName?: string
   // calculate: () => {}
 }

@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import html2canvas from 'html2canvas'
-  import pica from 'pica'
+  // import pica from 'pica'
 
   import store from '/src/store'
   import { fileToBase64 } from '/src/scripts'
@@ -44,16 +44,16 @@
       logging: false,
     })
 
-    const resizeWidth = 800
-    const resizeHeight = (resizeWidth * canvasFrom.height) / canvasFrom.width
+    // const resizeWidth = 800
+    // const resizeHeight = (resizeWidth * canvasFrom.height) / canvasFrom.width
 
-    const canvasTo = document.createElement('canvas')
-    canvasTo.width = resizeWidth
-    canvasTo.height = resizeHeight
+    // const canvasTo = document.createElement('canvas')
+    // canvasTo.width = resizeWidth
+    // canvasTo.height = resizeHeight
 
-    const newCanvas = await pica().resize(canvasFrom, canvasTo)
+    // const newCanvas = await pica().resize(canvasFrom, canvasTo)
 
-    state.image = newCanvas.toDataURL()
+    state.image = canvasFrom.toDataURL()
 
     Array.from(map.getElementsByClassName('mapview-icon')).forEach((icon) => {
       ;(icon as HTMLSpanElement).style.marginBottom = ''

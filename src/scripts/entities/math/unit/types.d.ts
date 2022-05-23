@@ -6,7 +6,7 @@ interface MathUnit {
   possibleSettings: [string, number][]
   possiblePrecisions: number[]
   min: number
-  max: number
+  max: number | null
   step: number
   getAverage: (values: number[]) => number
 }

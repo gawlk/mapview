@@ -26,6 +26,7 @@ export const createMinidynReportFromJSON = (
           createPredefinedThreshold('PF1', 20000000),
           createPredefinedThreshold('PF2', 50000000),
           createPredefinedThreshold('PF2+', 80000000),
+          createPredefinedThreshold('PF3', 120000000),
           createPredefinedThreshold('PF4', 200000000),
           createCustomThreshold(0),
         ],

@@ -34,7 +34,7 @@ export const createMathUnit = <PossibleUnits extends string>(
   const possiblePrecisions = options.possiblePrecisions || [0, 1, 2]
   const currentPrecision = options.currentPrecision || possibleSettings[0][1]
   const min = options.min || 0
-  const max = options.max || 1000
+  const max = options.max || null
   const step = options.step || 1
 
   return shallowReactive({
@@ -50,7 +50,7 @@ export const createMathUnit = <PossibleUnits extends string>(
     getAverage: function (values: number[]) {
       const filteredValues: number[] = values.filter((value) =>
         options.averageFunction === 'ignoreOutliers'
-          ? value <= this.max && value >= this.min
+          ? (!this.max || value <= this.max) && value >= this.min
           : true
       )
 
@@ -59,7 +59,7 @@ export const createMathUnit = <PossibleUnits extends string>(
             (total, currentValue) =>
               total +
               (options.averageFunction === 'capOutliers'
-                ? currentValue > this.max
+                ? this.max && currentValue > this.max
                   ? this.max
                   : currentValue < this.min
                   ? this.min

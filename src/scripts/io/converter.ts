@@ -172,11 +172,13 @@ export const convertJSONFromPRJZToMPVZ = (json: any): JSONMachineProject => {
               } as MinidynMathUnitsSkeleton<number>
           }
         })(),
-        colors: {
-          low: 'green',
-          middle: 'yellow',
-          high: 'red',
-        },
+        colors: (() => {
+          return {
+            low: machine === 'Heavydyn' ? 'green' : 'red',
+            middle: 'yellow',
+            high: machine === 'Heavydyn' ? 'red' : 'green',
+          }
+        })(),
         inputs: {
           isRequiredARange: false,
           isOptionalARange: false,

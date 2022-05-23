@@ -19,7 +19,7 @@
     :icon="IconColorSwatch"
     :preSelected="`${t('Colorization by')}${t(':')}`"
     :values="possibilities.map((possibility) => t(possibility))"
-    :selected="t(selectedReport?.settings.colorization)"
+    :selected="t(selectedReport?.settings.colorization || '')"
     @selectIndex="
       (index) =>
         selectedReport &&

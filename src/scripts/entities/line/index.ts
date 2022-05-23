@@ -74,7 +74,7 @@ export const createLine = (map: mapboxgl.Map | null): Line => {
         features.push({
           type: 'Feature',
           properties: {
-            color: visiblePoints[i - 1].icon.color,
+            color: visiblePoints[i - 1].icon?.color || 'gray',
           },
           geometry: {
             type: 'LineString',

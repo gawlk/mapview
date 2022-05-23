@@ -229,7 +229,8 @@ export const createBaseReportFromJSON = (
           (iconName: IconName) => {
             this.zones.forEach((zone) => {
               zone.points.forEach((point) => {
-                point.icon.setIcon(iconName)
+                point.icon?.setIcon(iconName)
+
                 point.updateColor()
               })
             })

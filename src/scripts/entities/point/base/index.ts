@@ -84,7 +84,7 @@ export const createBasePointFromJSON = (
     },
     updateColor: function () {
       if (this.zone.report.settings.colorization === 'Zone') {
-        this.icon.setColor(
+        this.icon?.setColor(
           colorsClasses[this.zone.settings.color as ColorName].hexColor
         )
       } else {
@@ -109,9 +109,9 @@ export const createBasePointFromJSON = (
               this.zone.report.thresholds.colors
             )
 
-            this.icon.setColor(color)
+            this.icon?.setColor(color)
           } else {
-            this.icon.setColor()
+            this.icon?.setColor()
           }
         }
       }
@@ -127,7 +127,7 @@ export const createBasePointFromJSON = (
             watch(
               () => this.number,
               (number) => {
-                this.icon.setText(String(number))
+                this.icon?.setText(String(number))
               },
               {
                 immediate: true,
@@ -149,11 +149,11 @@ export const createBasePointFromJSON = (
             )
           }
 
-          this.icon.setText(text)
+          this.icon?.setText(text)
 
           break
         case 'nothing':
-          this.icon.setText('')
+          this.icon?.setText('')
           break
       }
     },

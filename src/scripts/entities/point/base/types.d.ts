@@ -5,7 +5,7 @@ interface BasePoint {
   index: number
   date: Date
   marker: mapboxgl.Marker | null
-  icon: Icon
+  icon: Icon | null
   settings: JSONPointSettings
   data: DataValue[]
   readonly drops: MachineDrop[]

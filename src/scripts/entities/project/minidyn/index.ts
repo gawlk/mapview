@@ -6,7 +6,7 @@ import {
 } from '/src/scripts'
 
 export const createMinidynProjectFromJSON = async (
-  json: JSONProject,
+  json: JSONMinidynProject,
   map: mapboxgl.Map | null
 ) => {
   const jsonUnits = json.units as JSONMinidynUnits
@@ -17,6 +17,8 @@ export const createMinidynProjectFromJSON = async (
       'Pa',
       [['MPa', 0]],
       {
+        min: json.bearingParameters.min || 10000000,
+        max: json.bearingParameters.max || 150000000,
         currentUnit: jsonUnits.modulus,
       }
     ),

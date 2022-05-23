@@ -1,4 +1,5 @@
 import mapboxgl, { Marker } from 'mapbox-gl'
+import pica from 'pica'
 
 import {
   createSVGElement,
@@ -16,10 +17,16 @@ export const createImage = async (
 ): Promise<Image> => {
   const id = `image-${parameters.name}-${+new Date()}_${Math.random()}`
 
-  const { width, height } = (await getImageDimensions(data64)) as {
-    width: number
-    height: number
-  }
+  const imageElement = await getImageFromData64(data64)
+
+  const width = 500
+  const height = (width * imageElement.height) / imageElement.width
+
+  const canvasTo = document.createElement('canvas')
+  canvasTo.width = width
+  canvasTo.height = height
+
+  data64 = (await pica().resize(imageElement, canvasTo)).toDataURL()
 
   const { nw, se } =
     parameters.coordinates || (await initialiseNWAndSECoords(map))
@@ -141,17 +148,14 @@ const initialiseNWAndSECoords = async (
   }
 }
 
-const getImageDimensions = async (data64: string) =>
+const getImageFromData64 = async (data64: string): Promise<HTMLImageElement> =>
   new Promise((resolve) => {
     const image = new Image()
 
     image.src = data64
 
     image.onload = () => {
-      resolve({
-        width: image.width,
-        height: image.height,
-      })
+      resolve(image)
     }
   })
 

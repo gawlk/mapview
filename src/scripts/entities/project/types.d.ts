@@ -18,3 +18,13 @@ type MachineMathUnitsNames =
   | HeavydynMathUnitsNames
   | MaxidynMathUnitsNames
   | MinidynMathUnitsNames
+
+interface JSONBearingParameters {
+  min: number
+  max: number
+}
+
+type JSONMachineProject =
+  | JSONHeavydynProject
+  | JSONMaxidynProject
+  | JSONMinidynProject

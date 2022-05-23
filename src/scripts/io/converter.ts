@@ -1,4 +1,4 @@
-export const convertJSONFromPRJZToMPVZ = (json: any) => {
+export const convertJSONFromPRJZToMPVZ = (json: any): JSONMachineProject => {
   // Update prjz here
 
   const machine =
@@ -70,7 +70,7 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
     (exportedUnit: any) => convertExportedUnitToJSONChoice(exportedUnit)
   )
 
-  const project: JSONProject | JSONHeavydynProject = {
+  const project = {
     name: json.Project.Name,
     machine,
     settings: {
@@ -116,10 +116,15 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
             },
           }
         default:
-          return {}
+          return {
+            bearingParameters: {
+              min: json.ParamsBearing.MinBearing,
+              max: json.ParamsBearing.MaxBearing,
+            },
+          }
       }
     })(),
-  }
+  } as JSONMachineProject
 
   if (json.Sequences) {
     project.informations.push({

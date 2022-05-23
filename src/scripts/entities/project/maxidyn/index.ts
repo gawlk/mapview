@@ -6,7 +6,7 @@ import {
 } from '/src/scripts'
 
 export const createMaxidynProjectFromJSON = async (
-  json: JSONProject,
+  json: JSONMaxidynProject,
   map: mapboxgl.Map | null
 ) => {
   const jsonUnits = json.units as JSONMaxidynUnits
@@ -17,6 +17,8 @@ export const createMaxidynProjectFromJSON = async (
       'Pa',
       [['MPa', 0]],
       {
+        min: json.bearingParameters.min || 20000000,
+        max: json.bearingParameters.max || 250000000,
         currentUnit: jsonUnits.modulus,
       }
     ),

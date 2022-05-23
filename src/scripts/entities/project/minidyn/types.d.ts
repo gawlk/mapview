@@ -2,6 +2,11 @@ interface MinidynProject extends BaseProject {
   readonly machine: 'Minidyn'
   readonly reports: SelectableList<MinidynReport>
   readonly units: MinidynMathUnits
+  bearingParameters: JSONBearingParameters
+}
+
+interface JSONMinidynProject extends JSONProject {
+  bearingParameters: JSONBearingParameters
 }
 
 interface MinidynMathUnitsSkeleton<A, B = A, C = A, D = A, E = A, F = A> {

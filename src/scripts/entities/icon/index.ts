@@ -38,22 +38,29 @@ export const createIcon = (iconName: IconName) => {
   const subDiv2 = document.createElement('div')
   div.appendChild(subDiv2)
 
-  subDiv2.classList.add('absolute', 'inset-0', 'flex', 'items-center')
+  subDiv2.classList.add(
+    'absolute',
+    'inset-0',
+    'flex',
+    'items-center',
+    'justify-center',
+    'h-full'
+  )
   subDiv2.style.left = '-100%'
   subDiv2.style.right = '-100%'
 
-  const p = document.createElement('p')
-  subDiv2.appendChild(p)
+  const span = document.createElement('span')
+  subDiv2.appendChild(span)
 
-  p.classList.add(
+  span.classList.add(
     'font-medium',
     'text-white',
     'serif',
-    'w-full',
-    'text-center',
-    'mb-0.5'
+    'mb-0.5',
+    'mapview-icon'
   )
-  p.style.textShadow = '-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black'
+
+  span.style.textShadow = '-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black'
 
   const icon = shallowReactive({
     element: div,
@@ -65,7 +72,7 @@ export const createIcon = (iconName: IconName) => {
       svg.setAttribute('color', blend(this.color, '#000000'))
     },
     setText: function (text: string) {
-      p.innerHTML = text
+      span.innerHTML = text
     },
     setIcon: function (iconName: IconName) {
       subDiv.innerHTML = icons[iconName] || icons.Circle

@@ -24,8 +24,14 @@
     }
   }
 
-  const addProject = (file: File | undefined) => {
-    file && importFile(file)
+  const addProject = async (file: File | undefined) => {
+    if (file) {
+      const project = await importFile(file)
+
+      if (project) {
+        store.projects.selected = project
+      }
+    }
   }
 
   const deleteProject = () => {

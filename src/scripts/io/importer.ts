@@ -38,9 +38,9 @@ export const importFile = async (file: File) => {
   if (jsonUint) {
     const importedJSON: any = JSON.parse(new TextDecoder().decode(jsonUint))
 
-    const jsonProject: JSONProject =
+    const jsonProject: JSONMachineProject =
       extension === 'mpvz'
-        ? (importedJSON as JSONProject)
+        ? (importedJSON as JSONMachineProject)
         : convertJSONFromPRJZToMPVZ(importedJSON)
 
     console.log('json project', jsonProject)
@@ -60,7 +60,7 @@ export const importFile = async (file: File) => {
 }
 
 export const generateProjectFromJSON = async (
-  json: JSONProject
+  json: JSONMachineProject
 ): Promise<MachineProject | null> => {
   const map = store.map as mapboxgl.Map
 
@@ -75,11 +75,17 @@ export const generateProjectFromJSON = async (
       break
 
     case 'Maxidyn':
-      project = await createMaxidynProjectFromJSON(json, map)
+      project = await createMaxidynProjectFromJSON(
+        json as JSONMaxidynProject,
+        map
+      )
       break
 
     case 'Minidyn':
-      project = await createMinidynProjectFromJSON(json, map)
+      project = await createMinidynProjectFromJSON(
+        json as JSONMinidynProject,
+        map
+      )
       break
   }
 

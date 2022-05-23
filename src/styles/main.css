@@ -1,5 +1,7 @@
 @import './fonts.css';
 
+@import './custom.css';
+
 body {
   @apply antialiased;
 }

@@ -1,3 +1,5 @@
+import FileSaver from 'file-saver'
+
 export * from './prjz'
 
 export default class Context {
@@ -15,5 +17,9 @@ export default class Context {
 
   public doExport(project: MachineProject): void {
     this.fileContent = this.strategy.doExport(project)
+    FileSaver.saveAs(
+      new Blob([this.fileContent]),
+      'report.' + this.strategy.extension
+    )
   }
 }

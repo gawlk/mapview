@@ -2,6 +2,8 @@ import dedent from 'dedent'
 import { findFieldInArray } from '/src/scripts/entities'
 
 export class FWDExportStrategy implements ExportStrategy {
+  extension: string = 'fwd'
+
   doExport(project: HeavydynProject): string {
     const fileString = `${this.writeHeader(project)}\n${this.writeEndHeader()}`
 

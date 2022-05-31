@@ -4,8 +4,8 @@ import { saveAs } from 'file-saver'
 import * as math from 'mathjs'
 import { findFieldInArray } from '/src/scripts/entities'
 export class F25ExportStrategy implements ExportStrategy {
-  /**
-   */
+  extension: string = 'f25'
+
   public doExport(project: HeavydynProject): string {
     const stringWithoutPoints = dedent`
     ${this.writeHeader(project)}
@@ -167,24 +167,20 @@ export class F25ExportStrategy implements ExportStrategy {
 
   public writePoints(project: MachineProject): string {
     if (project.reports.selected) {
-      // return project.reports.selected?.line.sortedPoints.value
-      //   .map((point) => {
-      //     return dedent`
-      //     ${this.writePointGps(point)}
-      //     ${this.writePointHeader(point)}
-      //     `
-      //   })
-      // .join('')
-      const point = project.reports.selected.line.sortedPoints[0]
-
-      const header = dedent`
+      return project.reports.selected?.line.sortedPoints
+        .map((point) => {
+          const header = dedent`
           ${this.writePointGps(point)}
-          ${this.writePointHeader(point, project.reports.selected)}
+          ${this.writePointHeader(
+            point,
+            project.reports.selected as MachineReport
+          )}
         `
+          const values = this.writeDrops(point)
 
-      const values = this.writeDrops(point)
-
-      return `${header}${values}`
+          return `${header}${values}`
+        })
+        .join('')
     } else throw new Error()
   }
 
@@ -247,6 +243,7 @@ export class F25ExportStrategy implements ExportStrategy {
   }
 
   public writeDrops(point: MachinePoint): string {
+    // TODO: get dplate
     // newton en kilo pascal avec le diametre de la plaque
     const dplate = 0.3
 

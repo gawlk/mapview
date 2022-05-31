@@ -3,6 +3,8 @@ import dedent from 'dedent'
 import { findFieldInArray } from '/src/scripts/entities'
 
 export class PDXExportStrategy implements ExportStrategy {
+  extension: string = 'pdx'
+
   doExport(project: HeavydynProject): string {
     return dedent`
       ${this.writeHeader(project)}
@@ -180,8 +182,8 @@ export class PDXExportStrategy implements ExportStrategy {
           })
           .join(',')
 
-        // const comment = point.data.find((data) => data.label.name === 'Comment')
-        //   ?.value.value
+        const comment = point.data.find((data) => data.label.name === 'Comment')
+          ?.value.value
 
         // TODO: add power in kilo pascal
 
@@ -191,12 +193,12 @@ export class PDXExportStrategy implements ExportStrategy {
           point.data.find((data) => data.label.name === 'Chainage')?.value.value
         },0,0 
         GPSLocation = 55.78964,12.52323,42.8 // z => 0, marker
-        TestLane =  // point.comment
+        TestLane = ${comment}  
         TestType = 0
         DropHistoryType = load and deflections
         TestTemperatures = ${temps} 
         TestTime = ${dayjs(point.date).format('HH:mm:ss')} 
-        TestComment = // point.comment
+        TestComment = ${comment} 
         NumberOfDrops = ${point.drops.length} 
         ${this.writeDrops(point)}
         \n
@@ -209,8 +211,10 @@ export class PDXExportStrategy implements ExportStrategy {
     return point.drops
       .map((drop, index) => {
         const values = drop.data
-          .slice(1)
+          .slice(2)
           .map((data) => data.value.getLocaleString({ unit: 'um' }))
+
+        values.unshift(drop.data[1].value.getLocaleString({}))
         return dedent`
         DropData_${index} = ${values} 
       `

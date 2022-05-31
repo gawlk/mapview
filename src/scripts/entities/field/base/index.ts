@@ -59,6 +59,11 @@ export const createBaseFieldFromJSON = (
       }
     })(),
     settings: shallowReactive(settings),
+    convertValueToString: function () {
+      return typeof this.value === 'object'
+        ? this.value.value.toString()
+        : value.toString()
+    },
   }
 
   return options?.reactive ? shallowReactive(field) : field

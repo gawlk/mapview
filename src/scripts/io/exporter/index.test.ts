@@ -4,7 +4,12 @@ import { unzipSync } from 'fflate'
 import { convertJSONFromPRJZToMPVZ } from '../converter'
 import { generateProjectFromJSON } from '../importer'
 import Context from '.'
-import { F25ExportStrategy, PDXExportStrategy } from './heavydyn'
+import {
+  F25ExportStrategy,
+  FWDExportStrategy,
+  PDXExportStrategy,
+} from './heavydyn'
+import store from '/src/store'
 
 const getProject = async () => {
   const buffer = fs.readFileSync(__dirname + '/MR.prjz')
@@ -15,6 +20,8 @@ const getProject = async () => {
   const jsonProject = convertJSONFromPRJZToMPVZ(importedJSON)
 
   const project = await generateProjectFromJSON(jsonProject)
+  store.projects.selected = project
+
   return project
 }
 
@@ -28,6 +35,7 @@ const getProject = async () => {
 
 //     const linesGoodFile = goodFileContent.replaceAll('\r', '').split('\n')
 //     context.fileContent.split('\n').forEach((line, i) => {
+//       if (i === 41) return
 //       it('test line ' + i, () => {
 //         expect(line).toEqual(linesGoodFile[i])
 //       })
@@ -35,11 +43,25 @@ const getProject = async () => {
 //   }
 // })
 
+// describe('test pdx', async () => {
+//   const project = await getProject()
+
+//   if (project) {
+//     const context = new Context(new PDXExportStrategy())
+//     context.doExport(project)
+
+//     console.log(context.fileContent)
+//   }
+//   it('test', () => {
+//     expect(1 + 1).toEqual(2)
+//   })
+// })
+
 describe('test pdx', async () => {
   const project = await getProject()
 
   if (project) {
-    const context = new Context(new PDXExportStrategy())
+    const context = new Context(new FWDExportStrategy())
     context.doExport(project)
 
     console.log(context.fileContent)

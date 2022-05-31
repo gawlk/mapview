@@ -4,7 +4,7 @@ interface MathNumber {
   displayedString: string
   displayedStringWithUnit: string
   updateDisplayedStrings: () => void
-  getLocaleString: (options: MathNumberGetLocaleStringOptions) => void
+  getLocaleString: (options: MathNumberGetLocaleStringOptions) => string
 }
 
 interface MathNumberGetLocaleStringOptions {

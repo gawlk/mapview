@@ -1,11 +1,12 @@
+import dayjs from 'dayjs'
 import dedent from 'dedent'
 import { saveAs } from 'file-saver'
 import * as math from 'mathjs'
+import { findFieldInArray } from '/src/scripts/entities'
 export class F25ExportStrategy implements ExportStrategy {
   /**
    */
-  public doExport(project: MachineProject): string {
-    console.log(this.writePoints(project))
+  public doExport(project: HeavydynProject): string {
     const stringWithoutPoints = dedent`
     ${this.writeHeader(project)}
     ${this.writeSensors(project)}
@@ -15,41 +16,41 @@ export class F25ExportStrategy implements ExportStrategy {
     return `${stringWithoutPoints}\n${points}`
   }
 
-  public writeHeader(project: MachineProject): string {
-    const serialNumber = project.hardware.find(
-      (machineField: MachineField) => machineField.label === 'Serial number'
-    )?.value
+  public writeHeader(project: HeavydynProject): string {
+    const serialNumber = findFieldInArray(
+      project.hardware,
+      'Serial number'
+    )?.convertValueToString()
 
-    const operator = project.reports.selected?.informations.find(
-      (machineField: MachineField) => machineField.label === 'Operator'
-    )?.value
+    const operator = findFieldInArray(
+      project.reports.selected!.informations,
+      'Operator'
+    )?.convertValueToString()
 
-    const sequenceName = project.informations.find(
-      (machineField: MachineField) => machineField.label === 'Sequence'
-    )?.value
+    const sequenceName = findFieldInArray(
+      project.informations,
+      'Sequence'
+    )?.convertValueToString()
 
-    const date = new Date(
+    const date = dayjs(
       (
         project.informations.find(
           (machineField: MachineField) => machineField.label === 'Date'
         )?.value as SelectableString
       ).value
-    )
+    ).format('YYYY,MM,DD,HH,mm')
 
     return dedent`
     5001,25.99,1,40, 3, 1,"Heavydyn     "
-    5002,"25SI ","${serialNumber?.toString().padEnd(8, ' ')}","${serialNumber
+    5002,"25SI ","${serialNumber?.padEnd(8, ' ')}","${serialNumber
       ?.toString()
       .padEnd(8, ' ')}"
-    5003, "${operator?.toString().padEnd(8, ' ')}", "${sequenceName
-      ?.toString()
-      .padEnd(8, ' ')}", "${project.name.value
-      .toString()
-      .padStart(8, ' ')}", "F25"
+    5003, "${operator?.padEnd(8, ' ')}", "${sequenceName?.padEnd(
+      8,
+      ' '
+    )}", "${project.name.value.toString().padStart(8, ' ')}", "F25"
     5010,0,0,0,0,0,0,0,3,1,0,0,0,0,0,1,0,0,0,0,0,1,"MDB"
-    5011,0,1,${date.getFullYear()},${
-      date.getMonth() + 1
-    },${date.getDate()},${date.getHours()},${date.getMinutes()},0,"Non",000
+    5011,0,1,${date},0,"Non",000
     `
   }
 
@@ -66,7 +67,7 @@ export class F25ExportStrategy implements ExportStrategy {
     if (typeof d === 'undefined') {
       throw new Error()
     }
-    // add dmin dmax
+
     let dmin = 0,
       dmax = 0
     if (d.length > 2) {
@@ -74,9 +75,14 @@ export class F25ExportStrategy implements ExportStrategy {
       dmax = Number(d[d.length - 1]) * 1e-3
     }
 
-    const operator = project.reports.selected?.informations
-      .find((machineField: MachineField) => machineField.label === 'Operator')
-      ?.value.toString()
+    if (!project.reports.selected) {
+      throw new Error('cannot find selected report')
+    }
+
+    const operator = findFieldInArray(
+      project.reports.selected.informations,
+      'Operator'
+    )?.convertValueToString()
 
     const reportName = project.reports.selected?.name.value.toString()
 
@@ -109,11 +115,12 @@ export class F25ExportStrategy implements ExportStrategy {
     `
   }
 
-  public writeSensors(project: MachineProject): string {
+  public writeSensors(project: HeavydynProject): string {
     const firstSensor = project.calibrations.channels.find(
       (channel) => channel.acquisition === 0
     )
-    if (typeof firstSensor === 'undefined') {
+
+    if (!firstSensor) {
       throw new Error('cant create sensors')
     }
 
@@ -168,13 +175,15 @@ export class F25ExportStrategy implements ExportStrategy {
       //     `
       //   })
       // .join('')
-      const point = project.reports.selected.line.sortedPoints.value[0]
-      // console.log(this.writeDrops(point))
+      const point = project.reports.selected.line.sortedPoints[0]
+
       const header = dedent`
           ${this.writePointGps(point)}
           ${this.writePointHeader(point, project.reports.selected)}
         `
+
       const values = this.writeDrops(point)
+
       return `${header}${values}`
     } else throw new Error()
   }
@@ -193,16 +202,18 @@ export class F25ExportStrategy implements ExportStrategy {
   }
 
   public writePointHeader(point: MachinePoint, report: MachineReport): string {
-    const date = new Date(point.date)
+    const date = dayjs(point.date).format('YYYY, MM, DD, HH, mm')
+
     let chainage = point.data.find(
       (pointData) => pointData.label.name === 'Chainage'
     )?.value.value
     if (typeof chainage === 'undefined') throw new Error()
     chainage = Math.round(chainage)
 
-    // TODO: type prob ?
-    const comment = report.informations.find((info) => info.label === 'Comment')
-      ?.value.value
+    const comment = findFieldInArray(
+      report.informations,
+      'Comment'
+    )?.convertValueToString()
 
     const tair = point.data.find((pointData) => pointData.label.name === 'Tair')
       ?.value.value
@@ -222,12 +233,7 @@ export class F25ExportStrategy implements ExportStrategy {
       throw new Error()
 
     return dedent`
-    5301,0,1,3,3,${chainage
-      .toString()
-      .padStart(
-        7,
-        ' '
-      )},1,1,        ,${date.getFullYear()}, ${date.getMonth()}, ${date.getDate()}, ${date.getHours()}, ${date.getMinutes()}
+    5301,0,1,3,3,${chainage.toString().padStart(7, ' ')},1,1,        ,${date}
     5302, 0, 1, 8, 0, 0, 0, 0, 0, "${comment?.toString().padStart(55, ' ')}"
     5303,0,${(Math.round(tman * 10) / 10)
       .toPrecision(2)
@@ -251,10 +257,11 @@ export class F25ExportStrategy implements ExportStrategy {
           ((drop.data[1].value.value * 1e-3) / Math.PI / dplate / dplate) * 4
         let values = ''
         for (let i = 2; i < drop.data.length; i++) {
-          console.log(drop.data[i].value.getLocaleString({ unit: '1/100 mm' }))
+          // console.log(drop.data[i].value.getLocaleString({ unit: '1/10 mm' }))
           values += `,${drop.data[i].value
             .getLocaleString({
-              unit: '1/100 mm',
+              unit: 'um',
+              precision: 1,
             })
             .padStart(6, ' ')}`
         }

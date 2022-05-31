@@ -37,7 +37,6 @@ export const createMathNumber = (
           value = this.unit.max
           preString = '>'
         }
-
         value = convertValueFromUnitAToUnitB(
           value,
           this.unit.baseUnit,

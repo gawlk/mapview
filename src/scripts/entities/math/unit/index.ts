@@ -2,6 +2,7 @@ import { unit as Unit, createUnit } from 'mathjs'
 
 createUnit({
   cmm: '10 um',
+  dmm: '100 um',
   nlbs: '4.448221628250858 N',
 })
 
@@ -12,6 +13,8 @@ const convertMapviewUnitToMathJSUnit = (unit: string) =>
     ? 'degF'
     : unit === '1/100 mm'
     ? 'cmm'
+    : unit === '1/10 mm'
+    ? 'dmm'
     : unit === 'lbs'
     ? 'nlbs'
     : unit === '%'
@@ -78,7 +81,7 @@ export const convertValueFromUnitAToUnitB = (
   value: number,
   unitA: string,
   unitB: string
-) =>
-  Unit(value, convertMapviewUnitToMathJSUnit(unitA)).toNumber(
-    convertMapviewUnitToMathJSUnit(unitB)
-  )
+) => {
+  const valueTest = Unit(value, convertMapviewUnitToMathJSUnit(unitA))
+  return valueTest.toNumber(convertMapviewUnitToMathJSUnit(unitB))
+}

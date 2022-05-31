@@ -71,7 +71,7 @@
       class="w-full"
     >
       <div
-        v-for="(report, index) of store.projects.selected?.reports.list"
+        v-for="report of store.projects.selected?.reports.list"
         :key="(report.name.value as string)"
         class="flex space-x-1"
       >

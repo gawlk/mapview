@@ -9,7 +9,7 @@
   import MenuWrapperDesktop from './components/MenuWrapperDesktop.vue'
 
   const props = defineProps<{
-    menus: MenuProp[]
+    menus: Menu[]
   }>()
 </script>
 
@@ -27,8 +27,9 @@
           "
           :name="menu.name"
           :icon="menu.icon"
+          :menuProps="menu.props"
         >
-          <component :is="menu.component" />
+          <component :is="menu.component" :menu="menu.props" />
         </MenuWrapperDesktop>
         <Button v-else disabled full :leftIcon="menu.icon">
           {{ menu.name }}

@@ -37,6 +37,26 @@ export const createBaseZoneFromJSON = (
           }
         )
       )
+
+      watcherHandler.add(
+        watch(
+          () => this.points.length,
+          () => {
+            console.log(this.points.length)
+
+            sortPoints(this.points)
+
+            this.report.line.sortedPoints = Array.prototype.concat(
+              ...this.report.zones.map((zone) => zone.points)
+            ) as MachinePoint[]
+
+            this.report.line.update()
+          },
+          {
+            immediate: true,
+          }
+        )
+      )
     },
     clean: function () {
       watcherHandler.clean()

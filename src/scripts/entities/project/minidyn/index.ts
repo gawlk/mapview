@@ -41,15 +41,15 @@ export const createMinidynProjectFromJSON = async (
         currentUnit: jsonUnits.deflection,
       }
     ),
-    load: createMathUnit<PossibleMinidynForceUnits>(
-      'Load',
+    force: createMathUnit<PossibleMinidynForceUnits>(
+      'Force',
       'N',
       [
         ['N', 0],
         ['kN', 0],
       ],
       {
-        currentUnit: jsonUnits.load,
+        currentUnit: jsonUnits.force,
       }
     ),
     temperature: createMathUnit<PossibleMinidynTemperatureUnits>(
@@ -74,6 +74,16 @@ export const createMinidynProjectFromJSON = async (
       ],
       {
         currentUnit: jsonUnits.time,
+      }
+    ),
+    percentage: createMathUnit<PossibleMinidynPercentageUnits>(
+      'Percentage',
+      '%',
+      [['%', 0]],
+      {
+        currentUnit: '%',
+        max: 100,
+        step: 0.5,
       }
     ),
   }

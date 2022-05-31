@@ -9,13 +9,22 @@ interface JSONMinidynProject extends JSONProject {
   bearingParameters: JSONBearingParameters
 }
 
-interface MinidynMathUnitsSkeleton<A, B = A, C = A, D = A, E = A, F = A> {
+interface MinidynMathUnitsSkeleton<
+  A,
+  B = A,
+  C = A,
+  D = A,
+  E = A,
+  F = A,
+  G = A
+> {
   modulus: A
   stiffness: B
   deflection: C
-  load: D
+  force: D
   temperature: E
   time: F
+  percentage: G
 }
 
 type MinidynMathUnits = MinidynMathUnitsSkeleton<MathUnit>
@@ -26,6 +35,7 @@ type PossibleMinidynDeflectionUnits = 'mm' | 'um'
 type PossibleMinidynForceUnits = 'N' | 'kN'
 type PossibleMinidynTemperatureUnits = '°C' | '°F' | 'K'
 type PossibleMinidynTimeUnits = 's' | 'ms' | 'us'
+type PossibleMinidynPercentageUnits = '%'
 
 type JSONMinidynUnits = MinidynMathUnitsSkeleton<
   PossibleMinidynModulusUnits,
@@ -33,7 +43,8 @@ type JSONMinidynUnits = MinidynMathUnitsSkeleton<
   PossibleMinidynDeflectionUnits,
   PossibleMinidynForceUnits,
   PossibleMinidynTemperatureUnits,
-  PossibleMinidynTimeUnits
+  PossibleMinidynTimeUnits,
+  PossibleMinidynPercentageUnits
 >
 
 type MinidynMathUnitsNames = keyof MinidynMathUnitsSkeleton<any>

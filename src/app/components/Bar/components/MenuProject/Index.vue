@@ -8,6 +8,10 @@
   import GroupProjects from './components/GroupProjects.vue'
 
   const { t } = useI18n()
+
+  const props = defineProps<{
+    menu: MenuProps
+  }>()
 </script>
 
 <template>

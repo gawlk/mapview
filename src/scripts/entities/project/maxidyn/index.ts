@@ -41,15 +41,15 @@ export const createMaxidynProjectFromJSON = async (
         currentUnit: jsonUnits.deflection,
       }
     ),
-    load: createMathUnit<PossibleMaxidynForceUnits>(
-      'Load',
+    force: createMathUnit<PossibleMaxidynForceUnits>(
+      'Force',
       'N',
       [
         ['N', 0],
         ['kN', 0],
       ],
       {
-        currentUnit: jsonUnits.load,
+        currentUnit: jsonUnits.force,
       }
     ),
     distance: createMathUnit<PossibleMaxidynDistanceUnits>(
@@ -74,6 +74,16 @@ export const createMaxidynProjectFromJSON = async (
       ],
       {
         currentUnit: jsonUnits.time,
+      }
+    ),
+    percentage: createMathUnit<PossibleMaxidynPercentageUnits>(
+      'Percentage',
+      '%',
+      [['%', 0]],
+      {
+        currentUnit: '%',
+        max: 100,
+        step: 0.5,
       }
     ),
   }

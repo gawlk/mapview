@@ -6,7 +6,6 @@ import {
   createSelectableList,
   createWatcherHandler,
   debounce,
-  sortPoints,
 } from '/src/scripts'
 
 export const createBaseReportFromJSON = (
@@ -15,7 +14,6 @@ export const createBaseReportFromJSON = (
   parameters: BaseReportCreatorParameters
 ) => {
   const watcherHandler = createWatcherHandler()
-  const zonesWatcherHandlers = createWatcherHandler()
 
   const zones = shallowReactive([] as MachineZone[])
 
@@ -200,7 +198,7 @@ export const createBaseReportFromJSON = (
         zone.init()
       })
 
-      if (this.settings.isVisible) {
+      if (this.settings.isVisible && this.project.settings.arePointsLinked) {
         this.line.addToMap()
       }
 
@@ -234,63 +232,6 @@ export const createBaseReportFromJSON = (
                 point.updateColor()
               })
             })
-          }
-        )
-      )
-
-      watcherHandler.add(
-        watch(
-          () =>
-            this.zones.reduce((count, zone) => count + zone.points.length, 0),
-          () => {
-            zonesWatcherHandlers.clean()
-
-            this.zones.forEach((zone) => {
-              zonesWatcherHandlers.add(
-                watch(
-                  () => zone.points.length,
-                  () => {
-                    sortPoints(zone.points)
-
-                    this.line.sortedPoints = Array.prototype.concat(
-                      ...zones.map((zone) => zone.points)
-                    ) as MachinePoint[]
-
-                    this.line.update()
-                  },
-                  {
-                    immediate: true,
-                  }
-                )
-              )
-
-              zone.points.forEach((point) => {
-                zonesWatcherHandlers.add(
-                  watch(
-                    () => point.settings.isVisible,
-                    () => {
-                      const sortedPoints = this.line.sortedPoints
-
-                      point.updateVisibility()
-
-                      let index =
-                        sortedPoints.findIndex((_point) => point === _point) + 1
-
-                      for (index; index < sortedPoints.length; index++) {
-                        sortedPoints[index].number += point.settings.isVisible
-                          ? 1
-                          : -1
-                      }
-
-                      this.line.update()
-                    }
-                  )
-                )
-              })
-            })
-          },
-          {
-            immediate: true,
           }
         )
       )
@@ -364,7 +305,6 @@ export const createBaseReportFromJSON = (
       this.line.remove()
 
       watcherHandler.clean()
-      zonesWatcherHandlers.clean()
 
       parameters.remove?.()
     },

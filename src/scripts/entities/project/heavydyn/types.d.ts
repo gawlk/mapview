@@ -24,11 +24,13 @@ interface JSONChannel {
   position: string
   gain: number
   acquisition: number
+  type: 'LoadCell' | 'Geophone'
 }
 
 interface JSONSensor {
   name: string
   gain: number
+  type: 'AirTemp' | 'SurfTemp' | 'Dmi'
 }
 
 interface JSONHeavydynProject extends JSONProject {
@@ -37,7 +39,7 @@ interface JSONHeavydynProject extends JSONProject {
 
 interface HeavydynMathUnitsSkeleton<A, B = A, C = A, D = A, E = A> {
   deflection: A
-  load: B
+  force: B
   temperature: C
   distance: D
   time: E

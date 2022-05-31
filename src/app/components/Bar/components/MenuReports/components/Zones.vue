@@ -4,29 +4,18 @@
     createHeavydynZoneFromJSON,
     createMaxidynZoneFromJSON,
     createMinidynZoneFromJSON,
-    setDisclosureOpenState,
-    getDisclosureOpenState,
     colorsClasses,
   } from '/src/scripts'
 
   import IconColorSwatch from '~icons/heroicons-solid/color-swatch'
   import IconPlus from '~icons/heroicons-solid/plus'
   import IconTrash from '~icons/heroicons-solid/trash'
-  import IconIssueDraft from '~icons/octicon/issue-draft-16'
 
   import Button from '/src/components/Button.vue'
-  import Divider from '/src/components/Divider.vue'
-  import Disclosure from '/src/components/Disclosure.vue'
   import ListboxColors from '/src/components/ListboxColors.vue'
   import Input from '/src/components/Input.vue'
 
   const { t } = useI18n()
-
-  const key = 'isPointsColorsDisclosureOpen'
-
-  store.projects.selected?.reports.selected &&
-    store.projects.selected.reports.selected.zones[0].name === '' &&
-    (store.projects.selected.reports.selected.zones[0].name = t('Default'))
 
   const selectedReport = computed(
     () => store.projects.selected?.reports.selected
@@ -65,32 +54,23 @@
 </script>
 
 <template>
-  <Disclosure
-    :icon="IconIssueDraft"
-    :text="t('Zones settings')"
-    @click="(open) => setDisclosureOpenState(key, open)"
-    :defaultOpen="getDisclosureOpenState(key, false)"
-  >
-    <div class="space-y-2">
-      <div
-        v-for="(zone, index) of selectedReport?.zones"
-        class="flex space-x-2"
-      >
-        <ListboxColors
-          :icon="IconColorSwatch"
-          @selectColor="(color: ColorName) => 
+  <div class="space-y-2">
+    <div v-for="(zone, index) of selectedReport?.zones" class="flex space-x-2">
+      <ListboxColors
+        :icon="IconColorSwatch"
+        @selectColor="(color: ColorName) => 
             (zone.settings.color = color)
           "
-          :color="zone.settings.color"
-        />
-        <Input
-          :id="zone.name + '-name'"
-          :value="zone.name"
-          @input="(value) => (zone.name = String(value))"
-        />
-        <Button
-          v-if="index !== 0"
-          @click="
+        :color="zone.settings.color"
+      />
+      <Input
+        :id="zone.name + '-name'"
+        :value="zone.name"
+        @input="(value) => (zone.name = String(value))"
+      />
+      <Button
+        v-if="index !== 0"
+        @click="
             () => {
               (selectedReport?.zones[0].points as MachinePoint[]).push(...zone.points)
 
@@ -99,19 +79,16 @@
               selectedReport?.zones.splice(index, 1)
             }
           "
-          :icon="IconTrash"
-        />
-      </div>
-      <Divider />
-      <Button full :leftIcon="IconPlus" @click="createZone">
-        {{ t('Create a zone') }}
-      </Button>
+        :icon="IconTrash"
+      />
     </div>
-  </Disclosure>
+    <Button full :leftIcon="IconPlus" @click="createZone">
+      {{ t('Create a zone') }}
+    </Button>
+  </div>
 </template>
 
 <i18n lang="yaml">
 fr:
-  'Zones settings': 'Configuration des zones'
   'Create a zone': 'Créer une zone'
 </i18n>

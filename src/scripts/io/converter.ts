@@ -1,3 +1,5 @@
+import { icons } from '/src/scripts'
+
 export const convertJSONFromPRJZToMPVZ = (json: any): JSONMachineProject => {
   // Update prjz here
 
@@ -74,7 +76,14 @@ export const convertJSONFromPRJZToMPVZ = (json: any): JSONMachineProject => {
     name: json.Project.Name,
     machine,
     settings: {
-      arePointsLinked: true,
+      arePointsLinked: (() => {
+        switch (machine) {
+          case 'Heavydyn':
+            return true
+          default:
+            return false
+        }
+      })(),
       arePointsLocked: true,
       arePointsVisible: true,
       areImagesVisible: true,
@@ -98,19 +107,21 @@ export const convertJSONFromPRJZToMPVZ = (json: any): JSONMachineProject => {
               date: json.Calibrations.Date,
               dPlate: json.Calibrations.Dplate,
               channels:
-                json.Calibrations.Channels.map((channel: any) => {
+                json.Calibrations.Channels.map((channel: any): JSONChannel => {
                   return {
                     name: channel.Name,
                     position: channel.Position,
                     gain: channel.Gain,
                     acquisition: channel.ChannelAcqu,
+                    type: channel.Type,
                   }
                 }) || [],
               sensors:
-                json.Calibrations.Sensors.map((sensor: any) => {
+                json.Calibrations.Sensors.map((sensor: any): JSONSensor => {
                   return {
                     name: sensor.Name,
                     gain: sensor.Gain,
+                    type: sensor.Type,
                   }
                 }) || [],
             },
@@ -134,11 +145,13 @@ export const convertJSONFromPRJZToMPVZ = (json: any): JSONMachineProject => {
     })
   }
 
-  project.reports = json.PVs.map((jsonPV: any) => {
+  project.reports = json.PVs.map((jsonPV: any, index: number) => {
+    const iconsNames = Object.keys(icons) as IconName[]
+
     const report: JSONReport = {
       name: jsonPV.PV.Name,
       settings: {
-        iconName: 'Circle',
+        iconName: iconsNames[index % iconsNames.length],
         isVisible: true,
         colorization: 'Threshold',
         groupBy: 'Number',
@@ -149,7 +162,7 @@ export const convertJSONFromPRJZToMPVZ = (json: any): JSONMachineProject => {
             case 'Heavydyn':
               return {
                 deflection: 0,
-                load: 0,
+                force: 0,
                 temperature: 0,
                 distance: 0,
                 time: 0,
@@ -158,7 +171,7 @@ export const convertJSONFromPRJZToMPVZ = (json: any): JSONMachineProject => {
               return {
                 modulus: 0,
                 deflection: 0,
-                load: 0,
+                force: 0,
                 distance: 0,
                 time: 0,
               } as MachineMathUnitsSkeleton<number>
@@ -166,7 +179,7 @@ export const convertJSONFromPRJZToMPVZ = (json: any): JSONMachineProject => {
               return {
                 modulus: 0,
                 deflection: 0,
-                load: 0,
+                force: 0,
                 temperature: 0,
                 time: 0,
               } as MinidynMathUnitsSkeleton<number>
@@ -186,7 +199,7 @@ export const convertJSONFromPRJZToMPVZ = (json: any): JSONMachineProject => {
       },
       zones: [
         {
-          name: '',
+          name: 'Zone 1',
           settings: {
             color: 'gray',
             isVisible: true,
@@ -225,8 +238,12 @@ export const convertJSONFromPRJZToMPVZ = (json: any): JSONMachineProject => {
                 list: jsonDropChoices,
               },
               indexes: {
-                selected: json.ExportedData.Drops.length - 1,
-                list: jsonDropIndexes,
+                selected: jsonDropIndexes.length - 1,
+                list: jsonDropIndexes.map((index) => {
+                  return {
+                    ...index,
+                  }
+                }),
               },
             },
             {
@@ -283,12 +300,6 @@ export const convertJSONFromPRJZToMPVZ = (json: any): JSONMachineProject => {
                     .slice(indexD0, indexD0 + 3)
                 })(),
               ],
-              // jsonDropChoices
-              //   .map((choice) => choice.name)
-              //   .filter(
-              //     (name) => name.startsWith('D') && !name.startsWith('D-')
-              //   )
-              //   .slice(0, 4),
             },
             {
               from: 'Test',
@@ -302,7 +313,9 @@ export const convertJSONFromPRJZToMPVZ = (json: any): JSONMachineProject => {
                       .map((choice) => choice.name)
                       .filter(
                         (name) =>
-                          name === 'BearingCapacity' || name === 'Quality'
+                          name === 'Modulus' ||
+                          name === 'Stiffness' ||
+                          name === 'Quality'
                       )
                 }
               })(),
@@ -434,7 +447,7 @@ const convertUnits = (json: any, machine: MachineName): JSONMachineUnits => {
               return '1/100 mm'
           }
         })(),
-        load: ((): PossibleHeavydynForceUnits => {
+        force: ((): PossibleHeavydynForceUnits => {
           switch (
             (json.ExportedData.Drops as any[]).find(
               (exportedUnit) => exportedUnit.Type === 'Load'
@@ -444,6 +457,20 @@ const convertUnits = (json: any, machine: MachineName): JSONMachineUnits => {
               return 'N'
             default:
               return 'kN'
+          }
+        })(),
+        distance: ((): PossibleHeavydynDistanceUnits => {
+          switch (
+            (json.ExportedData.Points as any[]).find(
+              (exportedUnit) => exportedUnit.Type === 'Distance'
+            )?.Unit
+          ) {
+            case 'km':
+              return 'km'
+            case 'mi':
+              return 'mi'
+            default:
+              return 'm'
           }
         })(),
         time: ((): PossibleHeavydynTimeUnits => {
@@ -518,7 +545,7 @@ const convertUnits = (json: any, machine: MachineName): JSONMachineUnits => {
               return 'um'
           }
         })(),
-        load: ((): PossibleMaxidynForceUnits | PossibleMinidynForceUnits => {
+        force: ((): PossibleMaxidynForceUnits | PossibleMinidynForceUnits => {
           switch (
             (json.ExportedData.Drops as any[]).find(
               (exportedUnit) => exportedUnit.Type === 'Load'
@@ -573,6 +600,7 @@ const convertUnits = (json: any, machine: MachineName): JSONMachineUnits => {
               return 'ms'
           }
         })(),
+        percentage: '%',
       } as JSONMaxidynUnits | JSONMinidynUnits
   }
 }
@@ -584,7 +612,12 @@ const convertExportedUnitToJSONChoice = (
 
   return {
     name: exportedUnit.Name,
-    unit: mathUnitName === 'number' ? exportedUnit.Unit : mathUnitName,
+    unit:
+      exportedUnit.Unit === '%'
+        ? 'percentage'
+        : mathUnitName === 'number'
+        ? exportedUnit.Unit
+        : mathUnitName,
   }
 }
 

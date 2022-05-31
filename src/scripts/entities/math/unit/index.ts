@@ -14,6 +14,8 @@ const convertMapviewUnitToMathJSUnit = (unit: string) =>
     ? 'cmm'
     : unit === 'lbs'
     ? 'nlbs'
+    : unit === '%'
+    ? 'm'
     : unit
 
 export const createMathUnit = <PossibleUnits extends string>(

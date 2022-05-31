@@ -81,7 +81,7 @@
     <Button @click="inputFile.click()" :icon="IconPlus" />
     <input
       @change="(event) => addProject((event.target as HTMLInputElement).files?.[0])"
-      accept=".prjz, .mpvz"
+      accept=".prjz, .mpvz, .dynz"
       type="file"
       ref="inputFile"
       class="hidden"

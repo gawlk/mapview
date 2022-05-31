@@ -19,11 +19,13 @@ export const createHeavydynReportFromJSON = (
   )?.indexes?.list as JSONHeavydynDropIndex[]
 
   dropIndexes.forEach((jsonDropIndex: JSONHeavydynDropIndex) => {
+    const unitName = jsonDropIndex.unit.toLocaleLowerCase()
+
     ;(jsonDropIndex as unknown as HeavydynDropIndex).value = createMathNumber(
       jsonDropIndex.value,
-      parameters.project.units[
-        jsonDropIndex.unit.toLocaleLowerCase() as keyof HeavydynMathUnits
-      ]
+      unitName in parameters.project.units
+        ? parameters.project.units[unitName as keyof HeavydynMathUnits]
+        : unitName
     )
   })
 
@@ -34,7 +36,7 @@ export const createHeavydynReportFromJSON = (
       machine: 'Heavydyn',
       thresholds: {
         deflection: [createCustomThreshold(0)],
-        load: [createCustomThreshold(0)],
+        force: [createCustomThreshold(0)],
         temperature: [createCustomThreshold(0)],
         distance: [createCustomThreshold(0)],
         time: [createCustomThreshold(0)],

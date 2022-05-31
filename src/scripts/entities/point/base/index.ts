@@ -178,6 +178,25 @@ export const createBasePointFromJSON = (
       this.updateText()
       this.updateColor()
       this.updatePopup()
+
+      watcherHandler.add(
+        watch(
+          () => this.settings.isVisible,
+          () => {
+            const sortedPoints = this.zone.report.line.sortedPoints
+
+            point.updateVisibility()
+
+            let index = sortedPoints.findIndex((_point) => point === _point) + 1
+
+            for (index; index < sortedPoints.length; index++) {
+              sortedPoints[index].number += point.settings.isVisible ? 1 : -1
+            }
+
+            this.zone.report.line.update()
+          }
+        )
+      )
     },
     checkVisibility: function () {
       return (

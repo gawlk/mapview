@@ -32,9 +32,10 @@ export const createMinidynReportFromJSON = (
         ],
         stiffness: [createCustomThreshold(0)],
         deflection: [createCustomThreshold(0)],
-        load: [createCustomThreshold(0)],
+        force: [createCustomThreshold(0)],
         temperature: [createCustomThreshold(0)],
         time: [createCustomThreshold(0)],
+        percentage: [createCustomThreshold(0)],
       },
       ...parameters,
     }

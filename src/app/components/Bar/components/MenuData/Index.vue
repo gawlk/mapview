@@ -7,13 +7,16 @@
   import PointsTable from './components/PointsTable/Index.vue'
   import ListboxGroupBy from './components/ListboxGroupBy.vue'
 
-  import IconArrowsExpand from '~icons/heroicons-solid/arrows-expand'
   import IconEye from '~icons/heroicons-solid/eye'
   import IconEyeOff from '~icons/heroicons-solid/eye-off'
 
   import store from '/src/store'
 
   const { t } = useI18n()
+
+  const props = defineProps<{
+    menu: MenuProps
+  }>()
 
   const selectedReport = computed(
     () => store.projects.selected?.reports.selected
@@ -25,7 +28,7 @@
   <ListboxGroupBy />
   <div
     v-if="selectedReport?.dataLabels.table.selected?.group.from !== 'Zone'"
-    class="-mx-2"
+    class="-mx-2 !-mb-2"
   >
     <PointsTable
       v-if="selectedReport?.settings.groupBy === 'Number'"
@@ -59,5 +62,5 @@
       </div>
     </div>
   </div>
-  <Button full :leftIcon="IconArrowsExpand" disabled>Fullscreen</Button>
+  <!-- <Button full :leftIcon="IconArrowsExpand" disabled>Fullscreen</Button> -->
 </template>

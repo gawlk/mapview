@@ -5,14 +5,14 @@
   import MenuWrapperMobile from './components/MenuWrapperMobile.vue'
 
   const props = defineProps<{
-    menus: MenuProp[]
+    menus: Menu[]
   }>()
 
   props.menus?.map((menu) => {
     menu.openedOnMobile = false
   })
 
-  const selectMenu = (menuToSelect: MenuProp) => {
+  const selectMenu = (menuToSelect: Menu) => {
     if (store.projects.selected) {
       props.menus?.forEach((menu) => {
         menu.openedOnMobile =
@@ -40,7 +40,7 @@
         :disabled="!store.projects.selected"
         @click="selectMenu(menu)"
       >
-        <component :is="menu.component" />
+        <component :is="menu.component" :props="menu.props" />
       </MenuWrapperMobile>
     </div>
   </div>

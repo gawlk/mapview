@@ -11,7 +11,7 @@ interface HeavydynReportCreatorParameters
   project: HeavydynProject
 }
 
-type HeavydynDropType = 'Distance' | 'Load' | 'Time' | 'Load' | 'Height'
+type HeavydynDropType = 'Distance' | 'Time' | 'Force' | 'Height'
 
 interface HeavydynDropIndex extends BaseDropIndex {
   readonly machine: 'Heavydyn'

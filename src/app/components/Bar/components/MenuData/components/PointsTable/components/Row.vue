@@ -50,7 +50,7 @@
 
         if (selectedReport.value?.settings.colorization === 'Zone') {
           point.updateColor()
-          selectedReport.value?.line.update()
+          // selectedReport.value?.line.update()
         }
 
         return true
@@ -86,7 +86,7 @@
           zoom: 20,
         })
       "
-      :style="`background-color: ${point.icon.color}44`"
+      :style="`background-color: ${point.icon?.color}44`"
       class="cursor-pointer border-2 border-gray-100 px-2 text-right font-bold"
       :class="[!props.point.settings.isVisible && 'italic opacity-50']"
     >
@@ -101,7 +101,7 @@
           zoom: 20,
         })
       "
-      :style="`background-color: ${point.icon.color}${
+      :style="`background-color: ${point.icon?.color}${
         matchingGroupAndIndex &&
         dataLabels?.groups.selected?.choices.selected === dataLabel
           ? '88'

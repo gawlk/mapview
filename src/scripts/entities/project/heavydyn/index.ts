@@ -25,8 +25,8 @@ export const createHeavydynProjectFromJSON = async (
         currentUnit: jsonUnits.deflection,
       }
     ),
-    load: createMathUnit<PossibleHeavydynForceUnits>(
-      'Load',
+    force: createMathUnit<PossibleHeavydynForceUnits>(
+      'Force',
       'N',
       [
         ['N', 0],
@@ -35,7 +35,7 @@ export const createHeavydynProjectFromJSON = async (
       ],
       {
         max: 500000,
-        currentUnit: jsonUnits.load,
+        currentUnit: jsonUnits.force,
       }
     ),
     temperature: createMathUnit<PossibleHeavydynTemperatureUnits>(

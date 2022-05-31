@@ -25,12 +25,6 @@ export const importFile = async (file: File) => {
 
   const extension = file.name.split('.').pop()
 
-  console.log(
-    file,
-    await file.arrayBuffer(),
-    new Uint8Array(await file.arrayBuffer())
-  )
-
   const zip = unzipSync(new Uint8Array(await file.arrayBuffer()))
 
   const jsonUint = zip['database.json']

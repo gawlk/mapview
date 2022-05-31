@@ -18,7 +18,7 @@ export default class Context {
   public doExport(project: MachineProject): void {
     this.fileContent = this.strategy.doExport(project)
     FileSaver.saveAs(
-      new Blob([this.fileContent]),
+      new Blob([this.fileContent], { type: 'text/plain' }),
       'report.' + this.strategy.extension
     )
   }

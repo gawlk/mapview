@@ -4,7 +4,7 @@ import { saveAs } from 'file-saver'
 import * as math from 'mathjs'
 import { findFieldInArray } from '/src/scripts/entities'
 export class F25ExportStrategy implements ExportStrategy {
-  extension: string = 'f25'
+  extension: string = 'F25'
 
   public doExport(project: HeavydynProject): string {
     const stringWithoutPoints = dedent`
@@ -165,7 +165,7 @@ export class F25ExportStrategy implements ExportStrategy {
     return sensorsString
   }
 
-  public writePoints(project: MachineProject): string {
+  public writePoints(project: HeavydynProject): string {
     if (project.reports.selected) {
       return project.reports.selected?.line.sortedPoints
         .map((point) => {
@@ -176,9 +176,9 @@ export class F25ExportStrategy implements ExportStrategy {
             project.reports.selected as MachineReport
           )}
         `
-          const values = this.writeDrops(point)
+          const values = this.writeDrops(point, project.calibrations.dPlate)
 
-          return `${header}${values}`
+          return `${header}${values}\n`
         })
         .join('')
     } else throw new Error()
@@ -186,14 +186,17 @@ export class F25ExportStrategy implements ExportStrategy {
 
   public writePointGps(point: MachinePoint) {
     console.log(point.marker?.getLngLat())
+
     return dedent`
     5280,0,140418.0,${point.marker
       ?.getLngLat()
-      .lat.toString()
+      .lat.toFixed(8)
       .padStart(12, ' ')},${point.marker
       ?.getLngLat()
-      .lng.toString()
-      .padStart(12, ' ')},${'5.35'.padStart(8, ' ')}, 2,18,   0,  0 
+      .lng.toFixed(8)
+      .padStart(12, ' ')},${Number('1')
+      .toFixed(2)
+      .padStart(8, ' ')}, 2,18,   0,  0 
     `
   }
 
@@ -242,23 +245,21 @@ export class F25ExportStrategy implements ExportStrategy {
     `
   }
 
-  public writeDrops(point: MachinePoint): string {
+  public writeDrops(point: MachinePoint, dPlate: number): string {
     // TODO: get dplate
     // newton en kilo pascal avec le diametre de la plaque
-    const dplate = 0.3
-
     return point.drops
       .map((drop) => {
         const nbr = drop.index.displayedIndex.toString().padStart(3, ' ')
         const force =
-          ((drop.data[1].value.value * 1e-3) / Math.PI / dplate / dplate) * 4
+          ((drop.data[1].value.value * 1e-3) / Math.PI / dPlate / dPlate) * 4
         let values = ''
         for (let i = 2; i < drop.data.length; i++) {
-          // console.log(drop.data[i].value.getLocaleString({ unit: '1/10 mm' }))
           values += `,${drop.data[i].value
             .getLocaleString({
               unit: 'um',
               precision: 1,
+              locale: 'en-US',
             })
             .padStart(6, ' ')}`
         }

@@ -185,14 +185,17 @@ export class PDXExportStrategy implements ExportStrategy {
         const comment = point.data.find((data) => data.label.name === 'Comment')
           ?.value.value
 
-        // TODO: add power in kilo pascal
+        let [lat, lng] = [1, 1]
+        if (point.marker) {
+          ;({ lng, lat } = point.marker.getLngLat())
+        }
 
         return dedent`
         [Test Location ${point.index}]
         TestLocation = ${
           point.data.find((data) => data.label.name === 'Chainage')?.value.value
         },0,0 
-        GPSLocation = 55.78964,12.52323,42.8 // z => 0, marker
+        GPSLocation = ${lat.toFixed(8)},${lng.toFixed(8)},0
         TestLane = ${comment}  
         TestType = 0
         DropHistoryType = load and deflections
@@ -214,6 +217,7 @@ export class PDXExportStrategy implements ExportStrategy {
           .slice(2)
           .map((data) => data.value.getLocaleString({ unit: 'um' }))
 
+        // TODO: check if good value => kilo pascal ?
         values.unshift(drop.data[1].value.getLocaleString({}))
         return dedent`
         DropData_${index} = ${values} 

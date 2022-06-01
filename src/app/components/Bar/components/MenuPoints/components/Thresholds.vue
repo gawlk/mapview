@@ -260,7 +260,7 @@
               selectedUnit.max,
               selectedUnit.baseUnit,
               selectedUnit.currentUnit
-            )
+            ).toLocaleString()
           : '∞'
       } ${selectedUnit?.currentUnit}`"
     />

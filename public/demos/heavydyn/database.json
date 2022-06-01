@@ -38,7 +38,7 @@
         "Version": 1,
         "Name": "Load",
         "SciName": "F",
-        "Type": "Load",
+        "Type": "Force",
         "Unit": "kN"
       },
       {
@@ -223,8 +223,8 @@
     "Name": "FR-65KN",
     "Steps": [
       { "Version": 1, "NumStep": 1, "ValueDrop": 0.1, "TypeDrop": "Distance" },
-      { "Version": 1, "NumStep": 2, "ValueDrop": 60000.0, "TypeDrop": "Load" },
-      { "Version": 1, "NumStep": 3, "ValueDrop": 60000.0, "TypeDrop": "Load" }
+      { "Version": 1, "NumStep": 2, "ValueDrop": 60000.0, "TypeDrop": "Force" },
+      { "Version": 1, "NumStep": 3, "ValueDrop": 60000.0, "TypeDrop": "Force" }
     ]
   },
   "PVs": [

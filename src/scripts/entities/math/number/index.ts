@@ -30,13 +30,16 @@ export const createMathNumber = (
       if (typeof this.unit !== 'string') {
         numberToLocaleOptions.precision ??= this.unit.currentPrecision
 
-        if (this.value < this.unit.min) {
-          value = this.unit.min
-          preString = '<'
-        } else if (this.unit.max && this.value > this.unit.max) {
-          value = this.unit.max
-          preString = '>'
+        if (!options.disableMinAndMax) {
+          if (this.value < this.unit.min) {
+            value = this.unit.min
+            preString = '<'
+          } else if (this.unit.max && this.value > this.unit.max) {
+            value = this.unit.max
+            preString = '>'
+          }
         }
+
         value = convertValueFromUnitAToUnitB(
           value,
           this.unit.baseUnit,
@@ -44,7 +47,7 @@ export const createMathNumber = (
         )
       }
 
-      return `${
+      const localeString = `${
         options.disablePreString ? '' : preString
       } ${numberToLocaleString(value, numberToLocaleOptions)} ${
         options.appendUnitToString
@@ -53,6 +56,10 @@ export const createMathNumber = (
             : this.unit
           : ''
       }`.trim()
+
+      return options.removeSpaces
+        ? localeString.replaceAll(' ', '')
+        : localeString
     },
   })
 

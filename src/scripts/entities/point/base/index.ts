@@ -6,6 +6,8 @@ import {
   createMathNumber,
   colorsClasses,
 } from '/src/scripts'
+import { getBrowserLocale } from '/src/locales'
+import translationsFR from '/src/locales/fr.json'
 
 export const createBasePointFromJSON = (
   json: JSONPoint,
@@ -165,10 +167,19 @@ export const createBasePointFromJSON = (
       }
     },
     updatePopup: function () {
+      const locale = getBrowserLocale(true)
+
       let html: string = ''
 
       this.data.forEach((dataValue) => {
-        html += `<p><strong>${dataValue.label.name}:</strong> ${dataValue.value.displayedStringWithUnit}</p>`
+        let name = dataValue.label.name
+
+        name =
+          locale === 'fr' && name in translationsFR
+            ? (translationsFR as any)[name].source
+            : name
+
+        html += `<p><strong>${name}:</strong> ${dataValue.value.displayedStringWithUnit}</p>`
       })
 
       this.marker?.setPopup(new Popup().setHTML(html))

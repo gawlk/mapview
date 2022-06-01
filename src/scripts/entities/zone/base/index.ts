@@ -42,8 +42,6 @@ export const createBaseZoneFromJSON = (
         watch(
           () => this.points.length,
           () => {
-            console.log(this.points.length)
-
             sortPoints(this.points)
 
             this.report.line.sortedPoints = Array.prototype.concat(

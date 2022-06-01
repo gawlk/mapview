@@ -13,4 +13,6 @@ interface MathNumberGetLocaleStringOptions {
   precision?: number
   disablePreString?: true
   unit?: string
+  removeSpaces?: true
+  disableMinAndMax?: true
 }

@@ -246,7 +246,6 @@ export class F25ExportStrategy implements ExportStrategy {
   }
 
   public writeDrops(point: MachinePoint, dPlate: number): string {
-    // TODO: get dplate
     // newton en kilo pascal avec le diametre de la plaque
     return point.drops
       .map((drop) => {
@@ -255,12 +254,12 @@ export class F25ExportStrategy implements ExportStrategy {
           ((drop.data[1].value.value * 1e-3) / Math.PI / dPlate / dPlate) * 4
         let values = ''
         for (let i = 2; i < drop.data.length; i++) {
+          const precision = drop.data[i].value.value < 1000 ? 1 : 0
+          // console.log(drop.data[i].value.getValueAs('um'))
           values += `,${drop.data[i].value
-            .getLocaleString({
-              unit: 'um',
-              precision: 1,
-              locale: 'en-US',
-            })
+            .getValueAs('um')
+            .toFixed(precision)
+            .toString()
             .padStart(6, ' ')}`
         }
         const valuesString = dedent`
@@ -269,11 +268,6 @@ export class F25ExportStrategy implements ExportStrategy {
         return `\n${nbr}${valuesString}`
       })
       .join('')
-  }
-
-  public save(stringToSave: string): void {
-    const blob = new Blob([stringToSave], { type: 'F25' })
-    saveAs(blob, 'test.F25')
   }
 }
 

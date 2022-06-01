@@ -5,6 +5,7 @@ interface MathNumber {
   displayedStringWithUnit: string
   updateDisplayedStrings: () => void
   getLocaleString: (options: MathNumberGetLocaleStringOptions) => string
+  getValueAs: (unit: string) => number
 }
 
 interface MathNumberGetLocaleStringOptions {

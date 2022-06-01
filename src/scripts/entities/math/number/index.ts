@@ -18,6 +18,11 @@ export const createMathNumber = (
         appendUnitToString: true,
       })
     },
+    getValueAs: function (unit: string) {
+      return typeof this.unit === 'object'
+        ? convertValueFromUnitAToUnitB(this.value, this.unit.baseUnit, unit)
+        : this.value
+    },
     getLocaleString: function (options: MathNumberGetLocaleStringOptions = {}) {
       const numberToLocaleOptions = {
         locale: options.locale,

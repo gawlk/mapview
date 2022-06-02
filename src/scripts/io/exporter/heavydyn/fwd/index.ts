@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import dedent from 'dedent'
 import { findFieldInArray } from '/src/scripts/entities'
 
@@ -7,7 +8,9 @@ export class FWDExportStrategy implements ExportStrategy {
   doExport(project: HeavydynProject): string {
     const fileString = `${this.writeHeader(
       project
-    )}\n${this.writeEndHeader()}\n${this.writePoints(project)}`
+    )}\n${this.writeEndHeader()}\n${this.writePoints(project)
+      ?.map((pointData) => pointData.join('\n'))
+      .join('\n')}`
 
     return fileString
       .split('\n')
@@ -70,6 +73,9 @@ export class FWDExportStrategy implements ExportStrategy {
 
     const sensorsSection = this.writeSensors(project)
 
+    if (!project.reports.selected)
+      throw new Error("can't access selected project")
+
     stringArray.push(dedent`
       R80    102    ${project.name.value}
       70103300${serialNumber}69994.3703111  1
@@ -80,6 +86,14 @@ export class FWDExportStrategy implements ExportStrategy {
     stringArray.push(
       '   R  D1  D2  D3  D4  D5  D6  D7     R    D1    D2    D3    D4    D5    D6    D7'
     )
+
+    stringArray.push('C:\\' + project.reports.selected.name.value)
+
+    const points = this.writePoints(project)
+    if (!points) throw new Error("can't access first and last point")
+
+    stringArray.push(points[0][1])
+    stringArray.push(points[points.length - 1][1])
 
     stringArray.push(dedent`
       12394260276336160       .302
@@ -123,38 +137,43 @@ export class FWDExportStrategy implements ExportStrategy {
       ;({ lng, lat } = point.marker.getLngLat())
     }
 
-    return `G0??+${lng}+${lat}999.9`
+    return `G0000001+${lat}+${lng}999.9`
   }
 
   public writePoints(project: HeavydynProject) {
-    return project.reports.selected?.line.sortedPoints
-      .map((point) => {
-        const celsiusDegreesTemps = point.data
-          .slice(0, 3)
-          .map((data) => {
-            return data.value.getLocaleString({})
-          })
-          .join(' ')
-
-        const fahrenheitDegreesTemps = point.data
-          .slice(0, 3)
-          .map((data) => {
-            return data.value.getLocaleString({ unit: 'degF' })
-          })
-          .join(' ')
-
-        const chainage = Number(
-          point.data.find((pointData) => pointData.label.name === 'Chainage')
-            ?.value.value
-        )
-
-        return dedent`
-        ${this.writePointGPS(point)}
-        S ${chainage} ${celsiusDegreesTemps} ${fahrenheitDegreesTemps}
-        ${this.writeDrops(point, project.calibrations.dPlate)}
-    `
+    return project.reports.selected?.line.sortedPoints.map((point) => {
+      const celsiusDegreesTemps = point.data.slice(0, 3).map((data, index) => {
+        const precision = index === 0 ? 1 : 0
+        const value = data.value.value.toFixed(precision)
+        if (index === 0) {
+          return value.padStart(4, ' ')
+        } else {
+          return value.padStart(2, ' ')
+        }
       })
-      .join('\n')
+
+      const fahrenheitDegreesTemps = point.data
+        .slice(0, 3)
+        .map((data) => {
+          return data.value.getLocaleString({ unit: 'degF' }).padStart(4, ' ')
+        })
+        .join(' ')
+
+      const chainage = Number(
+        point.data.find((pointData) => pointData.label.name === 'Chainage')
+          ?.value.value
+      )
+        .toFixed(2)
+        .padStart(8, ' ')
+
+      return [
+        `${this.writePointGPS(point)}`,
+        `S ${chainage} ${celsiusDegreesTemps[0]}00 ${celsiusDegreesTemps[1]} ${
+          celsiusDegreesTemps[2]
+        }I2${dayjs(point.date).format('HHmm')} ${fahrenheitDegreesTemps}`,
+        `${this.writeDrops(point, project.calibrations.dPlate)}`,
+      ]
+    })
   }
 
   public writeDrops(point: MachinePoint, dPlate: number) {
@@ -163,16 +182,16 @@ export class FWDExportStrategy implements ExportStrategy {
         const values = drop.data
           .slice(2)
           .map((data) =>
-            data.value.getLocaleString({ unit: 'um' }).padStart(4, ' ')
+            data.value.getValueAs('um').toFixed(2).toString().padStart(4, ' ')
           )
 
-        // TODO: check if good value => kilo pascal ?
         const power =
           ((drop.data[1].value.value * 1e-3) / Math.PI / dPlate / dPlate) * 4
         values.unshift(power.toFixed(2).toString().padStart(4, ' '))
+
         return dedent`
-        ${values.join('')} 
-      `
+          ${values.join('')} 
+        `
       })
       .join('\n')
   }

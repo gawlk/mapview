@@ -184,8 +184,6 @@ export class F25ExportStrategy implements ExportStrategy {
   }
 
   public writePointGps(point: MachinePoint) {
-    console.log(point.marker?.getLngLat())
-
     return dedent`
     5280,0,140418.0,${point.marker
       ?.getLngLat()
@@ -245,7 +243,6 @@ export class F25ExportStrategy implements ExportStrategy {
   }
 
   public writeDrops(point: MachinePoint, dPlate: number): string {
-    // newton en kilo pascal avec le diametre de la plaque
     return point.drops
       .map((drop) => {
         const nbr = drop.index.displayedIndex.toString().padStart(3, ' ')

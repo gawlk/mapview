@@ -214,12 +214,11 @@ export class PDXExportStrategy implements ExportStrategy {
       .map((drop, index) => {
         const values = drop.data
           .slice(2)
-          .map((data) => data.value.getLocaleString({ unit: 'um' }))
+          .map((data) => data.value.getValueAs('um').toFixed(2).toString())
 
-        // TODO: check if good value => kilo pascal ?
         const power =
           ((drop.data[1].value.value * 1e-3) / Math.PI / dPlate / dPlate) * 4
-        values.unshift(power.toString())
+        values.unshift(power.toFixed(2).toString())
         return dedent`
         DropData_${index} = ${values} 
       `

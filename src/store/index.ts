@@ -1,4 +1,4 @@
-import { createSelectableList } from '/src/scripts'
+import { createSelectableList } from '/src/scripts/utils/selectableList'
 
 const store = shallowReactive({
   // example: read('example') || defaultExample,

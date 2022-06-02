@@ -1,7 +1,6 @@
 import dayjs from 'dayjs'
 import dedent from 'dedent'
-import { saveAs } from 'file-saver'
-import * as math from 'mathjs'
+import { format } from 'mathjs'
 import { findFieldInArray } from '/src/scripts/entities'
 export class F25ExportStrategy implements ExportStrategy {
   extension: string = 'F25'
@@ -255,7 +254,6 @@ export class F25ExportStrategy implements ExportStrategy {
         let values = ''
         for (let i = 2; i < drop.data.length; i++) {
           const precision = drop.data[i].value.value < 1000 ? 1 : 0
-          // console.log(drop.data[i].value.getValueAs('um'))
           values += `,${drop.data[i].value
             .getValueAs('um')
             .toFixed(precision)
@@ -272,9 +270,10 @@ export class F25ExportStrategy implements ExportStrategy {
 }
 
 function formatExponential(n: number, pad: number): string {
-  const splitedNumber = math
-    .format(n, { precision: 4, notation: 'exponential' })
-    .split('e')
+  const splitedNumber = format(n, {
+    precision: 4,
+    notation: 'exponential',
+  }).split('e')
 
   let exponential = splitedNumber[1].split('')
   exponential[1] = exponential[1].toString().padStart(3, '0')

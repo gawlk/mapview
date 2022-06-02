@@ -5,7 +5,9 @@ export class FWDExportStrategy implements ExportStrategy {
   extension: string = 'fwd'
 
   doExport(project: HeavydynProject): string {
-    const fileString = `${this.writeHeader(project)}\n${this.writeEndHeader()}`
+    const fileString = `${this.writeHeader(
+      project
+    )}\n${this.writeEndHeader()}\n${this.writePoints(project)}`
 
     return fileString
       .split('\n')
@@ -113,5 +115,65 @@ export class FWDExportStrategy implements ExportStrategy {
       *                                                                               
       *                                                
     `
+  }
+
+  public writePointGPS(point: MachinePoint) {
+    let [lat, lng] = [1, 1]
+    if (point.marker) {
+      ;({ lng, lat } = point.marker.getLngLat())
+    }
+
+    return `G0??+${lng}+${lat}999.9`
+  }
+
+  public writePoints(project: HeavydynProject) {
+    return project.reports.selected?.line.sortedPoints
+      .map((point) => {
+        const celsiusDegreesTemps = point.data
+          .slice(0, 3)
+          .map((data) => {
+            return data.value.getLocaleString({})
+          })
+          .join(' ')
+
+        const fahrenheitDegreesTemps = point.data
+          .slice(0, 3)
+          .map((data) => {
+            return data.value.getLocaleString({ unit: 'degF' })
+          })
+          .join(' ')
+
+        const chainage = Number(
+          point.data.find((pointData) => pointData.label.name === 'Chainage')
+            ?.value.value
+        )
+
+        return dedent`
+        ${this.writePointGPS(point)}
+        S ${chainage} ${celsiusDegreesTemps} ${fahrenheitDegreesTemps}
+        ${this.writeDrops(point, project.calibrations.dPlate)}
+    `
+      })
+      .join('\n')
+  }
+
+  public writeDrops(point: MachinePoint, dPlate: number) {
+    return point.drops
+      .map((drop, index) => {
+        const values = drop.data
+          .slice(2)
+          .map((data) =>
+            data.value.getLocaleString({ unit: 'um' }).padStart(4, ' ')
+          )
+
+        // TODO: check if good value => kilo pascal ?
+        const power =
+          ((drop.data[1].value.value * 1e-3) / Math.PI / dPlate / dPlate) * 4
+        values.unshift(power.toFixed(2).toString().padStart(4, ' '))
+        return dedent`
+        ${values.join('')} 
+      `
+      })
+      .join('\n')
   }
 }

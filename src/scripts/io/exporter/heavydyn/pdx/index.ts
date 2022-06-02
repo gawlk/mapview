@@ -172,7 +172,6 @@ export class PDXExportStrategy implements ExportStrategy {
   }
 
   public writePoints(project: HeavydynProject) {
-    console.log('line', project.reports.selected?.line)
     return project.reports.selected?.line.sortedPoints
       .map((point) => {
         const temps = point.data
@@ -203,14 +202,14 @@ export class PDXExportStrategy implements ExportStrategy {
         TestTime = ${dayjs(point.date).format('HH:mm:ss')} 
         TestComment = ${comment} 
         NumberOfDrops = ${point.drops.length} 
-        ${this.writeDrops(point)}
+        ${this.writeDrops(point, project.calibrations.dPlate)}
         \n
     `
       })
       .join('')
   }
 
-  public writeDrops(point: MachinePoint) {
+  public writeDrops(point: MachinePoint, dPlate: number) {
     return point.drops
       .map((drop, index) => {
         const values = drop.data
@@ -218,7 +217,9 @@ export class PDXExportStrategy implements ExportStrategy {
           .map((data) => data.value.getLocaleString({ unit: 'um' }))
 
         // TODO: check if good value => kilo pascal ?
-        values.unshift(drop.data[1].value.getLocaleString({}))
+        const power =
+          ((drop.data[1].value.value * 1e-3) / Math.PI / dPlate / dPlate) * 4
+        values.unshift(power.toString())
         return dedent`
         DropData_${index} = ${values} 
       `

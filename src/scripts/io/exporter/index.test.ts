@@ -57,7 +57,7 @@ const getProject = async () => {
 //   })
 // })
 
-describe('test pdx', async () => {
+describe('test fwd', async () => {
   const project = await getProject()
 
   if (project) {

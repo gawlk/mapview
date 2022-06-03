@@ -69,7 +69,7 @@ export class PDXExportStrategy implements ExportStrategy {
     let sensorSerialNumbers = ``
     for (let i = 1; i < project.calibrations.channels.length; i++) {
       sensorSerialNumbers += project.calibrations.channels[i].name
-      if (i !== project.calibrations.channels.length)
+      if (i !== project.calibrations.channels.length - 1)
         sensorSerialNumbers += ', '
     }
 
@@ -92,7 +92,8 @@ export class PDXExportStrategy implements ExportStrategy {
         let returnString = Math.round(
           Number(channel.position) * 1000
         ).toString()
-        if (index !== project.calibrations.channels.length) returnString += ', '
+        if (index !== project.calibrations.channels.length - 1)
+          returnString += ', '
         return returnString
       })
       .join('')
@@ -177,7 +178,7 @@ export class PDXExportStrategy implements ExportStrategy {
         const temps = point.data
           .slice(0, 3)
           .map((data) => {
-            return data.value.getLocaleString({})
+            return data.value.getLocaleString({ precision: 1 })
           })
           .join(',')
 
@@ -212,9 +213,12 @@ export class PDXExportStrategy implements ExportStrategy {
   public writeDrops(point: MachinePoint, dPlate: number) {
     return point.drops
       .map((drop, index) => {
-        const values = drop.data
-          .slice(2)
-          .map((data) => data.value.getValueAs('um').toFixed(2).toString())
+        const values = drop.data.slice(2).map((data) => {
+          let value: string | number = data.value.getValueAs('um')
+          value = value.toFixed(2)
+          if (Number(value) <= 0) value = 0.1
+          return value.toString()
+        })
 
         const power =
           ((drop.data[1].value.value * 1e-3) / Math.PI / dPlate / dPlate) * 4

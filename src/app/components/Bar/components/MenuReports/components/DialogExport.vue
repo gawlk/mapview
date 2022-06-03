@@ -1,6 +1,5 @@
 <script setup lang="ts">
   import IconCloudDownload from '~icons/heroicons-solid/cloud-download'
-
   import Dialog from '/src/components/Dialog.vue'
   import Context from '/src/scripts/io/exporter'
   import store from '/src/store'
@@ -40,7 +39,7 @@
       <br />
       <button @click="exportFile('pdx')">pdx</button>
       <br />
-      <button disabled @click="exportFile('fwd')">fwd</button>
+      <button @click="exportFile('fwd')">fwd</button>
     </template>
   </Dialog>
 </template>

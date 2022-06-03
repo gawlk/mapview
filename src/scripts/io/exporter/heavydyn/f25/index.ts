@@ -250,12 +250,11 @@ export class F25ExportStrategy implements ExportStrategy {
           ((drop.data[1].value.value * 1e-3) / Math.PI / dPlate / dPlate) * 4
         let values = ''
         for (let i = 2; i < drop.data.length; i++) {
-          const precision = drop.data[i].value.value < 1000 ? 1 : 0
-          values += `,${drop.data[i].value
-            .getValueAs('um')
-            .toFixed(precision)
-            .toString()
-            .padStart(6, ' ')}`
+          let value: string | number = drop.data[i].value.getValueAs('um')
+          const precision = value < 1000 ? 1 : 0
+          value = value.toFixed(precision)
+          if (Number(value) <= 0) value = 0.1
+          values += `,${value.toString().padStart(6, ' ')}`
         }
         const valuesString = dedent`
             ,${Math.round(force).toString().padStart(6, ' ')}${values}

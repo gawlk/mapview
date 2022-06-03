@@ -178,12 +178,13 @@ export class FWDExportStrategy implements ExportStrategy {
 
   public writeDrops(point: MachinePoint, dPlate: number) {
     return point.drops
-      .map((drop, index) => {
-        const values = drop.data
-          .slice(2)
-          .map((data) =>
-            data.value.getValueAs('um').toFixed(2).toString().padStart(4, ' ')
-          )
+      .map((drop) => {
+        const values = drop.data.slice(2).map((data) => {
+          let value: string | number = data.value.getValueAs('um')
+          value = value.toFixed(2)
+          if (Number(value) <= 0) value = 0.1
+          return value.toString().padStart(4, ' ')
+        })
 
         const power =
           ((drop.data[1].value.value * 1e-3) / Math.PI / dPlate / dPlate) * 4

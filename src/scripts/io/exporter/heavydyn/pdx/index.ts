@@ -178,7 +178,7 @@ export class PDXExportStrategy implements ExportStrategy {
         const temps = point.data
           .slice(0, 3)
           .map((data) => {
-            return data.value.getLocaleString({ precision: 1 })
+            return data.value.getLocaleString({ precision: 1, locale: 'en-US' })
           })
           .join(',')
 

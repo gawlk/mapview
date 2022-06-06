@@ -155,7 +155,9 @@ export class FWDExportStrategy implements ExportStrategy {
       const fahrenheitDegreesTemps = point.data
         .slice(0, 3)
         .map((data) => {
-          return data.value.getLocaleString({ unit: 'degF' }).padStart(4, ' ')
+          return data.value
+            .getLocaleString({ unit: 'degF', locale: 'en-US' })
+            .padStart(4, ' ')
         })
         .join(' ')
 

@@ -8,6 +8,8 @@
   import ListboxGroupBy from './components/ListboxGroupBy.vue'
 
   import IconEye from '~icons/heroicons-solid/eye'
+  import IconArrowsExpand from '~icons/heroicons-solid/arrows-expand'
+  import IconArrowSmRight from '~icons/heroicons-solid/arrow-sm-right'
   import IconEyeOff from '~icons/heroicons-solid/eye-off'
 
   import store from '/src/store'
@@ -28,7 +30,7 @@
   <ListboxGroupBy />
   <div
     v-if="selectedReport?.dataLabels.table.selected?.group.from !== 'Zone'"
-    class="-mx-2 !-mb-2"
+    class="-mx-2"
   >
     <PointsTable
       v-if="selectedReport?.settings.groupBy === 'Number'"
@@ -62,5 +64,11 @@
       </div>
     </div>
   </div>
-  <!-- <Button full :leftIcon="IconArrowsExpand" disabled>Fullscreen</Button> -->
+  <!-- <Button
+    full
+    :leftIcon="IconArrowsExpand"
+    :rightIcon="IconArrowSmRight"
+    disabled
+    >Fullscreen</Button
+  > -->
 </template>

@@ -66,9 +66,9 @@
     <Popover
       :icon="IconViewList"
       :preText="`${t('Selected')}${t(':')}`"
+      hidePreTextOnMobile
       :buttonText="`${store.projects.selected?.reports.selected?.name.value}`"
       full
-      class="w-full"
     >
       <div
         v-for="report of store.projects.selected?.reports.list"

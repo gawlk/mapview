@@ -8,6 +8,7 @@ interface BasePoint {
   icon: Icon | null
   settings: JSONPointSettings
   data: DataValue[]
+  informations: MachineField[]
   readonly drops: MachineDrop[]
   zone: MachineZone
   getSelectedMathNumber: (

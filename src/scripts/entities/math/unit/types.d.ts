@@ -8,5 +8,6 @@ interface MathUnit {
   min: number
   max: number | null
   step: number
+  readOnly: boolean
   getAverage: (values: number[]) => number
 }

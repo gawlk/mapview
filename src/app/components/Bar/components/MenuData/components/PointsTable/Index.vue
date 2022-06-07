@@ -55,7 +55,7 @@
 </script>
 
 <template>
-  <div class="overflow-x-auto">
+  <div class="max-h-[50vh] max-h-[45dvb] overflow-auto lg:max-h-max">
     <table class="w-full table-auto text-sm font-medium">
       <thead>
         <PointsHead :points="props.points" />

@@ -15,8 +15,8 @@ module.exports = {
         //@ts-ignore
         sans: ['Inter var', ...tailwindcssDefaultTheme.fontFamily.sans],
       },
-      height: {
-        screen: 'calc(100vh - env(safe-area-inset-bottom))',
+      screens: {
+        '2xl': '1600px',
       },
     },
   },

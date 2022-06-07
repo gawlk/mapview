@@ -43,6 +43,10 @@
     state.submenuActive = false
     props.menuProps.route = state.oldMenuRoute
   }
+
+  onMounted(() => {
+    props.menuProps?.route === props.route && openSubmenu()
+  })
 </script>
 
 <template>

@@ -1,13 +1,5 @@
+@import './html.css';
+
 @import './fonts.css';
 
-@import './custom.css';
-
-body {
-  @apply antialiased;
-}
-
-/* Remove details marker */
-::marker,
-::-webkit-details-marker {
-  display: none;
-}
+@import './tailwind.css';

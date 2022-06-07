@@ -347,7 +347,15 @@ export const convertJSONFromPRJZToMPVZ = (json: any): JSONMachineProject => {
         settings: {
           isVisible: true,
         },
-        informations: [],
+        informations: [
+          {
+            label: 'Comment',
+            value: point.Point.Comment || '',
+            settings: {
+              readOnly: true,
+            },
+          },
+        ],
         data: json.ExportedData.Points.map(
           (exportedData: any): JSONDataValue => {
             return {

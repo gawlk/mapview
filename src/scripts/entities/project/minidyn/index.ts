@@ -84,6 +84,7 @@ export const createMinidynProjectFromJSON = async (
         currentUnit: '%',
         max: 100,
         step: 0.5,
+        readOnly: true,
       }
     ),
   }

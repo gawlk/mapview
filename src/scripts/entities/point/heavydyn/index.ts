@@ -1,5 +1,8 @@
 import { createBasePointFromJSON } from '../base'
-import { createHeavydynDropFromJSON } from '/src/scripts'
+import {
+  createHeavydynDropFromJSON,
+  createHeavydynFieldFromJSON,
+} from '/src/scripts'
 
 export const createHeavydynPointFromJSON = (
   json: JSONPoint,
@@ -20,6 +23,12 @@ export const createHeavydynPointFromJSON = (
       createHeavydynDropFromJSON(jsonDrop, {
         point: point as HeavydynPoint,
       })
+    )
+  )
+
+  point.informations.push(
+    ...json.informations.map((field: JSONField) =>
+      createHeavydynFieldFromJSON(field)
     )
   )
 

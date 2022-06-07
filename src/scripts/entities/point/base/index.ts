@@ -35,6 +35,7 @@ export const createBasePointFromJSON = (
     date: new Date(json.date),
     marker,
     icon,
+    informations: [],
     settings: reactive(json.settings),
     zone: parameters.zone,
     data: json.data.map((jsonDataValue): DataValue => {

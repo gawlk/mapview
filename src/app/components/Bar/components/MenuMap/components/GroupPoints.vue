@@ -44,6 +44,7 @@
       full
       :icon="DotIcon"
       :preSelected="`${t('Content')}${t(':')}`"
+      hidePreSelectedOnMobile
       :selected="state.pointStateValues[state.pointStateSelected]"
       :values="state.pointStateValues"
       @selectIndex="setPointsState"

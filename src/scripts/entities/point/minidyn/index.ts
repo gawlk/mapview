@@ -1,5 +1,8 @@
 import { createBasePointFromJSON } from '../base'
-import { createMinidynDropFromJSON } from '/src/scripts'
+import {
+  createMinidynDropFromJSON,
+  createMinidynFieldFromJSON,
+} from '/src/scripts'
 
 export const createMinidynPointFromJSON = (
   json: JSONPoint,
@@ -20,6 +23,12 @@ export const createMinidynPointFromJSON = (
       createMinidynDropFromJSON(jsonDrop, {
         point: point as MinidynPoint,
       })
+    )
+  )
+
+  point.informations.push(
+    ...json.informations.map((field: JSONField) =>
+      createMinidynFieldFromJSON(field)
     )
   )
 

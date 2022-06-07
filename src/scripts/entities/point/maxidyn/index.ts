@@ -1,5 +1,8 @@
 import { createBasePointFromJSON } from '../base'
-import { createMaxidynDropFromJSON } from '/src/scripts'
+import {
+  createMaxidynDropFromJSON,
+  createMaxidynFieldFromJSON,
+} from '/src/scripts'
 
 export const createMaxidynPointFromJSON = (
   json: JSONPoint,
@@ -20,6 +23,12 @@ export const createMaxidynPointFromJSON = (
       createMaxidynDropFromJSON(jsonDrop, {
         point: point as MaxidynPoint,
       })
+    )
+  )
+
+  point.informations.push(
+    ...json.informations.map((field: JSONField) =>
+      createMaxidynFieldFromJSON(field)
     )
   )
 

@@ -6,6 +6,7 @@
   import Dialog from '/src/components/Dialog.vue'
   import Popover from '/src/components/Popover.vue'
 
+  import IconArchive from '~icons/heroicons-solid/archive'
   import IconViewList from '~icons/heroicons-solid/view-list'
   import IconPlus from '~icons/heroicons-solid/plus'
   import IconTrash from '~icons/heroicons-solid/trash'
@@ -57,6 +58,7 @@
     <Popover
       :icon="IconViewList"
       :preText="`${t('Selected')}${t(':')}`"
+      hidePreTextOnMobile
       :buttonText="`${store.projects.selected?.name.value} - ${store.projects.selected?.machine}`"
       full
       class="flex-1"
@@ -78,7 +80,11 @@
         </Button>
       </div>
     </Popover>
-    <Button @click="inputFile.click()" :icon="IconPlus" />
+    <Button
+      @click="inputFile.click()"
+      :icon="IconPlus"
+      class="hidden sm:block"
+    />
     <input
       @change="(event) => addProject((event.target as HTMLInputElement).files?.[0])"
       accept=".prjz, .mpvz, .dynz"
@@ -101,10 +107,20 @@
       </template>
     </Dialog>
   </div>
+  <Button
+    @click="inputFile.click()"
+    :leftIcon="IconArchive"
+    :rightIcon="IconPlus"
+    full
+    class="sm:hidden"
+  >
+    {{ t('Add a project') }}
+  </Button>
 </template>
 
 <i18n lang="yaml">
 fr:
+  'Add a project': 'Ajouter un projet'
   'Delete project': 'Supprimer le projet'
   'Are you sure that you want to delete the project': 'Êtes-vous sûr que vous souhaitez supprimer le project'
 </i18n>

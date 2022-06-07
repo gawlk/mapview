@@ -19,6 +19,7 @@
     selectedIndex?: number
     icon?: any
     preSelected?: string
+    hidePreSelectedOnMobile?: true
     selectedReplacement?: string
     full?: boolean
     backgrounds?: string[]
@@ -52,7 +53,7 @@
     "
     @update:modelValue="update"
   >
-    <div :class="[props.full && 'w-full']" class="relative">
+    <div :class="[props.full && 'w-full min-w-0']" class="relative">
       <ListboxButton
         :style="{ backgroundImage: `url('${props.buttonBackground}')` }"
         :class="[
@@ -76,7 +77,10 @@
             ]"
             class="mr-1 flex-none transition-colors duration-200"
           />
-          <span v-if="props.preSelected" class="ml-1 text-gray-500">
+          <span
+            v-if="!props.hidePreSelectedOnMobile && props.preSelected"
+            class="ml-1 text-gray-500"
+          >
             {{ props.preSelected }}
           </span>
           <span

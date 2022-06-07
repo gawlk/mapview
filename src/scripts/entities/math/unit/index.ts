@@ -33,6 +33,7 @@ export const createMathUnit = <PossibleUnits extends string>(
     max?: number
     step?: number
     averageFunction?: 'allEqual' | 'capOutliers' | 'ignoreOutliers'
+    readOnly?: true
   }
 ): MathUnit => {
   const currentUnit = options.currentUnit || possibleSettings[0][0]
@@ -41,6 +42,7 @@ export const createMathUnit = <PossibleUnits extends string>(
   const min = options.min || 0
   const max = options.max || null
   const step = options.step || 1
+  const readOnly = options.readOnly || false
 
   return shallowReactive({
     name,
@@ -52,6 +54,7 @@ export const createMathUnit = <PossibleUnits extends string>(
     min,
     max,
     step,
+    readOnly,
     getAverage: function (values: number[]) {
       const filteredValues: number[] = values.filter((value) =>
         options.averageFunction === 'ignoreOutliers'

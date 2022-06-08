@@ -78,7 +78,9 @@ export default defineConfig({
       },
     }),
 
-    sw(),
+    sw({
+      onlineOnly: ['http://', '/demo.'],
+    }),
 
     analyze({
       summaryOnly: true,

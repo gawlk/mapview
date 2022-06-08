@@ -4,19 +4,24 @@ import {
   createIcon,
   createWatcherHandler,
   createMathNumber,
+  colorsClasses,
 } from '/src/scripts'
+import { getBrowserLocale } from '/src/locales'
+import translationsFR from '/src/locales/fr.json'
 
 export const createBasePointFromJSON = (
   json: JSONPoint,
-  map: mapboxgl.Map,
+  map: mapboxgl.Map | null,
   parameters: BasePointCreatorParameters
-): MachinePoint => {
-  const icon = createIcon(parameters.reportSettings.iconName)
+) => {
+  const icon = createIcon(parameters.zone.report.settings.iconName)
 
-  const marker = new Marker({
-    element: icon.element,
-    draggable: !parameters.projectSettings.arePointsLocked,
-  }).setLngLat(json.coordinates)
+  const marker = icon
+    ? new Marker({
+        element: icon.element,
+        draggable: !parameters.zone.report.project.settings.arePointsLocked,
+      }).setLngLat(json.coordinates)
+    : null
 
   const watcherHandler = createWatcherHandler()
 
@@ -26,11 +31,15 @@ export const createBasePointFromJSON = (
     machine: parameters.machine,
     id: `${+new Date()}-${Math.random()}`,
     number: json.number,
+    index: json.index,
+    date: new Date(json.date),
     marker,
     icon,
+    informations: [],
     settings: reactive(json.settings),
+    zone: parameters.zone,
     data: json.data.map((jsonDataValue): DataValue => {
-      const label = parameters.reportDataLabels.groups.list
+      const label = parameters.zone.report.dataLabels.groups.list
         .find((groupedDataLabels) => groupedDataLabels.from === 'Test')
         ?.choices.list.find(
           (dataLabel) => dataLabel.name === jsonDataValue.label
@@ -77,10 +86,12 @@ export const createBasePointFromJSON = (
       return typeof value === 'object' ? value.displayedString : ''
     },
     updateColor: function () {
-      if (parameters.reportSettings.colorization === 'Zone') {
-        this.icon.setColor(parameters.zoneSettings.color)
+      if (this.zone.report.settings.colorization === 'Zone') {
+        this.icon?.setColor(
+          colorsClasses[this.zone.settings.color as ColorName].hexColor
+        )
       } else {
-        const group = parameters.reportDataLabels.groups.selected
+        const group = this.zone.report.dataLabels.groups.selected
 
         if (group && group.choices.selected) {
           const mathNumber = this.getSelectedMathNumber(
@@ -91,19 +102,19 @@ export const createBasePointFromJSON = (
 
           const unit = mathNumber?.unit
 
-          const threshold = parameters.reportThresholds.groups.find(
+          const threshold = this.zone.report.thresholds.groups.find(
             (group) => group.unit === unit
           )?.choices.selected
 
           if (unit && threshold) {
             const color = threshold.getColor(
               mathNumber,
-              parameters.reportThresholds.colors
+              this.zone.report.thresholds.colors
             )
 
-            this.icon.setColor(color)
+            this.icon?.setColor(color)
           } else {
-            this.icon.setColor()
+            this.icon?.setColor()
           }
         }
       }
@@ -113,13 +124,13 @@ export const createBasePointFromJSON = (
         watcherMarkersString = watcherHandler.remove(watcherMarkersString)
       }
 
-      switch (parameters.projectSettings.pointsState) {
+      switch (this.zone.report.project.settings.pointsState) {
         case 'number':
           watcherMarkersString = watcherHandler.add(
             watch(
               () => this.number,
               (number) => {
-                this.icon.setText(String(number))
+                this.icon?.setText(String(number))
               },
               {
                 immediate: true,
@@ -129,7 +140,7 @@ export const createBasePointFromJSON = (
 
           break
         case 'value':
-          const group = parameters.reportDataLabels.groups.selected
+          const group = this.zone.report.dataLabels.groups.selected
 
           let text = ''
 
@@ -141,51 +152,74 @@ export const createBasePointFromJSON = (
             )
           }
 
-          this.icon.setText(text)
+          this.icon?.setText(text)
 
           break
         case 'nothing':
-          this.icon.setText('')
+          this.icon?.setText('')
           break
       }
     },
     updateVisibility: function () {
-      if (
-        parameters.projectSettings.arePointsVisible &&
-        parameters.reportSettings.isVisible &&
-        parameters.zoneSettings.isVisible &&
-        this.settings.isVisible
-      ) {
-        this.marker.addTo(map)
+      if (this.checkVisibility()) {
+        map && this.marker?.addTo(map)
       } else {
-        this.marker.remove()
+        this.marker?.remove()
       }
     },
     updatePopup: function () {
+      const locale = getBrowserLocale(true)
+
       let html: string = ''
 
       this.data.forEach((dataValue) => {
-        html += `<p><strong>${dataValue.label.name}:</strong> ${dataValue.value.displayedStringWithUnit}</p>`
+        let name = dataValue.label.name
+
+        name =
+          locale === 'fr' && name in translationsFR
+            ? (translationsFR as any)[name].source
+            : name
+
+        html += `<p><strong>${name}:</strong> ${dataValue.value.displayedStringWithUnit}</p>`
       })
 
-      this.marker.setPopup(new Popup().setHTML(html))
+      this.marker?.setPopup(new Popup().setHTML(html))
     },
     addToMap: function () {
       this.updateVisibility()
       this.updateText()
       this.updateColor()
       this.updatePopup()
+
+      watcherHandler.add(
+        watch(
+          () => this.settings.isVisible,
+          () => {
+            const sortedPoints = this.zone.report.line.sortedPoints
+
+            point.updateVisibility()
+
+            let index = sortedPoints.findIndex((_point) => point === _point) + 1
+
+            for (index; index < sortedPoints.length; index++) {
+              sortedPoints[index].number += point.settings.isVisible ? 1 : -1
+            }
+
+            this.zone.report.line.update()
+          }
+        )
+      )
     },
-    isOnMap: function () {
+    checkVisibility: function () {
       return (
-        parameters.projectSettings.arePointsVisible &&
-        parameters.reportSettings.isVisible &&
-        parameters.zoneSettings.isVisible &&
-        this.settings.isVisible
+        this.settings.isVisible &&
+        this.zone.settings.isVisible &&
+        this.zone.report.settings.isVisible &&
+        this.zone.report.project.settings.arePointsVisible
       )
     },
     remove: function () {
-      this.marker.remove()
+      this.marker?.remove()
       watcherHandler.clean()
     },
   } as BasePoint)

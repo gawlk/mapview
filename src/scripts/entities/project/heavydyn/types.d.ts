@@ -1,11 +1,45 @@
 interface HeavydynProject extends BaseProject {
   readonly machine: 'Heavydyn'
   readonly reports: SelectableList<HeavydynReport>
+  readonly units: HeavydynMathUnits
+  calibrations: HeavdyndynCalibrations
+}
+
+interface HeavdyndynCalibrations {
+  readonly date: Date
+  readonly dPlate: number
+  readonly channels: JSONChannel[]
+  readonly sensors: JSONSensor[]
+}
+
+interface JSONHeavdyndynCalibrations {
+  readonly date: string
+  readonly dPlate: number
+  readonly channels: JSONChannel[]
+  readonly sensors: JSONSensor[]
+}
+
+interface JSONChannel {
+  name: string
+  position: string
+  gain: number
+  acquisition: number
+  type: 'LoadCell' | 'Geophone'
+}
+
+interface JSONSensor {
+  name: string
+  gain: number
+  type: 'AirTemp' | 'SurfTemp' | 'Dmi'
+}
+
+interface JSONHeavydynProject extends JSONProject {
+  calibrations: JSONHeavdyndynCalibrations
 }
 
 interface HeavydynMathUnitsSkeleton<A, B = A, C = A, D = A, E = A> {
   deflection: A
-  load: B
+  force: B
   temperature: C
   distance: D
   time: E

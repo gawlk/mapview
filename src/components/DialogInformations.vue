@@ -49,8 +49,9 @@
 
 <template>
   <Dialog
+    full
     :title="t('Informations')"
-    :buttonIcon="IconInformationCircle"
+    :leftIcon="IconInformationCircle"
     saveable
     @open="importInformations"
     @save="exportInformations"

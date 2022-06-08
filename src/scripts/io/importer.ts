@@ -1,4 +1,4 @@
-import { Unzipped, unzipSync } from 'fflate'
+import { type Unzipped, unzipSync } from 'fflate'
 
 import store from '/src/store'
 import {
@@ -32,9 +32,9 @@ export const importFile = async (file: File) => {
   if (jsonUint) {
     const importedJSON: any = JSON.parse(new TextDecoder().decode(jsonUint))
 
-    const jsonProject: JSONProject =
+    const jsonProject: JSONMachineProject =
       extension === 'mpvz'
-        ? (importedJSON as JSONProject)
+        ? (importedJSON as JSONMachineProject)
         : convertJSONFromPRJZToMPVZ(importedJSON)
 
     console.log('json project', jsonProject)
@@ -53,8 +53,8 @@ export const importFile = async (file: File) => {
   }
 }
 
-const generateProjectFromJSON = async (
-  json: JSONProject
+export const generateProjectFromJSON = async (
+  json: JSONMachineProject
 ): Promise<MachineProject | null> => {
   const map = store.map as mapboxgl.Map
 
@@ -62,15 +62,24 @@ const generateProjectFromJSON = async (
 
   switch (json.machine) {
     case 'Heavydyn':
-      project = await createHeavydynProjectFromJSON(json, map)
+      project = await createHeavydynProjectFromJSON(
+        json as JSONHeavydynProject,
+        map
+      )
       break
 
     case 'Maxidyn':
-      project = await createMaxidynProjectFromJSON(json, map)
+      project = await createMaxidynProjectFromJSON(
+        json as JSONMaxidynProject,
+        map
+      )
       break
 
     case 'Minidyn':
-      project = await createMinidynProjectFromJSON(json, map)
+      project = await createMinidynProjectFromJSON(
+        json as JSONMinidynProject,
+        map
+      )
       break
   }
 
@@ -92,7 +101,7 @@ const importImages = async (
     json.images.map(async (jsonImage) => {
       const array = zip[`images/${jsonImage.name}`]
 
-      if (array && store.map) {
+      if (array) {
         const data64 = Uint8ArrayToData64Image(
           array,
           jsonImage.name.split('.').pop() as string
@@ -102,7 +111,7 @@ const importImages = async (
           ...jsonImage,
         })
 
-        if (store.projects.selected === project && store.map.isStyleLoaded()) {
+        if (store.projects.selected === project && store.map?.isStyleLoaded()) {
           image.addToMap(store.projects.selected.settings.areImagesVisible)
         }
 

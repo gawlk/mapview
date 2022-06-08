@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import html2canvas from 'html2canvas'
+  // import pica from 'pica'
 
   import store from '/src/store'
   import { fileToBase64 } from '/src/scripts'
@@ -35,7 +36,28 @@
       .getElementsByClassName('mapboxgl-control-container')[0]
       .classList.add('hidden')
 
-    state.image = (await html2canvas(map, { logging: false })).toDataURL()
+    Array.from(map.getElementsByClassName('mapview-icon')).forEach((icon) => {
+      ;(icon as HTMLSpanElement).style.marginBottom = '1rem'
+    })
+
+    const canvasFrom = await html2canvas(map, {
+      logging: false,
+    })
+
+    // const resizeWidth = 800
+    // const resizeHeight = (resizeWidth * canvasFrom.height) / canvasFrom.width
+
+    // const canvasTo = document.createElement('canvas')
+    // canvasTo.width = resizeWidth
+    // canvasTo.height = resizeHeight
+
+    // const newCanvas = await pica().resize(canvasFrom, canvasTo)
+
+    state.image = canvasFrom.toDataURL()
+
+    Array.from(map.getElementsByClassName('mapview-icon')).forEach((icon) => {
+      ;(icon as HTMLSpanElement).style.marginBottom = ''
+    })
 
     map
       .getElementsByClassName('mapboxgl-control-container')[0]

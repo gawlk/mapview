@@ -17,6 +17,7 @@
     truncate?: boolean
     icon?: any
     leftIcon?: any
+    leftHTMLIcon?: any
     rightIcon?: any
     iconsClasses?: string
     buttonColors?: string
@@ -36,8 +37,7 @@
 </script>
 
 <template>
-  <component
-    :is="props.as || 'button'"
+  <button
     :disabled="props.disabled"
     :class="[
       props.xxl
@@ -91,6 +91,11 @@
       class="h-5 w-5 transition-colors duration-200"
     />
     <span
+      v-else-if="props.leftHTMLIcon"
+      class="h-5 w-5 transition-colors duration-200"
+      v-html="props.leftHTMLIcon"
+    />
+    <span
       v-if="!props.icon"
       :class="[
         props.centered ? 'text-center' : 'text-left',
@@ -106,5 +111,5 @@
       :class="iconsClasses || iconsColors"
       class="h-5 w-5 transition-colors duration-200"
     />
-  </component>
+  </button>
 </template>

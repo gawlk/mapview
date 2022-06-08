@@ -1,9 +1,5 @@
-interface ComputedRef<T> {
-  value: T
-}
-
 interface Line {
-  readonly sortedPoints: ComputedRef<MachinePoint[]>
+  sortedPoints: MachinePoint[]
   addToMap: () => void
   update: () => void
   remove: () => void

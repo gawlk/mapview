@@ -6,8 +6,8 @@ import {
 } from '/src/scripts'
 
 export const createHeavydynProjectFromJSON = async (
-  json: JSONProject,
-  map: mapboxgl.Map
+  json: JSONHeavydynProject,
+  map: mapboxgl.Map | null
 ) => {
   const jsonUnits = json.units as JSONHeavydynUnits
 
@@ -25,8 +25,8 @@ export const createHeavydynProjectFromJSON = async (
         currentUnit: jsonUnits.deflection,
       }
     ),
-    load: createMathUnit<PossibleHeavydynForceUnits>(
-      'Load',
+    force: createMathUnit<PossibleHeavydynForceUnits>(
+      'Force',
       'N',
       [
         ['N', 0],
@@ -35,7 +35,7 @@ export const createHeavydynProjectFromJSON = async (
       ],
       {
         max: 500000,
-        currentUnit: jsonUnits.load,
+        currentUnit: jsonUnits.force,
       }
     ),
     temperature: createMathUnit<PossibleHeavydynTemperatureUnits>(
@@ -88,8 +88,7 @@ export const createHeavydynProjectFromJSON = async (
   project.reports.list.push(
     ...json.reports.map((report) =>
       createHeavydynReportFromJSON(report, map, {
-        projectSettings: json.settings,
-        units,
+        project: project as HeavydynProject,
       })
     )
   )
@@ -107,6 +106,13 @@ export const createHeavydynProjectFromJSON = async (
       createHeavydynFieldFromJSON(field)
     )
   )
+
+  project.calibrations = {
+    date: new Date(json.calibrations.date),
+    dPlate: json.calibrations.dPlate,
+    channels: json.calibrations.channels,
+    sensors: json.calibrations.sensors,
+  }
 
   return project as HeavydynProject
 }

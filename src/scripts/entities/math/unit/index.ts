@@ -1,4 +1,25 @@
-import { unit as Unit } from 'mathjs'
+import { unit as Unit, createUnit } from 'mathjs'
+
+createUnit({
+  cmm: '10 um',
+  dmm: '100 um',
+  nlbs: '4.448221628250858 N',
+})
+
+const convertMapviewUnitToMathJSUnit = (unit: string) =>
+  unit === '°C'
+    ? 'degC'
+    : unit === '°F'
+    ? 'degF'
+    : unit === '1/100 mm'
+    ? 'cmm'
+    : unit === '1/10 mm'
+    ? 'dmm'
+    : unit === 'lbs'
+    ? 'nlbs'
+    : unit === '%'
+    ? 'm'
+    : unit
 
 export const createMathUnit = <PossibleUnits extends string>(
   name: string,
@@ -12,14 +33,16 @@ export const createMathUnit = <PossibleUnits extends string>(
     max?: number
     step?: number
     averageFunction?: 'allEqual' | 'capOutliers' | 'ignoreOutliers'
+    readOnly?: true
   }
 ): MathUnit => {
   const currentUnit = options.currentUnit || possibleSettings[0][0]
   const possiblePrecisions = options.possiblePrecisions || [0, 1, 2]
   const currentPrecision = options.currentPrecision || possibleSettings[0][1]
   const min = options.min || 0
-  const max = options.max || 1000
+  const max = options.max || null
   const step = options.step || 1
+  const readOnly = options.readOnly || false
 
   return shallowReactive({
     name,
@@ -31,47 +54,37 @@ export const createMathUnit = <PossibleUnits extends string>(
     min,
     max,
     step,
+    readOnly,
     getAverage: function (values: number[]) {
       const filteredValues: number[] = values.filter((value) =>
         options.averageFunction === 'ignoreOutliers'
-          ? value <= this.max && value >= this.min
+          ? (!this.max || value <= this.max) && value >= this.min
           : true
       )
 
-      return (
-        filteredValues.reduce(
-          (total, currentValue) =>
-            total +
-            (options.averageFunction === 'capOutliers'
-              ? currentValue > this.max
-                ? this.max
-                : currentValue < this.min
-                ? this.min
-                : currentValue
-              : currentValue),
-          0
-        ) / filteredValues.length
-      )
+      return filteredValues.length > 0
+        ? filteredValues.reduce(
+            (total, currentValue) =>
+              total +
+              (options.averageFunction === 'capOutliers'
+                ? this.max && currentValue > this.max
+                  ? this.max
+                  : currentValue < this.min
+                  ? this.min
+                  : currentValue
+                : currentValue),
+            0
+          ) / filteredValues.length
+        : 0
     },
   })
 }
-
-const convertCurrentUnitToMathJSUnit = (currentUnit: string) =>
-  currentUnit === '°C'
-    ? 'degC'
-    : currentUnit === '°F'
-    ? 'degF'
-    : currentUnit === '1/100 mm'
-    ? 'cmm'
-    : currentUnit === 'lbs'
-    ? 'nlbs'
-    : currentUnit
 
 export const convertValueFromUnitAToUnitB = (
   value: number,
   unitA: string,
   unitB: string
-) =>
-  Unit(value, convertCurrentUnitToMathJSUnit(unitA)).toNumber(
-    convertCurrentUnitToMathJSUnit(unitB)
-  )
+) => {
+  const valueTest = Unit(value, convertMapviewUnitToMathJSUnit(unitA))
+  return valueTest.toNumber(convertMapviewUnitToMathJSUnit(unitB))
+}

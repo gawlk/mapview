@@ -41,11 +41,11 @@
 
 <template>
   <td
-    v-if="selectedReport?.settings.groupBy === 'Nothing'"
+    v-if="selectedReport?.settings.groupBy === 'Number'"
     class="w-12 border-2 border-gray-100 bg-gray-100 text-right font-semibold"
   ></td>
   <td
-    v-if="selectedReport?.zones.length > 1"
+    v-if="selectedReport?.zones && selectedReport.zones.length > 1"
     class="w-[8rem] min-w-[8rem] border-2 border-gray-100 bg-gray-100 pl-3 font-semibold text-gray-600"
   >
     {{ t('Zone') }}
@@ -67,52 +67,38 @@
       dataLabel,
     } of selectedTableDataLabelsParameters?.dataLabels.map((dataLabel) => {
       return {
-        mathNumber: groupFrom
-          ? createMathNumber(
-              (typeof dataLabel.unit === 'string'
-                ? getBasicAverage
-                : dataLabel.unit.getAverage)(
-                filteredPoints.map(
-                  (point) =>
-                    (groupFrom &&
-                      point.getSelectedMathNumber(
-                        groupFrom,
-                        dataLabel,
-                        selectedTableDataLabelsParameters?.index
-                      )?.value) ||
-                    0
-                )
-              ),
-              dataLabel.unit
+        mathNumber: createMathNumber(
+          (typeof dataLabel.unit === 'string'
+            ? getBasicAverage
+            : dataLabel.unit.getAverage)(
+            filteredPoints.map(
+              (point) =>
+                (groupFrom &&
+                  point.getSelectedMathNumber(
+                    groupFrom,
+                    dataLabel,
+                    selectedTableDataLabelsParameters?.index
+                  )?.value) ||
+                0
             )
-          : null,
+          ),
+          dataLabel.unit
+        ),
         dataLabel,
       }
     })"
-    :style="
-      mathNumber &&
-      matchingGroupAndIndex &&
-      dataLabels?.groups.selected?.choices.selected === dataLabel
-        ? `background-color: ${selectedReport?.thresholds.groups
-            .find((grouped) => grouped.unit === dataLabel.unit)
-            ?.choices.selected?.getColor(
-              mathNumber,
-              selectedReport.thresholds.colors
-            )}88`
-        : ''
-    "
     class="min-w-[4rem] border-2 border-gray-100 px-2 text-right text-gray-600"
   >
     <p class="font-semibold">{{ t(dataLabel.name) }}</p>
-    <p class="text-xs">
+    <p class="whitespace-nowrap text-xs">
       {{
         typeof dataLabel.unit === 'object'
-          ? t(dataLabel.unit.currentUnit).replaceAll(' ', '&nbsp;')
+          ? t(dataLabel.unit.currentUnit)
           : dataLabel.unit ?? ''
       }}
     </p>
-    <p class="font-semibold text-black">
-      {{ mathNumber?.displayedString.replaceAll(' ', '&nbsp;') }}
+    <p class="whitespace-nowrap font-semibold text-black">
+      {{ mathNumber.displayedString }}
     </p>
   </td>
   <td class="w-12 border-2 border-gray-100 bg-gray-100" />

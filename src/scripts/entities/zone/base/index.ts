@@ -1,4 +1,4 @@
-import { createWatcherHandler } from '/src/scripts'
+import { createWatcherHandler, sortPoints } from '/src/scripts'
 
 export const createBaseZoneFromJSON = (
   json: JSONZone,
@@ -9,8 +9,9 @@ export const createBaseZoneFromJSON = (
   return shallowReactive({
     machine: parameters.machine,
     name: json.name,
-    points: [] as MachinePoint[],
+    points: shallowReactive([] as MachinePoint[]),
     settings: shallowReactive(json.settings),
+    report: parameters.report,
     init: function () {
       this.points.forEach((point) => point.addToMap())
 
@@ -19,6 +20,8 @@ export const createBaseZoneFromJSON = (
           () => this.settings.color,
           () => {
             this.points.forEach((point) => point.updateColor())
+
+            this.report.line.update()
           }
         )
       )
@@ -30,6 +33,25 @@ export const createBaseZoneFromJSON = (
             this.points.forEach((point) => {
               point.updateVisibility()
             })
+            this.report.line.update()
+          }
+        )
+      )
+
+      watcherHandler.add(
+        watch(
+          () => this.points.length,
+          () => {
+            sortPoints(this.points)
+
+            this.report.line.sortedPoints = Array.prototype.concat(
+              ...this.report.zones.map((zone) => zone.points)
+            ) as MachinePoint[]
+
+            this.report.line.update()
+          },
+          {
+            immediate: true,
           }
         )
       )

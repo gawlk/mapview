@@ -10,7 +10,7 @@
 </script>
 
 <template>
-  <Dialog :title="t('Configurations')" :buttonIcon="IconCog">
+  <Dialog :title="t('Configurations')" :leftIcon="IconCog" full>
     <template v-slot:button>
       {{ t('See configurations') }}
     </template>
@@ -21,7 +21,9 @@
         </h4>
         <div class="space-y-4">
           <div
-            v-for="unit in store.projects.selected?.units"
+            v-for="unit in (Object.values(
+              store.projects.selected?.units || {}
+            ).filter((unit) => !unit.readOnly) as MathUnit[])"
             :key="unit.name"
             class="space-y-1"
           >

@@ -23,7 +23,7 @@
   const inputFile = ref()
 
   const addImage = async (file?: File) => {
-    if (file && store.projects.selected && store.map) {
+    if (file && store.projects.selected) {
       const data64 = await fileToBase64(file)
 
       const image = await createImage(data64, store.map, {

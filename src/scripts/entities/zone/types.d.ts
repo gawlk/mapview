@@ -6,8 +6,5 @@ type PartialMachineZone<MachineZone> = PartialExtendedObject<
 >
 
 interface MachineZoneCreatorParameters {
-  projectSettings: JSONProjectSettings
-  reportSettings: JSONReportSettings
-  reportDataLabels: ReportDataLabels
-  reportThresholds: ReportThresholds
+  report: MachineReport
 }

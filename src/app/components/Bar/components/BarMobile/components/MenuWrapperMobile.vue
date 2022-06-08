@@ -28,8 +28,10 @@
     </span>
   </button>
   <div
-    v-if="props.opened"
-    class="absolute inset-x-0 bottom-0 z-10 mb-20 bg-transparent"
+    :class="[
+      !props.opened && 'hidden',
+      'absolute inset-x-0 bottom-0 z-10 mb-[4.75rem] bg-transparent',
+    ]"
   >
     <div class="space-y-2 rounded-lg bg-white p-2">
       <slot></slot>

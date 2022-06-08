@@ -2,13 +2,22 @@
   import DialogExport from './components/DialogExport.vue'
   import GroupAlbum from './components/GroupAlbum/Index.vue'
   import GroupReports from './components/GroupReports.vue'
-  import DisclosureZones from './components/DisclosureZones.vue'
+  import Zones from './components/Zones.vue'
 
   import DialogInformations from '/src/components/DialogInformations.vue'
+  import Submenu from '/src/components/Submenu.vue'
+
+  import IconIssueDraft from '~icons/octicon/issue-draft-16'
 
   import store from '/src/store'
 
   const { t } = useI18n()
+
+  const props = defineProps<{
+    menu: MenuProps
+  }>()
+
+  console.log(JSON.stringify(props.menu))
 </script>
 
 <template>
@@ -34,6 +43,18 @@
         : []
     "
   />
+  <Submenu
+    :buttonIcon="IconIssueDraft"
+    :buttonText="`${t('Zones settings')}`"
+    :menuProps="props.menu"
+    :route="` / ${t('Zones')}`"
+  >
+    <Zones />
+  </Submenu>
   <DialogExport />
-  <DisclosureZones />
 </template>
+
+<i18n lang="yaml">
+fr:
+  'Zones settings': 'Configuration des zones'
+</i18n>

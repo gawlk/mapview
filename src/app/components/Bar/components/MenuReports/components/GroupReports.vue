@@ -6,9 +6,9 @@
   import IconEye from '~icons/heroicons-solid/eye'
   import IconEyeOff from '~icons/heroicons-solid/eye-off'
   import IconTrash from '~icons/heroicons-solid/trash'
-  import IconZoomIn from '~icons/heroicons-solid/zoom-in'
 
   import Button from '/src/components/Button.vue'
+  import Dialog from '/src/components/Dialog.vue'
   import Popover from '/src/components/Popover.vue'
   import Listbox from '/src/components/Listbox.vue'
 
@@ -25,10 +25,14 @@
     report.settings.isVisible = !report.settings.isVisible
   }
 
-  const deleteReport = (index: number) => {
+  const deleteReport = () => {
     const project = store.projects.selected
 
     if (project) {
+      const index = project.reports.list.findIndex(
+        (report) => project.reports.selected === report
+      )
+
       const report = project.reports.list.splice(index, 1)?.[0]
 
       if (report.settings.isVisible) {
@@ -62,17 +66,17 @@
     <Popover
       :icon="IconViewList"
       :preText="`${t('Selected')}${t(':')}`"
+      hidePreTextOnMobile
       :buttonText="`${store.projects.selected?.reports.selected?.name.value}`"
       full
-      class="w-full"
     >
       <div
-        v-for="(report, index) of store.projects.selected?.reports.list"
+        v-for="report of store.projects.selected?.reports.list"
         :key="(report.name.value as string)"
         class="flex space-x-1"
       >
         <Button
-          :leftIcon="IconZoomIn"
+          :leftHTMLIcon="icons[report.settings.iconName]"
           @click="selectReport(report)"
           truncate
           full
@@ -82,11 +86,6 @@
         <Button
           :icon="report.settings.isVisible ? IconEye : IconEyeOff"
           @click="toggleReport(report)"
-        />
-        <Button
-          v-if="store.projects.selected?.reports.list.length > 1"
-          :icon="IconTrash"
-          @click="deleteReport(index)"
         />
       </div>
     </Popover>
@@ -103,6 +102,26 @@
       "
       :values="pointIconValues"
     />
+    <Dialog
+      v-if="
+        store.projects.selected &&
+        store.projects.selected.reports.list.length > 1
+      "
+      :title="t('Delete report')"
+      :icon="IconTrash"
+      red
+      deletable
+      @delete="() => deleteReport()"
+    >
+      <template v-slot:dialog>
+        {{ t('Are you sure that you want to delete the report') }} -
+        <strong>{{
+          store.projects.selected.reports.selected?.name.value
+        }}</strong>
+        - {{ t('from the project') }} -
+        <strong>{{ store.projects.selected.name.value }}</strong> ?
+      </template>
+    </Dialog>
   </div>
 </template>
 
@@ -118,4 +137,7 @@ fr:
   'HexagonAlt': 'Hexagone alt.'
   'Heptagon': 'Heptagone'
   'Octagon': 'Octagone'
+  'Delete report': 'Supprimer le rapport'
+  'Are you sure that you want to delete the report': 'Êtes-vous sûr que vous souhaitez supprimer le rapport'
+  'from the project': 'du projet'
 </i18n>

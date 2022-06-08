@@ -1,15 +1,30 @@
 interface MaxidynProject extends BaseProject {
   readonly machine: 'Maxidyn'
   readonly reports: SelectableList<MaxidynReport>
+  readonly units: MaxidynMathUnits
+  bearingParameters: JSONBearingParameters
 }
 
-interface MaxidynMathUnitsSkeleton<A, B = A, C = A, D = A, E = A, F = A> {
+interface JSONMaxidynProject extends JSONProject {
+  bearingParameters: JSONBearingParameters
+}
+
+interface MaxidynMathUnitsSkeleton<
+  A,
+  B = A,
+  C = A,
+  D = A,
+  E = A,
+  F = A,
+  G = A
+> {
   modulus: A
   stiffness: B
   deflection: C
-  load: D
+  force: D
   distance: E
   time: F
+  percentage: G
 }
 
 type MaxidynMathUnits = MaxidynMathUnitsSkeleton<MathUnit>
@@ -20,6 +35,7 @@ type PossibleMaxidynDeflectionUnits = 'mm' | 'um'
 type PossibleMaxidynForceUnits = 'N' | 'kN'
 type PossibleMaxidynDistanceUnits = 'm' | 'km' | 'mi'
 type PossibleMaxidynTimeUnits = 's' | 'ms' | 'us'
+type PossibleMaxidynPercentageUnits = '%'
 
 type JSONMaxidynUnits = MaxidynMathUnitsSkeleton<
   PossibleMaxidynModulusUnits,
@@ -27,7 +43,8 @@ type JSONMaxidynUnits = MaxidynMathUnitsSkeleton<
   PossibleMaxidynDeflectionUnits,
   PossibleMaxidynForceUnits,
   PossibleMaxidynDistanceUnits,
-  PossibleMaxidynTimeUnits
+  PossibleMaxidynTimeUnits,
+  PossibleMaxidynPercentageUnits
 >
 
 type MaxidynMathUnitsNames = keyof MaxidynMathUnitsSkeleton<any>

@@ -4,7 +4,8 @@ interface MathNumber {
   displayedString: string
   displayedStringWithUnit: string
   updateDisplayedStrings: () => void
-  getLocaleString: (options: MathNumberGetLocaleStringOptions) => void
+  getLocaleString: (options: MathNumberGetLocaleStringOptions) => string
+  getValueAs: (unit: string) => number
 }
 
 interface MathNumberGetLocaleStringOptions {
@@ -13,4 +14,6 @@ interface MathNumberGetLocaleStringOptions {
   precision?: number
   disablePreString?: true
   unit?: string
+  removeSpaces?: true
+  disableMinAndMax?: true
 }

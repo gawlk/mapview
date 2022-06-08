@@ -3,7 +3,7 @@ import { createMaxidynPointFromJSON } from '/src/scripts'
 
 export const createMaxidynZoneFromJSON = (
   json: JSONZone,
-  map: mapboxgl.Map,
+  map: mapboxgl.Map | null,
   parameters: MaxidynZoneCreatorParameters
 ) => {
   const zone: PartialMachineZone<MaxidynZone> = createBaseZoneFromJSON(json, {
@@ -14,11 +14,7 @@ export const createMaxidynZoneFromJSON = (
   zone.points.push(
     ...json.points.map((jsonPoint) =>
       createMaxidynPointFromJSON(jsonPoint, map, {
-        projectSettings: parameters.projectSettings,
-        reportSettings: parameters.reportSettings,
-        reportDataLabels: parameters.reportDataLabels,
-        reportThresholds: parameters.reportThresholds,
-        zoneSettings: zone.settings,
+        zone: zone as MaxidynZone,
       })
     )
   )

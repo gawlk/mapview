@@ -6,5 +6,5 @@ type PartialMachineDrop<MachineDrop> = PartialExtendedObject<
 >
 
 interface MachineDropCreatorParameters {
-  reportDataLabels: ReportDataLabels
+  point: MachinePoint
 }

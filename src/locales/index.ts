@@ -1,5 +1,5 @@
 export const getBrowserLocale = (languageCodeOnly: boolean = false) => {
-  if (!navigator.language) {
+  if (typeof navigator === 'undefined' || !navigator?.language) {
     return undefined
   }
 
@@ -9,6 +9,10 @@ export const getBrowserLocale = (languageCodeOnly: boolean = false) => {
 }
 
 export const getBrowserLocales = (languageCodeOnly = false) => {
+  if (!navigator) {
+    return undefined
+  }
+
   const browserLocales = navigator.languages ?? [navigator.language]
 
   if (!browserLocales) {
@@ -29,7 +33,11 @@ export const numberToLocaleString = (
     precision?: number
   } = {}
 ) =>
-  value.toLocaleString(options.locale || navigator.language, {
-    minimumFractionDigits: options.precision || 0,
-    maximumFractionDigits: options.precision || 0,
-  })
+  value.toLocaleString(
+    options.locale ||
+      (typeof navigator !== 'undefined' ? navigator.language : 'en-US'),
+    {
+      minimumFractionDigits: options.precision || 0,
+      maximumFractionDigits: options.precision || 0,
+    }
+  )

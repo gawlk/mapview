@@ -6,8 +6,8 @@ import {
 } from '/src/scripts'
 
 export const createMinidynProjectFromJSON = async (
-  json: JSONProject,
-  map: mapboxgl.Map
+  json: JSONMinidynProject,
+  map: mapboxgl.Map | null
 ) => {
   const jsonUnits = json.units as JSONMinidynUnits
 
@@ -17,6 +17,8 @@ export const createMinidynProjectFromJSON = async (
       'Pa',
       [['MPa', 0]],
       {
+        min: json.bearingParameters.min || 10000000,
+        max: json.bearingParameters.max || 150000000,
         currentUnit: jsonUnits.modulus,
       }
     ),
@@ -39,15 +41,15 @@ export const createMinidynProjectFromJSON = async (
         currentUnit: jsonUnits.deflection,
       }
     ),
-    load: createMathUnit<PossibleMinidynForceUnits>(
-      'Load',
+    force: createMathUnit<PossibleMinidynForceUnits>(
+      'Force',
       'N',
       [
         ['N', 0],
         ['kN', 0],
       ],
       {
-        currentUnit: jsonUnits.load,
+        currentUnit: jsonUnits.force,
       }
     ),
     temperature: createMathUnit<PossibleMinidynTemperatureUnits>(
@@ -74,6 +76,17 @@ export const createMinidynProjectFromJSON = async (
         currentUnit: jsonUnits.time,
       }
     ),
+    percentage: createMathUnit<PossibleMinidynPercentageUnits>(
+      'Percentage',
+      '%',
+      [['%', 0]],
+      {
+        currentUnit: '%',
+        max: 100,
+        step: 0.5,
+        readOnly: true,
+      }
+    ),
   }
 
   const project: PartialMachineProject<MinidynProject> =
@@ -85,8 +98,7 @@ export const createMinidynProjectFromJSON = async (
   project.reports.list.push(
     ...json.reports.map((report) =>
       createMinidynReportFromJSON(report, map, {
-        projectSettings: json.settings,
-        units,
+        project: project as MinidynProject,
       })
     )
   )

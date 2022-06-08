@@ -8,7 +8,7 @@ import {
 
 export const createMaxidynReportFromJSON = (
   json: JSONReport,
-  map: mapboxgl.Map,
+  map: mapboxgl.Map | null,
   parameters: MaxidynReportCreatorParameters
 ) => {
   const report: PartialMachineReport<MaxidynReport> = createBaseReportFromJSON(
@@ -26,14 +26,16 @@ export const createMaxidynReportFromJSON = (
           createPredefinedThreshold('PF1', 20000000),
           createPredefinedThreshold('PF2', 50000000),
           createPredefinedThreshold('PF2+', 80000000),
+          createPredefinedThreshold('PF3', 120000000),
           createPredefinedThreshold('PF4', 200000000),
           createCustomThreshold(0),
         ],
         stiffness: [createCustomThreshold(0)],
         deflection: [createCustomThreshold(0)],
-        load: [createCustomThreshold(0)],
+        force: [createCustomThreshold(0)],
         distance: [createCustomThreshold(0)],
         time: [createCustomThreshold(0)],
+        percentage: [createCustomThreshold(0)],
       },
       ...parameters,
     }
@@ -42,10 +44,7 @@ export const createMaxidynReportFromJSON = (
   report.zones.push(
     ...json.zones.map((jsonZone) =>
       createMaxidynZoneFromJSON(jsonZone, map, {
-        projectSettings: parameters.projectSettings,
-        reportSettings: report.settings,
-        reportDataLabels: report.dataLabels,
-        reportThresholds: report.thresholds,
+        report: report as MaxidynReport,
       })
     )
   )

@@ -12,31 +12,35 @@
     full: boolean
     icon: any
     preText?: string
+    hidePreTextOnMobile?: true
   }>()
 </script>
 
 <template>
   <HeadlessPopover
     as="div"
-    :class="[props.full ? 'w-full' : '']"
+    :class="[props.full ? 'w-full min-w-0' : '']"
     class="relative inline-block text-left"
   >
     <PopoverButton
-      class="group flex w-full items-center justify-between space-x-1 rounded-lg bg-gray-100 py-2 px-4 text-sm font-medium leading-6 transition-colors duration-200 hover:bg-gray-200 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300"
+      class="group flex w-full items-center justify-between space-x-1 truncate rounded-lg bg-gray-100 py-2 px-4 text-sm font-medium leading-6 transition-colors duration-200 hover:bg-gray-200 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300"
     >
       <component
         v-if="props.icon"
         :is="props.icon"
-        class="mr-1 h-5 w-5 text-gray-400 transition-colors duration-200 group-hover:text-gray-500"
+        class="mr-1 h-5 w-5 flex-none text-gray-400 transition-colors duration-200 group-hover:text-gray-500"
       />
-      <span v-if="props.preText" class="ml-1 text-gray-500">
+      <span
+        v-if="!props.hidePreTextOnMobile && props.preText"
+        class="ml-1 text-gray-500"
+      >
         {{ props.preText }}
       </span>
       <span class="flex-1 truncate text-left">
         {{ props.buttonText }}
       </span>
       <IconHeroiconsSolidChevronDown
-        class="h-5 w-5 text-gray-400 transition-colors duration-200 group-hover:text-gray-500"
+        class="h-5 w-5 flex-none text-gray-400 transition-colors duration-200 group-hover:text-gray-500"
       />
     </PopoverButton>
 

@@ -1,9 +1,12 @@
 import { createBasePointFromJSON } from '../base'
-import { createMinidynDropFromJSON } from '/src/scripts'
+import {
+  createMinidynDropFromJSON,
+  createMinidynFieldFromJSON,
+} from '/src/scripts'
 
 export const createMinidynPointFromJSON = (
   json: JSONPoint,
-  map: mapboxgl.Map,
+  map: mapboxgl.Map | null,
   parameters: MinidynPointCreatorParameters
 ) => {
   const point: PartialMachinePoint<MinidynPoint> = createBasePointFromJSON(
@@ -15,10 +18,18 @@ export const createMinidynPointFromJSON = (
     }
   )
 
-  point.drops = json.drops.map((jsonDrop) =>
-    createMinidynDropFromJSON(jsonDrop, {
-      reportDataLabels: parameters.reportDataLabels,
-    })
+  point.drops.push(
+    ...json.drops.map((jsonDrop) =>
+      createMinidynDropFromJSON(jsonDrop, {
+        point: point as MinidynPoint,
+      })
+    )
+  )
+
+  point.informations.push(
+    ...json.informations.map((field: JSONField) =>
+      createMinidynFieldFromJSON(field)
+    )
   )
 
   return point as MinidynPoint

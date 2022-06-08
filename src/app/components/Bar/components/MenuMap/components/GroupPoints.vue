@@ -16,7 +16,7 @@
 
   const state = reactive({
     pointStateSelected: 0,
-    pointStateValues: [t('Number'), t('Value'), t('Nothing')],
+    pointStateValues: [t('Number'), t('Value'), t('Empty')],
   })
 
   const setPointsState = (n: number) => {
@@ -44,6 +44,7 @@
       full
       :icon="DotIcon"
       :preSelected="`${t('Content')}${t(':')}`"
+      hidePreSelectedOnMobile
       :selected="state.pointStateValues[state.pointStateSelected]"
       :values="state.pointStateValues"
       @selectIndex="setPointsState"

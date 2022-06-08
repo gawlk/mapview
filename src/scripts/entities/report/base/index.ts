@@ -10,12 +10,10 @@ import {
 
 export const createBaseReportFromJSON = (
   json: JSONReport,
-  map: mapboxgl.Map,
+  map: mapboxgl.Map | null,
   parameters: BaseReportCreatorParameters
 ) => {
   const watcherHandler = createWatcherHandler()
-  const pointsWatcherHandlers = createWatcherHandler()
-  const zonesWatcherHandlers = createWatcherHandler()
 
   const zones = shallowReactive([] as MachineZone[])
 
@@ -42,8 +40,10 @@ export const createBaseReportFromJSON = (
             return {
               name: jsonChoice.name,
               unit:
-                jsonChoice.unit in parameters.units
-                  ? parameters.units[jsonChoice.unit as keyof MachineMathUnits]
+                jsonChoice.unit in parameters.project.units
+                  ? parameters.project.units[
+                      jsonChoice.unit as keyof MachineMathUnits
+                    ]
                   : jsonChoice.unit,
             }
           }) || [],
@@ -69,8 +69,10 @@ export const createBaseReportFromJSON = (
             return {
               name: jsonChoice.name,
               unit:
-                jsonChoice.unit in parameters.units
-                  ? parameters.units[jsonChoice.unit as keyof MachineMathUnits]
+                jsonChoice.unit in parameters.project.units
+                  ? parameters.project.units[
+                      jsonChoice.unit as keyof MachineMathUnits
+                    ]
                   : jsonChoice.unit,
             }
           }) || [],
@@ -87,7 +89,9 @@ export const createBaseReportFromJSON = (
           jsonZoneGroup?.choices.list.map((jsonChoice) => {
             return {
               name: jsonChoice.name,
-              unit: parameters.units[jsonChoice.unit as keyof MachineMathUnits],
+              unit: parameters.project.units[
+                jsonChoice.unit as keyof MachineMathUnits
+              ],
             }
           }) || [],
           {
@@ -151,7 +155,7 @@ export const createBaseReportFromJSON = (
     screenshots: shallowReactive([] as string[]),
     dataLabels,
     thresholds: {
-      groups: Object.entries(parameters.units).map(
+      groups: Object.entries(parameters.project.units).map(
         ([key, unit]: [string, MathUnit]): GroupedThresolds => {
           return {
             unit,
@@ -170,32 +174,22 @@ export const createBaseReportFromJSON = (
       inputs: shallowReactive(json.thresholds.inputs),
     },
     zones,
-    line: createLine(zones, map),
+    line: createLine(map),
     platform: shallowReactive([]),
     informations: shallowReactive([]),
+    project: parameters.project,
     fitOnMap: function () {
       const bounds = new LngLatBounds()
 
       this.zones.forEach((zone) => {
         zone.points.forEach((point: MachinePoint) => {
-          if (point.settings.isVisible) {
+          if (point.settings.isVisible && point.marker) {
             bounds.extend(point.marker.getLngLat())
           }
         })
       })
 
-      map.fitBounds(bounds, { padding: 100 })
-    },
-    updatePointsNumbers: function () {
-      this.zones.forEach((zone) => {
-        ;(zone.points as MachinePoint[])
-          .filter((point) => point.settings.isVisible)
-          .forEach((point, index) => {
-            if (point.number !== index + 1) {
-              point.number = index + 1
-            }
-          })
-      })
+      map?.fitBounds(bounds, { padding: 100 })
     },
     addToMap: function () {
       this.isOnMap = true
@@ -204,7 +198,7 @@ export const createBaseReportFromJSON = (
         zone.init()
       })
 
-      if (this.settings.isVisible) {
+      if (this.settings.isVisible && this.project.settings.arePointsLinked) {
         this.line.addToMap()
       }
 
@@ -218,7 +212,7 @@ export const createBaseReportFromJSON = (
               })
             })
 
-            if (parameters.projectSettings.arePointsLinked && isVisible) {
+            if (parameters.project.settings.arePointsLinked && isVisible) {
               this.line.addToMap()
             } else {
               this.line.remove()
@@ -233,40 +227,11 @@ export const createBaseReportFromJSON = (
           (iconName: IconName) => {
             this.zones.forEach((zone) => {
               zone.points.forEach((point) => {
-                point.icon.setIcon(iconName)
+                point.icon?.setIcon(iconName)
+
                 point.updateColor()
               })
             })
-          }
-        )
-      )
-
-      watcherHandler.add(
-        watch(
-          () =>
-            this.zones.reduce((count, zone) => count + zone.points.length, 0),
-          () => {
-            pointsWatcherHandlers.clean()
-
-            this.zones.forEach((zone) => {
-              zone.points.forEach((point) => {
-                pointsWatcherHandlers.add(
-                  watch(
-                    () => point.settings.isVisible,
-                    () => {
-                      point.updateVisibility()
-
-                      this.updatePointsNumbers()
-
-                      this.line.update()
-                    }
-                  )
-                )
-              })
-            })
-          },
-          {
-            immediate: true,
           }
         )
       )
@@ -340,8 +305,6 @@ export const createBaseReportFromJSON = (
       this.line.remove()
 
       watcherHandler.clean()
-      pointsWatcherHandlers.clean()
-      zonesWatcherHandlers.clean()
 
       parameters.remove?.()
     },

@@ -5,14 +5,14 @@
   import MenuWrapperMobile from './components/MenuWrapperMobile.vue'
 
   const props = defineProps<{
-    menus: MenuProp[]
+    menus: Menu[]
   }>()
 
   props.menus?.map((menu) => {
     menu.openedOnMobile = false
   })
 
-  const selectMenu = (menuToSelect: MenuProp) => {
+  const selectMenu = (menuToSelect: Menu) => {
     if (store.projects.selected) {
       props.menus?.forEach((menu) => {
         menu.openedOnMobile =
@@ -26,7 +26,7 @@
   <div class="flex-none p-2">
     <div
       v-if="!store.projects.selected"
-      class="absolute inset-x-0 bottom-0 z-10 mb-20 bg-transparent p-2"
+      class="absolute inset-x-0 bottom-0 z-10 mb-[4.75rem] bg-transparent p-2"
     >
       <Initializer class="rounded-lg bg-white p-2" />
     </div>
@@ -40,7 +40,7 @@
         :disabled="!store.projects.selected"
         @click="selectMenu(menu)"
       >
-        <component :is="menu.component" />
+        <component :is="menu.component" :props="menu.props" />
       </MenuWrapperMobile>
     </div>
   </div>

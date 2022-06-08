@@ -7,13 +7,18 @@
   import PointsTable from './components/PointsTable/Index.vue'
   import ListboxGroupBy from './components/ListboxGroupBy.vue'
 
-  import IconArrowsExpand from '~icons/heroicons-solid/arrows-expand'
   import IconEye from '~icons/heroicons-solid/eye'
+  import IconArrowsExpand from '~icons/heroicons-solid/arrows-expand'
+  import IconArrowSmRight from '~icons/heroicons-solid/arrow-sm-right'
   import IconEyeOff from '~icons/heroicons-solid/eye-off'
 
   import store from '/src/store'
 
   const { t } = useI18n()
+
+  const props = defineProps<{
+    menu: MenuProps
+  }>()
 
   const selectedReport = computed(
     () => store.projects.selected?.reports.selected
@@ -28,8 +33,8 @@
     class="-mx-2"
   >
     <PointsTable
-      v-if="selectedReport?.settings.groupBy === 'Nothing'"
-      :points="selectedReport.line.sortedPoints.value"
+      v-if="selectedReport?.settings.groupBy === 'Number'"
+      :points="selectedReport.line.sortedPoints"
     />
     <div v-else class="border-t-2 border-gray-100">
       <div v-for="zone of selectedReport?.zones">
@@ -59,5 +64,11 @@
       </div>
     </div>
   </div>
-  <Button full :leftIcon="IconArrowsExpand" disabled>Fullscreen</Button>
+  <!-- <Button
+    full
+    :leftIcon="IconArrowsExpand"
+    :rightIcon="IconArrowSmRight"
+    disabled
+    >Fullscreen</Button
+  > -->
 </template>

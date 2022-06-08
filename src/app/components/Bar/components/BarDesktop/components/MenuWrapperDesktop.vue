@@ -6,6 +6,7 @@
   const props = defineProps<{
     icon: any
     name: string
+    menuProps: MenuProps
   }>()
 
   const key = `isDesktopMenu${props.name}Open`
@@ -14,9 +15,9 @@
 <template>
   <Disclosure
     :icon="props.icon"
-    :text="props.name"
-    @click="(open) => setDisclosureOpenState(key, open)"
+    :text="props.name + props.menuProps.route"
     :defaultOpen="getDisclosureOpenState(key)"
+    @click="(open) => setDisclosureOpenState(key, open)"
   >
     <slot></slot>
   </Disclosure>

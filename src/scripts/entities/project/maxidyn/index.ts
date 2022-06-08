@@ -6,8 +6,8 @@ import {
 } from '/src/scripts'
 
 export const createMaxidynProjectFromJSON = async (
-  json: JSONProject,
-  map: mapboxgl.Map
+  json: JSONMaxidynProject,
+  map: mapboxgl.Map | null
 ) => {
   const jsonUnits = json.units as JSONMaxidynUnits
 
@@ -17,6 +17,8 @@ export const createMaxidynProjectFromJSON = async (
       'Pa',
       [['MPa', 0]],
       {
+        min: json.bearingParameters.min || 20000000,
+        max: json.bearingParameters.max || 250000000,
         currentUnit: jsonUnits.modulus,
       }
     ),
@@ -39,15 +41,15 @@ export const createMaxidynProjectFromJSON = async (
         currentUnit: jsonUnits.deflection,
       }
     ),
-    load: createMathUnit<PossibleMaxidynForceUnits>(
-      'Load',
+    force: createMathUnit<PossibleMaxidynForceUnits>(
+      'Force',
       'N',
       [
         ['N', 0],
         ['kN', 0],
       ],
       {
-        currentUnit: jsonUnits.load,
+        currentUnit: jsonUnits.force,
       }
     ),
     distance: createMathUnit<PossibleMaxidynDistanceUnits>(
@@ -74,6 +76,17 @@ export const createMaxidynProjectFromJSON = async (
         currentUnit: jsonUnits.time,
       }
     ),
+    percentage: createMathUnit<PossibleMaxidynPercentageUnits>(
+      'Percentage',
+      '%',
+      [['%', 0]],
+      {
+        currentUnit: '%',
+        max: 100,
+        step: 0.5,
+        readOnly: true,
+      }
+    ),
   }
 
   const project: PartialMachineProject<MaxidynProject> =
@@ -85,8 +98,7 @@ export const createMaxidynProjectFromJSON = async (
   project.reports.list.push(
     ...json.reports.map((report) =>
       createMaxidynReportFromJSON(report, map, {
-        projectSettings: json.settings,
-        units,
+        project: project as MaxidynProject,
       })
     )
   )

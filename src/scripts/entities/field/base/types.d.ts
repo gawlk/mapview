@@ -9,6 +9,7 @@ interface BaseField {
     | LongString
     | SelectableString
   settings: FieldSettings
+  convertValueToString: () => string
 }
 
 interface JSONField {

@@ -9,7 +9,7 @@ import {
 
 export const createBaseProjectFromJSON = async (
   json: JSONProject,
-  map: mapboxgl.Map,
+  map: mapboxgl.Map | null,
   parameters: BaseProjectCreatorParameters
 ) => {
   const watcherHandler = createWatcherHandler()
@@ -48,13 +48,13 @@ export const createBaseProjectFromJSON = async (
       })
     },
     setMapStyle: function (styleIndex: number) {
-      const oldMapStyle = map.getStyle().sprite?.split('/').pop()
+      const oldMapStyle = map?.getStyle().sprite?.split('/').pop()
       const newMapStyle = mapStyles[styleIndex].split('/').pop()
 
       if (oldMapStyle === newMapStyle) {
         this.refreshLinesAndImages()
       } else {
-        map.setStyle(mapStyles[styleIndex])
+        map?.setStyle(mapStyles[styleIndex])
       }
     },
     fitOnMap: function () {
@@ -63,18 +63,18 @@ export const createBaseProjectFromJSON = async (
       this.reports.list.forEach((report: MachineReport) => {
         report.zones.forEach((zone) => {
           zone.points.forEach((point: MachinePoint) => {
-            if (point.settings.isVisible) {
+            if (point.settings.isVisible && point.marker) {
               bounds.extend(point.marker.getLngLat())
             }
           })
         })
       })
 
-      map.fitBounds(bounds, { padding: 100 })
+      map?.fitBounds(bounds, { padding: 100 })
     },
     addToMap: function () {
       if (this.settings.map.coordinates && this.settings.map.zoom) {
-        map.flyTo({
+        map?.flyTo({
           center: this.settings.map.coordinates,
           zoom: this.settings.map.zoom,
         })
@@ -123,7 +123,7 @@ export const createBaseProjectFromJSON = async (
             this.reports.list.forEach((report: MachineReport) => {
               report.zones.forEach((zone) => {
                 zone.points.forEach((point) => {
-                  point.marker.setDraggable(!arePointsLocked)
+                  point.marker?.setDraggable(!arePointsLocked)
                 })
               })
             })
@@ -136,15 +136,17 @@ export const createBaseProjectFromJSON = async (
           () => this.settings.areImagesVisible,
           (areImagesVisible: boolean) => {
             this.images.forEach((image: Image) => {
-              map.setPaintProperty(
+              map?.setPaintProperty(
                 image.id,
                 'raster-opacity',
                 areImagesVisible ? image.opacity : 0
               )
 
               if (areImagesVisible) {
-                image.markerNW.addTo(map)
-                image.markerSE.addTo(map)
+                if (map) {
+                  image.markerNW.addTo(map)
+                  image.markerSE.addTo(map)
+                }
               } else {
                 image.markerNW.remove()
                 image.markerSE.remove()
@@ -228,8 +230,6 @@ export const createBaseProjectFromJSON = async (
                   })
                 })
               })
-
-              // TODO: Same thing for all zones
             })
           )
         )

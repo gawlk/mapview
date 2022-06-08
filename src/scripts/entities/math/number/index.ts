@@ -1,13 +1,6 @@
-import { createUnit } from 'mathjs'
-
 import { convertValueFromUnitAToUnitB } from '/src/scripts'
 
 import { numberToLocaleString } from '/src/locales'
-
-createUnit({
-  cmm: '10 um',
-  nlbs: '4.448221628250858 N',
-})
 
 export const createMathNumber = (
   value: number,
@@ -25,6 +18,11 @@ export const createMathNumber = (
         appendUnitToString: true,
       })
     },
+    getValueAs: function (unit: string) {
+      return typeof this.unit === 'object'
+        ? convertValueFromUnitAToUnitB(this.value, this.unit.baseUnit, unit)
+        : this.value
+    },
     getLocaleString: function (options: MathNumberGetLocaleStringOptions = {}) {
       const numberToLocaleOptions = {
         locale: options.locale,
@@ -37,12 +35,14 @@ export const createMathNumber = (
       if (typeof this.unit !== 'string') {
         numberToLocaleOptions.precision ??= this.unit.currentPrecision
 
-        if (this.value < this.unit.min) {
-          value = this.unit.min
-          preString = '<'
-        } else if (this.value > this.unit.max) {
-          value = this.unit.max
-          preString = '>'
+        if (!options.disableMinAndMax) {
+          if (this.value < this.unit.min) {
+            value = this.unit.min
+            preString = '<'
+          } else if (this.unit.max && this.value > this.unit.max) {
+            value = this.unit.max
+            preString = '>'
+          }
         }
 
         value = convertValueFromUnitAToUnitB(
@@ -52,7 +52,7 @@ export const createMathNumber = (
         )
       }
 
-      return `${
+      const localeString = `${
         options.disablePreString ? '' : preString
       } ${numberToLocaleString(value, numberToLocaleOptions)} ${
         options.appendUnitToString
@@ -61,6 +61,10 @@ export const createMathNumber = (
             : this.unit
           : ''
       }`.trim()
+
+      return options.removeSpaces
+        ? localeString.replaceAll(' ', '')
+        : localeString
     },
   })
 

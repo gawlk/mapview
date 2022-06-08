@@ -65,6 +65,7 @@ export default defineConfig({
     favicons({
       appName: packageJSON.name[0].toUpperCase() + packageJSON.name.slice(1),
       appDescription: packageJSON.description,
+      start_url: '',
       icons: {
         favicons: {
           source: './src/assets/svg/mapview/logo.svg',

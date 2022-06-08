@@ -16,10 +16,7 @@
 </script>
 
 <template>
-  <div
-    style="height: 100dvb"
-    class="flex h-screen flex-col text-gray-900 lg:flex-row"
-  >
+  <div class="flex h-screen flex-col text-gray-900 lg:flex-row">
     <Map class="lg:order-2" />
     <Bar />
   </div>

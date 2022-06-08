@@ -59,7 +59,7 @@
       @click="downloadTemplates"
       full
       :leftIcon="IconSave"
-      href="/public/demos/templates.zip"
+      href="/demos/heavydyn/demo.prjz"
       download
       class="group inline-flex w-full cursor-pointer items-center space-x-2 rounded-lg bg-gray-100 py-2 px-4 text-sm font-medium leading-6 text-gray-900 transition-colors duration-200 hover:bg-gray-200 focus:outline-none focus:ring focus:ring-gray-50"
     >

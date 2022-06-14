@@ -113,7 +113,11 @@
       @selectColor="(color: ColorName) => {
           selectedReport && (selectedReport.thresholds.colors.low = color)
         }"
-      :text="`0 ${selectedUnit?.currentUnit} ≤ ${t(
+      :text="`${convertValueFromUnitAToUnitB(
+        selectedUnit.min,
+        selectedUnit.baseUnit,
+        selectedUnit.currentUnit
+      ).toLocaleString()} ${selectedUnit?.currentUnit} ≤ ${t(
         selectedDataLabel?.name || ''
       )} < ${formattedTresholdValue}`"
     />

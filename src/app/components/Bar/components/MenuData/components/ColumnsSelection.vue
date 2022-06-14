@@ -40,7 +40,9 @@
   <Listbox
     :icon="IconViewList"
     :values="
-      tableDataLabels?.list.map((parameters) => t(parameters.group.from))
+      tableDataLabels?.list
+        .filter((parameters) => parameters.group.choices.list.length > 0)
+        .map((parameters) => t(parameters.group.from))
     "
     :selected="t(tableDataLabels?.selected?.group.from || '')"
     @selectIndex="selectGroupedDataLabels"

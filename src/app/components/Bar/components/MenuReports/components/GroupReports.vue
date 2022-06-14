@@ -6,6 +6,7 @@
   import IconEye from '~icons/heroicons-solid/eye'
   import IconEyeOff from '~icons/heroicons-solid/eye-off'
   import IconTrash from '~icons/heroicons-solid/trash'
+  import IconViewGrid from '~icons/heroicons-solid/view-grid'
 
   import Button from '/src/components/Button.vue'
   import Dialog from '/src/components/Dialog.vue'
@@ -13,6 +14,10 @@
   import Listbox from '/src/components/Listbox.vue'
 
   const { t } = useI18n()
+
+  const state = reactive({
+    hideAll: true,
+  })
 
   const selectReport = (report: MachineReport) => {
     if (store.projects.selected) {
@@ -88,6 +93,21 @@
           @click="toggleReport(report)"
         />
       </div>
+      <Button
+        :leftIcon="IconViewGrid"
+        :rightIcon="state.hideAll ? IconEyeOff : IconEye"
+        full
+        @click="
+          () => {
+            store.projects.selected?.reports.list.forEach(
+              (report) => (report.settings.isVisible = !state.hideAll)
+            )
+            state.hideAll = !state.hideAll
+          }
+        "
+      >
+        {{ t(state.hideAll ? 'Hide all reports' : 'Show all reports') }}
+      </Button>
     </Popover>
     <Listbox
       @selectIndex="setIcon"
@@ -140,4 +160,6 @@ fr:
   'Delete report': 'Supprimer le rapport'
   'Are you sure that you want to delete the report': 'Êtes-vous sûr que vous souhaitez supprimer le rapport'
   'from the project': 'du projet'
+  'Hide all reports': 'Cacher tous les rapports'
+  'Show all reports': 'Afficher tous les rapports'
 </i18n>

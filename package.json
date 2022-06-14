@@ -1,7 +1,7 @@
 {
   "name": "mapview",
   "description": "",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "homepage": "https://v2.mapview.fr/",
   "license": "gpl",
   "scripts": {
@@ -13,6 +13,7 @@
     "coverage": "vitest --coverage"
   },
   "dependencies": {
+    "@allindevelopers/vue-floating-ui": "^1.1.1",
     "@headlessui/vue": "^1.6.2",
     "@shopify/draggable": "^1.0.0-beta.8",
     "@vueuse/core": "^8.5.0",
@@ -50,7 +51,6 @@
     "@types/node": "^17.0.35",
     "@types/pica": "^9.0.0",
     "@types/svgo": "^2.6.3",
-    "@types/tailwindcss": "^3.0.10",
     "@types/ws": "^8.5.3",
     "@vitejs/plugin-vue": "^2.3.3",
     "@vue/compiler-sfc": "^3.2.36",

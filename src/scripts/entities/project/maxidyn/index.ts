@@ -20,6 +20,7 @@ export const createMaxidynProjectFromJSON = async (
         min: json.bearingParameters.min || 20000000,
         max: json.bearingParameters.max || 250000000,
         currentUnit: jsonUnits.modulus,
+        averageFunction: 'capOutliers',
       }
     ),
     stiffness: createMathUnit<PossibleMaxidynStiffnessUnits>(
@@ -28,6 +29,7 @@ export const createMaxidynProjectFromJSON = async (
       [['MN / m', 0]],
       {
         currentUnit: jsonUnits.stiffness,
+        averageFunction: 'capOutliers',
       }
     ),
     deflection: createMathUnit<PossibleMaxidynDeflectionUnits>(

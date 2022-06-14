@@ -1,4 +1,4 @@
-export const getBrowser = (): string => {
+export const getBrowser = () => {
   if (navigator) {
     if (
       (navigator.userAgent.indexOf('Opera') ||

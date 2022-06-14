@@ -44,7 +44,7 @@ export const createMathUnit = <PossibleUnits extends string>(
   const step = options.step || 1
   const readOnly = options.readOnly || false
 
-  return shallowReactive({
+  const mathUnit = shallowReactive({
     name,
     baseUnit,
     possibleSettings,
@@ -56,6 +56,11 @@ export const createMathUnit = <PossibleUnits extends string>(
     step,
     readOnly,
     getAverage: function (values: number[]) {
+      console.log(this)
+
+      const min = this.min
+      const max = this.max
+
       const filteredValues: number[] = values.filter((value) =>
         options.averageFunction === 'ignoreOutliers'
           ? (!this.max || value <= this.max) && value >= this.min
@@ -67,10 +72,10 @@ export const createMathUnit = <PossibleUnits extends string>(
             (total, currentValue) =>
               total +
               (options.averageFunction === 'capOutliers'
-                ? this.max && currentValue > this.max
-                  ? this.max
-                  : currentValue < this.min
-                  ? this.min
+                ? max && currentValue > max
+                  ? max
+                  : currentValue < min
+                  ? min
                   : currentValue
                 : currentValue),
             0
@@ -78,13 +83,17 @@ export const createMathUnit = <PossibleUnits extends string>(
         : 0
     },
   })
+
+  return mathUnit
 }
 
 export const convertValueFromUnitAToUnitB = (
   value: number,
   unitA: string,
   unitB: string
-) => {
-  const valueTest = Unit(value, convertMapviewUnitToMathJSUnit(unitA))
-  return valueTest.toNumber(convertMapviewUnitToMathJSUnit(unitB))
-}
+) =>
+  unitA !== unitB
+    ? Unit(value, convertMapviewUnitToMathJSUnit(unitA)).toNumber(
+        convertMapviewUnitToMathJSUnit(unitB)
+      )
+    : value

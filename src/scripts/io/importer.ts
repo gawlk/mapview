@@ -20,6 +20,9 @@ const waitForMap = () =>
     }, 100)
   })
 
+export const acceptedExtensions =
+  '.prjz, .mpvz, .dynz, .prjz.zip, .mpvz.zip, .dynz.zip'
+
 export const importFile = async (file: File) => {
   await waitForMap()
 

@@ -1,5 +1,7 @@
 <script setup lang="ts">
   import IconCloudDownload from '~icons/heroicons-solid/cloud-download'
+  import IconDownload from '~icons/heroicons-solid/download'
+  import Button from '/src/components/Button.vue'
   import Dialog from '/src/components/Dialog.vue'
   import Context from '/src/scripts/io/exporter'
   import store from '/src/store'
@@ -35,11 +37,33 @@
       {{ t('Export the report') }}
     </template>
     <template v-slot:dialog>
-      <button @click="exportFile('f25')">f25</button>
-      <br />
-      <button @click="exportFile('pdx')">pdx</button>
-      <br />
-      <button @click="exportFile('fwd')">fwd</button>
+      <div class="space-y-2">
+        <Button disabled :leftIcon="IconDownload" full> Excel </Button>
+        <Button
+          v-if="store.projects.selected?.machine === 'Heavydyn'"
+          :leftIcon="IconDownload"
+          full
+          @click="exportFile('f25')"
+        >
+          F25
+        </Button>
+        <Button
+          v-if="store.projects.selected?.machine === 'Heavydyn'"
+          :leftIcon="IconDownload"
+          full
+          @click="exportFile('pdx')"
+        >
+          PDX
+        </Button>
+        <Button
+          v-if="store.projects.selected?.machine === 'Heavydyn'"
+          :leftIcon="IconDownload"
+          full
+          @click="exportFile('fwd')"
+        >
+          FWD
+        </Button>
+      </div>
     </template>
   </Dialog>
 </template>

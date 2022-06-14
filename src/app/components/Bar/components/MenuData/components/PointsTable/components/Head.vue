@@ -37,6 +37,18 @@
   const getBasicAverage = (values: number[]) =>
     values.reduce((total, currentValue) => total + currentValue, 0) /
     values.length
+
+  const getValuesFromPoints = (points: MachinePoint[], dataLabel: DataLabel) =>
+    points.map(
+      (point) =>
+        (groupFrom &&
+          point.getSelectedMathNumber(
+            groupFrom.value as DataLabelsFrom,
+            dataLabel,
+            selectedTableDataLabelsParameters.value?.index
+          )?.value) ||
+        0
+    )
 </script>
 
 <template>
@@ -68,20 +80,11 @@
     } of selectedTableDataLabelsParameters?.dataLabels.map((dataLabel) => {
       return {
         mathNumber: createMathNumber(
-          (typeof dataLabel.unit === 'string'
-            ? getBasicAverage
-            : dataLabel.unit.getAverage)(
-            filteredPoints.map(
-              (point) =>
-                (groupFrom &&
-                  point.getSelectedMathNumber(
-                    groupFrom,
-                    dataLabel,
-                    selectedTableDataLabelsParameters?.index
-                  )?.value) ||
-                0
-            )
-          ),
+          typeof dataLabel.unit === 'string'
+            ? getBasicAverage(getValuesFromPoints(filteredPoints, dataLabel))
+            : dataLabel.unit.getAverage(
+                getValuesFromPoints(filteredPoints, dataLabel)
+              ),
           dataLabel.unit
         ),
         dataLabel,

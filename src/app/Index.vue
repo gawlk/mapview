@@ -20,8 +20,8 @@
 </script>
 
 <template>
-  <div class="relative">
-    <div class="flex h-screen flex-col text-gray-900 lg:flex-row">
+  <div class="relative h-full">
+    <div class="flex h-full flex-col text-gray-900 lg:flex-row">
       <Map class="lg:order-2" />
       <Bar />
     </div>

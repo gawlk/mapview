@@ -1,19 +1,16 @@
-const tailwindcssDefaultTheme = require('tailwindcss/defaultTheme')
+/** @type {import('tailwindcss').Config} */
 
 module.exports = {
   darkMode: 'class',
   content: ['./index.html', './src/**/*.{html,vue,js,ts,jsx,tsx,svelte,md}'],
-  safelist: [
-    'uplot',
-    // {
-    //   pattern: /^u-/Ah,
-    // },
-  ],
   theme: {
     extend: {
       fontFamily: {
         //@ts-ignore
-        sans: ['Inter var', ...tailwindcssDefaultTheme.fontFamily.sans],
+        sans: [
+          'Inter var',
+          ...require('tailwindcss/defaultTheme').fontFamily.sans,
+        ],
       },
       screens: {
         '2xl': '1600px',

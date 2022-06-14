@@ -7,7 +7,7 @@ import {
   colorsClasses,
 } from '/src/scripts'
 import { getBrowserLocale } from '/src/locales'
-import translationsFR from '/src/locales/fr.json'
+import translationsFR from '/src/locales/fr.json?raw'
 
 export const createBasePointFromJSON = (
   json: JSONPoint,
@@ -175,9 +175,13 @@ export const createBasePointFromJSON = (
       this.data.forEach((dataValue) => {
         let name = dataValue.label.name
 
+        const translations = {
+          fr: JSON.parse(translationsFR),
+        }
+
         name =
-          locale === 'fr' && name in translationsFR
-            ? (translationsFR as any)[name].source
+          locale === 'fr' && name in translations.fr
+            ? translations.fr[name]
             : name
 
         html += `<p><strong>${name}:</strong> ${dataValue.value.displayedStringWithUnit}</p>`

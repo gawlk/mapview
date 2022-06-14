@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import store from '/src/store'
-  import { importFile } from '/src/scripts'
+  import { importFile, acceptedExtensions } from '/src/scripts'
 
   import Button from '/src/components/Button.vue'
   import Dialog from '/src/components/Dialog.vue'
@@ -87,7 +87,7 @@
     />
     <input
       @change="(event) => addProject((event.target as HTMLInputElement).files?.[0])"
-      accept=".prjz, .mpvz, .dynz"
+      :accept="acceptedExtensions"
       type="file"
       ref="inputFile"
       class="hidden"

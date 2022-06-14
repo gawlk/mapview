@@ -287,19 +287,34 @@ export const convertJSONFromPRJZToMPVZ = (json: any): JSONMachineProject => {
           list: [
             {
               from: 'Drop',
-              index: json.ExportedData.Drops.length - 1,
-              dataLabels: [
-                'Load',
-                ...(() => {
-                  const indexD0 = jsonDropChoices.findIndex(
-                    (choice) => choice.name === 'D0'
-                  )
+              index: jsonDropIndexes.length - 1,
+              dataLabels: ((): string[] => {
+                switch (machine) {
+                  case 'Heavydyn':
+                    return [
+                      'Load',
+                      ...(() => {
+                        const indexD0 = jsonDropChoices.findIndex(
+                          (choice) => choice.name === 'D0'
+                        )
 
-                  return jsonDropChoices
-                    .map((choice) => choice.name)
-                    .slice(indexD0, indexD0 + 3)
-                })(),
-              ],
+                        return jsonDropChoices
+                          .map((choice) => choice.name)
+                          .slice(indexD0, indexD0 + 3)
+                      })(),
+                    ]
+                  case 'Maxidyn':
+                  case 'Minidyn':
+                    return jsonTestChoices
+                      .map((choice) => choice.name)
+                      .filter(
+                        (name) =>
+                          name === 'Modulus' ||
+                          name === 'Stiffness' ||
+                          name === 'Quality'
+                      )
+                }
+              })(),
             },
             {
               from: 'Test',

@@ -31,8 +31,6 @@
     sm?: boolean
   }>()
 
-  let options = ref()
-
   const update = (value: string) => {
     emit('select', value)
 
@@ -116,7 +114,6 @@
 
       <TransitionDropdown>
         <ListboxOptions
-          :ref="options"
           :class="
             props.sm ? 'rounded-md border p-0.5' : 'rounded-lg border-2 p-1'
           "

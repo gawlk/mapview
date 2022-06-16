@@ -31,6 +31,8 @@
   }
 
   onMounted(async () => {
+    console.log('heyo')
+
     fixMapHeight(200)
 
     if (navigator.serviceWorker) {

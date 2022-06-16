@@ -3,9 +3,11 @@
   import store from '/src/store'
 
   onMounted(() => {
-    const map = createMap('map')
+    setTimeout(() => {
+      const map = createMap('map')
 
-    store.map = map
+      store.map = map
+    }, 500)
   })
 </script>
 

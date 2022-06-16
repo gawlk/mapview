@@ -1,22 +1,24 @@
 <script setup lang="ts">
   import IconCloudDownload from '~icons/heroicons-solid/cloud-download'
   import IconDownload from '~icons/heroicons-solid/download'
+
   import Button from '/src/components/Button.vue'
   import Dialog from '/src/components/Dialog.vue'
   import Context from '/src/scripts/io/exporter'
+
   import store from '/src/store'
 
   import {
     F25ExportStrategy,
     FWDExportStrategy,
     PDXExportStrategy,
-  } from '/src/scripts/io/exporter/heavydyn'
+  } from '/src/scripts'
+
+  const state = reactive({
+    isOpen: false,
+  })
 
   const { t } = useI18n()
-
-  interface IFormats {
-    [key: string]: any
-  }
 
   const formats = {
     fwd: new FWDExportStrategy(),
@@ -25,14 +27,23 @@
   }
 
   function exportFile(format: string) {
-    const strategy = (formats as IFormats)[format]
+    const strategy = formats[format as 'fwd' | 'f25' | 'pdx']
     const context = new Context(strategy)
     if (store.projects.selected) context.doExport(store.projects.selected)
+    state.isOpen = false
   }
 </script>
 
 <template>
-  <Dialog :title="t('Export')" full :leftIcon="IconCloudDownload" orange>
+  <Dialog
+    :isOpen="state.isOpen"
+    :title="t('Export')"
+    full
+    :leftIcon="IconCloudDownload"
+    orange
+    @open="() => (state.isOpen = true)"
+    @close="() => (state.isOpen = false)"
+  >
     <template v-slot:button>
       {{ t('Export the report') }}
     </template>

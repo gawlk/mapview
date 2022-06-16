@@ -36,6 +36,8 @@
         :key="menu.name"
         :name="menu.name"
         :icon="menu.icon"
+        :style="menu.style"
+        :class="menu.class"
         :opened="menu.openedOnMobile"
         :disabled="!store.projects.selected"
         @click="selectMenu(menu)"

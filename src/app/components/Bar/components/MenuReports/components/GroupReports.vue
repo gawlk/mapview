@@ -17,6 +17,7 @@
 
   const state = reactive({
     hideAll: true,
+    isOpen: false,
   })
 
   const selectReport = (report: MachineReport) => {
@@ -31,6 +32,8 @@
   }
 
   const deleteReport = () => {
+    state.isOpen = false
+
     const project = store.projects.selected
 
     if (project) {
@@ -75,6 +78,21 @@
       :buttonText="`${store.projects.selected?.reports.selected?.name.value}`"
       full
     >
+      <Button
+        :leftIcon="IconViewGrid"
+        :rightIcon="state.hideAll ? IconEyeOff : IconEye"
+        full
+        @click="
+          () => {
+            store.projects.selected?.reports.list.forEach(
+              (report) => (report.settings.isVisible = !state.hideAll)
+            )
+            state.hideAll = !state.hideAll
+          }
+        "
+      >
+        {{ t(state.hideAll ? 'Hide all reports' : 'Show all reports') }}
+      </Button>
       <div
         v-for="report of store.projects.selected?.reports.list"
         :key="(report.name.value as string)"
@@ -93,21 +111,6 @@
           @click="toggleReport(report)"
         />
       </div>
-      <Button
-        :leftIcon="IconViewGrid"
-        :rightIcon="state.hideAll ? IconEyeOff : IconEye"
-        full
-        @click="
-          () => {
-            store.projects.selected?.reports.list.forEach(
-              (report) => (report.settings.isVisible = !state.hideAll)
-            )
-            state.hideAll = !state.hideAll
-          }
-        "
-      >
-        {{ t(state.hideAll ? 'Hide all reports' : 'Show all reports') }}
-      </Button>
     </Popover>
     <Listbox
       @selectIndex="setIcon"
@@ -127,10 +130,13 @@
         store.projects.selected &&
         store.projects.selected.reports.list.length > 1
       "
+      :isOpen="state.isOpen"
       :title="t('Delete report')"
       :icon="IconTrash"
       red
       deletable
+      @open="() => (state.isOpen = true)"
+      @close="() => (state.isOpen = false)"
       @delete="() => deleteReport()"
     >
       <template v-slot:dialog>

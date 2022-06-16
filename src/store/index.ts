@@ -1,7 +1,8 @@
 import { createSelectableList } from '/src/scripts/utils/selectableList'
 
-const store = shallowReactive({
+const store: Store = shallowReactive({
   // example: read('example') || defaultExample,
+  updateAvailable: false,
   projects: createSelectableList(null, [], {
     reactive: true,
   }),
@@ -11,7 +12,7 @@ const store = shallowReactive({
     // @ts-ignore
     store[key] = value
   },
-} as Store)
+})
 
 watch(
   () => store.projects.selected,

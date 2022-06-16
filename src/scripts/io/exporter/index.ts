@@ -1,6 +1,7 @@
 import FileSaver from 'file-saver'
 
 export * from './prjz'
+export * from './heavydyn'
 
 export default class Context {
   public fileContent: string

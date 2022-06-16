@@ -5,6 +5,8 @@ interface Menu {
   props: MenuProps
   needsReport?: boolean
   openedOnMobile?: boolean
+  style?: string
+  class?: string
 }
 
 interface MenuProps {

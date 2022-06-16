@@ -8,6 +8,8 @@
     icon: any
     name: string
     opened?: boolean
+    style?: string
+    class?: string
   }>()
 </script>
 
@@ -33,8 +35,10 @@
       'absolute inset-x-0 bottom-0 z-10 mb-[4.75rem] bg-transparent',
     ]"
   >
-    <!-- style="max-height: 75vh; max-height: 75dvh" -->
-    <div class="space-y-2 rounded-lg bg-white p-2">
+    <div
+      :style="props.style"
+      :class="['space-y-2 rounded-lg bg-white p-2', props.class || '']"
+    >
       <div class="select-none p-1">
         <hr
           @click="emit('click')"

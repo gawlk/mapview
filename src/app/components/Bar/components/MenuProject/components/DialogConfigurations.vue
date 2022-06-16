@@ -7,10 +7,21 @@
   import Input from '/src/components/Input.vue'
 
   const { t } = useI18n()
+
+  const state = reactive({
+    isOpen: false,
+  })
 </script>
 
 <template>
-  <Dialog :title="t('Configurations')" :leftIcon="IconCog" full>
+  <Dialog
+    :isOpen="state.isOpen"
+    :title="t('Configurations')"
+    :leftIcon="IconCog"
+    full
+    @open="() => (state.isOpen = true)"
+    @close="() => (state.isOpen = false)"
+  >
     <template v-slot:button>
       {{ t('See configurations') }}
     </template>

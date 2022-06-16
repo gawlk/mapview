@@ -17,6 +17,7 @@
   }>()
 
   const state = reactive({
+    isOpen: false,
     data: [] as {
       title: string
       fields: MachineField[]
@@ -24,10 +25,12 @@
   })
 
   const importInformations = () => {
+    state.isOpen = true
     state.data = cloneDeep(props.data)
   }
 
   const exportInformations = () => {
+    state.isOpen = false
     state.data.forEach((dataset, i) => {
       dataset.fields.forEach((field, j) => {
         props.data[i].fields[j].value = field.value
@@ -50,10 +53,12 @@
 <template>
   <Dialog
     full
+    :isOpen="state.isOpen"
     :title="t('Informations')"
     :leftIcon="IconInformationCircle"
     saveable
     @open="importInformations"
+    @close="() => (state.isOpen = false)"
     @save="exportInformations"
   >
     <template v-slot:button>
@@ -103,9 +108,9 @@
                   : undefined
               "
               :strict="
-                typeof field.value === 'object' && 'strict' in field.value
-                  ? field.value.strict
-                  : undefined
+                typeof field.value === 'object' &&
+                'strict' in field.value &&
+                field.value.strict
               "
               :disabled="field.settings.readOnly"
             />

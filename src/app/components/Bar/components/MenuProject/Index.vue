@@ -35,5 +35,5 @@
     ]"
   />
   <DialogConfigurations />
-  <ButtonSave />
+  <ButtonSave disabled />
 </template>

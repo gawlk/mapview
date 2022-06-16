@@ -16,6 +16,10 @@
 
   const inputFile = ref()
 
+  const state = reactive({
+    isOpen: false,
+  })
+
   const selectProject = (index: number) => {
     const project = store.projects.list[index]
     if (store.projects.selected === project) {
@@ -38,6 +42,8 @@
   }
 
   const deleteProject = () => {
+    state.isOpen = false
+
     const index = store.projects.list.findIndex(
       (project) => project === store.projects.selected
     )
@@ -93,12 +99,15 @@
       class="hidden"
     />
     <Dialog
+      :isOpen="state.isOpen"
       v-if="store.projects.list.length > 1"
       :title="t('Delete project')"
       :icon="IconTrash"
       red
       deletable
       @delete="() => deleteProject()"
+      @open="() => (state.isOpen = true)"
+      @close="() => (state.isOpen = false)"
     >
       <template v-slot:dialog>
         <!-- <Button @click="deleteReport(index)"> Delete</Button> -->

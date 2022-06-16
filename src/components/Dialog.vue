@@ -19,6 +19,7 @@
   }>()
 
   const props = defineProps<{
+    isOpen: boolean
     title: string
     saveable?: boolean
     deletable?: boolean
@@ -30,19 +31,13 @@
     full?: boolean
   }>()
 
-  const state = reactive({
-    isOpen: false,
-  })
-
   const { t } = useI18n()
 
   const close = () => {
-    state.isOpen = false
     emit('close')
   }
 
   const open = () => {
-    state.isOpen = true
     emit('open')
   }
 
@@ -72,7 +67,7 @@
     >
       <slot name="button" />
     </Button>
-    <TransitionRoot appear :show="state.isOpen" as="template">
+    <TransitionRoot appear :show="props.isOpen" as="template">
       <HeadlessDialog
         as="div"
         @close="close"

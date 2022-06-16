@@ -58,6 +58,8 @@
       props: shallowReactive({
         route: '',
       }),
+      style: 'max-height: 75vh; max-height: 75dvh',
+      class: 'overflow-y-auto',
     },
   ].map((menu) => shallowReactive(menu))
 </script>

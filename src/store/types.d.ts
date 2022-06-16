@@ -1,6 +1,7 @@
 interface Store {
   projects: SelectableList<MachineProject>
   map: mapboxgl.Map | null
+  updateAvailable: boolean
   save: (key: StoreKeys, value: StoreSaveableTypes) => void
 }
 

@@ -29,8 +29,7 @@
         >
           <img
             :src="screenshot"
-            style="height: 70vh"
-            class="rounded-lg border-4 border-white"
+            class="h-[50vh] rounded-lg border-4 border-white lg:h-[70vh]"
           />
           <Button
             :leftIcon="IconTrash"

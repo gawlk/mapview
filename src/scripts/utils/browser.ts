@@ -1,3 +1,5 @@
+import { isIOS } from '@vueuse/core'
+
 export const getBrowser = () => {
   if (navigator) {
     if (
@@ -20,3 +22,7 @@ export const getBrowser = () => {
     return 'Unknown'
   }
 }
+
+export const isMobile = () =>
+  (navigator.userAgent.match(/iPhone|iPad|iPod/i) ||
+    navigator.userAgent.match(/Android/i)) !== null

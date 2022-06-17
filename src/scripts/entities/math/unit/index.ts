@@ -56,8 +56,6 @@ export const createMathUnit = <PossibleUnits extends string>(
     step,
     readOnly,
     getAverage: function (values: number[]) {
-      console.log(this)
-
       const min = this.min
       const max = this.max
 

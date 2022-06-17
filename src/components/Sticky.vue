@@ -9,7 +9,7 @@
 </script>
 
 <template>
-  <div class="relative bg-orange-600">
+  <div class="fixed inset-x-0 top-0 z-10 bg-orange-600">
     <div class="flex w-full items-center py-1.5 px-3 sm:px-5 lg:px-7">
       <div class="w-full pr-16 sm:px-16 sm:text-center">
         <p class="font-medium text-white">

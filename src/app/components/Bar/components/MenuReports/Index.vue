@@ -16,8 +16,6 @@
   const props = defineProps<{
     menu: MenuProps
   }>()
-
-  console.log(JSON.stringify(props.menu))
 </script>
 
 <template>

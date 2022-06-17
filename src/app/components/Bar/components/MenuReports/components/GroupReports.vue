@@ -91,7 +91,7 @@
           }
         "
       >
-        {{ t(state.hideAll ? 'Hide all reports' : 'Show all reports') }}
+        {{ t(state.hideAll ? 'Hide all' : 'Show all') }}
       </Button>
       <div
         v-for="report of store.projects.selected?.reports.list"
@@ -166,6 +166,6 @@ fr:
   'Delete report': 'Supprimer le rapport'
   'Are you sure that you want to delete the report': 'Êtes-vous sûr que vous souhaitez supprimer le rapport'
   'from the project': 'du projet'
-  'Hide all reports': 'Cacher tous les rapports'
-  'Show all reports': 'Afficher tous les rapports'
+  'Hide all': 'Tout cacher'
+  'Show all': 'Tout afficher'
 </i18n>

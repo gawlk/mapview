@@ -3,7 +3,7 @@
 
   import packageJSON from '/src/../package.json'
 
-  import Header from '/src/components/Header.vue'
+  import Sticky from '/src/components/Sticky.vue'
 
   import Bar from './components/Bar/Index.vue'
   import Map from './components/Map.vue'
@@ -31,8 +31,6 @@
   }
 
   onMounted(async () => {
-    console.log('heyo')
-
     fixMapHeight(200)
 
     if (navigator.serviceWorker) {
@@ -67,13 +65,12 @@
 </script>
 
 <template>
-  <div class="flex h-full flex-col">
-    <Header
+  <div class="relative h-full">
+    <Sticky
       v-if="store.updateAvailable"
       @close="
         () => {
           store.updateAvailable = false
-          fixMapHeight()
         }
       "
     >
@@ -84,19 +81,16 @@
           {{ t('Update') }} <span aria-hidden="true">&rarr;</span>
         </a>
       </span>
-    </Header>
-
-    <div class="relative flex-1">
-      <div class="flex h-full flex-col text-gray-900 lg:flex-row">
-        <Map class="lg:order-2" />
-        <Bar />
-      </div>
-      <span
-        class="absolute top-0 right-0 m-2 rounded-full bg-white px-1.5 py-0.5 text-xs font-extrabold tracking-tight text-black opacity-50"
-      >
-        v. {{ state.version }}
-      </span>
+    </Sticky>
+    <div class="flex h-full flex-col text-gray-900 lg:flex-row">
+      <Map class="lg:order-2" />
+      <Bar />
     </div>
+    <span
+      class="absolute top-0 right-0 m-2 rounded-full bg-white px-1.5 py-0.5 text-xs font-extrabold tracking-tight text-black opacity-50"
+    >
+      v. {{ state.version }}
+    </span>
   </div>
 </template>
 

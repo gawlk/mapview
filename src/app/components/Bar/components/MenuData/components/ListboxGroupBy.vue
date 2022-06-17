@@ -3,7 +3,7 @@
 
   import IconViewGrid from '~icons/heroicons-solid/view-grid'
 
-  import Listbox from '/src/components/Listbox.vue'
+  import Select from '/src/components/Select.vue'
 
   const { t } = useI18n()
 
@@ -15,7 +15,7 @@
 </script>
 
 <template>
-  <Listbox
+  <Select
     :icon="IconViewGrid"
     :values="[t('Number'), t('Zone')]"
     :preSelected="`${t('Group by')}${t(':')}`"

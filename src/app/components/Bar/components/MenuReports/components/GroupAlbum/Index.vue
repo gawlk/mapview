@@ -1,6 +1,5 @@
 <script setup lang="ts">
   import html2canvas from 'html2canvas'
-  // import pica from 'pica'
 
   import store from '/src/store'
   import { fileToBase64 } from '/src/scripts'
@@ -20,6 +19,7 @@
   const state = reactive({
     image: null as string | null,
     isAlbumOpen: false,
+    screenshooting: false,
   })
 
   const file = ref()
@@ -30,6 +30,8 @@
   )
 
   const screenshot = async () => {
+    state.screenshooting = true
+
     const map: HTMLElement = document.getElementById('map') as HTMLElement
 
     map
@@ -44,15 +46,6 @@
       logging: false,
     })
 
-    // const resizeWidth = 800
-    // const resizeHeight = (resizeWidth * canvasFrom.height) / canvasFrom.width
-
-    // const canvasTo = document.createElement('canvas')
-    // canvasTo.width = resizeWidth
-    // canvasTo.height = resizeHeight
-
-    // const newCanvas = await pica().resize(canvasFrom, canvasTo)
-
     state.image = canvasFrom.toDataURL()
 
     Array.from(map.getElementsByClassName('mapview-icon')).forEach((icon) => {
@@ -62,6 +55,8 @@
     map
       .getElementsByClassName('mapboxgl-control-container')[0]
       .classList.remove('hidden')
+
+    state.screenshooting = false
   }
 
   const save = () => {
@@ -132,6 +127,10 @@
       :image="state.image"
       @close="state.image = null"
       @save="save"
+    />
+    <div
+      v-if="state.screenshooting"
+      class="fixed inset-0 z-50 bg-black bg-opacity-10"
     />
   </div>
 </template>

@@ -2,6 +2,7 @@
   import store from '/src/store'
 
   import IconLogout from '~icons/heroicons-solid/logout'
+  import IconDownload from '~icons/heroicons-solid/download'
   import IconTrash from '~icons/heroicons-solid/trash'
 
   import Button from '/src/components/Button.vue'
@@ -16,6 +17,15 @@
   }>()
 
   const { t } = useI18n()
+
+  const download = (screenshot: string) => {
+    const a = document.createElement('a')
+    a.href = screenshot
+    a.download = 'screenshot.png'
+    a.target = '_blank'
+    a.click()
+    a.remove()
+  }
 </script>
 
 <template>
@@ -31,31 +41,22 @@
             :src="screenshot"
             class="h-[50vh] rounded-lg border-4 border-white lg:h-[70vh]"
           />
-          <Button
-            :leftIcon="IconTrash"
-            @click="
-              store.projects.selected?.reports.selected?.screenshots.splice(
-                index,
-                1
-              )
-            "
-            red
-          >
-            {{ t('Delete') }}
-          </Button>
+          <div class="space-x-2">
+            <Button :icon="IconDownload" @click="() => download(screenshot)" />
+            <Button
+              :icon="IconTrash"
+              @click="
+                store.projects.selected?.reports.selected?.screenshots.splice(
+                  index,
+                  1
+                )
+              "
+              red
+            />
+          </div>
         </div>
       </div>
       <div class="space-y-4 bg-white p-8">
-        <p
-          class="rounded border-l-4 border-yellow-200 bg-yellow-100 p-2 text-left text-yellow-900"
-        >
-          <span class="font-bold">{{ `${t('Tip')}${t(':')}` }}</span>
-          {{
-            t(
-              "You can copy a screenshot of the map by either right clicking or tapping with 2 fingers on it and selecting 'Copy'."
-            )
-          }}
-        </p>
         <Button :leftIcon="IconLogout" @click="emit('close')" full>
           {{ t('Exit') }}
         </Button>
@@ -63,8 +64,3 @@
     </div>
   </Overlay>
 </template>
-
-<i18n lang="yaml">
-fr:
-  "You can copy a screenshot of the map by either right clicking or tapping with 2 fingers on it and selecting 'Copy'.": "Vous pouvez copier une capture de la carte soit en effectuant un clic droit soit en tapant avec deux doigts dessus puis en sélectionnant 'Copier'."
-</i18n>

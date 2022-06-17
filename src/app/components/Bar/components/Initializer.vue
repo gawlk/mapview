@@ -61,7 +61,7 @@
     <Button @click="openDemo" full :leftIcon="IconBeaker">
       {{ t('Try demo') }}
     </Button>
-    <a
+    <!-- <a
       full
       download
       href="/demos/heavydyn/demo.prjz"
@@ -76,7 +76,7 @@
       <span>
         {{ t('Download templates') }}
       </span>
-    </a>
+    </a> -->
   </div>
 </template>
 

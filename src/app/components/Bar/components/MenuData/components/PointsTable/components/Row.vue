@@ -74,6 +74,7 @@
       class="border-2 border-gray-100 bg-gray-100 px-1 text-right"
     >
       <Select
+        sm
         :selected="point.zone.name"
         :values="selectedReport.zones.map((zone) => zone.name) || []"
         @selectIndex="(index) => movePointToZoneIndex(point, index)"

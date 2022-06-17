@@ -9,7 +9,7 @@
   import IconX from '~icons/heroicons-solid/x'
 
   import Button from '/src/components/Button.vue'
-  import Listbox from '/src/components/Listbox.vue'
+  import Select from '/src/components/Select.vue'
   import Popover from '/src/components/Popover.vue'
   import Divider from '/src/components/Divider.vue'
 
@@ -34,10 +34,27 @@
     tableDataLabels.value?.selected &&
       (tableDataLabels.value.selected = tableDataLabels.value?.list[index])
   }
+
+  const selectDataLabel = (index: number) => {
+    console.log(index)
+
+    const dataLabel = tableDataLabels.value?.selected?.group.choices.list[index]
+
+    if (dataLabel) {
+      const index = tableDataLabels.value?.selected?.dataLabels.findIndex(
+        (dataLabel2) => dataLabel === dataLabel2
+      )
+      if (typeof index === 'number') {
+        index === -1
+          ? tableDataLabels.value?.selected?.dataLabels.push(dataLabel)
+          : tableDataLabels.value?.selected?.dataLabels.splice(index, 1)
+      }
+    }
+  }
 </script>
 
 <template>
-  <Listbox
+  <Select
     :icon="IconViewList"
     :values="
       tableDataLabels?.list
@@ -47,9 +64,10 @@
     :selected="t(tableDataLabels?.selected?.group.from || '')"
     @selectIndex="selectGroupedDataLabels"
     :preSelected="`${t('Source')}${t(':')}`"
+    :postSelected="`(${store.projects.selected?.reports.selected?.name.value})`"
     full
   />
-  <Listbox
+  <Select
     v-if="tableDataLabels?.selected?.group.indexes"
     :icon="IconDotsVertical"
     :values="
@@ -72,7 +90,24 @@
     "
     full
   />
-  <Popover
+  <Select
+    v-if="tableDataLabels?.selected"
+    multiple
+    :icon="IconViewBoards"
+    :values="
+      tableDataLabels?.selected?.group.choices.list.map((dataLabel) =>
+        t(dataLabel.name)
+      )
+    "
+    :preSelected="`${t('Columns')}${t(':')}`"
+    :selectedList="
+      tableDataLabels.selected.dataLabels.map((dataLabel) => t(dataLabel.name))
+    "
+    @selectIndex="selectDataLabel"
+    @unselectIndex="selectDataLabel"
+    full
+  />
+  <!-- <Popover
     v-if="tableDataLabels?.selected"
     :icon="IconViewBoards"
     :preText="`${t('Columns')}${t(':')}`"
@@ -120,7 +155,7 @@
       </div>
       <Empty v-else />
     </div>
-  </Popover>
+  </Popover> -->
 </template>
 
 <i18n lang="yaml">

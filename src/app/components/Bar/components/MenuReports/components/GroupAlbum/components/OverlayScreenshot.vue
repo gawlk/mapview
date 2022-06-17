@@ -24,7 +24,7 @@
 </script>
 
 <template>
-  <Overlay :isOpen="props.image !== null">
+  <Overlay :isOpen="!!props.image">
     <img
       :src="state.image"
       class="max-h-[70vh] rounded-lg border-4 border-white"

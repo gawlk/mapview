@@ -54,6 +54,79 @@ export const createBaseFieldFromJSON = (
             kind: 'date',
             value: value as string,
           }
+        case 'Material':
+          return {
+            kind: 'selectableString',
+            value: value as string,
+            possibleValues: [
+              'Silt',
+              'Naturel Gravel',
+              'Treated gravel',
+              'Asphaltic concrete',
+            ],
+          }
+        case 'Layer':
+          return {
+            kind: 'selectableString',
+            value: value as string,
+            possibleValues: [
+              'Sub base',
+              'Base',
+              'Plateform',
+              'Form background',
+              'Seat layer',
+              'Form layer',
+              'Foundation layer',
+              'Base layer',
+              'Tread',
+              'Verge',
+            ],
+          }
+        case 'Type':
+          return {
+            kind: 'selectableString',
+            value: value as string,
+            possibleValues: [
+              'Building pavement',
+              'Road',
+              'Building',
+              'Railway',
+              'Hydraulic',
+              'Excavation',
+              'Peripheral excavation',
+              'Trench',
+              'Sanitation',
+            ],
+          }
+        case 'State':
+          return {
+            kind: 'selectableString',
+            value: value as string,
+            possibleValues: ['Dry', 'Wet', 'Soggy', 'Frozen'],
+          }
+        case 'GTR':
+          return {
+            kind: 'selectableString',
+            value: value as string,
+            possibleValues: [
+              'N.S.',
+              'A1',
+              'A2',
+              'A3',
+              'A4',
+              'B1',
+              'B2',
+              'B3',
+              'B4',
+              'B5',
+              'B6',
+              'C1',
+              'C2',
+              'D1',
+              'D2',
+              'D3',
+            ],
+          }
         default:
           return value
       }

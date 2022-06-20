@@ -21,6 +21,8 @@
     disabled?: boolean
   }>()
 
+  const { t } = useI18n()
+
   const classes = `
     w-full
     flex-1
@@ -69,25 +71,30 @@
         class="px-0 focus:ring-0"
       />
     </div>
-    <div v-else-if="props.type === 'selectableString'" class="flex space-x-2">
+    <div v-if="props.type === 'selectableString' && !props.strict">
       <input
-        v-if="!props.strict"
         :id="`${props.id}-text`"
+        :name="`${props.id}-text`"
+        :list="`${props.id}-datalist`"
         @input="(event) => emit('input', (event.target as HTMLInputElement).value)"
         :value="props.value"
         :disabled="props.disabled"
         :class="classes"
         class="w-full flex-1"
       />
-      <Listbox
-        :values="props.list"
-        :selected="props.value"
-        @select="(value) => emit('input', value)"
-        full
-        :disabled="props.disabled"
-        class="flex-1"
-      />
+      <datalist :id="`${props.id}-datalist`">
+        <option v-for="value of props.list" :value="t(value)" />
+      </datalist>
     </div>
+    <Listbox
+      v-else-if="props.type === 'selectableString' && props.strict"
+      :values="props.list"
+      :selected="props.value"
+      @select="(value) => emit('input', value)"
+      full
+      :disabled="props.disabled"
+      class="flex-1"
+    />
     <textarea
       v-else-if="props.type === 'longString'"
       @input="(event) => emit('input', (event.target as HTMLInputElement).value)"

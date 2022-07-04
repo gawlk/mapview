@@ -12,6 +12,7 @@
   }>()
 
   let tbody = ref(null)
+  let sortable: any
 
   const selectedReport = computed(
     () => store.projects.selected?.reports.selected
@@ -19,9 +20,12 @@
 
   onMounted(() => {
     if (tbody && selectedReport.value?.settings.groupBy === 'Number') {
-      new Sortable(tbody.value, {
+      sortable = new Sortable(tbody.value, {
         draggable: 'tr',
         handle: '.handle',
+        mirror: {
+          constrainDimensions: true,
+        },
       }).on('sortable:stop', (event: any) => {
         const { oldIndex, newIndex } = event.data
 
@@ -51,6 +55,10 @@
         }
       })
     }
+  })
+
+  onUnmounted(() => {
+    sortable?.destroy()
   })
 </script>
 

@@ -73,6 +73,9 @@ export default defineConfig({
         android: {
           source: './src/assets/svg/mapview/logo.svg',
         },
+        appleIcon: {
+          source: './src/assets/svg/mapview/logo.svg',
+        },
         appleStartup: {
           source: './src/assets/svg/mapview/logo.svg',
         },

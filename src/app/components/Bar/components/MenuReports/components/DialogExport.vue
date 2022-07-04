@@ -28,8 +28,11 @@
 
   function exportFile(format: string) {
     const strategy = formats[format as 'fwd' | 'f25' | 'pdx']
+
     const context = new Context(strategy)
+
     if (store.projects.selected) context.doExport(store.projects.selected)
+
     state.isOpen = false
   }
 </script>

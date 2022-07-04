@@ -4,7 +4,6 @@
   import IconHand from '~icons/heroicons-solid/hand'
 
   import store from '/src/store'
-  import { sortPoints } from '/src/scripts'
 
   import Button from '/src/components/Button.vue'
   import Select from '/src/components/Select.vue'

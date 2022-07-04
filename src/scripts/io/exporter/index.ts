@@ -17,15 +17,10 @@ export default class Context {
   }
 
   public doExport(project: MachineProject): void {
-    this.fileContent = this.strategy.doExport(project)
-    let blob
-    if (typeof Blob === 'undefined' || !Blob) {
-      blob = new (require('buffer').Blob)([this.fileContent], {
-        type: 'text/plain',
-      })
-    } else {
-      blob = new Blob([this.fileContent], { type: 'text/plain' })
-    }
-    FileSaver.saveAs(blob as Blob, 'report.' + this.strategy.extension)
+    this.fileContent = this.strategy.doExport(project).replaceAll('\n', '\r\n')
+
+    const blob = new Blob([this.fileContent], { type: 'text/plain' })
+
+    FileSaver.saveAs(blob, 'report.' + this.strategy.extension)
   }
 }

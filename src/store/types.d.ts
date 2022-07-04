@@ -5,7 +5,7 @@ interface Store {
   save: (key: StoreKeys, value: StoreSaveableTypes) => void
 }
 
-type StoreKeys = Exclude<keyof Store, 'save'>
+type StoreKeys = Exclude<keyof Store, 'save' | 'updateAvailable'>
 
 type StoreTypes = Store[keyof Store]
 

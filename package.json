@@ -1,7 +1,7 @@
 {
   "name": "mapview",
-  "description": "",
-  "version": "2.0.7",
+  "description": "An application to generate reports from Rincent ND Technologies machines data files",
+  "version": "2.0.8",
   "homepage": "https://v2.mapview.fr/",
   "license": "gpl",
   "scripts": {
@@ -13,7 +13,6 @@
     "coverage": "vitest --coverage"
   },
   "dependencies": {
-    "@allindevelopers/vue-floating-ui": "^1.1.1",
     "@headlessui/vue": "^1.6.2",
     "@shopify/draggable": "^1.0.0-beta.8",
     "@vueuse/core": "^8.5.0",
@@ -29,7 +28,6 @@
     "mapbox-gl": "^2.8.2",
     "mathjs": "^10.5.3",
     "pica": "^9.0.1",
-    "uplot": "^1.6.20",
     "vue": "^3.2.36",
     "vue-i18n": "^9.1.10"
   },

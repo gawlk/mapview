@@ -2,7 +2,6 @@ import { fileURLToPath, URL } from 'url'
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-// import pages from 'vite-plugin-pages'
 import i18n from '@intlify/vite-plugin-vue-i18n'
 import icons from 'unplugin-icons/vite'
 import iconsResolver from 'unplugin-icons/resolver'

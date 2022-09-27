@@ -9,6 +9,7 @@ import {
   Uint8ArrayToData64Image,
 } from '/src/scripts'
 import { convertJSONFromPRJZToMPVZ } from './converter'
+import importRawData from './rawDataImporter/RawImporter'
 
 const waitForMap = () =>
   new Promise<boolean>((resolve) => {
@@ -48,6 +49,8 @@ export const importFile = async (file: File) => {
       await importImages(zip, jsonProject, project)
 
       importScreenshots(zip, jsonProject, project)
+      
+      importRawData(zip, project)
     }
 
     return project

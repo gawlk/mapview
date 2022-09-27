@@ -1,20 +1,24 @@
 import { ExtendedBinaryReader, ExtendedBinaryWriter } from "./ExtendedBinaryStream";
 import ImpactSetData from "./ImpactSetData";
 import fs, { WriteStream } from "fs"
-import { ImpactData, IsaanSimpleFileType } from "./types";
+
+enum IsaanSimpleFileType {
+    ImpactDataFile = 0x8D937355
+}
 
 class SimpleFileStreamable {
+
     protected maxSupportedVersion!: number;
     protected objectVersion!: number;
 
-    public fromStream(br: ExtendedBinaryReader) {
+    public fromStream(br: ExtendedBinaryReader): void {
         this.objectVersion = br.readInt32();
         if (this.objectVersion > this.MaxSupportedVersion) {
             throw ("Version not supported");
         }
     }
 
-    public toStream(bw: ExtendedBinaryWriter, version?: number) {
+    public toStream(bw: ExtendedBinaryWriter, version?: number): void {
         bw.write(this.objectVersion);
         if (version && version > this.MaxSupportedVersion) {
             throw ("Version not supported");
@@ -33,8 +37,8 @@ class SimpleFileStreamable {
 class IsaanSimpleFileHeader extends SimpleFileStreamable {
 
     private FILE_MAGIC: string = "ISAANSIMPLEFILE";
-    private fileType!: IsaanSimpleFileType;
-    private fileVersion!: number;
+    public fileType!: IsaanSimpleFileType;
+    public fileVersion!: number;
 
 
     constructor() {
@@ -43,43 +47,27 @@ class IsaanSimpleFileHeader extends SimpleFileStreamable {
         this.objectVersion = this.maxSupportedVersion;
     }
 
-    public fromStream(br: ExtendedBinaryReader) {
+    public fromStream(br: ExtendedBinaryReader): void {
         super.fromStream(br);
         const magic: string = br.readString();
         if (magic != this.FILE_MAGIC)
             throw ("Not a Isaan simple file");
-        this.fileType = br.readInt32() as IsaanSimpleFileType;
+        this.fileType = br.readUInt32() as IsaanSimpleFileType;
         this.fileVersion = br.readInt32();
     }
 
-    public toStream(bw: ExtendedBinaryWriter, version: number) {
+    public toStream(bw: ExtendedBinaryWriter, version: number): void {
         super.toStream(bw, version);
         bw.write(this.FILE_MAGIC);
         bw.write(this.fileType);
         bw.write(this.fileVersion);
     }
 
-    set FileType(value: IsaanSimpleFileType) {
-        this.fileType = value;
-    }
-
-    get FileType(): IsaanSimpleFileType {
-        return this.fileType;
-    }
-
-    set FileVersion(value: number) {
-        this.fileVersion = value;
-    }
-
-    get FileVersion(): number {
-        return this.fileVersion;
-    }
-
 };
 
 class ImpactDataHeader extends SimpleFileStreamable {
 
-    public pointId!: number;
+    public pointId!: bigint;
     public nbSamples!: number;
     public nbOfImpact!: number;
     public nbOfDisplacement!: number;
@@ -89,7 +77,7 @@ class ImpactDataHeader extends SimpleFileStreamable {
         this.maxSupportedVersion = 1;
     }
 
-    public toStream(bw: ExtendedBinaryWriter, version: number) {
+    public toStream(bw: ExtendedBinaryWriter, version: number): void {
         super.toStream(bw, version);
         bw.write(this.pointId);
         bw.write(this.nbSamples);
@@ -97,7 +85,7 @@ class ImpactDataHeader extends SimpleFileStreamable {
         bw.write(this.nbOfDisplacement);
     }
 
-    public fromStream(br: ExtendedBinaryReader) {
+    public fromStream(br: ExtendedBinaryReader): void {
         super.fromStream(br);
         this.pointId = br.readInt64();
         this.nbSamples = br.readInt32();
@@ -107,20 +95,29 @@ class ImpactDataHeader extends SimpleFileStreamable {
 
 }
 
-class IsaanSimpleFile {
+export default class ImpactDataFile {
 
-    protected fileHeader: IsaanSimpleFileHeader;
+    private fileHeader: IsaanSimpleFileHeader;
+    private impactDataHeader: ImpactDataHeader;
+    private impactDatas: ImpactData[];
+    private maxSupportedVersion: number = 1;
 
-    constructor(filename?: string) {
+    constructor(impactSetData?: ImpactSetData) {
         this.fileHeader = new IsaanSimpleFileHeader();
-        if (filename) {
-            const br: ExtendedBinaryReader = new ExtendedBinaryReader(fs.createReadStream(filename));
-            this.loadFromFile(br);
-            br.close();
+        this.fileHeader.fileType = IsaanSimpleFileType.ImpactDataFile;
+        this.fileHeader.fileVersion = this.maxSupportedVersion;
+        this.impactDataHeader = new ImpactDataHeader();
+        this.impactDatas = new Array<ImpactData>();
+        if (impactSetData) {
+            this.impactDataHeader.pointId = impactSetData.ID;
+            this.impactDataHeader.nbSamples = impactSetData.numberOfSamples;
+            this.impactDataHeader.nbOfImpact = impactSetData.numberOfImpact;
+            this.impactDataHeader.nbOfDisplacement = impactSetData.numberOfDisplacement;
+            this.impactDatas = impactSetData.ImpactDatas;
         }
     }
 
-    public SaveToFileAndDispose(filename: string | WriteStream) {
+    public SaveToFileAndDispose(filename: string | WriteStream): void {
         const stream: WriteStream = typeof filename === "string" ? fs.createWriteStream(filename) : filename;
         const ebw: ExtendedBinaryWriter = new ExtendedBinaryWriter(stream);
 
@@ -128,39 +125,12 @@ class IsaanSimpleFile {
         ebw.destroy();
     }
 
-    protected saveToFile(ebw: ExtendedBinaryWriter) {
-        this.fileHeader.toStream(ebw, this.fileHeader.MaxSupportedVersion);
-    }
-
-    protected loadFromFile(br: ExtendedBinaryReader) {
+    public loadFromFile(br: ExtendedBinaryReader): void {
         this.fileHeader.fromStream(br);
-    }
-};
-
-export default class ImpactDataFile extends IsaanSimpleFile {
-
-    private impactDataHeader: ImpactDataHeader;
-    private impactDatas: ImpactData[];
-    private maxSupportedVersion: number = 1;
-
-    constructor(impactSetData: ImpactSetData) {
-        super();
-        this.fileHeader.FileType = IsaanSimpleFileType.ImpactDataFile;
-        this.fileHeader.FileVersion = this.maxSupportedVersion;
-        this.impactDataHeader = new ImpactDataHeader();
-        this.impactDataHeader.pointId = impactSetData.ID;
-        this.impactDataHeader.nbSamples = impactSetData.numberOfSamples;
-        this.impactDataHeader.nbOfImpact = impactSetData.numberOfImpact;
-        this.impactDataHeader.nbOfDisplacement = impactSetData.numberOfDisplacement;
-        this.impactDatas = impactSetData.ImpactDatas;
-    }
-
-    protected loadFromFile(br: ExtendedBinaryReader): void {
-        super.loadFromFile(br);
-        if (this.fileHeader.FileType !== IsaanSimpleFileType.ImpactDataFile) {
+        if (this.fileHeader.fileType !== IsaanSimpleFileType.ImpactDataFile) {
             throw ("Not a ImpactDataFile");
         }
-        if (this.fileHeader.FileVersion > this.maxSupportedVersion) {
+        if (this.fileHeader.fileVersion > this.maxSupportedVersion) {
             throw ("Version not supported");
         }
         this.impactDataHeader = new ImpactDataHeader();
@@ -175,12 +145,20 @@ export default class ImpactDataFile extends IsaanSimpleFile {
     }
 
     protected saveToFile(ebw: ExtendedBinaryWriter): void {
-        super.saveToFile(ebw);
+        this.fileHeader.toStream(ebw, this.fileHeader.MaxSupportedVersion);
         this.impactDataHeader.toStream(ebw, this.maxSupportedVersion);
         for (let i = 0; i < this.impactDataHeader.nbOfImpact; i++) {
             ebw.writeArray(this.impactDatas[i].load);
             ebw.writeAsSingle(this.impactDatas[i].displacement);
         }
+    }
+
+    get ImpactDatas(): ImpactData[] {
+        return this.impactDatas;
+    }
+
+    get ImpactDataHeader(): ImpactDataHeader {
+        return this.impactDataHeader;
     }
 
 }

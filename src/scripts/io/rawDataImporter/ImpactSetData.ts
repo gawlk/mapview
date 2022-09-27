@@ -1,21 +1,20 @@
-import { ImpactData } from "./types";
-
 export default class ImpactSetData {
-    public ID: number = 0;
+
+    public ID: bigint = BigInt(0);
     public ImpactDatas: ImpactData[] = [];
 
-    get numberOfImpact() {
+    get numberOfImpact(): number {
         return this.ImpactDatas.length;
     }
 
-    get numberOfSamples() {
+    get numberOfSamples(): number {
         if (!this.numberOfImpact) {
             return 0;
         }
         return this.ImpactDatas[0].load.length;
     }
 
-    get numberOfDisplacement() {
+    get numberOfDisplacement(): number {
         if (!this.numberOfImpact || !this.ImpactDatas[0].displacement) {
             return 0;
         }

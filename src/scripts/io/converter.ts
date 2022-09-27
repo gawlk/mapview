@@ -353,6 +353,7 @@ export const convertJSONFromPRJZToMPVZ = (json: any): JSONMachineProject => {
 
     report.zones[0].points = jsonPV.Points.map((point: any, index: number) => {
       const jsonPoint: JSONPoint = {
+        id: point.Point.ID,
         number: point.Point.Number,
         index,
         date: point.Point.Date,

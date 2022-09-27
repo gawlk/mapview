@@ -29,7 +29,7 @@ export const createBasePointFromJSON = (
 
   const point = shallowReactive({
     machine: parameters.machine,
-    id: `${+new Date()}-${Math.random()}`,
+    id: json.id,
     number: json.number,
     index: json.index,
     date: new Date(json.date),

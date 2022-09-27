@@ -35,6 +35,7 @@ interface BasePointCreatorParameters extends MachinePointCreatorParameters {
 }
 
 interface JSONPoint {
+  id: string
   number: number
   index: number
   date: string

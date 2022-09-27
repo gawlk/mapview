@@ -24,5 +24,6 @@ export const createBaseDropFromJSON = (
     }),
     additionnalFields: [],
     point: parameters.point,
+    impactData: null,
   }
 }

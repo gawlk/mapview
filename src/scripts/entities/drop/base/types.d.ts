@@ -3,6 +3,7 @@ interface BaseDrop {
   data: DataValue[]
   additionnalFields: MachineField[]
   point: MachinePoint
+  impactData: ImpactData | null
 }
 
 interface JSONDrop {

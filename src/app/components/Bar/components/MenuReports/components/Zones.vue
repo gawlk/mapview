@@ -25,7 +25,7 @@
     const colorNames = Object.keys(colorsClasses)
 
     if (store.projects.selected && selectedReport.value && store.map) {
-      const json: JSONZone = {
+      const json: JSONBaseZone = {
         name: `Zone ${selectedReport.value.zones.length + 1}`,
         settings: {
           color: colorNames[

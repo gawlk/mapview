@@ -1,25 +1,54 @@
+// ---
+// JSON
+// ---
+
+type JSONMinidynReportVAny = JSONMinidynReport
+
+interface JSONMinidynReport {
+  version: 1
+  base: JSONBaseReport
+  distinct: JSONMinidynReportDistinct
+}
+
+interface JSONMinidynReportDistinct {
+  version: 1
+  groupedDataLabels: SelectableList<number, JSONMinidynGroupedDataLabels>
+  thresholdGroups: MinidynUnitsSkeleton<number>
+}
+
+interface JSONMinidynGroupedDataLabels {
+  version: 1
+  from: DataLabelsFrom
+  choices: SelectableList<number, JSONDataLabel<MinidynUnitsNames>>
+  indexes?: SelectableList<number, JSONMinidynDropIndex>
+}
+
+// ---
+// Object
+// ---
+
 interface MinidynReport extends BaseReport {
   readonly machine: 'Minidyn'
   readonly zones: MinidynZone[]
-  platform: MinidynField[]
-  informations: MinidynField[]
+  readonly dataLabels: MinidynReportDataLabels
+  readonly platform: MinidynField[]
+  readonly information: MinidynField[]
   project: MinidynProject
+  toJSON: () => JSONMinidynReport
 }
 
-interface MinidynReportCreatorParameters
-  extends MachineReportCreatorParameters {
-  project: MinidynProject
+type MinidynThresholds = MinidynUnitsSkeleton<AnyThreshold[]>
+
+interface MinidynReportDataLabels extends BaseReportDataLabels {
+  groups: SelectableList<MinidynGroupedDataLabels>
+  table: SelectableList<MinidynTableDataLabelsParameters>
+}
+interface MinidynGroupedDataLabels extends BaseGroupedDataLabels {
+  indexes?: SelectableList<MinidynDropIndex>
 }
 
-type MinidynDropType = 'Training' | 'Averaging'
-
-interface MinidynDropIndex extends BaseDropIndex {
-  machine: 'Minidyn'
-  type: MinidynDropType
-}
-
-type MinidynThresholds = MinidynMathUnitsSkeleton<AnyThreshold[]>
-
-interface JSONMinidynChoice extends JSONChoice {
-  unit: MinidynMathUnitsNames | string
+interface MinidynTableDataLabelsParameters
+  extends BaseTableDataLabelsParameters {
+  group: MinidynGroupedDataLabels
+  index?: MinidynDropIndex
 }

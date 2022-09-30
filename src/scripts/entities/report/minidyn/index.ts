@@ -2,47 +2,58 @@ import { createBaseReportFromJSON } from '../base'
 import {
   createMinidynZoneFromJSON,
   createMinidynFieldFromJSON,
-  createPredefinedThreshold,
-  createCustomThreshold,
+  defaultThresholds,
+  createMinidynDropIndexFromJSON,
 } from '/src/scripts'
 
 export const createMinidynReportFromJSON = (
-  json: JSONReport,
+  json: JSONMinidynReport,
   map: mapboxgl.Map | null,
-  parameters: MinidynReportCreatorParameters
+  parameters: {
+    project: MinidynProject
+  }
 ) => {
+  json = upgradeJSON(json)
+
+  const dropIndexes = json.distinct.groupedDataLabels.list
+    .find((group) => group.from === 'Drop')
+    ?.indexes?.list.map((jsonDropIndex) =>
+      createMinidynDropIndexFromJSON(jsonDropIndex)
+    )
+
   const report: PartialMachineReport<MinidynReport> = createBaseReportFromJSON(
-    json,
+    json.base,
     map,
     {
       machine: 'Minidyn',
       thresholds: {
         modulus: [
-          createPredefinedThreshold('N.S.', 0),
-          createPredefinedThreshold('AR1', 20000000),
-          createPredefinedThreshold('AR2', 50000000),
-          createPredefinedThreshold('AR3', 120000000),
-          createPredefinedThreshold('AR4', 200000000),
-          createPredefinedThreshold('PF1', 20000000),
-          createPredefinedThreshold('PF2', 50000000),
-          createPredefinedThreshold('PF2+', 80000000),
-          createPredefinedThreshold('PF3', 120000000),
-          createPredefinedThreshold('PF4', 200000000),
-          createCustomThreshold(0),
+          defaultThresholds.ns,
+          defaultThresholds.ar1,
+          defaultThresholds.ar2,
+          defaultThresholds.ar3,
+          defaultThresholds.ar4,
+          defaultThresholds.pf1,
+          defaultThresholds.pf2,
+          defaultThresholds['pf2+'],
+          defaultThresholds.pf3,
+          defaultThresholds.pf4,
+          defaultThresholds.custom,
         ],
-        stiffness: [createCustomThreshold(0)],
-        deflection: [createCustomThreshold(0)],
-        force: [createCustomThreshold(0)],
-        temperature: [createCustomThreshold(0)],
-        time: [createCustomThreshold(0)],
-        percentage: [createCustomThreshold(0)],
+        stiffness: [defaultThresholds.custom],
+        deflection: [defaultThresholds.custom],
+        force: [defaultThresholds.custom],
+        temperature: [defaultThresholds.custom],
+        time: [defaultThresholds.custom],
+        percentage: [defaultThresholds.custom],
       },
+      jsonGroupedDataLabels: json.distinct.groupedDataLabels,
       ...parameters,
     }
   )
 
   report.zones.push(
-    ...json.zones.map((jsonZone) =>
+    ...json.base.zones.map((jsonZone) =>
       createMinidynZoneFromJSON(jsonZone, map, {
         report: report as MinidynReport,
       })
@@ -50,16 +61,27 @@ export const createMinidynReportFromJSON = (
   )
 
   report.platform.push(
-    ...json.platform.map((field: JSONField) =>
+    ...json.base.platform.map((field: JSONBaseField) =>
       createMinidynFieldFromJSON(field)
     )
   )
 
-  report.informations.push(
-    ...json.informations.map((field: JSONField) =>
+  report.information.push(
+    ...json.base.information.map((field: JSONBaseField) =>
       createMinidynFieldFromJSON(field)
     )
   )
 
   return report as MinidynReport
+}
+
+const upgradeJSON = (json: JSONMinidynReportVAny): JSONMinidynReport => {
+  switch (json.version) {
+    case 1:
+    // upgrade
+    default:
+      json = json as JSONMinidynReport
+  }
+
+  return json
 }

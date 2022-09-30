@@ -25,17 +25,11 @@ export class PDXExportStrategy implements ExportStrategy {
     }
 
     const reportDate = dayjs(
-      findFieldInArray(
-        project.reports.selected.informations,
-        'Date'
-      )?.convertValueToString()
+      findFieldInArray(project.reports.selected.information, 'Date')?.toString()
     ).format('DD-MMM-YYYY')
 
     const infos = ['Operator', 'Climat'].map((label) =>
-      findFieldInArray(
-        project.reports.selected!.informations,
-        label
-      )?.convertValueToString()
+      findFieldInArray(project.reports.selected!.information, label)?.toString()
     )
 
     return dedent`
@@ -127,15 +121,15 @@ export class PDXExportStrategy implements ExportStrategy {
       (sensor) => sensor.name === 'DMI'
     )?.gain
 
-    const projectProject = project.informations.find(
+    const projectProject = project.information.find(
       (info) => info.label === 'Project'
     )?.value
 
-    const siteProject = project.informations.find(
+    const siteProject = project.information.find(
       (info) => info.label === 'Site'
     )?.value
 
-    const reportLane = project.reports.selected?.informations.find(
+    const reportLane = project.reports.selected?.information.find(
       (info) => info.label === 'Lane'
     )?.value
 

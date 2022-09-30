@@ -19,21 +19,21 @@ export class F25ExportStrategy implements ExportStrategy {
     const serialNumber = findFieldInArray(
       project.hardware,
       'Serial number'
-    )?.convertValueToString()
+    )?.toString()
 
     const operator = findFieldInArray(
-      project.reports.selected!.informations,
+      project.reports.selected!.information,
       'Operator'
-    )?.convertValueToString()
+    )?.toString()
 
     const sequenceName = findFieldInArray(
-      project.informations,
+      project.information,
       'Sequence'
-    )?.convertValueToString()
+    )?.toString()
 
     const date = dayjs(
       (
-        project.informations.find(
+        project.information.find(
           (machineField: MachineField) => machineField.label === 'Date'
         )?.value as SelectableString
       ).value
@@ -79,9 +79,9 @@ export class F25ExportStrategy implements ExportStrategy {
     }
 
     const operator = findFieldInArray(
-      project.reports.selected.informations,
+      project.reports.selected.information,
       'Operator'
-    )?.convertValueToString()
+    )?.toString()
 
     const reportName = project.reports.selected?.name.value.toString()
 
@@ -206,10 +206,7 @@ export class F25ExportStrategy implements ExportStrategy {
     if (typeof chainage === 'undefined') throw new Error()
     chainage = Math.round(chainage)
 
-    const comment = findFieldInArray(
-      report.informations,
-      'Comment'
-    )?.convertValueToString()
+    const comment = findFieldInArray(report.information, 'Comment')?.toString()
 
     const tair = point.data.find((pointData) => pointData.label.name === 'Tair')
       ?.value.value

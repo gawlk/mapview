@@ -10,10 +10,12 @@ import { getBrowserLocale } from '/src/locales'
 import translationsFR from '/src/locales/fr.json?raw'
 
 export const createBasePointFromJSON = (
-  json: JSONPoint,
+  json: JSONBasePointVAny,
   map: mapboxgl.Map | null,
   parameters: BasePointCreatorParameters
 ) => {
+  json = upgradeJSON(json)
+
   const icon = createIcon(parameters.zone.report.settings.iconName)
 
   const marker = icon
@@ -35,7 +37,7 @@ export const createBasePointFromJSON = (
     date: new Date(json.date),
     marker,
     icon,
-    informations: [],
+    information: [],
     settings: reactive(json.settings),
     zone: parameters.zone,
     data: json.data.map((jsonDataValue): DataValue => {
@@ -229,4 +231,15 @@ export const createBasePointFromJSON = (
   } as BasePoint)
 
   return point
+}
+
+const upgradeJSON = (json: JSONBasePointVAny): JSONBasePoint => {
+  switch (json.version) {
+    case 1:
+    // upgrade
+    default:
+      json = json as JSONBasePoint
+  }
+
+  return json
 }

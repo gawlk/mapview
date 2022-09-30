@@ -6,9 +6,11 @@ interface Image {
   opacity: number
   addToMap: (isVisible: boolean) => void
   remove: () => void
+  toJSON: () => JSONImage
 }
 
 interface JSONImage {
+  version: 1
   name: string
   opacity?: number
   coordinates?: {

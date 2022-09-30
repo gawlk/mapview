@@ -24,7 +24,7 @@
         fields: store.projects.selected
           ? [
               store.projects.selected.name,
-              ...store.projects.selected.informations,
+              ...store.projects.selected.information,
             ]
           : [],
       },
@@ -35,5 +35,5 @@
     ]"
   />
   <DialogConfigurations />
-  <ButtonSave disabled />
+  <ButtonSave />
 </template>

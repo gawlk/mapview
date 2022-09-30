@@ -63,7 +63,7 @@ export const generateProjectFromJSON = async (
 
   let project = null
 
-  switch (json.machine) {
+  switch (json.base.machine) {
     case 'Heavydyn':
       project = await createHeavydynProjectFromJSON(
         json as JSONHeavydynProject,
@@ -95,37 +95,35 @@ export const generateProjectFromJSON = async (
   return project
 }
 
-const importImages = async (
+const importImages = (
   zip: Unzipped,
-  json: JSONProject,
+  json: JSONBaseProject,
   project: MachineProject
 ) =>
-  Promise.all(
-    json.images.map(async (jsonImage) => {
-      const array = zip[`images/${jsonImage.name}`]
+  json.images.forEach(async (jsonImage) => {
+    const array = zip[`images/${jsonImage.name}`]
 
-      if (array) {
-        const data64 = Uint8ArrayToData64Image(
-          array,
-          jsonImage.name.split('.').pop() as string
-        )
+    if (array) {
+      const data64 = Uint8ArrayToData64Image(
+        array,
+        jsonImage.name.split('.').pop() as string
+      )
 
-        const image = await createImage(data64, store.map, {
-          ...jsonImage,
-        })
+      const image = await createImage(data64, store.map, {
+        ...jsonImage,
+      })
 
-        if (store.projects.selected === project && store.map?.isStyleLoaded()) {
-          image.addToMap(store.projects.selected.settings.areImagesVisible)
-        }
-
-        project.images.push(image)
+      if (store.projects.selected === project && store.map?.isStyleLoaded()) {
+        image.addToMap(store.projects.selected.settings.areImagesVisible)
       }
-    })
-  )
+
+      project.images.push(image)
+    }
+  })
 
 const importScreenshots = (
   zip: Unzipped,
-  json: JSONProject,
+  json: JSONBaseProject,
   project: MachineProject
 ) => {
   const screenshots = Object.keys(zip)
@@ -133,8 +131,8 @@ const importScreenshots = (
     .map((key) => key.substring(12))
     .filter((key) => key)
 
-  json.reports.forEach((jsonReport, index) => {
-    jsonReport.screenshots.forEach(async (screenshotIndex) => {
+  json.reports.list.forEach((jsonReport, index) => {
+    jsonReport.base.screenshots.forEach(async (screenshotIndex) => {
       const screenshotFileName = screenshots.find(
         (screenshot) => Number(screenshot.split('.')[0]) === screenshotIndex
       )

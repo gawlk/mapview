@@ -1,25 +1,54 @@
+// ---
+// JSON
+// ---
+
+type JSONMaxidynReportVAny = JSONMaxidynReport
+
+interface JSONMaxidynReport {
+  version: 1
+  base: JSONBaseReport
+  distinct: JSONMaxidynReportDistinct
+}
+
+interface JSONMaxidynReportDistinct {
+  version: 1
+  groupedDataLabels: SelectableList<number, JSONMaxidynGroupedDataLabels>
+  thresholdGroups: MaxidynUnitsSkeleton<number>
+}
+
+interface JSONMaxidynGroupedDataLabels {
+  version: 1
+  from: DataLabelsFrom
+  choices: SelectableList<number, JSONDataLabel<MaxidynUnitsNames>>
+  indexes?: SelectableList<number, JSONMaxidynDropIndex>
+}
+
+// ---
+// Object
+// ---
+
 interface MaxidynReport extends BaseReport {
   readonly machine: 'Maxidyn'
   readonly zones: MaxidynZone[]
-  platform: MaxidynField[]
-  informations: MaxidynField[]
+  readonly dataLabels: MaxidynReportDataLabels
+  readonly platform: MaxidynField[]
+  readonly information: MaxidynField[]
   project: MaxidynProject
+  toJSON: () => JSONMaxidynReport
 }
 
-interface MaxidynReportCreatorParameters
-  extends MachineReportCreatorParameters {
-  project: MaxidynProject
+type MaxidynThresholds = MaxidynUnitsSkeleton<AnyThreshold[]>
+
+interface MaxidynReportDataLabels extends BaseReportDataLabels {
+  groups: SelectableList<MaxidynGroupedDataLabels>
+  table: SelectableList<MaxidynTableDataLabelsParameters>
+}
+interface MaxidynGroupedDataLabels extends BaseGroupedDataLabels {
+  indexes?: SelectableList<MaxidynDropIndex>
 }
 
-type MaxidynDropType = 'Training' | 'Averaging'
-
-interface MaxidynDropIndex extends BaseDropIndex {
-  machine: 'Maxidyn'
-  type: MaxidynDropType
-}
-
-type MaxidynThresholds = MaxidynMathUnitsSkeleton<AnyThreshold[]>
-
-interface JSONMaxidynChoice extends JSONChoice {
-  unit: MaxidynMathUnitsNames | string
+interface MaxidynTableDataLabelsParameters
+  extends BaseTableDataLabelsParameters {
+  group: MaxidynGroupedDataLabels
+  index?: MaxidynDropIndex
 }

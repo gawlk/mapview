@@ -4,7 +4,7 @@ import { numberToLocaleString } from '/src/locales'
 
 export const createMathNumber = (
   value: number,
-  unit: MathUnit | string
+  unit: MathUnit<string> | string
 ): MathNumber => {
   const mathNumber = shallowReactive({
     value,

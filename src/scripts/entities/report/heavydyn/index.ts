@@ -2,67 +2,49 @@ import { createBaseReportFromJSON } from '../base'
 import {
   createHeavydynZoneFromJSON,
   createHeavydynFieldFromJSON,
-  createCustomThreshold,
-  createMathNumber,
+  createHeavydynDropIndexFromJSON,
+  defaultThresholds,
   createWatcherHandler,
 } from '/src/scripts'
 
 export const createHeavydynReportFromJSON = (
-  json: JSONReport,
+  json: JSONHeavydynReport,
   map: mapboxgl.Map | null,
-  parameters: HeavydynReportCreatorParameters
+  parameters: {
+    project: HeavydynProject
+  }
 ) => {
+  json = upgradeJSON(json)
+
   const watcherHandler = createWatcherHandler()
 
-  const dropIndexes = json.dataLabels.groups.list.find(
-    (group) => group.from === 'Drop'
-  )?.indexes?.list as JSONHeavydynDropIndex[]
-
-  dropIndexes.forEach((jsonDropIndex: JSONHeavydynDropIndex) => {
-    const unitName = jsonDropIndex.unit.toLocaleLowerCase()
-
-    ;(jsonDropIndex as unknown as HeavydynDropIndex).value = createMathNumber(
-      jsonDropIndex.value,
-      unitName in parameters.project.units
-        ? parameters.project.units[unitName as keyof HeavydynMathUnits]
-        : unitName
+  const dropIndexes = json.distinct.groupedDataLabels.list
+    .find((group) => group.from === 'Drop')
+    ?.indexes?.list.map((jsonDropIndex) =>
+      createHeavydynDropIndexFromJSON(jsonDropIndex, {
+        project: parameters.project,
+      })
     )
-  })
 
   const report: PartialMachineReport<HeavydynReport> = createBaseReportFromJSON(
-    json,
+    json.base,
     map,
     {
       machine: 'Heavydyn',
       thresholds: {
-        deflection: [createCustomThreshold(0)],
-        force: [createCustomThreshold(0)],
-        temperature: [createCustomThreshold(0)],
-        distance: [createCustomThreshold(0)],
-        time: [createCustomThreshold(0)],
+        deflection: [defaultThresholds.custom],
+        force: [defaultThresholds.custom],
+        temperature: [defaultThresholds.custom],
+        distance: [defaultThresholds.custom],
+        time: [defaultThresholds.custom],
       },
+      jsonGroupedDataLabels: json.distinct.groupedDataLabels,
       ...parameters,
-      addToMap: () => {
-        ;(dropIndexes as unknown as HeavydynDropIndex[]).forEach(
-          (dropIndex) => {
-            if (typeof dropIndex.value.unit === 'object') {
-              watcherHandler.add(
-                watch(dropIndex.value.unit, () => {
-                  dropIndex.value.updateDisplayedStrings()
-                })
-              )
-            }
-          }
-        )
-      },
-      remove: () => {
-        watcherHandler.clean()
-      },
     }
   )
 
   report.zones.push(
-    ...json.zones.map((jsonZone) =>
+    ...json.base.zones.map((jsonZone) =>
       createHeavydynZoneFromJSON(jsonZone, map, {
         report: report as HeavydynReport,
       })
@@ -70,16 +52,49 @@ export const createHeavydynReportFromJSON = (
   )
 
   report.platform.push(
-    ...json.platform.map((field: JSONField) =>
+    ...json.base.platform.map((field: JSONBaseField) =>
       createHeavydynFieldFromJSON(field)
     )
   )
 
-  report.informations.push(
-    ...json.informations.map((field: JSONField) =>
+  report.information.push(
+    ...json.base.information.map((field: JSONBaseField) =>
       createHeavydynFieldFromJSON(field)
     )
   )
+
+  const baseAddToMap = report.addToMap
+  report.addToMap = () => {
+    baseAddToMap.call(report)
+
+    dropIndexes?.forEach((dropIndex) => {
+      if (typeof dropIndex.value.unit === 'object') {
+        watcherHandler.add(
+          watch(dropIndex.value.unit, () => {
+            dropIndex.value.updateDisplayedStrings()
+          })
+        )
+      }
+    })
+  }
+
+  const baseRemove = report.remove
+  report.remove = () => {
+    baseRemove.call(report)
+
+    watcherHandler.clean()
+  }
 
   return report as HeavydynReport
+}
+
+const upgradeJSON = (json: JSONHeavydynReportVAny): JSONHeavydynReport => {
+  switch (json.version) {
+    case 1:
+    // upgrade
+    default:
+      json = json as JSONHeavydynReport
+  }
+
+  return json
 }

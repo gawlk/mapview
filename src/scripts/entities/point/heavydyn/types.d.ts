@@ -2,7 +2,7 @@ interface HeavydynPoint extends BasePoint {
   readonly machine: 'Heavydyn'
   readonly drops: HeavydynDrop[]
   zone: HeavydynZone
-  informations: HeavydynField[]
+  information: HeavydynField[]
 }
 
 interface HeavydynPointCreatorParameters extends MachinePointCreatorParameters {

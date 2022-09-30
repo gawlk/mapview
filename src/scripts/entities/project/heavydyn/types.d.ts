@@ -1,18 +1,23 @@
-interface HeavydynProject extends BaseProject {
-  readonly machine: 'Heavydyn'
-  readonly reports: SelectableList<HeavydynReport>
-  readonly units: HeavydynMathUnits
-  calibrations: HeavdyndynCalibrations
+// ---
+// JSON
+// ---
+
+type JSONHeavydynProjectVAny = JSONHeavydynProject
+
+interface JSONHeavydynProject {
+  version: 1
+  base: JSONBaseProject
+  distinct: JSONHeavydynProjectDistinct
 }
 
-interface HeavdyndynCalibrations {
-  readonly date: Date
-  readonly dPlate: number
-  readonly channels: JSONChannel[]
-  readonly sensors: JSONSensor[]
+interface JSONHeavydynProjectDistinct {
+  version: 1
+  units: JSONHeavydynUnits
+  calibrations: JSONHeavydynCalibrations
 }
 
-interface JSONHeavdyndynCalibrations {
+interface JSONHeavydynCalibrations {
+  version: 1
   readonly date: string
   readonly dPlate: number
   readonly channels: JSONChannel[]
@@ -20,6 +25,7 @@ interface JSONHeavdyndynCalibrations {
 }
 
 interface JSONChannel {
+  version: 1
   name: string
   position: string
   gain: number
@@ -28,37 +34,29 @@ interface JSONChannel {
 }
 
 interface JSONSensor {
+  version: 1
   name: string
   gain: number
   type: 'AirTemp' | 'SurfTemp' | 'Dmi'
 }
 
-interface JSONHeavydynProject extends JSONProject {
-  calibrations: JSONHeavdyndynCalibrations
+// ---
+// Object
+// ---
+
+interface HeavydynProject extends BaseProject {
+  readonly machine: 'Heavydyn'
+  readonly reports: SelectableList<HeavydynReport>
+  readonly units: HeavydynMathUnits
+  readonly information: HeavydynField[]
+  readonly hardware: HeavydynField[]
+  calibrations: HeavydynCalibrations
+  toJSON: () => JSONHeavydynProject
 }
 
-interface HeavydynMathUnitsSkeleton<A, B = A, C = A, D = A, E = A> {
-  deflection: A
-  force: B
-  temperature: C
-  distance: D
-  time: E
+interface HeavydynCalibrations {
+  readonly date: Date
+  readonly dPlate: number
+  readonly channels: JSONChannel[]
+  readonly sensors: JSONSensor[]
 }
-
-type HeavydynMathUnits = HeavydynMathUnitsSkeleton<MathUnit>
-
-type PossibleHeavydynDeflectionUnits = 'mm' | '1/100 mm' | 'um'
-type PossibleHeavydynForceUnits = 'N' | 'kN' | 'lbs'
-type PossibleHeavydynTemperatureUnits = '°C' | '°F' | 'K'
-type PossibleHeavydynDistanceUnits = 'm' | 'km' | 'mi'
-type PossibleHeavydynTimeUnits = 's' | 'ms' | 'us'
-
-type JSONHeavydynUnits = HeavydynMathUnitsSkeleton<
-  PossibleHeavydynDeflectionUnits,
-  PossibleHeavydynForceUnits,
-  PossibleHeavydynTemperatureUnits,
-  PossibleHeavydynDistanceUnits,
-  PossibleHeavydynTimeUnits
->
-
-type HeavydynMathUnitsNames = keyof HeavydynMathUnitsSkeleton<any>

@@ -1,7 +1,45 @@
+// ---
+// JSON
+// ---
+
+type JSONBaseProjectVAny = JSONBaseProject
+
+interface JSONBaseProject {
+  version: 1
+  name: string
+  machine: MachineName
+  reports: SelectableList<number, JSONMachineReport>
+  settings: JSONProjectSettings
+  images: JSONImage[]
+  information: JSONBaseField[]
+  hardware: JSONBaseField[]
+}
+
+type MachineName = 'Heavydyn' | 'Maxidyn' | 'Minidyn'
+
+interface JSONProjectSettings {
+  version: 1
+  arePointsVisible: boolean
+  arePointsLinked: boolean
+  arePointsLocked: boolean
+  areImagesVisible: boolean
+  pointsState: 'value' | 'number' | 'nothing'
+  map: {
+    version: 1
+    styleIndex: number
+    coordinates?: LngLat
+    zoom?: number
+  }
+}
+
+// ---
+// Object
+// ---
+
 interface BaseProject {
   readonly machine: MachineName
   readonly name: MachineField
-  readonly informations: MachineField[]
+  readonly information: MachineField[]
   readonly hardware: MachineField[]
   readonly reports: SelectableList<MachineReport>
   readonly units: MachineMathUnits
@@ -12,43 +50,5 @@ interface BaseProject {
   fitOnMap: () => void
   addToMap: () => void
   remove: () => void
-}
-
-interface BaseProjectCreatorParameters {
-  machine: MachineName
-  units: MachineMathUnits
-}
-
-interface JSONProject {
-  name: string
-  machine: MachineName
-  selectedReport?: number
-  settings: JSONProjectSettings
-  images: JSONImage[]
-  informations: JSONField[]
-  hardware: JSONField[]
-  reports: JSONReport[]
-  units: JSONMachineUnits
-}
-
-type MachineName = 'Heavydyn' | 'Maxidyn' | 'Minidyn'
-
-interface JSONProjectSettings {
-  arePointsVisible: boolean
-  arePointsLinked: boolean
-  arePointsLocked: boolean
-  areImagesVisible: boolean
-  pointsState: PointsState
-  map: {
-    styleIndex: number
-    coordinates?: LngLat
-    zoom?: number
-  }
-}
-
-type PointsState = 'value' | 'number' | 'nothing'
-
-interface MathUnitWithThresholds {
-  unit: MathUnit
-  thresholds: AnyThreshold[]
+  toBaseJSON: () => JSONBaseProject
 }

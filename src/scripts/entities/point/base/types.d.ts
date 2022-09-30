@@ -1,3 +1,30 @@
+// ---
+// JSON
+// ---
+
+type JSONBasePointVAny = JSONBasePoint
+
+interface JSONBasePoint {
+  version: 1
+  number: number
+  index: number
+  date: string
+  coordinates: mapboxgl.LngLatLike
+  data: JSONDataValue[]
+  settings: JSONPointSettings
+  information: JSONBaseField[]
+  drops: JSONDrop[]
+}
+
+interface JSONPointSettings {
+  version: 1
+  isVisible: boolean
+}
+
+// ---
+// Object
+// ---
+
 interface BasePoint {
   readonly machine: MachineName
   readonly id: string
@@ -8,7 +35,7 @@ interface BasePoint {
   icon: Icon | null
   settings: JSONPointSettings
   data: DataValue[]
-  informations: MachineField[]
+  information: MachineField[]
   readonly drops: MachineDrop[]
   zone: MachineZone
   getSelectedMathNumber: (
@@ -32,19 +59,4 @@ interface BasePoint {
 
 interface BasePointCreatorParameters extends MachinePointCreatorParameters {
   machine: MachineName
-}
-
-interface JSONPoint {
-  number: number
-  index: number
-  date: string
-  coordinates: mapboxgl.LngLatLike
-  data: JSONDataValue[]
-  settings: JSONPointSettings
-  informations: JSONField[]
-  drops: JSONDrop[]
-}
-
-interface JSONPointSettings {
-  isVisible: boolean
 }

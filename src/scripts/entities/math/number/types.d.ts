@@ -1,6 +1,6 @@
 interface MathNumber {
   value: number
-  unit: MathUnit | string
+  unit: MathUnit<string> | string
   displayedString: string
   displayedStringWithUnit: string
   updateDisplayedStrings: () => void

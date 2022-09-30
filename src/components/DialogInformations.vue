@@ -62,7 +62,7 @@
     @save="exportInformations"
   >
     <template v-slot:button>
-      {{ t('View informations') }}
+      {{ t('View information') }}
     </template>
     <template v-slot:dialog>
       <div class="space-y-8">
@@ -75,7 +75,7 @@
             <Input
               v-for="field in dataset.fields"
               :key="field.label"
-              :id="`${props.preID}informations-${field.label}`"
+              :id="`${props.preID}information-${field.label}`"
               :label="t(field.label)"
               @input="(value) => setValue(field, value)"
               :value="
@@ -123,7 +123,7 @@
 
 <i18n lang="yaml">
 fr:
-  'View informations': 'Voir les informations'
+  'View information': 'Voir les informations'
   'Serial number': 'Numéro de série'
   'MAC address': 'Adresse MAC'
   'License start': 'Début de la licence'

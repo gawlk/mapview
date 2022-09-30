@@ -7,7 +7,7 @@
 
   const { t } = useI18n()
 
-  const possibilities: ReportColorizationPossibilities[] = ['Threshold', 'Zone']
+  const possibilities: ReportColorization[] = ['Threshold', 'Zone']
 
   const selectedReport = computed(
     () => store.projects.selected?.reports.selected

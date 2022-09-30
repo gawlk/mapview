@@ -69,7 +69,7 @@ export class FWDExportStrategy implements ExportStrategy {
     const serialNumber = findFieldInArray(
       project.hardware,
       'Serial number'
-    )?.convertValueToString()
+    )?.toString()
 
     const sensorsSection = this.writeSensors(project)
 

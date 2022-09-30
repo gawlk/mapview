@@ -1,5 +1,6 @@
 export * from './color'
 export * from './computedData'
+export * from './data'
 export * from './drop'
 export * from './field'
 export * from './icon'

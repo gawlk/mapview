@@ -33,3 +33,6 @@ export const getObjectFromSelectedIndexInSelectableList = <T>(
   selectedIndex !== null && objectsList.length > 0
     ? objectsList[selectedIndex < objectsList.length ? selectedIndex : 0]
     : null
+
+export const getIndexOfSelectedInSelectableList = <T>(sl: SelectableList<T>) =>
+  sl.selected ? sl.list.indexOf(sl.selected) : null

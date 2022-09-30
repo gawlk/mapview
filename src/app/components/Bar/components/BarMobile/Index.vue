@@ -42,7 +42,7 @@
         :disabled="!store.projects.selected"
         @click="selectMenu(menu)"
       >
-        <component :is="menu.component" :props="menu.props" />
+        <component :is="menu.component" :menu="menu.props" />
       </MenuWrapperMobile>
     </div>
   </div>

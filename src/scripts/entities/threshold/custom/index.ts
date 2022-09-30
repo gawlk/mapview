@@ -7,7 +7,7 @@ export const createCustomThreshold = (value: number): CustomThreshold => {
     type: 'Bicolor' as CustomThresholdType,
     value,
     valueHigh: value,
-    getColor: function (mathNumber: MathNumber, colors: ThresholdColors) {
+    getColor: function (mathNumber: MathNumber, colors: JSONThresholdColors) {
       const hexColorLow = colorsClasses[colors.low].hexColor
       const hexColorMiddle = colorsClasses[colors.middle].hexColor
       const hexColorHigh = colorsClasses[colors.high].hexColor

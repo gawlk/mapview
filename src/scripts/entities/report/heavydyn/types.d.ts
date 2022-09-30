@@ -1,33 +1,55 @@
+// ---
+// JSON
+// ---
+
+type JSONHeavydynReportVAny = JSONHeavydynReport
+
+interface JSONHeavydynReport {
+  version: 1
+  base: JSONBaseReport
+  distinct: JSONHeavydynReportDistinct
+}
+
+interface JSONHeavydynReportDistinct {
+  version: 1
+  groupedDataLabels: SelectableList<number, JSONHeavydynGroupedDataLabels>
+  thresholds: HeavydynUnitsSkeleton<number>
+}
+
+interface JSONHeavydynGroupedDataLabels {
+  version: 1
+  from: DataLabelsFrom
+  choices: SelectableList<number, JSONDataLabel<HeavydynUnitsNames>>
+  indexes?: SelectableList<number, JSONHeavydynDropIndex>
+}
+
+// ---
+// Object
+// ---
+
 interface HeavydynReport extends BaseReport {
   readonly machine: 'Heavydyn'
   readonly zones: HeavydynZone[]
-  platform: HeavydynField[]
-  informations: HeavydynField[]
+  readonly dataLabels: HeavydynReportDataLabels
+  readonly platform: HeavydynField[]
+  readonly information: HeavydynField[]
   project: HeavydynProject
+  toJSON: () => JSONHeavydynReport
 }
 
-interface HeavydynReportCreatorParameters
-  extends MachineReportCreatorParameters {
-  project: HeavydynProject
+type HeavydynThresholds = HeavydynUnitsSkeleton<AnyThreshold[]>
+
+interface HeavydynReportDataLabels extends BaseReportDataLabels {
+  groups: SelectableList<HeavydynGroupedDataLabels>
+  table: SelectableList<HeavydynTableDataLabelsParameters>
 }
 
-type HeavydynDropType = 'Distance' | 'Time' | 'Force' | 'Height'
-
-interface HeavydynDropIndex extends BaseDropIndex {
-  readonly machine: 'Heavydyn'
-  readonly type: HeavydynDropType
-  value: MathNumber
+interface HeavydynGroupedDataLabels extends BaseGroupedDataLabels {
+  indexes?: SelectableList<HeavydynDropIndex>
 }
 
-interface JSONHeavydynDropIndex extends BaseDropIndex {
-  readonly machine: 'Heavydyn'
-  readonly type: HeavydynDropType
-  value: number
-  readonly unit: string
-}
-
-type HeavydynThresholds = HeavydynMathUnitsSkeleton<AnyThreshold[]>
-
-interface JSONHeavydynChoice extends JSONChoice {
-  unit: HeavydynMathUnitsNames | string
+interface HeavydynTableDataLabelsParameters
+  extends BaseTableDataLabelsParameters {
+  group: HeavydynGroupedDataLabels
+  index?: HeavydynDropIndex
 }

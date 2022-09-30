@@ -30,7 +30,7 @@
               title: t('Informations'),
               fields: [
                 store.projects.selected.reports.selected.name,
-                ...store.projects.selected.reports.selected.informations,
+                ...store.projects.selected.reports.selected.information,
               ],
             },
             {

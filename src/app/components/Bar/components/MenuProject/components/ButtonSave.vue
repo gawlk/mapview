@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  import store from '/src/store'
+
   import IconSave from '~icons/heroicons-solid/save'
 
   import Button from '/src/components/Button.vue'
@@ -7,7 +9,12 @@
 </script>
 
 <template>
-  <Button full :leftIcon="IconSave" orange>
+  <Button
+    full
+    :leftIcon="IconSave"
+    orange
+    @click="() => store.projects.selected?.toJSON()"
+  >
     {{ t('Save project') }}
   </Button>
 </template>

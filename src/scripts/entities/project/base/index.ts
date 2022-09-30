@@ -5,13 +5,19 @@ import {
   createWatcherHandler,
   mapStyles,
   debounce,
+  getIndexOfSelectedInSelectableList,
 } from '/src/scripts'
 
 export const createBaseProjectFromJSON = async (
-  json: JSONProject,
+  json: JSONBaseProjectVAny,
   map: mapboxgl.Map | null,
-  parameters: BaseProjectCreatorParameters
+  parameters: {
+    machine: MachineName
+    units: MachineMathUnits
+  }
 ) => {
+  json = upgradeJSON(json)
+
   const watcherHandler = createWatcherHandler()
 
   const settings = reactive(json.settings)
@@ -20,9 +26,12 @@ export const createBaseProjectFromJSON = async (
     machine: parameters.machine,
     name: createBaseFieldFromJSON(
       {
+        version: 1,
         label: 'Name',
         value: json.name,
-        settings: {},
+        settings: {
+          version: 1,
+        },
       },
       {
         reactive: true,
@@ -34,8 +43,8 @@ export const createBaseProjectFromJSON = async (
     images: shallowReactive([] as Image[]),
     units: parameters.units,
     settings,
-    informations: shallowReactive([]),
-    hardware: shallowReactive([]),
+    information: shallowReactive([] as BaseField[]),
+    hardware: shallowReactive([] as BaseField[]),
     refreshLinesAndImages: function () {
       if (this.settings.arePointsLinked) {
         this.reports.list.forEach((report) => {
@@ -244,7 +253,33 @@ export const createBaseProjectFromJSON = async (
 
       watcherHandler.clean()
     },
+    toBaseJSON: function (): JSONBaseProject {
+      return {
+        version: 1,
+        name: this.name.value as string,
+        machine: this.machine,
+        reports: {
+          selected: getIndexOfSelectedInSelectableList(this.reports),
+          list: this.reports.list.map((report) => report.toJSON()),
+        },
+        settings: this.settings,
+        images: this.images.map((image) => image.toJSON()),
+        information: this.information.map((field) => field.toJSON()),
+        hardware: this.hardware.map((field) => field.toJSON()),
+      }
+    },
   })
 
   return project
+}
+
+const upgradeJSON = (json: JSONBaseProjectVAny): JSONBaseProject => {
+  switch (json.version) {
+    case 1:
+    // upgrade
+    default:
+      json = json as JSONBaseProject
+  }
+
+  return json
 }

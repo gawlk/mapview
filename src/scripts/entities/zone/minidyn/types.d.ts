@@ -1,3 +1,11 @@
+// ---
+// JSON
+// ---
+
+// ---
+// Object
+// ---
+
 interface MinidynZone extends BaseZone {
   readonly machine: 'Minidyn'
   readonly points: MinidynPoint[]

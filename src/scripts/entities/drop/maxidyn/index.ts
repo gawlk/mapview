@@ -11,3 +11,12 @@ export const createMaxidynDropFromJSON = (
 
   return drop as MaxidynDrop
 }
+
+export const createMaxidynDropIndexFromJSON = (
+  json: JSONMaxidynDropIndex
+): MaxidynDropIndex => {
+  return {
+    ...json,
+    machine: 'Maxidyn',
+  }
+}

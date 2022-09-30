@@ -1,5 +1,5 @@
 export const createBaseFieldFromJSON = (
-  json: JSONField,
+  json: JSONBaseField,
   options?: {
     reactive?: boolean
   }
@@ -132,10 +132,17 @@ export const createBaseFieldFromJSON = (
       }
     })(),
     settings: shallowReactive(settings),
-    convertValueToString: function () {
+    toString: function () {
       return typeof this.value === 'object'
         ? this.value.value.toString()
         : value.toString()
+    },
+    toJSON: function (): JSONBaseField {
+      return {
+        ...json,
+        value: this.toString(),
+        settings: field.settings,
+      }
     },
   }
 

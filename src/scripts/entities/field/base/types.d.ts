@@ -8,17 +8,20 @@ interface BaseField {
     | DateValue
     | LongString
     | SelectableString
-  settings: FieldSettings
-  convertValueToString: () => string
+  settings: JSONFieldSettings
+  toString: () => string
+  toJSON: () => JSONBaseField
 }
 
-interface JSONField {
+interface JSONBaseField {
+  version: 1
   label: string
   value: boolean | number | string
-  settings: FieldSettings
+  settings: JSONFieldSettings
 }
 
-interface FieldSettings {
+interface JSONFieldSettings {
+  version: 1
   readOnly?: true
 }
 

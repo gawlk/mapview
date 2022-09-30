@@ -2,7 +2,7 @@ import { createBaseZoneFromJSON } from '../base'
 import { createMaxidynPointFromJSON } from '/src/scripts'
 
 export const createMaxidynZoneFromJSON = (
-  json: JSONZone,
+  json: JSONBaseZoneVAny,
   map: mapboxgl.Map | null,
   parameters: MaxidynZoneCreatorParameters
 ) => {

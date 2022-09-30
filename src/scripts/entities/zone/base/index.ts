@@ -1,9 +1,11 @@
 import { createWatcherHandler, sortPoints } from '/src/scripts'
 
 export const createBaseZoneFromJSON = (
-  json: JSONZone,
+  json: JSONBaseZoneVAny,
   parameters: BaseZoneCreatorParameters
 ): BaseZone => {
+  json = upgradeJSON(json)
+
   const watcherHandler = createWatcherHandler()
 
   return shallowReactive({
@@ -64,4 +66,15 @@ export const createBaseZoneFromJSON = (
       })
     },
   })
+}
+
+const upgradeJSON = (json: JSONBaseZoneVAny): JSONBaseZone => {
+  switch (json.version) {
+    case 1:
+    // upgrade
+    default:
+      json = json as JSONBaseZone
+  }
+
+  return json
 }

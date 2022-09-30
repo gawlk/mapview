@@ -2,7 +2,7 @@ import { createBaseZoneFromJSON } from '../base'
 import { createMinidynPointFromJSON } from '/src/scripts'
 
 export const createMinidynZoneFromJSON = (
-  json: JSONZone,
+  json: JSONBaseZoneVAny,
   map: mapboxgl.Map | null,
   parameters: MinidynZoneCreatorParameters
 ) => {

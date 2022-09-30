@@ -106,6 +106,17 @@ export const createImage = async (
 
       watcherHandler.clean()
     },
+    toJSON: function (): JSONImage {
+      return {
+        version: 1,
+        name: parameters.name,
+        opacity: this.opacity,
+        coordinates: {
+          nw: this.markerNW.getLngLat(),
+          se: this.markerSE.getLngLat(),
+        },
+      }
+    },
   })
 
   return image

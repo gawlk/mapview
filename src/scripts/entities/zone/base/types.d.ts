@@ -1,3 +1,25 @@
+// ---
+// JSON
+// ---
+
+type JSONBaseZoneVAny = JSONBaseZone
+
+interface JSONBaseZone {
+  version: 1
+  name: string
+  points: JSONBasePoint[]
+  readonly settings: JSONZoneSettings
+}
+
+interface JSONZoneSettings {
+  color: ColorName
+  isVisible: boolean
+}
+
+// ---
+// Object
+// ---
+
 interface BaseZone {
   readonly machine: MachineName
   name: string
@@ -6,17 +28,6 @@ interface BaseZone {
   report: MachineReport
   init: () => void
   clean: () => void
-}
-
-interface JSONZone {
-  name: string
-  points: JSONPoint[]
-  readonly settings: JSONZoneSettings
-}
-
-interface JSONZoneSettings {
-  color: ColorName
-  isVisible: boolean
 }
 
 interface BaseZoneCreatorParameters extends MachineZoneCreatorParameters {

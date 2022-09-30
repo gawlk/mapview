@@ -7,7 +7,7 @@
 
   const { t } = useI18n()
 
-  const possibilities: ReportGroupByPossibilities[] = ['Number', 'Zone']
+  const possibilities: ReportGroupBy[] = ['Number', 'Zone']
 
   const selectedReport = computed(
     () => store.projects.selected?.reports.selected

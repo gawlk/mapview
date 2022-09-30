@@ -2,7 +2,7 @@ interface MinidynPoint extends BasePoint {
   readonly machine: 'Minidyn'
   readonly drops: MinidynDrop[]
   zone: MinidynZone
-  informations: MinidynField[]
+  information: MinidynField[]
 }
 
 interface MinidynPointCreatorParameters extends MachinePointCreatorParameters {

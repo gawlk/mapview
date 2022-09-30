@@ -6,33 +6,25 @@ import {
 } from '/src/scripts'
 
 export const createMaxidynProjectFromJSON = async (
-  json: JSONMaxidynProject,
+  json: JSONMaxidynProjectVAny,
   map: mapboxgl.Map | null
 ) => {
-  const jsonUnits = json.units as JSONMaxidynUnits
+  json = upgradeJSON(json)
+
+  const jsonUnits = json.distinct.units as JSONMaxidynUnits
 
   const units: MaxidynMathUnits = {
-    modulus: createMathUnit<PossibleMaxidynModulusUnits>(
-      'Modulus',
-      'Pa',
-      [['MPa', 0]],
-      {
-        min: json.bearingParameters.min || 20000000,
-        max: json.bearingParameters.max || 250000000,
-        currentUnit: jsonUnits.modulus,
-        averageFunction: 'capOutliers',
-      }
-    ),
-    stiffness: createMathUnit<PossibleMaxidynStiffnessUnits>(
-      'Stiffness',
-      'N / m',
-      [['MN / m', 0]],
-      {
-        currentUnit: jsonUnits.stiffness,
-        averageFunction: 'capOutliers',
-      }
-    ),
-    deflection: createMathUnit<PossibleMaxidynDeflectionUnits>(
+    modulus: createMathUnit('Modulus', 'Pa', [['MPa', 0]], {
+      min: json.distinct.bearingParameters.min || 20000000,
+      max: json.distinct.bearingParameters.max || 250000000,
+      currentUnit: jsonUnits.modulus,
+      averageFunction: 'capOutliers',
+    }),
+    stiffness: createMathUnit('Stiffness', 'N / m', [['MN / m', 0]], {
+      currentUnit: jsonUnits.stiffness,
+      averageFunction: 'capOutliers',
+    }),
+    deflection: createMathUnit(
       'Deflection',
       'm',
       [
@@ -43,7 +35,7 @@ export const createMaxidynProjectFromJSON = async (
         currentUnit: jsonUnits.deflection,
       }
     ),
-    force: createMathUnit<PossibleMaxidynForceUnits>(
+    force: createMathUnit(
       'Force',
       'N',
       [
@@ -54,7 +46,7 @@ export const createMaxidynProjectFromJSON = async (
         currentUnit: jsonUnits.force,
       }
     ),
-    distance: createMathUnit<PossibleMaxidynDistanceUnits>(
+    distance: createMathUnit(
       'Distance',
       'm',
       [
@@ -66,7 +58,7 @@ export const createMaxidynProjectFromJSON = async (
         currentUnit: jsonUnits.distance,
       }
     ),
-    time: createMathUnit<PossibleMaxidynTimeUnits>(
+    time: createMathUnit(
       'Time',
       's',
       [
@@ -78,28 +70,23 @@ export const createMaxidynProjectFromJSON = async (
         currentUnit: jsonUnits.time,
       }
     ),
-    percentage: createMathUnit<PossibleMaxidynPercentageUnits>(
-      'Percentage',
-      '%',
-      [['%', 0]],
-      {
-        currentUnit: '%',
-        max: 100,
-        step: 0.5,
-        readOnly: true,
-      }
-    ),
+    percentage: createMathUnit('Percentage', '%', [['%', 0]], {
+      currentUnit: '%',
+      max: 100,
+      step: 0.5,
+      readOnly: true,
+    }),
   }
 
   const project: PartialMachineProject<MaxidynProject> =
-    await createBaseProjectFromJSON(json, map, {
+    await createBaseProjectFromJSON(json.base, map, {
       machine: 'Maxidyn',
       units,
     })
 
   project.reports.list.push(
-    ...json.reports.map((report) =>
-      createMaxidynReportFromJSON(report, map, {
+    ...json.base.reports.list.map((report) =>
+      createMaxidynReportFromJSON(report as JSONMaxidynReport, map, {
         project: project as MaxidynProject,
       })
     )
@@ -107,17 +94,49 @@ export const createMaxidynProjectFromJSON = async (
 
   project.reports.selected = project.reports.list[0]
 
-  project.informations.push(
-    ...json.informations.map((field: JSONField) =>
+  project.information.push(
+    ...json.base.information.map((field: JSONBaseField) =>
       createMaxidynFieldFromJSON(field)
     )
   )
 
   project.hardware.push(
-    ...json.hardware.map((field: JSONField) =>
+    ...json.base.hardware.map((field: JSONBaseField) =>
       createMaxidynFieldFromJSON(field)
     )
   )
 
+  project.toJSON = function (): JSONMaxidynProject {
+    const project = this as MaxidynProject
+
+    return {
+      ...json,
+      base: project.toBaseJSON(),
+      distinct: {
+        ...json.distinct,
+        units: {
+          deflection: project.units.deflection.toJSON().unit,
+          distance: project.units.distance.toJSON().unit,
+          force: project.units.force.toJSON().unit,
+          modulus: project.units.modulus.toJSON().unit,
+          percentage: project.units.percentage.toJSON().unit,
+          stiffness: project.units.stiffness.toJSON().unit,
+          time: project.units.time.toJSON().unit,
+        },
+      },
+    }
+  }
+
   return project as MaxidynProject
+}
+
+const upgradeJSON = (json: JSONMaxidynProjectVAny): JSONMaxidynProject => {
+  switch (json.version) {
+    case 1:
+    // upgrade
+    default:
+      json = json as JSONMaxidynProject
+  }
+
+  return json
 }

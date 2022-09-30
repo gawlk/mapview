@@ -5,21 +5,20 @@ type PartialMachineProject<MachineProject> = PartialExtendedObject<
   MachineProject
 >
 
-type JSONMachineUnits = JSONHeavydynUnits | JSONMaxidynUnits | JSONMinidynUnits
-
 type MachineMathUnits = HeavydynMathUnits | MaxidynMathUnits | MinidynMathUnits
 
-type MachineMathUnitsSkeleton<T> =
-  | HeavydynMathUnitsSkeleton<T>
-  | MaxidynMathUnitsSkeleton<T>
-  | MinidynMathUnitsSkeleton<T>
+type MachineUnitsSkeleton<T> =
+  | HeavydynUnitsSkeleton<T>
+  | MaxidynUnitsSkeleton<T>
+  | MinidynUnitsSkeleton<T>
 
-type MachineMathUnitsNames =
-  | HeavydynMathUnitsNames
-  | MaxidynMathUnitsNames
-  | MinidynMathUnitsNames
+type MachineUnitsNames =
+  | HeavydynUnitsNames
+  | MaxidynUnitsNames
+  | MinidynUnitsNames
 
 interface JSONBearingParameters {
+  version: 1
   min: number
   max: number
 }

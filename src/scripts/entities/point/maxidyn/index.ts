@@ -5,7 +5,7 @@ import {
 } from '/src/scripts'
 
 export const createMaxidynPointFromJSON = (
-  json: JSONPoint,
+  json: JSONBasePointVAny,
   map: mapboxgl.Map | null,
   parameters: MaxidynPointCreatorParameters
 ) => {
@@ -26,8 +26,8 @@ export const createMaxidynPointFromJSON = (
     )
   )
 
-  point.informations.push(
-    ...json.informations.map((field: JSONField) =>
+  point.information.push(
+    ...json.information.map((field: JSONBaseField) =>
       createMaxidynFieldFromJSON(field)
     )
   )

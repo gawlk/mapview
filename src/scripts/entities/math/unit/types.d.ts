@@ -1,4 +1,4 @@
-interface MathUnit {
+interface MathUnit<PossibleUnits> {
   name: string
   baseUnit: string
   currentUnit: string
@@ -10,4 +10,10 @@ interface MathUnit {
   step: number
   readOnly: boolean
   getAverage: (values: number[]) => number
+  toJSON: () => JSONMathUnit<PossibleUnits>
+}
+
+interface JSONMathUnit<PossibleUnits> {
+  unit: PossibleUnits
+  precision: number
 }

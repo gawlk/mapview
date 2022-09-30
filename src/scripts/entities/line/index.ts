@@ -11,8 +11,8 @@ export const createLine = (map: mapboxgl.Map | null): Line => {
 
   const watcherHandler = createWatcherHandler()
 
-  const line: Line = {
-    sortedPoints: [],
+  const line: Line = shallowReactive({
+    sortedPoints: [] as MachinePoint[],
     addToMap: function () {
       map?.addLayer(
         {
@@ -97,7 +97,7 @@ export const createLine = (map: mapboxgl.Map | null): Line => {
         features,
       })
     },
-  }
+  })
 
   return line
 }

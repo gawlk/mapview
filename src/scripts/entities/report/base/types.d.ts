@@ -1,127 +1,114 @@
+// ---
+// JSON
+// ---
+
+type JSONBaseReportVAny = JSONBaseReport
+
+interface JSONBaseReport {
+  version: 1
+  name: string
+  zones: JSONBaseZone[]
+  settings: JSONReportSettings
+  screenshots: number[]
+  platform: JSONBaseField[]
+  information: JSONBaseField[]
+  dataLabels: JSONBaseReportDataLabels
+  thresholds: JSONBaseReportThresholds
+}
+
+interface JSONBaseReportDataLabels {
+  version: 1
+  table: SelectableList<number, JSONTableDataLabelsParameters>
+}
+
+interface JSONTableDataLabelsParameters {
+  version: 1
+  from: DataLabelsFrom
+  index?: number
+  dataLabels: string[]
+}
+
+type DataLabelsFrom = 'Drop' | 'Test' | 'Zone'
+
+interface JSONBaseReportThresholds {
+  version: 1
+  groups: MachineUnitsSkeleton<number>
+  colors: JSONThresholdColors
+  inputs: JSONThresholdInputs
+}
+
+interface JSONThresholdColors {
+  version: 1
+  low: ColorName
+  middle: ColorName
+  high: ColorName
+}
+
+interface JSONThresholdInputs {
+  version: 1
+  isRequiredARange: boolean
+  isOptionalARange: boolean
+}
+
+interface JSONReportSettings {
+  version: 1
+  iconName: IconName
+  isVisible: boolean
+  colorization: ReportColorization
+  groupBy: ReportGroupBy
+}
+
+type ReportColorization = 'Threshold' | 'Zone'
+
+type ReportGroupBy = 'Number' | 'Zone'
+
+// ---
+// Object
+// ---
+
 interface BaseReport {
   readonly machine: MachineName
   readonly name: MachineField
   readonly line: Line
   readonly zones: MachineZone[]
   readonly screenshots: string[]
-  readonly dataLabels: ReportDataLabels
+  readonly dataLabels: MachineReportDataLabels
   readonly thresholds: ReportThresholds
   readonly settings: JSONReportSettings
   readonly platform: MachineField[]
-  readonly informations: MachineField[]
+  readonly information: MachineField[]
   project: MachineProject
   isOnMap: boolean
   fitOnMap: () => void
   addToMap: () => void
   remove: () => void
+  toBaseJSON: () => JSONBaseReport
 }
 
-interface ReportDataLabels {
-  groups: SelectableList<GroupedDataLabels>
-  table: SelectableList<TableDataLabelsParameters>
+interface BaseReportDataLabels {
+  groups: SelectableList<BaseGroupedDataLabels>
+  table: SelectableList<BaseTableDataLabelsParameters>
 }
 
-interface GroupedDataLabels {
+interface BaseGroupedDataLabels {
   from: DataLabelsFrom
-  choices: SelectableList<DataLabel>
+  choices: SelectableList<DataLabel<string>>
   indexes?: SelectableList<MachineDropIndex>
 }
 
-interface TableDataLabelsParameters {
-  group: GroupedDataLabels
+interface BaseTableDataLabelsParameters {
+  group: MachineGroupedDataLabels
   index?: MachineDropIndex
-  dataLabels: DataLabel[]
+  dataLabels: DataLabel<string>[]
 }
 
 interface ReportThresholds {
-  groups: GroupedThresolds[]
-  colors: ThresholdColors
-  inputs: ThresholdInputs
+  groups: GroupedThresolds<string>[]
+  colors: JSONThresholdColors
+  inputs: JSONThresholdInputs
 }
 
-interface GroupedThresolds {
-  unit: MathUnit
+interface GroupedThresolds<T> {
+  unit: MathUnit<T>
   choices: SelectableList<AnyThreshold>
-}
-
-interface ThresholdColors {
-  low: ColorName
-  middle: ColorName
-  high: ColorName
-}
-
-interface BaseReportCreatorParameters extends MachineReportCreatorParameters {
-  machine: MachineName
-  thresholds: MachineThresholds
-  addToMap?: () => void
-  remove?: () => void
-}
-
-interface JSONReport {
-  name: string
-  dataLabels: JSONReportDataLabels
-  thresholds: JSONReportThresholds
-  zones: JSONZone[]
-  settings: JSONReportSettings
-  screenshots: number[]
-  platform: JSONField[]
-  informations: JSONField[]
-}
-
-interface JSONReportDataLabels {
-  groups: SelectableList<number, JSONGroupedDataLabels>
-  table: SelectableList<number, JSONTableDataLabelsParameters>
-}
-
-interface JSONGroupedDataLabels {
-  from: DataLabelsFrom
-  choices: SelectableList<number, JSONChoice>
-  indexes?: SelectableList<number, JSONMachineDropIndex>
-}
-
-interface JSONChoice {
-  name: string
-  unit: string
-}
-
-interface JSONTableDataLabelsParameters {
-  from: DataLabelsFrom
-  index?: number
-  dataLabels: string[]
-}
-
-interface JSONReportThresholds {
-  groups: MachineMathUnitsSkeleton<number>
-  colors: ThresholdColors
-  inputs: ThresholdInputs
-}
-
-type DataLabelsFrom = 'Drop' | 'Test' | 'Zone'
-
-interface JSONReportSettings {
-  iconName: IconName
-  isVisible: boolean
-  colorization: ReportColorizationPossibilities
-  groupBy: ReportGroupByPossibilities
-}
-
-type ReportColorizationPossibilities = 'Threshold' | 'Zone'
-
-type ReportGroupByPossibilities = 'Number' | 'Zone'
-
-interface ThresholdColors {
-  low: ColorName
-  middle: ColorName
-  high: ColorName
-}
-
-interface ThresholdInputs {
-  isRequiredARange: boolean
-  isOptionalARange: boolean
-}
-
-interface BaseDropIndex {
-  readonly machine: MachineName
-  readonly type: string
-  readonly displayedIndex: number
 }

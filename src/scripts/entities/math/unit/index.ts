@@ -35,7 +35,7 @@ export const createMathUnit = <PossibleUnits extends string>(
     averageFunction?: 'allEqual' | 'capOutliers' | 'ignoreOutliers'
     readOnly?: true
   }
-): MathUnit => {
+): MathUnit<PossibleUnits> => {
   const currentUnit = options.currentUnit || possibleSettings[0][0]
   const possiblePrecisions = options.possiblePrecisions || [0, 1, 2]
   const currentPrecision = options.currentPrecision || possibleSettings[0][1]
@@ -79,6 +79,12 @@ export const createMathUnit = <PossibleUnits extends string>(
             0
           ) / filteredValues.length
         : 0
+    },
+    toJSON: function () {
+      return {
+        unit: this.currentUnit,
+        precision: this.currentPrecision,
+      }
     },
   })
 

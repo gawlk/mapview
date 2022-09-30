@@ -5,7 +5,7 @@ import {
 } from '/src/scripts'
 
 export const createHeavydynPointFromJSON = (
-  json: JSONPoint,
+  json: JSONBasePointVAny,
   map: mapboxgl.Map | null,
   parameters: HeavydynPointCreatorParameters
 ) => {
@@ -26,8 +26,8 @@ export const createHeavydynPointFromJSON = (
     )
   )
 
-  point.informations.push(
-    ...json.informations.map((field: JSONField) =>
+  point.information.push(
+    ...json.information.map((field: JSONBaseField) =>
       createHeavydynFieldFromJSON(field)
     )
   )

@@ -2,7 +2,7 @@ import { createBaseZoneFromJSON } from '../base'
 import { createHeavydynPointFromJSON } from '/src/scripts'
 
 export const createHeavydynZoneFromJSON = (
-  json: JSONZone,
+  json: JSONBaseZoneVAny,
   map: mapboxgl.Map | null,
   parameters: HeavydynZoneCreatorParameters
 ) => {

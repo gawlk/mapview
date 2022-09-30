@@ -11,3 +11,12 @@ export const createMinidynDropFromJSON = (
 
   return drop as MinidynDrop
 }
+
+export const createMinidynDropIndexFromJSON = (
+  json: JSONMinidynDropIndex
+): MinidynDropIndex => {
+  return {
+    ...json,
+    machine: 'Minidyn',
+  }
+}

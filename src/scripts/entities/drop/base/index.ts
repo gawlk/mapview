@@ -12,17 +12,26 @@ export const createBaseDropFromJSON = (
 
   return {
     index,
-    data: json.data.map((jsonDataValue): DataValue => {
+    data: json.data.map((jsonDataValue): DataValue<string> => {
       const label = dropList.choices.list.find(
         (dataLabel) => dataLabel.name === jsonDataValue.label
-      ) as DataLabel
+      ) as DataLabel<string>
 
       return {
         label,
         value: createMathNumber(jsonDataValue.value, label.unit),
       }
     }),
-    additionnalFields: [],
+    additionalFields: [],
     point: parameters.point,
+  }
+}
+
+export const createBaseDropIndexFromJSON = (
+  json: JSONBaseDropIndex
+): BaseDropIndex => {
+  return {
+    ...json,
+    displayedIndex: json.displayedIndex,
   }
 }

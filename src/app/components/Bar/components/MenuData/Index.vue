@@ -64,11 +64,12 @@
       </div>
     </div>
   </div>
-  <!-- <Button
+  <Button
     full
     :leftIcon="IconArrowsExpand"
     :rightIcon="IconArrowSmRight"
     disabled
-    >Fullscreen</Button
-  > -->
+  >
+    Fullscreen
+  </Button>
 </template>

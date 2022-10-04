@@ -14,14 +14,14 @@ class SimpleFileStreamable {
     public fromStream(br: ExtendedBinaryReader): void {
         this.objectVersion = br.readInt32();
         if (this.objectVersion > this.MaxSupportedVersion) {
-            throw ("Version not supported");
+            throw new Error("Version not supported");
         }
     }
 
     public toStream(bw: ExtendedBinaryWriter, version?: number): void {
         bw.write(this.objectVersion);
         if (version && version > this.MaxSupportedVersion) {
-            throw ("Version not supported");
+            throw new Error("Version not supported");
         }
     }
 
@@ -51,7 +51,7 @@ class IsaanSimpleFileHeader extends SimpleFileStreamable {
         super.fromStream(br);
         const magic: string = br.readString();
         if (magic != this.FILE_MAGIC)
-            throw ("Not a Isaan simple file");
+            throw new Error("Not a Isaan simple file");
         this.fileType = br.readUInt32() as IsaanSimpleFileType;
         this.fileVersion = br.readInt32();
     }
@@ -128,10 +128,10 @@ export default class ImpactDataFile {
     public loadFromFile(br: ExtendedBinaryReader): void {
         this.fileHeader.fromStream(br);
         if (this.fileHeader.fileType !== IsaanSimpleFileType.ImpactDataFile) {
-            throw ("Not a ImpactDataFile");
+            throw new Error("Not a ImpactDataFile");
         }
         if (this.fileHeader.fileVersion > this.maxSupportedVersion) {
-            throw ("Version not supported");
+            throw new Error("Version not supported");
         }
         this.impactDataHeader = new ImpactDataHeader();
         this.impactDataHeader.fromStream(br);

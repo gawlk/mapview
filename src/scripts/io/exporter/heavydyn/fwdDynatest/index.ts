@@ -2,7 +2,7 @@ import dayjs from 'dayjs'
 import dedent from 'dedent'
 import { findFieldInArray } from '/src/scripts/entities'
 
-export class FWDExportStrategy implements ExportStrategy {
+export class FWDDynatestExportStrategy implements ExportStrategy {
   extension: string = 'fwd'
 
   doExport(project: HeavydynProject): string {

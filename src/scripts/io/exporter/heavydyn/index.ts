@@ -1,3 +1,4 @@
 export * from './f25'
-export * from './fwd'
+export * from './fwdDynatest'
+export * from './fwdSweco'
 export * from './pdx'

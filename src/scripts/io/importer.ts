@@ -50,7 +50,7 @@ export const importFile = async (file: File) => {
 
       importScreenshots(zip, jsonProject, project)
       
-      importRawData(zip, project)
+      setTimeout(() => importRawData(zip, project), 500)
     }
 
     return project

@@ -2,14 +2,15 @@ import { Unzipped } from "fflate";
 import { ExtendedBinaryReader } from "./ExtendedBinaryStream";
 import ImpactDataFile from "./ImpactDataFile";
 
-function loopPoints(points: MachinePoint[], impactDataFile: ImpactDataFile) {
-    for (const point of points) {
-        if (BigInt("0x" + point.id) === impactDataFile.ImpactDataHeader.pointId) {
-            for (const index in point.drops) {
-                point.drops[index].impactData = impactDataFile.ImpactDatas[index];
+function findReport(reports: MachineReport[], impactDataFile: ImpactDataFile, id: string) {
+    reports.forEach(a => {
+        let findPoint = a.line.sortedPoints.find(point => point.id === id)
+        if (findPoint) {
+            for (const index in findPoint.drops) {
+                findPoint.drops[index].impactData = impactDataFile.ImpactDatas[index];
             }
         }
-    }
+    })
 }
 
 export default function importRawData(zip: Unzipped, project: MachineProject) {
@@ -23,9 +24,7 @@ export default function importRawData(zip: Unzipped, project: MachineProject) {
         const impactDataFile = new ImpactDataFile();
 
         impactDataFile.loadFromFile(reader);
-        for (const report of project.reports.list) {
-            loopPoints(report.line.sortedPoints, impactDataFile)
-        }
+        findReport(project.reports.list, impactDataFile, filename);
     }
-    console.log(project.reports.list.map(report => report.line.sortedPoints.map(point => point.drops.map(drop => drop.impactData))));
+    console.log(project.reports.list.map(report => report.line.sortedPoints.map(point => (point.drops.map(drop => drop.impactData)))));
 }

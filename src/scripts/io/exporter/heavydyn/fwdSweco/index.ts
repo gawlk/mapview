@@ -30,7 +30,7 @@ export class FWDSwecoExportStrategy implements ExportStrategy {
         }
         const date = dayjs(findFieldInArray(project.reports.selected.informations, 'Date')?.convertValueToString()).format('DD/MM/YYYY');
         const fwdNumber = findFieldInArray(project.hardware, 'Serial number')?.value;
-        const dPlate = Math.round(project.calibrations.dPlate * 1000);
+        const rPlate = Math.round(project.calibrations.dPlate * 1000) / 2;
         const sensors = project.calibrations.channels.slice(1);
 
         return dedent`
@@ -47,7 +47,7 @@ export class FWDSwecoExportStrategy implements ExportStrategy {
             ${this.padDotString("Start reference:", 23)}
             ${this.padDotString("Date [dd/mm/yy]:", 23) + date}
             ${this.padDotString("FWD Number:", 23) + fwdNumber}
-            ${this.padDotString("Load plate radius [mm]", 23) + dPlate}
+            ${this.padDotString("Load plate radius [mm]", 23) + rPlate}
             ${' '.repeat(23) + '\t' + sensors.map((_, index) => `R(${index + 1})`).join('\t')}
             ${this.padDotString("Radial offset [cm]", 23) + sensors.map((channel) => Math.round(parseFloat(channel.position) * 100)).join('\t')}
             ${this.padDotString("Tolerance [%]", 23) + sensors.map(() => '5').join('\t')}

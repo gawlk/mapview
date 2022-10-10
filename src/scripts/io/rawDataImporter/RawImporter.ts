@@ -22,10 +22,10 @@ export default function importRawData(zip: Unzipped, project: MachineProject) {
         .flatMap(a => a.line.sortedPoints);
     const rawData = Object.keys(zip)
         .filter((key) => key.startsWith(folderName))
-        .map((key) => key.substring(folderName.length + 1));
 
     for (const filename of rawData) {
-        const file = zip[folderName + "\\" + filename].buffer;
-        saveRawData(file, points, filename);
+        const file = zip[filename];
+        saveRawData(file.buffer, points, filename.substring(folderName.length + 1));
     }
+    console.log(project.reports.list.flatMap(a => a.line.sortedPoints.map(p => p.drops.map(d => d.impactData))));
 }

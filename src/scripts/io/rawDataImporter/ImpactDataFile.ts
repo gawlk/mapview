@@ -1,6 +1,5 @@
-import { ExtendedBinaryReader, ExtendedBinaryWriter } from "./ExtendedBinaryStream";
+import { ExtendedBinaryReader } from "./ExtendedBinaryStream";
 import ImpactSetData from "./ImpactSetData";
-import fs, { WriteStream } from "fs"
 
 enum IsaanSimpleFileType {
     ImpactDataFile = 0x8D937355
@@ -14,13 +13,6 @@ class SimpleFileStreamable {
     public fromStream(br: ExtendedBinaryReader): void {
         this.objectVersion = br.readInt32();
         if (this.objectVersion > this.MaxSupportedVersion) {
-            throw new Error("Version not supported");
-        }
-    }
-
-    public toStream(bw: ExtendedBinaryWriter, version?: number): void {
-        bw.write(this.objectVersion);
-        if (version && version > this.MaxSupportedVersion) {
             throw new Error("Version not supported");
         }
     }
@@ -56,13 +48,6 @@ class IsaanSimpleFileHeader extends SimpleFileStreamable {
         this.fileVersion = br.readInt32();
     }
 
-    public toStream(bw: ExtendedBinaryWriter, version: number): void {
-        super.toStream(bw, version);
-        bw.write(this.FILE_MAGIC);
-        bw.write(this.fileType);
-        bw.write(this.fileVersion);
-    }
-
 };
 
 class ImpactDataHeader extends SimpleFileStreamable {
@@ -75,14 +60,6 @@ class ImpactDataHeader extends SimpleFileStreamable {
     constructor() {
         super();
         this.maxSupportedVersion = 1;
-    }
-
-    public toStream(bw: ExtendedBinaryWriter, version: number): void {
-        super.toStream(bw, version);
-        bw.write(this.pointId);
-        bw.write(this.nbSamples);
-        bw.write(this.nbOfImpact);
-        bw.write(this.nbOfDisplacement);
     }
 
     public fromStream(br: ExtendedBinaryReader): void {
@@ -117,14 +94,6 @@ export default class ImpactDataFile {
         }
     }
 
-    public SaveToFileAndDispose(filename: string | WriteStream): void {
-        const stream: WriteStream = typeof filename === "string" ? fs.createWriteStream(filename) : filename;
-        const ebw: ExtendedBinaryWriter = new ExtendedBinaryWriter(stream);
-
-        this.saveToFile(ebw);
-        ebw.destroy();
-    }
-
     public loadFromFile(br: ExtendedBinaryReader): void {
         this.fileHeader.fromStream(br);
         if (this.fileHeader.fileType !== IsaanSimpleFileType.ImpactDataFile) {
@@ -141,15 +110,6 @@ export default class ImpactDataFile {
                 load: br.readArrayDouble(),
                 displacement: br.readTwoDimentionArraySingleAsDouble()
             };
-        }
-    }
-
-    protected saveToFile(ebw: ExtendedBinaryWriter): void {
-        this.fileHeader.toStream(ebw, this.fileHeader.MaxSupportedVersion);
-        this.impactDataHeader.toStream(ebw, this.maxSupportedVersion);
-        for (let i = 0; i < this.impactDataHeader.nbOfImpact; i++) {
-            ebw.writeArray(this.impactDatas[i].load);
-            ebw.writeAsSingle(this.impactDatas[i].displacement);
         }
     }
 

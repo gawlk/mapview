@@ -1,1 +1,0 @@
-interface MaxidynField extends BaseField {}

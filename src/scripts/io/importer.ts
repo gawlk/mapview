@@ -97,10 +97,10 @@ export const generateProjectFromJSON = async (
 
 const importImages = (
   zip: Unzipped,
-  json: JSONBaseProject,
+  json: JSONMachineProject,
   project: MachineProject
 ) =>
-  json.images.forEach(async (jsonImage) => {
+  json.base.images.forEach(async (jsonImage) => {
     const array = zip[`images/${jsonImage.name}`]
 
     if (array) {
@@ -123,7 +123,7 @@ const importImages = (
 
 const importScreenshots = (
   zip: Unzipped,
-  json: JSONBaseProject,
+  json: JSONMachineProject,
   project: MachineProject
 ) => {
   const screenshots = Object.keys(zip)
@@ -131,7 +131,7 @@ const importScreenshots = (
     .map((key) => key.substring(12))
     .filter((key) => key)
 
-  json.reports.list.forEach((jsonReport, index) => {
+  json.base.reports.list.forEach((jsonReport, index) => {
     jsonReport.base.screenshots.forEach(async (screenshotIndex) => {
       const screenshotFileName = screenshots.find(
         (screenshot) => Number(screenshot.split('.')[0]) === screenshotIndex

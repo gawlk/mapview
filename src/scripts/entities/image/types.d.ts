@@ -1,13 +1,6 @@
-interface Image {
-  id: string
-  sourceData: mapboxgl.ImageSourceRaw
-  markerNW: mapboxgl.Marker
-  markerSE: mapboxgl.Marker
-  opacity: number
-  addToMap: (isVisible: boolean) => void
-  remove: () => void
-  toJSON: () => JSONImage
-}
+// ---
+// JSON
+// ---
 
 interface JSONImage {
   version: 1
@@ -17,6 +10,21 @@ interface JSONImage {
     nw: LngLat
     se: LngLat
   }
+}
+
+// ---
+// Object
+// ---
+
+interface Image {
+  id: string
+  sourceData: mapboxgl.ImageSourceRaw
+  markerNW: mapboxgl.Marker
+  markerSE: mapboxgl.Marker
+  opacity: number
+  addToMap: (isVisible: boolean) => void
+  remove: () => void
+  toJSON: () => JSONImage
 }
 
 interface ImageCoordinates {

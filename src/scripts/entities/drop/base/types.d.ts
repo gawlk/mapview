@@ -1,27 +1,35 @@
-interface BaseDrop {
-  index: MachineDropIndex
-  data: DataValue<string>[]
-  additionalFields: MachineField[]
-  point: MachinePoint
-  // ?
-}
+// ---
+// JSON
+// ---
 
-interface JSONDrop {
+type JSONBaseDropVAny = JSONBaseDrop
+
+interface JSONBaseDrop {
+  version: 1
   index: number
   data: JSONDataValue[]
 }
 
-interface BaseDropCreatorParameters extends MachineDropCreatorParameters {
-  machine: MachineName
-}
-
-interface BaseDropIndex {
-  readonly type: string
-  readonly displayedIndex: number
-}
+type JSONBaseDropIndexVAny = JSONBaseDropIndex
 
 interface JSONBaseDropIndex {
   version: 1
-  readonly type: string
+  readonly displayedIndex: number
+}
+
+// ---
+// Object
+// ---
+
+interface BaseDrop {
+  index: MachineDropIndex
+  data: DataValue<string>[]
+  additionalFields: Field[]
+  point: MachinePoint
+  toBaseJSON: () => JSONBaseDrop
+  // ?
+}
+
+interface BaseDropIndex {
   readonly displayedIndex: number
 }

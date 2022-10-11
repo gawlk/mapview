@@ -1,16 +1,19 @@
 import { createBasePointFromJSON } from '../base'
-import {
-  createMinidynDropFromJSON,
-  createMinidynFieldFromJSON,
-} from '/src/scripts'
+import { createMinidynDropFromJSON, createFieldFromJSON } from '/src/scripts'
+
+interface MinidynPointCreatorParameters extends MachinePointCreatorParameters {
+  zone: MinidynZone
+}
 
 export const createMinidynPointFromJSON = (
-  json: JSONBasePointVAny,
+  json: JSONMinidynPointVAny,
   map: mapboxgl.Map | null,
   parameters: MinidynPointCreatorParameters
 ) => {
+  json = upgradeJSON(json)
+
   const point: PartialMachinePoint<MinidynPoint> = createBasePointFromJSON(
-    json,
+    json.base,
     map,
     {
       machine: 'Minidyn',
@@ -19,7 +22,7 @@ export const createMinidynPointFromJSON = (
   )
 
   point.drops.push(
-    ...json.drops.map((jsonDrop) =>
+    ...json.base.drops.map((jsonDrop) =>
       createMinidynDropFromJSON(jsonDrop, {
         point: point as MinidynPoint,
       })
@@ -27,10 +30,31 @@ export const createMinidynPointFromJSON = (
   )
 
   point.information.push(
-    ...json.information.map((field: JSONBaseField) =>
-      createMinidynFieldFromJSON(field)
+    ...json.base.information.map((field: JSONField) =>
+      createFieldFromJSON(field)
     )
   )
 
+  point.toJSON = (): JSONMinidynPoint => {
+    return {
+      ...json,
+      base: point.toBaseJSON(),
+      distinct: {
+        ...json.distinct,
+      },
+    }
+  }
+
   return point as MinidynPoint
+}
+
+const upgradeJSON = (json: JSONMinidynPointVAny): JSONMinidynPoint => {
+  switch (json.version) {
+    case 1:
+    // upgrade
+    default:
+      json = json as JSONMinidynPoint
+  }
+
+  return json
 }

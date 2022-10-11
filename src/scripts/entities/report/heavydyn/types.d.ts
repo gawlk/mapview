@@ -31,8 +31,8 @@ interface HeavydynReport extends BaseReport {
   readonly machine: 'Heavydyn'
   readonly zones: HeavydynZone[]
   readonly dataLabels: HeavydynReportDataLabels
-  readonly platform: HeavydynField[]
-  readonly information: HeavydynField[]
+  readonly platform: Field[]
+  readonly information: Field[]
   project: HeavydynProject
   toJSON: () => JSONHeavydynReport
 }

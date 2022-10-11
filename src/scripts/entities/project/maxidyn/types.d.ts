@@ -24,8 +24,8 @@ interface MaxidynProject extends BaseProject {
   readonly machine: 'Maxidyn'
   readonly reports: SelectableList<MaxidynReport>
   readonly units: MaxidynMathUnits
-  readonly information: MaxidynField[]
-  readonly hardware: MaxidynField[]
+  readonly information: Field[]
+  readonly hardware: Field[]
   bearingParameters: JSONBearingParameters
   toJSON: () => JSONMaxidynProject
 }

@@ -11,8 +11,8 @@ interface JSONBaseProject {
   reports: SelectableList<number, JSONMachineReport>
   settings: JSONProjectSettings
   images: JSONImage[]
-  information: JSONBaseField[]
-  hardware: JSONBaseField[]
+  information: JSONField[]
+  hardware: JSONField[]
 }
 
 type MachineName = 'Heavydyn' | 'Maxidyn' | 'Minidyn'
@@ -38,9 +38,9 @@ interface JSONProjectSettings {
 
 interface BaseProject {
   readonly machine: MachineName
-  readonly name: MachineField
-  readonly information: MachineField[]
-  readonly hardware: MachineField[]
+  readonly name: Field
+  readonly information: Field[]
+  readonly hardware: Field[]
   readonly reports: SelectableList<MachineReport>
   readonly units: MachineMathUnits
   readonly settings: JSONProjectSettings

@@ -12,7 +12,7 @@
     preID: string
     data: {
       title: string
-      fields: MachineField[]
+      fields: Field[]
     }[]
   }>()
 
@@ -20,7 +20,7 @@
     isOpen: false,
     data: [] as {
       title: string
-      fields: MachineField[]
+      fields: Field[]
     }[],
   })
 
@@ -38,7 +38,7 @@
     })
   }
 
-  const setValue = (information: MachineField, value: any) => {
+  const setValue = (information: Field, value: any) => {
     if (typeof information.value === 'object' && information.value.kind) {
       information.value.value = value
     } else {
@@ -46,7 +46,7 @@
     }
   }
 
-  const getType = (field: MachineField) =>
+  const getType = (field: Field) =>
     (typeof field.value === 'object' && field.value.kind) || typeof field.value
 </script>
 

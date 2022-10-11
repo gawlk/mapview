@@ -1,18 +1,21 @@
 import { createBaseReportFromJSON } from '../base'
 import {
   createHeavydynZoneFromJSON,
-  createHeavydynFieldFromJSON,
+  createFieldFromJSON,
   createHeavydynDropIndexFromJSON,
   defaultThresholds,
   createWatcherHandler,
 } from '/src/scripts'
 
+interface HeavydynReportCreatorParameters
+  extends MachineReportCreatorParameters {
+  project: HeavydynProject
+}
+
 export const createHeavydynReportFromJSON = (
   json: JSONHeavydynReport,
   map: mapboxgl.Map | null,
-  parameters: {
-    project: HeavydynProject
-  }
+  parameters: HeavydynReportCreatorParameters
 ) => {
   json = upgradeJSON(json)
 
@@ -52,14 +55,12 @@ export const createHeavydynReportFromJSON = (
   )
 
   report.platform.push(
-    ...json.base.platform.map((field: JSONBaseField) =>
-      createHeavydynFieldFromJSON(field)
-    )
+    ...json.base.platform.map((field: JSONField) => createFieldFromJSON(field))
   )
 
   report.information.push(
-    ...json.base.information.map((field: JSONBaseField) =>
-      createHeavydynFieldFromJSON(field)
+    ...json.base.information.map((field: JSONField) =>
+      createFieldFromJSON(field)
     )
   )
 

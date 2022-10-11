@@ -13,17 +13,17 @@ export const convertJSONFromPRJZToMPVZ = (json: any): JSONMachineProject => {
 
   const units = convertUnits(json, machine)
 
-  const jsonDropChoices: JSONDataLabel[] = (() => {
+  const jsonDropChoices: JSONDataLabel<string>[] = (() => {
     switch (machine) {
       case 'Heavydyn':
         return [
           ...json.ExportedData.Drops.map((exportedUnit: any) =>
             convertExportedUnitToJSONDataLabel(exportedUnit)
           ).filter(
-            (choice: JSONHeavydynDataLabel) => choice.name !== 'Deflections'
+            (choice: JSONDataLabel<string>) => choice.name !== 'Deflections'
           ),
           ...json.Calibrations.SensorsPosition.map(
-            (position: number): JSONHeavydynDataLabel => {
+            (position: number): JSONDataLabel<string> => {
               return {
                 version: 1,
                 name: convertSensorPositionToName(position),
@@ -373,71 +373,78 @@ export const convertJSONFromPRJZToMPVZ = (json: any): JSONMachineProject => {
     console.log('json pv', jsonPV)
     console.log('json report', report)
 
-    report.zones[0].points = jsonPV.Points.map((point: any, index: number) => {
-      const jsonPoint: JSONBasePoint = {
-        number: point.Point.Number,
-        index,
-        date: point.Point.Date,
-        coordinates: {
-          lng: point.Point.Longitude,
-          lat: point.Point.Latitude,
-        },
-        settings: {
+    report.zones[0].base.points = jsonPV.Points.map(
+      (point: any, index: number) => {
+        const jsonPoint: JSONBasePoint = {
           version: 1,
-          isVisible: true,
-        },
-        information: [
-          {
-            version: 1,
-            label: 'Comment',
-            value: point.Point.Comment || '',
-            settings: {
-              version: 1,
-              readOnly: true,
-            },
+          number: point.Point.Number,
+          index,
+          date: point.Point.Date,
+          coordinates: {
+            lng: point.Point.Longitude,
+            lat: point.Point.Latitude,
           },
-        ],
-        data: json.ExportedData.Points.map(
-          (exportedData: any): JSONDataValue => {
-            return {
-              label: exportedData.Name,
-              value: point.Point[exportedData.Name],
+          settings: {
+            version: 1,
+            isVisible: true,
+          },
+          information: [
+            {
+              version: 1,
+              label: 'Comment',
+              value: point.Point.Comment || '',
+              settings: {
+                version: 1,
+                readOnly: true,
+              },
+            },
+          ],
+          data: json.ExportedData.Points.map(
+            (exportedData: any): JSONDataValue => {
+              return {
+                version: 1,
+                label: exportedData.Name,
+                value: point.Point[exportedData.Name],
+              }
             }
-          }
-        ),
-        drops: point.Drops.map((drop: any, index: number): JSONDrop => {
-          const exportedDeflections = (json.ExportedData.Drops as any[]).find(
-            (exportedData) => exportedData.Name === 'Deflections'
-          )
+          ),
+          drops: point.Drops.map((drop: any, index: number): JSONBaseDrop => {
+            const exportedDeflections = (json.ExportedData.Drops as any[]).find(
+              (exportedData) => exportedData.Name === 'Deflections'
+            )
 
-          return {
-            index,
-            data: [
-              ...(json.ExportedData.Drops as any[])
-                .filter((exportedData) => exportedData !== exportedDeflections)
-                .map((exportedData: any): JSONDataValue => {
-                  return {
-                    label: exportedData.Name,
-                    value: drop[exportedData.Name],
-                  }
-                }),
-              ...(exportedDeflections
-                ? drop.Deflections.map((value: number, index: number) => {
+            return {
+              version: 1,
+              index,
+              data: [
+                ...(json.ExportedData.Drops as any[])
+                  .filter(
+                    (exportedData) => exportedData !== exportedDeflections
+                  )
+                  .map((exportedData: any): JSONDataValue => {
                     return {
-                      label: convertSensorPositionToName(
-                        json.Calibrations.SensorsPosition[index]
-                      ),
-                      value,
+                      label: exportedData.Name,
+                      value: drop[exportedData.Name],
                     }
-                  })
-                : []),
-            ],
-          }
-        }),
-      }
+                  }),
+                ...(exportedDeflections
+                  ? drop.Deflections.map((value: number, index: number) => {
+                      return {
+                        label: convertSensorPositionToName(
+                          json.Calibrations.SensorsPosition[index]
+                        ),
+                        value,
+                      }
+                    })
+                  : []),
+              ],
+            }
+          }),
+        }
 
-      return jsonPoint
-    })
+        return jsonPoint
+      }
+    )
 
     return report
   })
@@ -450,7 +457,7 @@ const objectToJSONFields = (
   settings: JSONFieldSettings = {
     version: 1,
   }
-): JSONBaseField[] =>
+): JSONField[] =>
   Object.entries(object)
     .filter(
       ([key]) => key !== 'Version' && key !== 'Name' && key !== 'TypeBoard'
@@ -662,7 +669,7 @@ const convertUnits = (
 
 const convertExportedUnitToJSONDataLabel = (
   exportedUnit: any
-): JSONHeavydynDataLabel | JSONMaxidynDataLabel | JSONMinidynDataLabel => {
+): JSONDataLabel<string> => {
   const mathUnitName = (exportedUnit.Type as string).toLowerCase()
 
   return {

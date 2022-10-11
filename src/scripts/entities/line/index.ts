@@ -1,8 +1,5 @@
 import { createWatcherHandler } from '/src/scripts'
 
-export const sortPoints = (points: MachinePoint[]) =>
-  points.sort((pointA, pointB) => pointA.index - pointB.index)
-
 export const createLine = (map: mapboxgl.Map | null): Line => {
   const id = `line-${+new Date()}${Math.random()}`
 
@@ -101,3 +98,6 @@ export const createLine = (map: mapboxgl.Map | null): Line => {
 
   return line
 }
+
+export const sortPoints = (points: MachinePoint[]) =>
+  points.sort((pointA, pointB) => pointA.index - pointB.index)

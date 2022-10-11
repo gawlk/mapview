@@ -1,7 +1,7 @@
 import { createBaseProjectFromJSON } from '../base'
 import {
   createMathUnit,
-  createHeavydynFieldFromJSON,
+  createFieldFromJSON,
   createHeavydynReportFromJSON,
 } from '/src/scripts'
 
@@ -98,15 +98,13 @@ export const createHeavydynProjectFromJSON = async (
   project.reports.selected = project.reports.list[0]
 
   project.information.push(
-    ...json.base.information.map((field: JSONBaseField) =>
-      createHeavydynFieldFromJSON(field)
+    ...json.base.information.map((field: JSONField) =>
+      createFieldFromJSON(field)
     )
   )
 
   project.hardware.push(
-    ...json.base.hardware.map((field: JSONBaseField) =>
-      createHeavydynFieldFromJSON(field)
-    )
+    ...json.base.hardware.map((field: JSONField) => createFieldFromJSON(field))
   )
 
   project.calibrations = {

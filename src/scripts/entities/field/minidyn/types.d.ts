@@ -1,1 +1,0 @@
-interface MinidynField extends BaseField {}

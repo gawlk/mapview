@@ -2,7 +2,10 @@
 // JSON
 // ---
 
+type JSONDataValueVAny = JSONDataValue
+
 interface JSONDataValue {
+  version: 1
   label: string
   value: number
 }
@@ -14,4 +17,5 @@ interface JSONDataValue {
 interface DataValue<T> {
   readonly label: DataLabel<T>
   value: MathNumber
+  toJSON: () => JSONDataValue
 }

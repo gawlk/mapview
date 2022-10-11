@@ -7,7 +7,7 @@ type JSONBaseZoneVAny = JSONBaseZone
 interface JSONBaseZone {
   version: 1
   name: string
-  points: JSONBasePoint[]
+  points: JSONMachinePoint[]
   readonly settings: JSONZoneSettings
 }
 
@@ -28,8 +28,4 @@ interface BaseZone {
   report: MachineReport
   init: () => void
   clean: () => void
-}
-
-interface BaseZoneCreatorParameters extends MachineZoneCreatorParameters {
-  machine: MachineName
 }

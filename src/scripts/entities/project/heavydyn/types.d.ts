@@ -48,8 +48,8 @@ interface HeavydynProject extends BaseProject {
   readonly machine: 'Heavydyn'
   readonly reports: SelectableList<HeavydynReport>
   readonly units: HeavydynMathUnits
-  readonly information: HeavydynField[]
-  readonly hardware: HeavydynField[]
+  readonly information: Field[]
+  readonly hardware: Field[]
   calibrations: HeavydynCalibrations
   toJSON: () => JSONHeavydynProject
 }

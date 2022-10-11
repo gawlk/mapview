@@ -44,3 +44,11 @@ type MachineReportDataLabels =
   | HeavydynReportDataLabels
   | MaxidynReportDataLabels
   | MinidynReportDataLabels
+
+// ---
+// Parameters
+// ---
+
+interface MachineReportCreatorParameters {
+  project: MachineProject
+}

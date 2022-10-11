@@ -3,17 +3,21 @@ import { Marker, Popup } from 'mapbox-gl'
 import {
   createIcon,
   createWatcherHandler,
-  createMathNumber,
   colorsClasses,
+  createDataValueFromJSON,
 } from '/src/scripts'
 import { getBrowserLocale } from '/src/locales'
 import translationsFR from '/src/locales/fr.json?raw'
+
+interface BasePointCreatorParameters extends MachinePointCreatorParameters {
+  machine: MachineName
+}
 
 export const createBasePointFromJSON = (
   json: JSONBasePointVAny,
   map: mapboxgl.Map | null,
   parameters: BasePointCreatorParameters
-) => {
+): BasePoint => {
   json = upgradeJSON(json)
 
   const icon = createIcon(parameters.zone.report.settings.iconName)
@@ -29,7 +33,7 @@ export const createBasePointFromJSON = (
 
   let watcherMarkersString: any
 
-  const point = shallowReactive({
+  const point: BasePoint = shallowReactive({
     machine: parameters.machine,
     id: `${+new Date()}-${Math.random()}`,
     number: json.number,
@@ -37,25 +41,24 @@ export const createBasePointFromJSON = (
     date: new Date(json.date),
     marker,
     icon,
-    information: [],
+    information: [] as Field[],
     settings: reactive(json.settings),
     zone: parameters.zone,
-    data: json.data.map((jsonDataValue): DataValue => {
-      const label = parameters.zone.report.dataLabels.groups.list
-        .find((groupedDataLabels) => groupedDataLabels.from === 'Test')
-        ?.choices.list.find(
-          (dataLabel) => dataLabel.name === jsonDataValue.label
-        ) as DataLabel
-
-      return {
-        label,
-        value: createMathNumber(jsonDataValue.value, label.unit),
-      }
-    }),
-    drops: [],
+    data: json.data.map(
+      (jsonDataValue): DataValue<string> =>
+        createDataValueFromJSON(
+          jsonDataValue,
+          (
+            parameters.zone.report.dataLabels.groups
+              .list as MachineGroupedDataLabels[]
+          ).find((groupedDataLabels) => groupedDataLabels.from === 'Test')
+            ?.choices.list || []
+        )
+    ),
+    drops: [] as MachineDrop[],
     getSelectedMathNumber: function (
       groupFrom: DataLabelsFrom,
-      dataLabel: DataLabel,
+      dataLabel: DataLabel<string>,
       index?: MachineDropIndex | null
     ) {
       let source
@@ -80,7 +83,7 @@ export const createBasePointFromJSON = (
     },
     getDisplayedString: function (
       groupFrom: DataLabelsFrom,
-      dataLabel: DataLabel,
+      dataLabel: DataLabel<string>,
       index?: MachineDropIndex | null
     ) {
       const value = this.getSelectedMathNumber(groupFrom, dataLabel, index)
@@ -228,7 +231,20 @@ export const createBasePointFromJSON = (
       this.marker?.remove()
       watcherHandler.clean()
     },
-  } as BasePoint)
+    toBaseJSON: function (): JSONBasePoint {
+      return {
+        ...json,
+        number: this.number,
+        date: this.date.toJSON(),
+        coordinates: this.marker?.getLngLat() || json.coordinates,
+        data: this.data.map((data) => data.toJSON()),
+        information: this.information.map((field) => field.toJSON()),
+        drops: this.drops.map(
+          (drop) => drop.toJSON() as unknown as JSONMachineDrop
+        ),
+      }
+    },
+  })
 
   return point
 }

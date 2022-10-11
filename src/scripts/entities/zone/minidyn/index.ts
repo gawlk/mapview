@@ -1,18 +1,25 @@
 import { createBaseZoneFromJSON } from '../base'
 import { createMinidynPointFromJSON } from '/src/scripts'
 
+interface MinidynZoneCreatorParameters extends MachineZoneCreatorParameters {}
+
 export const createMinidynZoneFromJSON = (
-  json: JSONBaseZoneVAny,
+  json: JSONMinidynZoneVAny,
   map: mapboxgl.Map | null,
   parameters: MinidynZoneCreatorParameters
 ) => {
-  const zone: PartialMachineZone<MinidynZone> = createBaseZoneFromJSON(json, {
-    machine: 'Minidyn',
-    ...parameters,
-  })
+  json = upgradeJSON(json)
+
+  const zone: PartialMachineZone<MinidynZone> = createBaseZoneFromJSON(
+    json.base,
+    {
+      machine: 'Minidyn',
+      ...parameters,
+    }
+  )
 
   zone.points.push(
-    ...json.points.map((jsonPoint) =>
+    ...json.base.points.map((jsonPoint) =>
       createMinidynPointFromJSON(jsonPoint, map, {
         zone: zone as MinidynZone,
       })
@@ -20,4 +27,15 @@ export const createMinidynZoneFromJSON = (
   )
 
   return zone as MinidynZone
+}
+
+const upgradeJSON = (json: JSONMinidynZoneVAny): JSONMinidynZone => {
+  switch (json.version) {
+    case 1:
+    // upgrade
+    default:
+      json = json as JSONMinidynZone
+  }
+
+  return json
 }

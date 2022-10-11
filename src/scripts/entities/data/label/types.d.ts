@@ -2,6 +2,8 @@
 // JSON
 // ---
 
+type JSONDataLabelVAny<T extends String> = JSONDataLabel<T>
+
 interface JSONDataLabel<T extends String> {
   version: 1
   name: string

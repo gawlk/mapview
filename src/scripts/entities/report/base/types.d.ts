@@ -7,11 +7,11 @@ type JSONBaseReportVAny = JSONBaseReport
 interface JSONBaseReport {
   version: 1
   name: string
-  zones: JSONBaseZone[]
+  zones: JSONMachineZone[]
   settings: JSONReportSettings
   screenshots: number[]
-  platform: JSONBaseField[]
-  information: JSONBaseField[]
+  platform: JSONField[]
+  information: JSONField[]
   dataLabels: JSONBaseReportDataLabels
   thresholds: JSONBaseReportThresholds
 }
@@ -68,15 +68,15 @@ type ReportGroupBy = 'Number' | 'Zone'
 
 interface BaseReport {
   readonly machine: MachineName
-  readonly name: MachineField
+  readonly name: Field
   readonly line: Line
   readonly zones: MachineZone[]
   readonly screenshots: string[]
   readonly dataLabels: MachineReportDataLabels
   readonly thresholds: ReportThresholds
   readonly settings: JSONReportSettings
-  readonly platform: MachineField[]
-  readonly information: MachineField[]
+  readonly platform: Field[]
+  readonly information: Field[]
   project: MachineProject
   isOnMap: boolean
   fitOnMap: () => void

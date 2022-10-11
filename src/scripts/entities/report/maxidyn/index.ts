@@ -1,17 +1,20 @@
 import { createBaseReportFromJSON } from '../base'
 import {
   createMaxidynZoneFromJSON,
-  createMaxidynFieldFromJSON,
+  createFieldFromJSON,
   createMaxidynDropIndexFromJSON,
   defaultThresholds,
 } from '/src/scripts'
 
+interface MaxidynReportCreatorParameters
+  extends MachineReportCreatorParameters {
+  project: MaxidynProject
+}
+
 export const createMaxidynReportFromJSON = (
   json: JSONMaxidynReport,
   map: mapboxgl.Map | null,
-  parameters: {
-    project: MaxidynProject
-  }
+  parameters: MaxidynReportCreatorParameters
 ) => {
   json = upgradeJSON(json)
 
@@ -61,14 +64,12 @@ export const createMaxidynReportFromJSON = (
   )
 
   report.platform.push(
-    ...json.base.platform.map((field: JSONBaseField) =>
-      createMaxidynFieldFromJSON(field)
-    )
+    ...json.base.platform.map((field: JSONField) => createFieldFromJSON(field))
   )
 
   report.information.push(
-    ...json.base.information.map((field: JSONBaseField) =>
-      createMaxidynFieldFromJSON(field)
+    ...json.base.information.map((field: JSONField) =>
+      createFieldFromJSON(field)
     )
   )
 

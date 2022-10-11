@@ -1,6 +1,6 @@
 import { LngLatBounds } from 'mapbox-gl'
 import {
-  createBaseFieldFromJSON,
+  createFieldFromJSON,
   createSelectableList,
   createWatcherHandler,
   mapStyles,
@@ -24,7 +24,7 @@ export const createBaseProjectFromJSON = async (
 
   const project: BaseProject = shallowReactive({
     machine: parameters.machine,
-    name: createBaseFieldFromJSON(
+    name: createFieldFromJSON(
       {
         version: 1,
         label: 'Name',
@@ -43,8 +43,8 @@ export const createBaseProjectFromJSON = async (
     images: shallowReactive([] as Image[]),
     units: parameters.units,
     settings,
-    information: shallowReactive([] as BaseField[]),
-    hardware: shallowReactive([] as BaseField[]),
+    information: shallowReactive([] as Field[]),
+    hardware: shallowReactive([] as Field[]),
     refreshLinesAndImages: function () {
       if (this.settings.arePointsLinked) {
         this.reports.list.forEach((report) => {
@@ -255,7 +255,7 @@ export const createBaseProjectFromJSON = async (
     },
     toBaseJSON: function (): JSONBaseProject {
       return {
-        version: 1,
+        ...json,
         name: this.name.value as string,
         machine: this.machine,
         reports: {

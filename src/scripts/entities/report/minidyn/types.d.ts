@@ -31,8 +31,8 @@ interface MinidynReport extends BaseReport {
   readonly machine: 'Minidyn'
   readonly zones: MinidynZone[]
   readonly dataLabels: MinidynReportDataLabels
-  readonly platform: MinidynField[]
-  readonly information: MinidynField[]
+  readonly platform: Field[]
+  readonly information: Field[]
   project: MinidynProject
   toJSON: () => JSONMinidynReport
 }

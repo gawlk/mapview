@@ -1,17 +1,20 @@
 import { createBaseReportFromJSON } from '../base'
 import {
   createMinidynZoneFromJSON,
-  createMinidynFieldFromJSON,
+  createFieldFromJSON,
   defaultThresholds,
   createMinidynDropIndexFromJSON,
 } from '/src/scripts'
 
+interface MinidynReportCreatorParameters
+  extends MachineReportCreatorParameters {
+  project: MinidynProject
+}
+
 export const createMinidynReportFromJSON = (
   json: JSONMinidynReport,
   map: mapboxgl.Map | null,
-  parameters: {
-    project: MinidynProject
-  }
+  parameters: MinidynReportCreatorParameters
 ) => {
   json = upgradeJSON(json)
 
@@ -61,14 +64,12 @@ export const createMinidynReportFromJSON = (
   )
 
   report.platform.push(
-    ...json.base.platform.map((field: JSONBaseField) =>
-      createMinidynFieldFromJSON(field)
-    )
+    ...json.base.platform.map((field: JSONField) => createFieldFromJSON(field))
   )
 
   report.information.push(
-    ...json.base.information.map((field: JSONBaseField) =>
-      createMinidynFieldFromJSON(field)
+    ...json.base.information.map((field: JSONField) =>
+      createFieldFromJSON(field)
     )
   )
 

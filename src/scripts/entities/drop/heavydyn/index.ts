@@ -1,16 +1,46 @@
 import { createBaseDropFromJSON, createBaseDropIndexFromJSON } from '../base'
 import { createMathNumber } from '/src/scripts'
 
+interface HeavydynDropCreatorParameters extends MachineDropCreatorParameters {
+  point: HeavydynPoint
+}
+
 export const createHeavydynDropFromJSON = (
-  json: JSONDrop,
+  json: JSONHeavydynDropVAny,
   parameters: HeavydynDropCreatorParameters
 ) => {
-  const drop: PartialMachineDrop<HeavydynDrop> = createBaseDropFromJSON(json, {
-    machine: 'Heavydyn',
-    ...parameters,
-  })
+  json = upgradeJSONDrop(json)
+
+  const drop: PartialMachineDrop<HeavydynDrop> = createBaseDropFromJSON(
+    json.base,
+    {
+      machine: 'Heavydyn',
+      ...parameters,
+    }
+  )
+
+  drop.toJSON = (): JSONHeavydynDrop => {
+    return {
+      ...json,
+      base: drop.toBaseJSON(),
+      distinct: {
+        ...json.distinct,
+      },
+    }
+  }
 
   return drop as HeavydynDrop
+}
+
+const upgradeJSONDrop = (json: JSONHeavydynDropVAny): JSONHeavydynDrop => {
+  switch (json.version) {
+    case 1:
+    // upgrade
+    default:
+      json = json as JSONHeavydynDrop
+  }
+
+  return json
 }
 
 export const createHeavydynDropIndexFromJSON = (
@@ -19,17 +49,32 @@ export const createHeavydynDropIndexFromJSON = (
     project: HeavydynProject
   }
 ): HeavydynDropIndex => {
-  const unitName = json.unit.toLocaleLowerCase()
+  json = upgradeJSONDropIndex(json)
+
+  const unitName = json.distinct.unit.toLocaleLowerCase()
 
   return {
-    ...createBaseDropIndexFromJSON(json),
+    ...createBaseDropIndexFromJSON(json.base),
+    ...json.distinct,
     machine: 'Heavydyn',
-    type: json.type,
     value: createMathNumber(
-      json.value,
+      json.distinct.value,
       unitName in parameters.project.units
         ? parameters.project.units[unitName as keyof HeavydynMathUnits]
         : unitName
     ),
   }
+}
+
+const upgradeJSONDropIndex = (
+  json: JSONHeavydynDropIndexVAny
+): JSONHeavydynDropIndex => {
+  switch (json.version) {
+    case 1:
+    // upgrade
+    default:
+      json = json as JSONHeavydynDropIndex
+  }
+
+  return json
 }

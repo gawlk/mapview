@@ -1,7 +1,7 @@
 import { createBaseProjectFromJSON } from '../base'
 import {
   createMathUnit,
-  createMaxidynFieldFromJSON,
+  createFieldFromJSON,
   createMaxidynReportFromJSON,
 } from '/src/scripts'
 
@@ -95,15 +95,13 @@ export const createMaxidynProjectFromJSON = async (
   project.reports.selected = project.reports.list[0]
 
   project.information.push(
-    ...json.base.information.map((field: JSONBaseField) =>
-      createMaxidynFieldFromJSON(field)
+    ...json.base.information.map((field: JSONField) =>
+      createFieldFromJSON(field)
     )
   )
 
   project.hardware.push(
-    ...json.base.hardware.map((field: JSONBaseField) =>
-      createMaxidynFieldFromJSON(field)
-    )
+    ...json.base.hardware.map((field: JSONField) => createFieldFromJSON(field))
   )
 
   project.toJSON = function (): JSONMaxidynProject {

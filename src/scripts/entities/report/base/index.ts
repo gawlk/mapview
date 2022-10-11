@@ -1,7 +1,7 @@
 import { LngLatBounds } from 'mapbox-gl'
 
 import {
-  createBaseFieldFromJSON,
+  createFieldFromJSON,
   createDataLabelFromJSON,
   createLine,
   createSelectableList,
@@ -28,7 +28,7 @@ export const createBaseReportFromJSON = (
 
   const report: BaseReport = shallowReactive({
     machine: parameters.machine,
-    name: createBaseFieldFromJSON(
+    name: createFieldFromJSON(
       {
         version: 1,
         label: 'Name',
@@ -70,8 +70,8 @@ export const createBaseReportFromJSON = (
     },
     zones,
     line: createLine(map),
-    platform: shallowReactive([] as MachineField[]),
-    information: shallowReactive([] as MachineField[]),
+    platform: shallowReactive([] as Field[]),
+    information: shallowReactive([] as Field[]),
     project: parameters.project,
     fitOnMap: function () {
       const bounds = new LngLatBounds()

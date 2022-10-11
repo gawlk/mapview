@@ -34,7 +34,7 @@ export class F25ExportStrategy implements ExportStrategy {
     const date = dayjs(
       (
         project.information.find(
-          (machineField: MachineField) => machineField.label === 'Date'
+          (machineField: Field) => machineField.label === 'Date'
         )?.value as SelectableString
       ).value
     ).format('YYYY,MM,DD,HH,mm')

@@ -31,8 +31,8 @@ interface MaxidynReport extends BaseReport {
   readonly machine: 'Maxidyn'
   readonly zones: MaxidynZone[]
   readonly dataLabels: MaxidynReportDataLabels
-  readonly platform: MaxidynField[]
-  readonly information: MaxidynField[]
+  readonly platform: Field[]
+  readonly information: Field[]
   project: MaxidynProject
   toJSON: () => JSONMaxidynReport
 }

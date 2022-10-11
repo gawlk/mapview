@@ -1,3 +1,22 @@
+// ---
+// JSON
+// ---
+
+type JSONMachineProject =
+  | JSONHeavydynProject
+  | JSONMaxidynProject
+  | JSONMinidynProject
+
+interface JSONBearingParameters {
+  version: 1
+  min: number
+  max: number
+}
+
+// ---
+// Object
+// ---
+
 type MachineProject = HeavydynProject | MaxidynProject | MinidynProject
 
 type PartialMachineProject<MachineProject> = PartialExtendedObject<
@@ -16,14 +35,3 @@ type MachineUnitsNames =
   | HeavydynUnitsNames
   | MaxidynUnitsNames
   | MinidynUnitsNames
-
-interface JSONBearingParameters {
-  version: 1
-  min: number
-  max: number
-}
-
-type JSONMachineProject =
-  | JSONHeavydynProject
-  | JSONMaxidynProject
-  | JSONMinidynProject

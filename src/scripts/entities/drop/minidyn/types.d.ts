@@ -2,9 +2,29 @@
 // JSON
 // ---
 
-interface JSONMinidynDropIndex extends BaseDropIndex {
+type JSONMinidynDropVAny = JSONMinidynDrop
+
+interface JSONMinidynDrop {
   version: 1
-  type: MinidynDropType
+  base: JSONBaseDrop
+  distinct: JSONMinidynDropDistinct
+}
+
+interface JSONMinidynDropDistinct {
+  version: 1
+}
+
+type JSONMinidynDropIndexVAny = JSONMinidynDropIndex
+
+interface JSONMinidynDropIndex {
+  version: 1
+  base: JSONBaseDropIndex
+  distinct: JSONMinidynDropIndexDistinct
+}
+
+interface JSONMinidynDropIndexDistinct {
+  readonly version: 1
+  readonly type: MinidynDropType
 }
 
 type MinidynDropType = 'Training' | 'Averaging'
@@ -16,13 +36,10 @@ type MinidynDropType = 'Training' | 'Averaging'
 interface MinidynDrop extends BaseDrop {
   index: MinidynDropIndex
   point: MinidynPoint
+  toJSON: () => JSONMinidynDrop
 }
 
 interface MinidynDropIndex extends BaseDropIndex {
   machine: 'Minidyn'
   type: MinidynDropType
-}
-
-interface MinidynDropCreatorParameters extends MachineDropCreatorParameters {
-  point: MinidynPoint
 }

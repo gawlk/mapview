@@ -1,5 +1,9 @@
 import { createWatcherHandler, sortPoints } from '/src/scripts'
 
+interface BaseZoneCreatorParameters extends MachineZoneCreatorParameters {
+  machine: MachineName
+}
+
 export const createBaseZoneFromJSON = (
   json: JSONBaseZoneVAny,
   parameters: BaseZoneCreatorParameters

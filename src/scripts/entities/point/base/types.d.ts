@@ -12,8 +12,8 @@ interface JSONBasePoint {
   coordinates: mapboxgl.LngLatLike
   data: JSONDataValue[]
   settings: JSONPointSettings
-  information: JSONBaseField[]
-  drops: JSONDrop[]
+  information: JSONField[]
+  drops: JSONMachineDrop[]
 }
 
 interface JSONPointSettings {
@@ -34,18 +34,18 @@ interface BasePoint {
   marker: mapboxgl.Marker | null
   icon: Icon | null
   settings: JSONPointSettings
-  data: DataValue[]
-  information: MachineField[]
+  data: DataValue<string>[]
+  information: Field[]
   readonly drops: MachineDrop[]
   zone: MachineZone
   getSelectedMathNumber: (
     groupFrom: DataLabelsFrom,
-    dataLabel: DataLabel,
+    dataLabel: DataLabel<string>,
     index?: MachineDropIndex | null
   ) => MathNumber | undefined
   getDisplayedString: (
     groupFrom: DataLabelsFrom,
-    dataLabel: DataLabel,
+    dataLabel: DataLabel<string>,
     index?: MachineDropIndex | null
   ) => string
   updateColor: () => void
@@ -55,8 +55,5 @@ interface BasePoint {
   addToMap: () => void
   checkVisibility: () => boolean
   remove: () => void
-}
-
-interface BasePointCreatorParameters extends MachinePointCreatorParameters {
-  machine: MachineName
+  toBaseJSON: () => JSONBasePoint
 }

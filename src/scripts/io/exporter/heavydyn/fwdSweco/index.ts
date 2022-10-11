@@ -32,8 +32,10 @@ export class FWDSwecoExportStrategy implements ExportStrategy {
         const fwdNumber = findFieldInArray(project.hardware, 'Serial number')?.value;
         const rPlate = Math.round(project.calibrations.dPlate * 1000) / 2;
         const sensors = project.calibrations.channels.slice(1);
-        console.log("report", project.reports.selected.informations);
-        console.log("project", project.informations)
+        const lane = findFieldInArray(project.reports.selected.informations, 'Lane')?.value;
+        const client = findFieldInArray(project.informations, 'Client')?.value;
+        const roadReference = findFieldInArray(project.reports.selected.informations, 'Part')?.value;
+
         return dedent`
             ${this.writeSeparator()}\n\n
             (c) ROAD SYSTEM 2016, Metric
@@ -41,10 +43,10 @@ export class FWDSwecoExportStrategy implements ExportStrategy {
             $1
             ${this.padDotString("Filename:", 23) + project.name.value}
             ${this.padDotString("Client Code:", 23)}
-            ${this.padDotString("Road number:", 23) + findFieldInArray(project.reports.selected.informations, 'Lane')?.value}
-            ${this.padDotString("Name of Client:", 23) + findFieldInArray(project.informations, 'Client')?.value}
+            ${this.padDotString("Road number:", 23) + lane}
+            ${this.padDotString("Name of Client:", 23) + client}
             ${this.padDotString("Districtnumber:", 23)}
-            ${this.padDotString("Road reference:", 23) + findFieldInArray(project.reports.selected.informations, 'Part')?.value}
+            ${this.padDotString("Road reference:", 23) + roadReference}
             ${this.padDotString("Start reference:", 23)}
             ${this.padDotString("Date [dd/mm/yy]:", 23) + date}
             ${this.padDotString("FWD Number:", 23) + fwdNumber}

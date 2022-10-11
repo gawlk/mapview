@@ -127,7 +127,7 @@ export class FWDSwecoExportStrategy implements ExportStrategy {
             this.padDotString(`LoadCell (${loadPosition})[kN]`, 23, false),
             '-',
             loadMax,
-            ...drop.impactData?.load.map((value) => value.toFixed(4))
+            ...drop.impactData?.load.map((value) => (value / 1000).toFixed(4))
         ]
 
         return dedent`

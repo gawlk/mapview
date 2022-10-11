@@ -25,6 +25,7 @@ export const createBaseDropFromJSON = (
     ),
     additionalFields: [],
     point: parameters.point,
+    impactData: null,
     toBaseJSON: function (): JSONBaseDrop {
       return {
         ...json,

@@ -377,6 +377,7 @@ export const convertJSONFromPRJZToMPVZ = (json: any): JSONMachineProject => {
       (point: any, index: number) => {
         const jsonPoint: JSONBasePoint = {
           version: 1,
+          id: point.Point.ID,
           number: point.Point.Number,
           index,
           date: point.Point.Date,

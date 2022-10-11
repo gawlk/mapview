@@ -10,7 +10,8 @@
 
   import {
     F25ExportStrategy,
-    FWDExportStrategy,
+    FWDDynatestExportStrategy,
+    FWDSwecoExportStrategy,
     PDXExportStrategy,
   } from '/src/scripts'
 
@@ -21,13 +22,14 @@
   const { t } = useI18n()
 
   const formats = {
-    fwd: new FWDExportStrategy(),
+    fwdDynatest: new FWDDynatestExportStrategy(),
     f25: new F25ExportStrategy(),
     pdx: new PDXExportStrategy(),
+    fwdSweco: new FWDSwecoExportStrategy(),
   }
 
   function exportFile(format: string) {
-    const strategy = formats[format as 'fwd' | 'f25' | 'pdx']
+    const strategy = formats[format as 'fwdDynatest' | 'f25' | 'pdx' | 'fwdSweco']
 
     const context = new Context(strategy)
 
@@ -73,9 +75,17 @@
           v-if="store.projects.selected?.machine === 'Heavydyn'"
           :leftIcon="IconDownload"
           full
-          @click="exportFile('fwd')"
+          @click="exportFile('fwdDynatest')"
         >
-          FWD
+          FWD (Dynatest)
+        </Button>
+        <Button
+          v-if="store.projects.selected?.machine === 'Heavydyn'"
+          :leftIcon="IconDownload"
+          full
+          @click="exportFile('fwdSweco')"
+        >
+          FWD (Sweco)
         </Button>
       </div>
     </template>

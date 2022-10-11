@@ -6,6 +6,7 @@ type JSONBasePointVAny = JSONBasePoint
 
 interface JSONBasePoint {
   version: 1
+  id: string
   number: number
   index: number
   date: string
@@ -35,6 +36,7 @@ interface BasePoint {
   icon: Icon | null
   settings: JSONPointSettings
   data: DataValue<string>[]
+  rawDataFile: ArrayBufferLike | null
   information: Field[]
   readonly drops: MachineDrop[]
   zone: MachineZone

@@ -26,8 +26,8 @@ interface BaseDrop {
   data: DataValue<string>[]
   additionalFields: Field[]
   point: MachinePoint
+  impactData: ImpactData | null
   toBaseJSON: () => JSONBaseDrop
-  // ?
 }
 
 interface BaseDropIndex {

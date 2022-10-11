@@ -144,7 +144,7 @@ export class FWDSwecoExportStrategy implements ExportStrategy {
         return drop.impactData.displacement
             .map((displacement, index) => {
                 const sensorName = "Sensor" + (index + 1).toString().padStart(2, ' ');
-                const sensorPosition = `(${Math.round(parseFloat(channels[index + 1].position) * 100).toString().padStart(4, ' ')})`;
+                const sensorPosition = `(${Math.round(parseFloat(channels[index + 1].position) * 1000).toString().padStart(4, ' ')})`;
                 const sensorData = [
                     sensorName + sensorPosition + "[MPa;µm].",
                     1.0, //TODO

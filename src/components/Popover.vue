@@ -8,11 +8,11 @@
   import TransitionDropdown from './TransitionDropdown.vue'
 
   const props = defineProps<{
-    buttonText: string
-    full: boolean
-    icon: any
-    preText?: string
-    hidePreTextOnMobile?: true
+    readonly buttonText: string
+    readonly full: boolean
+    readonly icon: any
+    readonly preText?: string
+    readonly hidePreTextOnMobile?: true
   }>()
 </script>
 

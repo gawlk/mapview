@@ -1,12 +1,7 @@
-export const createFieldFromJSON = (
-  json: JSONFieldVAny,
-  options?: {
-    reactive?: boolean
-  }
-) => {
+export const createFieldFromJSON = (json: JSONFieldVAny): Field => {
   const { label, value, settings } = json
 
-  const field: Field = {
+  return shallowReactive({
     label,
     value: (():
       | boolean
@@ -20,7 +15,7 @@ export const createFieldFromJSON = (
         case 'Comment':
         case 'Comments':
           return {
-            kind: 'longString',
+            kind: 'LongString',
             value: value as string,
           }
 
@@ -30,12 +25,12 @@ export const createFieldFromJSON = (
         case 'Certificate start':
         case 'Certificate end':
           return {
-            kind: 'date',
+            kind: 'DateValue',
             value: value as string,
           }
         case 'Material':
           return {
-            kind: 'selectableString',
+            kind: 'SelectableString',
             value: value as string,
             possibleValues: [
               'Silt',
@@ -46,7 +41,7 @@ export const createFieldFromJSON = (
           }
         case 'Layer':
           return {
-            kind: 'selectableString',
+            kind: 'SelectableString',
             value: value as string,
             possibleValues: [
               'Sub base',
@@ -63,7 +58,7 @@ export const createFieldFromJSON = (
           }
         case 'Type':
           return {
-            kind: 'selectableString',
+            kind: 'SelectableString',
             value: value as string,
             possibleValues: [
               'Building pavement',
@@ -79,13 +74,13 @@ export const createFieldFromJSON = (
           }
         case 'State':
           return {
-            kind: 'selectableString',
+            kind: 'SelectableString',
             value: value as string,
             possibleValues: ['Dry', 'Wet', 'Soggy', 'Frozen'],
           }
         case 'GTR':
           return {
-            kind: 'selectableString',
+            kind: 'SelectableString',
             value: value as string,
             possibleValues: [
               'N.S.',
@@ -114,18 +109,17 @@ export const createFieldFromJSON = (
     toString: function () {
       return typeof this.value === 'object'
         ? this.value.value.toString()
-        : value.toString()
+        : this.value.toString()
     },
     toJSON: function (): JSONField {
       return {
-        ...json,
+        version: json.version,
+        label: json.label,
         value: this.toString(),
-        settings: field.settings,
+        settings: this.settings,
       }
     },
-  }
-
-  return options?.reactive ? shallowReactive(field) : field
+  })
 }
 
 export const findFieldInArray = (fields: Field[], label: string) =>

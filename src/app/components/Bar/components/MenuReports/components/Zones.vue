@@ -25,15 +25,23 @@
     const colorNames = Object.keys(colorsClasses)
 
     if (store.projects.selected && selectedReport.value && store.map) {
-      const json: JSONBaseZone = {
-        name: `Zone ${selectedReport.value.zones.length + 1}`,
-        settings: {
-          color: colorNames[
-            Math.floor(Math.random() * colorNames.length)
-          ] as ColorName,
-          isVisible: true,
+      const json: JSONMachineZone = {
+        version: 1,
+        base: {
+          version: 1,
+          name: `Zone ${selectedReport.value.zones.length + 1}`,
+          settings: {
+            version: 1,
+            color: colorNames[
+              Math.floor(Math.random() * colorNames.length)
+            ] as ColorName,
+            isVisible: true,
+          },
+          points: [],
         },
-        points: [],
+        distinct: {
+          version: 1,
+        },
       }
 
       const createZone =

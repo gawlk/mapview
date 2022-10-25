@@ -5,9 +5,9 @@
 type JSONDataValueVAny = JSONDataValue
 
 interface JSONDataValue {
-  version: 1
-  label: string
-  value: number
+  readonly version: 1
+  readonly label: string
+  readonly value: number
 }
 
 // ---
@@ -16,6 +16,6 @@ interface JSONDataValue {
 
 interface DataValue<T> {
   readonly label: DataLabel<T>
-  value: MathNumber
-  toJSON: () => JSONDataValue
+  readonly value: MathNumber
+  readonly toJSON: () => JSONDataValue
 }

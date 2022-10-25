@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 import dedent from 'dedent'
-import { findFieldInArray } from '/src/scripts/entities'
+import { findFieldInArray } from '/src/scripts'
 
 export class FWDDynatestExportStrategy implements ExportStrategy {
   extension: string = 'fwd'

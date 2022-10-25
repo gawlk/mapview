@@ -8,8 +8,8 @@
   }>()
 
   const props = defineProps<{
-    accept: string
-    buttonText: string
+    readonly accept: string
+    readonly buttonText: string
   }>()
 
   const file = ref()

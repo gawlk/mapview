@@ -1,19 +1,28 @@
-interface MathUnit<PossibleUnits> {
-  name: string
-  baseUnit: string
-  currentUnit: string
-  currentPrecision: number
-  possibleSettings: [string, number][]
-  possiblePrecisions: number[]
-  min: number
-  max: number | null
-  step: number
-  readOnly: boolean
-  getAverage: (values: number[]) => number
-  toJSON: () => JSONMathUnit<PossibleUnits>
-}
+// ---
+// JSON
+// ---
 
 interface JSONMathUnit<PossibleUnits> {
-  unit: PossibleUnits
-  precision: number
+  readonly version: 1
+  readonly unit: PossibleUnits
+  readonly precision: number
+}
+
+// ---
+// Object
+// ---
+
+interface MathUnit<PossibleUnits> {
+  readonly name: string
+  readonly baseUnit: string
+  readonly possibleSettings: [string, number][]
+  readonly possiblePrecisions: number[]
+  readonly min: number
+  readonly max: number | null
+  readonly step: number
+  readonly readOnly: boolean
+  currentUnit: string
+  currentPrecision: number
+  readonly getAverage: (values: number[]) => number
+  readonly toJSON: () => JSONMathUnit<PossibleUnits>
 }

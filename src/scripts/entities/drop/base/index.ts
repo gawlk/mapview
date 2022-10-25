@@ -28,8 +28,9 @@ export const createBaseDropFromJSON = (
     impactData: null,
     toBaseJSON: function (): JSONBaseDrop {
       return {
-        ...json,
+        version: json.version,
         data: this.data.map((data) => data.toJSON()),
+        index: json.index,
       }
     },
   }
@@ -52,7 +53,13 @@ export const createBaseDropIndexFromJSON = (
   json = upgradeJSONDropIndex(json)
 
   return {
-    ...json,
+    displayedIndex: json.displayedIndex,
+    toBaseJSON: function (): JSONBaseDropIndex {
+      return {
+        version: json.version,
+        displayedIndex: json.displayedIndex,
+      }
+    },
   }
 }
 

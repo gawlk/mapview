@@ -11,7 +11,7 @@
   const { t } = useI18n()
 
   const props = defineProps<{
-    menu: MenuProps
+    readonly menu: MenuProps
   }>()
 </script>
 

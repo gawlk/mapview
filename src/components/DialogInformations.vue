@@ -9,10 +9,10 @@
   const { t } = useI18n()
 
   const props = defineProps<{
-    preID: string
-    data: {
-      title: string
-      fields: Field[]
+    readonly preID: string
+    readonly data: {
+      readonly title: string
+      readonly fields: Field[]
     }[]
   }>()
 
@@ -106,11 +106,6 @@
                 'possibleValues' in field.value
                   ? field.value.possibleValues
                   : undefined
-              "
-              :strict="
-                typeof field.value === 'object' &&
-                'strict' in field.value &&
-                field.value.strict
               "
               :disabled="field.settings.readOnly"
             />

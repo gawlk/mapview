@@ -1,9 +1,9 @@
 interface HeavydynUnitsSkeleton<A, B = A, C = A, D = A, E = A> {
-  deflection: A
-  force: B
-  temperature: C
-  distance: D
-  time: E
+  readonly deflection: A
+  readonly force: B
+  readonly temperature: C
+  readonly distance: D
+  readonly time: E
 }
 
 type HeavydynUnitsNames = keyof HeavydynUnitsSkeleton<any>
@@ -15,11 +15,11 @@ type PossibleHeavydynDistanceUnits = 'm' | 'km' | 'mi'
 type PossibleHeavydynTimeUnits = 's' | 'ms' | 'us'
 
 type JSONHeavydynUnits = HeavydynUnitsSkeleton<
-  PossibleHeavydynDeflectionUnits,
-  PossibleHeavydynForceUnits,
-  PossibleHeavydynTemperatureUnits,
-  PossibleHeavydynDistanceUnits,
-  PossibleHeavydynTimeUnits
+  JSONMathUnit<PossibleHeavydynDeflectionUnits>,
+  JSONMathUnit<PossibleHeavydynForceUnits>,
+  JSONMathUnit<PossibleHeavydynTemperatureUnits>,
+  JSONMathUnit<PossibleHeavydynDistanceUnits>,
+  JSONMathUnit<PossibleHeavydynTimeUnits>
 >
 
 type HeavydynMathUnits = HeavydynUnitsSkeleton<

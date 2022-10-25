@@ -10,9 +10,9 @@
   }>()
 
   const props = defineProps<{
-    text: string
-    defaultOpen: boolean
-    icon?: any
+    readonly text: string
+    readonly defaultOpen: boolean
+    readonly icon?: any
   }>()
 
   const emitToggle = (open: boolean) => {

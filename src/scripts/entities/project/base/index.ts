@@ -24,22 +24,15 @@ export const createBaseProjectFromJSON = async (
 
   const project: BaseProject = shallowReactive({
     machine: parameters.machine,
-    name: createFieldFromJSON(
-      {
+    name: createFieldFromJSON({
+      version: 1,
+      label: 'Name',
+      value: json.name,
+      settings: {
         version: 1,
-        label: 'Name',
-        value: json.name,
-        settings: {
-          version: 1,
-        },
       },
-      {
-        reactive: true,
-      }
-    ),
-    reports: createSelectableList<MachineReport>(null, [], {
-      reactive: true,
     }),
+    reports: createSelectableList<MachineReport>([]),
     images: shallowReactive([] as Image[]),
     units: parameters.units,
     settings,
@@ -255,17 +248,17 @@ export const createBaseProjectFromJSON = async (
     },
     toBaseJSON: function (): JSONBaseProject {
       return {
-        ...json,
+        version: json.version,
         name: this.name.value as string,
         machine: this.machine,
-        reports: {
-          selected: getIndexOfSelectedInSelectableList(this.reports),
-          list: this.reports.list.map((report) => report.toJSON()),
-        },
         settings: this.settings,
         images: this.images.map((image) => image.toJSON()),
         information: this.information.map((field) => field.toJSON()),
         hardware: this.hardware.map((field) => field.toJSON()),
+        reports: {
+          selected: getIndexOfSelectedInSelectableList(this.reports),
+          list: this.reports.list.map((report) => report.toJSON()),
+        },
       }
     },
   })

@@ -5,30 +5,30 @@
 type JSONBaseProjectVAny = JSONBaseProject
 
 interface JSONBaseProject {
-  version: 1
-  name: string
-  machine: MachineName
-  reports: SelectableList<number, JSONMachineReport>
-  settings: JSONProjectSettings
-  images: JSONImage[]
-  information: JSONField[]
-  hardware: JSONField[]
+  readonly version: 1
+  readonly name: string
+  readonly machine: MachineName
+  readonly reports: SelectableList<number, JSONMachineReport>
+  readonly settings: JSONProjectSettings
+  readonly images: JSONImage[]
+  readonly information: JSONField[]
+  readonly hardware: JSONField[]
 }
 
 type MachineName = 'Heavydyn' | 'Maxidyn' | 'Minidyn'
 
 interface JSONProjectSettings {
-  version: 1
+  readonly version: 1
   arePointsVisible: boolean
   arePointsLinked: boolean
   arePointsLocked: boolean
   areImagesVisible: boolean
   pointsState: 'value' | 'number' | 'nothing'
-  map: {
+  readonly map: {
     version: 1
     styleIndex: number
-    coordinates?: LngLat
-    zoom?: number
+    coordinates: LngLat | null
+    zoom: number | null
   }
 }
 
@@ -45,10 +45,10 @@ interface BaseProject {
   readonly units: MachineMathUnits
   readonly settings: JSONProjectSettings
   readonly images: Image[]
-  refreshLinesAndImages: () => void
-  setMapStyle: (styleIndex: number) => void
-  fitOnMap: () => void
-  addToMap: () => void
-  remove: () => void
-  toBaseJSON: () => JSONBaseProject
+  readonly refreshLinesAndImages: () => void
+  readonly setMapStyle: (styleIndex: number) => void
+  readonly fitOnMap: () => void
+  readonly addToMap: () => void
+  readonly remove: () => void
+  readonly toBaseJSON: () => JSONBaseProject
 }

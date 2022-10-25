@@ -1,38 +1,33 @@
 export const createSelectableList = <T>(
-  selected: T | number | null,
   list: T[],
-  parameters: {
-    reactive?: true
-    isSelectedAnIndex?: true
+  parameters?: {
+    selected?: T | number | null
+    index?: true // Used when T is of type number
   }
 ): SelectableList<T> => {
-  const _selected = (
-    parameters.isSelectedAnIndex
-      ? getObjectFromSelectedIndexInSelectableList(
-          selected as number | null,
+  const selected = parameters?.selected
+
+  return shallowReactive({
+    selected: (selected === undefined ||
+    (typeof selected === 'number' &&
+      (typeof list.at(0) !== 'number' || parameters?.index))
+      ? getSelectedFromIndexInList(
+          selected === undefined
+            ? 0
+            : typeof selected === 'number'
+            ? selected
+            : null,
           list
         )
-      : selected
-  ) as T | null
-
-  return parameters.reactive
-    ? shallowReactive({
-        selected: _selected,
-        list: shallowReactive(list),
-      })
-    : {
-        selected: _selected,
-        list,
-      }
+      : list.includes(selected as T)
+      ? selected
+      : null) as T | null,
+    list,
+  })
 }
-
-export const getObjectFromSelectedIndexInSelectableList = <T>(
-  selectedIndex: number | null,
-  objectsList: T[]
-) =>
-  selectedIndex !== null && objectsList.length > 0
-    ? objectsList[selectedIndex < objectsList.length ? selectedIndex : 0]
-    : null
 
 export const getIndexOfSelectedInSelectableList = <T>(sl: SelectableList<T>) =>
   sl.selected ? sl.list.indexOf(sl.selected) : null
+
+const getSelectedFromIndexInList = <T>(index: number | null, list: T[]) =>
+  index !== null && list.length > 0 ? list.at(index) || list[0] : null

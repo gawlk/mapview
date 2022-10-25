@@ -25,5 +25,5 @@ type PartialMachineDrop<MachineDrop> = PartialExtendedObject<
 // ---
 
 interface MachineDropCreatorParameters {
-  point: MachinePoint
+  readonly point: MachinePoint
 }

@@ -18,8 +18,7 @@
   <Listbox
     :icon="IconDotsHorizontal"
     :values="
-      groupedDataLabels?.list
-        .filter((list) => list.from !== 'Zone')
+      (groupedDataLabels?.list as MachineGroupedDataLabels[] | undefined)?.filter((list) => list.from !== 'Zone')
         .map((list) => t(list.from))
     "
     :selected="t(groupedDataLabels?.selected?.from || '')"

@@ -1,10 +1,12 @@
-import { createBaseReportFromJSON } from '../base'
+import { createBaseReportFromJSON, convertDataLabelGroupsToJSON } from '../base'
 import {
   createHeavydynZoneFromJSON,
   createFieldFromJSON,
   createHeavydynDropIndexFromJSON,
   defaultThresholds,
   createWatcherHandler,
+  createSelectableList,
+  getIndexOfSelectedInSelectableList,
 } from '/src/scripts'
 
 interface HeavydynReportCreatorParameters
@@ -21,27 +23,54 @@ export const createHeavydynReportFromJSON = (
 
   const watcherHandler = createWatcherHandler()
 
-  const dropIndexes = json.distinct.groupedDataLabels.list
-    .find((group) => group.from === 'Drop')
-    ?.indexes?.list.map((jsonDropIndex) =>
-      createHeavydynDropIndexFromJSON(jsonDropIndex, {
-        project: parameters.project,
-      })
-    )
+  const dropIndexes =
+    json.distinct.groupedDataLabels.list
+      .find((group) => group.from === 'Drop')
+      ?.indexes?.list.map((jsonDropIndex) =>
+        createHeavydynDropIndexFromJSON(jsonDropIndex, {
+          project: parameters.project,
+        })
+      ) || []
 
   const report: PartialMachineReport<HeavydynReport> = createBaseReportFromJSON(
     json.base,
     map,
     {
       machine: 'Heavydyn',
-      thresholds: {
-        deflection: [defaultThresholds.custom],
-        force: [defaultThresholds.custom],
-        temperature: [defaultThresholds.custom],
-        distance: [defaultThresholds.custom],
-        time: [defaultThresholds.custom],
+      thresholdsGroups: {
+        deflection: {
+          unit: parameters.project.units.deflection,
+          choices: createSelectableList([defaultThresholds.custom], {
+            selected: json.distinct.thresholdsSelected.deflection,
+          }),
+        },
+        force: {
+          unit: parameters.project.units.force,
+          choices: createSelectableList([defaultThresholds.custom], {
+            selected: json.distinct.thresholdsSelected.force,
+          }),
+        },
+        temperature: {
+          unit: parameters.project.units.temperature,
+          choices: createSelectableList([defaultThresholds.custom], {
+            selected: json.distinct.thresholdsSelected.temperature,
+          }),
+        },
+        distance: {
+          unit: parameters.project.units.distance,
+          choices: createSelectableList([defaultThresholds.custom], {
+            selected: json.distinct.thresholdsSelected.distance,
+          }),
+        },
+        time: {
+          unit: parameters.project.units.time,
+          choices: createSelectableList([defaultThresholds.custom], {
+            selected: json.distinct.thresholdsSelected.time,
+          }),
+        },
       },
       jsonGroupedDataLabels: json.distinct.groupedDataLabels,
+      dropIndexes,
       ...parameters,
     }
   )
@@ -84,6 +113,44 @@ export const createHeavydynReportFromJSON = (
     baseRemove.call(report)
 
     watcherHandler.clean()
+  }
+
+  report.toJSON = function (): JSONHeavydynReport {
+    const report = this as HeavydynReport
+    const thresholdGroup = this.thresholds
+      .groups as HeavydynReportThresholdsGroups
+
+    return {
+      version: json.version,
+      base: this.toBaseJSON(),
+      distinct: {
+        version: json.version,
+        groupedDataLabels:
+          convertDataLabelGroupsToJSON<JSONHeavydynGroupedDataLabels>(
+            report as HeavydynReport
+          ),
+        thresholdsSelected: {
+          deflection:
+            getIndexOfSelectedInSelectableList(
+              thresholdGroup.deflection.choices
+            ) || 0,
+          distance:
+            getIndexOfSelectedInSelectableList(
+              thresholdGroup.distance.choices
+            ) || 0,
+          force:
+            getIndexOfSelectedInSelectableList(thresholdGroup.force.choices) ||
+            0,
+          temperature:
+            getIndexOfSelectedInSelectableList(
+              thresholdGroup.temperature.choices
+            ) || 0,
+          time:
+            getIndexOfSelectedInSelectableList(thresholdGroup.time.choices) ||
+            0,
+        },
+      },
+    }
   }
 
   return report as HeavydynReport

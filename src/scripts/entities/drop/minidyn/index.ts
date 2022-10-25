@@ -1,4 +1,4 @@
-import { createBaseDropFromJSON } from '../base'
+import { createBaseDropFromJSON, createBaseDropIndexFromJSON } from '../base'
 
 interface MinidynDropCreatorParameters extends MachineDropCreatorParameters {
   point: MinidynPoint
@@ -18,12 +18,12 @@ export const createMinidynDropFromJSON = (
     }
   )
 
-  drop.toJSON = (): JSONMinidynDrop => {
+  drop.toJSON = function (): JSONMinidynDrop {
     return {
-      ...json,
-      base: drop.toBaseJSON(),
+      version: json.version,
+      base: this.toBaseJSON(),
       distinct: {
-        ...json.distinct,
+        version: json.distinct.version,
       },
     }
   }
@@ -46,10 +46,21 @@ export const createMinidynDropIndexFromJSON = (
   json: JSONMinidynDropIndexVAny
 ): MinidynDropIndex => {
   json = upgradeJSONDropIndex(json)
+
   return {
-    ...json.base,
-    ...json.distinct,
     machine: 'Minidyn',
+    ...createBaseDropIndexFromJSON(json.base),
+    type: json.distinct.type,
+    toJSON: function (): JSONMinidynDropIndex {
+      return {
+        version: json.version,
+        base: this.toBaseJSON(),
+        distinct: {
+          version: json.distinct.version,
+          type: json.distinct.type,
+        },
+      }
+    },
   }
 }
 

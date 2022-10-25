@@ -15,7 +15,7 @@ export const createDataValueFromJSON = (
     value: createMathNumber(json.value, label.unit),
     toJSON: function () {
       return {
-        ...json,
+        version: json.version,
         label: this.label.name,
         value: this.value.value,
       }

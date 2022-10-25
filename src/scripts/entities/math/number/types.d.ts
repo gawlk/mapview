@@ -1,19 +1,21 @@
 interface MathNumber {
-  value: number
-  unit: MathUnit<string> | string
+  readonly value: number
+  readonly unit: MathUnit<string> | string
   displayedString: string
   displayedStringWithUnit: string
-  updateDisplayedStrings: () => void
-  getLocaleString: (options: MathNumberGetLocaleStringOptions) => string
-  getValueAs: (unit: string) => number
+  readonly updateDisplayedStrings: () => void
+  readonly getLocaleString: (
+    options: MathNumberGetLocaleStringOptions
+  ) => string
+  readonly getValueAs: (unit: string) => number
 }
 
 interface MathNumberGetLocaleStringOptions {
-  appendUnitToString?: true
-  locale?: string
-  precision?: number
-  disablePreString?: true
-  unit?: string
-  removeSpaces?: true
-  disableMinAndMax?: true
+  readonly appendUnitToString?: true
+  readonly locale?: string
+  readonly precision?: number
+  readonly disablePreString?: true
+  readonly unit?: string
+  readonly removeSpaces?: true
+  readonly disableMinAndMax?: true
 }

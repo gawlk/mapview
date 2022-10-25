@@ -5,21 +5,21 @@
 type JSONMaxidynDropVAny = JSONMaxidynDrop
 
 interface JSONMaxidynDrop {
-  version: 1
-  base: JSONBaseDrop
-  distinct: JSONMaxidynDropDistinct
+  readonly version: 1
+  readonly base: JSONBaseDrop
+  readonly distinct: JSONMaxidynDropDistinct
 }
 
 interface JSONMaxidynDropDistinct {
-  version: 1
+  readonly version: 1
 }
 
 type JSONMaxidynDropIndexVAny = JSONMaxidynDropIndex
 
 interface JSONMaxidynDropIndex {
   readonly version: 1
-  base: JSONBaseDropIndex
-  distinct: JSONMaxidynDropIndexDistinct
+  readonly base: JSONBaseDropIndex
+  readonly distinct: JSONMaxidynDropIndexDistinct
 }
 
 interface JSONMaxidynDropIndexDistinct {
@@ -34,12 +34,13 @@ type MaxidynDropType = 'Training' | 'Averaging'
 // ---
 
 interface MaxidynDrop extends BaseDrop {
-  index: MaxidynDropIndex
-  point: MaxidynPoint
+  readonly index: MaxidynDropIndex
+  readonly point: MaxidynPoint
   toJSON: () => JSONMaxidynDrop
 }
 
 interface MaxidynDropIndex extends BaseDropIndex {
-  machine: 'Maxidyn'
-  type: MaxidynDropType
+  readonly machine: 'Maxidyn'
+  readonly type: MaxidynDropType
+  readonly toJSON: () => JSONMaxidynDropIndex
 }

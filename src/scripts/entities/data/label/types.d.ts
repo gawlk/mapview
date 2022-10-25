@@ -5,9 +5,9 @@
 type JSONDataLabelVAny<T extends String> = JSONDataLabel<T>
 
 interface JSONDataLabel<T extends String> {
-  version: 1
-  name: string
-  unit: T
+  readonly version: 1
+  readonly name: string
+  readonly unit: T
 }
 
 // ---
@@ -15,8 +15,7 @@ interface JSONDataLabel<T extends String> {
 // ---
 
 interface DataLabel<T> {
-  name: string
-  unit: MathUnit<T> | T
-  scientificName?: string
-  // calculate: () => {}
+  readonly name: string
+  readonly unit: MathUnit<T>
+  readonly scientificName?: string
 }

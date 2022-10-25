@@ -5,19 +5,19 @@
 type JSONHeavydynProjectVAny = JSONHeavydynProject
 
 interface JSONHeavydynProject {
-  version: 1
-  base: JSONBaseProject
-  distinct: JSONHeavydynProjectDistinct
+  readonly version: 1
+  readonly base: JSONBaseProject
+  readonly distinct: JSONHeavydynProjectDistinct
 }
 
 interface JSONHeavydynProjectDistinct {
-  version: 1
-  units: JSONHeavydynUnits
-  calibrations: JSONHeavydynCalibrations
+  readonly version: 1
+  readonly units: JSONHeavydynUnits
+  readonly calibrations: JSONHeavydynCalibrations
 }
 
 interface JSONHeavydynCalibrations {
-  version: 1
+  readonly version: 1
   readonly date: string
   readonly dPlate: number
   readonly channels: JSONChannel[]
@@ -25,19 +25,19 @@ interface JSONHeavydynCalibrations {
 }
 
 interface JSONChannel {
-  version: 1
-  name: string
-  position: string
-  gain: number
-  acquisition: number
-  type: 'LoadCell' | 'Geophone'
+  readonly version: 1
+  readonly name: string
+  readonly position: string
+  readonly gain: number
+  readonly acquisition: number
+  readonly type: 'LoadCell' | 'Geophone'
 }
 
 interface JSONSensor {
-  version: 1
-  name: string
-  gain: number
-  type: 'AirTemp' | 'SurfTemp' | 'Dmi'
+  readonly version: 1
+  readonly name: string
+  readonly gain: number
+  readonly type: 'AirTemp' | 'SurfTemp' | 'Dmi'
 }
 
 // ---
@@ -48,8 +48,6 @@ interface HeavydynProject extends BaseProject {
   readonly machine: 'Heavydyn'
   readonly reports: SelectableList<HeavydynReport>
   readonly units: HeavydynMathUnits
-  readonly information: Field[]
-  readonly hardware: Field[]
   calibrations: HeavydynCalibrations
   toJSON: () => JSONHeavydynProject
 }

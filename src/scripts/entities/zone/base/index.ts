@@ -69,6 +69,18 @@ export const createBaseZoneFromJSON = (
         point.remove()
       })
     },
+    toBaseJSON: function (): JSONBaseZone {
+      return {
+        version: json.version,
+        name: this.name,
+        points: this.points.map((point) => point.toJSON()),
+        settings: {
+          version: json.settings.version,
+          color: this.settings.color,
+          isVisible: this.settings.isVisible,
+        },
+      }
+    },
   })
 }
 

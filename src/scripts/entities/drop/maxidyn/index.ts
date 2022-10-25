@@ -1,4 +1,4 @@
-import { createBaseDropFromJSON } from '../base'
+import { createBaseDropFromJSON, createBaseDropIndexFromJSON } from '../base'
 
 interface MaxidynDropCreatorParameters extends MachineDropCreatorParameters {
   point: MaxidynPoint
@@ -18,12 +18,12 @@ export const createMaxidynDropFromJSON = (
     }
   )
 
-  drop.toJSON = (): JSONMaxidynDrop => {
+  drop.toJSON = function (): JSONMaxidynDrop {
     return {
-      ...json,
-      base: drop.toBaseJSON(),
+      version: json.version,
+      base: this.toBaseJSON(),
       distinct: {
-        ...json.distinct,
+        version: json.distinct.version,
       },
     }
   }
@@ -48,9 +48,19 @@ export const createMaxidynDropIndexFromJSON = (
   json = upgradeJSONDropIndex(json)
 
   return {
-    ...json.base,
-    ...json.distinct,
     machine: 'Maxidyn',
+    ...createBaseDropIndexFromJSON(json.base),
+    type: json.distinct.type,
+    toJSON: function (): JSONMaxidynDropIndex {
+      return {
+        version: json.version,
+        base: this.toBaseJSON(),
+        distinct: {
+          version: json.distinct.version,
+          type: json.distinct.type,
+        },
+      }
+    },
   }
 }
 

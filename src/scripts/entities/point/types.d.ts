@@ -20,5 +20,5 @@ type PartialMachinePoint<MachinePoint> = PartialExtendedObject<
 // ---
 
 interface MachinePointCreatorParameters {
-  zone: MachineZone
+  readonly zone: MachineZone
 }

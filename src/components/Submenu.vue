@@ -10,10 +10,10 @@
   let div = ref()
 
   const props = defineProps<{
-    buttonIcon: any
-    buttonText: string
-    route: string
-    menuProps: MenuProps
+    readonly buttonIcon: any
+    readonly buttonText: string
+    readonly route: string
+    readonly menuProps: MenuProps
   }>()
 
   const state = shallowReactive({

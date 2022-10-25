@@ -16,6 +16,7 @@ export const createHeavydynProjectFromJSON = async (
   const units: HeavydynMathUnits = {
     deflection: createMathUnit(
       'Deflection',
+      jsonUnits.deflection,
       'm',
       [
         ['mm', 0],
@@ -24,11 +25,11 @@ export const createHeavydynProjectFromJSON = async (
       ],
       {
         max: 0.003,
-        currentUnit: jsonUnits.deflection,
       }
     ),
     force: createMathUnit(
       'Force',
+      jsonUnits.force,
       'N',
       [
         ['N', 0],
@@ -37,23 +38,16 @@ export const createHeavydynProjectFromJSON = async (
       ],
       {
         max: 500000,
-        currentUnit: jsonUnits.force,
       }
     ),
-    temperature: createMathUnit(
-      'Temperature',
-      '°C',
-      [
-        ['°C', 0],
-        ['°F', 0],
-        ['K', 0],
-      ],
-      {
-        currentUnit: jsonUnits.temperature,
-      }
-    ),
+    temperature: createMathUnit('Temperature', jsonUnits.temperature, '°C', [
+      ['°C', 0],
+      ['°F', 0],
+      ['K', 0],
+    ]),
     distance: createMathUnit(
       'Distance',
+      jsonUnits.distance,
       'm',
       [
         ['m', 0],
@@ -62,11 +56,11 @@ export const createHeavydynProjectFromJSON = async (
       ],
       {
         max: 100000,
-        currentUnit: jsonUnits.distance,
       }
     ),
     time: createMathUnit(
       'Time',
+      jsonUnits.time,
       's',
       [
         ['s', 0],
@@ -76,7 +70,6 @@ export const createHeavydynProjectFromJSON = async (
       {
         max: 0.1,
         step: 0.1,
-        currentUnit: jsonUnits.time,
       }
     ),
   }
@@ -118,16 +111,17 @@ export const createHeavydynProjectFromJSON = async (
     const project = this as HeavydynProject
 
     return {
-      ...json,
+      version: json.version,
       base: project.toBaseJSON(),
       distinct: {
-        ...json.distinct,
+        version: json.distinct.version,
+        calibrations: json.distinct.calibrations,
         units: {
-          deflection: project.units.deflection.toJSON().unit,
-          distance: project.units.distance.toJSON().unit,
-          force: project.units.force.toJSON().unit,
-          temperature: project.units.temperature.toJSON().unit,
-          time: project.units.time.toJSON().unit,
+          deflection: project.units.deflection.toJSON(),
+          distance: project.units.distance.toJSON(),
+          force: project.units.force.toJSON(),
+          temperature: project.units.temperature.toJSON(),
+          time: project.units.time.toJSON(),
         },
       },
     }

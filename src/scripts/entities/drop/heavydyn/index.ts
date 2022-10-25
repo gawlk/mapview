@@ -19,12 +19,12 @@ export const createHeavydynDropFromJSON = (
     }
   )
 
-  drop.toJSON = (): JSONHeavydynDrop => {
+  drop.toJSON = function (): JSONHeavydynDrop {
     return {
-      ...json,
-      base: drop.toBaseJSON(),
+      version: json.version,
+      base: this.toBaseJSON(),
       distinct: {
-        ...json.distinct,
+        version: json.distinct.version,
       },
     }
   }
@@ -54,15 +54,27 @@ export const createHeavydynDropIndexFromJSON = (
   const unitName = json.distinct.unit.toLocaleLowerCase()
 
   return {
-    ...createBaseDropIndexFromJSON(json.base),
-    ...json.distinct,
     machine: 'Heavydyn',
+    ...createBaseDropIndexFromJSON(json.base),
+    type: json.distinct.type,
     value: createMathNumber(
       json.distinct.value,
       unitName in parameters.project.units
         ? parameters.project.units[unitName as keyof HeavydynMathUnits]
         : unitName
     ),
+    toJSON: function (): JSONHeavydynDropIndex {
+      return {
+        version: json.version,
+        base: this.toBaseJSON(),
+        distinct: {
+          version: json.distinct.version,
+          type: json.distinct.type,
+          unit: json.distinct.unit,
+          value: json.distinct.value,
+        },
+      }
+    },
   }
 }
 

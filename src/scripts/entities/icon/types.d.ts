@@ -1,9 +1,9 @@
 interface Icon {
-  element: HTMLElement
-  color: string
-  setColor: (color?: string) => void
-  setText: (text: string) => void
-  setIcon: (iconName: IconName) => void
+  readonly element: HTMLElement
+  readonly color: string
+  readonly setColor: (color?: string) => void
+  readonly setText: (text: string) => void
+  readonly setIcon: (iconName: IconName) => void
 }
 
 type IconName =

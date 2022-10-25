@@ -5,13 +5,14 @@
 type JSONBaseZoneVAny = JSONBaseZone
 
 interface JSONBaseZone {
-  version: 1
-  name: string
-  points: JSONMachinePoint[]
+  readonly version: 1
+  readonly name: string
+  readonly points: JSONMachinePoint[]
   readonly settings: JSONZoneSettings
 }
 
 interface JSONZoneSettings {
+  readonly version: 1
   color: ColorName
   isVisible: boolean
 }
@@ -22,10 +23,11 @@ interface JSONZoneSettings {
 
 interface BaseZone {
   readonly machine: MachineName
-  name: string
   readonly points: MachinePoint[]
   readonly settings: JSONZoneSettings
+  name: string
   report: MachineReport
-  init: () => void
-  clean: () => void
+  readonly init: () => void
+  readonly clean: () => void
+  readonly toBaseJSON: () => JSONBaseZone
 }

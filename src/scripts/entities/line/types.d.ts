@@ -1,6 +1,6 @@
 interface Line {
   sortedPoints: MachinePoint[]
-  addToMap: () => void
-  update: () => void
-  remove: () => void
+  readonly addToMap: () => void
+  readonly update: () => void
+  readonly remove: () => void
 }

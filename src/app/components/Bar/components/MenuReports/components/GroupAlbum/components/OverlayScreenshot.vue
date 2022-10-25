@@ -3,7 +3,7 @@
   import Overlay from '/src/components/Overlay.vue'
 
   const props = defineProps<{
-    image: string | null
+    readonly image: string | null
   }>()
 
   const emit = defineEmits<{

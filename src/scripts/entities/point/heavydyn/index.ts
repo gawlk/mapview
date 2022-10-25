@@ -35,12 +35,12 @@ export const createHeavydynPointFromJSON = (
     )
   )
 
-  point.toJSON = (): JSONHeavydynPoint => {
+  point.toJSON = function (): JSONHeavydynPoint {
     return {
-      ...json,
-      base: point.toBaseJSON(),
+      version: json.version,
+      base: this.toBaseJSON(),
       distinct: {
-        ...json.distinct,
+        version: json.distinct.version,
       },
     }
   }

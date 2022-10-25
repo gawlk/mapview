@@ -5,13 +5,13 @@
 type JSONHeavydynZoneVAny = JSONHeavydynZone
 
 interface JSONHeavydynZone {
-  version: 1
-  base: JSONBaseZone
-  distinct: JSONHeavydynZoneDistinct
+  readonly version: 1
+  readonly base: JSONBaseZone
+  readonly distinct: JSONHeavydynZoneDistinct
 }
 
 interface JSONHeavydynZoneDistinct {
-  version: 1
+  readonly version: 1
 }
 
 // ---
@@ -21,4 +21,5 @@ interface JSONHeavydynZoneDistinct {
 interface HeavydynZone extends BaseZone {
   readonly machine: 'Heavydyn'
   readonly points: HeavydynPoint[]
+  toJSON: () => JSONHeavydynZone
 }

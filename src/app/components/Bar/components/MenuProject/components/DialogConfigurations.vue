@@ -34,7 +34,7 @@
           <div
             v-for="unit in (Object.values(
               store.projects.selected?.units || {}
-            ).filter((unit) => !unit.readOnly) as MathUnit[])"
+            ).filter((unit) => !unit.readOnly) as MathUnit<string>[])"
             :key="unit.name"
             class="space-y-1"
           >

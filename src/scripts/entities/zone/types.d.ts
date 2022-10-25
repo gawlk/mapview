@@ -20,5 +20,5 @@ type PartialMachineZone<MachineZone> = PartialExtendedObject<
 // ---
 
 interface MachineZoneCreatorParameters {
-  report: MachineReport
+  readonly report: MachineReport
 }

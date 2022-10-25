@@ -1,7 +1,8 @@
 import dayjs from 'dayjs'
 import dedent from 'dedent'
 import { format } from 'mathjs'
-import { findFieldInArray } from '/src/scripts/entities'
+import { findFieldInArray } from '/src/scripts'
+
 export class F25ExportStrategy implements ExportStrategy {
   extension: string = 'F25'
 

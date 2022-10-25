@@ -1,6 +1,7 @@
 import dayjs from 'dayjs'
 import dedent from 'dedent'
-import { findFieldInArray } from '/src/scripts/entities'
+
+import { findFieldInArray } from '/src/scripts'
 
 export class PDXExportStrategy implements ExportStrategy {
   extension: string = 'pdx'

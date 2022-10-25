@@ -5,15 +5,15 @@
 type JSONBaseDropVAny = JSONBaseDrop
 
 interface JSONBaseDrop {
-  version: 1
-  index: number
-  data: JSONDataValue[]
+  readonly version: 1
+  readonly index: number
+  readonly data: JSONDataValue[]
 }
 
 type JSONBaseDropIndexVAny = JSONBaseDropIndex
 
 interface JSONBaseDropIndex {
-  version: 1
+  readonly version: 1
   readonly displayedIndex: number
 }
 
@@ -22,14 +22,15 @@ interface JSONBaseDropIndex {
 // ---
 
 interface BaseDrop {
-  index: MachineDropIndex
-  data: DataValue<string>[]
-  additionalFields: Field[]
-  point: MachinePoint
+  readonly index: MachineDropIndex
+  readonly data: DataValue<string>[]
+  readonly additionalFields: Field[]
+  readonly point: MachinePoint
   impactData: ImpactData | null
-  toBaseJSON: () => JSONBaseDrop
+  readonly toBaseJSON: () => JSONBaseDrop
 }
 
 interface BaseDropIndex {
   readonly displayedIndex: number
+  readonly toBaseJSON: () => JSONBaseDropIndex
 }

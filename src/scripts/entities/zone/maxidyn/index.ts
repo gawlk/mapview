@@ -26,6 +26,16 @@ export const createMaxidynZoneFromJSON = (
     )
   )
 
+  zone.toJSON = function (): JSONMaxidynZone {
+    return {
+      version: json.version,
+      base: this.toBaseJSON(),
+      distinct: {
+        version: json.distinct.version,
+      },
+    }
+  }
+
   return zone as MaxidynZone
 }
 

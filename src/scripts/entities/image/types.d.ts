@@ -3,10 +3,10 @@
 // ---
 
 interface JSONImage {
-  version: 1
-  name: string
-  opacity?: number
-  coordinates?: {
+  readonly version: 1
+  readonly name: string
+  readonly opacity?: number
+  readonly coordinates?: {
     nw: LngLat
     se: LngLat
   }
@@ -17,19 +17,19 @@ interface JSONImage {
 // ---
 
 interface Image {
-  id: string
-  sourceData: mapboxgl.ImageSourceRaw
-  markerNW: mapboxgl.Marker
-  markerSE: mapboxgl.Marker
+  readonly id: string
+  readonly sourceData: mapboxgl.ImageSourceRaw
+  readonly markerNW: mapboxgl.Marker
+  readonly markerSE: mapboxgl.Marker
   opacity: number
-  addToMap: (isVisible: boolean) => void
-  remove: () => void
-  toJSON: () => JSONImage
+  readonly addToMap: (isVisible: boolean) => void
+  readonly remove: () => void
+  readonly toJSON: () => JSONImage
 }
 
 interface ImageCoordinates {
-  tl: XYCoord
-  tr: XYCoord
-  bl: XYCoord
-  br: XYCoord
+  readonly tl: XYCoord
+  readonly tr: XYCoord
+  readonly bl: XYCoord
+  readonly br: XYCoord
 }

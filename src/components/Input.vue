@@ -9,16 +9,16 @@
   }>()
 
   const props = defineProps<{
-    id: string
-    value: string | number
-    type?: string
-    label?: string
-    step?: number
-    min?: number
-    max?: number
-    list?: any
-    strict?: boolean
-    disabled?: boolean
+    readonly id: string
+    readonly value: string | number
+    readonly type?: string
+    readonly label?: string
+    readonly step?: number
+    readonly min?: number
+    readonly max?: number
+    readonly list?: any
+    readonly strict?: boolean
+    readonly disabled?: boolean
   }>()
 
   const { t } = useI18n()
@@ -109,7 +109,6 @@
       :id="props.id"
       disabled
       :value="new Date(props.value).toLocaleDateString(getBrowserLocale())"
-      :disabled="props.disabled"
       :class="classes"
     />
     <div class="flex h-10 items-center" v-else>

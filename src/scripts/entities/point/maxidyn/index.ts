@@ -35,12 +35,12 @@ export const createMaxidynPointFromJSON = (
     )
   )
 
-  point.toJSON = (): JSONMaxidynPoint => {
+  point.toJSON = function (): JSONMaxidynPoint {
     return {
-      ...json,
-      base: point.toBaseJSON(),
+      version: json.version,
+      base: this.toBaseJSON(),
       distinct: {
-        ...json.distinct,
+        version: json.distinct.version,
       },
     }
   }

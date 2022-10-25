@@ -5,7 +5,7 @@
   import MenuWrapperMobile from './components/MenuWrapperMobile.vue'
 
   const props = defineProps<{
-    menus: Menu[]
+    readonly menus: Menu[]
   }>()
 
   props.menus?.map((menu) => {

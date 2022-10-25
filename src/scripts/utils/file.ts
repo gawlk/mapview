@@ -6,6 +6,9 @@ export const fileToBase64 = (file: File) =>
     reader.onerror = (error) => reject(error)
   })
 
-export const Uint8ArrayToData64Image = (array: Uint8Array, extension: string) =>
+export const convertUint8ArrayToData64Image = (
+  array: Uint8Array,
+  extension: string
+) =>
   `data:image/${extension === 'png' ? extension : 'jpeg'};base64,` +
   window.btoa(String.fromCharCode(...array))

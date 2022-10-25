@@ -5,13 +5,13 @@
 type JSONMinidynZoneVAny = JSONMinidynZone
 
 interface JSONMinidynZone {
-  version: 1
-  base: JSONBaseZone
-  distinct: JSONMinidynZoneDistinct
+  readonly version: 1
+  readonly base: JSONBaseZone
+  readonly distinct: JSONMinidynZoneDistinct
 }
 
 interface JSONMinidynZoneDistinct {
-  version: 1
+  readonly version: 1
 }
 
 // ---
@@ -21,4 +21,5 @@ interface JSONMinidynZoneDistinct {
 interface MinidynZone extends BaseZone {
   readonly machine: 'Minidyn'
   readonly points: MinidynPoint[]
+  toJSON: () => JSONMinidynZone
 }

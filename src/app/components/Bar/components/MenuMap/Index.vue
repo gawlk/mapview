@@ -4,7 +4,7 @@
   import ListboxMapStyles from './components/ListboxMapStyles.vue'
 
   const props = defineProps<{
-    menu: MenuProps
+    readonly menu: MenuProps
   }>()
 </script>
 

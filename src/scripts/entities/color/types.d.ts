@@ -1,7 +1,7 @@
 interface Color {
-  buttonColors: string
-  iconsClasses: string
-  hexColor: string
+  readonly buttonColors: string
+  readonly iconsClasses: string
+  readonly hexColor: string
 }
 
 type ColorName =

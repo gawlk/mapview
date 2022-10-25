@@ -1,8 +1,8 @@
 interface Store {
-  projects: SelectableList<MachineProject>
+  readonly projects: SelectableList<MachineProject>
   map: mapboxgl.Map | null
   updateAvailable: boolean
-  save: (key: StoreKeys, value: StoreSaveableTypes) => void
+  readonly save: (key: StoreKeys, value: StoreSaveableTypes) => void
 }
 
 type StoreKeys = Exclude<keyof Store, 'save' | 'updateAvailable'>

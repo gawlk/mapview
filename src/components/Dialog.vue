@@ -19,16 +19,16 @@
   }>()
 
   const props = defineProps<{
-    isOpen: boolean
-    title: string
-    saveable?: boolean
-    deletable?: boolean
-    icon?: any
-    leftIcon?: any
-    blue?: boolean
-    red?: boolean
-    orange?: boolean
-    full?: boolean
+    readonly isOpen: boolean
+    readonly title: string
+    readonly saveable?: boolean
+    readonly deletable?: boolean
+    readonly icon?: any
+    readonly leftIcon?: any
+    readonly blue?: boolean
+    readonly red?: boolean
+    readonly orange?: boolean
+    readonly full?: boolean
   }>()
 
   const { t } = useI18n()

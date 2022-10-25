@@ -56,6 +56,7 @@ export const createBasePointFromJSON = (
         )
     ),
     drops: [] as MachineDrop[],
+    rawDataFile: null,
     getSelectedMathNumber: function (
       groupFrom: DataLabelsFrom,
       dataLabel: DataLabel<string>,
@@ -107,11 +108,11 @@ export const createBasePointFromJSON = (
 
           const unit = mathNumber?.unit
 
-          const threshold = this.zone.report.thresholds.groups.find(
-            (group) => group.unit === unit
-          )?.choices.selected
+          if (unit) {
+            const threshold = Object.values(
+              this.zone.report.thresholds.groups
+            ).find((group) => group.unit === unit)?.choices.selected
 
-          if (unit && threshold) {
             const color = threshold.getColor(
               mathNumber,
               this.zone.report.thresholds.colors
@@ -233,7 +234,10 @@ export const createBasePointFromJSON = (
     },
     toBaseJSON: function (): JSONBasePoint {
       return {
-        ...json,
+        version: json.version,
+        id: this.id,
+        index: this.index,
+        settings: this.settings,
         number: this.number,
         date: this.date.toJSON(),
         coordinates: this.marker?.getLngLat() || json.coordinates,

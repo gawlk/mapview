@@ -30,10 +30,15 @@ type MachineGroupedDataLabels =
 
 type MachineDropIndex = HeavydynDropIndex | MaxidynDropIndex | MinidynDropIndex
 
-type MachineThresholds =
-  | HeavydynThresholds
-  | MaxidynThresholds
-  | MinidynThresholds
+type MachineReportThresholds =
+  | HeavydynReportThresholds
+  | MaxidynReportThresholds
+  | MinidynReportThresholds
+
+type MachineReportThresholdsGroups =
+  | HeavydynReportThresholdsGroups
+  | MaxidynReportThresholdsGroups
+  | MinidynReportThresholdsGroups
 
 type MachineTableDataLabelsParameters =
   | HeavydynTableDataLabelsParameters
@@ -50,5 +55,5 @@ type MachineReportDataLabels =
 // ---
 
 interface MachineReportCreatorParameters {
-  project: MachineProject
+  readonly project: MachineProject
 }

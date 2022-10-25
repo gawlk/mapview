@@ -1,9 +1,9 @@
 <script setup lang="ts">
   const props = defineProps<{
-    value: boolean
-    icon?: any
-    leftIcon?: any
-    rightIcon?: any
+    readonly value: boolean
+    readonly icon?: any
+    readonly leftIcon?: any
+    readonly rightIcon?: any
   }>()
 
   const emit = defineEmits<{

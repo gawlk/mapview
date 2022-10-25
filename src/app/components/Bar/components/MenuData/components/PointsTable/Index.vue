@@ -8,7 +8,7 @@
   import store from '/src/store'
 
   const props = defineProps<{
-    points: MachinePoint[]
+    readonly points: MachinePoint[]
   }>()
 
   let tbody = ref(null)

@@ -26,6 +26,16 @@ export const createMinidynZoneFromJSON = (
     )
   )
 
+  zone.toJSON = function (): JSONMinidynZone {
+    return {
+      version: json.version,
+      base: this.toBaseJSON(),
+      distinct: {
+        version: json.distinct.version,
+      },
+    }
+  }
+
   return zone as MinidynZone
 }
 

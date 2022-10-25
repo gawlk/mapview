@@ -35,12 +35,12 @@ export const createMinidynPointFromJSON = (
     )
   )
 
-  point.toJSON = (): JSONMinidynPoint => {
+  point.toJSON = function (): JSONMinidynPoint {
     return {
-      ...json,
-      base: point.toBaseJSON(),
+      version: json.version,
+      base: this.toBaseJSON(),
       distinct: {
-        ...json.distinct,
+        version: json.distinct.version,
       },
     }
   }

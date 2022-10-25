@@ -27,6 +27,7 @@
       const data64 = await fileToBase64(file)
 
       const image = await createImage(data64, store.map, {
+        version: 1,
         name: file.name,
       })
 

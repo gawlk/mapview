@@ -1,10 +1,10 @@
 interface MathNumberObject {
-  [key: string]: MathNumber | MathNumber[] | MathNumber[][]
+  readonly [key: string]: MathNumber | MathNumber[] | MathNumber[][]
 }
 
 interface ComputedData {
-  raw: MathNumberObject
-  parameters: MathNumberObject
-  computed: MathNumberObject
-  compute: () => void
+  readonly raw: MathNumberObject
+  readonly parameters: MathNumberObject
+  readonly computed: MathNumberObject
+  readonly compute: () => void
 }

@@ -7,7 +7,7 @@
   } from '@headlessui/vue'
 
   const props = defineProps<{
-    isOpen: boolean
+    readonly isOpen: boolean
   }>()
 
   const state = reactive({

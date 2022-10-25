@@ -4,12 +4,12 @@
   }>()
 
   const props = defineProps<{
-    disabled: boolean
-    icon: any
-    name: string
-    opened?: boolean
-    style?: string
-    class?: string
+    readonly disabled: boolean
+    readonly icon: any
+    readonly name: string
+    readonly opened?: boolean
+    readonly style?: string
+    readonly class?: string
   }>()
 </script>
 

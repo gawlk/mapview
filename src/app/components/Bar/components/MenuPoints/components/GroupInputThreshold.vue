@@ -13,9 +13,9 @@
   }>()
 
   const props = defineProps<{
-    value: number
-    isRange: boolean
-    unit: MathUnit
+    readonly value: number
+    readonly isRange: boolean
+    readonly unit: MathUnit<string>
   }>()
 </script>
 

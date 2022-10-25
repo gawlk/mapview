@@ -1,11 +1,11 @@
 interface MinidynUnitsSkeleton<A, B = A, C = A, D = A, E = A, F = A, G = A> {
-  modulus: A
-  stiffness: B
-  deflection: C
-  force: D
-  temperature: E
-  time: F
-  percentage: G
+  readonly modulus: A
+  readonly stiffness: B
+  readonly deflection: C
+  readonly force: D
+  readonly temperature: E
+  readonly time: F
+  readonly percentage: G
 }
 
 type PossibleMinidynModulusUnits = 'MPa'
@@ -17,13 +17,13 @@ type PossibleMinidynTimeUnits = 's' | 'ms' | 'us'
 type PossibleMinidynPercentageUnits = '%'
 
 type JSONMinidynUnits = MinidynUnitsSkeleton<
-  PossibleMinidynModulusUnits,
-  PossibleMinidynStiffnessUnits,
-  PossibleMinidynDeflectionUnits,
-  PossibleMinidynForceUnits,
-  PossibleMinidynTemperatureUnits,
-  PossibleMinidynTimeUnits,
-  PossibleMinidynPercentageUnits
+  JSONMathUnit<PossibleMinidynModulusUnits>,
+  JSONMathUnit<PossibleMinidynStiffnessUnits>,
+  JSONMathUnit<PossibleMinidynDeflectionUnits>,
+  JSONMathUnit<PossibleMinidynForceUnits>,
+  JSONMathUnit<PossibleMinidynTemperatureUnits>,
+  JSONMathUnit<PossibleMinidynTimeUnits>,
+  JSONMathUnit<PossibleMinidynPercentageUnits>
 >
 
 type MinidynMathUnits = MinidynUnitsSkeleton<

@@ -8,9 +8,9 @@ type JSONMachineProject =
   | JSONMinidynProject
 
 interface JSONBearingParameters {
-  version: 1
-  min: number
-  max: number
+  readonly version: 1
+  readonly min: number
+  readonly max: number
 }
 
 // ---

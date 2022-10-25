@@ -1,10 +1,13 @@
 interface CustomThreshold {
-  kind: 'custom'
+  readonly kind: 'custom'
   name: 'Custom'
   type: CustomThresholdType
   value: number
   valueHigh: number
-  getColor: (mathNumber: MathNumber, colors: JSONThresholdColors) => string
+  readonly getColor: (
+    mathNumber: MathNumber,
+    colors: JSONThresholdColors
+  ) => string
 }
 
 type CustomThresholdType = 'Bicolor' | 'Gradient' | 'Tricolor'

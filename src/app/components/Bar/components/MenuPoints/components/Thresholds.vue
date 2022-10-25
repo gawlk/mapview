@@ -28,13 +28,16 @@
   )
 
   const selectedUnit = computed(
-    () => selectedDataLabel.value?.unit as MathUnit | undefined
+    () => selectedDataLabel.value?.unit as MathUnit<string> | undefined
   )
 
-  const currentGroupedThresholds = computed(() =>
-    selectedReport.value?.thresholds.groups.find(
-      (group) => group.unit === selectedDataLabel.value?.unit
-    )
+  const currentGroupedThresholds = computed(
+    () =>
+      selectedReport.value &&
+      (Object.values(selectedReport.value.thresholds.groups).find(
+        (group: GroupedThresolds<string>) =>
+          group.unit === selectedDataLabel.value?.unit
+      ) as GroupedThresolds<string>)
   )
 
   const formattedTresholdValue = computed(
@@ -150,7 +153,7 @@
                   ? selectedUnit.max
                   : value
 
-              currentGroupedThresholds.choices.selected.value = value
+              ;(currentGroupedThresholds.choices.selected as CustomThreshold).value = value
 
               if (
                 currentGroupedThresholds.choices.selected.kind === 'custom' &&

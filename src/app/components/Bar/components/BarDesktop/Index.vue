@@ -9,7 +9,7 @@
   import MenuWrapperDesktop from './components/MenuWrapperDesktop.vue'
 
   const props = defineProps<{
-    menus: Menu[]
+    readonly menus: Menu[]
   }>()
 </script>
 

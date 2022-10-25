@@ -3,49 +3,49 @@
 
   const props = defineProps<{
     // Element
-    element?: any
+    readonly element?: any
 
     // Full
-    full?: boolean
+    readonly full?: boolean
 
     // Sizes
-    lg?: boolean
-    sm?: boolean
+    readonly lg?: boolean
+    readonly sm?: boolean
 
     // Round
-    rounded?: boolean
-    roundedFull?: boolean
+    readonly rounded?: boolean
+    readonly roundedFull?: boolean
 
     // Border
-    border?: boolean
+    readonly border?: boolean
 
     // Center
-    center?: boolean
+    readonly center?: boolean
 
     // Colors
-    brand?: boolean
-    brand2?: boolean
-    primary?: boolean
-    secondary?: boolean
-    tertiary?: boolean
+    readonly brand?: boolean
+    readonly brand2?: boolean
+    readonly primary?: boolean
+    readonly secondary?: boolean
+    readonly tertiary?: boolean
 
     // States
-    disabled?: boolean
-    inactive?: boolean
+    readonly disabled?: boolean
+    readonly inactive?: boolean
 
     // Illustrations
-    svg?: any
-    leftSvg?: any
-    rightSvg?: any
-    src?: string
-    leftSrc?: string
-    rightSrc?: string
+    readonly svg?: any
+    readonly leftSvg?: any
+    readonly rightSvg?: any
+    readonly src?: string
+    readonly leftSrc?: string
+    readonly rightSrc?: string
 
     // Classes
-    classes?: string
-    illustrationClasses?: string
-    leftIllustrationClasses?: string
-    rightIllustrationClasses?: string
+    readonly classes?: string
+    readonly illustrationClasses?: string
+    readonly leftIllustrationClasses?: string
+    readonly rightIllustrationClasses?: string
   }>()
 </script>
 

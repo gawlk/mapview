@@ -14,68 +14,53 @@ export const createMinidynProjectFromJSON = async (
   const jsonUnits = json.distinct.units as JSONMinidynUnits
 
   const units: MinidynMathUnits = {
-    modulus: createMathUnit('Modulus', 'Pa', [['MPa', 0]], {
+    modulus: createMathUnit('Modulus', jsonUnits.modulus, 'Pa', [['MPa', 0]], {
       min: json.distinct.bearingParameters.min || 10000000,
       max: json.distinct.bearingParameters.max || 150000000,
-      currentUnit: jsonUnits.modulus,
       averageFunction: 'capOutliers',
     }),
-    stiffness: createMathUnit('Stiffness', 'N / m', [['MN / m', 0]], {
-      currentUnit: jsonUnits.stiffness,
-      averageFunction: 'capOutliers',
-    }),
-    deflection: createMathUnit(
-      'Deflection',
-      'm',
-      [
-        ['mm', 0],
-        ['um', 0],
-      ],
+    stiffness: createMathUnit(
+      'Stiffness',
+      jsonUnits.stiffness,
+      'N / m',
+      [['MN / m', 0]],
       {
-        currentUnit: jsonUnits.deflection,
+        averageFunction: 'capOutliers',
       }
     ),
-    force: createMathUnit(
-      'Force',
-      'N',
-      [
-        ['N', 0],
-        ['kN', 0],
-      ],
+    deflection: createMathUnit('Deflection', jsonUnits.deflection, 'm', [
+      ['mm', 0],
+      ['um', 0],
+    ]),
+    force: createMathUnit('Force', jsonUnits.force, 'N', [
+      ['N', 0],
+      ['kN', 0],
+    ]),
+    temperature: createMathUnit('Temperature', jsonUnits.temperature, '°C', [
+      ['°C', 0],
+      ['°F', 0],
+      ['K', 0],
+    ]),
+    time: createMathUnit('Time', jsonUnits.time, 's', [
+      ['s', 0],
+      ['ms', 0],
+      ['us', 0],
+    ]),
+    percentage: createMathUnit(
+      'Percentage',
       {
-        currentUnit: jsonUnits.force,
+        version: 1,
+        unit: '%',
+        precision: 0,
+      },
+      '%',
+      [['%', 0]],
+      {
+        max: 100,
+        step: 0.5,
+        readOnly: true,
       }
     ),
-    temperature: createMathUnit(
-      'Temperature',
-      '°C',
-      [
-        ['°C', 0],
-        ['°F', 0],
-        ['K', 0],
-      ],
-      {
-        currentUnit: jsonUnits.temperature,
-      }
-    ),
-    time: createMathUnit(
-      'Time',
-      's',
-      [
-        ['s', 0],
-        ['ms', 0],
-        ['us', 0],
-      ],
-      {
-        currentUnit: jsonUnits.time,
-      }
-    ),
-    percentage: createMathUnit('Percentage', '%', [['%', 0]], {
-      currentUnit: '%',
-      max: 100,
-      step: 0.5,
-      readOnly: true,
-    }),
   }
 
   const project: PartialMachineProject<MinidynProject> =
@@ -108,18 +93,19 @@ export const createMinidynProjectFromJSON = async (
     const project = this as MinidynProject
 
     return {
-      ...json,
+      version: json.version,
       base: project.toBaseJSON(),
       distinct: {
-        ...json.distinct,
+        version: json.distinct.version,
+        bearingParameters: json.distinct.bearingParameters,
         units: {
-          deflection: project.units.deflection.toJSON().unit,
-          force: project.units.force.toJSON().unit,
-          modulus: project.units.modulus.toJSON().unit,
-          percentage: project.units.percentage.toJSON().unit,
-          stiffness: project.units.stiffness.toJSON().unit,
-          temperature: project.units.temperature.toJSON().unit,
-          time: project.units.time.toJSON().unit,
+          deflection: project.units.deflection.toJSON(),
+          force: project.units.force.toJSON(),
+          modulus: project.units.modulus.toJSON(),
+          percentage: project.units.percentage.toJSON(),
+          stiffness: project.units.stiffness.toJSON(),
+          temperature: project.units.temperature.toJSON(),
+          time: project.units.time.toJSON(),
         },
       },
     }

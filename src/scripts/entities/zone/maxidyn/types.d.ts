@@ -5,13 +5,13 @@
 type JSONMaxidynZoneVAny = JSONMaxidynZone
 
 interface JSONMaxidynZone {
-  version: 1
-  base: JSONBaseZone
-  distinct: JSONMaxidynZoneDistinct
+  readonly version: 1
+  readonly base: JSONBaseZone
+  readonly distinct: JSONMaxidynZoneDistinct
 }
 
 interface JSONMaxidynZoneDistinct {
-  version: 1
+  readonly version: 1
 }
 
 // ---
@@ -21,4 +21,5 @@ interface JSONMaxidynZoneDistinct {
 interface MaxidynZone extends BaseZone {
   readonly machine: 'Maxidyn'
   readonly points: MaxidynPoint[]
+  toJSON: () => JSONMaxidynZone
 }

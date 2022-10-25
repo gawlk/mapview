@@ -9,7 +9,7 @@
   import Overlay from '/src/components/Overlay.vue'
 
   const props = defineProps<{
-    isOpen: boolean
+    readonly isOpen: boolean
   }>()
 
   const emit = defineEmits<{

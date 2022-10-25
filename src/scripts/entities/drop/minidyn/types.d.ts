@@ -5,21 +5,21 @@
 type JSONMinidynDropVAny = JSONMinidynDrop
 
 interface JSONMinidynDrop {
-  version: 1
-  base: JSONBaseDrop
-  distinct: JSONMinidynDropDistinct
+  readonly version: 1
+  readonly base: JSONBaseDrop
+  readonly distinct: JSONMinidynDropDistinct
 }
 
 interface JSONMinidynDropDistinct {
-  version: 1
+  readonly version: 1
 }
 
 type JSONMinidynDropIndexVAny = JSONMinidynDropIndex
 
 interface JSONMinidynDropIndex {
-  version: 1
-  base: JSONBaseDropIndex
-  distinct: JSONMinidynDropIndexDistinct
+  readonly version: 1
+  readonly base: JSONBaseDropIndex
+  readonly distinct: JSONMinidynDropIndexDistinct
 }
 
 interface JSONMinidynDropIndexDistinct {
@@ -34,12 +34,13 @@ type MinidynDropType = 'Training' | 'Averaging'
 // ---
 
 interface MinidynDrop extends BaseDrop {
-  index: MinidynDropIndex
-  point: MinidynPoint
+  readonly index: MinidynDropIndex
+  readonly point: MinidynPoint
   toJSON: () => JSONMinidynDrop
 }
 
 interface MinidynDropIndex extends BaseDropIndex {
-  machine: 'Minidyn'
-  type: MinidynDropType
+  readonly machine: 'Minidyn'
+  readonly type: MinidynDropType
+  readonly toJSON: () => JSONMinidynDropIndex
 }

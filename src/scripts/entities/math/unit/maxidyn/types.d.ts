@@ -1,11 +1,11 @@
 interface MaxidynUnitsSkeleton<A, B = A, C = A, D = A, E = A, F = A, G = A> {
-  modulus: A
-  stiffness: B
-  deflection: C
-  force: D
-  distance: E
-  time: F
-  percentage: G
+  readonly modulus: A
+  readonly stiffness: B
+  readonly deflection: C
+  readonly force: D
+  readonly distance: E
+  readonly time: F
+  readonly percentage: G
 }
 
 type PossibleMaxidynModulusUnits = 'MPa'
@@ -17,13 +17,13 @@ type PossibleMaxidynTimeUnits = 's' | 'ms' | 'us'
 type PossibleMaxidynPercentageUnits = '%'
 
 type JSONMaxidynUnits = MaxidynUnitsSkeleton<
-  PossibleMaxidynModulusUnits,
-  PossibleMaxidynStiffnessUnits,
-  PossibleMaxidynDeflectionUnits,
-  PossibleMaxidynForceUnits,
-  PossibleMaxidynDistanceUnits,
-  PossibleMaxidynTimeUnits,
-  PossibleMaxidynPercentageUnits
+  JSONMathUnit<PossibleMaxidynModulusUnits>,
+  JSONMathUnit<PossibleMaxidynStiffnessUnits>,
+  JSONMathUnit<PossibleMaxidynDeflectionUnits>,
+  JSONMathUnit<PossibleMaxidynForceUnits>,
+  JSONMathUnit<PossibleMaxidynDistanceUnits>,
+  JSONMathUnit<PossibleMaxidynTimeUnits>,
+  JSONMathUnit<PossibleMaxidynPercentageUnits>
 >
 
 type MaxidynMathUnits = MaxidynUnitsSkeleton<

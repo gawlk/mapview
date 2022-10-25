@@ -9,7 +9,7 @@
   import Select from '/src/components/Select.vue'
 
   const props = defineProps<{
-    point: MachinePoint
+    readonly point: MachinePoint
   }>()
 
   const selectedReport = computed(

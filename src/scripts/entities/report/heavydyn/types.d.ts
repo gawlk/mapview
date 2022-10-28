@@ -16,7 +16,7 @@ interface JSONHeavydynReportDistinct {
     number,
     JSONHeavydynGroupedDataLabels
   >
-  readonly thresholdsSelected: HeavydynUnitsSkeleton<number>
+  readonly thresholds: HeavydynUnitsSkeleton<JSONDistinctThresholdsConfiguration>
 }
 
 interface JSONHeavydynGroupedDataLabels {

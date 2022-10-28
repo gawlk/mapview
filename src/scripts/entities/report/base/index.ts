@@ -184,6 +184,8 @@ export const createBaseReportFromJSON = (
       watcherHandler.clean()
     },
     toBaseJSON: function (): JSONBaseReport {
+      console.log(this.dataLabels.table.list.length)
+
       return {
         version: 1,
         name: this.name.value as string,
@@ -202,12 +204,14 @@ export const createBaseReportFromJSON = (
                   dataLabels: tableDataLabelsParameters.dataLabels.map(
                     (dataLabels) => dataLabels.name
                   ),
-                  index: tableDataLabelsParameters.index
-                    ? (
-                        this.dataLabels.table.selected?.group.indexes
-                          ?.list as MachineDropIndex[]
-                      ).indexOf(tableDataLabelsParameters.index)
-                    : undefined,
+                  index:
+                    tableDataLabelsParameters.index &&
+                    this.dataLabels.table.selected?.group.indexes
+                      ? (
+                          this.dataLabels.table.selected.group.indexes
+                            .list as MachineDropIndex[]
+                        ).indexOf(tableDataLabelsParameters.index)
+                      : undefined,
                 }
               }
             ),
@@ -370,8 +374,7 @@ export const convertDataLabelGroupsToJSON = <
             ? {
                 indexes: {
                   selected: getIndexOfSelectedInSelectableList(
-                    report.dataLabels
-                      .groups as SelectableList<MachineGroupedDataLabels>
+                    group.indexes as SelectableList<MachineDropIndex>
                   ),
                   list: group.indexes.list.map((index) => index.toJSON()),
                 },
@@ -380,5 +383,15 @@ export const convertDataLabelGroupsToJSON = <
         }
       }
     ) as JSONGroupedDataLabels[],
+  }
+}
+
+export const convertThresholdsConfigurationToJSON = (
+  choices: SelectableList<AnyThreshold>
+): JSONDistinctThresholdsConfiguration => {
+  return {
+    version: 1,
+    selected: getIndexOfSelectedInSelectableList(choices) || 0,
+    custom: (choices.list.at(-1) as CustomThreshold).toJSON(),
   }
 }

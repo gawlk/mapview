@@ -23,7 +23,6 @@ export const createBaseDropFromJSON = (
       (jsonDataValue): DataValue<string> =>
         createDataValueFromJSON(jsonDataValue, dropList?.choices.list || [])
     ),
-    additionalFields: [],
     point: parameters.point,
     impactData: null,
     toBaseJSON: function (): JSONBaseDrop {

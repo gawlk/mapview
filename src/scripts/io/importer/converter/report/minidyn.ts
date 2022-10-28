@@ -40,14 +40,77 @@ export const convertPRJZToMinidynReportDistinct = (
 
   return {
     version: 1,
-    thresholdsSelected: {
-      modulus: 0,
-      deflection: 0,
-      force: 0,
-      temperature: 0,
-      time: 0,
-      percentage: 0,
-      stiffness: 0,
+    thresholds: {
+      modulus: {
+        version: 1,
+        selected: 0,
+        custom: {
+          version: 1,
+          type: 'Bicolor',
+          value: 0,
+          valueHigh: 0,
+        },
+      },
+      deflection: {
+        version: 1,
+        selected: 0,
+        custom: {
+          version: 1,
+          type: 'Bicolor',
+          value: 0,
+          valueHigh: 0,
+        },
+      },
+      force: {
+        version: 1,
+        selected: 0,
+        custom: {
+          version: 1,
+          type: 'Bicolor',
+          value: 0,
+          valueHigh: 0,
+        },
+      },
+      temperature: {
+        version: 1,
+        selected: 0,
+        custom: {
+          version: 1,
+          type: 'Bicolor',
+          value: 0,
+          valueHigh: 0,
+        },
+      },
+      time: {
+        version: 1,
+        selected: 0,
+        custom: {
+          version: 1,
+          type: 'Bicolor',
+          value: 0,
+          valueHigh: 0,
+        },
+      },
+      percentage: {
+        version: 1,
+        selected: 0,
+        custom: {
+          version: 1,
+          type: 'Bicolor',
+          value: 0,
+          valueHigh: 0,
+        },
+      },
+      stiffness: {
+        version: 1,
+        selected: 0,
+        custom: {
+          version: 1,
+          type: 'Bicolor',
+          value: 0,
+          valueHigh: 0,
+        },
+      },
     },
     groupedDataLabels: {
       selected: 1,

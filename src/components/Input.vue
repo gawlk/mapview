@@ -105,7 +105,7 @@
       :class="classes"
     />
     <input
-      v-else-if="props.type === 'date'"
+      v-else-if="props.type === 'dateValue'"
       :id="props.id"
       disabled
       :value="new Date(props.value).toLocaleDateString(getBrowserLocale())"

@@ -20,7 +20,7 @@ export const importImages = (
         ...jsonImage,
       })
 
-      if (store.projects.selected === project && store.map?.isStyleLoaded()) {
+      if (store.projects.selected === project) {
         image.addToMap(store.projects.selected.settings.areImagesVisible)
       }
 

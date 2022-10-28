@@ -38,6 +38,7 @@ export const createBaseProjectFromJSON = async (
     settings,
     information: shallowReactive([] as Field[]),
     hardware: shallowReactive([] as Field[]),
+    acquisitionParameters: json.acquisitionParameters,
     refreshLinesAndImages: function () {
       if (this.settings.arePointsLinked) {
         this.reports.list.forEach((report) => {
@@ -252,6 +253,7 @@ export const createBaseProjectFromJSON = async (
         name: this.name.value as string,
         machine: this.machine,
         settings: this.settings,
+        acquisitionParameters: this.acquisitionParameters,
         images: this.images.map((image) => image.toJSON()),
         information: this.information.map((field) => field.toJSON()),
         hardware: this.hardware.map((field) => field.toJSON()),

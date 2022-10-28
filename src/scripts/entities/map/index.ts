@@ -12,6 +12,16 @@ export const mapStyles = [
   'mapbox://styles/mapbox/dark-v9',
 ]
 
+export const waitForMap = () =>
+  new Promise<boolean>((resolve) => {
+    const interval = setInterval(async () => {
+      if (store.map?.isStyleLoaded()) {
+        clearInterval(interval)
+        resolve(true)
+      }
+    }, 100)
+  })
+
 export const createMap = (container: string): mapboxgl.Map => {
   const map = new Map({
     container,

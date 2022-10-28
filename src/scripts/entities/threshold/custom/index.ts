@@ -1,12 +1,16 @@
 import { blend, colorsClasses } from '/src/scripts'
 
-export const createCustomThreshold = (value: number): CustomThreshold => {
+export const createCustomThreshold = (parameters: {
+  type: CustomThresholdType
+  value: number
+  valueHigh: number
+}): CustomThreshold => {
   return shallowReactive({
     kind: 'custom',
     name: 'Custom',
-    type: 'Bicolor' as CustomThresholdType,
-    value,
-    valueHigh: value,
+    type: parameters.type,
+    value: parameters.value,
+    valueHigh: parameters.valueHigh,
     getColor: function (mathNumber: MathNumber, colors: JSONThresholdColors) {
       const hexColorLow = colorsClasses[colors.low].hexColor
       const hexColorMiddle = colorsClasses[colors.middle].hexColor
@@ -23,6 +27,14 @@ export const createCustomThreshold = (value: number): CustomThreshold => {
               (mathNumber.value - this.value) / this.valueHigh
             )
         : hexColorHigh
+    },
+    toJSON: function (): JSONCustomThreshold {
+      return {
+        version: 1,
+        type: this.type,
+        value: this.value,
+        valueHigh: this.valueHigh,
+      }
     },
   })
 }

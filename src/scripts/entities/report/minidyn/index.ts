@@ -1,11 +1,15 @@
-import { createBaseReportFromJSON, convertDataLabelGroupsToJSON } from '../base'
+import {
+  createBaseReportFromJSON,
+  convertDataLabelGroupsToJSON,
+  convertThresholdsConfigurationToJSON,
+} from '../base'
 import {
   createMinidynZoneFromJSON,
   createFieldFromJSON,
   defaultThresholds,
+  createCustomThreshold,
   createMinidynDropIndexFromJSON,
   createSelectableList,
-  getIndexOfSelectedInSelectableList,
 } from '/src/scripts'
 
 interface MinidynReportCreatorParameters
@@ -47,48 +51,70 @@ export const createMinidynReportFromJSON = (
               defaultThresholds['pf2+'],
               defaultThresholds.pf3,
               defaultThresholds.pf4,
-              defaultThresholds.custom,
+              createCustomThreshold(json.distinct.thresholds.modulus.custom),
             ],
             {
-              selected: json.distinct.thresholdsSelected.modulus,
+              selected: json.distinct.thresholds.modulus.selected,
             }
           ),
         },
         stiffness: {
           unit: parameters.project.units.stiffness,
-          choices: createSelectableList([defaultThresholds.custom], {
-            selected: json.distinct.thresholdsSelected.stiffness,
-          }),
+          choices: createSelectableList(
+            [createCustomThreshold(json.distinct.thresholds.stiffness.custom)],
+            {
+              selected: json.distinct.thresholds.stiffness.selected,
+            }
+          ),
         },
         deflection: {
           unit: parameters.project.units.deflection,
-          choices: createSelectableList([defaultThresholds.custom], {
-            selected: json.distinct.thresholdsSelected.deflection,
-          }),
+          choices: createSelectableList(
+            [createCustomThreshold(json.distinct.thresholds.deflection.custom)],
+            {
+              selected: json.distinct.thresholds.deflection.selected,
+            }
+          ),
         },
         force: {
           unit: parameters.project.units.force,
-          choices: createSelectableList([defaultThresholds.custom], {
-            selected: json.distinct.thresholdsSelected.force,
-          }),
+          choices: createSelectableList(
+            [createCustomThreshold(json.distinct.thresholds.force.custom)],
+            {
+              selected: json.distinct.thresholds.force.selected,
+            }
+          ),
         },
         temperature: {
           unit: parameters.project.units.temperature,
-          choices: createSelectableList([defaultThresholds.custom], {
-            selected: json.distinct.thresholdsSelected.temperature,
-          }),
+          choices: createSelectableList(
+            [
+              createCustomThreshold(
+                json.distinct.thresholds.temperature.custom
+              ),
+            ],
+            {
+              selected: json.distinct.thresholds.temperature.selected,
+            }
+          ),
         },
         time: {
           unit: parameters.project.units.time,
-          choices: createSelectableList([defaultThresholds.custom], {
-            selected: json.distinct.thresholdsSelected.time,
-          }),
+          choices: createSelectableList(
+            [createCustomThreshold(json.distinct.thresholds.time.custom)],
+            {
+              selected: json.distinct.thresholds.time.selected,
+            }
+          ),
         },
         percentage: {
           unit: parameters.project.units.percentage,
-          choices: createSelectableList([defaultThresholds.custom], {
-            selected: json.distinct.thresholdsSelected.percentage,
-          }),
+          choices: createSelectableList(
+            [createCustomThreshold(json.distinct.thresholds.percentage.custom)],
+            {
+              selected: json.distinct.thresholds.percentage.selected,
+            }
+          ),
         },
       },
       jsonGroupedDataLabels: json.distinct.groupedDataLabels,
@@ -129,33 +155,28 @@ export const createMinidynReportFromJSON = (
           convertDataLabelGroupsToJSON<JSONMinidynGroupedDataLabels>(
             report as MinidynReport
           ),
-        thresholdsSelected: {
-          deflection:
-            getIndexOfSelectedInSelectableList(
-              thresholdGroup.deflection.choices
-            ) || 0,
-          force:
-            getIndexOfSelectedInSelectableList(thresholdGroup.force.choices) ||
-            0,
-          modulus:
-            getIndexOfSelectedInSelectableList(
-              thresholdGroup.modulus.choices
-            ) || 0,
-          percentage:
-            getIndexOfSelectedInSelectableList(
-              thresholdGroup.percentage.choices
-            ) || 0,
-          stiffness:
-            getIndexOfSelectedInSelectableList(
-              thresholdGroup.stiffness.choices
-            ) || 0,
-          temperature:
-            getIndexOfSelectedInSelectableList(
-              thresholdGroup.temperature.choices
-            ) || 0,
-          time:
-            getIndexOfSelectedInSelectableList(thresholdGroup.time.choices) ||
-            0,
+        thresholds: {
+          deflection: convertThresholdsConfigurationToJSON(
+            thresholdGroup.deflection.choices
+          ),
+          force: convertThresholdsConfigurationToJSON(
+            thresholdGroup.force.choices
+          ),
+          modulus: convertThresholdsConfigurationToJSON(
+            thresholdGroup.modulus.choices
+          ),
+          percentage: convertThresholdsConfigurationToJSON(
+            thresholdGroup.percentage.choices
+          ),
+          stiffness: convertThresholdsConfigurationToJSON(
+            thresholdGroup.stiffness.choices
+          ),
+          temperature: convertThresholdsConfigurationToJSON(
+            thresholdGroup.temperature.choices
+          ),
+          time: convertThresholdsConfigurationToJSON(
+            thresholdGroup.time.choices
+          ),
         },
       },
     }

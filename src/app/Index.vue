@@ -62,6 +62,12 @@
       }
     }
   })
+
+  onUnmounted(() => {
+    store.projects.list.forEach((project) => project.remove())
+
+    store.map?.stop()
+  })
 </script>
 
 <template>

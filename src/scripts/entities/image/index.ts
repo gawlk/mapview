@@ -15,7 +15,7 @@ export const createImage = async (
   map: mapboxgl.Map | null,
   parameters: JSONImage
 ): Promise<Image> => {
-  const id = `image-${parameters.name}-${+new Date()}_${Math.random()}`
+  const id = `image-${parameters.name}-${+new Date() + Math.random()}`
 
   const imageElement = await getImageFromData64(data64)
 

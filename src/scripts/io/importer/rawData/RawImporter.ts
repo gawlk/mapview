@@ -12,8 +12,10 @@ function saveRawData(
   const point = points.find((p) => p.id === id)
 
   impactDataFile.loadFromFile(reader)
+
   if (point) {
     point.rawDataFile = file
+
     for (const index in point.drops) {
       point.drops[index].impactData = impactDataFile.ImpactDatas[index]
     }
@@ -25,10 +27,20 @@ export function importRawData(zip: Unzipped, project: MachineProject) {
   const points = project.reports.list.flatMap((a) => a.line.sortedPoints)
   const rawData = Object.keys(zip).filter((key) => key.startsWith(folderName))
 
+  console.log(rawData)
+
   for (const filename of rawData) {
     const file = zip[filename]
-    saveRawData(file.buffer, points, filename.substring(folderName.length + 1))
+
+    if (file.length > 0) {
+      saveRawData(
+        file.buffer,
+        points,
+        filename.substring(folderName.length + 1)
+      )
+    }
   }
+
   console.log(
     project.reports.list.flatMap((a) =>
       a.line.sortedPoints.map((p) => p.drops.map((d) => d.impactData))

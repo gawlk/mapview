@@ -24,7 +24,6 @@ interface JSONBaseDropIndex {
 interface BaseDrop {
   readonly index: MachineDropIndex
   readonly data: DataValue<string>[]
-  readonly additionalFields: Field[]
   readonly point: MachinePoint
   impactData: ImpactData | null
   readonly toBaseJSON: () => JSONBaseDrop

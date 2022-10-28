@@ -16,7 +16,7 @@ interface JSONMaxidynReportDistinct {
     number,
     JSONMaxidynGroupedDataLabels
   >
-  readonly thresholdsSelected: MaxidynUnitsSkeleton<number>
+  readonly thresholds: MaxidynUnitsSkeleton<JSONDistinctThresholdsConfiguration>
 }
 
 interface JSONMaxidynGroupedDataLabels {

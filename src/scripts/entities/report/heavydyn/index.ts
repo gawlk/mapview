@@ -1,12 +1,15 @@
-import { createBaseReportFromJSON, convertDataLabelGroupsToJSON } from '../base'
+import {
+  createBaseReportFromJSON,
+  convertDataLabelGroupsToJSON,
+  convertThresholdsConfigurationToJSON,
+} from '../base'
 import {
   createHeavydynZoneFromJSON,
   createFieldFromJSON,
   createHeavydynDropIndexFromJSON,
-  defaultThresholds,
+  createCustomThreshold,
   createWatcherHandler,
   createSelectableList,
-  getIndexOfSelectedInSelectableList,
 } from '/src/scripts'
 
 interface HeavydynReportCreatorParameters
@@ -40,33 +43,52 @@ export const createHeavydynReportFromJSON = (
       thresholdsGroups: {
         deflection: {
           unit: parameters.project.units.deflection,
-          choices: createSelectableList([defaultThresholds.custom], {
-            selected: json.distinct.thresholdsSelected.deflection,
-          }),
+          choices: createSelectableList(
+            [createCustomThreshold(json.distinct.thresholds.deflection.custom)],
+            {
+              selected: json.distinct.thresholds.deflection.selected,
+            }
+          ),
         },
         force: {
           unit: parameters.project.units.force,
-          choices: createSelectableList([defaultThresholds.custom], {
-            selected: json.distinct.thresholdsSelected.force,
-          }),
+          choices: createSelectableList(
+            [createCustomThreshold(json.distinct.thresholds.force.custom)],
+            {
+              selected: json.distinct.thresholds.force.selected,
+            }
+          ),
         },
         temperature: {
           unit: parameters.project.units.temperature,
-          choices: createSelectableList([defaultThresholds.custom], {
-            selected: json.distinct.thresholdsSelected.temperature,
-          }),
+          choices: createSelectableList(
+            [
+              createCustomThreshold(
+                json.distinct.thresholds.temperature.custom
+              ),
+            ],
+            {
+              selected: json.distinct.thresholds.temperature.selected,
+            }
+          ),
         },
         distance: {
           unit: parameters.project.units.distance,
-          choices: createSelectableList([defaultThresholds.custom], {
-            selected: json.distinct.thresholdsSelected.distance,
-          }),
+          choices: createSelectableList(
+            [createCustomThreshold(json.distinct.thresholds.distance.custom)],
+            {
+              selected: json.distinct.thresholds.distance.selected,
+            }
+          ),
         },
         time: {
           unit: parameters.project.units.time,
-          choices: createSelectableList([defaultThresholds.custom], {
-            selected: json.distinct.thresholdsSelected.time,
-          }),
+          choices: createSelectableList(
+            [createCustomThreshold(json.distinct.thresholds.time.custom)],
+            {
+              selected: json.distinct.thresholds.time.selected,
+            }
+          ),
         },
       },
       jsonGroupedDataLabels: json.distinct.groupedDataLabels,
@@ -129,25 +151,22 @@ export const createHeavydynReportFromJSON = (
           convertDataLabelGroupsToJSON<JSONHeavydynGroupedDataLabels>(
             report as HeavydynReport
           ),
-        thresholdsSelected: {
-          deflection:
-            getIndexOfSelectedInSelectableList(
-              thresholdGroup.deflection.choices
-            ) || 0,
-          distance:
-            getIndexOfSelectedInSelectableList(
-              thresholdGroup.distance.choices
-            ) || 0,
-          force:
-            getIndexOfSelectedInSelectableList(thresholdGroup.force.choices) ||
-            0,
-          temperature:
-            getIndexOfSelectedInSelectableList(
-              thresholdGroup.temperature.choices
-            ) || 0,
-          time:
-            getIndexOfSelectedInSelectableList(thresholdGroup.time.choices) ||
-            0,
+        thresholds: {
+          deflection: convertThresholdsConfigurationToJSON(
+            thresholdGroup.deflection.choices
+          ),
+          distance: convertThresholdsConfigurationToJSON(
+            thresholdGroup.distance.choices
+          ),
+          force: convertThresholdsConfigurationToJSON(
+            thresholdGroup.force.choices
+          ),
+          temperature: convertThresholdsConfigurationToJSON(
+            thresholdGroup.temperature.choices
+          ),
+          time: convertThresholdsConfigurationToJSON(
+            thresholdGroup.time.choices
+          ),
         },
       },
     }

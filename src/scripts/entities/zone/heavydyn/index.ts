@@ -1,7 +1,9 @@
 import { createBaseZoneFromJSON } from '../base'
 import { createHeavydynPointFromJSON } from '/src/scripts'
 
-interface HeavydynZoneCreatorParameters extends MachineZoneCreatorParameters {}
+interface HeavydynZoneCreatorParameters extends MachineZoneCreatorParameters {
+  readonly report: HeavydynReport
+}
 
 export const createHeavydynZoneFromJSON = (
   json: JSONHeavydynZoneVAny,

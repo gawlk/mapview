@@ -40,12 +40,57 @@ export const convertPRJZToHeavydynReportDistinct = (
 
   return {
     version: 1,
-    thresholdsSelected: {
-      deflection: 0,
-      force: 0,
-      temperature: 0,
-      distance: 0,
-      time: 0,
+    thresholds: {
+      deflection: {
+        version: 1,
+        selected: 0,
+        custom: {
+          version: 1,
+          type: 'Bicolor',
+          value: 0,
+          valueHigh: 0,
+        },
+      },
+      force: {
+        version: 1,
+        selected: 0,
+        custom: {
+          version: 1,
+          type: 'Bicolor',
+          value: 0,
+          valueHigh: 0,
+        },
+      },
+      temperature: {
+        version: 1,
+        selected: 0,
+        custom: {
+          version: 1,
+          type: 'Bicolor',
+          value: 0,
+          valueHigh: 0,
+        },
+      },
+      distance: {
+        version: 1,
+        selected: 0,
+        custom: {
+          version: 1,
+          type: 'Bicolor',
+          value: 0,
+          valueHigh: 0,
+        },
+      },
+      time: {
+        version: 1,
+        selected: 0,
+        custom: {
+          version: 1,
+          type: 'Bicolor',
+          value: 0,
+          valueHigh: 0,
+        },
+      },
     },
     groupedDataLabels: {
       selected: 0,

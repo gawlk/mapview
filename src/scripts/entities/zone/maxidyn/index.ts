@@ -1,7 +1,9 @@
 import { createBaseZoneFromJSON } from '../base'
 import { createMaxidynPointFromJSON } from '/src/scripts'
 
-interface MaxidynZoneCreatorParameters extends MachineZoneCreatorParameters {}
+interface MaxidynZoneCreatorParameters extends MachineZoneCreatorParameters {
+  readonly report: MaxidynReport
+}
 
 export const createMaxidynZoneFromJSON = (
   json: JSONMaxidynZoneVAny,

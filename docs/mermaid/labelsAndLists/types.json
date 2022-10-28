@@ -1,9 +1,9 @@
 [
   {
-    "name": "GroupedDataLabels",
+    "name": "BaseGroupedDataLabels",
     "value": {
       "from": "DataLabelsFrom",
-      "choices": "SelectableList#60;DataLabel#62;",
+      "choices": "SelectableList#60;DataLabel#60;string#62;#62;",
       "indexes?": "SelectableList#60;MachineDropIndex#62;"
     },
     "dependencies": [
@@ -15,17 +15,112 @@
     "extends": []
   },
   {
-    "name": "JSONGroupedDataLabels",
+    "name": "JSONHeavydynGroupedDataLabels",
     "value": {
+      "version": "1",
       "from": "DataLabelsFrom",
-      "choices": "SelectableList#60;number, JSONChoice#62;",
-      "indexes?": "SelectableList#60;number, JSONMachineDropIndex#62;"
+      "choices": "SelectableList#60;number, JSONDataLabel#60;HeavydynUnitsNames#62;#62;",
+      "indexes?": "SelectableList#60;number, JSONHeavydynDropIndex#62;"
     },
     "dependencies": [
       "DataLabelsFrom",
       "SelectableList",
-      "JSONChoice",
-      "JSONMachineDropIndex"
+      "JSONDataLabel",
+      "HeavydynUnitsNames",
+      "JSONHeavydynDropIndex"
+    ],
+    "extends": []
+  },
+  {
+    "name": "HeavydynGroupedDataLabels",
+    "value": {
+      "indexes?": "SelectableList#60;HeavydynDropIndex#62;"
+    },
+    "dependencies": [
+      "SelectableList",
+      "HeavydynDropIndex"
+    ],
+    "extends": [
+      "BaseGroupedDataLabels"
+    ]
+  },
+  {
+    "name": "JSONMaxidynGroupedDataLabels",
+    "value": {
+      "version": "1",
+      "from": "DataLabelsFrom",
+      "choices": "SelectableList#60;number, JSONDataLabel#60;MaxidynUnitsNames#62;#62;",
+      "indexes?": "SelectableList#60;number, JSONMaxidynDropIndex#62;"
+    },
+    "dependencies": [
+      "DataLabelsFrom",
+      "SelectableList",
+      "JSONDataLabel",
+      "MaxidynUnitsNames",
+      "JSONMaxidynDropIndex"
+    ],
+    "extends": []
+  },
+  {
+    "name": "MaxidynGroupedDataLabels",
+    "value": {
+      "indexes?": "SelectableList#60;MaxidynDropIndex#62;"
+    },
+    "dependencies": [
+      "SelectableList",
+      "MaxidynDropIndex"
+    ],
+    "extends": [
+      "BaseGroupedDataLabels"
+    ]
+  },
+  {
+    "name": "JSONMinidynGroupedDataLabels",
+    "value": {
+      "version": "1",
+      "from": "DataLabelsFrom",
+      "choices": "SelectableList#60;number, JSONDataLabel#60;MinidynUnitsNames#62;#62;",
+      "indexes?": "SelectableList#60;number, JSONMinidynDropIndex#62;"
+    },
+    "dependencies": [
+      "DataLabelsFrom",
+      "SelectableList",
+      "JSONDataLabel",
+      "MinidynUnitsNames",
+      "JSONMinidynDropIndex"
+    ],
+    "extends": []
+  },
+  {
+    "name": "MinidynGroupedDataLabels",
+    "value": {
+      "indexes?": "SelectableList#60;MinidynDropIndex#62;"
+    },
+    "dependencies": [
+      "SelectableList",
+      "MinidynDropIndex"
+    ],
+    "extends": [
+      "BaseGroupedDataLabels"
+    ]
+  },
+  {
+    "name": "JSONMachineGroupedDataLabels",
+    "value": "| JSONHeavydynGroupedDataLabels   | JSONMaxidynGroupedDataLabels   | JSONMinidynGroupedDataLabels",
+    "dependencies": [
+      "JSONHeavydynGroupedDataLabels",
+      "JSONMaxidynGroupedDataLabels",
+      "JSONMinidynGroupedDataLabels"
+    ],
+    "extends": []
+  },
+  {
+    "name": "MachineGroupedDataLabels",
+    "value": "| HeavydynGroupedDataLabels   | MaxidynGroupedDataLabels   | MinidynGroupedDataLabels",
+    "dependencies": [
+      "HeavydynGroupedDataLabels",
+      "MaxidynGroupedDataLabels",
+      "MinidynGroupedDataLabels"
     ],
     "extends": []
   },
@@ -34,18 +129,6 @@
     "value": {
       "selected": "S | null",
       "list": "L[]"
-    },
-    "dependencies": [
-      "S",
-      "L"
-    ],
-    "extends": []
-  },
-  {
-    "name": "SelectableOptionalList~S, L~",
-    "value": {
-      "selected": "S | null",
-      "list?": "L[]"
     },
     "dependencies": [
       "S",

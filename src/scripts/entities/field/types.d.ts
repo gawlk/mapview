@@ -36,7 +36,7 @@ interface Field {
 }
 
 interface SlidableNumber {
-  readonly kind: 'SlidableNumber'
+  readonly kind: 'slidableNumber'
   readonly step: number
   readonly min: number
   readonly max: number
@@ -44,17 +44,17 @@ interface SlidableNumber {
 }
 
 interface DateValue {
-  readonly kind: 'DateValue'
+  readonly kind: 'dateValue'
   value: string
 }
 
 interface LongString {
-  readonly kind: 'LongString'
+  readonly kind: 'longString'
   value: string
 }
 
 interface SelectableString {
-  readonly kind: 'SelectableString'
+  readonly kind: 'selectableString'
   readonly possibleValues: string[]
   value: string
 }

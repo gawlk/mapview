@@ -15,7 +15,7 @@ export const createFieldFromJSON = (json: JSONFieldVAny): Field => {
         case 'Comment':
         case 'Comments':
           return {
-            kind: 'LongString',
+            kind: 'longString',
             value: value as string,
           }
 
@@ -25,12 +25,12 @@ export const createFieldFromJSON = (json: JSONFieldVAny): Field => {
         case 'Certificate start':
         case 'Certificate end':
           return {
-            kind: 'DateValue',
+            kind: 'dateValue',
             value: value as string,
           }
         case 'Material':
           return {
-            kind: 'SelectableString',
+            kind: 'selectableString',
             value: value as string,
             possibleValues: [
               'Silt',
@@ -41,7 +41,7 @@ export const createFieldFromJSON = (json: JSONFieldVAny): Field => {
           }
         case 'Layer':
           return {
-            kind: 'SelectableString',
+            kind: 'selectableString',
             value: value as string,
             possibleValues: [
               'Sub base',
@@ -58,7 +58,7 @@ export const createFieldFromJSON = (json: JSONFieldVAny): Field => {
           }
         case 'Type':
           return {
-            kind: 'SelectableString',
+            kind: 'selectableString',
             value: value as string,
             possibleValues: [
               'Building pavement',
@@ -74,13 +74,13 @@ export const createFieldFromJSON = (json: JSONFieldVAny): Field => {
           }
         case 'State':
           return {
-            kind: 'SelectableString',
+            kind: 'selectableString',
             value: value as string,
             possibleValues: ['Dry', 'Wet', 'Soggy', 'Frozen'],
           }
         case 'GTR':
           return {
-            kind: 'SelectableString',
+            kind: 'selectableString',
             value: value as string,
             possibleValues: [
               'N.S.',

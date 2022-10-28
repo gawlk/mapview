@@ -13,6 +13,7 @@ interface JSONBaseProject {
   readonly images: JSONImage[]
   readonly information: JSONField[]
   readonly hardware: JSONField[]
+  readonly acquisitionParameters: JSONAcquisitionParameters
 }
 
 type MachineName = 'Heavydyn' | 'Maxidyn' | 'Minidyn'
@@ -32,6 +33,14 @@ interface JSONProjectSettings {
   }
 }
 
+interface JSONAcquisitionParameters {
+  readonly version: 1
+  readonly nbSamples: number
+  readonly frequency: number
+  readonly preTrig: number
+  readonly smoothing?: boolean
+}
+
 // ---
 // Object
 // ---
@@ -45,6 +54,7 @@ interface BaseProject {
   readonly units: MachineMathUnits
   readonly settings: JSONProjectSettings
   readonly images: Image[]
+  readonly acquisitionParameters: JSONAcquisitionParameters
   readonly refreshLinesAndImages: () => void
   readonly setMapStyle: (styleIndex: number) => void
   readonly fitOnMap: () => void

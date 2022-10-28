@@ -19,9 +19,20 @@
     pointStateValues: [t('Number'), t('Value'), t('Empty')],
   })
 
-  const setPointsState = (n: number) => {
-    state.pointStateSelected = n
+  watch(
+    () => store.projects.selected?.settings.pointsState,
+    (pointsState) => {
+      if (pointsState) {
+        state.pointStateSelected =
+          pointsState === 'number' ? 0 : pointsState === 'value' ? 1 : 2
+      }
+    },
+    {
+      immediate: true,
+    }
+  )
 
+  const setPointsState = (n: number) => {
     if (store.projects.selected) {
       switch (n) {
         case 0:

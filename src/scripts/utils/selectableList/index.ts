@@ -29,5 +29,7 @@ export const createSelectableList = <T>(
 export const getIndexOfSelectedInSelectableList = <T>(sl: SelectableList<T>) =>
   sl.selected ? sl.list.indexOf(sl.selected) : null
 
-const getSelectedFromIndexInList = <T>(index: number | null, list: T[]) =>
-  index !== null && list.length > 0 ? list.at(index) || list[0] : null
+export const getSelectedFromIndexInList = <T>(
+  index: number | null,
+  list: T[]
+) => (index !== null && list.length > 0 ? list.at(index) || list[0] : null)

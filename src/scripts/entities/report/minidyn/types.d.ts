@@ -16,7 +16,7 @@ interface JSONMinidynReportDistinct {
     number,
     JSONMinidynGroupedDataLabels
   >
-  readonly thresholdsSelected: MinidynUnitsSkeleton<number>
+  readonly thresholds: MinidynUnitsSkeleton<JSONDistinctThresholdsConfiguration>
 }
 
 interface JSONMinidynGroupedDataLabels {

@@ -3,6 +3,7 @@ import {
   createMathUnit,
   createFieldFromJSON,
   createHeavydynReportFromJSON,
+  getSelectedFromIndexInList,
 } from '/src/scripts'
 
 export const createHeavydynProjectFromJSON = async (
@@ -88,7 +89,10 @@ export const createHeavydynProjectFromJSON = async (
     )
   )
 
-  project.reports.selected = project.reports.list[0]
+  project.reports.selected = getSelectedFromIndexInList(
+    json.base.reports.selected,
+    project.reports.list
+  )
 
   project.information.push(
     ...json.base.information.map((field: JSONField) =>

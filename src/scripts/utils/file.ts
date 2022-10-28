@@ -11,4 +11,19 @@ export const convertUint8ArrayToData64Image = (
   extension: string
 ) =>
   `data:image/${extension === 'png' ? extension : 'jpeg'};base64,` +
-  window.btoa(String.fromCharCode(...array))
+  window.btoa(
+    Array.from(array)
+      .map((value) => String.fromCharCode(value))
+      .join('')
+  )
+
+export const convertData64ImageToUint8Array = async (data64: string) => {
+  const res = await fetch(data64)
+  const blob = await res.blob()
+
+  return new Uint8Array(
+    await new Blob([blob], {
+      type: 'image/png',
+    }).arrayBuffer()
+  )
+}

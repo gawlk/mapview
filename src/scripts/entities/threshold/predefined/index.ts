@@ -18,7 +18,6 @@ export const createPredefinedThreshold = (
 }
 
 export const defaultThresholds = {
-  custom: createCustomThreshold(0),
   ns: createPredefinedThreshold('N.S.', 0),
   ar1: createPredefinedThreshold('AR1', 20000000),
   ar2: createPredefinedThreshold('AR2', 50000000),

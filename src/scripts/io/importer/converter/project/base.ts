@@ -39,6 +39,15 @@ export const convertPRJZToBaseProject = (json: any): JSONBaseProject => {
       version: 1,
       readOnly: true,
     }),
+    acquisitionParameters: {
+      version: 1,
+      nbSamples: json.ParamsAcqu.NbSamples,
+      frequency: json.ParamsAcqu.FreqAcqu,
+      preTrig: json.ParamsAcqu.PreTrig,
+      ...(json.ParamsAcqu.NbSamples
+        ? { smoothing: json.ParamsAcqu.NbSamples }
+        : {}),
+    },
     reports: {
       selected: null,
       list: [],

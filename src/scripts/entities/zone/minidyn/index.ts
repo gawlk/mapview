@@ -1,7 +1,9 @@
 import { createBaseZoneFromJSON } from '../base'
 import { createMinidynPointFromJSON } from '/src/scripts'
 
-interface MinidynZoneCreatorParameters extends MachineZoneCreatorParameters {}
+interface MinidynZoneCreatorParameters extends MachineZoneCreatorParameters {
+  readonly report: MinidynReport
+}
 
 export const createMinidynZoneFromJSON = (
   json: JSONMinidynZoneVAny,

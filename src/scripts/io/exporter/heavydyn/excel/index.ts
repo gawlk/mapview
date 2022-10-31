@@ -113,14 +113,14 @@ export class ExcelExportStrategy implements ExportStrategy {
         }), {});
     }
 
-    public createBaseJson(project: BaseProject) {
+    public createBaseJson(project: BaseProject): ExcelJson {
         if (!project.reports.selected)
-            return;
+            return {};
         return {
             "JsonFileFormat": "Report database from Mapview",
             "Version": 1,
             "Database_Software": "Mapview",
-            "Database_Local": getBrowserLocale(false),
+            "Database_Local": getBrowserLocale(false) || "NA",
             "Database_TimeZone": Intl.DateTimeFormat().resolvedOptions().timeZone,
             "Database_Iterators_Name": [
                 "Z",
@@ -151,9 +151,9 @@ export class ExcelExportStrategy implements ExportStrategy {
         }
     }
 
-    public createJson(project: HeavydynProject) {
+    public createJson(project: HeavydynProject): ExcelJson {
         if (!project.reports.selected)
-            return;
+            return {};
         return {
             ...this.createBaseJson(project),
             ...this.generatePointInformations(project.reports.selected.line.sortedPoints, "Pi_"),

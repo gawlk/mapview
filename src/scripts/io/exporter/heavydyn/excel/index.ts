@@ -5,13 +5,13 @@ export class ExcelExportStrategy implements ExportStrategy {
 
     public doExport(project: HeavydynProject): string {
         let res = this.createJson(project);
-        return JSON.stringify(res);
+        return JSON.stringify(res, null, 4);
     }
 
-    private generateInformationsFromFields(fields: Field[], tag: string, labelKey: string = "label", valueKey: string = "value") {
-        return fields.reduce((a, v) => {
-            let label = this.toPascalCase(tag + "_" + v[labelKey]);
-            let value = typeof v[valueKey] === "object" ? v[valueKey].value : v[valueKey];
+    private generateInformationsFromFields(fields: Field[], tag: string): ExcelJson {
+        return fields.reduce<ExcelJson>((a, v) => {
+            let label = tag + this.toPascalCase(v.label);
+            let value = typeof v.value === "object" ? v.value.value : v.value;
 
             return {
                 ...a,
@@ -20,17 +20,21 @@ export class ExcelExportStrategy implements ExportStrategy {
         }, {});
     }
 
-
-    //SHOULD BE AN UTIL
-    private toPascalCase(str: string) {
-        return str.replace(/(?:^\w|[A-Z]|\b\w)/g, (word) => word.toUpperCase()).replace(/\s+/g, '');
+    //Replace to sanitize excel
+    private toPascalCase(str: string): string {
+        return str
+            .replace(/-/g, "M")
+            .replace(/_/g, " ")
+            .replace(/(?:^\w|[A-Z]|\b\w)/g, (word) => word.toUpperCase()).replace(/\s+/g, '');
     }
 
-    private generatePointData(points: MachinePoint[], labelPrefix: string) {
-        return points.reduce((a, point) =>
-            point.data.reduce((b, data) => {
-                const label = this.toPascalCase(labelPrefix + data.label.name);
-                const values = [...(b[label] || []), data.value.value];
+    private generatePointData(points: MachinePoint[], labelPrefix: string): ExcelJson {
+        return points.reduce<FlatDataJson>((a, point) =>
+            point.data.reduce<FlatDataJson>((b, data) => {
+                const label = labelPrefix + this.toPascalCase(data.label.name);
+                let values = b[label] || [];
+
+                values = <typeof values>[...values, data.value.value];
 
                 return {
                     ...b,
@@ -42,10 +46,11 @@ export class ExcelExportStrategy implements ExportStrategy {
 
     private generatePointInformations(points: MachinePoint[], labelPrefix: string) {
         return points.reduce((a, point) => ({
-            ...point.information.reduce((b, information) => {
-                const label = this.toPascalCase(labelPrefix + information.label);
+            ...point.information.reduce<FlatDataJson>((b, information) => {
+                const label = labelPrefix + this.toPascalCase(information.label);
                 const value = typeof information.value === "object" ? information.value.value : information.value;
-                const values = [...(b[label] || []), value]
+                let values = b[label] || []
+                values = <typeof values>[...values, value]
 
                 return {
                     ...b,
@@ -60,14 +65,16 @@ export class ExcelExportStrategy implements ExportStrategy {
         }), {})
     }
 
-    private generateDropData(points: MachinePoint[], labelPrefix: string) {
-        return points.reduce((a, point) => {
-            return point.drops.reduce((b, drop) => {
+    private generateDropData(points: MachinePoint[], labelPrefix: string): ExcelJson {
+        return points.reduce<FlatDataJson>((a, point) => {
+            const drops: MachineDrop[] = point.drops;
+            return drops.reduce<FlatDataJson>((b, drop) => {
                 return {
                     ...b,
-                    ...drop.data.reduce((c, data) => {
-                        const label = this.toPascalCase(labelPrefix + drop.index.displayedIndex + "_" + data.label.name);
-                        const values = [...(c[label] || []), data.value.value];
+                    ...drop.data.reduce<FlatDataJson>((c, data) => {
+                        const label = labelPrefix + drop.index.displayedIndex + "_" + this.toPascalCase(data.label.name);
+                        let values = c[label] || []
+                        values = <typeof values>[...values, data.value.value]
                         return {
                             ...c,
                             [label]: values
@@ -78,48 +85,35 @@ export class ExcelExportStrategy implements ExportStrategy {
         }, {})
     }
 
-    private generateZoneData(zones: MachineZone[]) {
-        return zones.reduce((a, zone, index) => {
+    private generateZoneData(zones: MachineZone[]): ExcelJson {
+        return zones.reduce<ExcelJson>((a, zone, index) => {
             return {
                 ...a,
                 ["Z" + (index + 1) + "_Name"]: zone.name,
                 ...this.generatePointInformations(zone.points, "Z" + (index + 1) + "_Pi_"),
                 ...this.generatePointData(zone.points, "Z" + (index + 1) + "_Pi_"),
-                ...this.generateDropData(zone.points, "Z" + (index + 1) + "_Pi_"),
+                ...this.generateDropData(zone.points, "Z" + (index + 1) + "_Pi_D"),
             }
         }, {})
     }
 
-    private generateUnits(units: MachineMathUnits) {
-        return {
-            ...Object.values(units).reduce((a, unit) => ({
-                ...a,
-                ["Unit_" + unit.name]: unit.currentUnit
-            }), {})
-        }
+    private generateUnits(units: MachineMathUnits): ExcelJson {
+        return Object.values(units).reduce<ExcelJson>((a, unit) => ({
+            ...a,
+            ["Unit_" + unit.name]: unit.currentUnit
+        }), {})
     }
 
-    private generateThresholds(report: HeavydynReport) {
-        const group = report.dataLabels.groups.selected
-        if (!group || !group.choices.selected) return {};
-        const mathNumber = report.line.sortedPoints[0].getSelectedMathNumber(
-            group.from,
-            group.choices.selected,
-            group.indexes?.selected
-        )
-        const unit = mathNumber?.unit
-        const threshold = Object.values(
-            report.thresholds.groups
-        ).find((group) => group.unit === unit)?.choices.selected
-
-        console.log("threshold", threshold)
-        return {
-            "Threshold_Class": threshold?.name,
-            "Threshold_Threshold": threshold?.value,
-        }
+    private generateThresholds(thresholds: MachineReportThresholds): ExcelJson {
+        return Object.values(thresholds.groups).reduce<ExcelJson>((a, group) => ({
+            ...a,
+            ["Thresholds_" + group.unit.name + "_Kind"]: group.choices.selected.kind,
+            ["Thresholds_" + group.unit.name + "_Name"]: group.choices.selected.name,
+            ["Thresholds_" + group.unit.name + "_Value"]: group.choices.selected.value,
+        }), {});
     }
 
-    public createJson(project: HeavydynProject) {
+    public createBaseJson(project: BaseProject) {
         if (!project.reports.selected)
             return;
         return {
@@ -127,7 +121,7 @@ export class ExcelExportStrategy implements ExportStrategy {
             "Version": 1,
             "Database_Software": "Mapview",
             "Database_Local": getBrowserLocale(false),
-            "Database_TimeZone": Intl.DateTimeFormat().resolvedOptions().timeZone, //TODO get current timeZone
+            "Database_TimeZone": Intl.DateTimeFormat().resolvedOptions().timeZone,
             "Database_Iterators_Name": [
                 "Z",
                 "P",
@@ -148,12 +142,20 @@ export class ExcelExportStrategy implements ExportStrategy {
                 false,
                 true
             ],
-            ...this.generateInformationsFromFields(project.information, "Project"),
+            ...this.generateInformationsFromFields(project.information, "Project_"),
+            ...this.generateInformationsFromFields(project.hardware, "Hardware_"),
+            ...this.generateInformationsFromFields(project.reports.selected.information, "Report_"),
+            ...this.generateInformationsFromFields(project.reports.selected.platform, "Platform_"),
             ...this.generateUnits(project.units),
-            ...this.generateInformationsFromFields(project.hardware, "Hardware"),
-            ...this.generateInformationsFromFields(project.reports.selected.information, "Report"),
-            ...this.generateInformationsFromFields(project.reports.selected.platform, "Platform"),
-            ...this.generateThresholds(project.reports.selected),
+            ...this.generateThresholds(project.reports.selected.thresholds)
+        }
+    }
+
+    public createJson(project: HeavydynProject) {
+        if (!project.reports.selected)
+            return;
+        return {
+            ...this.createBaseJson(project),
             ...this.generatePointInformations(project.reports.selected.line.sortedPoints, "Pi_"),
             ...this.generatePointData(project.reports.selected.line.sortedPoints, "Pi_"),
             ...this.generateDropData(project.reports.selected.line.sortedPoints, "Pi_D"),

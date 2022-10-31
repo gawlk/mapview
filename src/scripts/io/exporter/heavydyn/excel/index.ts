@@ -34,7 +34,7 @@ export class ExcelExportStrategy implements ExportStrategy {
                 const label = labelPrefix + this.toPascalCase(data.label.name);
                 let values = b[label] || [];
 
-                values = <typeof values>[...values, data.value.value];
+                values = <typeof values>[...values, data.value.getValueAs(data.label.unit.currentUnit)];
 
                 return {
                     ...b,
@@ -74,7 +74,7 @@ export class ExcelExportStrategy implements ExportStrategy {
                     ...drop.data.reduce<FlatDataJson>((c, data) => {
                         const label = labelPrefix + drop.index.displayedIndex + "_" + this.toPascalCase(data.label.name);
                         let values = c[label] || []
-                        values = <typeof values>[...values, data.value.value]
+                        values = <typeof values>[...values, data.value.getValueAs(data.label.unit.currentUnit)]
                         return {
                             ...c,
                             [label]: values

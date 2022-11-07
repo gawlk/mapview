@@ -11,6 +11,7 @@ export class ExcelExportStrategy implements ExportStrategy {
     private generateInformationsFromFields(fields: Field[], tag: string): ExcelJson {
         return fields.reduce<ExcelJson>((a, v) => {
             let label = tag + this.toPascalCase(v.label);
+             // TODO: create generic function to fetch value from field
             let value = typeof v.value === "object" ? v.value.value : v.value;
 
             return {
@@ -32,9 +33,8 @@ export class ExcelExportStrategy implements ExportStrategy {
         return points.reduce<FlatDataJson>((a, point) =>
             point.data.reduce<FlatDataJson>((b, data) => {
                 const label = labelPrefix + this.toPascalCase(data.label.name);
-                let values = b[label] || [];
-
-                values = <typeof values>[...values, data.value.getValueAs(data.label.unit.currentUnit)];
+                const value = data.value.getValueAs(data.label.unit.currentUnit);
+                const values = [... (b[label] || []) as number[], value];
 
                 return {
                     ...b,
@@ -45,23 +45,23 @@ export class ExcelExportStrategy implements ExportStrategy {
     }
 
     private generatePointInformations(points: MachinePoint[], labelPrefix: string) {
-        return points.reduce((a, point) => ({
+        return points.reduce<FlatDataJson>((a, point) => ({
             ...point.information.reduce<FlatDataJson>((b, information) => {
                 const label = labelPrefix + this.toPascalCase(information.label);
+                // TODO: create generic function to fetch value from field
                 const value = typeof information.value === "object" ? information.value.value : information.value;
-                let values = b[label] || []
-                values = <typeof values>[...values, value]
+                const values = [...(b[label] || []), value];
 
                 return {
                     ...b,
-                    [label]: values
+                    [label]: values as number[] | string[] | boolean[]
                 }
             }, a),
-            [labelPrefix + 'ID']: [...(a[labelPrefix + "ID"] || []), point.id],
-            [labelPrefix + 'Number']: [...(a[labelPrefix + "Number"] || []), point.number],
-            [labelPrefix + 'Date']: [...(a[labelPrefix + "Date"] || []), point.date],
-            [labelPrefix + 'Longitude']: [...(a[labelPrefix + "Longitude"] || []), point.marker?.getLngLat().lng],
-            [labelPrefix + 'Latitude']: [...(a[labelPrefix + "Latitude"] || []), point.marker?.getLngLat().lat],
+            [labelPrefix + "ID"]: [...(a[labelPrefix + "ID"] || []) as string[], point.id],
+            [labelPrefix + 'Number']: [...(a[labelPrefix + "Number"] || []) as number[], point.number],
+            [labelPrefix + 'Date']: [...(a[labelPrefix + "Date"] || []) as string[], point.date.toISOString()],
+            [labelPrefix + 'Longitude']: [...(a[labelPrefix + "Longitude"] || []) as number[], point.marker?.getLngLat().lng || 0],
+            [labelPrefix + 'Latitude']: [...(a[labelPrefix + "Latitude"] || []) as number[], point.marker?.getLngLat().lat || 0],
         }), {})
     }
 
@@ -73,8 +73,9 @@ export class ExcelExportStrategy implements ExportStrategy {
                     ...b,
                     ...drop.data.reduce<FlatDataJson>((c, data) => {
                         const label = labelPrefix + drop.index.displayedIndex + "_" + this.toPascalCase(data.label.name);
-                        let values = c[label] || []
-                        values = <typeof values>[...values, data.value.getValueAs(data.label.unit.currentUnit)]
+                        const values = (c[label] || []) as number[];
+
+                        values.push(data.value.getValueAs(data.label.unit.currentUnit));
                         return {
                             ...c,
                             [label]: values
@@ -98,19 +99,24 @@ export class ExcelExportStrategy implements ExportStrategy {
     }
 
     private generateUnits(units: MachineMathUnits): ExcelJson {
-        return Object.values(units).reduce<ExcelJson>((a, unit) => ({
+        return Object.values(units).reduce<ExcelJson>((a, unit: MathUnit<string>) => ({
             ...a,
             ["Unit_" + unit.name]: unit.currentUnit
         }), {})
     }
 
     private generateThresholds(thresholds: MachineReportThresholds): ExcelJson {
-        return Object.values(thresholds.groups).reduce<ExcelJson>((a, group) => ({
-            ...a,
-            ["Thresholds_" + group.unit.name + "_Kind"]: group.choices.selected.kind,
-            ["Thresholds_" + group.unit.name + "_Name"]: group.choices.selected.name,
-            ["Thresholds_" + group.unit.name + "_Value"]: group.choices.selected.value,
-        }), {});
+        return Object.values(thresholds.groups).reduce<ExcelJson>((a, group: GroupedThresolds<string>) => {
+            if (group.choices.selected) {
+                return {
+                    ...a,
+                    ["Thresholds_" + group.unit.name + "_Kind"]: group.choices.selected.kind,
+                    ["Thresholds_" + group.unit.name + "_Name"]: group.choices.selected.name,
+                    ["Thresholds_" + group.unit.name + "_Value"]: group.choices.selected.value,
+                }
+            }
+            return a;
+        }, {});
     }
 
     public createBaseJson(project: BaseProject): ExcelJson {

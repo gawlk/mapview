@@ -119,6 +119,29 @@ export class ExcelExportStrategy implements ExportStrategy {
         }, {});
     }
 
+    private generateHeavydynData(project: HeavydynProject): ExcelJson {
+        return {}
+    }
+
+    private generateMaxidynData(project: MaxidynProject): ExcelJson {
+        return {}
+    }
+
+    private generateMinidynData(project: MinidynProject): ExcelJson {
+        return {}
+    }
+
+    private generateSpecificMachineData(project: BaseProject): ExcelJson {
+        switch (project.machine) {
+            case "Heavydyn":
+                return this.generateHeavydynData(project as HeavydynProject);
+            case "Maxidyn":
+                return this.generateMaxidynData(project as MaxidynProject);
+            case "Minidyn":
+                return this.generateMinidynData(project as MinidynProject);
+        }
+    }
+
     public createBaseJson(project: BaseProject): ExcelJson {
         if (!project.reports.selected)
             return {};
@@ -157,7 +180,7 @@ export class ExcelExportStrategy implements ExportStrategy {
         }
     }
 
-    public createJson(project: HeavydynProject): ExcelJson {
+    public createJson(project: BaseProject): ExcelJson {
         if (!project.reports.selected)
             return {};
         return {
@@ -166,6 +189,7 @@ export class ExcelExportStrategy implements ExportStrategy {
             ...this.generatePointData(project.reports.selected.line.sortedPoints, "Pi_"),
             ...this.generateDropData(project.reports.selected.line.sortedPoints, "Pi_D"),
             ...this.generateZoneData(project.reports.selected.zones),
+            ...this.generateSpecificMachineData(project),
         }
     }
 }

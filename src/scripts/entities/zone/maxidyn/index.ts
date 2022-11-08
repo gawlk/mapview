@@ -16,7 +16,7 @@ export const createMaxidynZoneFromJSON = (
     json.base,
     {
       machine: 'Maxidyn',
-      ...parameters,
+      report: parameters.report,
     }
   )
 

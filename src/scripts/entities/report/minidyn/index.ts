@@ -119,7 +119,7 @@ export const createMinidynReportFromJSON = (
       },
       jsonGroupedDataLabels: json.distinct.groupedDataLabels,
       dropIndexes,
-      ...parameters,
+      project: parameters.project,
     }
   )
 

@@ -15,7 +15,7 @@ export const createHeavydynDropFromJSON = (
     json.base,
     {
       machine: 'Heavydyn',
-      ...parameters,
+      point: parameters.point,
     }
   )
 

@@ -17,7 +17,7 @@ export const createMaxidynPointFromJSON = (
     map,
     {
       machine: 'Maxidyn',
-      ...parameters,
+      zone: parameters.zone,
     }
   )
 

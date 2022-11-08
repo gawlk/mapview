@@ -16,7 +16,7 @@ export const createHeavydynZoneFromJSON = (
     json.base,
     {
       machine: 'Heavydyn',
-      ...parameters,
+      report: parameters.report,
     }
   )
 

@@ -17,7 +17,7 @@ export const createHeavydynPointFromJSON = (
     map,
     {
       machine: 'Heavydyn',
-      ...parameters,
+      zone: parameters.zone,
     }
   )
 

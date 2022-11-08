@@ -93,7 +93,7 @@ export const createHeavydynReportFromJSON = (
       },
       jsonGroupedDataLabels: json.distinct.groupedDataLabels,
       dropIndexes,
-      ...parameters,
+      project: parameters.project,
     }
   )
 

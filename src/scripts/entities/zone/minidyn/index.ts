@@ -16,7 +16,7 @@ export const createMinidynZoneFromJSON = (
     json.base,
     {
       machine: 'Minidyn',
-      ...parameters,
+      report: parameters.report,
     }
   )
 

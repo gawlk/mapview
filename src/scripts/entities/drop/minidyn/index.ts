@@ -14,7 +14,7 @@ export const createMinidynDropFromJSON = (
     json.base,
     {
       machine: 'Minidyn',
-      ...parameters,
+      point: parameters.point,
     }
   )
 

@@ -16,9 +16,7 @@ export const importImages = (
         jsonImage.name.split('.').pop() as string
       )
 
-      const image = await createImage(data64, store.map, {
-        ...jsonImage,
-      })
+      const image = await createImage(data64, store.map, jsonImage)
 
       if (store.projects.selected === project) {
         image.addToMap(store.projects.selected.settings.areImagesVisible)

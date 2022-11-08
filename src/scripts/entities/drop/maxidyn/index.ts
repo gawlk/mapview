@@ -14,7 +14,7 @@ export const createMaxidynDropFromJSON = (
     json.base,
     {
       machine: 'Maxidyn',
-      ...parameters,
+      point: parameters.point,
     }
   )
 

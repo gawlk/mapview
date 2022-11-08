@@ -61,6 +61,24 @@
                 strict
               />
             </div>
+            <div class="space-y-2 sm:flex sm:space-y-0 sm:space-x-2">
+              <Input
+                :id="`${unit.name}-min`"
+                :isRange="false"
+                :label="`Minimum (${unit.currentUnit})`"
+                :value="unit.min"
+                :unit="unit"
+                @input="(value) => {}"
+              />
+              <Input
+                :id="`${unit.name}-max`"
+                :isRange="false"
+                :label="`Maximum (${unit.currentUnit})`"
+                :value="unit.max"
+                :unit="unit"
+                @input="(value) => {}"
+              />
+            </div>
           </div>
         </div>
       </div>

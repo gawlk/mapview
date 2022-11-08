@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  import { downloadImage } from '/src/scripts'
+
   import Button from '/src/components/Button.vue'
   import Overlay from '/src/components/Overlay.vue'
 
@@ -33,6 +35,17 @@
       <Button green @click="emit('save')">
         {{ t('Add to album') }}
       </Button>
+      <Button
+        yellow
+        @click="
+          () => {
+            downloadImage(state.image)
+            emit('close')
+          }
+        "
+      >
+        {{ t('Download picture') }}
+      </Button>
       <Button red @click="emit('close')">
         {{ t('Exit') }}
       </Button>
@@ -43,4 +56,5 @@
 <i18n lang="yaml">
 fr:
   'Add to album': "Ajouter à l'album"
+  'Download picture': "Télécharger l'image"
 </i18n>

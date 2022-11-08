@@ -27,3 +27,12 @@ export const convertData64ImageToUint8Array = async (data64: string) => {
     }).arrayBuffer()
   )
 }
+
+export const downloadImage = (screenshot: string) => {
+  const a = document.createElement('a')
+  a.href = screenshot
+  a.download = 'screenshot.png'
+  a.target = '_blank'
+  a.click()
+  a.remove()
+}

@@ -11,11 +11,10 @@
   import IconFold from '~icons/octicon/fold-16'
 
   import Button from '/src/components/Button.vue'
+  import Divider from '/src/components/Divider.vue'
+  import InputNumberSwitchable from '/src/components/InputNumberSwitchable.vue'
   import Listbox from '/src/components/Listbox.vue'
   import ListboxColors from '/src/components/ListboxColors.vue'
-  import Divider from '/src/components/Divider.vue'
-
-  import GroupInputThreshold from './GroupInputThreshold.vue'
 
   const { t } = useI18n()
 
@@ -124,7 +123,7 @@
         selectedDataLabel?.name || ''
       )} < ${formattedTresholdValue}`"
     />
-    <GroupInputThreshold
+    <InputNumberSwitchable
       v-if="currentGroupedThresholds?.choices.selected?.kind === 'custom'"
       :isRange="selectedReport?.thresholds.inputs.isRequiredARange"
       :value="currentGroupedThresholds.choices.selected?.value || 0"
@@ -209,7 +208,7 @@
         }}
       </Button>
 
-      <GroupInputThreshold
+      <InputNumberSwitchable
         :isRange="selectedReport?.thresholds.inputs.isOptionalARange"
         :value="currentGroupedThresholds.choices.selected?.valueHigh || 0"
         :unit="selectedUnit"

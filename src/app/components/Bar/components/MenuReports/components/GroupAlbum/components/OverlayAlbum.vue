@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import { downloadImage } from '/src/scripts'
   import store from '/src/store'
 
   import IconLogout from '~icons/heroicons-solid/logout'
@@ -17,15 +18,6 @@
   }>()
 
   const { t } = useI18n()
-
-  const download = (screenshot: string) => {
-    const a = document.createElement('a')
-    a.href = screenshot
-    a.download = 'screenshot.png'
-    a.target = '_blank'
-    a.click()
-    a.remove()
-  }
 </script>
 
 <template>
@@ -42,7 +34,10 @@
             class="h-[50vh] rounded-lg border-4 border-white lg:h-[70vh]"
           />
           <div class="space-x-2">
-            <Button :icon="IconDownload" @click="() => download(screenshot)" />
+            <Button
+              :icon="IconDownload"
+              @click="() => downloadImage(screenshot)"
+            />
             <Button
               :icon="IconTrash"
               @click="

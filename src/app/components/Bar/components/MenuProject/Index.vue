@@ -4,7 +4,7 @@
   import DialogInformations from '/src/components/DialogInformations.vue'
 
   import ButtonSave from './components/ButtonSave.vue'
-  import DialogConfigurations from './components/DialogConfigurations.vue'
+  import DialogConfigurations from './components/DialogConfigurations/Index.vue'
   import GroupProjects from './components/GroupProjects.vue'
 
   const { t } = useI18n()

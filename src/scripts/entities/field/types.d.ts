@@ -31,6 +31,8 @@ interface Field {
     | DateValue
     | LongString
     | SelectableString
+  readonly getValue: () => string | number | boolean | null
+  readonly setValue: (value: string | number) => void
   readonly toString: () => string
   readonly toJSON: () => JSONField
 }

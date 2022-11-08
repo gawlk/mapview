@@ -38,14 +38,6 @@
     })
   }
 
-  const setValue = (information: Field, value: any) => {
-    if (typeof information.value === 'object' && information.value.kind) {
-      information.value.value = value
-    } else {
-      information.value = value
-    }
-  }
-
   const getType = (field: Field) =>
     (typeof field.value === 'object' && field.value.kind) || typeof field.value
 </script>
@@ -77,14 +69,8 @@
               :key="field.label"
               :id="`${props.preID}information-${field.label}`"
               :label="t(field.label)"
-              @input="(value) => setValue(field, value)"
-              :value="
-                String(
-                  typeof field.value === 'object'
-                    ? field.value.value
-                    : field.value
-                )
-              "
+              @input="(value) => field.setValue(value)"
+              :value="field.toString()"
               :type="getType(field)"
               :step="
                 typeof field.value === 'object' && 'step' in field.value

@@ -18,7 +18,7 @@ interface MathUnit<PossibleUnits> {
   readonly possibleSettings: [string, number][]
   readonly possiblePrecisions: number[]
   readonly min: number
-  readonly max: number | null
+  readonly max: number
   readonly step: number
   readonly readOnly: boolean
   currentUnit: string

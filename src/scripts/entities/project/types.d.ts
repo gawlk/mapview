@@ -9,6 +9,16 @@ type JSONMachineProject =
 
 interface JSONBearingParameters {
   readonly version: 1
+  readonly name: string
+  readonly algoBearing: string
+  readonly hasQuality: boolean
+  readonly algoProcessing1: string
+  readonly algoProcessing2: string
+  readonly dPlate: number
+  readonly cPoisson: number
+  readonly fForme: number
+  readonly k: number
+  readonly alpha: number
   readonly min: number
   readonly max: number
 }

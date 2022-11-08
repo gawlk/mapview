@@ -1,13 +1,12 @@
 import { Marker, Popup } from 'mapbox-gl'
 
+import { translate } from '/src/locales'
 import {
   createIcon,
   createWatcherHandler,
   colorsClasses,
   createDataValueFromJSON,
 } from '/src/scripts'
-import { getBrowserLocale } from '/src/locales'
-import translationsFR from '/src/locales/fr.json?raw'
 
 interface BasePointCreatorParameters extends MachinePointCreatorParameters {
   machine: MachineName
@@ -174,23 +173,23 @@ export const createBasePointFromJSON = (
       }
     },
     updatePopup: function () {
-      const locale = getBrowserLocale(true)
+      let html: string = ``
 
-      let html: string = ''
+      const appendToPopup = (label: string, value: string) =>
+        (html += `<p><strong>${label}:</strong> ${value}</p>`)
+
+      appendToPopup(translate('Date'), this.date.toLocaleString())
+      appendToPopup(
+        translate('Longitude'),
+        String(this.marker?.getLngLat().lng)
+      )
+      appendToPopup(translate('Latitude'), String(this.marker?.getLngLat().lat))
 
       this.data.forEach((dataValue) => {
-        let name = dataValue.label.name
-
-        const translations = {
-          fr: JSON.parse(translationsFR),
-        }
-
-        name =
-          locale === 'fr' && name in translations.fr
-            ? translations.fr[name]
-            : name
-
-        html += `<p><strong>${name}:</strong> ${dataValue.value.displayedStringWithUnit}</p>`
+        appendToPopup(
+          translate(dataValue.label.name),
+          dataValue.value.displayedStringWithUnit
+        )
       })
 
       this.marker?.setPopup(new Popup().setHTML(html))
@@ -249,6 +248,8 @@ export const createBasePointFromJSON = (
       }
     },
   })
+
+  marker?.on('dragend', () => point.updatePopup())
 
   return point
 }

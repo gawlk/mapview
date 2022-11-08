@@ -39,7 +39,7 @@ export const createMathUnit = <PossibleUnits extends string>(
   const possiblePrecisions = options?.possiblePrecisions || [0, 1, 2]
   const currentPrecision = json.precision || possibleSettings[0][1]
   const min = options?.min || 0
-  const max = options?.max || null
+  const max = options?.max || 1000
   const step = options?.step || 1
   const readOnly = options?.readOnly || false
 
@@ -60,7 +60,7 @@ export const createMathUnit = <PossibleUnits extends string>(
 
       const filteredValues: number[] = values.filter((value) =>
         options?.averageFunction === 'ignoreOutliers'
-          ? (!this.max || value <= this.max) && value >= this.min
+          ? value <= this.max && value >= this.min
           : true
       )
 

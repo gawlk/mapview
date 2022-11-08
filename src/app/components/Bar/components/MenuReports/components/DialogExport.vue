@@ -13,6 +13,7 @@
     FWDDynatestExportStrategy,
     FWDSwecoExportStrategy,
     PDXExportStrategy,
+    ExcelExportStrategy
   } from '/src/scripts'
 
   const state = reactive({
@@ -26,10 +27,11 @@
     f25: new F25ExportStrategy(),
     pdx: new PDXExportStrategy(),
     fwdSweco: new FWDSwecoExportStrategy(),
+    excel: new ExcelExportStrategy(),
   }
 
   function exportFile(format: string) {
-    const strategy = formats[format as 'fwdDynatest' | 'f25' | 'pdx' | 'fwdSweco']
+    const strategy = formats[format as 'fwdDynatest' | 'f25' | 'pdx' | 'fwdSweco' | 'excel']
 
     const context = new Context(strategy)
 
@@ -54,7 +56,8 @@
     </template>
     <template v-slot:dialog>
       <div class="space-y-2">
-        <Button disabled :leftIcon="IconDownload" full> Excel </Button>
+        <Button :leftIcon="IconDownload"
+          @click="exportFile('excel')" full> Excel </Button>
         <Button
           v-if="store.projects.selected?.machine === 'Heavydyn'"
           :leftIcon="IconDownload"

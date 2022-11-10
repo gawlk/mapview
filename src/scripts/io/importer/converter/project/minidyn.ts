@@ -39,8 +39,8 @@ export const convertPRJZToMinidynProjectDistinct = (
       fForme: json.ParamsBearing.FForme,
       k: json.ParamsBearing.K,
       alpha: json.ParamsBearing.Alpha,
-      min: json.ParamsBearing.MinBearing,
-      max: json.ParamsBearing.MaxBearing,
+      // min: json.ParamsBearing.MinBearing,
+      // max: json.ParamsBearing.MaxBearing,
     },
   }
 }
@@ -49,7 +49,7 @@ export const convertPRJZToMinidynUnits = (json: any): JSONMinidynUnits => {
   return {
     modulus: {
       version: 1,
-      unit: ((): PossibleMinidynModulusUnits => {
+      currentUnit: ((): PossibleMinidynModulusUnits => {
         switch (
           (json.ExportedData.Points as any[]).find(
             (exportedUnit) => exportedUnit.Type === 'Modulus'
@@ -59,11 +59,15 @@ export const convertPRJZToMinidynUnits = (json: any): JSONMinidynUnits => {
             return 'MPa'
         }
       })(),
-      precision: 0,
+      currentPrecision: 0,
+      // min: json.distinct.bearingParameters.min || 10000000,
+      // max: json.distinct.bearingParameters.max || 150000000,
+      min: 10000000,
+      max: 150000000,
     },
     stiffness: {
       version: 1,
-      unit: ((): PossibleMinidynStiffnessUnits => {
+      currentUnit: ((): PossibleMinidynStiffnessUnits => {
         switch (
           (json.ExportedData.Points as any[]).find(
             (exportedUnit) => exportedUnit.Type === 'Stiffness'
@@ -73,11 +77,12 @@ export const convertPRJZToMinidynUnits = (json: any): JSONMinidynUnits => {
             return 'MN / m'
         }
       })(),
-      precision: 0,
+      currentPrecision: 0,
+      max: 1000,
     },
     deflection: {
       version: 1,
-      unit: ((): PossibleMinidynDeflectionUnits => {
+      currentUnit: ((): PossibleMinidynDeflectionUnits => {
         switch (
           (json.ExportedData.Drops as any[]).find(
             (exportedUnit) => exportedUnit.Type === 'Deflection'
@@ -89,11 +94,12 @@ export const convertPRJZToMinidynUnits = (json: any): JSONMinidynUnits => {
             return 'um'
         }
       })(),
-      precision: 0,
+      currentPrecision: 0,
+      max: 1000,
     },
     force: {
       version: 1,
-      unit: ((): PossibleMinidynForceUnits => {
+      currentUnit: ((): PossibleMinidynForceUnits => {
         switch (
           (json.ExportedData.Drops as any[]).find(
             (exportedUnit) => exportedUnit.Type === 'Load'
@@ -105,31 +111,12 @@ export const convertPRJZToMinidynUnits = (json: any): JSONMinidynUnits => {
             return 'kN'
         }
       })(),
-      precision: 0,
-    },
-    temperature: {
-      version: 1,
-      unit: ((): PossibleMinidynTemperatureUnits => {
-        switch (
-          (json.ExportedData.Points as any[]).find(
-            (exportedUnit) => exportedUnit.Type === 'Temperature'
-          )?.Unit
-        ) {
-          case 'K':
-            return 'K'
-          case 'degF':
-          case '°F':
-            return '°F'
-          default:
-            return '°C'
-        }
-      })(),
-
-      precision: 0,
+      currentPrecision: 0,
+      max: 1000,
     },
     time: {
       version: 1,
-      unit: ((): PossibleMinidynTimeUnits => {
+      currentUnit: ((): PossibleMinidynTimeUnits => {
         switch (
           (json.ExportedData.Drops as any[]).find(
             (exportedUnit) => exportedUnit.Type === 'Time'
@@ -143,12 +130,14 @@ export const convertPRJZToMinidynUnits = (json: any): JSONMinidynUnits => {
             return 'ms'
         }
       })(),
-      precision: 0,
+      currentPrecision: 0,
+      max: 1000,
     },
     percentage: {
       version: 1,
-      unit: '%',
-      precision: 0,
+      currentUnit: '%',
+      currentPrecision: 0,
+      max: 1000,
     },
   }
 }

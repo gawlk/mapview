@@ -41,8 +41,6 @@ export const convertPRJZToMaxidynProjectDistinct = (
       fForme: json.ParamsBearing.FForme,
       k: json.ParamsBearing.K,
       alpha: json.ParamsBearing.Alpha,
-      min: json.ParamsBearing.MinBearing,
-      max: json.ParamsBearing.MaxBearing,
     },
   }
 }
@@ -51,7 +49,7 @@ export const convertPRJZToMaxidynUnits = (json: any): JSONMaxidynUnits => {
   return {
     modulus: {
       version: 1,
-      unit: ((): PossibleMaxidynModulusUnits => {
+      currentUnit: ((): PossibleMaxidynModulusUnits => {
         switch (
           (json.ExportedData.Points as any[]).find(
             (exportedUnit) => exportedUnit.Type === 'Modulus'
@@ -61,11 +59,15 @@ export const convertPRJZToMaxidynUnits = (json: any): JSONMaxidynUnits => {
             return 'MPa'
         }
       })(),
-      precision: 0,
+      currentPrecision: 0,
+      // min: json.distinct.bearingParameters.min || 20000000,
+      // max: json.distinct.bearingParameters.max || 250000000,
+      min: 20000000,
+      max: 250000000,
     },
     stiffness: {
       version: 1,
-      unit: ((): PossibleMaxidynStiffnessUnits => {
+      currentUnit: ((): PossibleMaxidynStiffnessUnits => {
         switch (
           (json.ExportedData.Points as any[]).find(
             (exportedUnit) => exportedUnit.Type === 'Stiffness'
@@ -75,11 +77,12 @@ export const convertPRJZToMaxidynUnits = (json: any): JSONMaxidynUnits => {
             return 'MN / m'
         }
       })(),
-      precision: 0,
+      currentPrecision: 0,
+      max: 1000,
     },
     deflection: {
       version: 1,
-      unit: ((): PossibleMaxidynDeflectionUnits => {
+      currentUnit: ((): PossibleMaxidynDeflectionUnits => {
         switch (
           (json.ExportedData.Drops as any[]).find(
             (exportedUnit) => exportedUnit.Type === 'Deflection'
@@ -91,11 +94,12 @@ export const convertPRJZToMaxidynUnits = (json: any): JSONMaxidynUnits => {
             return 'um'
         }
       })(),
-      precision: 0,
+      currentPrecision: 0,
+      max: 1000,
     },
     force: {
       version: 1,
-      unit: ((): PossibleMaxidynForceUnits => {
+      currentUnit: ((): PossibleMaxidynForceUnits => {
         switch (
           (json.ExportedData.Drops as any[]).find(
             (exportedUnit) => exportedUnit.Type === 'Load'
@@ -107,11 +111,12 @@ export const convertPRJZToMaxidynUnits = (json: any): JSONMaxidynUnits => {
             return 'kN'
         }
       })(),
-      precision: 0,
+      currentPrecision: 0,
+      max: 1000,
     },
     distance: {
       version: 1,
-      unit: ((): PossibleMaxidynDistanceUnits => {
+      currentUnit: ((): PossibleMaxidynDistanceUnits => {
         switch (
           (json.ExportedData.Points as any[]).find(
             (exportedUnit) => exportedUnit.Type === 'Distance'
@@ -125,11 +130,12 @@ export const convertPRJZToMaxidynUnits = (json: any): JSONMaxidynUnits => {
             return 'm'
         }
       })(),
-      precision: 0,
+      currentPrecision: 0,
+      max: 1000,
     },
     time: {
       version: 1,
-      unit: ((): PossibleMaxidynTimeUnits => {
+      currentUnit: ((): PossibleMaxidynTimeUnits => {
         switch (
           (json.ExportedData.Drops as any[]).find(
             (exportedUnit) => exportedUnit.Type === 'Time'
@@ -143,12 +149,14 @@ export const convertPRJZToMaxidynUnits = (json: any): JSONMaxidynUnits => {
             return 'ms'
         }
       })(),
-      precision: 0,
+      currentPrecision: 0,
+      max: 1000,
     },
     percentage: {
       version: 1,
-      unit: '%',
-      precision: 0,
+      currentUnit: '%',
+      currentPrecision: 0,
+      max: 1000,
     },
   }
 }

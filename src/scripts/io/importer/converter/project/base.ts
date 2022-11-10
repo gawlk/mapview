@@ -24,7 +24,7 @@ export const convertPRJZToBaseProject = (json: any): JSONBaseProject => {
       })(),
       arePointsLocked: true,
       arePointsVisible: true,
-      areImagesVisible: true,
+      areOverlaysVisible: true,
       pointsState: 'number',
       map: {
         version: 1,
@@ -33,7 +33,7 @@ export const convertPRJZToBaseProject = (json: any): JSONBaseProject => {
         zoom: null,
       },
     },
-    images: [],
+    overlays: [],
     information: [...convertPRJZObjectToFields(json.Project)],
     hardware: convertPRJZObjectToFields(json.Hardware, {
       version: 1,

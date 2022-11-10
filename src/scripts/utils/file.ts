@@ -28,11 +28,16 @@ export const convertData64ImageToUint8Array = async (data64: string) => {
   )
 }
 
-export const downloadImage = (screenshot: string) => {
+export const downloadImage = (screenshot: string) =>
+  downloadFile(new File([screenshot], 'screenshot.png'))
+
+export const downloadFile = async (file: File) => {
   const a = document.createElement('a')
-  a.href = screenshot
-  a.download = 'screenshot.png'
-  a.target = '_blank'
+
+  a.href = URL.createObjectURL(file)
+  a.download = file.name
+
+  a.target = '_blank' // Needed for Safari
   a.click()
   a.remove()
 }

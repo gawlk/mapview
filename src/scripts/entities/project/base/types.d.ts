@@ -10,7 +10,7 @@ interface JSONBaseProject {
   readonly machine: MachineName
   readonly reports: SelectableList<number, JSONMachineReport>
   readonly settings: JSONProjectSettings
-  readonly images: JSONImage[]
+  readonly overlays: JSONOverlay[]
   readonly information: JSONField[]
   readonly hardware: JSONField[]
   readonly acquisitionParameters: JSONAcquisitionParameters
@@ -23,7 +23,7 @@ interface JSONProjectSettings {
   arePointsVisible: boolean
   arePointsLinked: boolean
   arePointsLocked: boolean
-  areImagesVisible: boolean
+  areOverlaysVisible: boolean
   pointsState: 'value' | 'number' | 'nothing'
   readonly map: {
     version: 1
@@ -53,9 +53,9 @@ interface BaseProject {
   readonly reports: SelectableList<MachineReport>
   readonly units: MachineMathUnits
   readonly settings: JSONProjectSettings
-  readonly images: Image[]
+  readonly overlays: Overlay[]
   readonly acquisitionParameters: JSONAcquisitionParameters
-  readonly refreshLinesAndImages: () => void
+  readonly refreshLinesAndOverlays: () => void
   readonly setMapStyle: (styleIndex: number) => void
   readonly fitOnMap: () => void
   readonly addToMap: () => void

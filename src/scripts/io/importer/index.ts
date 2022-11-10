@@ -2,7 +2,7 @@ import { unzipSync } from 'fflate'
 
 import { waitForMap } from '/src/scripts'
 import { convertJSONFromPRJZToMPVZ } from './converter'
-import { importImages } from './images'
+import { importOverlays } from './overlays'
 import { importProject } from './project'
 import { importRawData } from './rawData'
 import { importScreenshots } from './screenshots'
@@ -35,7 +35,7 @@ export const importFile = async (file: File) => {
       setTimeout(async () => {
         await waitForMap()
 
-        importImages(zip, jsonProject, project)
+        importOverlays(zip, jsonProject, project)
 
         importScreenshots(zip, jsonProject, project)
 

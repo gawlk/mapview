@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import store from '/src/store'
-  import { createImage } from '/src/scripts'
+  import { createOverlay } from '/src/scripts'
   import { fileToBase64 } from '/src/scripts'
 
   import IconCollection from '~icons/heroicons-solid/collection'
@@ -22,24 +22,24 @@
 
   const inputFile = ref()
 
-  const addImage = async (file?: File) => {
+  const addOverlay = async (file?: File) => {
     if (file && store.projects.selected) {
       const data64 = await fileToBase64(file)
 
-      const image = await createImage(data64, store.map, {
+      const overlay = await createOverlay(data64, store.map, {
         version: 1,
         name: file.name,
       })
 
-      store.projects.selected.images.push(image)
+      store.projects.selected.overlays.push(overlay)
 
-      image.addToMap(store.projects.selected.settings.areImagesVisible)
+      overlay.addToMap(store.projects.selected.settings.areOverlaysVisible)
     }
   }
 
-  const goToImage = (image: Image) => {
-    const nw = image.markerNW.getLngLat()
-    const se = image.markerSE.getLngLat()
+  const goToOverlay = (overlay: Overlay) => {
+    const nw = overlay.markerNW.getLngLat()
+    const se = overlay.markerSE.getLngLat()
 
     store.map?.fitBounds(
       [
@@ -51,9 +51,7 @@
   }
 
   const deleteImage = (index: number) => {
-    const image = store.projects.selected?.images.splice(index, 1)?.[0]
-
-    image?.remove()
+    store.projects.selected?.overlays.splice(index, 1)?.[0]?.remove()
   }
 
   const getSunIcon = (opacity: number) => {
@@ -71,22 +69,22 @@
     }
   }
 
-  const switchOpacity = (image: Image) => {
-    switch (image.opacity) {
+  const switchOpacity = (overlay: Overlay) => {
+    switch (overlay.opacity) {
       case 0:
-        image.opacity = 0.25
+        overlay.opacity = 0.25
         break
       case 0.5:
-        image.opacity = 0.75
+        overlay.opacity = 0.75
         break
       case 0.75:
-        image.opacity = 1
+        overlay.opacity = 1
         break
       case 1:
-        image.opacity = 0
+        overlay.opacity = 0
         break
       default:
-        image.opacity = 0.5
+        overlay.opacity = 0.5
         break
     }
   }
@@ -94,21 +92,21 @@
 
 <template>
   <div
-    v-if="(store.projects.selected?.images.length || 0) > 0"
+    v-if="(store.projects.selected?.overlays.length || 0) > 0"
     class="flex space-x-2"
   >
     <Popover :icon="IconCollection" :buttonText="t('Open image list')" full>
       <div
-        v-for="(image, index) of store.projects.selected?.images"
-        :key="image.id"
+        v-for="(overlay, index) of store.projects.selected?.overlays"
+        :key="overlay.id"
         class="flex space-x-1"
       >
-        <Button @click="goToImage(image)" truncate full>
-          {{ image.id.split('.')[0] }}
+        <Button @click="goToOverlay(overlay)" truncate full>
+          {{ overlay.id.split('.')[0] }}
         </Button>
         <Button
-          :icon="getSunIcon(image.opacity)"
-          @click="switchOpacity(image)"
+          :icon="getSunIcon(overlay.opacity)"
+          @click="switchOpacity(overlay)"
         />
         <Button :icon="IconTrash" @click="deleteImage(index)" />
       </div>
@@ -116,11 +114,11 @@
     <Button
       @click="
         store.projects.selected &&
-          (store.projects.selected.settings.areImagesVisible =
-            !store.projects.selected.settings.areImagesVisible)
+          (store.projects.selected.settings.areOverlaysVisible =
+            !store.projects.selected.settings.areOverlaysVisible)
       "
       :icon="
-        store.projects.selected?.settings.areImagesVisible
+        store.projects.selected?.settings.areOverlaysVisible
           ? IconEye
           : IconEyeOff
       "
@@ -137,7 +135,7 @@
     {{ t('Add an image') }}
   </Button>
   <input
-    @change="addImage(($event.target as HTMLInputElement).files?.[0])"
+    @change="addOverlay(($event.target as HTMLInputElement).files?.[0])"
     accept="image/*"
     type="file"
     ref="inputFile"

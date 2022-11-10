@@ -4,16 +4,12 @@
 
   import Button from '/src/components/Button.vue'
   import Dialog from '/src/components/Dialog.vue'
-  import Context from '/src/scripts/io/exporter'
 
   import store from '/src/store'
-
   import {
-    F25ExportStrategy,
-    FWDDynatestExportStrategy,
-    FWDSwecoExportStrategy,
-    PDXExportStrategy,
-    ExcelExportStrategy
+    getSimpleReportExports,
+    mrvzExporter,
+    downloadFile,
   } from '/src/scripts'
 
   const state = reactive({
@@ -22,20 +18,16 @@
 
   const { t } = useI18n()
 
-  const formats = {
-    fwdDynatest: new FWDDynatestExportStrategy(),
-    f25: new F25ExportStrategy(),
-    pdx: new PDXExportStrategy(),
-    fwdSweco: new FWDSwecoExportStrategy(),
-    excel: new ExcelExportStrategy(),
+  const exportFile = () => {
+    // const strategy =
+    //   formats[format as 'fwdDynatest' | 'f25' | 'pdx' | 'fwdSweco' | 'excel']
+    // const context = new Context(strategy)
+    // if (store.projects.selected) context.doExport(store.projects.selected)
   }
 
-  function exportFile(format: string) {
-    const strategy = formats[format as 'fwdDynatest' | 'f25' | 'pdx' | 'fwdSweco' | 'excel']
-
-    const context = new Context(strategy)
-
-    if (store.projects.selected) context.doExport(store.projects.selected)
+  const downloadExport = async (exporter: AnyExporter) => {
+    store.projects.selected &&
+      downloadFile(await exporter.export(store.projects.selected as any))
 
     state.isOpen = false
   }
@@ -56,39 +48,25 @@
     </template>
     <template v-slot:dialog>
       <div class="space-y-2">
-        <Button :leftIcon="IconDownload"
-          @click="exportFile('excel')" full> Excel </Button>
         <Button
-          v-if="store.projects.selected?.machine === 'Heavydyn'"
           :leftIcon="IconDownload"
+          @click="
+            store.projects.selected &&
+              mrvzExporter.export(store.projects.selected)
+          "
           full
-          @click="exportFile('f25')"
         >
-          F25
+          {{ mrvzExporter.name }}
         </Button>
         <Button
-          v-if="store.projects.selected?.machine === 'Heavydyn'"
+          v-for="exporter in store.projects.selected
+            ? getSimpleReportExports(store.projects.selected)
+            : []"
           :leftIcon="IconDownload"
           full
-          @click="exportFile('pdx')"
+          @click="downloadExport(exporter)"
         >
-          PDX
-        </Button>
-        <Button
-          v-if="store.projects.selected?.machine === 'Heavydyn'"
-          :leftIcon="IconDownload"
-          full
-          @click="exportFile('fwdDynatest')"
-        >
-          FWD (Dynatest)
-        </Button>
-        <Button
-          v-if="store.projects.selected?.machine === 'Heavydyn'"
-          :leftIcon="IconDownload"
-          full
-          @click="exportFile('fwdSweco')"
-        >
-          FWD (Sweco)
+          {{ exporter.name }}
         </Button>
       </div>
     </template>

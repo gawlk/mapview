@@ -80,7 +80,7 @@ export const createMap = (container: string): mapboxgl.Map => {
 
     addDummyLayersToMap(map)
 
-    store.projects.selected?.refreshLinesAndImages()
+    store.projects.selected?.refreshLinesAndOverlays()
   })
 
   return map

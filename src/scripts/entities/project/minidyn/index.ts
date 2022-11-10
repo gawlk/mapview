@@ -16,8 +16,6 @@ export const createMinidynProjectFromJSON = async (
 
   const units: MinidynMathUnits = {
     modulus: createMathUnit('Modulus', jsonUnits.modulus, 'Pa', [['MPa', 0]], {
-      min: json.distinct.bearingParameters.min || 10000000,
-      max: json.distinct.bearingParameters.max || 150000000,
       averageFunction: 'capOutliers',
     }),
     stiffness: createMathUnit(
@@ -37,11 +35,6 @@ export const createMinidynProjectFromJSON = async (
       ['N', 0],
       ['kN', 0],
     ]),
-    temperature: createMathUnit('Temperature', jsonUnits.temperature, '°C', [
-      ['°C', 0],
-      ['°F', 0],
-      ['K', 0],
-    ]),
     time: createMathUnit('Time', jsonUnits.time, 's', [
       ['s', 0],
       ['ms', 0],
@@ -51,13 +44,13 @@ export const createMinidynProjectFromJSON = async (
       'Percentage',
       {
         version: 1,
-        unit: '%',
-        precision: 0,
+        currentUnit: '%',
+        currentPrecision: 0,
+        max: 100,
       },
       '%',
       [['%', 0]],
       {
-        max: 100,
         step: 0.5,
         readOnly: true,
       }
@@ -108,7 +101,6 @@ export const createMinidynProjectFromJSON = async (
           modulus: project.units.modulus.toJSON(),
           percentage: project.units.percentage.toJSON(),
           stiffness: project.units.stiffness.toJSON(),
-          temperature: project.units.temperature.toJSON(),
           time: project.units.time.toJSON(),
         },
       },

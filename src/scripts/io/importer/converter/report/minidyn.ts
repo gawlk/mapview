@@ -71,16 +71,6 @@ export const convertPRJZToMinidynReportDistinct = (
           valueHigh: 0,
         },
       },
-      temperature: {
-        version: 1,
-        selected: 0,
-        custom: {
-          version: 1,
-          type: 'Bicolor',
-          value: 0,
-          valueHigh: 0,
-        },
-      },
       time: {
         version: 1,
         selected: 0,

@@ -16,8 +16,6 @@ export const createMaxidynProjectFromJSON = async (
 
   const units: MaxidynMathUnits = {
     modulus: createMathUnit('Modulus', jsonUnits.modulus, 'Pa', [['MPa', 0]], {
-      min: json.distinct.bearingParameters.min || 20000000,
-      max: json.distinct.bearingParameters.max || 250000000,
       averageFunction: 'capOutliers',
     }),
     stiffness: createMathUnit(
@@ -51,13 +49,13 @@ export const createMaxidynProjectFromJSON = async (
       'Percentage',
       {
         version: 1,
-        unit: '%',
-        precision: 0,
+        currentUnit: '%',
+        currentPrecision: 0,
+        max: 100,
       },
       '%',
       [['%', 0]],
       {
-        max: 100,
         step: 0.5,
         readOnly: true,
       }

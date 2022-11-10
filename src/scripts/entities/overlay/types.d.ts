@@ -2,7 +2,7 @@
 // JSON
 // ---
 
-interface JSONImage {
+interface JSONOverlay {
   readonly version: 1
   readonly name: string
   readonly opacity?: number
@@ -16,7 +16,7 @@ interface JSONImage {
 // Object
 // ---
 
-interface Image {
+interface Overlay {
   readonly id: string
   readonly sourceData: mapboxgl.ImageSourceRaw
   readonly markerNW: mapboxgl.Marker
@@ -24,7 +24,7 @@ interface Image {
   opacity: number
   readonly addToMap: (isVisible: boolean) => void
   readonly remove: () => void
-  readonly toJSON: () => JSONImage
+  readonly toJSON: () => JSONOverlay
 }
 
 interface ImageCoordinates {

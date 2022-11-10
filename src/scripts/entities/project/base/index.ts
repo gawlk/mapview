@@ -33,21 +33,21 @@ export const createBaseProjectFromJSON = async (
       },
     }),
     reports: createSelectableList<MachineReport>([]),
-    images: shallowReactive([] as Image[]),
+    overlays: shallowReactive([] as Overlay[]),
     units: parameters.units,
     settings,
     information: shallowReactive([] as Field[]),
     hardware: shallowReactive([] as Field[]),
     acquisitionParameters: json.acquisitionParameters,
-    refreshLinesAndImages: function () {
+    refreshLinesAndOverlays: function () {
       if (this.settings.arePointsLinked) {
         this.reports.list.forEach((report) => {
           report.isOnMap && report.settings.isVisible && report.line.addToMap()
         })
       }
 
-      this.images.forEach((image) => {
-        image.addToMap(this.settings.areImagesVisible)
+      this.overlays.forEach((overlay) => {
+        overlay.addToMap(this.settings.areOverlaysVisible)
       })
     },
     setMapStyle: function (styleIndex: number) {
@@ -55,7 +55,7 @@ export const createBaseProjectFromJSON = async (
       const newMapStyle = mapStyles[styleIndex].split('/').pop()
 
       if (oldMapStyle === newMapStyle) {
-        this.refreshLinesAndImages()
+        this.refreshLinesAndOverlays()
       } else {
         map?.setStyle(mapStyles[styleIndex])
       }
@@ -136,23 +136,23 @@ export const createBaseProjectFromJSON = async (
 
       watcherHandler.add(
         watch(
-          () => this.settings.areImagesVisible,
-          (areImagesVisible: boolean) => {
-            this.images.forEach((image: Image) => {
+          () => this.settings.areOverlaysVisible,
+          (areOverlaysVisible) => {
+            this.overlays.forEach((overlay) => {
               map?.setPaintProperty(
-                image.id,
+                overlay.id,
                 'raster-opacity',
-                areImagesVisible ? image.opacity : 0
+                areOverlaysVisible ? overlay.opacity : 0
               )
 
-              if (areImagesVisible) {
+              if (areOverlaysVisible) {
                 if (map) {
-                  image.markerNW.addTo(map)
-                  image.markerSE.addTo(map)
+                  overlay.markerNW.addTo(map)
+                  overlay.markerSE.addTo(map)
                 }
               } else {
-                image.markerNW.remove()
-                image.markerSE.remove()
+                overlay.markerNW.remove()
+                overlay.markerSE.remove()
               }
             })
           }
@@ -185,11 +185,11 @@ export const createBaseProjectFromJSON = async (
 
       watcherHandler.add(
         watch(
-          () => this.images,
-          (images, oldImages) => {
-            images.forEach((image) => {
-              if (!oldImages.includes(image)) {
-                image.addToMap(this.settings.areImagesVisible)
+          () => this.overlays,
+          (overlays, oldOverlays) => {
+            overlays.forEach((overlay) => {
+              if (!oldOverlays.includes(overlay)) {
+                overlay.addToMap(this.settings.areOverlaysVisible)
               }
             })
           }
@@ -243,7 +243,7 @@ export const createBaseProjectFromJSON = async (
         report.remove()
       })
 
-      this.images.forEach((image) => image.remove())
+      this.overlays.forEach((overlay) => overlay.remove())
 
       watcherHandler.clean()
     },
@@ -254,7 +254,7 @@ export const createBaseProjectFromJSON = async (
         machine: this.machine,
         settings: this.settings,
         acquisitionParameters: this.acquisitionParameters,
-        images: this.images.map((image) => image.toJSON()),
+        overlays: this.overlays.map((overlay) => overlay.toJSON()),
         information: this.information.map((field) => field.toJSON()),
         hardware: this.hardware.map((field) => field.toJSON()),
         reports: {

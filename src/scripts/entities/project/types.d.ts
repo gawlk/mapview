@@ -19,8 +19,6 @@ interface JSONBearingParameters {
   readonly fForme: number
   readonly k: number
   readonly alpha: number
-  readonly min: number
-  readonly max: number
 }
 
 // ---

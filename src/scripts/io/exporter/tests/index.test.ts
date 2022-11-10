@@ -1,14 +1,14 @@
 import { assert, describe, expect, it, vi } from 'vitest'
 import * as fs from 'fs'
 import { unzipSync } from 'fflate'
-import { convertJSONFromPRJZToMPVZ } from '../importer/converter'
-import { generateProjectFromJSON } from '../importer'
-import Context from '.'
+import { convertJSONFromPRJZToMPVZ } from '../../importer/converter'
+import { generateProjectFromJSON } from '../../importer'
+import Context from '../..'
 import {
   F25ExportStrategy,
   FWDExportStrategy,
   PDXExportStrategy,
-} from './heavydyn'
+} from '../report/heavydyn'
 import store from '/src/store'
 
 const getProject = async () => {

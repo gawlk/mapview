@@ -85,19 +85,6 @@ export const createMinidynReportFromJSON = (
             }
           ),
         },
-        temperature: {
-          unit: parameters.project.units.temperature,
-          choices: createSelectableList(
-            [
-              createCustomThreshold(
-                json.distinct.thresholds.temperature.custom
-              ),
-            ],
-            {
-              selected: json.distinct.thresholds.temperature.selected,
-            }
-          ),
-        },
         time: {
           unit: parameters.project.units.time,
           choices: createSelectableList(
@@ -170,9 +157,6 @@ export const createMinidynReportFromJSON = (
           ),
           stiffness: convertThresholdsConfigurationToJSON(
             thresholdGroup.stiffness.choices
-          ),
-          temperature: convertThresholdsConfigurationToJSON(
-            thresholdGroup.temperature.choices
           ),
           time: convertThresholdsConfigurationToJSON(
             thresholdGroup.time.choices

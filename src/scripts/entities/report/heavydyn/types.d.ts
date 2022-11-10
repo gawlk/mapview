@@ -46,6 +46,7 @@ interface HeavydynReportDataLabels extends BaseReportDataLabels {
 
 interface HeavydynGroupedDataLabels extends BaseGroupedDataLabels {
   readonly indexes?: SelectableList<HeavydynDropIndex>
+  readonly sequenceName?: string
 }
 
 interface HeavydynTableDataLabelsParameters

@@ -15,50 +15,26 @@ export const createHeavydynProjectFromJSON = async (
   const jsonUnits = json.distinct.units
 
   const units: HeavydynMathUnits = {
-    deflection: createMathUnit(
-      'Deflection',
-      jsonUnits.deflection,
-      'm',
-      [
-        ['mm', 0],
-        ['1/100 mm', 0],
-        ['um', 0],
-      ],
-      {
-        max: 0.003,
-      }
-    ),
-    force: createMathUnit(
-      'Force',
-      jsonUnits.force,
-      'N',
-      [
-        ['N', 0],
-        ['kN', 0],
-        ['lbs', 0],
-      ],
-      {
-        max: 500000,
-      }
-    ),
+    deflection: createMathUnit('Deflection', jsonUnits.deflection, 'm', [
+      ['mm', 0],
+      ['1/100 mm', 0],
+      ['um', 0],
+    ]),
+    force: createMathUnit('Force', jsonUnits.force, 'N', [
+      ['N', 0],
+      ['kN', 0],
+      ['lbs', 0],
+    ]),
     temperature: createMathUnit('Temperature', jsonUnits.temperature, '°C', [
       ['°C', 0],
       ['°F', 0],
       ['K', 0],
     ]),
-    distance: createMathUnit(
-      'Distance',
-      jsonUnits.distance,
-      'm',
-      [
-        ['m', 0],
-        ['km', 0],
-        ['mi', 0],
-      ],
-      {
-        max: 100000,
-      }
-    ),
+    distance: createMathUnit('Distance', jsonUnits.distance, 'm', [
+      ['m', 0],
+      ['km', 0],
+      ['mi', 0],
+    ]),
     time: createMathUnit(
       'Time',
       jsonUnits.time,
@@ -69,7 +45,6 @@ export const createHeavydynProjectFromJSON = async (
         ['us', 0],
       ],
       {
-        max: 0.1,
         step: 0.1,
       }
     ),

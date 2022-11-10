@@ -4,8 +4,10 @@
 
 interface JSONMathUnit<PossibleUnits> {
   readonly version: 1
-  readonly unit: PossibleUnits
-  readonly precision: number
+  readonly currentUnit: PossibleUnits
+  readonly currentPrecision: number
+  readonly max: number
+  readonly min?: number
 }
 
 // ---
@@ -15,13 +17,13 @@ interface JSONMathUnit<PossibleUnits> {
 interface MathUnit<PossibleUnits> {
   readonly name: string
   readonly baseUnit: string
-  readonly possibleSettings: [string, number][]
+  readonly possibleSettings: [PossibleUnits, number][]
   readonly possiblePrecisions: number[]
   readonly min: number
   readonly max: number
   readonly step: number
   readonly readOnly: boolean
-  currentUnit: string
+  currentUnit: PossibleUnits
   currentPrecision: number
   readonly getAverage: (values: number[]) => number
   readonly toJSON: () => JSONMathUnit<PossibleUnits>

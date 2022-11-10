@@ -10,12 +10,12 @@ import {
 
 import SVGRotate from '/src/assets/svg/custom/rotate.svg?raw'
 
-export const createImage = async (
+export const createOverlay = async (
   data64: string,
   map: mapboxgl.Map | null,
-  parameters: JSONImage
-): Promise<Image> => {
-  const id = `image-${parameters.name}-${+new Date() + Math.random()}`
+  parameters: JSONOverlay
+): Promise<Overlay> => {
+  const id = `overlay-${parameters.name}-${+new Date() + Math.random()}`
 
   const imageElement = await getImageFromData64(data64)
 
@@ -48,14 +48,14 @@ export const createImage = async (
 
   const watcherHandler = createWatcherHandler()
 
-  const image = shallowReactive({
+  const overlay = shallowReactive({
     id,
     sourceData,
     markerNW,
     markerSE,
     opacity: parameters.opacity || 0.5,
-    addToMap(areImagesVisible: boolean): void {
-      if (areImagesVisible && map) {
+    addToMap(areOverlaysVisible: boolean): void {
+      if (areOverlaysVisible && map) {
         markerNW.addTo(map)
         markerSE.addTo(map)
       }
@@ -68,7 +68,7 @@ export const createImage = async (
           source: id,
           type: 'raster',
           paint: {
-            'raster-opacity': areImagesVisible ? this.opacity : 0,
+            'raster-opacity': areOverlaysVisible ? this.opacity : 0,
             'raster-fade-duration': 0,
           },
         },
@@ -88,7 +88,7 @@ export const createImage = async (
 
       watcherHandler.add(
         watch(
-          () => image.opacity,
+          () => overlay.opacity,
           (opacity: number) => {
             map?.setPaintProperty(id, 'raster-opacity', opacity)
           }
@@ -106,7 +106,7 @@ export const createImage = async (
 
       watcherHandler.clean()
     },
-    toJSON: function (): JSONImage {
+    toJSON: function (): JSONOverlay {
       return {
         version: 1,
         name: parameters.name,
@@ -119,7 +119,7 @@ export const createImage = async (
     },
   })
 
-  return image
+  return overlay
 }
 
 const initialiseNWAndSECoords = async (

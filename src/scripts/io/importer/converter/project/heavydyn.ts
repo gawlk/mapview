@@ -10,15 +10,6 @@ export const convertPRJZToHeavydynProject = (
     distinct: convertPRJZToHeavydynProjectDistinct(json),
   }
 
-  project.base.information.push({
-    version: 1,
-    label: 'Sequence',
-    value: json.Sequences.Name,
-    settings: {
-      version: 1,
-    },
-  })
-
   project.base.reports.list.push(
     ...json.PVs.map(
       (jsonPV: any, index: number): JSONHeavydynReport =>
@@ -70,7 +61,7 @@ export const convertPRJZToHeavydynUnits = (json: any): JSONHeavydynUnits => {
   return {
     deflection: {
       version: 1,
-      unit: ((): PossibleHeavydynDeflectionUnits => {
+      currentUnit: ((): PossibleHeavydynDeflectionUnits => {
         switch (
           (json.ExportedData.Drops as any[]).find(
             (exportedUnit) => exportedUnit.Type === 'Deflection'
@@ -84,11 +75,12 @@ export const convertPRJZToHeavydynUnits = (json: any): JSONHeavydynUnits => {
             return '1/100 mm'
         }
       })(),
-      precision: 0,
+      currentPrecision: 0,
+      max: 0.003,
     },
     force: {
       version: 1,
-      unit: ((): PossibleHeavydynForceUnits => {
+      currentUnit: ((): PossibleHeavydynForceUnits => {
         switch (
           (json.ExportedData.Drops as any[]).find(
             (exportedUnit) => exportedUnit.Type === 'Load'
@@ -100,11 +92,12 @@ export const convertPRJZToHeavydynUnits = (json: any): JSONHeavydynUnits => {
             return 'kN'
         }
       })(),
-      precision: 0,
+      currentPrecision: 0,
+      max: 500000,
     },
     distance: {
       version: 1,
-      unit: ((): PossibleHeavydynDistanceUnits => {
+      currentUnit: ((): PossibleHeavydynDistanceUnits => {
         switch (
           (json.ExportedData.Points as any[]).find(
             (exportedUnit) => exportedUnit.Type === 'Distance'
@@ -118,11 +111,12 @@ export const convertPRJZToHeavydynUnits = (json: any): JSONHeavydynUnits => {
             return 'm'
         }
       })(),
-      precision: 0,
+      currentPrecision: 0,
+      max: 100000,
     },
     time: {
       version: 1,
-      unit: ((): PossibleHeavydynTimeUnits => {
+      currentUnit: ((): PossibleHeavydynTimeUnits => {
         switch (
           (json.ExportedData.Drops as any[]).find(
             (exportedUnit) => exportedUnit.Type === 'Time'
@@ -136,11 +130,12 @@ export const convertPRJZToHeavydynUnits = (json: any): JSONHeavydynUnits => {
             return 'ms'
         }
       })(),
-      precision: 0,
+      currentPrecision: 0,
+      max: 0.1,
     },
     temperature: {
       version: 1,
-      unit: ((): PossibleHeavydynTemperatureUnits => {
+      currentUnit: ((): PossibleHeavydynTemperatureUnits => {
         switch (
           (json.ExportedData.Points as any[]).find(
             (exportedUnit) => exportedUnit.Type === 'Temperature'
@@ -155,7 +150,8 @@ export const convertPRJZToHeavydynUnits = (json: any): JSONHeavydynUnits => {
             return '°C'
         }
       })(),
-      precision: 0,
+      currentPrecision: 0,
+      max: 100,
     },
   }
 }

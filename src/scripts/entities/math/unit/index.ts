@@ -28,18 +28,16 @@ export const createMathUnit = <PossibleUnits extends string>(
   possibleSettings: [PossibleUnits, number][],
   options?: {
     possiblePrecisions?: number[]
-    min?: number
-    max?: number
     step?: number
     averageFunction?: 'allEqual' | 'capOutliers' | 'ignoreOutliers'
     readOnly?: true
   }
 ): MathUnit<PossibleUnits> => {
-  const currentUnit = json.unit || possibleSettings[0][0]
+  const currentUnit = json.currentUnit || possibleSettings[0][0]
   const possiblePrecisions = options?.possiblePrecisions || [0, 1, 2]
-  const currentPrecision = json.precision || possibleSettings[0][1]
-  const min = options?.min || 0
-  const max = options?.max || 1000
+  const currentPrecision = json.currentPrecision || possibleSettings[0][1]
+  const max = json.max
+  const min = json.min || 0
   const step = options?.step || 1
   const readOnly = options?.readOnly || false
 
@@ -82,8 +80,10 @@ export const createMathUnit = <PossibleUnits extends string>(
     toJSON: function (): JSONMathUnit<PossibleUnits> {
       return {
         version: 1,
-        unit: this.currentUnit,
-        precision: this.currentPrecision,
+        currentUnit: this.currentUnit,
+        currentPrecision: this.currentPrecision,
+        max: this.max,
+        min: this.min,
       }
     },
   })

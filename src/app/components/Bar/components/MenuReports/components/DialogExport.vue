@@ -18,13 +18,6 @@
 
   const { t } = useI18n()
 
-  const exportFile = () => {
-    // const strategy =
-    //   formats[format as 'fwdDynatest' | 'f25' | 'pdx' | 'fwdSweco' | 'excel']
-    // const context = new Context(strategy)
-    // if (store.projects.selected) context.doExport(store.projects.selected)
-  }
-
   const downloadExport = async (exporter: AnyExporter) => {
     store.projects.selected &&
       downloadFile(await exporter.export(store.projects.selected as any))

@@ -24,6 +24,6 @@ interface MinidynProject extends BaseProject {
   readonly machine: 'Minidyn'
   readonly reports: SelectableList<MinidynReport>
   readonly units: MinidynMathUnits
-  readonly bearingParameters: JSONBearingParameters
+  bearingParameters: JSONBearingParameters
   toJSON: () => JSONMinidynProject
 }

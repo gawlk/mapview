@@ -1,9 +1,10 @@
 import dayjs from 'dayjs'
 import dedent from 'dedent'
+
 import { findFieldInArray } from '/src/scripts'
 
 export const heavydynDynatestExporter: HeavydynExporter = {
-  name: 'Dynatest',
+  name: '.fwd (Dynatest)',
   export: async (project: HeavydynProject) => {
     return new File(
       [
@@ -14,7 +15,7 @@ export const heavydynDynatestExporter: HeavydynExporter = {
           .map((line) => line.padEnd(80, ' '))
           .join('\n'),
       ],
-      `${project.reports.selected?.name.toString().replaceAll(' ', '_')}.fws`,
+      `${project.reports.selected?.name.toString().replaceAll(' ', '_')}.fwd`,
       { type: 'text/plain' }
     )
   },

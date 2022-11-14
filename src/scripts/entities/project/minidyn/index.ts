@@ -1,10 +1,11 @@
-import { createBaseProjectFromJSON } from '../base'
 import {
-  createMathUnit,
   createFieldFromJSON,
+  createMathUnit,
   createMinidynReportFromJSON,
   getSelectedFromIndexInList,
 } from '/src/scripts'
+
+import { createBaseProjectFromJSON } from '../base'
 
 export const createMinidynProjectFromJSON = async (
   json: JSONMinidynProjectVAny,
@@ -85,6 +86,8 @@ export const createMinidynProjectFromJSON = async (
   project.hardware.push(
     ...json.base.hardware.map((field: JSONField) => createFieldFromJSON(field))
   )
+
+  project.bearingParameters = json.distinct.bearingParameters
 
   project.toJSON = function (): JSONMinidynProject {
     const project = this as MinidynProject

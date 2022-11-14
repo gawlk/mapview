@@ -6,7 +6,7 @@ import { findFieldInArray } from '/src/scripts/entities'
 import { ddToDms } from './coordinates'
 
 export const heavydynSwecoExporter: HeavydynExporter = {
-  name: 'Sweco',
+  name: '.fwd (Sweco)',
   export: async (project: HeavydynProject) => {
     return new File(
       ['\n' + writeHeader(project) + writePoints(project) + '\n'],

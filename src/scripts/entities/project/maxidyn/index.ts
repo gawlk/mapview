@@ -1,10 +1,11 @@
-import { createBaseProjectFromJSON } from '../base'
 import {
-  createMathUnit,
   createFieldFromJSON,
+  createMathUnit,
   createMaxidynReportFromJSON,
   getSelectedFromIndexInList,
 } from '/src/scripts'
+
+import { createBaseProjectFromJSON } from '../base'
 
 export const createMaxidynProjectFromJSON = async (
   json: JSONMaxidynProjectVAny,
@@ -90,6 +91,8 @@ export const createMaxidynProjectFromJSON = async (
   project.hardware.push(
     ...json.base.hardware.map((field: JSONField) => createFieldFromJSON(field))
   )
+
+  project.bearingParameters = json.distinct.bearingParameters
 
   project.toJSON = function (): JSONMaxidynProject {
     const project = this as MaxidynProject

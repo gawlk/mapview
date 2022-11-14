@@ -1,13 +1,15 @@
 <script setup lang="ts">
   import { numberToLocaleString } from '/src/locales'
+
   import { convertValueFromUnitAToUnitB } from '/src/scripts'
 
   import IconAdjustments from '~icons/heroicons-solid/adjustments'
   import IconPencilAlt from '~icons/heroicons-solid/pencil-alt'
 
   import Input from '/src/components/Input.vue'
-  import Label from './Label.vue'
   import Switch from '/src/components/Switch.vue'
+
+  import Label from './Label.vue'
 
   const emit = defineEmits<{
     (event: 'switch', value: boolean): void

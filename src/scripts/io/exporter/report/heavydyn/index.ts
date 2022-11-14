@@ -4,8 +4,8 @@ import { heavydynPDXExporter } from './pdx'
 import { heavydynSwecoExporter } from './sweco'
 
 export const heavydynReportExports = [
-  heavydynDynatestExporter,
   heavydynF25Exporter,
-  heavydynPDXExporter,
+  heavydynDynatestExporter,
   heavydynSwecoExporter,
+  heavydynPDXExporter,
 ]

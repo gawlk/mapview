@@ -1,8 +1,10 @@
 <script setup lang="ts">
+  import store from '/src/store'
+
   import {
-    Disclosure as HeadlessDisclosure,
     DisclosureButton,
     DisclosurePanel,
+    Disclosure as HeadlessDisclosure,
   } from '@headlessui/vue'
 
   const emit = defineEmits<{

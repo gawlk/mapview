@@ -1,9 +1,9 @@
 <script setup lang="ts">
   import { isMobile } from '/src/scripts'
 
-  import Button from '/src/components/Button.vue'
-
   import IconSelector from '~icons/heroicons-solid/selector'
+
+  import Button from '/src/components/Button.vue'
 
   const emit = defineEmits<{
     (e: 'select', value: string): void

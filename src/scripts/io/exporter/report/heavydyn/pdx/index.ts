@@ -4,7 +4,7 @@ import dedent from 'dedent'
 import { findFieldInArray } from '/src/scripts'
 
 export const heavydynPDXExporter: HeavydynExporter = {
-  name: 'PDX',
+  name: '.pdx',
   export: async (project: HeavydynProject) => {
     return new File(
       [

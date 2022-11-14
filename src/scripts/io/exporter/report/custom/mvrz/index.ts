@@ -1,8 +1,9 @@
 import { getBrowserLocale } from '/src/locales'
+
 import { createZipFromProject } from '/src/scripts'
 
 export const mrvzExporter: MachineExporter = {
-  name: 'Excel (MRVZ)',
+  name: '.mvrz (Excel)',
   export: async (project: MachineProject) =>
     new File(
       [

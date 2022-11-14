@@ -1,10 +1,11 @@
 import dayjs from 'dayjs'
 import dedent from 'dedent'
 import { format } from 'mathjs'
+
 import { findFieldInArray } from '/src/scripts'
 
 export const heavydynF25Exporter: HeavydynExporter = {
-  name: 'F25',
+  name: '.F25',
   export: async (project: HeavydynProject) => {
     return new File(
       [

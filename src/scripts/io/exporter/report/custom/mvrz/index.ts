@@ -1,6 +1,6 @@
 import { getBrowserLocale } from '/src/locales'
 
-import { createZipFromProject } from '/src/scripts'
+import { createZipFromProject, createMathNumber } from '/src/scripts'
 
 export const mrvzExporter: MachineExporter = {
   name: '.mvrz (Excel)',
@@ -149,6 +149,7 @@ const generateThresholds = (thresholds: MachineReportThresholds): ExcelJson =>
   Object.values(thresholds.groups).reduce<ExcelJson>(
     (a, group: GroupedThresolds<string>) => {
       if (group.choices.selected) {
+        const value = createMathNumber(group.choices.selected.value, group.unit);
         return {
           ...a,
           ['Thresholds_' + group.unit.name + '_Kind']:
@@ -156,7 +157,7 @@ const generateThresholds = (thresholds: MachineReportThresholds): ExcelJson =>
           ['Thresholds_' + group.unit.name + '_Name']:
             group.choices.selected.name,
           ['Thresholds_' + group.unit.name + '_Value']:
-            group.choices.selected.value,
+            value.getValueAs(group.unit.currentUnit),
         }
       }
       return a

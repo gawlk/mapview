@@ -24,8 +24,8 @@ export const mrvzExporter: MachineExporter = {
 const generateInformationFromFields = (
   fields: Field[],
   tag: string
-): ExcelJson => {
-  return fields.reduce<ExcelJson>((a, v) => {
+): ExcelJson =>
+  fields.reduce<ExcelJson>((a, v) => {
     const label = tag + toPascalCase(v.label)
     const value = v.getValue()
 
@@ -34,7 +34,6 @@ const generateInformationFromFields = (
       [label]: value,
     }
   }, {})
-}
 
 //Replace to sanitize excel
 const toPascalCase = (str: string): string =>
@@ -109,37 +108,33 @@ const generateDropData = (
 ): ExcelJson =>
   points.reduce<FlatDataJson>((a, point) => {
     const drops: MachineDrop[] = point.drops
-    return drops.reduce<FlatDataJson>((b, drop) => {
-      return {
-        ...b,
-        ...drop.data.reduce<FlatDataJson>((c, data) => {
-          const label =
-            labelPrefix +
-            drop.index.displayedIndex +
-            '_' +
-            toPascalCase(data.label.name)
-          const values = (c[label] || []) as number[]
+    return drops.reduce<FlatDataJson>((b, drop) => ({
+      ...b,
+      ...drop.data.reduce<FlatDataJson>((c, data) => {
+        const label =
+          labelPrefix +
+          drop.index.displayedIndex +
+          '_' +
+          toPascalCase(data.label.name)
+        const values = (c[label] || []) as number[]
 
-          values.push(data.value.getValueAs(data.label.unit.currentUnit))
-          return {
-            ...c,
-            [label]: values,
-          }
-        }, b),
-      }
-    }, a)
+        values.push(data.value.getValueAs(data.label.unit.currentUnit))
+        return {
+          ...c,
+          [label]: values,
+        }
+      }, b),
+    }), a)
   }, {})
 
 const generateZoneData = (zones: MachineZone[]): ExcelJson =>
-  zones.reduce<ExcelJson>((a, zone, index) => {
-    return {
-      ...a,
-      ['Z' + (index + 1) + '_Name']: zone.name,
-      ...generatePointInformations(zone.points, 'Z' + (index + 1) + '_Pi_'),
-      ...generatePointData(zone.points, 'Z' + (index + 1) + '_Pi_'),
-      ...generateDropData(zone.points, 'Z' + (index + 1) + '_Pi_D'),
-    }
-  }, {})
+  zones.reduce<ExcelJson>((a, zone, index) => ({
+    ...a,
+    ['Z' + (index + 1) + '_Name']: zone.name,
+    ...generatePointInformations(zone.points, 'Z' + (index + 1) + '_Pi_'),
+    ...generatePointData(zone.points, 'Z' + (index + 1) + '_Pi_'),
+    ...generateDropData(zone.points, 'Z' + (index + 1) + '_Pi_D'),
+  }), {})
 
 const generateUnits = (units: MachineMathUnits): ExcelJson =>
   Object.values(units).reduce<ExcelJson>(
@@ -169,17 +164,53 @@ const generateThresholds = (thresholds: MachineReportThresholds): ExcelJson =>
     {}
   )
 
-const generateHeavydynData = (project: HeavydynProject): ExcelJson => {
-  return {}
-}
+const generateCalibrations = (calibrations: HeavydynCalibrations): ExcelJson =>
+({
+  'Calibration_Date': calibrations.date.toISOString(),
+  'Calibration_Dplate': calibrations.dPlate,
+  ...calibrations.channels.reduce<ExcelJson>((a, channel, index) => ({
+    ...a,
+    ['Calibration_Channel_' + (index + 1) + '_Name']: channel.name,
+    ['Calibration_Channel_' + (index + 1) + '_Version']: channel.version,
+    ['Calibration_Channel_' + (index + 1) + '_Position']: channel.position,
+    ['Calibration_Channel_' + (index + 1) + '_Gain']: channel.gain,
+    ['Calibration_Channel_' + (index + 1) + '_Acquisition']: channel.acquisition,
+    ['Calibration_Channel_' + (index + 1) + '_Type']: channel.type,
+  }), {}),
+  ...calibrations.sensors.reduce<ExcelJson>((a, sensor, index) => ({
+    ...a,
+    ['Calibration_Sensor_' + (index + 1) + '_Name']: sensor.name,
+    ['Calibration_Sensor_' + (index + 1) + '_Version']: sensor.version,
+    ['Calibration_Sensor_' + (index + 1) + '_Gain']: sensor.gain,
+    ['Calibration_Sensor_' + (index + 1) + '_Type']: sensor.type,
+  }), {}),
+})
 
-const generateMaxidynData = (project: MaxidynProject): ExcelJson => {
-  return {}
-}
+const generateBearingParameters = (parameters: JSONBearingParameters): ExcelJson => ({
+  ['BearingParameters_Version']: parameters.version,
+  ['BearingParameters_Name']: parameters.name,
+  ['BearingParameters_AlgoBearing']: parameters.algoBearing,
+  ['BearingParameters_HasQuality']: parameters.hasQuality,
+  ['BearingParameters_AlgoProcessing1']: parameters.algoProcessing1,
+  ['BearingParameters_AlgoProcessing2']: parameters.algoProcessing2,
+  ['BearingParameters_DPlate']: parameters.dPlate,
+  ['BearingParameters_CPoisson']: parameters.cPoisson,
+  ['BearingParameters_FForme']: parameters.fForme,
+  ['BearingParameters_K']: parameters.k,
+  ['BearingParameters_Alpha']: parameters.alpha,
+})
 
-const generateMinidynData = (project: MinidynProject): ExcelJson => {
-  return {}
-}
+const generateHeavydynData = (project: HeavydynProject): ExcelJson => ({
+  ...generateCalibrations(project.calibrations),
+})
+
+const generateMaxidynData = (project: MaxidynProject): ExcelJson => ({
+  ...generateBearingParameters(project.bearingParameters),
+})
+
+const generateMinidynData = (project: MinidynProject): ExcelJson => ({
+  ...generateBearingParameters(project.bearingParameters),
+})
 
 const generateSpecificMachineData = (project: MachineProject): ExcelJson => {
   switch (project.machine) {

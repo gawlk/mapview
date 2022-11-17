@@ -1,10 +1,10 @@
 <script setup lang="ts">
   import { cloneDeep } from 'lodash-es'
 
-  import Input from './Input.vue'
-  import Dialog from './Dialog.vue'
-
   import IconInformationCircle from '~icons/heroicons-solid/information-circle'
+
+  import Dialog from './Dialog.vue'
+  import Input from './Input.vue'
 
   const { t } = useI18n()
 

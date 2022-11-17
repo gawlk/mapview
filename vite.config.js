@@ -1,20 +1,18 @@
-import { fileURLToPath, URL } from 'url'
-
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import i18n from '@intlify/vite-plugin-vue-i18n'
-import icons from 'unplugin-icons/vite'
-import iconsResolver from 'unplugin-icons/resolver'
-import components from 'unplugin-vue-components/vite'
-import autoImport from 'unplugin-auto-import/vite'
-import svgLoader from 'vite-svg-loader'
-import sw from 'vite-plugin-sw'
 import favicons from '@darkobits/vite-plugin-favicons'
-import analyze from 'rollup-plugin-analyzer'
-import { viteTS2Mermaid } from 'ts2mermaid'
-
+import i18n from '@intlify/vite-plugin-vue-i18n'
+import vue from '@vitejs/plugin-vue'
 import autoprefixer from 'autoprefixer'
+import analyze from 'rollup-plugin-analyzer'
 import tailwindcss from 'tailwindcss'
+import { viteTS2Mermaid } from 'ts2mermaid'
+import autoImport from 'unplugin-auto-import/vite'
+import iconsResolver from 'unplugin-icons/resolver'
+import icons from 'unplugin-icons/vite'
+import components from 'unplugin-vue-components/vite'
+import { URL, fileURLToPath } from 'url'
+import { defineConfig } from 'vite'
+import { VitePWA } from 'vite-plugin-pwa'
+import svgLoader from 'vite-svg-loader'
 
 import packageJSON from './package.json'
 
@@ -81,12 +79,7 @@ export default defineConfig({
       },
     }),
 
-    sw({
-      filters: {
-        onlineOnly: ['http://', '/demo.'],
-      },
-      generateRegistrer: false,
-    }),
+    VitePWA({}),
 
     analyze({
       summaryOnly: true,

@@ -1,16 +1,17 @@
 import {
-  createBaseReportFromJSON,
+  createCustomThreshold,
+  createFieldFromJSON,
+  createMinidynDropIndexFromJSON,
+  createMinidynZoneFromJSON,
+  createSelectableList,
+  defaultThresholds,
+} from '/src/scripts'
+
+import {
   convertDataLabelGroupsToJSON,
   convertThresholdsConfigurationToJSON,
+  createBaseReportFromJSON,
 } from '../base'
-import {
-  createMinidynZoneFromJSON,
-  createFieldFromJSON,
-  defaultThresholds,
-  createCustomThreshold,
-  createMinidynDropIndexFromJSON,
-  createSelectableList,
-} from '/src/scripts'
 
 interface MinidynReportCreatorParameters
   extends MachineReportCreatorParameters {

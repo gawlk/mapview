@@ -13,6 +13,6 @@ export const mpvzExporter: MachineExporter = {
         }),
       ],
       `${project.name.toString().replaceAll(' ', '_')}.mpvz`,
-      { type: 'application/json' }
+      { type: 'blob' }
     ),
 }

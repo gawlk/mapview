@@ -10,7 +10,7 @@ export const heavydynSwecoExporter: HeavydynExporter = {
   export: async (project: HeavydynProject) => {
     return new File(
       ['\n' + writeHeader(project) + writePoints(project) + '\n'],
-      `${project.reports.selected?.name.toString().replaceAll(' ', '_')}.fwd`,
+      `${project.reports.selected?.name.toString().replaceAll(' ', '_')}.txt`,
       { type: 'text/plain' }
     )
   },
@@ -33,17 +33,24 @@ const writeHeader = (project: HeavydynProject): string => {
   if (!project.reports.selected) {
     throw new Error('cannot find selected report ')
   }
+
   const date = dayjs(
     findFieldInArray(project.reports.selected.information, 'Date')?.toString()
   ).format('DD/MM/YYYY')
+
   const fwdNumber = findFieldInArray(project.hardware, 'Serial number')?.value
+
   const rPlate = Math.round(project.calibrations.dPlate * 1000) / 2
+
   const sensors = project.calibrations.channels.slice(1)
+
   const lane = findFieldInArray(
     project.reports.selected.information,
     'Lane'
   )?.value
+
   const client = findFieldInArray(project.information, 'Client')?.value
+
   const roadReference = findFieldInArray(
     project.reports.selected.information,
     'Part'
@@ -87,19 +94,23 @@ const writePoints = (project: HeavydynProject): string => {
     project.reports.selected?.line.sortedPoints
       .map((point) => {
         let coordinates = { lng: '', lat: '' }
+
         const chainage = Math.round(
           point.data.find((data) => data.label.name === 'Chainage')?.value
             .value || 0
         )
+
         if (point.marker) {
           coordinates = ddToDms(point.marker?.getLngLat())
         }
+
         const dropPosition = [
           'Position of Drop:',
           'Longitude: ' + coordinates.lng,
           'Latitude: ' + coordinates.lat,
           'Altitude: 0.0 m',
         ]
+
         return dedent`
           \n${writeSeparator()}
           $2
@@ -144,15 +155,14 @@ const writeDrops = (point: MachinePoint, channels: JSONChannel[]): string => {
 }
 
 const writeDrop = (drop: MachineDrop, channels: JSONChannel[]): string => {
-  if (!drop.impactData) {
-    throw new Error('No impact data found')
-  }
+  let str = ''
+
   const loadMax = drop.data[1].value.getValueAs('kN').toFixed(1)
-  const loadPosition = Math.round(parseFloat(channels[0].position) * 100)
+
   const maxValues = [
     drop.index.displayedIndex,
     ...drop.data.slice(2).map((drop) => drop.value.getValueAs('um').toFixed(1)),
-    0, //todo ??
+    0,
     loadMax,
     ...drop.point.data
       .slice(0, -1)
@@ -161,18 +171,26 @@ const writeDrop = (drop: MachineDrop, channels: JSONChannel[]): string => {
       ),
     drop.data[0].value.getValueAs('ms').toFixed(2),
   ]
-  const loadInfos = [
-    padDotString(`LoadCell (${loadPosition})[kN]`, 23, false),
-    '-',
-    loadMax,
-    ...drop.impactData?.load.map((value) => (value / 1000).toFixed(1)),
-  ]
 
-  return dedent`
-    ${maxValues.join('\t')}
-    ${loadInfos.join('\t')}
-    ${writeDisplacements(drop, channels)}
-  `
+  str += `\n${maxValues.join('\t')}`
+
+  if (drop.impactData) {
+    const loadPosition = Math.round(parseFloat(channels[0].position) * 100)
+
+    const loadInfos = [
+      padDotString(`LoadCell (${loadPosition})[kN]`, 23, false),
+      '-',
+      loadMax,
+      ...drop.impactData.load.map((value) => (value / 1000).toFixed(1)),
+    ]
+
+    str += `
+      ${loadInfos.join('\t')}
+      ${writeDisplacements(drop, channels)}
+    `
+  }
+
+  return dedent`${str}`
 }
 
 const writeDisplacements = (
@@ -182,14 +200,17 @@ const writeDisplacements = (
   if (!drop.impactData) {
     throw new Error('No impact data found')
   }
+
   return drop.impactData.displacement
     .map((displacement, index) => {
       const sensorName = 'Sensor' + (index + 1).toString().padStart(2, ' ')
+
       const sensorPosition = `(${Math.round(
         parseFloat(channels[index + 1].position) * 1000
       )
         .toString()
         .padStart(4, ' ')})`
+
       const sensorData = [
         sensorName + sensorPosition + '[MPa;µm].',
         1.0, //TODO

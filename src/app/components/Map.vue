@@ -1,6 +1,7 @@
 <script setup lang="ts">
-  import { createMap } from '/src/scripts'
   import store from '/src/store'
+
+  import { createMap } from '/src/scripts'
 
   onMounted(() => {
     setTimeout(() => {

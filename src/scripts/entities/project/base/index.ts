@@ -1,11 +1,12 @@
 import { LngLatBounds } from 'mapbox-gl'
+
 import {
   createFieldFromJSON,
   createSelectableList,
   createWatcherHandler,
-  mapStyles,
   debounce,
   getIndexOfSelectedInSelectableList,
+  mapStyles,
 } from '/src/scripts'
 
 export const createBaseProjectFromJSON = async (

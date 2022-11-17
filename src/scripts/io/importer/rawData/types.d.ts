@@ -1,4 +1,4 @@
 interface ImpactData {
-    load: number[];
-    displacement: number[][];
+  load: number[]
+  displacement: number[][]
 }

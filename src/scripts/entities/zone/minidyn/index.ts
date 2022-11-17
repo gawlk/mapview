@@ -1,5 +1,6 @@
-import { createBaseZoneFromJSON } from '../base'
 import { createMinidynPointFromJSON } from '/src/scripts'
+
+import { createBaseZoneFromJSON } from '../base'
 
 interface MinidynZoneCreatorParameters extends MachineZoneCreatorParameters {
   readonly report: MinidynReport

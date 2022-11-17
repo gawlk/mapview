@@ -1,16 +1,17 @@
 import {
-  createBaseReportFromJSON,
-  convertDataLabelGroupsToJSON,
-  convertThresholdsConfigurationToJSON,
-} from '../base'
-import {
-  createHeavydynZoneFromJSON,
+  createCustomThreshold,
   createFieldFromJSON,
   createHeavydynDropIndexFromJSON,
-  createCustomThreshold,
-  createWatcherHandler,
+  createHeavydynZoneFromJSON,
   createSelectableList,
+  createWatcherHandler,
 } from '/src/scripts'
+
+import {
+  convertDataLabelGroupsToJSON,
+  convertThresholdsConfigurationToJSON,
+  createBaseReportFromJSON,
+} from '../base'
 
 interface HeavydynReportCreatorParameters
   extends MachineReportCreatorParameters {

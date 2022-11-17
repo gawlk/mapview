@@ -6,11 +6,12 @@
   import IconLockClosed from '~icons/heroicons-solid/lock-closed'
   import IconLockOpen from '~icons/heroicons-solid/lock-open'
   import IconShare from '~icons/heroicons-solid/share'
-  import DotIcon from '/src/assets/svg/custom/dot.svg?component'
-  import DotsIcon from '/src/assets/svg/custom/dots.svg?component'
 
   import Button from '/src/components/Button.vue'
   import Listbox from '/src/components/Listbox.vue'
+
+  import DotIcon from '/src/assets/svg/custom/dot.svg?component'
+  import DotsIcon from '/src/assets/svg/custom/dots.svg?component'
 
   const { t } = useI18n()
 

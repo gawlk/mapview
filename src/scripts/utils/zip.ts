@@ -1,6 +1,8 @@
+import { type Zippable, zipSync } from 'fflate'
+
 import { convertData64ImageToUint8Array } from '/src/scripts'
+
 import { createZipFromProject as b } from './'
-import { zipSync, type Zippable } from 'fflate'
 
 export const createZipFromProject = async (
   project: MachineProject,
@@ -89,7 +91,7 @@ const addScreenshotsToZip = async (
 }
 
 const addRawDataToZip = async (zip: Zippable, project: MachineProject) => {
-  const Rawdata: { [key: string]: Uint8Array } = {}
+  const rawdata: { [key: string]: Uint8Array } = {}
 
   await Promise.all([
     ...project.reports.list
@@ -97,10 +99,10 @@ const addRawDataToZip = async (zip: Zippable, project: MachineProject) => {
       .flat()
       .map((point) => {
         if (point.rawDataFile) {
-          Rawdata[point.id] = new Uint8Array(point.rawDataFile)
+          rawdata[point.id] = new Uint8Array(point.rawDataFile)
         }
       }),
   ])
 
-  zip.Rawdata = Rawdata
+  zip.rawdata = rawdata
 }

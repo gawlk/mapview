@@ -1,15 +1,17 @@
-import { assert, describe, expect, it, vi } from 'vitest'
-import * as fs from 'fs'
 import { unzipSync } from 'fflate'
-import { convertJSONFromPRJZToMPVZ } from '../../importer/converter'
-import { generateProjectFromJSON } from '../../importer'
+import * as fs from 'fs'
+import { assert, describe, expect, it, vi } from 'vitest'
+
+import store from '/src/store'
+
 import Context from '../..'
+import { generateProjectFromJSON } from '../../importer'
+import { convertJSONFromPRJZToMPVZ } from '../../importer/converter'
 import {
   F25ExportStrategy,
   FWDExportStrategy,
   PDXExportStrategy,
 } from '../report/heavydyn'
-import store from '/src/store'
 
 const getProject = async () => {
   const buffer = fs.readFileSync(__dirname + '/MR.prjz')

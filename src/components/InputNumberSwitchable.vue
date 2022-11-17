@@ -22,6 +22,15 @@
     readonly unit: MathUnit<string>
     readonly label?: string
   }>()
+
+  const convertValue = (value: number) =>
+    Math.round(
+      convertValueFromUnitAToUnitB(
+        value,
+        props.unit.baseUnit,
+        props.unit.currentUnit
+      ) * 100000
+    ) / 100000
 </script>
 
 <template>
@@ -35,39 +44,13 @@
         @input="(value) => emit('switch', value)"
       />
       <Input
-        :id="`threshold-input-${Math.random()}`"
+        :id="`threshold-input-${label}`"
         @input="(value) => emit('input', Number(value))"
-        :value="
-          numberToLocaleString(
-            convertValueFromUnitAToUnitB(
-              props.value,
-              props.unit.baseUnit,
-              props.unit.currentUnit
-            ),
-            {
-              locale: 'en-US',
-              precision: unit.currentPrecision,
-            }
-          )
-        "
+        :value="convertValue(props.value)"
         :type="props.isRange ? 'range' : 'number'"
-        :step="props.unit.step"
-        :min="
-          convertValueFromUnitAToUnitB(
-            props.unit.min,
-            props.unit.baseUnit,
-            props.unit.currentUnit
-          )
-        "
-        :max="
-          props.unit.max
-            ? convertValueFromUnitAToUnitB(
-                props.unit.max,
-                props.unit.baseUnit,
-                props.unit.currentUnit
-              )
-            : 1000
-        "
+        :step="10 ** (props.unit.currentPrecision * -1)"
+        :min="props.isRange ? convertValue(props.unit.min) : undefined"
+        :max="props.isRange ? convertValue(props.unit.max) : undefined"
       />
     </div>
   </div>

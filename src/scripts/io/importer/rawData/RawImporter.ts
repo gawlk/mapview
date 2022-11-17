@@ -1,4 +1,5 @@
 import { Unzipped } from 'fflate'
+
 import { ExtendedBinaryReader } from './ExtendedBinaryStream'
 import ImpactDataFile from './ImpactDataFile'
 
@@ -23,11 +24,9 @@ function saveRawData(
 }
 
 export function importRawData(zip: Unzipped, project: MachineProject) {
-  const folderName = 'Rawdata'
+  const folderName = 'rawdata'
   const points = project.reports.list.flatMap((a) => a.line.sortedPoints)
   const rawData = Object.keys(zip).filter((key) => key.startsWith(folderName))
-
-  console.log(rawData)
 
   for (const filename of rawData) {
     const file = zip[filename]
@@ -40,10 +39,4 @@ export function importRawData(zip: Unzipped, project: MachineProject) {
       )
     }
   }
-
-  console.log(
-    project.reports.list.flatMap((a) =>
-      a.line.sortedPoints.map((p) => p.drops.map((d) => d.impactData))
-    )
-  )
 }

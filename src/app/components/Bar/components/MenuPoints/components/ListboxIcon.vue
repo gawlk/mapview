@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import store from '/src/store'
+
   import { icons } from '/src/scripts'
 
   import IconColorStar from '~icons/heroicons-solid/star'

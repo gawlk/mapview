@@ -1,11 +1,12 @@
 import { Marker, Popup } from 'mapbox-gl'
 
 import { translate } from '/src/locales'
+
 import {
-  createIcon,
-  createWatcherHandler,
   colorsClasses,
   createDataValueFromJSON,
+  createIcon,
+  createWatcherHandler,
 } from '/src/scripts'
 
 interface BasePointCreatorParameters extends MachinePointCreatorParameters {

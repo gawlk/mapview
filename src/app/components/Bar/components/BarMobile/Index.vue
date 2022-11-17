@@ -1,8 +1,9 @@
 <script setup lang="ts">
   import store from '/src/store'
 
-  import Initializer from '../Initializer.vue'
   import MenuWrapperMobile from './components/MenuWrapperMobile.vue'
+
+  import Initializer from '../Initializer.vue'
 
   const props = defineProps<{
     readonly menus: Menu[]

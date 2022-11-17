@@ -1,9 +1,10 @@
 <script setup lang="ts">
   import store from '/src/store'
+
   import {
-    convertValueFromUnitAToUnitB,
     blend,
     colorsClasses,
+    convertValueFromUnitAToUnitB,
   } from '/src/scripts'
 
   import IconColorSwatch from '~icons/heroicons-solid/color-swatch'
@@ -144,13 +145,13 @@
                 selectedUnit.currentUnit,
                 selectedUnit.baseUnit
               )
-
-              value =
-                value < selectedUnit.min
-                  ? selectedUnit.min
-                  : selectedUnit.max && value > selectedUnit.max
-                  ? selectedUnit.max
-                  : value
+              
+              // value =
+              //   value < selectedUnit.min
+              //     ? selectedUnit.min
+              //     : selectedUnit.max && value > selectedUnit.max
+              //     ? selectedUnit.max
+              //     : value
 
               ;(currentGroupedThresholds.choices.selected as CustomThreshold).value = value
 
@@ -229,12 +230,12 @@
                   selectedUnit.baseUnit
                 )
 
-                value =
-                  value < selectedUnit.min
-                    ? selectedUnit.min
-                    : selectedUnit.max && value > selectedUnit.max
-                    ? selectedUnit.max
-                    : value
+                // value =
+                //   value < selectedUnit.min
+                //     ? selectedUnit.min
+                //     : selectedUnit.max && value > selectedUnit.max
+                //     ? selectedUnit.max
+                //     : value
 
                 currentGroupedThresholds.choices.selected.valueHigh = value
 

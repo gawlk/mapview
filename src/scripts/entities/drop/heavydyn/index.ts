@@ -1,5 +1,6 @@
-import { createBaseDropFromJSON, createBaseDropIndexFromJSON } from '../base'
 import { createMathNumber } from '/src/scripts'
+
+import { createBaseDropFromJSON, createBaseDropIndexFromJSON } from '../base'
 
 interface HeavydynDropCreatorParameters extends MachineDropCreatorParameters {
   point: HeavydynPoint
@@ -59,9 +60,7 @@ export const createHeavydynDropIndexFromJSON = (
     type: json.distinct.type,
     value: createMathNumber(
       json.distinct.value,
-      unitName in parameters.project.units
-        ? parameters.project.units[unitName as keyof HeavydynMathUnits]
-        : unitName
+      parameters.project.units[unitName as keyof HeavydynMathUnits]
     ),
     toJSON: function (): JSONHeavydynDropIndex {
       return {

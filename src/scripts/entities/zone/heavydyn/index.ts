@@ -1,5 +1,6 @@
-import { createBaseZoneFromJSON } from '../base'
 import { createHeavydynPointFromJSON } from '/src/scripts'
+
+import { createBaseZoneFromJSON } from '../base'
 
 interface HeavydynZoneCreatorParameters extends MachineZoneCreatorParameters {
   readonly report: HeavydynReport

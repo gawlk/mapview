@@ -16,15 +16,19 @@ export const createCustomThreshold = (parameters: {
       const hexColorMiddle = colorsClasses[colors.middle].hexColor
       const hexColorHigh = colorsClasses[colors.high].hexColor
 
-      return mathNumber.value < this.value
+      const value = Math.max(this.value, mathNumber.unit.min)
+
+      const valueHigh = Math.min(this.valueHigh, mathNumber.unit.max)
+
+      return mathNumber.value < value
         ? hexColorLow
-        : this.type !== 'Bicolor' && mathNumber.value < this.valueHigh
+        : this.type !== 'Bicolor' && mathNumber.value < valueHigh
         ? this.type === 'Tricolor'
           ? hexColorMiddle
           : blend(
               hexColorLow,
               hexColorHigh,
-              (mathNumber.value - this.value) / this.valueHigh
+              (mathNumber.value - value) / valueHigh
             )
         : hexColorHigh
     },

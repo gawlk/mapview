@@ -1,16 +1,17 @@
 <script setup lang="ts">
+  import store from '/src/store'
+
+  import {
+    downloadFile,
+    getSimpleReportExports,
+    mrvzExporter,
+  } from '/src/scripts'
+
   import IconCloudDownload from '~icons/heroicons-solid/cloud-download'
   import IconDownload from '~icons/heroicons-solid/download'
 
   import Button from '/src/components/Button.vue'
   import Dialog from '/src/components/Dialog.vue'
-
-  import store from '/src/store'
-  import {
-    getSimpleReportExports,
-    mrvzExporter,
-    downloadFile,
-  } from '/src/scripts'
 
   const state = reactive({
     isOpen: false,
@@ -45,7 +46,8 @@
           :leftIcon="IconDownload"
           @click="
             store.projects.selected &&
-              mrvzExporter.export(store.projects.selected)
+              // mrvzExporter.export(store.projects.selected)
+              downloadExport(mrvzExporter)
           "
           full
         >

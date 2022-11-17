@@ -11,7 +11,7 @@ module.exports = {
     // Libraries
 
     // CSS
-    '.css',
+    '[.]css',
 
     // Scripts
     '^/src/locales(.*)',
@@ -25,10 +25,11 @@ module.exports = {
     '^~icons/(.*)',
     '^/src/components(.*)',
     '^./components(.*)',
-    '(.*).vue$',
+    '(.*)[.]vue$',
 
     // Assets
     '^/src/assets(.*)',
+    '^./assets(.*)',
 
     // Else
     '^[./](.*)',
@@ -37,9 +38,9 @@ module.exports = {
   importOrderSortSpecifiers: true,
 
   // Plugins
+  pluginSearchDirs: false,
   plugins: [
     require.resolve('@trivago/prettier-plugin-sort-imports'),
     require('prettier-plugin-tailwindcss'),
   ],
-  pluginSearchDirs: false,
 }

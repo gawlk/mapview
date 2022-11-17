@@ -60,10 +60,12 @@ export const convertPRJZToMinidynUnits = (json: any): JSONMinidynUnits => {
         }
       })(),
       currentPrecision: 0,
-      // min: json.distinct.bearingParameters.min || 10000000,
-      // max: json.distinct.bearingParameters.max || 150000000,
-      min: 10000000,
-      max: 150000000,
+      min: json.ExportedData.Points.find((data: any) => data.Type === 'Modulus')
+        ? json.ParamsBearing.MinBearing
+        : 10000000,
+      max: json.ExportedData.Points.find((data: any) => data.Type === 'Modulus')
+        ? json.ParamsBearing.MaxBearing
+        : 150000000,
     },
     stiffness: {
       version: 1,
@@ -78,7 +80,16 @@ export const convertPRJZToMinidynUnits = (json: any): JSONMinidynUnits => {
         }
       })(),
       currentPrecision: 0,
-      max: 1000,
+      min: json.ExportedData.Points.find(
+        (data: any) => data.Type === 'Stiffness'
+      )
+        ? json.ParamsBearing.MinBearing
+        : 0,
+      max: json.ExportedData.Points.find(
+        (data: any) => data.Type === 'Stiffness'
+      )
+        ? json.ParamsBearing.MaxBearing
+        : 1000,
     },
     deflection: {
       version: 1,

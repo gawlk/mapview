@@ -1,9 +1,10 @@
 <script setup lang="ts">
-  import { downloadImage } from '/src/scripts'
   import store from '/src/store'
 
-  import IconLogout from '~icons/heroicons-solid/logout'
+  import { downloadImage } from '/src/scripts'
+
   import IconDownload from '~icons/heroicons-solid/download'
+  import IconLogout from '~icons/heroicons-solid/logout'
   import IconTrash from '~icons/heroicons-solid/trash'
 
   import Button from '/src/components/Button.vue'

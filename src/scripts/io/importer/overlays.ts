@@ -1,6 +1,8 @@
 import { type Unzipped } from 'fflate'
+
 import store from '/src/store'
-import { createOverlay, convertUint8ArrayToData64Image } from '/src/scripts'
+
+import { convertUint8ArrayToData64Image, createOverlay } from '/src/scripts'
 
 export const importOverlays = (
   zip: Unzipped,

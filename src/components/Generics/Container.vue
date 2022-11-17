@@ -1,6 +1,6 @@
 <script setup lang="ts">
-  import type { GenericContainerProps } from './interfaces'
   import { defaultRounded } from './defaults'
+  import type { GenericContainerProps } from './interfaces'
 
   const props = defineProps<GenericContainerProps>()
 

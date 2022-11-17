@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import store from '/src/store'
+
   import { createOverlay } from '/src/scripts'
   import { fileToBase64 } from '/src/scripts'
 
@@ -7,16 +8,17 @@
   import IconEye from '~icons/heroicons-solid/eye'
   import IconEyeOff from '~icons/heroicons-solid/eye-off'
   import IconPhotograph from '~icons/heroicons-solid/photograph'
-  import IconTrash from '~icons/heroicons-solid/trash'
   import IconPlus from '~icons/heroicons-solid/plus'
+  import IconTrash from '~icons/heroicons-solid/trash'
+
+  import Button from '/src/components/Button.vue'
+  import Popover from '/src/components/Popover.vue'
+
   import Sun0 from '/src/assets/svg/custom/sun0.svg'
   import Sun25 from '/src/assets/svg/custom/sun25.svg'
   import Sun50 from '/src/assets/svg/custom/sun50.svg'
   import Sun75 from '/src/assets/svg/custom/sun75.svg'
   import Sun100 from '/src/assets/svg/custom/sun100.svg'
-
-  import Button from '/src/components/Button.vue'
-  import Popover from '/src/components/Popover.vue'
 
   const { t } = useI18n()
 

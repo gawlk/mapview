@@ -1,5 +1,6 @@
+import { createFieldFromJSON, createHeavydynDropFromJSON } from '/src/scripts'
+
 import { createBasePointFromJSON } from '../base'
-import { createHeavydynDropFromJSON, createFieldFromJSON } from '/src/scripts'
 
 interface HeavydynPointCreatorParameters extends MachinePointCreatorParameters {
   zone: HeavydynZone

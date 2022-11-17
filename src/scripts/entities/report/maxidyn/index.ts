@@ -1,16 +1,17 @@
 import {
-  createBaseReportFromJSON,
-  convertDataLabelGroupsToJSON,
-  convertThresholdsConfigurationToJSON,
-} from '../base'
-import {
-  createMaxidynZoneFromJSON,
+  createCustomThreshold,
   createFieldFromJSON,
   createMaxidynDropIndexFromJSON,
-  defaultThresholds,
-  createCustomThreshold,
+  createMaxidynZoneFromJSON,
   createSelectableList,
+  defaultThresholds,
 } from '/src/scripts'
+
+import {
+  convertDataLabelGroupsToJSON,
+  convertThresholdsConfigurationToJSON,
+  createBaseReportFromJSON,
+} from '../base'
 
 interface MaxidynReportCreatorParameters
   extends MachineReportCreatorParameters {

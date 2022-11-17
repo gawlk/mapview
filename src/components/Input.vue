@@ -1,8 +1,8 @@
 <script setup lang="ts">
+  import { getBrowserLocale } from '/src/locales'
+
   import Label from './Label.vue'
   import Listbox from './Listbox.vue'
-
-  import { getBrowserLocale } from '/src/locales'
 
   const emit = defineEmits<{
     (event: 'input', value: string | number): void
@@ -62,9 +62,9 @@
         :id="`${props.id}-range`"
         @input="(event) => emit('input', Number((event.target as HTMLInputElement).value))"
         type="range"
+        :value="props.value"
         :max="props.max"
         :min="props.min"
-        :value="props.value"
         :step="props.step"
         :disabled="props.disabled"
         :class="classes"

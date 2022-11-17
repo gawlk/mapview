@@ -1,5 +1,6 @@
-import { createBaseZoneFromJSON } from '../base'
 import { createMaxidynPointFromJSON } from '/src/scripts'
+
+import { createBaseZoneFromJSON } from '../base'
 
 interface MaxidynZoneCreatorParameters extends MachineZoneCreatorParameters {
   readonly report: MaxidynReport

@@ -1,5 +1,6 @@
+import { createFieldFromJSON, createMinidynDropFromJSON } from '/src/scripts'
+
 import { createBasePointFromJSON } from '../base'
-import { createMinidynDropFromJSON, createFieldFromJSON } from '/src/scripts'
 
 interface MinidynPointCreatorParameters extends MachinePointCreatorParameters {
   zone: MinidynZone

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { setDisclosureOpenState, getDisclosureOpenState } from '/src/scripts'
+  import { getDisclosureOpenState, setDisclosureOpenState } from '/src/scripts'
 
   import Disclosure from '/src/components/Disclosure.vue'
 

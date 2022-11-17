@@ -1,9 +1,9 @@
 <script setup lang="ts">
+  import store from '/src/store'
+
   import IconEye from '~icons/heroicons-solid/eye'
   import IconEyeOff from '~icons/heroicons-solid/eye-off'
   import IconHand from '~icons/heroicons-solid/hand'
-
-  import store from '/src/store'
 
   import Button from '/src/components/Button.vue'
   import Select from '/src/components/Select.vue'

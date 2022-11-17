@@ -2,10 +2,10 @@
   // @ts-ignore
   import { Sortable } from '@shopify/draggable'
 
+  import store from '/src/store'
+
   import PointsHead from './components/Head.vue'
   import PointsRow from './components/Row.vue'
-
-  import store from '/src/store'
 
   const props = defineProps<{
     readonly points: MachinePoint[]

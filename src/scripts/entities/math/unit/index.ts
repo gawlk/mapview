@@ -38,7 +38,6 @@ export const createMathUnit = <PossibleUnits extends string>(
   const currentPrecision = json.currentPrecision || possibleSettings[0][1]
   const max = json.max
   const min = json.min || 0
-  const step = options?.step || 1
   const readOnly = options?.readOnly || false
 
   const mathUnit = shallowReactive({
@@ -50,7 +49,6 @@ export const createMathUnit = <PossibleUnits extends string>(
     currentPrecision,
     min,
     max,
-    step,
     readOnly,
     getAverage: function (values: number[]) {
       const min = this.min

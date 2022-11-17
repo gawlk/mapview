@@ -19,10 +19,9 @@ interface MathUnit<PossibleUnits> {
   readonly baseUnit: string
   readonly possibleSettings: [PossibleUnits, number][]
   readonly possiblePrecisions: number[]
-  readonly min: number
-  readonly max: number
-  readonly step: number
   readonly readOnly: boolean
+  min: number
+  max: number
   currentUnit: PossibleUnits
   currentPrecision: number
   readonly getAverage: (values: number[]) => number

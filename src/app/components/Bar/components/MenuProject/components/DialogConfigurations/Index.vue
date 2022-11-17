@@ -1,5 +1,9 @@
 <script setup lang="ts">
+  import { numberToLocaleString } from '/src/locales'
+
   import store from '/src/store'
+
+  import { convertValueFromUnitAToUnitB } from '/src/scripts'
 
   import IconCog from '~icons/heroicons-solid/cog'
 
@@ -11,6 +15,12 @@
   const state = reactive({
     isOpen: false,
   })
+
+  const convertValue = (value: number, unit: MathUnit<string>) =>
+    Math.round(
+      convertValueFromUnitAToUnitB(value, unit.baseUnit, unit.currentUnit) *
+        100000
+    ) / 100000
 </script>
 
 <template>
@@ -64,19 +74,35 @@
             <div class="space-y-2 sm:flex sm:space-y-0 sm:space-x-2">
               <Input
                 :id="`${unit.name}-min`"
-                :isRange="false"
                 :label="`Minimum (${unit.currentUnit})`"
-                :value="unit.min"
-                :unit="unit"
-                @input="(value) => {}"
+                :value="convertValue(unit.min, unit)"
+                type="number"
+                :step="0.00001"
+                @input="
+                  (value) => {
+                    unit.min = convertValueFromUnitAToUnitB(
+                      Number(value),
+                      unit.currentUnit,
+                      unit.baseUnit
+                    )
+                  }
+                "
               />
               <Input
                 :id="`${unit.name}-max`"
-                :isRange="false"
                 :label="`Maximum (${unit.currentUnit})`"
-                :value="unit.max"
-                :unit="unit"
-                @input="(value) => {}"
+                :value="convertValue(unit.max, unit)"
+                :step="0.00001"
+                type="number"
+                @input="
+                  (value) => {
+                    unit.max = convertValueFromUnitAToUnitB(
+                      Number(value),
+                      unit.currentUnit,
+                      unit.baseUnit
+                    )
+                  }
+                "
               />
             </div>
           </div>

@@ -1,13 +1,13 @@
 import { LngLatBounds } from 'mapbox-gl'
 
 import {
-  createFieldFromJSON,
   createDataLabelFromJSON,
+  createFieldFromJSON,
   createLine,
   createSelectableList,
   createWatcherHandler,
-  getIndexOfSelectedInSelectableList,
   debounce,
+  getIndexOfSelectedInSelectableList,
 } from '/src/scripts'
 
 export const createBaseReportFromJSON = (
@@ -150,27 +150,32 @@ export const createBaseReportFromJSON = (
         )
       )
 
-      Object.values(this.thresholds.groups).forEach((thresholdGroup) => {
-        watcherHandler.add(
-          watch(
-            () => [
-              thresholdGroup.choices.selected,
-              (thresholdGroup.choices.list.at(-1) as CustomThreshold).type,
-              (thresholdGroup.choices.list.at(-1) as CustomThreshold).value,
-              (thresholdGroup.choices.list.at(-1) as CustomThreshold).valueHigh,
-            ],
-            debounce(() => {
-              this.zones.forEach((zone) => {
-                zone.points.forEach((point) => {
-                  point.updateColor()
+      Object.values(this.thresholds.groups).forEach(
+        (thresholdGroup: GroupedThresolds<string>) => {
+          watcherHandler.add(
+            watch(
+              () => [
+                thresholdGroup.choices.selected,
+                (thresholdGroup.choices.list.at(-1) as CustomThreshold).type,
+                (thresholdGroup.choices.list.at(-1) as CustomThreshold).value,
+                (thresholdGroup.choices.list.at(-1) as CustomThreshold)
+                  .valueHigh,
+                thresholdGroup.unit.min,
+                thresholdGroup.unit.max,
+              ],
+              debounce(() => {
+                this.zones.forEach((zone) => {
+                  zone.points.forEach((point) => {
+                    point.updateColor()
+                  })
                 })
-              })
 
-              this.line.update()
-            })
+                this.line.update()
+              })
+            )
           )
-        )
-      })
+        }
+      )
     },
     remove: function () {
       this.isOnMap = false

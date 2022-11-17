@@ -1,10 +1,11 @@
 <script setup lang="ts">
   import store from '/src/store'
+
   import {
+    colorsClasses,
     createHeavydynZoneFromJSON,
     createMaxidynZoneFromJSON,
     createMinidynZoneFromJSON,
-    colorsClasses,
   } from '/src/scripts'
 
   import IconColorSwatch from '~icons/heroicons-solid/color-swatch'
@@ -12,8 +13,8 @@
   import IconTrash from '~icons/heroicons-solid/trash'
 
   import Button from '/src/components/Button.vue'
-  import ListboxColors from '/src/components/ListboxColors.vue'
   import Input from '/src/components/Input.vue'
+  import ListboxColors from '/src/components/ListboxColors.vue'
 
   const { t } = useI18n()
 

@@ -1,12 +1,12 @@
 <script setup lang="ts">
   import store from '/src/store'
 
-  import packageJSON from '/src/../package.json'
-
   import Sticky from '/src/components/Sticky.vue'
 
   import Bar from './components/Bar/Index.vue'
   import Map from './components/Map.vue'
+
+  import packageJSON from '/src/../package.json'
 
   useHead({
     title: 'Mapview',

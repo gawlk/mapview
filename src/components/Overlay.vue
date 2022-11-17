@@ -1,9 +1,9 @@
 <script setup lang="ts">
   import {
-    TransitionRoot,
-    TransitionChild,
-    Dialog as HeadlessDialog,
     DialogOverlay,
+    Dialog as HeadlessDialog,
+    TransitionChild,
+    TransitionRoot,
   } from '@headlessui/vue'
 
   const props = defineProps<{

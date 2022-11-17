@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import store from '/src/store'
-  import { mpvzExporter, downloadFile } from '/src/scripts'
+
+  import { downloadFile, mpvzExporter } from '/src/scripts'
 
   import IconSave from '~icons/heroicons-solid/save'
 

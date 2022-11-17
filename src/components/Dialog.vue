@@ -1,10 +1,10 @@
 <script setup lang="ts">
   import {
-    TransitionRoot,
-    TransitionChild,
-    Dialog as HeadlessDialog,
     DialogOverlay,
     DialogTitle,
+    Dialog as HeadlessDialog,
+    TransitionChild,
+    TransitionRoot,
   } from '@headlessui/vue'
 
   import IconArrowSmRight from '~icons/heroicons-solid/arrow-sm-right'

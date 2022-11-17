@@ -2,8 +2,8 @@
   import {
     Listbox as HeadlessListbox,
     ListboxButton,
-    ListboxOptions,
     ListboxOption,
+    ListboxOptions,
   } from '@headlessui/vue'
 
   import TransitionDropdown from './TransitionDropdown.vue'

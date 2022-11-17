@@ -1,5 +1,6 @@
+import { createFieldFromJSON, createMaxidynDropFromJSON } from '/src/scripts'
+
 import { createBasePointFromJSON } from '../base'
-import { createMaxidynDropFromJSON, createFieldFromJSON } from '/src/scripts'
 
 interface MaxidynPointCreatorParameters extends MachinePointCreatorParameters {
   zone: MaxidynZone

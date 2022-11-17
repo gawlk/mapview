@@ -1,6 +1,6 @@
 interface MathNumber {
   readonly value: number
-  readonly unit: MathUnit<string> | string
+  readonly unit: MathUnit<string>
   displayedString: string
   displayedStringWithUnit: string
   readonly updateDisplayedStrings: () => void

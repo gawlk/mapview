@@ -1,15 +1,15 @@
 <script setup lang="ts">
-  import DialogExport from './components/DialogExport.vue'
-  import GroupAlbum from './components/GroupAlbum/Index.vue'
-  import GroupReports from './components/GroupReports.vue'
-  import Zones from './components/Zones.vue'
+  import store from '/src/store'
+
+  import IconIssueDraft from '~icons/octicon/issue-draft-16'
 
   import DialogInformations from '/src/components/DialogInformations.vue'
   import Submenu from '/src/components/Submenu.vue'
 
-  import IconIssueDraft from '~icons/octicon/issue-draft-16'
-
-  import store from '/src/store'
+  import DialogExport from './components/DialogExport.vue'
+  import GroupAlbum from './components/GroupAlbum/Index.vue'
+  import GroupReports from './components/GroupReports.vue'
+  import Zones from './components/Zones.vue'
 
   const { t } = useI18n()
 

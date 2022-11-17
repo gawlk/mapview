@@ -1,4 +1,9 @@
 <script setup lang="ts">
+  import IconDocumentReport from '~icons/heroicons-solid/document-report'
+  import IconFolderOpen from '~icons/heroicons-solid/folder-open'
+  import IconMap from '~icons/heroicons-solid/map'
+  import IconTable from '~icons/heroicons-solid/table'
+
   import BarDesktop from './components/BarDesktop/Index.vue'
   import BarMobile from './components/BarMobile/Index.vue'
   import MenuData from './components/MenuData/Index.vue'
@@ -7,10 +12,6 @@
   import MenuProject from './components/MenuProject/Index.vue'
   import MenuReports from './components/MenuReports/Index.vue'
 
-  import IconDocumentReport from '~icons/heroicons-solid/document-report'
-  import IconFolderOpen from '~icons/heroicons-solid/folder-open'
-  import IconMap from '~icons/heroicons-solid/map'
-  import IconTable from '~icons/heroicons-solid/table'
   import DotsIcon from '/src/assets/svg/custom/dots.svg?component'
 
   const { t } = useI18n()

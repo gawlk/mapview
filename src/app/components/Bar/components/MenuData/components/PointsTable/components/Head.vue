@@ -1,6 +1,7 @@
 <script setup lang="ts">
-  import { createMathNumber } from '/src/scripts'
   import store from '/src/store'
+
+  import { createMathNumber } from '/src/scripts'
 
   const { t } = useI18n()
 

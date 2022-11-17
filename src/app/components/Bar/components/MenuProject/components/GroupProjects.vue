@@ -1,16 +1,17 @@
 <script setup lang="ts">
   import store from '/src/store'
-  import { importFile, acceptedExtensions } from '/src/scripts'
+
+  import { acceptedExtensions, importFile } from '/src/scripts'
+
+  import IconArchive from '~icons/heroicons-solid/archive'
+  import IconPlus from '~icons/heroicons-solid/plus'
+  import IconTrash from '~icons/heroicons-solid/trash'
+  import IconViewList from '~icons/heroicons-solid/view-list'
+  import IconZoomIn from '~icons/heroicons-solid/zoom-in'
 
   import Button from '/src/components/Button.vue'
   import Dialog from '/src/components/Dialog.vue'
   import Popover from '/src/components/Popover.vue'
-
-  import IconArchive from '~icons/heroicons-solid/archive'
-  import IconViewList from '~icons/heroicons-solid/view-list'
-  import IconPlus from '~icons/heroicons-solid/plus'
-  import IconTrash from '~icons/heroicons-solid/trash'
-  import IconZoomIn from '~icons/heroicons-solid/zoom-in'
 
   const { t } = useI18n()
 

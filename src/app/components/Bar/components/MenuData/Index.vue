@@ -1,23 +1,23 @@
 <script setup lang="ts">
+  import store from '/src/store'
+
   import { colorsClasses } from '/src/scripts'
+
+  import IconArrowSmRight from '~icons/heroicons-solid/arrow-sm-right'
+  import IconArrowsExpand from '~icons/heroicons-solid/arrows-expand'
+  import IconEye from '~icons/heroicons-solid/eye'
+  import IconEyeOff from '~icons/heroicons-solid/eye-off'
 
   import Button from '/src/components/Button.vue'
 
   import ColumnsSelection from './components/ColumnsSelection.vue'
-  import PointsTable from './components/PointsTable/Index.vue'
   import ListboxGroupBy from './components/ListboxGroupBy.vue'
-
-  import IconEye from '~icons/heroicons-solid/eye'
-  import IconArrowsExpand from '~icons/heroicons-solid/arrows-expand'
-  import IconArrowSmRight from '~icons/heroicons-solid/arrow-sm-right'
-  import IconEyeOff from '~icons/heroicons-solid/eye-off'
-
-  import store from '/src/store'
+  import PointsTable from './components/PointsTable/Index.vue'
 
   const { t } = useI18n()
 
   const props = defineProps<{
-    menu: MenuProps
+    readonly menu: MenuProps
   }>()
 
   const selectedReport = computed(
@@ -64,11 +64,12 @@
       </div>
     </div>
   </div>
-  <!-- <Button
+  <Button
     full
     :leftIcon="IconArrowsExpand"
     :rightIcon="IconArrowSmRight"
     disabled
-    >Fullscreen</Button
-  > -->
+  >
+    Fullscreen
+  </Button>
 </template>

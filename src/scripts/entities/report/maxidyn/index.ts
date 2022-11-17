@@ -1,48 +1,127 @@
-import { createBaseReportFromJSON } from '../base'
 import {
-  createMaxidynZoneFromJSON,
-  createMaxidynFieldFromJSON,
-  createPredefinedThreshold,
   createCustomThreshold,
+  createFieldFromJSON,
+  createMaxidynDropIndexFromJSON,
+  createMaxidynZoneFromJSON,
+  createSelectableList,
+  defaultThresholds,
 } from '/src/scripts'
 
+import {
+  convertDataLabelGroupsToJSON,
+  convertThresholdsConfigurationToJSON,
+  createBaseReportFromJSON,
+} from '../base'
+
+interface MaxidynReportCreatorParameters
+  extends MachineReportCreatorParameters {
+  project: MaxidynProject
+}
+
 export const createMaxidynReportFromJSON = (
-  json: JSONReport,
+  json: JSONMaxidynReport,
   map: mapboxgl.Map | null,
   parameters: MaxidynReportCreatorParameters
 ) => {
+  json = upgradeJSON(json)
+
+  const dropIndexes =
+    json.distinct.groupedDataLabels.list
+      .find((group) => group.from === 'Drop')
+      ?.indexes?.list.map((jsonDropIndex) =>
+        createMaxidynDropIndexFromJSON(jsonDropIndex)
+      ) || []
+
   const report: PartialMachineReport<MaxidynReport> = createBaseReportFromJSON(
-    json,
+    json.base,
     map,
     {
       machine: 'Maxidyn',
-      thresholds: {
-        modulus: [
-          createPredefinedThreshold('N.S.', 0),
-          createPredefinedThreshold('AR1', 20000000),
-          createPredefinedThreshold('AR2', 50000000),
-          createPredefinedThreshold('AR3', 120000000),
-          createPredefinedThreshold('AR4', 200000000),
-          createPredefinedThreshold('PF1', 20000000),
-          createPredefinedThreshold('PF2', 50000000),
-          createPredefinedThreshold('PF2+', 80000000),
-          createPredefinedThreshold('PF3', 120000000),
-          createPredefinedThreshold('PF4', 200000000),
-          createCustomThreshold(0),
-        ],
-        stiffness: [createCustomThreshold(0)],
-        deflection: [createCustomThreshold(0)],
-        force: [createCustomThreshold(0)],
-        distance: [createCustomThreshold(0)],
-        time: [createCustomThreshold(0)],
-        percentage: [createCustomThreshold(0)],
+      thresholdsGroups: {
+        modulus: {
+          unit: parameters.project.units.modulus,
+          choices: createSelectableList(
+            [
+              defaultThresholds.ns,
+              defaultThresholds.ar1,
+              defaultThresholds.ar2,
+              defaultThresholds.ar3,
+              defaultThresholds.ar4,
+              defaultThresholds.pf1,
+              defaultThresholds.pf2,
+              defaultThresholds['pf2+'],
+              defaultThresholds.pf3,
+              defaultThresholds.pf4,
+              createCustomThreshold(json.distinct.thresholds.modulus.custom),
+            ],
+            {
+              selected: json.distinct.thresholds.modulus.selected,
+            }
+          ),
+        },
+        stiffness: {
+          unit: parameters.project.units.stiffness,
+          choices: createSelectableList(
+            [createCustomThreshold(json.distinct.thresholds.stiffness.custom)],
+            {
+              selected: json.distinct.thresholds.stiffness.selected,
+            }
+          ),
+        },
+        deflection: {
+          unit: parameters.project.units.deflection,
+          choices: createSelectableList(
+            [createCustomThreshold(json.distinct.thresholds.deflection.custom)],
+            {
+              selected: json.distinct.thresholds.deflection.selected,
+            }
+          ),
+        },
+        force: {
+          unit: parameters.project.units.force,
+          choices: createSelectableList(
+            [createCustomThreshold(json.distinct.thresholds.force.custom)],
+            {
+              selected: json.distinct.thresholds.force.selected,
+            }
+          ),
+        },
+        distance: {
+          unit: parameters.project.units.distance,
+          choices: createSelectableList(
+            [createCustomThreshold(json.distinct.thresholds.distance.custom)],
+            {
+              selected: json.distinct.thresholds.distance.selected,
+            }
+          ),
+        },
+        time: {
+          unit: parameters.project.units.time,
+          choices: createSelectableList(
+            [createCustomThreshold(json.distinct.thresholds.time.custom)],
+            {
+              selected: json.distinct.thresholds.time.selected,
+            }
+          ),
+        },
+        percentage: {
+          unit: parameters.project.units.percentage,
+          choices: createSelectableList(
+            [createCustomThreshold(json.distinct.thresholds.percentage.custom)],
+            {
+              selected: json.distinct.thresholds.percentage.selected,
+            }
+          ),
+        },
       },
-      ...parameters,
+      jsonGroupedDataLabels: json.distinct.groupedDataLabels,
+      dropIndexes,
+      project: parameters.project,
     }
   )
 
   report.zones.push(
-    ...json.zones.map((jsonZone) =>
+    ...json.base.zones.map((jsonZone) =>
       createMaxidynZoneFromJSON(jsonZone, map, {
         report: report as MaxidynReport,
       })
@@ -50,16 +129,66 @@ export const createMaxidynReportFromJSON = (
   )
 
   report.platform.push(
-    ...json.platform.map((field: JSONField) =>
-      createMaxidynFieldFromJSON(field)
+    ...json.base.platform.map((field: JSONField) => createFieldFromJSON(field))
+  )
+
+  report.information.push(
+    ...json.base.information.map((field: JSONField) =>
+      createFieldFromJSON(field)
     )
   )
 
-  report.informations.push(
-    ...json.informations.map((field: JSONField) =>
-      createMaxidynFieldFromJSON(field)
-    )
-  )
+  report.toJSON = function (): JSONMaxidynReport {
+    const report = this as MaxidynReport
+    const thresholdGroup = this.thresholds
+      .groups as MaxidynReportThresholdsGroups
+
+    return {
+      version: json.version,
+      base: this.toBaseJSON(),
+      distinct: {
+        version: json.version,
+        groupedDataLabels:
+          convertDataLabelGroupsToJSON<JSONMaxidynGroupedDataLabels>(
+            report as MaxidynReport
+          ),
+        thresholds: {
+          deflection: convertThresholdsConfigurationToJSON(
+            thresholdGroup.deflection.choices
+          ),
+          distance: convertThresholdsConfigurationToJSON(
+            thresholdGroup.distance.choices
+          ),
+          force: convertThresholdsConfigurationToJSON(
+            thresholdGroup.force.choices
+          ),
+          modulus: convertThresholdsConfigurationToJSON(
+            thresholdGroup.modulus.choices
+          ),
+          percentage: convertThresholdsConfigurationToJSON(
+            thresholdGroup.percentage.choices
+          ),
+          stiffness: convertThresholdsConfigurationToJSON(
+            thresholdGroup.stiffness.choices
+          ),
+          time: convertThresholdsConfigurationToJSON(
+            thresholdGroup.time.choices
+          ),
+        },
+      },
+    }
+  }
 
   return report as MaxidynReport
+}
+
+const upgradeJSON = (json: JSONMaxidynReportVAny): JSONMaxidynReport => {
+  switch (json.version) {
+    case 1:
+    // upgrade
+    default:
+      json = json as JSONMaxidynReport
+  }
+
+  return json
 }

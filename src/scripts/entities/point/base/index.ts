@@ -1,19 +1,25 @@
 import { Marker, Popup } from 'mapbox-gl'
 
+import { translate } from '/src/locales'
+
 import {
+  colorsClasses,
+  createDataValueFromJSON,
   createIcon,
   createWatcherHandler,
-  createMathNumber,
-  colorsClasses,
 } from '/src/scripts'
-import { getBrowserLocale } from '/src/locales'
-import translationsFR from '/src/locales/fr.json?raw'
+
+interface BasePointCreatorParameters extends MachinePointCreatorParameters {
+  machine: MachineName
+}
 
 export const createBasePointFromJSON = (
-  json: JSONPoint,
+  json: JSONBasePointVAny,
   map: mapboxgl.Map | null,
   parameters: BasePointCreatorParameters
-) => {
+): BasePoint => {
+  json = upgradeJSON(json)
+
   const icon = createIcon(parameters.zone.report.settings.iconName)
 
   const marker = icon
@@ -27,33 +33,33 @@ export const createBasePointFromJSON = (
 
   let watcherMarkersString: any
 
-  const point = shallowReactive({
+  const point: BasePoint = shallowReactive({
     machine: parameters.machine,
-    id: `${+new Date()}-${Math.random()}`,
+    id: json.id,
     number: json.number,
     index: json.index,
     date: new Date(json.date),
     marker,
     icon,
-    informations: [],
+    information: [] as Field[],
     settings: reactive(json.settings),
     zone: parameters.zone,
-    data: json.data.map((jsonDataValue): DataValue => {
-      const label = parameters.zone.report.dataLabels.groups.list
-        .find((groupedDataLabels) => groupedDataLabels.from === 'Test')
-        ?.choices.list.find(
-          (dataLabel) => dataLabel.name === jsonDataValue.label
-        ) as DataLabel
-
-      return {
-        label,
-        value: createMathNumber(jsonDataValue.value, label.unit),
-      }
-    }),
-    drops: [],
+    data: json.data.map(
+      (jsonDataValue): DataValue<string> =>
+        createDataValueFromJSON(
+          jsonDataValue,
+          (
+            parameters.zone.report.dataLabels.groups
+              .list as MachineGroupedDataLabels[]
+          ).find((groupedDataLabels) => groupedDataLabels.from === 'Test')
+            ?.choices.list || []
+        )
+    ),
+    drops: [] as MachineDrop[],
+    rawDataFile: null,
     getSelectedMathNumber: function (
       groupFrom: DataLabelsFrom,
-      dataLabel: DataLabel,
+      dataLabel: DataLabel<string>,
       index?: MachineDropIndex | null
     ) {
       let source
@@ -78,7 +84,7 @@ export const createBasePointFromJSON = (
     },
     getDisplayedString: function (
       groupFrom: DataLabelsFrom,
-      dataLabel: DataLabel,
+      dataLabel: DataLabel<string>,
       index?: MachineDropIndex | null
     ) {
       const value = this.getSelectedMathNumber(groupFrom, dataLabel, index)
@@ -102,11 +108,11 @@ export const createBasePointFromJSON = (
 
           const unit = mathNumber?.unit
 
-          const threshold = this.zone.report.thresholds.groups.find(
-            (group) => group.unit === unit
-          )?.choices.selected
+          if (unit) {
+            const threshold = Object.values(
+              this.zone.report.thresholds.groups
+            ).find((group) => group.unit === unit)?.choices.selected
 
-          if (unit && threshold) {
             const color = threshold.getColor(
               mathNumber,
               this.zone.report.thresholds.colors
@@ -168,23 +174,23 @@ export const createBasePointFromJSON = (
       }
     },
     updatePopup: function () {
-      const locale = getBrowserLocale(true)
+      let html: string = ``
 
-      let html: string = ''
+      const appendToPopup = (label: string, value: string) =>
+        (html += `<p><strong>${label}:</strong> ${value}</p>`)
+
+      appendToPopup(translate('Date'), this.date.toLocaleString())
+      appendToPopup(
+        translate('Longitude'),
+        String(this.marker?.getLngLat().lng)
+      )
+      appendToPopup(translate('Latitude'), String(this.marker?.getLngLat().lat))
 
       this.data.forEach((dataValue) => {
-        let name = dataValue.label.name
-
-        const translations = {
-          fr: JSON.parse(translationsFR),
-        }
-
-        name =
-          locale === 'fr' && name in translations.fr
-            ? translations.fr[name]
-            : name
-
-        html += `<p><strong>${name}:</strong> ${dataValue.value.displayedStringWithUnit}</p>`
+        appendToPopup(
+          translate(dataValue.label.name),
+          dataValue.value.displayedStringWithUnit
+        )
       })
 
       this.marker?.setPopup(new Popup().setHTML(html))
@@ -226,7 +232,36 @@ export const createBasePointFromJSON = (
       this.marker?.remove()
       watcherHandler.clean()
     },
-  } as BasePoint)
+    toBaseJSON: function (): JSONBasePoint {
+      return {
+        version: json.version,
+        id: this.id,
+        index: this.index,
+        settings: this.settings,
+        number: this.number,
+        date: this.date.toJSON(),
+        coordinates: this.marker?.getLngLat() || json.coordinates,
+        data: this.data.map((data) => data.toJSON()),
+        information: this.information.map((field) => field.toJSON()),
+        drops: this.drops.map(
+          (drop) => drop.toJSON() as unknown as JSONMachineDrop
+        ),
+      }
+    },
+  })
+
+  marker?.on('dragend', () => point.updatePopup())
 
   return point
+}
+
+const upgradeJSON = (json: JSONBasePointVAny): JSONBasePoint => {
+  switch (json.version) {
+    case 1:
+    // upgrade
+    default:
+      json = json as JSONBasePoint
+  }
+
+  return json
 }

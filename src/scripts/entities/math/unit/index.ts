@@ -23,26 +23,22 @@ const convertMapviewUnitToMathJSUnit = (unit: string) =>
 
 export const createMathUnit = <PossibleUnits extends string>(
   name: string,
+  json: JSONMathUnit<PossibleUnits>,
   baseUnit: string,
   possibleSettings: [PossibleUnits, number][],
-  options: {
-    currentUnit: PossibleUnits
+  options?: {
     possiblePrecisions?: number[]
-    currentPrecision?: number
-    min?: number
-    max?: number
     step?: number
     averageFunction?: 'allEqual' | 'capOutliers' | 'ignoreOutliers'
     readOnly?: true
   }
-): MathUnit => {
-  const currentUnit = options.currentUnit || possibleSettings[0][0]
-  const possiblePrecisions = options.possiblePrecisions || [0, 1, 2]
-  const currentPrecision = options.currentPrecision || possibleSettings[0][1]
-  const min = options.min || 0
-  const max = options.max || null
-  const step = options.step || 1
-  const readOnly = options.readOnly || false
+): MathUnit<PossibleUnits> => {
+  const currentUnit = json.currentUnit || possibleSettings[0][0]
+  const possiblePrecisions = options?.possiblePrecisions || [0, 1, 2]
+  const currentPrecision = json.currentPrecision || possibleSettings[0][1]
+  const max = json.max
+  const min = json.min || 0
+  const readOnly = options?.readOnly || false
 
   const mathUnit = shallowReactive({
     name,
@@ -53,15 +49,14 @@ export const createMathUnit = <PossibleUnits extends string>(
     currentPrecision,
     min,
     max,
-    step,
     readOnly,
     getAverage: function (values: number[]) {
       const min = this.min
       const max = this.max
 
       const filteredValues: number[] = values.filter((value) =>
-        options.averageFunction === 'ignoreOutliers'
-          ? (!this.max || value <= this.max) && value >= this.min
+        options?.averageFunction === 'ignoreOutliers'
+          ? value <= this.max && value >= this.min
           : true
       )
 
@@ -69,7 +64,7 @@ export const createMathUnit = <PossibleUnits extends string>(
         ? filteredValues.reduce(
             (total, currentValue) =>
               total +
-              (options.averageFunction === 'capOutliers'
+              (options?.averageFunction === 'capOutliers'
                 ? max && currentValue > max
                   ? max
                   : currentValue < min
@@ -79,6 +74,15 @@ export const createMathUnit = <PossibleUnits extends string>(
             0
           ) / filteredValues.length
         : 0
+    },
+    toJSON: function (): JSONMathUnit<PossibleUnits> {
+      return {
+        version: 1,
+        currentUnit: this.currentUnit,
+        currentPrecision: this.currentPrecision,
+        max: this.max,
+        min: this.min,
+      }
     },
   })
 

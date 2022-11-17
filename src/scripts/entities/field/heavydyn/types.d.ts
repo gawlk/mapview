@@ -1,1 +1,0 @@
-interface HeavydynField extends BaseField {}

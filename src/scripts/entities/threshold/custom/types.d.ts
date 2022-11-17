@@ -1,10 +1,29 @@
+// ---
+// JSON
+// ---
+
+interface JSONCustomThreshold {
+  readonly version: 1
+  readonly type: CustomThresholdType
+  readonly value: number
+  readonly valueHigh: number
+}
+
+type CustomThresholdType = 'Bicolor' | 'Gradient' | 'Tricolor'
+
+// ---
+// Object
+// ---
+
 interface CustomThreshold {
-  kind: 'custom'
+  readonly kind: 'custom'
   name: 'Custom'
   type: CustomThresholdType
   value: number
   valueHigh: number
-  getColor: (mathNumber: MathNumber, colors: ThresholdColors) => string
+  readonly getColor: (
+    mathNumber: MathNumber,
+    colors: JSONThresholdColors
+  ) => string
+  readonly toJSON: () => JSONCustomThreshold
 }
-
-type CustomThresholdType = 'Bicolor' | 'Gradient' | 'Tricolor'

@@ -1,70 +1,44 @@
-import { createBaseProjectFromJSON } from '../base'
 import {
-  createMathUnit,
-  createHeavydynFieldFromJSON,
+  createFieldFromJSON,
   createHeavydynReportFromJSON,
+  createMathUnit,
+  getSelectedFromIndexInList,
 } from '/src/scripts'
 
+import { createBaseProjectFromJSON } from '../base'
+
 export const createHeavydynProjectFromJSON = async (
-  json: JSONHeavydynProject,
+  json: JSONHeavydynProjectVAny,
   map: mapboxgl.Map | null
 ) => {
-  const jsonUnits = json.units as JSONHeavydynUnits
+  json = upgradeJSON(json)
+
+  const jsonUnits = json.distinct.units
 
   const units: HeavydynMathUnits = {
-    deflection: createMathUnit<PossibleHeavydynDeflectionUnits>(
-      'Deflection',
-      'm',
-      [
-        ['mm', 0],
-        ['1/100 mm', 0],
-        ['um', 0],
-      ],
-      {
-        max: 0.003,
-        currentUnit: jsonUnits.deflection,
-      }
-    ),
-    force: createMathUnit<PossibleHeavydynForceUnits>(
-      'Force',
-      'N',
-      [
-        ['N', 0],
-        ['kN', 0],
-        ['lbs', 0],
-      ],
-      {
-        max: 500000,
-        currentUnit: jsonUnits.force,
-      }
-    ),
-    temperature: createMathUnit<PossibleHeavydynTemperatureUnits>(
-      'Temperature',
-      '°C',
-      [
-        ['°C', 0],
-        ['°F', 0],
-        ['K', 0],
-      ],
-      {
-        currentUnit: jsonUnits.temperature,
-      }
-    ),
-    distance: createMathUnit<PossibleHeavydynDistanceUnits>(
-      'Distance',
-      'm',
-      [
-        ['m', 0],
-        ['km', 0],
-        ['mi', 0],
-      ],
-      {
-        max: 100000,
-        currentUnit: jsonUnits.distance,
-      }
-    ),
-    time: createMathUnit<PossibleHeavydynTimeUnits>(
+    deflection: createMathUnit('Deflection', jsonUnits.deflection, 'm', [
+      ['mm', 0],
+      ['1/100 mm', 0],
+      ['um', 0],
+    ]),
+    force: createMathUnit('Force', jsonUnits.force, 'N', [
+      ['N', 0],
+      ['kN', 0],
+      ['lbs', 0],
+    ]),
+    temperature: createMathUnit('Temperature', jsonUnits.temperature, '°C', [
+      ['°C', 0],
+      ['°F', 0],
+      ['K', 0],
+    ]),
+    distance: createMathUnit('Distance', jsonUnits.distance, 'm', [
+      ['m', 0],
+      ['km', 0],
+      ['mi', 0],
+    ]),
+    time: createMathUnit(
       'Time',
+      jsonUnits.time,
       's',
       [
         ['s', 0],
@@ -72,47 +46,77 @@ export const createHeavydynProjectFromJSON = async (
         ['us', 0],
       ],
       {
-        max: 0.1,
         step: 0.1,
-        currentUnit: jsonUnits.time,
       }
     ),
   }
 
   const project: PartialMachineProject<HeavydynProject> =
-    await createBaseProjectFromJSON(json, map, {
+    await createBaseProjectFromJSON(json.base, map, {
       machine: 'Heavydyn',
       units,
     })
 
   project.reports.list.push(
-    ...json.reports.map((report) =>
-      createHeavydynReportFromJSON(report, map, {
+    ...json.base.reports.list.map((report) =>
+      createHeavydynReportFromJSON(report as JSONHeavydynReport, map, {
         project: project as HeavydynProject,
       })
     )
   )
 
-  project.reports.selected = project.reports.list[0]
+  project.reports.selected = getSelectedFromIndexInList(
+    json.base.reports.selected,
+    project.reports.list
+  )
 
-  project.informations.push(
-    ...json.informations.map((field: JSONField) =>
-      createHeavydynFieldFromJSON(field)
+  project.information.push(
+    ...json.base.information.map((field: JSONField) =>
+      createFieldFromJSON(field)
     )
   )
 
   project.hardware.push(
-    ...json.hardware.map((field: JSONField) =>
-      createHeavydynFieldFromJSON(field)
-    )
+    ...json.base.hardware.map((field: JSONField) => createFieldFromJSON(field))
   )
 
   project.calibrations = {
-    date: new Date(json.calibrations.date),
-    dPlate: json.calibrations.dPlate,
-    channels: json.calibrations.channels,
-    sensors: json.calibrations.sensors,
+    date: new Date(json.distinct.calibrations.date),
+    dPlate: json.distinct.calibrations.dPlate,
+    channels: json.distinct.calibrations.channels,
+    sensors: json.distinct.calibrations.sensors,
+  }
+
+  project.toJSON = function (): JSONHeavydynProject {
+    const project = this as HeavydynProject
+
+    return {
+      version: json.version,
+      base: project.toBaseJSON(),
+      distinct: {
+        version: json.distinct.version,
+        calibrations: json.distinct.calibrations,
+        units: {
+          deflection: project.units.deflection.toJSON(),
+          distance: project.units.distance.toJSON(),
+          force: project.units.force.toJSON(),
+          temperature: project.units.temperature.toJSON(),
+          time: project.units.time.toJSON(),
+        },
+      },
+    }
   }
 
   return project as HeavydynProject
+}
+
+const upgradeJSON = (json: JSONHeavydynProjectVAny): JSONHeavydynProject => {
+  switch (json.version) {
+    case 1:
+    // upgrade
+    default:
+      json = json as JSONHeavydynProject
+  }
+
+  return json
 }

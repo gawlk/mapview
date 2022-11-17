@@ -1,19 +1,19 @@
 <script setup lang="ts">
+  import IconChevronLeft from '~icons/heroicons-solid/chevron-left'
+  import IconChevronRight from '~icons/heroicons-solid/chevron-right'
+
   import Button from '/src/components/Button.vue'
   import Divider from '/src/components/Divider.vue'
-
-  import IconChevronRight from '~icons/heroicons-solid/chevron-right'
-  import IconChevronLeft from '~icons/heroicons-solid/chevron-left'
 
   const { t } = useI18n()
 
   let div = ref()
 
   const props = defineProps<{
-    buttonIcon: any
-    buttonText: string
-    route: string
-    menuProps: MenuProps
+    readonly buttonIcon: any
+    readonly buttonText: string
+    readonly route: string
+    readonly menuProps: MenuProps
   }>()
 
   const state = shallowReactive({

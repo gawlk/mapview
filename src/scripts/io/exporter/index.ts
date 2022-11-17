@@ -1,26 +1,12 @@
-import FileSaver from 'file-saver'
+export * from './project'
+export * from './report'
 
-export * from './prjz'
-export * from './heavydyn'
+// import FileSaver from 'file-saver'
 
-export default class Context {
-  public fileContent: string
-  private strategy: ExportStrategy
+// public doExport(project: MachineProject): void {
+//   this.fileContent = this.strategy.doExport(project).replaceAll('\n', '\r\n')
 
-  constructor(strategy: ExportStrategy) {
-    this.strategy = strategy
-    this.fileContent = ''
-  }
+//   const blob = new Blob([this.fileContent], { type: 'text/plain' })
 
-  public setStrategy(strategy: ExportStrategy) {
-    this.strategy = strategy
-  }
-
-  public doExport(project: MachineProject): void {
-    this.fileContent = this.strategy.doExport(project).replaceAll('\n', '\r\n')
-
-    const blob = new Blob([this.fileContent], { type: 'text/plain' })
-
-    FileSaver.saveAs(blob, 'report.' + this.strategy.extension)
-  }
-}
+//   FileSaver.saveAs(blob, 'report.' + this.strategy.extension)
+// }

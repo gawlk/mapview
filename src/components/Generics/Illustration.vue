@@ -3,26 +3,26 @@
 
   const props = defineProps<{
     // Sizes
-    lg?: boolean
-    sm?: boolean
+    readonly lg?: boolean
+    readonly sm?: boolean
 
     // Colors
-    brand?: boolean
-    brand2?: boolean
-    primary?: boolean
-    secondary?: boolean
-    tertiary?: boolean
+    readonly brand?: boolean
+    readonly brand2?: boolean
+    readonly primary?: boolean
+    readonly secondary?: boolean
+    readonly tertiary?: boolean
 
     // Illustrations
-    svg?: any
-    src?: string
+    readonly svg?: any
+    readonly src?: string
 
     // Sides
-    left?: boolean
-    right?: boolean
+    readonly left?: boolean
+    readonly right?: boolean
 
     // Classes
-    classes?: string
+    readonly classes?: string
   }>()
 </script>
 

@@ -4,13 +4,13 @@
   import DialogInformations from '/src/components/DialogInformations.vue'
 
   import ButtonSave from './components/ButtonSave.vue'
-  import DialogConfigurations from './components/DialogConfigurations.vue'
+  import DialogConfigurations from './components/DialogConfigurations/Index.vue'
   import GroupProjects from './components/GroupProjects.vue'
 
   const { t } = useI18n()
 
   const props = defineProps<{
-    menu: MenuProps
+    readonly menu: MenuProps
   }>()
 </script>
 
@@ -24,7 +24,7 @@
         fields: store.projects.selected
           ? [
               store.projects.selected.name,
-              ...store.projects.selected.informations,
+              ...store.projects.selected.information,
             ]
           : [],
       },
@@ -35,5 +35,5 @@
     ]"
   />
   <DialogConfigurations />
-  <ButtonSave disabled />
+  <ButtonSave />
 </template>

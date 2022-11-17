@@ -1,15 +1,17 @@
 <script setup lang="ts">
   import store from '/src/store'
 
-  import IconLogout from '~icons/heroicons-solid/logout'
+  import { downloadImage } from '/src/scripts'
+
   import IconDownload from '~icons/heroicons-solid/download'
+  import IconLogout from '~icons/heroicons-solid/logout'
   import IconTrash from '~icons/heroicons-solid/trash'
 
   import Button from '/src/components/Button.vue'
   import Overlay from '/src/components/Overlay.vue'
 
   const props = defineProps<{
-    isOpen: boolean
+    readonly isOpen: boolean
   }>()
 
   const emit = defineEmits<{
@@ -17,15 +19,6 @@
   }>()
 
   const { t } = useI18n()
-
-  const download = (screenshot: string) => {
-    const a = document.createElement('a')
-    a.href = screenshot
-    a.download = 'screenshot.png'
-    a.target = '_blank'
-    a.click()
-    a.remove()
-  }
 </script>
 
 <template>
@@ -42,7 +35,10 @@
             class="h-[50vh] rounded-lg border-4 border-white lg:h-[70vh]"
           />
           <div class="space-x-2">
-            <Button :icon="IconDownload" @click="() => download(screenshot)" />
+            <Button
+              :icon="IconDownload"
+              @click="() => downloadImage(screenshot)"
+            />
             <Button
               :icon="IconTrash"
               @click="

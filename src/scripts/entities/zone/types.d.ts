@@ -1,3 +1,13 @@
+// ---
+// JSON
+// ---
+
+type JSONMachineZone = JSONHeavydynZone | JSONMaxidynZone | JSONMinidynZone
+
+// ---
+// Object
+// ---
+
 type MachineZone = HeavydynZone | MaxidynZone | MinidynZone
 
 type PartialMachineZone<MachineZone> = PartialExtendedObject<
@@ -5,6 +15,10 @@ type PartialMachineZone<MachineZone> = PartialExtendedObject<
   MachineZone
 >
 
+// ---
+// Parameters
+// ---
+
 interface MachineZoneCreatorParameters {
-  report: MachineReport
+  readonly report: MachineReport
 }

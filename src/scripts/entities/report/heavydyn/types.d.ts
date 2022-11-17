@@ -1,33 +1,64 @@
+// ---
+// JSON
+// ---
+
+type JSONHeavydynReportVAny = JSONHeavydynReport
+
+interface JSONHeavydynReport {
+  readonly version: 1
+  readonly base: JSONBaseReport
+  readonly distinct: JSONHeavydynReportDistinct
+}
+
+interface JSONHeavydynReportDistinct {
+  readonly version: 1
+  readonly groupedDataLabels: SelectableList<
+    number,
+    JSONHeavydynGroupedDataLabels
+  >
+  readonly thresholds: HeavydynUnitsSkeleton<JSONDistinctThresholdsConfiguration>
+}
+
+interface JSONHeavydynGroupedDataLabels {
+  readonly version: 1
+  readonly from: DataLabelsFrom
+  readonly choices: SelectableList<number, JSONDataLabel<HeavydynUnitsNames>>
+  readonly indexes?: SelectableList<number, JSONHeavydynDropIndex>
+}
+
+// ---
+// Object
+// ---
+
 interface HeavydynReport extends BaseReport {
   readonly machine: 'Heavydyn'
   readonly zones: HeavydynZone[]
-  platform: HeavydynField[]
-  informations: HeavydynField[]
+  readonly dataLabels: HeavydynReportDataLabels
+  readonly thresholds: HeavydynReportThresholds
   project: HeavydynProject
+  toJSON: () => JSONHeavydynReport
 }
 
-interface HeavydynReportCreatorParameters
-  extends MachineReportCreatorParameters {
-  project: HeavydynProject
+interface HeavydynReportDataLabels extends BaseReportDataLabels {
+  readonly groups: SelectableList<HeavydynGroupedDataLabels>
+  readonly table: SelectableList<HeavydynTableDataLabelsParameters>
 }
 
-type HeavydynDropType = 'Distance' | 'Time' | 'Force' | 'Height'
-
-interface HeavydynDropIndex extends BaseDropIndex {
-  readonly machine: 'Heavydyn'
-  readonly type: HeavydynDropType
-  value: MathNumber
+interface HeavydynGroupedDataLabels extends BaseGroupedDataLabels {
+  readonly indexes?: SelectableList<HeavydynDropIndex>
+  readonly sequenceName?: string
 }
 
-interface JSONHeavydynDropIndex extends BaseDropIndex {
-  readonly machine: 'Heavydyn'
-  readonly type: HeavydynDropType
-  value: number
-  readonly unit: string
+interface HeavydynTableDataLabelsParameters
+  extends BaseTableDataLabelsParameters {
+  readonly group: HeavydynGroupedDataLabels
+  index?: HeavydynDropIndex
 }
 
-type HeavydynThresholds = HeavydynMathUnitsSkeleton<AnyThreshold[]>
-
-interface JSONHeavydynChoice extends JSONChoice {
-  unit: HeavydynMathUnitsNames | string
+interface HeavydynReportThresholds extends BaseReportThresholds {
+  readonly groups: HeavydynUnitsSkeleton<GroupedThresolds<string>>
 }
+
+type HeavydynReportThresholdsGroups = HeavydynUnitsSkeleton<
+  GroupedThresolds<string>
+>

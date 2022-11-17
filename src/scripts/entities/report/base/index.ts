@@ -1,188 +1,67 @@
 import { LngLatBounds } from 'mapbox-gl'
 
 import {
-  createBaseFieldFromJSON,
+  createDataLabelFromJSON,
+  createFieldFromJSON,
   createLine,
   createSelectableList,
   createWatcherHandler,
   debounce,
+  getIndexOfSelectedInSelectableList,
 } from '/src/scripts'
 
 export const createBaseReportFromJSON = (
-  json: JSONReport,
+  json: JSONBaseReport,
   map: mapboxgl.Map | null,
-  parameters: BaseReportCreatorParameters
+  parameters: {
+    machine: MachineName
+    project: MachineProject
+    jsonGroupedDataLabels: SelectableList<number, JSONMachineGroupedDataLabels>
+    thresholdsGroups: MachineReportThresholdsGroups
+    dropIndexes: MachineDropIndex[]
+  }
 ) => {
+  json = upgradeJSON(json)
+
   const watcherHandler = createWatcherHandler()
 
   const zones = shallowReactive([] as MachineZone[])
 
-  const jsonDropGroup = json.dataLabels.groups.list.find(
-    (group) => group.from === 'Drop'
-  )
-
-  const jsonTestGroup = json.dataLabels.groups.list.find(
-    (group) => group.from === 'Test'
-  )
-
-  const jsonZoneGroup = json.dataLabels.groups.list.find(
-    (group) => group.from === 'Zone'
-  )
-
-  const groupedDataLabels = createSelectableList(
-    json.dataLabels.groups.selected,
-    [
-      {
-        from: 'Drop',
-        choices: createSelectableList(
-          jsonDropGroup?.choices?.selected ?? null,
-          jsonDropGroup?.choices.list.map((jsonChoice) => {
-            return {
-              name: jsonChoice.name,
-              unit:
-                jsonChoice.unit in parameters.project.units
-                  ? parameters.project.units[
-                      jsonChoice.unit as keyof MachineMathUnits
-                    ]
-                  : jsonChoice.unit,
-            }
-          }) || [],
-          {
-            reactive: true,
-            isSelectedAnIndex: true,
-          }
-        ),
-        indexes: createSelectableList(
-          jsonDropGroup?.indexes?.selected ?? null,
-          jsonDropGroup?.indexes?.list || [],
-          {
-            reactive: true,
-            isSelectedAnIndex: true,
-          }
-        ),
-      },
-      {
-        from: 'Test',
-        choices: createSelectableList(
-          jsonDropGroup?.choices?.selected ?? null,
-          jsonTestGroup?.choices.list.map((jsonChoice) => {
-            return {
-              name: jsonChoice.name,
-              unit:
-                jsonChoice.unit in parameters.project.units
-                  ? parameters.project.units[
-                      jsonChoice.unit as keyof MachineMathUnits
-                    ]
-                  : jsonChoice.unit,
-            }
-          }) || [],
-          {
-            reactive: true,
-            isSelectedAnIndex: true,
-          }
-        ),
-      },
-      {
-        from: 'Zone',
-        choices: createSelectableList(
-          jsonDropGroup?.choices?.selected ?? null,
-          jsonZoneGroup?.choices.list.map((jsonChoice) => {
-            return {
-              name: jsonChoice.name,
-              unit: parameters.project.units[
-                jsonChoice.unit as keyof MachineMathUnits
-              ],
-            }
-          }) || [],
-          {
-            reactive: true,
-            isSelectedAnIndex: true,
-          }
-        ),
-      },
-    ] as GroupedDataLabels[],
-    {
-      reactive: true,
-      isSelectedAnIndex: true,
-    }
-  )
-
-  const tableDataLabelsList: TableDataLabelsParameters[] =
-    groupedDataLabels.list.map((group) => {
-      const tableDataLabels = json.dataLabels.table.list?.find(
-        (tableDataLabels) => tableDataLabels.from === group.from
-      )
-
-      return shallowReactive({
-        group,
-        index: group.indexes?.list[tableDataLabels?.index || 0],
-        dataLabels: shallowReactive(
-          (tableDataLabels?.dataLabels || [])
-            .map((name) =>
-              group.choices.list.find((choice) => choice.name === name)
-            )
-            .filter((dataLabel) => dataLabel) as DataLabel[]
-        ),
-      })
-    })
-
-  const dataLabels: ReportDataLabels = {
-    groups: groupedDataLabels,
-    table: createSelectableList(
-      json.dataLabels.table.selected,
-      tableDataLabelsList,
-      {
-        reactive: true,
-        isSelectedAnIndex: true,
-      }
-    ),
-  }
-
   const report: BaseReport = shallowReactive({
     machine: parameters.machine,
-    name: createBaseFieldFromJSON(
-      {
-        label: 'Name',
-        value: json.name,
-        settings: {},
+    name: createFieldFromJSON({
+      version: 1,
+      label: 'Name',
+      value: json.name,
+      settings: {
+        version: 1,
       },
-      {
-        reactive: true,
-      }
-    ),
+    }),
     isOnMap: false as boolean,
     settings: reactive(json.settings),
     screenshots: shallowReactive([] as string[]),
-    dataLabels,
+    dataLabels: createDataLabelsFromJSON(
+      parameters.jsonGroupedDataLabels,
+      json.dataLabels.table,
+      parameters.project.units,
+      parameters.dropIndexes
+    ),
+    // @ts-ignore next-line
     thresholds: {
-      groups: Object.entries(parameters.project.units).map(
-        ([key, unit]: [string, MathUnit]): GroupedThresolds => {
-          return {
-            unit,
-            choices: createSelectableList(
-              (json.thresholds.groups as any)[key] as number,
-              (parameters.thresholds as any)[key] as AnyThreshold[],
-              {
-                reactive: true,
-                isSelectedAnIndex: true,
-              }
-            ),
-          }
-        }
-      ),
+      groups: parameters.thresholdsGroups,
       colors: shallowReactive(json.thresholds.colors),
       inputs: shallowReactive(json.thresholds.inputs),
     },
     zones,
     line: createLine(map),
-    platform: shallowReactive([]),
-    informations: shallowReactive([]),
+    platform: shallowReactive([] as Field[]),
+    information: shallowReactive([] as Field[]),
     project: parameters.project,
     fitOnMap: function () {
       const bounds = new LngLatBounds()
 
       this.zones.forEach((zone) => {
-        zone.points.forEach((point: MachinePoint) => {
+        zone.points.forEach((point) => {
           if (point.settings.isVisible && point.marker) {
             bounds.extend(point.marker.getLngLat())
           }
@@ -205,7 +84,7 @@ export const createBaseReportFromJSON = (
       watcherHandler.add(
         watch(
           () => this.settings.isVisible,
-          (isVisible: boolean) => {
+          (isVisible) => {
             this.zones.forEach((zone) => {
               zone.points.forEach((point) => {
                 point.updateVisibility()
@@ -224,7 +103,7 @@ export const createBaseReportFromJSON = (
       watcherHandler.add(
         watch(
           () => this.settings.iconName,
-          (iconName: IconName) => {
+          (iconName) => {
             this.zones.forEach((zone) => {
               zone.points.forEach((point) => {
                 point.icon?.setIcon(iconName)
@@ -271,29 +150,32 @@ export const createBaseReportFromJSON = (
         )
       )
 
-      this.thresholds.groups.forEach((thresholdGroup) => {
-        watcherHandler.add(
-          watch(
-            () => [
-              thresholdGroup.choices.selected,
-              (thresholdGroup.choices.list.at(-1) as CustomThreshold).type,
-              (thresholdGroup.choices.list.at(-1) as CustomThreshold).value,
-              (thresholdGroup.choices.list.at(-1) as CustomThreshold).valueHigh,
-            ],
-            debounce(() => {
-              this.zones.forEach((zone) => {
-                zone.points.forEach((point) => {
-                  point.updateColor()
+      Object.values(this.thresholds.groups).forEach(
+        (thresholdGroup: GroupedThresolds<string>) => {
+          watcherHandler.add(
+            watch(
+              () => [
+                thresholdGroup.choices.selected,
+                (thresholdGroup.choices.list.at(-1) as CustomThreshold).type,
+                (thresholdGroup.choices.list.at(-1) as CustomThreshold).value,
+                (thresholdGroup.choices.list.at(-1) as CustomThreshold)
+                  .valueHigh,
+                thresholdGroup.unit.min,
+                thresholdGroup.unit.max,
+              ],
+              debounce(() => {
+                this.zones.forEach((zone) => {
+                  zone.points.forEach((point) => {
+                    point.updateColor()
+                  })
                 })
+
+                this.line.update()
               })
-
-              this.line.update()
-            })
+            )
           )
-        )
-      })
-
-      parameters.addToMap?.()
+        }
+      )
     },
     remove: function () {
       this.isOnMap = false
@@ -305,10 +187,216 @@ export const createBaseReportFromJSON = (
       this.line.remove()
 
       watcherHandler.clean()
+    },
+    toBaseJSON: function (): JSONBaseReport {
+      console.log(this.dataLabels.table.list.length)
 
-      parameters.remove?.()
+      return {
+        version: 1,
+        name: this.name.value as string,
+        dataLabels: {
+          version: json.dataLabels.version,
+          table: {
+            selected: getIndexOfSelectedInSelectableList(
+              this.dataLabels
+                .table as SelectableList<MachineTableDataLabelsParameters>
+            ),
+            list: this.dataLabels.table.list.map(
+              (tableDataLabelsParameters): JSONTableDataLabelsParameters => {
+                return {
+                  version: 1,
+                  from: tableDataLabelsParameters.group.from,
+                  dataLabels: tableDataLabelsParameters.dataLabels.map(
+                    (dataLabels) => dataLabels.name
+                  ),
+                  index:
+                    tableDataLabelsParameters.index &&
+                    this.dataLabels.table.selected?.group.indexes
+                      ? (
+                          this.dataLabels.table.selected.group.indexes
+                            .list as MachineDropIndex[]
+                        ).indexOf(tableDataLabelsParameters.index)
+                      : undefined,
+                }
+              }
+            ),
+          },
+        },
+        thresholds: {
+          version: 1,
+          colors: this.thresholds.colors,
+          inputs: this.thresholds.inputs,
+        },
+        zones: this.zones.map((zone) => zone.toJSON()),
+        settings: this.settings,
+        screenshots: [],
+        platform: this.platform.map((field) => field.toJSON()),
+        information: this.information.map((field) => field.toJSON()),
+      }
     },
   })
 
   return report
+}
+
+const createDataLabelsFromJSON = (
+  jsonGroupedDataLabels: SelectableList<number, JSONMachineGroupedDataLabels>,
+  jsonTableDataLabels: SelectableList<number, JSONTableDataLabelsParameters>,
+  units: MachineMathUnits,
+  dropIndexes: MachineDropIndex[]
+): MachineReportDataLabels => {
+  const jsonGroupedDataLabelsList = jsonGroupedDataLabels.list
+
+  const jsonDropGroup = jsonGroupedDataLabelsList.find(
+    (group) => group.from === 'Drop'
+  )
+
+  const jsonTestGroup = jsonGroupedDataLabelsList.find(
+    (group) => group.from === 'Test'
+  )
+
+  const jsonZoneGroup = jsonGroupedDataLabelsList.find(
+    (group) => group.from === 'Zone'
+  )
+
+  // TODO: Fix crossed types
+  const groupedDataLabels = createSelectableList(
+    [
+      {
+        from: 'Drop',
+        choices: createSelectableList(
+          jsonDropGroup?.choices.list.map((jsonChoice) =>
+            createDataLabelFromJSON(jsonChoice, units)
+          ) || [],
+          {
+            selected: jsonDropGroup?.choices.selected,
+          }
+        ),
+        indexes: createSelectableList(dropIndexes, {
+          selected: jsonDropGroup?.indexes?.selected,
+        }),
+      },
+      {
+        from: 'Test',
+        choices: createSelectableList(
+          jsonTestGroup?.choices.list.map((jsonChoice) =>
+            createDataLabelFromJSON(jsonChoice, units)
+          ) || [],
+          {
+            selected: jsonTestGroup?.choices.selected,
+          }
+        ),
+      },
+      {
+        from: 'Zone',
+        choices: createSelectableList(
+          jsonZoneGroup?.choices.list.map((jsonChoice) =>
+            createDataLabelFromJSON(jsonChoice, units)
+          ) || [],
+          {
+            selected: jsonZoneGroup?.choices.selected,
+          }
+        ),
+      },
+    ],
+    {
+      selected: jsonGroupedDataLabels.selected,
+    }
+  )
+
+  const tableDataLabelsList = groupedDataLabels.list.map((group) => {
+    const tableDataLabels = jsonTableDataLabels.list?.find(
+      (tableDataLabels) => tableDataLabels.from === group.from
+    )
+
+    return shallowReactive({
+      group,
+      index: group.indexes?.list[tableDataLabels?.index || 0],
+      dataLabels: shallowReactive(
+        (tableDataLabels?.dataLabels || [])
+          .map((name) =>
+            group.choices.list.find((choice) => choice.name === name)
+          )
+          .filter((dataLabel) => dataLabel) as DataLabel<string>[]
+      ),
+    })
+  })
+
+  // TODO: Fix ts-ignores
+  return {
+    // @ts-ignore next-line
+    groups: groupedDataLabels,
+    // @ts-ignore next-line
+    table: createSelectableList(tableDataLabelsList, {
+      selected: jsonTableDataLabels.selected,
+    }),
+  }
+}
+
+const upgradeJSON = (json: JSONBaseReportVAny): JSONBaseReport => {
+  switch (json.version) {
+    case 1:
+    // upgrade
+    default:
+      json = json as JSONBaseReport
+  }
+
+  return json
+}
+
+export const convertDataLabelGroupsToJSON = <
+  JSONGroupedDataLabels extends JSONMachineGroupedDataLabels
+>(
+  report: MachineReport
+): SelectableList<number, JSONGroupedDataLabels> => {
+  return {
+    selected: getIndexOfSelectedInSelectableList(
+      report.dataLabels.groups as SelectableList<MachineGroupedDataLabels>
+    ),
+    list: report.dataLabels.groups.list.map(
+      (group): JSONMachineGroupedDataLabels => {
+        return {
+          version: 1,
+          from: group.from,
+          choices: {
+            selected: getIndexOfSelectedInSelectableList(group.choices),
+            // @ts-ignore next-line
+            list: group.choices.list.map(
+              (choice): JSONDataLabel<MachineUnitsNames> => {
+                const unit = Object.entries(report.project.units).find(
+                  (entry) => entry[1] === choice.unit
+                )?.[0] as MachineUnitsNames
+
+                return {
+                  version: 1,
+                  name: choice.name,
+                  unit,
+                }
+              }
+            ),
+          },
+          ...(group.indexes
+            ? {
+                indexes: {
+                  selected: getIndexOfSelectedInSelectableList(
+                    group.indexes as SelectableList<MachineDropIndex>
+                  ),
+                  list: group.indexes.list.map((index) => index.toJSON()),
+                },
+              }
+            : {}),
+        }
+      }
+    ) as JSONGroupedDataLabels[],
+  }
+}
+
+export const convertThresholdsConfigurationToJSON = (
+  choices: SelectableList<AnyThreshold>
+): JSONDistinctThresholdsConfiguration => {
+  return {
+    version: 1,
+    selected: getIndexOfSelectedInSelectableList(choices) || 0,
+    custom: (choices.list.at(-1) as CustomThreshold).toJSON(),
+  }
 }

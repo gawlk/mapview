@@ -1,18 +1,18 @@
 <script setup lang="ts">
   import { cloneDeep } from 'lodash-es'
 
-  import Input from './Input.vue'
-  import Dialog from './Dialog.vue'
-
   import IconInformationCircle from '~icons/heroicons-solid/information-circle'
+
+  import Dialog from './Dialog.vue'
+  import Input from './Input.vue'
 
   const { t } = useI18n()
 
   const props = defineProps<{
-    preID: string
-    data: {
-      title: string
-      fields: MachineField[]
+    readonly preID: string
+    readonly data: {
+      readonly title: string
+      readonly fields: Field[]
     }[]
   }>()
 
@@ -20,7 +20,7 @@
     isOpen: false,
     data: [] as {
       title: string
-      fields: MachineField[]
+      fields: Field[]
     }[],
   })
 
@@ -38,15 +38,7 @@
     })
   }
 
-  const setValue = (information: MachineField, value: any) => {
-    if (typeof information.value === 'object' && information.value.kind) {
-      information.value.value = value
-    } else {
-      information.value = value
-    }
-  }
-
-  const getType = (field: MachineField) =>
+  const getType = (field: Field) =>
     (typeof field.value === 'object' && field.value.kind) || typeof field.value
 </script>
 
@@ -62,7 +54,7 @@
     @save="exportInformations"
   >
     <template v-slot:button>
-      {{ t('View informations') }}
+      {{ t('View information') }}
     </template>
     <template v-slot:dialog>
       <div class="space-y-8">
@@ -75,16 +67,10 @@
             <Input
               v-for="field in dataset.fields"
               :key="field.label"
-              :id="`${props.preID}informations-${field.label}`"
+              :id="`${props.preID}information-${field.label}`"
               :label="t(field.label)"
-              @input="(value) => setValue(field, value)"
-              :value="
-                String(
-                  typeof field.value === 'object'
-                    ? field.value.value
-                    : field.value
-                )
-              "
+              @input="(value) => field.setValue(value)"
+              :value="field.toString()"
               :type="getType(field)"
               :step="
                 typeof field.value === 'object' && 'step' in field.value
@@ -107,11 +93,6 @@
                   ? field.value.possibleValues
                   : undefined
               "
-              :strict="
-                typeof field.value === 'object' &&
-                'strict' in field.value &&
-                field.value.strict
-              "
               :disabled="field.settings.readOnly"
             />
           </div>
@@ -123,7 +104,7 @@
 
 <i18n lang="yaml">
 fr:
-  'View informations': 'Voir les informations'
+  'View information': 'Voir les informations'
   'Serial number': 'Numéro de série'
   'MAC address': 'Adresse MAC'
   'License start': 'Début de la licence'

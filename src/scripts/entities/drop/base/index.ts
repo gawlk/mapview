@@ -1,28 +1,76 @@
-import { createMathNumber } from '/src/scripts'
+import { createDataValueFromJSON } from '/src/scripts'
+
+interface BaseDropCreatorParameters extends MachineDropCreatorParameters {
+  machine: MachineName
+}
 
 export const createBaseDropFromJSON = (
-  json: JSONDrop,
+  json: JSONBaseDropVAny,
   parameters: BaseDropCreatorParameters
 ): BaseDrop => {
-  const dropList = parameters.point.zone.report.dataLabels.groups.list.find(
-    (groupedDataLabels) => groupedDataLabels.from === 'Drop'
-  ) as GroupedDataLabels
+  json = upgradeJSONDrop(json)
 
-  const index = dropList.indexes?.list[json.index] as MachineDropIndex
+  const dropList = (
+    parameters.point.zone.report.dataLabels.groups
+      .list as MachineGroupedDataLabels[]
+  ).find((groupedDataLabels) => groupedDataLabels.from === 'Drop')
+
+  const index = dropList?.indexes?.list[json.index] as MachineDropIndex
 
   return {
     index,
-    data: json.data.map((jsonDataValue): DataValue => {
-      const label = dropList.choices.list.find(
-        (dataLabel) => dataLabel.name === jsonDataValue.label
-      ) as DataLabel
-
-      return {
-        label,
-        value: createMathNumber(jsonDataValue.value, label.unit),
-      }
-    }),
-    additionnalFields: [],
+    data: json.data.map(
+      (jsonDataValue): DataValue<string> =>
+        createDataValueFromJSON(jsonDataValue, dropList?.choices.list || [])
+    ),
     point: parameters.point,
+    impactData: null,
+    toBaseJSON: function (): JSONBaseDrop {
+      return {
+        version: json.version,
+        data: this.data.map((data) => data.toJSON()),
+        index: json.index,
+      }
+    },
   }
+}
+
+const upgradeJSONDrop = (json: JSONBaseDropVAny): JSONBaseDrop => {
+  switch (json.version) {
+    case 1:
+    // upgrade
+    default:
+      json = json as JSONBaseDrop
+  }
+
+  return json
+}
+
+export const createBaseDropIndexFromJSON = (
+  json: JSONBaseDropIndexVAny
+): BaseDropIndex => {
+  json = upgradeJSONDropIndex(json)
+
+  return {
+    displayedIndex: json.displayedIndex,
+    toBaseJSON: function (): JSONBaseDropIndex {
+      return {
+        version: json.version,
+        displayedIndex: json.displayedIndex,
+      }
+    },
+  }
+}
+
+const upgradeJSONDropIndex = (
+  json: JSONBaseDropIndexVAny
+): JSONBaseDropIndex => {
+  switch (json.version) {
+    case 1:
+    // upgrade
+    default:
+      json = json as JSONBaseDropIndex
+  }
+
+  return json
 }

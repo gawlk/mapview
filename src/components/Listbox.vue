@@ -2,8 +2,8 @@
   import {
     Listbox as HeadlessListbox,
     ListboxButton,
-    ListboxOptions,
     ListboxOption,
+    ListboxOptions,
   } from '@headlessui/vue'
 
   import TransitionDropdown from './TransitionDropdown.vue'
@@ -14,21 +14,21 @@
   }>()
 
   const props = defineProps<{
-    values?: string[]
-    selected?: string | number | string[]
-    selectedIndex?: number
-    icon?: any
-    preSelected?: string
-    hidePreSelectedOnMobile?: true
-    selectedReplacement?: string
-    full?: boolean
-    backgrounds?: string[]
-    classes?: string[]
-    buttonBackground?: string
-    buttonColors?: string
-    iconsClasses?: string
-    postSelected?: string
-    sm?: boolean
+    readonly values?: string[]
+    readonly selected?: string | number | string[]
+    readonly selectedIndex?: number
+    readonly icon?: any
+    readonly preSelected?: string
+    readonly hidePreSelectedOnMobile?: true
+    readonly selectedReplacement?: string
+    readonly full?: boolean
+    readonly backgrounds?: string[]
+    readonly classes?: string[]
+    readonly buttonBackground?: string
+    readonly buttonColors?: string
+    readonly iconsClasses?: string
+    readonly postSelected?: string
+    readonly sm?: boolean
   }>()
 
   const update = (value: string) => {

@@ -1,10 +1,11 @@
 <script setup lang="ts">
   import store from '/src/store'
+
   import {
+    colorsClasses,
     createHeavydynZoneFromJSON,
     createMaxidynZoneFromJSON,
     createMinidynZoneFromJSON,
-    colorsClasses,
   } from '/src/scripts'
 
   import IconColorSwatch from '~icons/heroicons-solid/color-swatch'
@@ -12,8 +13,8 @@
   import IconTrash from '~icons/heroicons-solid/trash'
 
   import Button from '/src/components/Button.vue'
-  import ListboxColors from '/src/components/ListboxColors.vue'
   import Input from '/src/components/Input.vue'
+  import ListboxColors from '/src/components/ListboxColors.vue'
 
   const { t } = useI18n()
 
@@ -25,15 +26,23 @@
     const colorNames = Object.keys(colorsClasses)
 
     if (store.projects.selected && selectedReport.value && store.map) {
-      const json: JSONZone = {
-        name: `Zone ${selectedReport.value.zones.length + 1}`,
-        settings: {
-          color: colorNames[
-            Math.floor(Math.random() * colorNames.length)
-          ] as ColorName,
-          isVisible: true,
+      const json: JSONMachineZone = {
+        version: 1,
+        base: {
+          version: 1,
+          name: `Zone ${selectedReport.value.zones.length + 1}`,
+          settings: {
+            version: 1,
+            color: colorNames[
+              Math.floor(Math.random() * colorNames.length)
+            ] as ColorName,
+            isVisible: true,
+          },
+          points: [],
         },
-        points: [],
+        distinct: {
+          version: 1,
+        },
       }
 
       const createZone =

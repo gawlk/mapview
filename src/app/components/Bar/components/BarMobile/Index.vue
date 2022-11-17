@@ -1,11 +1,12 @@
 <script setup lang="ts">
   import store from '/src/store'
 
-  import Initializer from '../Initializer.vue'
   import MenuWrapperMobile from './components/MenuWrapperMobile.vue'
 
+  import Initializer from '../Initializer.vue'
+
   const props = defineProps<{
-    menus: Menu[]
+    readonly menus: Menu[]
   }>()
 
   props.menus?.map((menu) => {
@@ -42,7 +43,7 @@
         :disabled="!store.projects.selected"
         @click="selectMenu(menu)"
       >
-        <component :is="menu.component" :props="menu.props" />
+        <component :is="menu.component" :menu="menu.props" />
       </MenuWrapperMobile>
     </div>
   </div>

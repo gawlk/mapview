@@ -1,36 +1,61 @@
+import { createFieldFromJSON, createMaxidynDropFromJSON } from '/src/scripts'
+
 import { createBasePointFromJSON } from '../base'
-import {
-  createMaxidynDropFromJSON,
-  createMaxidynFieldFromJSON,
-} from '/src/scripts'
+
+interface MaxidynPointCreatorParameters extends MachinePointCreatorParameters {
+  zone: MaxidynZone
+}
 
 export const createMaxidynPointFromJSON = (
-  json: JSONPoint,
+  json: JSONMaxidynPointVAny,
   map: mapboxgl.Map | null,
   parameters: MaxidynPointCreatorParameters
 ) => {
+  json = upgradeJSON(json)
+
   const point: PartialMachinePoint<MaxidynPoint> = createBasePointFromJSON(
-    json,
+    json.base,
     map,
     {
       machine: 'Maxidyn',
-      ...parameters,
+      zone: parameters.zone,
     }
   )
 
   point.drops.push(
-    ...json.drops.map((jsonDrop) =>
+    ...json.base.drops.map((jsonDrop) =>
       createMaxidynDropFromJSON(jsonDrop, {
         point: point as MaxidynPoint,
       })
     )
   )
 
-  point.informations.push(
-    ...json.informations.map((field: JSONField) =>
-      createMaxidynFieldFromJSON(field)
+  point.information.push(
+    ...json.base.information.map((field: JSONField) =>
+      createFieldFromJSON(field)
     )
   )
 
+  point.toJSON = function (): JSONMaxidynPoint {
+    return {
+      version: json.version,
+      base: this.toBaseJSON(),
+      distinct: {
+        version: json.distinct.version,
+      },
+    }
+  }
+
   return point as MaxidynPoint
+}
+
+const upgradeJSON = (json: JSONMaxidynPointVAny): JSONMaxidynPoint => {
+  switch (json.version) {
+    case 1:
+    // upgrade
+    default:
+      json = json as JSONMaxidynPoint
+  }
+
+  return json
 }

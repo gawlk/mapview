@@ -1,8 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 
 module.exports = {
-  darkMode: 'class',
   content: ['./index.html', './src/**/*.{html,vue,js,ts,jsx,tsx,svelte,md}'],
+  darkMode: 'class',
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
   theme: {
     extend: {
       fontFamily: {
@@ -17,4 +20,8 @@ module.exports = {
       },
     },
   },
+  plugins: [
+    require('@tailwindcss/container-queries'),
+    require('@tailwindcss/line-clamp'),
+  ],
 }

@@ -1,25 +1,62 @@
+// ---
+// JSON
+// ---
+
+type JSONMinidynReportVAny = JSONMinidynReport
+
+interface JSONMinidynReport {
+  readonly version: 1
+  readonly base: JSONBaseReport
+  readonly distinct: JSONMinidynReportDistinct
+}
+
+interface JSONMinidynReportDistinct {
+  readonly version: 1
+  readonly groupedDataLabels: SelectableList<
+    number,
+    JSONMinidynGroupedDataLabels
+  >
+  readonly thresholds: MinidynUnitsSkeleton<JSONDistinctThresholdsConfiguration>
+}
+
+interface JSONMinidynGroupedDataLabels {
+  readonly version: 1
+  readonly from: DataLabelsFrom
+  readonly choices: SelectableList<number, JSONDataLabel<MinidynUnitsNames>>
+  readonly indexes?: SelectableList<number, JSONMinidynDropIndex>
+}
+
+// ---
+// Object
+// ---
+
 interface MinidynReport extends BaseReport {
   readonly machine: 'Minidyn'
   readonly zones: MinidynZone[]
-  platform: MinidynField[]
-  informations: MinidynField[]
+  readonly dataLabels: MinidynReportDataLabels
+  readonly thresholds: MinidynReportThresholds
   project: MinidynProject
+  toJSON: () => JSONMinidynReport
 }
 
-interface MinidynReportCreatorParameters
-  extends MachineReportCreatorParameters {
-  project: MinidynProject
+interface MinidynReportDataLabels extends BaseReportDataLabels {
+  readonly groups: SelectableList<MinidynGroupedDataLabels>
+  readonly table: SelectableList<MinidynTableDataLabelsParameters>
+}
+interface MinidynGroupedDataLabels extends BaseGroupedDataLabels {
+  readonly indexes?: SelectableList<MinidynDropIndex>
 }
 
-type MinidynDropType = 'Training' | 'Averaging'
-
-interface MinidynDropIndex extends BaseDropIndex {
-  machine: 'Minidyn'
-  type: MinidynDropType
+interface MinidynTableDataLabelsParameters
+  extends BaseTableDataLabelsParameters {
+  readonly group: MinidynGroupedDataLabels
+  index?: MinidynDropIndex
 }
 
-type MinidynThresholds = MinidynMathUnitsSkeleton<AnyThreshold[]>
-
-interface JSONMinidynChoice extends JSONChoice {
-  unit: MinidynMathUnitsNames | string
+interface MinidynReportThresholds extends BaseReportThresholds {
+  readonly groups: MinidynReportThresholdsGroups
 }
+
+type MinidynReportThresholdsGroups = MinidynUnitsSkeleton<
+  GroupedThresolds<string>
+>

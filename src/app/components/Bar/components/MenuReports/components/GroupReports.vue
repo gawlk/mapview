@@ -1,17 +1,18 @@
 <script setup lang="ts">
   import store from '/src/store'
+
   import { icons } from '/src/scripts'
 
-  import IconViewList from '~icons/heroicons-solid/view-list'
   import IconEye from '~icons/heroicons-solid/eye'
   import IconEyeOff from '~icons/heroicons-solid/eye-off'
   import IconTrash from '~icons/heroicons-solid/trash'
   import IconViewGrid from '~icons/heroicons-solid/view-grid'
+  import IconViewList from '~icons/heroicons-solid/view-list'
 
   import Button from '/src/components/Button.vue'
   import Dialog from '/src/components/Dialog.vue'
-  import Popover from '/src/components/Popover.vue'
   import Listbox from '/src/components/Listbox.vue'
+  import Popover from '/src/components/Popover.vue'
 
   const { t } = useI18n()
 

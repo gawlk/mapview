@@ -1,18 +1,23 @@
-interface HeavydynProject extends BaseProject {
-  readonly machine: 'Heavydyn'
-  readonly reports: SelectableList<HeavydynReport>
-  readonly units: HeavydynMathUnits
-  calibrations: HeavdyndynCalibrations
+// ---
+// JSON
+// ---
+
+type JSONHeavydynProjectVAny = JSONHeavydynProject
+
+interface JSONHeavydynProject {
+  readonly version: 1
+  readonly base: JSONBaseProject
+  readonly distinct: JSONHeavydynProjectDistinct
 }
 
-interface HeavdyndynCalibrations {
-  readonly date: Date
-  readonly dPlate: number
-  readonly channels: JSONChannel[]
-  readonly sensors: JSONSensor[]
+interface JSONHeavydynProjectDistinct {
+  readonly version: 1
+  readonly units: JSONHeavydynUnits
+  readonly calibrations: JSONHeavydynCalibrations
 }
 
-interface JSONHeavdyndynCalibrations {
+interface JSONHeavydynCalibrations {
+  readonly version: 1
   readonly date: string
   readonly dPlate: number
   readonly channels: JSONChannel[]
@@ -20,45 +25,36 @@ interface JSONHeavdyndynCalibrations {
 }
 
 interface JSONChannel {
-  name: string
-  position: string
-  gain: number
-  acquisition: number
-  type: 'LoadCell' | 'Geophone'
+  readonly version: 1
+  readonly name: string
+  readonly position: string
+  readonly gain: number
+  readonly acquisition: number
+  readonly type: 'LoadCell' | 'Geophone'
 }
 
 interface JSONSensor {
-  name: string
-  gain: number
-  type: 'AirTemp' | 'SurfTemp' | 'Dmi'
+  readonly version: 1
+  readonly name: string
+  readonly gain: number
+  readonly type: 'AirTemp' | 'SurfTemp' | 'Dmi'
 }
 
-interface JSONHeavydynProject extends JSONProject {
-  calibrations: JSONHeavdyndynCalibrations
+// ---
+// Object
+// ---
+
+interface HeavydynProject extends BaseProject {
+  readonly machine: 'Heavydyn'
+  readonly reports: SelectableList<HeavydynReport>
+  readonly units: HeavydynMathUnits
+  calibrations: HeavydynCalibrations
+  toJSON: () => JSONHeavydynProject
 }
 
-interface HeavydynMathUnitsSkeleton<A, B = A, C = A, D = A, E = A> {
-  deflection: A
-  force: B
-  temperature: C
-  distance: D
-  time: E
+interface HeavydynCalibrations {
+  readonly date: Date
+  readonly dPlate: number
+  readonly channels: JSONChannel[]
+  readonly sensors: JSONSensor[]
 }
-
-type HeavydynMathUnits = HeavydynMathUnitsSkeleton<MathUnit>
-
-type PossibleHeavydynDeflectionUnits = 'mm' | '1/100 mm' | 'um'
-type PossibleHeavydynForceUnits = 'N' | 'kN' | 'lbs'
-type PossibleHeavydynTemperatureUnits = '°C' | '°F' | 'K'
-type PossibleHeavydynDistanceUnits = 'm' | 'km' | 'mi'
-type PossibleHeavydynTimeUnits = 's' | 'ms' | 'us'
-
-type JSONHeavydynUnits = HeavydynMathUnitsSkeleton<
-  PossibleHeavydynDeflectionUnits,
-  PossibleHeavydynForceUnits,
-  PossibleHeavydynTemperatureUnits,
-  PossibleHeavydynDistanceUnits,
-  PossibleHeavydynTimeUnits
->
-
-type HeavydynMathUnitsNames = keyof HeavydynMathUnitsSkeleton<any>

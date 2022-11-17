@@ -1,50 +1,54 @@
 import { LngLatBounds } from 'mapbox-gl'
+
 import {
-  createBaseFieldFromJSON,
+  createFieldFromJSON,
   createSelectableList,
   createWatcherHandler,
-  mapStyles,
   debounce,
+  getIndexOfSelectedInSelectableList,
+  mapStyles,
 } from '/src/scripts'
 
 export const createBaseProjectFromJSON = async (
-  json: JSONProject,
+  json: JSONBaseProjectVAny,
   map: mapboxgl.Map | null,
-  parameters: BaseProjectCreatorParameters
+  parameters: {
+    machine: MachineName
+    units: MachineMathUnits
+  }
 ) => {
+  json = upgradeJSON(json)
+
   const watcherHandler = createWatcherHandler()
 
   const settings = reactive(json.settings)
 
   const project: BaseProject = shallowReactive({
     machine: parameters.machine,
-    name: createBaseFieldFromJSON(
-      {
-        label: 'Name',
-        value: json.name,
-        settings: {},
+    name: createFieldFromJSON({
+      version: 1,
+      label: 'Name',
+      value: json.name,
+      settings: {
+        version: 1,
       },
-      {
-        reactive: true,
-      }
-    ),
-    reports: createSelectableList<MachineReport>(null, [], {
-      reactive: true,
     }),
-    images: shallowReactive([] as Image[]),
+    reports: createSelectableList<MachineReport>([]),
+    overlays: shallowReactive([] as Overlay[]),
     units: parameters.units,
     settings,
-    informations: shallowReactive([]),
-    hardware: shallowReactive([]),
-    refreshLinesAndImages: function () {
+    information: shallowReactive([] as Field[]),
+    hardware: shallowReactive([] as Field[]),
+    acquisitionParameters: json.acquisitionParameters,
+    refreshLinesAndOverlays: function () {
       if (this.settings.arePointsLinked) {
         this.reports.list.forEach((report) => {
           report.isOnMap && report.settings.isVisible && report.line.addToMap()
         })
       }
 
-      this.images.forEach((image) => {
-        image.addToMap(this.settings.areImagesVisible)
+      this.overlays.forEach((overlay) => {
+        overlay.addToMap(this.settings.areOverlaysVisible)
       })
     },
     setMapStyle: function (styleIndex: number) {
@@ -52,7 +56,7 @@ export const createBaseProjectFromJSON = async (
       const newMapStyle = mapStyles[styleIndex].split('/').pop()
 
       if (oldMapStyle === newMapStyle) {
-        this.refreshLinesAndImages()
+        this.refreshLinesAndOverlays()
       } else {
         map?.setStyle(mapStyles[styleIndex])
       }
@@ -133,23 +137,23 @@ export const createBaseProjectFromJSON = async (
 
       watcherHandler.add(
         watch(
-          () => this.settings.areImagesVisible,
-          (areImagesVisible: boolean) => {
-            this.images.forEach((image: Image) => {
+          () => this.settings.areOverlaysVisible,
+          (areOverlaysVisible) => {
+            this.overlays.forEach((overlay) => {
               map?.setPaintProperty(
-                image.id,
+                overlay.id,
                 'raster-opacity',
-                areImagesVisible ? image.opacity : 0
+                areOverlaysVisible ? overlay.opacity : 0
               )
 
-              if (areImagesVisible) {
+              if (areOverlaysVisible) {
                 if (map) {
-                  image.markerNW.addTo(map)
-                  image.markerSE.addTo(map)
+                  overlay.markerNW.addTo(map)
+                  overlay.markerSE.addTo(map)
                 }
               } else {
-                image.markerNW.remove()
-                image.markerSE.remove()
+                overlay.markerNW.remove()
+                overlay.markerSE.remove()
               }
             })
           }
@@ -182,11 +186,11 @@ export const createBaseProjectFromJSON = async (
 
       watcherHandler.add(
         watch(
-          () => this.images,
-          (images, oldImages) => {
-            images.forEach((image) => {
-              if (!oldImages.includes(image)) {
-                image.addToMap(this.settings.areImagesVisible)
+          () => this.overlays,
+          (overlays, oldOverlays) => {
+            overlays.forEach((overlay) => {
+              if (!oldOverlays.includes(overlay)) {
+                overlay.addToMap(this.settings.areOverlaysVisible)
               }
             })
           }
@@ -240,11 +244,38 @@ export const createBaseProjectFromJSON = async (
         report.remove()
       })
 
-      this.images.forEach((image) => image.remove())
+      this.overlays.forEach((overlay) => overlay.remove())
 
       watcherHandler.clean()
+    },
+    toBaseJSON: function (): JSONBaseProject {
+      return {
+        version: json.version,
+        name: this.name.value as string,
+        machine: this.machine,
+        settings: this.settings,
+        acquisitionParameters: this.acquisitionParameters,
+        overlays: this.overlays.map((overlay) => overlay.toJSON()),
+        information: this.information.map((field) => field.toJSON()),
+        hardware: this.hardware.map((field) => field.toJSON()),
+        reports: {
+          selected: getIndexOfSelectedInSelectableList(this.reports),
+          list: this.reports.list.map((report) => report.toJSON()),
+        },
+      }
     },
   })
 
   return project
+}
+
+const upgradeJSON = (json: JSONBaseProjectVAny): JSONBaseProject => {
+  switch (json.version) {
+    case 1:
+    // upgrade
+    default:
+      json = json as JSONBaseProject
+  }
+
+  return json
 }

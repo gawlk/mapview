@@ -1,12 +1,12 @@
 <script setup lang="ts">
-  import { setDisclosureOpenState, getDisclosureOpenState } from '/src/scripts'
+  import { getDisclosureOpenState, setDisclosureOpenState } from '/src/scripts'
 
   import Disclosure from '/src/components/Disclosure.vue'
 
   const props = defineProps<{
-    icon: any
-    name: string
-    menuProps: MenuProps
+    readonly icon: any
+    readonly name: string
+    readonly menuProps: MenuProps
   }>()
 
   const key = `isDesktopMenu${props.name}Open`

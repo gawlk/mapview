@@ -1,7 +1,8 @@
 import { Map, Marker, NavigationControl } from 'mapbox-gl'
 
-import { createSVGElement } from '/src/scripts'
 import store from '/src/store'
+
+import { createSVGElement } from '/src/scripts'
 
 import SVGUserCircle from '/src/assets/svg/custom/user-circle.svg?raw'
 
@@ -11,6 +12,16 @@ export const mapStyles = [
   'mapbox://styles/mapbox/light-v9',
   'mapbox://styles/mapbox/dark-v9',
 ]
+
+export const waitForMap = () =>
+  new Promise<boolean>((resolve) => {
+    const interval = setInterval(async () => {
+      if (store.map?.isStyleLoaded()) {
+        clearInterval(interval)
+        resolve(true)
+      }
+    }, 100)
+  })
 
 export const createMap = (container: string): mapboxgl.Map => {
   const map = new Map({
@@ -70,7 +81,7 @@ export const createMap = (container: string): mapboxgl.Map => {
 
     addDummyLayersToMap(map)
 
-    store.projects.selected?.refreshLinesAndImages()
+    store.projects.selected?.refreshLinesAndOverlays()
   })
 
   return map

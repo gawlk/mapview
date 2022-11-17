@@ -1,50 +1,61 @@
-interface BasePoint {
-  readonly machine: MachineName
+// ---
+// JSON
+// ---
+
+type JSONBasePointVAny = JSONBasePoint
+
+interface JSONBasePoint {
+  readonly version: 1
   readonly id: string
-  number: number
-  index: number
-  date: Date
-  marker: mapboxgl.Marker | null
-  icon: Icon | null
-  settings: JSONPointSettings
-  data: DataValue[]
-  informations: MachineField[]
-  readonly drops: MachineDrop[]
-  zone: MachineZone
-  getSelectedMathNumber: (
-    groupFrom: DataLabelsFrom,
-    dataLabel: DataLabel,
-    index?: MachineDropIndex | null
-  ) => MathNumber | undefined
-  getDisplayedString: (
-    groupFrom: DataLabelsFrom,
-    dataLabel: DataLabel,
-    index?: MachineDropIndex | null
-  ) => string
-  updateColor: () => void
-  updateText: () => void
-  updateVisibility: () => void
-  updatePopup: () => void
-  addToMap: () => void
-  checkVisibility: () => boolean
-  remove: () => void
-}
-
-interface BasePointCreatorParameters extends MachinePointCreatorParameters {
-  machine: MachineName
-}
-
-interface JSONPoint {
-  number: number
-  index: number
-  date: string
-  coordinates: mapboxgl.LngLatLike
-  data: JSONDataValue[]
-  settings: JSONPointSettings
-  informations: JSONField[]
-  drops: JSONDrop[]
+  readonly number: number
+  readonly index: number
+  readonly date: string
+  readonly coordinates: mapboxgl.LngLatLike
+  readonly data: JSONDataValue[]
+  readonly settings: JSONPointSettings
+  readonly information: JSONField[]
+  readonly drops: JSONMachineDrop[]
 }
 
 interface JSONPointSettings {
+  readonly version: 1
   isVisible: boolean
+}
+
+// ---
+// Object
+// ---
+
+interface BasePoint {
+  readonly machine: MachineName
+  readonly id: string
+  readonly date: Date
+  readonly marker: mapboxgl.Marker | null
+  readonly icon: Icon | null
+  readonly settings: JSONPointSettings
+  readonly data: DataValue<string>[]
+  readonly information: Field[]
+  readonly drops: MachineDrop[]
+  index: number
+  number: number
+  zone: MachineZone
+  rawDataFile: ArrayBufferLike | null
+  readonly getSelectedMathNumber: (
+    groupFrom: DataLabelsFrom,
+    dataLabel: DataLabel<string>,
+    index?: MachineDropIndex | null
+  ) => MathNumber | undefined
+  readonly getDisplayedString: (
+    groupFrom: DataLabelsFrom,
+    dataLabel: DataLabel<string>,
+    index?: MachineDropIndex | null
+  ) => string
+  readonly updateColor: () => void
+  readonly updateText: () => void
+  readonly updateVisibility: () => void
+  readonly updatePopup: () => void
+  readonly addToMap: () => void
+  readonly checkVisibility: () => boolean
+  readonly remove: () => void
+  readonly toBaseJSON: () => JSONBasePoint
 }

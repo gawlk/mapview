@@ -1,13 +1,13 @@
 <script setup lang="ts">
   import {
-    TransitionRoot,
-    TransitionChild,
-    Dialog as HeadlessDialog,
     DialogOverlay,
+    Dialog as HeadlessDialog,
+    TransitionChild,
+    TransitionRoot,
   } from '@headlessui/vue'
 
   const props = defineProps<{
-    isOpen: boolean
+    readonly isOpen: boolean
   }>()
 
   const state = reactive({

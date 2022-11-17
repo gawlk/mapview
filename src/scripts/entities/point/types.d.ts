@@ -1,3 +1,13 @@
+// ---
+// JSON
+// ---
+
+type JSONMachinePoint = JSONHeavydynPoint | JSONMaxidynPoint | JSONMinidynPoint
+
+// ---
+// Object
+// ---
+
 type MachinePoint = HeavydynPoint | MaxidynPoint | MinidynPoint
 
 type PartialMachinePoint<MachinePoint> = PartialExtendedObject<
@@ -5,6 +15,10 @@ type PartialMachinePoint<MachinePoint> = PartialExtendedObject<
   MachinePoint
 >
 
+// ---
+// Parameters
+// ---
+
 interface MachinePointCreatorParameters {
-  zone: MachineZone
+  readonly zone: MachineZone
 }

@@ -1,9 +1,10 @@
 <script setup lang="ts">
   import store from '/src/store'
+
   import {
-    convertValueFromUnitAToUnitB,
     blend,
     colorsClasses,
+    convertValueFromUnitAToUnitB,
   } from '/src/scripts'
 
   import IconColorSwatch from '~icons/heroicons-solid/color-swatch'
@@ -11,11 +12,10 @@
   import IconFold from '~icons/octicon/fold-16'
 
   import Button from '/src/components/Button.vue'
+  import Divider from '/src/components/Divider.vue'
+  import InputNumberSwitchable from '/src/components/InputNumberSwitchable.vue'
   import Listbox from '/src/components/Listbox.vue'
   import ListboxColors from '/src/components/ListboxColors.vue'
-  import Divider from '/src/components/Divider.vue'
-
-  import GroupInputThreshold from './GroupInputThreshold.vue'
 
   const { t } = useI18n()
 
@@ -28,13 +28,16 @@
   )
 
   const selectedUnit = computed(
-    () => selectedDataLabel.value?.unit as MathUnit | undefined
+    () => selectedDataLabel.value?.unit as MathUnit<string> | undefined
   )
 
-  const currentGroupedThresholds = computed(() =>
-    selectedReport.value?.thresholds.groups.find(
-      (group) => group.unit === selectedDataLabel.value?.unit
-    )
+  const currentGroupedThresholds = computed(
+    () =>
+      selectedReport.value &&
+      (Object.values(selectedReport.value.thresholds.groups).find(
+        (group: GroupedThresolds<string>) =>
+          group.unit === selectedDataLabel.value?.unit
+      ) as GroupedThresolds<string>)
   )
 
   const formattedTresholdValue = computed(
@@ -121,7 +124,7 @@
         selectedDataLabel?.name || ''
       )} < ${formattedTresholdValue}`"
     />
-    <GroupInputThreshold
+    <InputNumberSwitchable
       v-if="currentGroupedThresholds?.choices.selected?.kind === 'custom'"
       :isRange="selectedReport?.thresholds.inputs.isRequiredARange"
       :value="currentGroupedThresholds.choices.selected?.value || 0"
@@ -142,15 +145,15 @@
                 selectedUnit.currentUnit,
                 selectedUnit.baseUnit
               )
+              
+              // value =
+              //   value < selectedUnit.min
+              //     ? selectedUnit.min
+              //     : selectedUnit.max && value > selectedUnit.max
+              //     ? selectedUnit.max
+              //     : value
 
-              value =
-                value < selectedUnit.min
-                  ? selectedUnit.min
-                  : selectedUnit.max && value > selectedUnit.max
-                  ? selectedUnit.max
-                  : value
-
-              currentGroupedThresholds.choices.selected.value = value
+              ;(currentGroupedThresholds.choices.selected as CustomThreshold).value = value
 
               if (
                 currentGroupedThresholds.choices.selected.kind === 'custom' &&
@@ -206,7 +209,7 @@
         }}
       </Button>
 
-      <GroupInputThreshold
+      <InputNumberSwitchable
         :isRange="selectedReport?.thresholds.inputs.isOptionalARange"
         :value="currentGroupedThresholds.choices.selected?.valueHigh || 0"
         :unit="selectedUnit"
@@ -227,12 +230,12 @@
                   selectedUnit.baseUnit
                 )
 
-                value =
-                  value < selectedUnit.min
-                    ? selectedUnit.min
-                    : selectedUnit.max && value > selectedUnit.max
-                    ? selectedUnit.max
-                    : value
+                // value =
+                //   value < selectedUnit.min
+                //     ? selectedUnit.min
+                //     : selectedUnit.max && value > selectedUnit.max
+                //     ? selectedUnit.max
+                //     : value
 
                 currentGroupedThresholds.choices.selected.valueHigh = value
 

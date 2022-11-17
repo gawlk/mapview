@@ -1,24 +1,24 @@
 <script setup lang="ts">
   import { getBrowserLocale } from '/src/locales'
 
-  import Listbox from './Listbox.vue'
   import Label from './Label.vue'
+  import Listbox from './Listbox.vue'
 
   const emit = defineEmits<{
     (event: 'input', value: string | number): void
   }>()
 
   const props = defineProps<{
-    id: string
-    value: string | number
-    type?: string
-    label?: string
-    step?: number
-    min?: number
-    max?: number
-    list?: any
-    strict?: boolean
-    disabled?: boolean
+    readonly id: string
+    readonly value: string | number
+    readonly type?: string
+    readonly label?: string
+    readonly step?: number
+    readonly min?: number
+    readonly max?: number
+    readonly list?: any
+    readonly strict?: boolean
+    readonly disabled?: boolean
   }>()
 
   const { t } = useI18n()
@@ -62,9 +62,9 @@
         :id="`${props.id}-range`"
         @input="(event) => emit('input', Number((event.target as HTMLInputElement).value))"
         type="range"
+        :value="props.value"
         :max="props.max"
         :min="props.min"
-        :value="props.value"
         :step="props.step"
         :disabled="props.disabled"
         :class="classes"
@@ -105,11 +105,10 @@
       :class="classes"
     />
     <input
-      v-else-if="props.type === 'date'"
+      v-else-if="props.type === 'dateValue'"
       :id="props.id"
       disabled
       :value="new Date(props.value).toLocaleDateString(getBrowserLocale())"
-      :disabled="props.disabled"
       :class="classes"
     />
     <div class="flex h-10 items-center" v-else>

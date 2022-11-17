@@ -1,11 +1,12 @@
 <script setup lang="ts">
-  import { createMathNumber } from '/src/scripts'
   import store from '/src/store'
+
+  import { createMathNumber } from '/src/scripts'
 
   const { t } = useI18n()
 
   const props = defineProps<{
-    points: MachinePoint[]
+    readonly points: MachinePoint[]
   }>()
 
   const selectedReport = computed(
@@ -13,14 +14,6 @@
   )
 
   const dataLabels = computed(() => selectedReport.value?.dataLabels)
-
-  const matchingGroupAndIndex = computed(
-    () =>
-      dataLabels.value?.table.selected?.group ===
-        dataLabels.value?.groups.selected &&
-      dataLabels.value?.table.selected?.index ===
-        dataLabels.value?.groups.selected.indexes?.selected
-  )
 
   const selectedTableDataLabelsParameters = computed(
     () => dataLabels.value?.table?.selected
@@ -38,7 +31,10 @@
     values.reduce((total, currentValue) => total + currentValue, 0) /
     values.length
 
-  const getValuesFromPoints = (points: MachinePoint[], dataLabel: DataLabel) =>
+  const getValuesFromPoints = (
+    points: MachinePoint[],
+    dataLabel: DataLabel<string>
+  ) =>
     points.map(
       (point) =>
         (groupFrom &&

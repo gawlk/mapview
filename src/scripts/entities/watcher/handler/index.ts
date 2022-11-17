@@ -24,6 +24,7 @@ export const createWatcherHandler = (): WatcherHandler => {
       stops.forEach((stop) => {
         stop()
       })
+
       stops.splice(0, stops.length)
     },
     stops,

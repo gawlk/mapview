@@ -1,26 +1,26 @@
 <script setup lang="ts">
   const props = defineProps<{
-    as?: any
-    disabled?: boolean
-    dark?: boolean
-    green?: boolean
-    orange?: boolean
-    red?: boolean
-    blue?: boolean
-    transparent?: boolean
-    sm?: boolean
-    lg?: boolean
-    xl?: boolean
-    xxl?: boolean
-    full?: boolean
-    centered?: boolean
-    truncate?: boolean
-    icon?: any
-    leftIcon?: any
-    leftHTMLIcon?: any
-    rightIcon?: any
-    iconsClasses?: string
-    buttonColors?: string
+    readonly as?: any
+    readonly disabled?: boolean
+    readonly dark?: boolean
+    readonly green?: boolean
+    readonly orange?: boolean
+    readonly red?: boolean
+    readonly blue?: boolean
+    readonly transparent?: boolean
+    readonly sm?: boolean
+    readonly lg?: boolean
+    readonly xl?: boolean
+    readonly xxl?: boolean
+    readonly full?: boolean
+    readonly centered?: boolean
+    readonly truncate?: boolean
+    readonly icon?: any
+    readonly leftIcon?: any
+    readonly leftHTMLIcon?: any
+    readonly rightIcon?: any
+    readonly iconsClasses?: string
+    readonly buttonColors?: string
   }>()
 
   const iconsColors = props.dark

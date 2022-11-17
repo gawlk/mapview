@@ -1,20 +1,20 @@
 <script setup lang="ts">
+  import store from '/src/store'
+
+  import IconIssueDraft from '~icons/octicon/issue-draft-16'
+
+  import DialogInformations from '/src/components/DialogInformations.vue'
+  import Submenu from '/src/components/Submenu.vue'
+
   import DialogExport from './components/DialogExport.vue'
   import GroupAlbum from './components/GroupAlbum/Index.vue'
   import GroupReports from './components/GroupReports.vue'
   import Zones from './components/Zones.vue'
 
-  import DialogInformations from '/src/components/DialogInformations.vue'
-  import Submenu from '/src/components/Submenu.vue'
-
-  import IconIssueDraft from '~icons/octicon/issue-draft-16'
-
-  import store from '/src/store'
-
   const { t } = useI18n()
 
   const props = defineProps<{
-    menu: MenuProps
+    readonly menu: MenuProps
   }>()
 </script>
 
@@ -30,7 +30,7 @@
               title: t('Informations'),
               fields: [
                 store.projects.selected.reports.selected.name,
-                ...store.projects.selected.reports.selected.informations,
+                ...store.projects.selected.reports.selected.information,
               ],
             },
             {

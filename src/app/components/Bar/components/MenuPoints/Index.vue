@@ -1,17 +1,17 @@
 <script setup lang="ts">
-  import ListboxColorization from './components/ListboxColorization.vue'
-  import Values from './components/Values.vue'
-  import Thresholds from './components/Thresholds.vue'
+  import IconFold from '~icons/octicon/fold-16'
+  import IconNumber from '~icons/octicon/number-16'
 
   import Submenu from '/src/components/Submenu.vue'
 
-  import IconFold from '~icons/octicon/fold-16'
-  import IconNumber from '~icons/octicon/number-16'
+  import ListboxColorization from './components/ListboxColorization.vue'
+  import Thresholds from './components/Thresholds.vue'
+  import Values from './components/Values.vue'
 
   const { t } = useI18n()
 
   const props = defineProps<{
-    menu: MenuProps
+    readonly menu: MenuProps
   }>()
 </script>
 

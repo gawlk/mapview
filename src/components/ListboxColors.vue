@@ -8,10 +8,10 @@
   }>()
 
   const props = defineProps<{
-    color: ColorName
-    icon?: any
-    text?: string
-    full?: boolean
+    readonly color: ColorName
+    readonly icon?: any
+    readonly text?: string
+    readonly full?: boolean
   }>()
 </script>
 

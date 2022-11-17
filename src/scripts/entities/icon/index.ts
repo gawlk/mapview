@@ -1,15 +1,15 @@
-import { blend, baseHexColor } from '/src/scripts'
-
 import CircleIcon from 'iconoir/icons/circle.svg?raw'
 import FlareIcon from 'iconoir/icons/flare.svg?raw'
 import HeptagonIcon from 'iconoir/icons/heptagon.svg?raw'
-import HexagonIcon from 'iconoir/icons/hexagon.svg?raw'
 import HexagonAltIcon from 'iconoir/icons/hexagon-alt.svg?raw'
+import HexagonIcon from 'iconoir/icons/hexagon.svg?raw'
 import OctagonIcon from 'iconoir/icons/octagon.svg?raw'
 import PentagonIcon from 'iconoir/icons/pentagon.svg?raw'
 import RhombusIcon from 'iconoir/icons/rhombus.svg?raw'
 import SquareIcon from 'iconoir/icons/square.svg?raw'
 import TriangleIcon from 'iconoir/icons/triangle.svg?raw'
+
+import { baseHexColor, blend } from '/src/scripts'
 
 export const icons: Record<IconName, string> = {
   Circle: CircleIcon,
@@ -30,7 +30,7 @@ export const createIcon = (iconName: IconName) => {
   }
 
   const div: HTMLDivElement = document.createElement('div')
-  div.classList.add('relative')
+  // div.classList.add('relative')
 
   const subDiv = document.createElement('div')
   div.appendChild(subDiv)

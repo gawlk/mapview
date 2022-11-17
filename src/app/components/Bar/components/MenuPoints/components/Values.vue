@@ -1,9 +1,9 @@
 <script setup lang="ts">
   import store from '/src/store'
 
-  import IconViewList from '~icons/heroicons-solid/view-list'
-  import IconDotsVertical from '~icons/heroicons-solid/dots-vertical'
   import IconDotsHorizontal from '~icons/heroicons-solid/dots-horizontal'
+  import IconDotsVertical from '~icons/heroicons-solid/dots-vertical'
+  import IconViewList from '~icons/heroicons-solid/view-list'
 
   import Listbox from '/src/components/Listbox.vue'
 
@@ -18,8 +18,7 @@
   <Listbox
     :icon="IconDotsHorizontal"
     :values="
-      groupedDataLabels?.list
-        .filter((list) => list.from !== 'Zone')
+      (groupedDataLabels?.list as MachineGroupedDataLabels[] | undefined)?.filter((list) => list.from !== 'Zone')
         .map((list) => t(list.from))
     "
     :selected="t(groupedDataLabels?.selected?.from || '')"

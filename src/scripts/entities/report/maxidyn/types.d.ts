@@ -1,25 +1,63 @@
+// ---
+// JSON
+// ---
+
+type JSONMaxidynReportVAny = JSONMaxidynReport
+
+interface JSONMaxidynReport {
+  readonly version: 1
+  readonly base: JSONBaseReport
+  readonly distinct: JSONMaxidynReportDistinct
+}
+
+interface JSONMaxidynReportDistinct {
+  readonly version: 1
+  readonly groupedDataLabels: SelectableList<
+    number,
+    JSONMaxidynGroupedDataLabels
+  >
+  readonly thresholds: MaxidynUnitsSkeleton<JSONDistinctThresholdsConfiguration>
+}
+
+interface JSONMaxidynGroupedDataLabels {
+  readonly version: 1
+  readonly from: DataLabelsFrom
+  readonly choices: SelectableList<number, JSONDataLabel<MaxidynUnitsNames>>
+  readonly indexes?: SelectableList<number, JSONMaxidynDropIndex>
+}
+
+// ---
+// Object
+// ---
+
 interface MaxidynReport extends BaseReport {
   readonly machine: 'Maxidyn'
   readonly zones: MaxidynZone[]
-  platform: MaxidynField[]
-  informations: MaxidynField[]
+  readonly dataLabels: MaxidynReportDataLabels
+  readonly thresholds: MaxidynReportThresholds
   project: MaxidynProject
+  toJSON: () => JSONMaxidynReport
 }
 
-interface MaxidynReportCreatorParameters
-  extends MachineReportCreatorParameters {
-  project: MaxidynProject
+interface MaxidynReportDataLabels extends BaseReportDataLabels {
+  readonly groups: SelectableList<MaxidynGroupedDataLabels>
+  readonly table: SelectableList<MaxidynTableDataLabelsParameters>
 }
 
-type MaxidynDropType = 'Training' | 'Averaging'
-
-interface MaxidynDropIndex extends BaseDropIndex {
-  machine: 'Maxidyn'
-  type: MaxidynDropType
+interface MaxidynGroupedDataLabels extends BaseGroupedDataLabels {
+  readonly indexes?: SelectableList<MaxidynDropIndex>
 }
 
-type MaxidynThresholds = MaxidynMathUnitsSkeleton<AnyThreshold[]>
-
-interface JSONMaxidynChoice extends JSONChoice {
-  unit: MaxidynMathUnitsNames | string
+interface MaxidynTableDataLabelsParameters
+  extends BaseTableDataLabelsParameters {
+  readonly group: MaxidynGroupedDataLabels
+  index?: MaxidynDropIndex
 }
+
+interface MaxidynReportThresholds extends BaseReportThresholds {
+  readonly groups: MaxidynUnitsSkeleton<GroupedThresolds<string>>
+}
+
+type MaxidynReportThresholdsGroups = MaxidynUnitsSkeleton<
+  GroupedThresolds<string>
+>

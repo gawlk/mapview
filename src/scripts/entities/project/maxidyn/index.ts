@@ -1,90 +1,62 @@
-import { createBaseProjectFromJSON } from '../base'
 import {
+  createFieldFromJSON,
   createMathUnit,
-  createMaxidynFieldFromJSON,
   createMaxidynReportFromJSON,
+  getSelectedFromIndexInList,
 } from '/src/scripts'
 
+import { createBaseProjectFromJSON } from '../base'
+
 export const createMaxidynProjectFromJSON = async (
-  json: JSONMaxidynProject,
+  json: JSONMaxidynProjectVAny,
   map: mapboxgl.Map | null
 ) => {
-  const jsonUnits = json.units as JSONMaxidynUnits
+  json = upgradeJSON(json)
+
+  const jsonUnits = json.distinct.units as JSONMaxidynUnits
 
   const units: MaxidynMathUnits = {
-    modulus: createMathUnit<PossibleMaxidynModulusUnits>(
-      'Modulus',
-      'Pa',
-      [['MPa', 0]],
-      {
-        min: json.bearingParameters.min || 20000000,
-        max: json.bearingParameters.max || 250000000,
-        currentUnit: jsonUnits.modulus,
-        averageFunction: 'capOutliers',
-      }
-    ),
-    stiffness: createMathUnit<PossibleMaxidynStiffnessUnits>(
+    modulus: createMathUnit('Modulus', jsonUnits.modulus, 'Pa', [['MPa', 0]], {
+      averageFunction: 'capOutliers',
+    }),
+    stiffness: createMathUnit(
       'Stiffness',
+      jsonUnits.stiffness,
       'N / m',
       [['MN / m', 0]],
       {
-        currentUnit: jsonUnits.stiffness,
         averageFunction: 'capOutliers',
       }
     ),
-    deflection: createMathUnit<PossibleMaxidynDeflectionUnits>(
-      'Deflection',
-      'm',
-      [
-        ['mm', 0],
-        ['um', 0],
-      ],
-      {
-        currentUnit: jsonUnits.deflection,
-      }
-    ),
-    force: createMathUnit<PossibleMaxidynForceUnits>(
-      'Force',
-      'N',
-      [
-        ['N', 0],
-        ['kN', 0],
-      ],
-      {
-        currentUnit: jsonUnits.force,
-      }
-    ),
-    distance: createMathUnit<PossibleMaxidynDistanceUnits>(
-      'Distance',
-      'm',
-      [
-        ['m', 0],
-        ['km', 0],
-        ['mi', 0],
-      ],
-      {
-        currentUnit: jsonUnits.distance,
-      }
-    ),
-    time: createMathUnit<PossibleMaxidynTimeUnits>(
-      'Time',
-      's',
-      [
-        ['s', 0],
-        ['ms', 0],
-        ['us', 0],
-      ],
-      {
-        currentUnit: jsonUnits.time,
-      }
-    ),
-    percentage: createMathUnit<PossibleMaxidynPercentageUnits>(
+    deflection: createMathUnit('Deflection', jsonUnits.deflection, 'm', [
+      ['mm', 0],
+      ['um', 0],
+    ]),
+    force: createMathUnit('Force', jsonUnits.force, 'N', [
+      ['N', 0],
+      ['kN', 0],
+    ]),
+    distance: createMathUnit('Distance', jsonUnits.distance, 'm', [
+      ['m', 0],
+      ['km', 0],
+      ['mi', 0],
+    ]),
+    time: createMathUnit('Time', jsonUnits.time, 's', [
+      ['s', 0],
+      ['ms', 0],
+      ['us', 0],
+    ]),
+    percentage: createMathUnit(
       'Percentage',
+      {
+        version: 1,
+        currentUnit: '%',
+        currentPrecision: 0,
+        max: 100,
+      },
       '%',
       [['%', 0]],
       {
-        currentUnit: '%',
-        max: 100,
         step: 0.5,
         readOnly: true,
       }
@@ -92,32 +64,68 @@ export const createMaxidynProjectFromJSON = async (
   }
 
   const project: PartialMachineProject<MaxidynProject> =
-    await createBaseProjectFromJSON(json, map, {
+    await createBaseProjectFromJSON(json.base, map, {
       machine: 'Maxidyn',
       units,
     })
 
   project.reports.list.push(
-    ...json.reports.map((report) =>
-      createMaxidynReportFromJSON(report, map, {
+    ...json.base.reports.list.map((report) =>
+      createMaxidynReportFromJSON(report as JSONMaxidynReport, map, {
         project: project as MaxidynProject,
       })
     )
   )
 
-  project.reports.selected = project.reports.list[0]
+  project.reports.selected = getSelectedFromIndexInList(
+    json.base.reports.selected,
+    project.reports.list
+  )
 
-  project.informations.push(
-    ...json.informations.map((field: JSONField) =>
-      createMaxidynFieldFromJSON(field)
+  project.information.push(
+    ...json.base.information.map((field: JSONField) =>
+      createFieldFromJSON(field)
     )
   )
 
   project.hardware.push(
-    ...json.hardware.map((field: JSONField) =>
-      createMaxidynFieldFromJSON(field)
-    )
+    ...json.base.hardware.map((field: JSONField) => createFieldFromJSON(field))
   )
 
+  project.bearingParameters = json.distinct.bearingParameters
+
+  project.toJSON = function (): JSONMaxidynProject {
+    const project = this as MaxidynProject
+
+    return {
+      version: json.version,
+      base: project.toBaseJSON(),
+      distinct: {
+        version: json.distinct.version,
+        bearingParameters: json.distinct.bearingParameters,
+        units: {
+          deflection: project.units.deflection.toJSON(),
+          distance: project.units.distance.toJSON(),
+          force: project.units.force.toJSON(),
+          modulus: project.units.modulus.toJSON(),
+          percentage: project.units.percentage.toJSON(),
+          stiffness: project.units.stiffness.toJSON(),
+          time: project.units.time.toJSON(),
+        },
+      },
+    }
+  }
+
   return project as MaxidynProject
+}
+
+const upgradeJSON = (json: JSONMaxidynProjectVAny): JSONMaxidynProject => {
+  switch (json.version) {
+    case 1:
+    // upgrade
+    default:
+      json = json as JSONMaxidynProject
+  }
+
+  return json
 }

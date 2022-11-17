@@ -1,90 +1,57 @@
-import { createBaseProjectFromJSON } from '../base'
 import {
+  createFieldFromJSON,
   createMathUnit,
-  createMinidynFieldFromJSON,
   createMinidynReportFromJSON,
+  getSelectedFromIndexInList,
 } from '/src/scripts'
 
+import { createBaseProjectFromJSON } from '../base'
+
 export const createMinidynProjectFromJSON = async (
-  json: JSONMinidynProject,
+  json: JSONMinidynProjectVAny,
   map: mapboxgl.Map | null
 ) => {
-  const jsonUnits = json.units as JSONMinidynUnits
+  json = upgradeJSON(json)
+
+  const jsonUnits = json.distinct.units as JSONMinidynUnits
 
   const units: MinidynMathUnits = {
-    modulus: createMathUnit<PossibleMinidynModulusUnits>(
-      'Modulus',
-      'Pa',
-      [['MPa', 0]],
-      {
-        min: json.bearingParameters.min || 10000000,
-        max: json.bearingParameters.max || 150000000,
-        currentUnit: jsonUnits.modulus,
-        averageFunction: 'capOutliers',
-      }
-    ),
-    stiffness: createMathUnit<PossibleMinidynStiffnessUnits>(
+    modulus: createMathUnit('Modulus', jsonUnits.modulus, 'Pa', [['MPa', 0]], {
+      averageFunction: 'capOutliers',
+    }),
+    stiffness: createMathUnit(
       'Stiffness',
+      jsonUnits.stiffness,
       'N / m',
       [['MN / m', 0]],
       {
-        currentUnit: jsonUnits.stiffness,
         averageFunction: 'capOutliers',
       }
     ),
-    deflection: createMathUnit<PossibleMinidynDeflectionUnits>(
-      'Deflection',
-      'm',
-      [
-        ['mm', 0],
-        ['um', 0],
-      ],
-      {
-        currentUnit: jsonUnits.deflection,
-      }
-    ),
-    force: createMathUnit<PossibleMinidynForceUnits>(
-      'Force',
-      'N',
-      [
-        ['N', 0],
-        ['kN', 0],
-      ],
-      {
-        currentUnit: jsonUnits.force,
-      }
-    ),
-    temperature: createMathUnit<PossibleMinidynTemperatureUnits>(
-      'Temperature',
-      '°C',
-      [
-        ['°C', 0],
-        ['°F', 0],
-        ['K', 0],
-      ],
-      {
-        currentUnit: jsonUnits.temperature,
-      }
-    ),
-    time: createMathUnit<PossibleMinidynTimeUnits>(
-      'Time',
-      's',
-      [
-        ['s', 0],
-        ['ms', 0],
-        ['us', 0],
-      ],
-      {
-        currentUnit: jsonUnits.time,
-      }
-    ),
-    percentage: createMathUnit<PossibleMinidynPercentageUnits>(
+    deflection: createMathUnit('Deflection', jsonUnits.deflection, 'm', [
+      ['mm', 0],
+      ['um', 0],
+    ]),
+    force: createMathUnit('Force', jsonUnits.force, 'N', [
+      ['N', 0],
+      ['kN', 0],
+    ]),
+    time: createMathUnit('Time', jsonUnits.time, 's', [
+      ['s', 0],
+      ['ms', 0],
+      ['us', 0],
+    ]),
+    percentage: createMathUnit(
       'Percentage',
+      {
+        version: 1,
+        currentUnit: '%',
+        currentPrecision: 0,
+        max: 100,
+      },
       '%',
       [['%', 0]],
       {
-        currentUnit: '%',
-        max: 100,
         step: 0.5,
         readOnly: true,
       }
@@ -92,32 +59,67 @@ export const createMinidynProjectFromJSON = async (
   }
 
   const project: PartialMachineProject<MinidynProject> =
-    await createBaseProjectFromJSON(json, map, {
+    await createBaseProjectFromJSON(json.base, map, {
       machine: 'Minidyn',
       units,
     })
 
   project.reports.list.push(
-    ...json.reports.map((report) =>
-      createMinidynReportFromJSON(report, map, {
+    ...json.base.reports.list.map((report) =>
+      createMinidynReportFromJSON(report as JSONMinidynReport, map, {
         project: project as MinidynProject,
       })
     )
   )
 
-  project.reports.selected = project.reports.list[0]
+  project.reports.selected = getSelectedFromIndexInList(
+    json.base.reports.selected,
+    project.reports.list
+  )
 
-  project.informations.push(
-    ...json.informations.map((field: JSONField) =>
-      createMinidynFieldFromJSON(field)
+  project.information.push(
+    ...json.base.information.map((field: JSONField) =>
+      createFieldFromJSON(field)
     )
   )
 
   project.hardware.push(
-    ...json.hardware.map((field: JSONField) =>
-      createMinidynFieldFromJSON(field)
-    )
+    ...json.base.hardware.map((field: JSONField) => createFieldFromJSON(field))
   )
 
+  project.bearingParameters = json.distinct.bearingParameters
+
+  project.toJSON = function (): JSONMinidynProject {
+    const project = this as MinidynProject
+
+    return {
+      version: json.version,
+      base: project.toBaseJSON(),
+      distinct: {
+        version: json.distinct.version,
+        bearingParameters: json.distinct.bearingParameters,
+        units: {
+          deflection: project.units.deflection.toJSON(),
+          force: project.units.force.toJSON(),
+          modulus: project.units.modulus.toJSON(),
+          percentage: project.units.percentage.toJSON(),
+          stiffness: project.units.stiffness.toJSON(),
+          time: project.units.time.toJSON(),
+        },
+      },
+    }
+  }
+
   return project as MinidynProject
+}
+
+const upgradeJSON = (json: JSONMinidynProjectVAny): JSONMinidynProject => {
+  switch (json.version) {
+    case 1:
+    // upgrade
+    default:
+      json = json as JSONMinidynProject
+  }
+
+  return json
 }

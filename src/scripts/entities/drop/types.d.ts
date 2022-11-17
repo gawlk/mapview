@@ -1,3 +1,18 @@
+// ---
+// JSON
+// ---
+
+type JSONMachineDropIndex =
+  | JSONHeavydynDropIndex
+  | JSONMaxidynDropIndex
+  | JSONMinidynDropIndex
+
+type JSONMachineDrop = JSONHeavydynDrop | JSONMaxidynDrop | JSONMinidynDrop
+
+// ---
+// Object
+// ---
+
 type MachineDrop = HeavydynDrop | MaxidynDrop | MinidynDrop
 
 type PartialMachineDrop<MachineDrop> = PartialExtendedObject<
@@ -5,6 +20,10 @@ type PartialMachineDrop<MachineDrop> = PartialExtendedObject<
   MachineDrop
 >
 
+// ---
+// Parameters
+// ---
+
 interface MachineDropCreatorParameters {
-  point: MachinePoint
+  readonly point: MachinePoint
 }

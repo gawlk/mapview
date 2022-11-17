@@ -2,17 +2,18 @@
   import html2canvas from 'html2canvas'
 
   import store from '/src/store'
+
   import { fileToBase64 } from '/src/scripts'
 
-  import IconCamera from '~icons/heroicons-solid/camera'
   import IconArrowSmRight from '~icons/heroicons-solid/arrow-sm-right'
+  import IconCamera from '~icons/heroicons-solid/camera'
   import IconPhotograph from '~icons/heroicons-solid/photograph'
   import IconPlus from '~icons/heroicons-solid/plus'
 
+  import Button from '/src/components/Button.vue'
+
   import OverlayAlbum from './components/OverlayAlbum.vue'
   import OverlayScreenshot from './components/OverlayScreenshot.vue'
-
-  import Button from '/src/components/Button.vue'
 
   const { t } = useI18n()
 

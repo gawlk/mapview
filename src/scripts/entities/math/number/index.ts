@@ -1,10 +1,10 @@
-import { convertValueFromUnitAToUnitB } from '/src/scripts'
-
 import { numberToLocaleString } from '/src/locales'
+
+import { convertValueFromUnitAToUnitB } from '/src/scripts'
 
 export const createMathNumber = (
   value: number,
-  unit: MathUnit | string
+  unit: MathUnit<string>
 ): MathNumber => {
   const mathNumber = shallowReactive({
     value,

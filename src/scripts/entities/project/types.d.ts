@@ -1,3 +1,30 @@
+// ---
+// JSON
+// ---
+
+type JSONMachineProject =
+  | JSONHeavydynProject
+  | JSONMaxidynProject
+  | JSONMinidynProject
+
+interface JSONBearingParameters {
+  readonly version: 1
+  readonly name: string
+  readonly algoBearing: string
+  readonly hasQuality: boolean
+  readonly algoProcessing1: string
+  readonly algoProcessing2: string
+  readonly dPlate: number
+  readonly cPoisson: number
+  readonly fForme: number
+  readonly k: number
+  readonly alpha: number
+}
+
+// ---
+// Object
+// ---
+
 type MachineProject = HeavydynProject | MaxidynProject | MinidynProject
 
 type PartialMachineProject<MachineProject> = PartialExtendedObject<
@@ -5,26 +32,14 @@ type PartialMachineProject<MachineProject> = PartialExtendedObject<
   MachineProject
 >
 
-type JSONMachineUnits = JSONHeavydynUnits | JSONMaxidynUnits | JSONMinidynUnits
-
 type MachineMathUnits = HeavydynMathUnits | MaxidynMathUnits | MinidynMathUnits
 
-type MachineMathUnitsSkeleton<T> =
-  | HeavydynMathUnitsSkeleton<T>
-  | MaxidynMathUnitsSkeleton<T>
-  | MinidynMathUnitsSkeleton<T>
+type MachineUnitsSkeleton<T> =
+  | HeavydynUnitsSkeleton<T>
+  | MaxidynUnitsSkeleton<T>
+  | MinidynUnitsSkeleton<T>
 
-type MachineMathUnitsNames =
-  | HeavydynMathUnitsNames
-  | MaxidynMathUnitsNames
-  | MinidynMathUnitsNames
-
-interface JSONBearingParameters {
-  min: number
-  max: number
-}
-
-type JSONMachineProject =
-  | JSONHeavydynProject
-  | JSONMaxidynProject
-  | JSONMinidynProject
+type MachineUnitsNames =
+  | HeavydynUnitsNames
+  | MaxidynUnitsNames
+  | MinidynUnitsNames

@@ -3,13 +3,14 @@
 
   import Button from '/src/components/Button.vue'
 
-  import Initializer from '../Initializer.vue'
   import Footer from './components/Footer.vue'
   import Logo from './components/Logo.vue'
   import MenuWrapperDesktop from './components/MenuWrapperDesktop.vue'
 
+  import Initializer from '../Initializer.vue'
+
   const props = defineProps<{
-    menus: Menu[]
+    readonly menus: Menu[]
   }>()
 </script>
 

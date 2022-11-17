@@ -1,17 +1,17 @@
 <script setup lang="ts">
   import store from '/src/store'
 
-  import IconViewList from '~icons/heroicons-solid/view-list'
-  import IconDotsVertical from '~icons/heroicons-solid/dots-vertical'
-  import IconViewBoards from '~icons/heroicons-solid/view-boards'
   import IconCheck from '~icons/heroicons-solid/check'
+  import IconDotsVertical from '~icons/heroicons-solid/dots-vertical'
   import IconPlus from '~icons/heroicons-solid/plus'
+  import IconViewBoards from '~icons/heroicons-solid/view-boards'
+  import IconViewList from '~icons/heroicons-solid/view-list'
   import IconX from '~icons/heroicons-solid/x'
 
   import Button from '/src/components/Button.vue'
-  import Select from '/src/components/Select.vue'
-  import Popover from '/src/components/Popover.vue'
   import Divider from '/src/components/Divider.vue'
+  import Popover from '/src/components/Popover.vue'
+  import Select from '/src/components/Select.vue'
 
   import Empty from './Empty.vue'
 
@@ -57,8 +57,7 @@
   <Select
     :icon="IconViewList"
     :values="
-      tableDataLabels?.list
-        .filter((parameters) => parameters.group.choices.list.length > 0)
+      (tableDataLabels?.list as MachineTableDataLabelsParameters[] | undefined)?.filter((parameters) => parameters.group.choices.list.length > 0)
         .map((parameters) => t(parameters.group.from))
     "
     :selected="t(tableDataLabels?.selected?.group.from || '')"

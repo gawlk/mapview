@@ -1,7 +1,7 @@
 <script setup lang="ts">
-  import IconColorSwatch from '~icons/heroicons-solid/color-swatch'
-
   import store from '/src/store'
+
+  import IconColorSwatch from '~icons/heroicons-solid/color-swatch'
 
   import Listbox from '/src/components/Listbox.vue'
 

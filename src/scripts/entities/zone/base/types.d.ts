@@ -1,24 +1,33 @@
-interface BaseZone {
-  readonly machine: MachineName
-  name: string
-  readonly points: MachinePoint[]
-  readonly settings: JSONZoneSettings
-  report: MachineReport
-  init: () => void
-  clean: () => void
-}
+// ---
+// JSON
+// ---
 
-interface JSONZone {
-  name: string
-  points: JSONPoint[]
+type JSONBaseZoneVAny = JSONBaseZone
+
+interface JSONBaseZone {
+  readonly version: 1
+  readonly name: string
+  readonly points: JSONMachinePoint[]
   readonly settings: JSONZoneSettings
 }
 
 interface JSONZoneSettings {
+  readonly version: 1
   color: ColorName
   isVisible: boolean
 }
 
-interface BaseZoneCreatorParameters extends MachineZoneCreatorParameters {
-  machine: MachineName
+// ---
+// Object
+// ---
+
+interface BaseZone {
+  readonly machine: MachineName
+  readonly points: MachinePoint[]
+  readonly settings: JSONZoneSettings
+  name: string
+  report: MachineReport
+  readonly init: () => void
+  readonly clean: () => void
+  readonly toBaseJSON: () => JSONBaseZone
 }

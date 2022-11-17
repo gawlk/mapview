@@ -1,8 +1,10 @@
 <script setup lang="ts">
+  import store from '/src/store'
+
   import {
-    Disclosure as HeadlessDisclosure,
     DisclosureButton,
     DisclosurePanel,
+    Disclosure as HeadlessDisclosure,
   } from '@headlessui/vue'
 
   const emit = defineEmits<{
@@ -10,9 +12,9 @@
   }>()
 
   const props = defineProps<{
-    text: string
-    defaultOpen: boolean
-    icon?: any
+    readonly text: string
+    readonly defaultOpen: boolean
+    readonly icon?: any
   }>()
 
   const emitToggle = (open: boolean) => {

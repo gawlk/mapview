@@ -1,68 +1,105 @@
-import { createBaseReportFromJSON } from '../base'
 import {
-  createHeavydynZoneFromJSON,
-  createHeavydynFieldFromJSON,
   createCustomThreshold,
-  createMathNumber,
+  createFieldFromJSON,
+  createHeavydynDropIndexFromJSON,
+  createHeavydynZoneFromJSON,
+  createSelectableList,
   createWatcherHandler,
 } from '/src/scripts'
 
+import {
+  convertDataLabelGroupsToJSON,
+  convertThresholdsConfigurationToJSON,
+  createBaseReportFromJSON,
+} from '../base'
+
+interface HeavydynReportCreatorParameters
+  extends MachineReportCreatorParameters {
+  project: HeavydynProject
+}
+
 export const createHeavydynReportFromJSON = (
-  json: JSONReport,
+  json: JSONHeavydynReport,
   map: mapboxgl.Map | null,
   parameters: HeavydynReportCreatorParameters
 ) => {
+  json = upgradeJSON(json)
+
   const watcherHandler = createWatcherHandler()
 
-  const dropIndexes = json.dataLabels.groups.list.find(
-    (group) => group.from === 'Drop'
-  )?.indexes?.list as JSONHeavydynDropIndex[]
-
-  dropIndexes.forEach((jsonDropIndex: JSONHeavydynDropIndex) => {
-    const unitName = jsonDropIndex.unit.toLocaleLowerCase()
-
-    ;(jsonDropIndex as unknown as HeavydynDropIndex).value = createMathNumber(
-      jsonDropIndex.value,
-      unitName in parameters.project.units
-        ? parameters.project.units[unitName as keyof HeavydynMathUnits]
-        : unitName
-    )
-  })
+  const dropIndexes =
+    json.distinct.groupedDataLabels.list
+      .find((group) => group.from === 'Drop')
+      ?.indexes?.list.map((jsonDropIndex) =>
+        createHeavydynDropIndexFromJSON(jsonDropIndex, {
+          project: parameters.project,
+        })
+      ) || []
 
   const report: PartialMachineReport<HeavydynReport> = createBaseReportFromJSON(
-    json,
+    json.base,
     map,
     {
       machine: 'Heavydyn',
-      thresholds: {
-        deflection: [createCustomThreshold(0)],
-        force: [createCustomThreshold(0)],
-        temperature: [createCustomThreshold(0)],
-        distance: [createCustomThreshold(0)],
-        time: [createCustomThreshold(0)],
-      },
-      ...parameters,
-      addToMap: () => {
-        ;(dropIndexes as unknown as HeavydynDropIndex[]).forEach(
-          (dropIndex) => {
-            if (typeof dropIndex.value.unit === 'object') {
-              watcherHandler.add(
-                watch(dropIndex.value.unit, () => {
-                  dropIndex.value.updateDisplayedStrings()
-                })
-              )
+      thresholdsGroups: {
+        deflection: {
+          unit: parameters.project.units.deflection,
+          choices: createSelectableList(
+            [createCustomThreshold(json.distinct.thresholds.deflection.custom)],
+            {
+              selected: json.distinct.thresholds.deflection.selected,
             }
-          }
-        )
+          ),
+        },
+        force: {
+          unit: parameters.project.units.force,
+          choices: createSelectableList(
+            [createCustomThreshold(json.distinct.thresholds.force.custom)],
+            {
+              selected: json.distinct.thresholds.force.selected,
+            }
+          ),
+        },
+        temperature: {
+          unit: parameters.project.units.temperature,
+          choices: createSelectableList(
+            [
+              createCustomThreshold(
+                json.distinct.thresholds.temperature.custom
+              ),
+            ],
+            {
+              selected: json.distinct.thresholds.temperature.selected,
+            }
+          ),
+        },
+        distance: {
+          unit: parameters.project.units.distance,
+          choices: createSelectableList(
+            [createCustomThreshold(json.distinct.thresholds.distance.custom)],
+            {
+              selected: json.distinct.thresholds.distance.selected,
+            }
+          ),
+        },
+        time: {
+          unit: parameters.project.units.time,
+          choices: createSelectableList(
+            [createCustomThreshold(json.distinct.thresholds.time.custom)],
+            {
+              selected: json.distinct.thresholds.time.selected,
+            }
+          ),
+        },
       },
-      remove: () => {
-        watcherHandler.clean()
-      },
+      jsonGroupedDataLabels: json.distinct.groupedDataLabels,
+      dropIndexes,
+      project: parameters.project,
     }
   )
 
   report.zones.push(
-    ...json.zones.map((jsonZone) =>
+    ...json.base.zones.map((jsonZone) =>
       createHeavydynZoneFromJSON(jsonZone, map, {
         report: report as HeavydynReport,
       })
@@ -70,16 +107,82 @@ export const createHeavydynReportFromJSON = (
   )
 
   report.platform.push(
-    ...json.platform.map((field: JSONField) =>
-      createHeavydynFieldFromJSON(field)
+    ...json.base.platform.map((field: JSONField) => createFieldFromJSON(field))
+  )
+
+  report.information.push(
+    ...json.base.information.map((field: JSONField) =>
+      createFieldFromJSON(field)
     )
   )
 
-  report.informations.push(
-    ...json.informations.map((field: JSONField) =>
-      createHeavydynFieldFromJSON(field)
-    )
-  )
+  const baseAddToMap = report.addToMap
+  report.addToMap = () => {
+    baseAddToMap.call(report)
+
+    dropIndexes?.forEach((dropIndex) => {
+      if (typeof dropIndex.value.unit === 'object') {
+        watcherHandler.add(
+          watch(dropIndex.value.unit, () => {
+            dropIndex.value.updateDisplayedStrings()
+          })
+        )
+      }
+    })
+  }
+
+  const baseRemove = report.remove
+  report.remove = () => {
+    baseRemove.call(report)
+
+    watcherHandler.clean()
+  }
+
+  report.toJSON = function (): JSONHeavydynReport {
+    const report = this as HeavydynReport
+    const thresholdGroup = this.thresholds
+      .groups as HeavydynReportThresholdsGroups
+
+    return {
+      version: json.version,
+      base: this.toBaseJSON(),
+      distinct: {
+        version: json.version,
+        groupedDataLabels:
+          convertDataLabelGroupsToJSON<JSONHeavydynGroupedDataLabels>(
+            report as HeavydynReport
+          ),
+        thresholds: {
+          deflection: convertThresholdsConfigurationToJSON(
+            thresholdGroup.deflection.choices
+          ),
+          distance: convertThresholdsConfigurationToJSON(
+            thresholdGroup.distance.choices
+          ),
+          force: convertThresholdsConfigurationToJSON(
+            thresholdGroup.force.choices
+          ),
+          temperature: convertThresholdsConfigurationToJSON(
+            thresholdGroup.temperature.choices
+          ),
+          time: convertThresholdsConfigurationToJSON(
+            thresholdGroup.time.choices
+          ),
+        },
+      },
+    }
+  }
 
   return report as HeavydynReport
+}
+
+const upgradeJSON = (json: JSONHeavydynReportVAny): JSONHeavydynReport => {
+  switch (json.version) {
+    case 1:
+    // upgrade
+    default:
+      json = json as JSONHeavydynReport
+  }
+
+  return json
 }

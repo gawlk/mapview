@@ -1,9 +1,10 @@
 <script setup lang="ts">
-  import { importFile, acceptedExtensions } from '/src/scripts'
+  import store from '/src/store'
+
+  import { acceptedExtensions, importFile } from '/src/scripts'
 
   import IconBeaker from '~icons/heroicons-solid/beaker'
   import IconSave from '~icons/heroicons-solid/save'
-  import store from '/src/store'
 
   import Button from '/src/components/Button.vue'
   import DragAndDrop from '/src/components/DragAndDrop.vue'
@@ -33,19 +34,19 @@
   }
 
   const openDemo = async () => {
-    if (demoHeavydyn && demoMaxidyn && demoMinidyn) {
+    if (demoHeavydyn && demoMaxidyn) {
       const project = await importFile(demoHeavydyn)
       store.projects.selected = project
 
       importFile(demoMaxidyn)
-      importFile(demoMinidyn)
+      // importFile(demoMinidyn)
     }
   }
 
   onMounted(async () => {
     demoHeavydyn = await getDemoFile('heavydyn/demo.prjz')
     demoMaxidyn = await getDemoFile('maxidyn/demo.prjz')
-    demoMinidyn = await getDemoFile('minidyn/demo.dynz')
+    // demoMinidyn = await getDemoFile('minidyn/demo.dynz')
   })
 </script>
 

@@ -1,12 +1,12 @@
 interface Menu {
-  name: string
-  icon: any
-  component: any
-  props: MenuProps
-  needsReport?: boolean
+  readonly name: string
+  readonly icon: any
+  readonly component: any
+  readonly props: MenuProps
+  readonly needsReport?: boolean
+  readonly style?: string
+  readonly class?: string
   openedOnMobile?: boolean
-  style?: string
-  class?: string
 }
 
 interface MenuProps {

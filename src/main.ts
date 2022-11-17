@@ -1,14 +1,14 @@
+import messages from '@intlify/vite-plugin-vue-i18n/messages'
 import { createHead } from '@vueuse/head'
 import { createI18n } from 'vue-i18n'
-import messages from '@intlify/vite-plugin-vue-i18n/messages'
 
-import 'tailwindcss/tailwind.css'
-import 'mapbox-gl/dist/mapbox-gl.css'
 import './styles/main.css'
-
-import App from './App.vue'
+import 'mapbox-gl/dist/mapbox-gl.css'
+import 'tailwindcss/tailwind.css'
 
 import { getBrowserLocale } from './locales'
+
+import App from './App.vue'
 
 createApp(App)
   .use(createHead())

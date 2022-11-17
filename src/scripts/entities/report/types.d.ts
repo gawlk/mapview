@@ -1,22 +1,59 @@
-type MachineReport = HeavydynReport | MaxidynReport | MinidynReport
+// ---
+// JSON
+// ---
+
+type JSONMachineReport =
+  | JSONHeavydynReport
+  | JSONMaxidynReport
+  | JSONMinidynReport
+
+type JSONMachineGroupedDataLabels =
+  | JSONHeavydynGroupedDataLabels
+  | JSONMaxidynGroupedDataLabels
+  | JSONMinidynGroupedDataLabels
+
+// ---
+// Object
+// ---
 
 type PartialMachineReport<MachineReport> = PartialExtendedObject<
   BaseReport,
   MachineReport
 >
 
-interface MachineReportCreatorParameters {
-  project: MachineProject
-}
+type MachineReport = HeavydynReport | MaxidynReport | MinidynReport
+
+type MachineGroupedDataLabels =
+  | HeavydynGroupedDataLabels
+  | MaxidynGroupedDataLabels
+  | MinidynGroupedDataLabels
 
 type MachineDropIndex = HeavydynDropIndex | MaxidynDropIndex | MinidynDropIndex
 
-type MachineThresholds =
-  | HeavydynThresholds
-  | MaxidynThresholds
-  | MinidynThresholds
+type MachineReportThresholds =
+  | HeavydynReportThresholds
+  | MaxidynReportThresholds
+  | MinidynReportThresholds
 
-type JSONMachineDropIndex =
-  | JSONHeavydynDropIndex
-  | MaxidynDropIndex
-  | MinidynDropIndex
+type MachineReportThresholdsGroups =
+  | HeavydynReportThresholdsGroups
+  | MaxidynReportThresholdsGroups
+  | MinidynReportThresholdsGroups
+
+type MachineTableDataLabelsParameters =
+  | HeavydynTableDataLabelsParameters
+  | MaxidynTableDataLabelsParameters
+  | MinidynTableDataLabelsParameters
+
+type MachineReportDataLabels =
+  | HeavydynReportDataLabels
+  | MaxidynReportDataLabels
+  | MinidynReportDataLabels
+
+// ---
+// Parameters
+// ---
+
+interface MachineReportCreatorParameters {
+  readonly project: MachineProject
+}

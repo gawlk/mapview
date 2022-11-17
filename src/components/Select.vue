@@ -1,9 +1,9 @@
 <script setup lang="ts">
   import { isMobile } from '/src/scripts'
 
-  import Button from '/src/components/Button.vue'
-
   import IconSelector from '~icons/heroicons-solid/selector'
+
+  import Button from '/src/components/Button.vue'
 
   const emit = defineEmits<{
     (e: 'select', value: string): void
@@ -11,19 +11,19 @@
   }>()
 
   const props = defineProps<{
-    values?: string[]
-    selected?: string | number | string[]
-    selectedIndex?: number
-    icon?: any
-    preSelected?: string
-    selectedReplacement?: string
-    full?: boolean
-    classes?: string[]
-    iconsClasses?: string
-    postSelected?: string
-    sm?: boolean
-    multiple?: boolean
-    selectedList?: string[]
+    readonly values?: string[]
+    readonly selected?: string | number | string[]
+    readonly selectedIndex?: number
+    readonly icon?: any
+    readonly preSelected?: string
+    readonly selectedReplacement?: string
+    readonly full?: boolean
+    readonly classes?: string[]
+    readonly iconsClasses?: string
+    readonly postSelected?: string
+    readonly sm?: boolean
+    readonly multiple?: boolean
+    readonly selectedList?: string[]
   }>()
 
   const { t } = useI18n()
@@ -153,7 +153,6 @@
     </Button>
     <select
       v-if="state.showMultiple"
-      @change="log"
       @click="(event) => select((event.target as HTMLSelectElement).value)"
       :multiple="props.multiple"
       class="h-40 w-full cursor-pointer appearance-none space-y-1 rounded-lg border-2 border-gray-100 bg-transparent p-2 text-transparent focus:outline-none disabled:cursor-default"

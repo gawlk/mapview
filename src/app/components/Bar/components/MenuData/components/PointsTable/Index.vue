@@ -2,13 +2,13 @@
   // @ts-ignore
   import { Sortable } from '@shopify/draggable'
 
+  import store from '/src/store'
+
   import PointsHead from './components/Head.vue'
   import PointsRow from './components/Row.vue'
 
-  import store from '/src/store'
-
   const props = defineProps<{
-    points: MachinePoint[]
+    readonly points: MachinePoint[]
   }>()
 
   let tbody = ref(null)
@@ -19,6 +19,8 @@
   )
 
   onMounted(() => {
+    console.log('points', props.points)
+
     if (tbody && selectedReport.value?.settings.groupBy === 'Number') {
       sortable = new Sortable(tbody.value, {
         draggable: 'tr',

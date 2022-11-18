@@ -94,14 +94,14 @@
 
 <template>
   <div
-    v-if="(store.projects.selected?.overlays.length || 0) > 0"
     class="flex space-x-2"
+    v-if="(store.projects.selected?.overlays.length || 0) > 0"
   >
     <Popover :icon="IconCollection" :buttonText="t('Open image list')" full>
       <div
+        class="flex space-x-1"
         v-for="(overlay, index) of store.projects.selected?.overlays"
         :key="overlay.id"
-        class="flex space-x-1"
       >
         <Button @click="goToOverlay(overlay)" truncate full>
           {{ overlay.id.split('.')[0] }}
@@ -137,11 +137,11 @@
     {{ t('Add an image') }}
   </Button>
   <input
+    class="hidden"
     @change="addOverlay(($event.target as HTMLInputElement).files?.[0])"
     accept="image/*"
     type="file"
     ref="inputFile"
-    class="hidden"
   />
 </template>
 

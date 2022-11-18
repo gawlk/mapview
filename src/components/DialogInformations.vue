@@ -58,7 +58,7 @@
     </template>
     <template v-slot:dialog>
       <div class="space-y-8">
-        <div v-for="dataset in state.data" class="space-y-4">
+        <div class="space-y-4" v-for="dataset in state.data">
           <h4 class="pl-4 text-xl font-medium leading-6">
             {{ dataset.title }}
           </h4>

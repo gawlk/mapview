@@ -29,14 +29,14 @@
   <ColumnsSelection />
   <ListboxGroupBy />
   <div
-    v-if="selectedReport?.dataLabels.table.selected?.group.from !== 'Zone'"
     class="-mx-2"
+    v-if="selectedReport?.dataLabels.table.selected?.group.from !== 'Zone'"
   >
     <PointsTable
       v-if="selectedReport?.settings.groupBy === 'Number'"
       :points="selectedReport.line.sortedPoints"
     />
-    <div v-else class="border-t-2 border-gray-100">
+    <div class="border-t-2 border-gray-100" v-else>
       <div v-for="zone of selectedReport?.zones">
         <div class="flex items-center space-x-4 p-2">
           <span

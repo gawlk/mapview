@@ -51,8 +51,9 @@
     "
     @update:modelValue="update"
   >
-    <div :class="[props.full && 'w-full min-w-0']" class="relative">
+    <div class="relative" :class="[props.full && 'w-full min-w-0']">
       <ListboxButton
+        class="group flex h-full w-full items-center justify-between truncate text-sm font-medium leading-6 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300"
         :style="{ backgroundImage: `url('${props.buttonBackground}')` }"
         :class="[
           props.sm
@@ -61,10 +62,10 @@
           props.buttonBackground && 'bg-cover bg-center',
           props.buttonColors || 'bg-gray-100 hover:bg-gray-200',
         ]"
-        class="group flex h-full w-full items-center justify-between truncate text-sm font-medium leading-6 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300"
       >
         <div class="flex items-center truncate">
           <component
+            class="mr-1 flex-none transition-colors duration-200"
             v-if="props.icon"
             :is="props.icon"
             :class="[
@@ -73,17 +74,16 @@
                 ? '-my-0.5 -ml-1 h-7 w-7 rounded-full bg-gray-100 bg-opacity-60 p-1'
                 : 'h-5 w-5',
             ]"
-            class="mr-1 flex-none transition-colors duration-200"
           />
           <span
-            v-if="!props.hidePreSelectedOnMobile && props.preSelected"
             class="ml-1 text-gray-500"
+            v-if="!props.hidePreSelectedOnMobile && props.preSelected"
           >
             {{ props.preSelected }}
           </span>
           <span
-            v-if="props.selectedReplacement || props.values"
             class="ml-1 truncate"
+            v-if="props.selectedReplacement || props.values"
             v-html="
               props.selectedReplacement ||
               (props.selected !== undefined && props.values?.includes(props.selected as string)
@@ -92,21 +92,21 @@
             "
           />
           <span
-            v-if="props.postSelected"
             class="ml-1 hidden text-gray-500 sm:block"
+            v-if="props.postSelected"
           >
             {{ props.postSelected }}
           </span>
         </div>
         <div>
           <IconHeroiconsSolidSelector
+            class="transition-colors duration-200"
             :class="[
               props.iconsClasses || 'text-gray-400 group-hover:text-gray-500',
               props.buttonBackground
                 ? '-my-0.5 -mr-1 h-7 w-7 rounded-full bg-gray-100 bg-opacity-60 p-1'
                 : 'h-5 w-5',
             ]"
-            class="transition-colors duration-200"
             aria-hidden="true"
           />
         </div>
@@ -114,20 +114,21 @@
 
       <TransitionDropdown>
         <ListboxOptions
+          class="absolute bottom-0 z-20 mb-11 max-h-60 w-full space-y-1 overflow-auto border-gray-100 bg-white text-left text-sm shadow-md focus:outline-none lg:bottom-auto lg:mt-1 lg:mb-0 lg:shadow-lg"
           :class="
             props.sm ? 'rounded-md border p-0.5' : 'rounded-lg border-2 p-1'
           "
-          class="absolute bottom-0 z-20 mb-11 max-h-60 w-full space-y-1 overflow-auto border-gray-100 bg-white text-left text-sm shadow-md focus:outline-none lg:bottom-auto lg:mt-1 lg:mb-0 lg:shadow-lg"
         >
           <ListboxOption
+            class="cursor-pointer rounded-md"
             v-slot="{ active, selected }"
             v-for="value in props.values || props.classes || props.backgrounds"
             :key="value"
             :value="value"
             as="template"
-            class="cursor-pointer rounded-md"
           >
             <li
+              class="relative cursor-default select-none"
               :style="{
                 backgroundImage: props.backgrounds ? `url('${value}')` : '',
               }"
@@ -139,18 +140,17 @@
                 props.classes && value,
                 props.sm ? 'h-7 py-1 pl-7' : 'h-9 py-2 pl-10',
               ]"
-              class="relative cursor-default select-none"
             >
               <span
-                v-if="props.values"
-                :class="[selected ? 'font-medium' : 'font-normal']"
                 class="block truncate"
+                v-if="props.values"
                 v-html="value"
+                :class="[selected ? 'font-medium' : 'font-normal']"
               />
               <span
+                class="absolute inset-y-0 left-0 flex items-center text-gray-600"
                 v-if="selected"
                 :class="props.sm ? 'pl-1' : 'pl-3'"
-                class="absolute inset-y-0 left-0 flex items-center text-gray-600"
               >
                 <IconHeroiconsSolidCheck class="h-5 w-5" aria-hidden="true" />
               </span>

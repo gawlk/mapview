@@ -18,9 +18,9 @@
       </div>
 
       <button
+        class="flex rounded-md p-2 hover:bg-orange-500 focus:outline-none focus:ring-2 focus:ring-white"
         @click="() => emit('close')"
         type="button"
-        class="flex rounded-md p-2 hover:bg-orange-500 focus:outline-none focus:ring-2 focus:ring-white"
       >
         <span class="sr-only">Dismiss</span>
         <IconX class="h-5 w-5 text-white" aria-hidden="true" />

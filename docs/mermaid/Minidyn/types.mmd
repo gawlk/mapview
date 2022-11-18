@@ -1,0 +1,388 @@
+classDiagram
+class MinidynDropCreatorParameters {
+  <<interface>>
+  point: MinidynPoint
+}
+MinidynDropCreatorParameters <.. MinidynPoint
+
+
+class JSONMinidynDropVAny {
+  <<type>>
+  JSONMinidynDrop
+}
+JSONMinidynDropVAny <.. JSONMinidynDrop
+
+
+class JSONMinidynDrop {
+  <<interface>>
+  version: 1
+  base: JSONBaseDrop
+  distinct: JSONMinidynDropDistinct
+}
+JSONMinidynDrop <.. JSONMinidynDropDistinct
+
+
+class JSONMinidynDropDistinct {
+  <<interface>>
+  version: 1
+}
+
+
+
+class JSONMinidynDropIndexVAny {
+  <<type>>
+  JSONMinidynDropIndex
+}
+JSONMinidynDropIndexVAny <.. JSONMinidynDropIndex
+
+
+class JSONMinidynDropIndex {
+  <<interface>>
+  version: 1
+  base: JSONBaseDropIndex
+  distinct: JSONMinidynDropIndexDistinct
+}
+JSONMinidynDropIndex <.. JSONMinidynDropIndexDistinct
+
+
+class JSONMinidynDropIndexDistinct {
+  <<interface>>
+  version: 1
+  type: MinidynDropType
+}
+JSONMinidynDropIndexDistinct <.. MinidynDropType
+
+
+class MinidynDropType {
+  <<type>>
+  'Training' | 'Averaging'
+}
+
+
+
+class MinidynDrop {
+  <<interface>>
+  index: MinidynDropIndex
+  point: MinidynPoint
+  toJSON: #40;#41; =#62; JSONMinidynDrop
+}
+MinidynDrop <.. MinidynDropIndex
+MinidynDrop <..< MinidynPoint
+
+
+class MinidynDropIndex {
+  <<interface>>
+  machine: 'Minidyn'
+  type: MinidynDropType
+  toJSON: #40;#41; =#62; JSONMinidynDropIndex
+}
+MinidynDropIndex <.. MinidynDropType
+
+
+class MinidynUnitsSkeleton~A, B, C, D, E, F~ {
+  <<interface>>
+  modulus: A
+  stiffness: B
+  deflection: C
+  force: D
+  time: E
+  percentage: F
+}
+
+
+
+class PossibleMinidynModulusUnits {
+  <<type>>
+  'MPa'
+}
+
+
+
+class PossibleMinidynStiffnessUnits {
+  <<type>>
+  'MN / m'
+}
+
+
+
+class PossibleMinidynDeflectionUnits {
+  <<type>>
+  'mm' | 'um'
+}
+
+
+
+class PossibleMinidynForceUnits {
+  <<type>>
+  'N' | 'kN'
+}
+
+
+
+class PossibleMinidynTimeUnits {
+  <<type>>
+  's' | 'ms' | 'us'
+}
+
+
+
+class PossibleMinidynPercentageUnits {
+  <<type>>
+  '%'
+}
+
+
+
+class JSONMinidynUnits {
+  <<type>>
+  MinidynUnitsSkeleton#60;   JSONMathUnit#60;PossibleMinidynModulusUnits#62;,   JSONMathUnit#60;PossibleMinidynStiffnessUnits#62;,   JSONMathUnit#60;PossibleMinidynDeflectionUnits#62;,   JSONMathUnit#60;PossibleMinidynForceUnits#62;,   JSONMathUnit#60;PossibleMinidynTimeUnits#62;,   JSONMathUnit#60;PossibleMinidynPercentageUnits#62; #62;
+}
+JSONMinidynUnits <.. MinidynUnitsSkeleton~A, B, C, D, E, F~
+JSONMinidynUnits <.. PossibleMinidynModulusUnits
+JSONMinidynUnits <.. PossibleMinidynStiffnessUnits
+JSONMinidynUnits <.. PossibleMinidynDeflectionUnits
+JSONMinidynUnits <.. PossibleMinidynForceUnits
+JSONMinidynUnits <.. PossibleMinidynTimeUnits
+JSONMinidynUnits <.. PossibleMinidynPercentageUnits
+
+
+class MinidynMathUnits {
+  <<type>>
+  MinidynUnitsSkeleton#60;   MathUnit#60;PossibleMinidynModulusUnits#62;,   MathUnit#60;PossibleMinidynStiffnessUnits#62;,   MathUnit#60;PossibleMinidynDeflectionUnits#62;,   MathUnit#60;PossibleMinidynForceUnits#62;,   MathUnit#60;PossibleMinidynTimeUnits#62;,   MathUnit#60;PossibleMinidynPercentageUnits#62; #62;
+}
+MinidynMathUnits <.. MinidynUnitsSkeleton~A, B, C, D, E, F~
+MinidynMathUnits <.. PossibleMinidynModulusUnits
+MinidynMathUnits <.. PossibleMinidynStiffnessUnits
+MinidynMathUnits <.. PossibleMinidynDeflectionUnits
+MinidynMathUnits <.. PossibleMinidynForceUnits
+MinidynMathUnits <.. PossibleMinidynTimeUnits
+MinidynMathUnits <.. PossibleMinidynPercentageUnits
+
+
+class MinidynUnitsNames {
+  <<type>>
+  keyof MinidynUnitsSkeleton#60;any#62;
+}
+MinidynUnitsNames <.. MinidynUnitsSkeleton~A, B, C, D, E, F~
+
+
+class MinidynPointCreatorParameters {
+  <<interface>>
+  zone: MinidynZone
+}
+MinidynPointCreatorParameters <.. MinidynZone
+
+
+class JSONMinidynPointVAny {
+  <<type>>
+  JSONMinidynPoint
+}
+JSONMinidynPointVAny <.. JSONMinidynPoint
+
+
+class JSONMinidynPoint {
+  <<interface>>
+  version: 1
+  base: JSONBasePoint
+  distinct: JSONMinidynPointDistinct
+}
+JSONMinidynPoint <.. JSONMinidynPointDistinct
+
+
+class JSONMinidynPointDistinct {
+  <<interface>>
+  version: 1
+}
+
+
+
+class MinidynPoint {
+  <<interface>>
+  machine: 'Minidyn'
+  drops: MinidynDrop[]
+  zone: MinidynZone
+  toJSON: #40;#41; =#62; JSONMinidynPoint
+}
+MinidynPoint <..< MinidynZone
+
+
+class JSONMinidynProjectVAny {
+  <<type>>
+  JSONMinidynProject
+}
+JSONMinidynProjectVAny <.. JSONMinidynProject
+
+
+class JSONMinidynProject {
+  <<interface>>
+  version: 1
+  base: JSONBaseProject
+  distinct: JSONMinidynProjectDistinct
+}
+JSONMinidynProject <.. JSONMinidynProjectDistinct
+
+
+class JSONMinidynProjectDistinct {
+  <<interface>>
+  version: 1
+  units: JSONMinidynUnits
+  bearingParameters: JSONBearingParameters
+}
+JSONMinidynProjectDistinct <.. JSONMinidynUnits
+
+
+class MinidynProject {
+  <<interface>>
+  machine: 'Minidyn'
+  reports: SelectableList#60;MinidynReport#62;
+  units: MinidynMathUnits
+  bearingParameters: JSONBearingParameters
+  toJSON: #40;#41; =#62; JSONMinidynProject
+}
+MinidynProject <..< MinidynReport
+MinidynProject <.. MinidynMathUnits
+
+
+class MinidynReportCreatorParameters {
+  <<interface>>
+  project: MinidynProject
+}
+MinidynReportCreatorParameters <.. MinidynProject
+
+
+class JSONMinidynReportVAny {
+  <<type>>
+  JSONMinidynReport
+}
+JSONMinidynReportVAny <.. JSONMinidynReport
+
+
+class JSONMinidynReport {
+  <<interface>>
+  version: 1
+  base: JSONBaseReport
+  distinct: JSONMinidynReportDistinct
+}
+JSONMinidynReport <.. JSONMinidynReportDistinct
+
+
+class JSONMinidynReportDistinct {
+  <<interface>>
+  version: 1
+  groupedDataLabels: SelectableList#60;     number,     JSONMinidynGroupedDataLabels   #62;
+  thresholds: MinidynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;
+}
+JSONMinidynReportDistinct <.. JSONMinidynGroupedDataLabels
+JSONMinidynReportDistinct <.. MinidynUnitsSkeleton~A, B, C, D, E, F~
+
+
+class JSONMinidynGroupedDataLabels {
+  <<interface>>
+  version: 1
+  from: DataLabelsFrom
+  choices: SelectableList#60;number, JSONDataLabel#60;MinidynUnitsNames#62;#62;
+  indexes?: SelectableList#60;number, JSONMinidynDropIndex#62;
+}
+JSONMinidynGroupedDataLabels <.. MinidynUnitsNames
+JSONMinidynGroupedDataLabels <.. JSONMinidynDropIndex
+
+
+class MinidynReport {
+  <<interface>>
+  machine: 'Minidyn'
+  zones: MinidynZone[]
+  dataLabels: MinidynReportDataLabels
+  thresholds: MinidynReportThresholds
+  project: MinidynProject
+  toJSON: #40;#41; =#62; JSONMinidynReport
+}
+MinidynReport <.. MinidynZone
+MinidynReport <.. MinidynReportDataLabels
+MinidynReport <.. MinidynReportThresholds
+
+
+class MinidynReportDataLabels {
+  <<interface>>
+  groups: SelectableList#60;MinidynGroupedDataLabels#62;
+  table: SelectableList#60;MinidynTableDataLabelsParameters#62;
+}
+MinidynReportDataLabels <.. MinidynGroupedDataLabels
+MinidynReportDataLabels <.. MinidynTableDataLabelsParameters
+
+
+class MinidynGroupedDataLabels {
+  <<interface>>
+  indexes?: SelectableList#60;MinidynDropIndex#62;
+}
+MinidynGroupedDataLabels <.. MinidynDropIndex
+
+
+class MinidynTableDataLabelsParameters {
+  <<interface>>
+  group: MinidynGroupedDataLabels
+  index?: MinidynDropIndex
+}
+MinidynTableDataLabelsParameters <.. MinidynGroupedDataLabels
+MinidynTableDataLabelsParameters <.. MinidynDropIndex
+
+
+class MinidynReportThresholds {
+  <<interface>>
+  groups: MinidynReportThresholdsGroups
+}
+MinidynReportThresholds <.. MinidynReportThresholdsGroups
+
+
+class MinidynReportThresholdsGroups {
+  <<type>>
+  MinidynUnitsSkeleton#60;   GroupedThresolds#60;string#62; #62;
+}
+MinidynReportThresholdsGroups <.. MinidynUnitsSkeleton~A, B, C, D, E, F~
+
+
+class MinidynZoneCreatorParameters {
+  <<interface>>
+  report: MinidynReport
+}
+MinidynZoneCreatorParameters <.. MinidynReport
+
+
+class JSONMinidynZoneVAny {
+  <<type>>
+  JSONMinidynZone
+}
+JSONMinidynZoneVAny <.. JSONMinidynZone
+
+
+class JSONMinidynZone {
+  <<interface>>
+  version: 1
+  base: JSONBaseZone
+  distinct: JSONMinidynZoneDistinct
+}
+JSONMinidynZone <.. JSONMinidynZoneDistinct
+
+
+class JSONMinidynZoneDistinct {
+  <<interface>>
+  version: 1
+}
+
+
+
+class MinidynZone {
+  <<interface>>
+  machine: 'Minidyn'
+  points: MinidynPoint[]
+  toJSON: #40;#41; =#62; JSONMinidynZone
+}
+
+
+
+class MinidynExporter {
+  <<interface>>
+  export: #40;project: MinidynProject#41; =#62; Promise#60;File#62;
+}
+
+
+

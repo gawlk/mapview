@@ -49,12 +49,12 @@
 
 <template>
   <td
-    v-if="selectedReport?.settings.groupBy === 'Number'"
     class="w-12 border-2 border-gray-100 bg-gray-100 text-right font-semibold"
+    v-if="selectedReport?.settings.groupBy === 'Number'"
   ></td>
   <td
-    v-if="selectedReport?.zones && selectedReport.zones.length > 1"
     class="w-[8rem] min-w-[8rem] border-2 border-gray-100 bg-gray-100 pl-3 font-semibold text-gray-600"
+    v-if="selectedReport?.zones && selectedReport.zones.length > 1"
   >
     {{ t('Zone') }}
   </td>
@@ -70,6 +70,7 @@
     </p>
   </td>
   <td
+    class="min-w-[4rem] border-2 border-gray-100 px-2 text-right text-gray-600"
     v-for="{
       mathNumber,
       dataLabel,
@@ -86,7 +87,6 @@
         dataLabel,
       }
     })"
-    class="min-w-[4rem] border-2 border-gray-100 px-2 text-right text-gray-600"
   >
     <p class="font-semibold">{{ t(dataLabel.name) }}</p>
     <p class="whitespace-nowrap text-xs">

@@ -1,9 +1,8 @@
 @font-face {
-  font-family: 'Inter var';
-  src: url('/fonts/Inter.var.woff2') format('woff2');
-  font-weight: 100 900;
-
   /* To add if font supports both italic and non-italic styles */
   font-style: oblique 0deg 10deg;
+  font-weight: 100 900;
+  src: url('/fonts/Inter.var.woff2') format('woff2');
+  font-family: 'Inter var';
   font-display: swap;
 }

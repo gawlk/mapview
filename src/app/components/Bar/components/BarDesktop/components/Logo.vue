@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <a href="/" class="mx-auto flex w-1/2 items-center">
+  <a class="mx-auto flex w-1/2 items-center" href="/">
     <MapviewLogo class="h-full w-full" />
   </a>
 </template>

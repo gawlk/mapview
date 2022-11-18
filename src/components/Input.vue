@@ -46,7 +46,7 @@
 <template>
   <div class="w-full space-y-1">
     <Label v-if="props.label">{{ props.label }}</Label>
-    <div v-if="props.type === 'slidableNumber'" class="flex space-x-2">
+    <div class="flex space-x-2" v-if="props.type === 'slidableNumber'">
       <input
         :id="`${props.id}-number`"
         @input="(event) => emit('input', Number((event.target as HTMLInputElement).value))"
@@ -59,6 +59,7 @@
         :class="classes"
       />
       <input
+        class="px-0 focus:ring-0"
         :id="`${props.id}-range`"
         @input="(event) => emit('input', Number((event.target as HTMLInputElement).value))"
         type="range"
@@ -68,11 +69,11 @@
         :step="props.step"
         :disabled="props.disabled"
         :class="classes"
-        class="px-0 focus:ring-0"
       />
     </div>
     <div v-if="props.type === 'selectableString' && !props.strict">
       <input
+        class="w-full flex-1"
         :id="`${props.id}-text`"
         :name="`${props.id}-text`"
         :list="`${props.id}-datalist`"
@@ -80,20 +81,19 @@
         :value="props.value"
         :disabled="props.disabled"
         :class="classes"
-        class="w-full flex-1"
       />
       <datalist :id="`${props.id}-datalist`">
         <option v-for="value of props.list" :value="t(value)" />
       </datalist>
     </div>
     <Listbox
+      class="flex-1"
       v-else-if="props.type === 'selectableString' && props.strict"
       :values="props.list"
       :selected="props.value"
       @select="(value) => emit('input', value)"
       full
       :disabled="props.disabled"
-      class="flex-1"
     />
     <textarea
       v-else-if="props.type === 'longString'"

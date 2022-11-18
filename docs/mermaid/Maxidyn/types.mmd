@@ -1,0 +1,398 @@
+classDiagram
+class MaxidynDropCreatorParameters {
+  <<interface>>
+  point: MaxidynPoint
+}
+MaxidynDropCreatorParameters <.. MaxidynPoint
+
+
+class JSONMaxidynDropVAny {
+  <<type>>
+  JSONMaxidynDrop
+}
+JSONMaxidynDropVAny <.. JSONMaxidynDrop
+
+
+class JSONMaxidynDrop {
+  <<interface>>
+  version: 1
+  base: JSONBaseDrop
+  distinct: JSONMaxidynDropDistinct
+}
+JSONMaxidynDrop <.. JSONMaxidynDropDistinct
+
+
+class JSONMaxidynDropDistinct {
+  <<interface>>
+  version: 1
+}
+
+
+
+class JSONMaxidynDropIndexVAny {
+  <<type>>
+  JSONMaxidynDropIndex
+}
+JSONMaxidynDropIndexVAny <.. JSONMaxidynDropIndex
+
+
+class JSONMaxidynDropIndex {
+  <<interface>>
+  version: 1
+  base: JSONBaseDropIndex
+  distinct: JSONMaxidynDropIndexDistinct
+}
+JSONMaxidynDropIndex <.. JSONMaxidynDropIndexDistinct
+
+
+class JSONMaxidynDropIndexDistinct {
+  <<interface>>
+  version: 1
+  type: MaxidynDropType
+}
+JSONMaxidynDropIndexDistinct <.. MaxidynDropType
+
+
+class MaxidynDropType {
+  <<type>>
+  'Training' | 'Averaging'
+}
+
+
+
+class MaxidynDrop {
+  <<interface>>
+  index: MaxidynDropIndex
+  point: MaxidynPoint
+  toJSON: #40;#41; =#62; JSONMaxidynDrop
+}
+MaxidynDrop <.. MaxidynDropIndex
+MaxidynDrop <..< MaxidynPoint
+
+
+class MaxidynDropIndex {
+  <<interface>>
+  machine: 'Maxidyn'
+  type: MaxidynDropType
+  toJSON: #40;#41; =#62; JSONMaxidynDropIndex
+}
+MaxidynDropIndex <.. MaxidynDropType
+
+
+class MaxidynUnitsSkeleton~A, B, C, D, E, F, G~ {
+  <<interface>>
+  modulus: A
+  stiffness: B
+  deflection: C
+  force: D
+  distance: E
+  time: F
+  percentage: G
+}
+
+
+
+class PossibleMaxidynModulusUnits {
+  <<type>>
+  'MPa'
+}
+
+
+
+class PossibleMaxidynStiffnessUnits {
+  <<type>>
+  'MN / m'
+}
+
+
+
+class PossibleMaxidynDeflectionUnits {
+  <<type>>
+  'mm' | 'um'
+}
+
+
+
+class PossibleMaxidynForceUnits {
+  <<type>>
+  'N' | 'kN'
+}
+
+
+
+class PossibleMaxidynDistanceUnits {
+  <<type>>
+  'm' | 'km' | 'mi'
+}
+
+
+
+class PossibleMaxidynTimeUnits {
+  <<type>>
+  's' | 'ms' | 'us'
+}
+
+
+
+class PossibleMaxidynPercentageUnits {
+  <<type>>
+  '%'
+}
+
+
+
+class JSONMaxidynUnits {
+  <<type>>
+  MaxidynUnitsSkeleton#60;   JSONMathUnit#60;PossibleMaxidynModulusUnits#62;,   JSONMathUnit#60;PossibleMaxidynStiffnessUnits#62;,   JSONMathUnit#60;PossibleMaxidynDeflectionUnits#62;,   JSONMathUnit#60;PossibleMaxidynForceUnits#62;,   JSONMathUnit#60;PossibleMaxidynDistanceUnits#62;,   JSONMathUnit#60;PossibleMaxidynTimeUnits#62;,   JSONMathUnit#60;PossibleMaxidynPercentageUnits#62; #62;
+}
+JSONMaxidynUnits <.. MaxidynUnitsSkeleton~A, B, C, D, E, F, G~
+JSONMaxidynUnits <.. PossibleMaxidynModulusUnits
+JSONMaxidynUnits <.. PossibleMaxidynStiffnessUnits
+JSONMaxidynUnits <.. PossibleMaxidynDeflectionUnits
+JSONMaxidynUnits <.. PossibleMaxidynForceUnits
+JSONMaxidynUnits <.. PossibleMaxidynDistanceUnits
+JSONMaxidynUnits <.. PossibleMaxidynTimeUnits
+JSONMaxidynUnits <.. PossibleMaxidynPercentageUnits
+
+
+class MaxidynMathUnits {
+  <<type>>
+  MaxidynUnitsSkeleton#60;   MathUnit#60;PossibleMaxidynModulusUnits#62;,   MathUnit#60;PossibleMaxidynStiffnessUnits#62;,   MathUnit#60;PossibleMaxidynDeflectionUnits#62;,   MathUnit#60;PossibleMaxidynForceUnits#62;,   MathUnit#60;PossibleMaxidynDistanceUnits#62;,   MathUnit#60;PossibleMaxidynTimeUnits#62;,   MathUnit#60;PossibleMaxidynPercentageUnits#62; #62;
+}
+MaxidynMathUnits <.. MaxidynUnitsSkeleton~A, B, C, D, E, F, G~
+MaxidynMathUnits <.. PossibleMaxidynModulusUnits
+MaxidynMathUnits <.. PossibleMaxidynStiffnessUnits
+MaxidynMathUnits <.. PossibleMaxidynDeflectionUnits
+MaxidynMathUnits <.. PossibleMaxidynForceUnits
+MaxidynMathUnits <.. PossibleMaxidynDistanceUnits
+MaxidynMathUnits <.. PossibleMaxidynTimeUnits
+MaxidynMathUnits <.. PossibleMaxidynPercentageUnits
+
+
+class MaxidynUnitsNames {
+  <<type>>
+  keyof MaxidynUnitsSkeleton#60;any#62;
+}
+MaxidynUnitsNames <.. MaxidynUnitsSkeleton~A, B, C, D, E, F, G~
+
+
+class MaxidynPointCreatorParameters {
+  <<interface>>
+  zone: MaxidynZone
+}
+MaxidynPointCreatorParameters <.. MaxidynZone
+
+
+class JSONMaxidynPointVAny {
+  <<type>>
+  JSONMaxidynPoint
+}
+JSONMaxidynPointVAny <.. JSONMaxidynPoint
+
+
+class JSONMaxidynPoint {
+  <<interface>>
+  version: 1
+  base: JSONBasePoint
+  distinct: JSONMaxidynPointDistinct
+}
+JSONMaxidynPoint <.. JSONMaxidynPointDistinct
+
+
+class JSONMaxidynPointDistinct {
+  <<interface>>
+  version: 1
+}
+
+
+
+class MaxidynPoint {
+  <<interface>>
+  machine: 'Maxidyn'
+  drops: MaxidynDrop[]
+  zone: MaxidynZone
+  toJSON: #40;#41; =#62; JSONMaxidynPoint
+}
+MaxidynPoint <..< MaxidynZone
+
+
+class JSONMaxidynProjectVAny {
+  <<type>>
+  JSONMaxidynProject
+}
+JSONMaxidynProjectVAny <.. JSONMaxidynProject
+
+
+class JSONMaxidynProject {
+  <<interface>>
+  version: 1
+  base: JSONBaseProject
+  distinct: JSONMaxidynProjectDistinct
+}
+JSONMaxidynProject <.. JSONMaxidynProjectDistinct
+
+
+class JSONMaxidynProjectDistinct {
+  <<interface>>
+  version: 1
+  units: JSONMaxidynUnits
+  bearingParameters: JSONBearingParameters
+}
+JSONMaxidynProjectDistinct <.. JSONMaxidynUnits
+
+
+class MaxidynProject {
+  <<interface>>
+  machine: 'Maxidyn'
+  reports: SelectableList#60;MaxidynReport#62;
+  units: MaxidynMathUnits
+  bearingParameters: JSONBearingParameters
+  toJSON: #40;#41; =#62; JSONMaxidynProject
+}
+MaxidynProject <..< MaxidynReport
+MaxidynProject <.. MaxidynMathUnits
+
+
+class MaxidynReportCreatorParameters {
+  <<interface>>
+  project: MaxidynProject
+}
+MaxidynReportCreatorParameters <.. MaxidynProject
+
+
+class JSONMaxidynReportVAny {
+  <<type>>
+  JSONMaxidynReport
+}
+JSONMaxidynReportVAny <.. JSONMaxidynReport
+
+
+class JSONMaxidynReport {
+  <<interface>>
+  version: 1
+  base: JSONBaseReport
+  distinct: JSONMaxidynReportDistinct
+}
+JSONMaxidynReport <.. JSONMaxidynReportDistinct
+
+
+class JSONMaxidynReportDistinct {
+  <<interface>>
+  version: 1
+  groupedDataLabels: SelectableList#60;     number,     JSONMaxidynGroupedDataLabels   #62;
+  thresholds: MaxidynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;
+}
+JSONMaxidynReportDistinct <.. JSONMaxidynGroupedDataLabels
+JSONMaxidynReportDistinct <.. MaxidynUnitsSkeleton~A, B, C, D, E, F, G~
+
+
+class JSONMaxidynGroupedDataLabels {
+  <<interface>>
+  version: 1
+  from: DataLabelsFrom
+  choices: SelectableList#60;number, JSONDataLabel#60;MaxidynUnitsNames#62;#62;
+  indexes?: SelectableList#60;number, JSONMaxidynDropIndex#62;
+}
+JSONMaxidynGroupedDataLabels <.. MaxidynUnitsNames
+JSONMaxidynGroupedDataLabels <.. JSONMaxidynDropIndex
+
+
+class MaxidynReport {
+  <<interface>>
+  machine: 'Maxidyn'
+  zones: MaxidynZone[]
+  dataLabels: MaxidynReportDataLabels
+  thresholds: MaxidynReportThresholds
+  project: MaxidynProject
+  toJSON: #40;#41; =#62; JSONMaxidynReport
+}
+MaxidynReport <.. MaxidynZone
+MaxidynReport <.. MaxidynReportDataLabels
+MaxidynReport <.. MaxidynReportThresholds
+
+
+class MaxidynReportDataLabels {
+  <<interface>>
+  groups: SelectableList#60;MaxidynGroupedDataLabels#62;
+  table: SelectableList#60;MaxidynTableDataLabelsParameters#62;
+}
+MaxidynReportDataLabels <.. MaxidynGroupedDataLabels
+MaxidynReportDataLabels <.. MaxidynTableDataLabelsParameters
+
+
+class MaxidynGroupedDataLabels {
+  <<interface>>
+  indexes?: SelectableList#60;MaxidynDropIndex#62;
+}
+MaxidynGroupedDataLabels <.. MaxidynDropIndex
+
+
+class MaxidynTableDataLabelsParameters {
+  <<interface>>
+  group: MaxidynGroupedDataLabels
+  index?: MaxidynDropIndex
+}
+MaxidynTableDataLabelsParameters <.. MaxidynGroupedDataLabels
+MaxidynTableDataLabelsParameters <.. MaxidynDropIndex
+
+
+class MaxidynReportThresholds {
+  <<interface>>
+  groups: MaxidynUnitsSkeleton#60;GroupedThresolds#60;string#62;#62;
+}
+MaxidynReportThresholds <.. MaxidynUnitsSkeleton~A, B, C, D, E, F, G~
+
+
+class MaxidynReportThresholdsGroups {
+  <<type>>
+  MaxidynUnitsSkeleton#60;   GroupedThresolds#60;string#62; #62;
+}
+MaxidynReportThresholdsGroups <.. MaxidynUnitsSkeleton~A, B, C, D, E, F, G~
+
+
+class MaxidynZoneCreatorParameters {
+  <<interface>>
+  report: MaxidynReport
+}
+MaxidynZoneCreatorParameters <.. MaxidynReport
+
+
+class JSONMaxidynZoneVAny {
+  <<type>>
+  JSONMaxidynZone
+}
+JSONMaxidynZoneVAny <.. JSONMaxidynZone
+
+
+class JSONMaxidynZone {
+  <<interface>>
+  version: 1
+  base: JSONBaseZone
+  distinct: JSONMaxidynZoneDistinct
+}
+JSONMaxidynZone <.. JSONMaxidynZoneDistinct
+
+
+class JSONMaxidynZoneDistinct {
+  <<interface>>
+  version: 1
+}
+
+
+
+class MaxidynZone {
+  <<interface>>
+  machine: 'Maxidyn'
+  points: MaxidynPoint[]
+  toJSON: #40;#41; =#62; JSONMaxidynZone
+}
+
+
+
+class MaxidynExporter {
+  <<interface>>
+  export: #40;project: MaxidynProject#41; =#62; Promise#60;File#62;
+}
+
+
+

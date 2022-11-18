@@ -95,9 +95,9 @@
         {{ t(state.hideAll ? 'Hide all' : 'Show all') }}
       </Button>
       <div
+        class="flex space-x-1"
         v-for="report of store.projects.selected?.reports.list"
         :key="(report.name.value as string)"
-        class="flex space-x-1"
       >
         <Button
           :leftHTMLIcon="icons[report.settings.iconName]"

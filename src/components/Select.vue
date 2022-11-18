@@ -60,6 +60,7 @@
 
 <template>
   <div
+    class="group relative flex h-full w-full items-center justify-between truncate bg-gray-100 text-sm font-medium leading-6 transition-colors duration-200 hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300"
     v-if="!(!isMobile() && props.multiple)"
     :class="[
       props.full && 'w-full',
@@ -67,23 +68,22 @@
         ? 'space-x-1 rounded-md py-0.5 px-1.5'
         : 'space-x-3 rounded-lg py-2 px-4',
     ]"
-    class="group relative flex h-full w-full items-center justify-between truncate bg-gray-100 text-sm font-medium leading-6 transition-colors duration-200 hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300"
   >
     <div class="flex items-center truncate">
       <component
+        class="mr-1 h-5 w-5 flex-none transition-colors duration-200"
         v-if="props.icon"
         :is="props.icon"
         :class="[
           props.iconsClasses || 'text-gray-400 group-hover:text-gray-500',
         ]"
-        class="mr-1 h-5 w-5 flex-none transition-colors duration-200"
       />
-      <span v-if="props.preSelected" class="ml-1 text-gray-500">
+      <span class="ml-1 text-gray-500" v-if="props.preSelected">
         {{ props.preSelected }}
       </span>
       <span
-        v-if="props.selectedReplacement || props.values"
         class="ml-1 truncate"
+        v-if="props.selectedReplacement || props.values"
         v-html="
               props.selectedReplacement ||
               props.multiple ?
@@ -94,30 +94,30 @@
             "
       />
       <span
-        v-if="props.postSelected"
         class="ml-1 hidden text-gray-500 sm:block"
+        v-if="props.postSelected"
       >
         {{ props.postSelected }}
       </span>
     </div>
     <div>
       <IconHeroiconsSolidSelector
+        class="h-5 w-5 transition-colors duration-200"
         :class="[
           props.iconsClasses || 'text-gray-400 group-hover:text-gray-500',
         ]"
-        class="h-5 w-5 transition-colors duration-200"
         aria-hidden="true"
       />
     </div>
     <select
+      class="absolute inset-0 z-10 !m-0 w-full cursor-pointer appearance-none bg-transparent text-transparent focus:outline-none disabled:cursor-default"
       :multiple="props.multiple"
       @change="(event) => select(props.multiple ? getDifference(Array.from((event.target as HTMLSelectElement).selectedOptions).map((option) => option.value), props.selectedList || []) : (event.target as HTMLSelectElement).value)"
-      class="absolute inset-0 z-10 !m-0 w-full cursor-pointer appearance-none bg-transparent text-transparent focus:outline-none disabled:cursor-default"
     >
       <option
+        class="text-black"
         v-for="value in props.values"
         :value="value"
-        class="text-black"
         :selected="
           props.multiple
             ? props.selectedList?.includes(value)
@@ -128,7 +128,7 @@
       </option>
     </select>
   </div>
-  <div v-else class="space-y-2">
+  <div class="space-y-2" v-else>
     <Button
       full
       :leftIcon="props.icon"
@@ -136,31 +136,31 @@
       @click="() => (state.showMultiple = !state.showMultiple)"
       truncate
     >
-      <span v-if="props.preSelected" class="ml-1 text-gray-500">
+      <span class="ml-1 text-gray-500" v-if="props.preSelected">
         {{ props.preSelected }}
       </span>
       <span
-        v-if="props.selectedReplacement || props.values"
         class="ml-1 truncate"
+        v-if="props.selectedReplacement || props.values"
         v-html="props.selectedList?.join(', ')"
       />
       <span
-        v-if="props.postSelected"
         class="ml-1 hidden text-gray-500 sm:block"
+        v-if="props.postSelected"
       >
         {{ props.postSelected }}
       </span>
     </Button>
     <select
+      class="h-40 w-full cursor-pointer appearance-none space-y-1 rounded-lg border-2 border-gray-100 bg-transparent p-2 text-transparent focus:outline-none disabled:cursor-default"
       v-if="state.showMultiple"
       @click="(event) => select((event.target as HTMLSelectElement).value)"
       :multiple="props.multiple"
-      class="h-40 w-full cursor-pointer appearance-none space-y-1 rounded-lg border-2 border-gray-100 bg-transparent p-2 text-transparent focus:outline-none disabled:cursor-default"
     >
       <option
+        class="flex appearance-none space-x-2 rounded-md px-3 py-1.5 text-sm font-medium text-black focus:bg-orange-200 [&:selected]:!bg-gray-200"
         v-for="value in props.values"
         :value="value"
-        class="flex appearance-none space-x-2 rounded-md px-3 py-1.5 text-sm font-medium text-black focus:bg-orange-200 [&:selected]:!bg-gray-200"
         :selected="props.selectedList?.includes(value)"
       >
         <!-- <IconHeroiconsSolidCheck class="h-5 w-5 [&]" aria-hidden="true" /> -->

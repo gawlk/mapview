@@ -83,7 +83,7 @@
       <span> {{ t('A new version is available.') }} </span>
       {{ ' ' }}
       <span class="inline-block">
-        <a href="/" class="font-bold text-white underline">
+        <a class="font-bold text-white underline" href="/">
           {{ t('Update') }} <span aria-hidden="true">&rarr;</span>
         </a>
       </span>

@@ -1,0 +1,303 @@
+classDiagram
+class BaseDropCreatorParameters {
+  <<interface>>
+  machine: MachineName
+}
+
+
+
+class JSONBaseDropVAny {
+  <<type>>
+  JSONBaseDrop
+}
+JSONBaseDropVAny <.. JSONBaseDrop
+
+
+class JSONBaseDrop {
+  <<interface>>
+  version: 1
+  index: number
+  data: JSONDataValue[]
+}
+
+
+
+class JSONBaseDropIndexVAny {
+  <<type>>
+  JSONBaseDropIndex
+}
+JSONBaseDropIndexVAny <.. JSONBaseDropIndex
+
+
+class JSONBaseDropIndex {
+  <<interface>>
+  version: 1
+  displayedIndex: number
+}
+
+
+
+class BaseDrop {
+  <<interface>>
+  index: MachineDropIndex
+  data: DataValue#60;string#62;[]
+  point: MachinePoint
+  impactData: ImpactData | null
+  toBaseJSON: #40;#41; =#62; JSONBaseDrop
+}
+
+
+
+class BaseDropIndex {
+  <<interface>>
+  displayedIndex: number
+  toBaseJSON: #40;#41; =#62; JSONBaseDropIndex
+}
+
+
+
+class BasePointCreatorParameters {
+  <<interface>>
+  machine: MachineName
+}
+
+
+
+class JSONBasePointVAny {
+  <<type>>
+  JSONBasePoint
+}
+JSONBasePointVAny <.. JSONBasePoint
+
+
+class JSONBasePoint {
+  <<interface>>
+  version: 1
+  id: string
+  number: number
+  index: number
+  date: string
+  coordinates: mapboxgl.LngLatLike
+  data: JSONDataValue[]
+  settings: JSONPointSettings
+  information: JSONField[]
+  drops: JSONMachineDrop[]
+}
+
+
+
+class BasePoint {
+  <<interface>>
+  machine: MachineName
+  id: string
+  date: Date
+  marker: mapboxgl.Marker | null
+  icon: Icon | null
+  settings: JSONPointSettings
+  data: DataValue#60;string#62;[]
+  information: Field[]
+  drops: MachineDrop[]
+  index: number
+  number: number
+  zone: MachineZone
+  rawDataFile: ArrayBufferLike | null
+  getSelectedMathNumber: #40;     groupFrom: DataLabelsFrom,     dataLabel: DataLabel#60;string#62;,     index?: MachineDropIndex | null   #41; =#62; MathNumber | undefined
+  getDisplayedString: #40;     groupFrom: DataLabelsFrom,     dataLabel: DataLabel#60;string#62;,     index?: MachineDropIndex | null   #41; =#62; string
+  updateColor: #40;#41; =#62; void
+  updateText: #40;#41; =#62; void
+  updateVisibility: #40;#41; =#62; void
+  updatePopup: #40;#41; =#62; void
+  addToMap: #40;#41; =#62; void
+  checkVisibility: #40;#41; =#62; boolean
+  remove: #40;#41; =#62; void
+  toBaseJSON: #40;#41; =#62; JSONBasePoint
+}
+
+
+
+class JSONBaseProjectVAny {
+  <<type>>
+  JSONBaseProject
+}
+JSONBaseProjectVAny <.. JSONBaseProject
+
+
+class JSONBaseProject {
+  <<interface>>
+  version: 1
+  name: string
+  machine: MachineName
+  reports: SelectableList#60;number, JSONMachineReport#62;
+  settings: JSONProjectSettings
+  overlays: JSONOverlay[]
+  information: JSONField[]
+  hardware: JSONField[]
+  acquisitionParameters: JSONAcquisitionParameters
+}
+
+
+
+class BaseProject {
+  <<interface>>
+  machine: MachineName
+  name: Field
+  information: Field[]
+  hardware: Field[]
+  reports: SelectableList#60;MachineReport#62;
+  units: MachineMathUnits
+  settings: JSONProjectSettings
+  overlays: Overlay[]
+  acquisitionParameters: JSONAcquisitionParameters
+  refreshLinesAndOverlays: #40;#41; =#62; void
+  setMapStyle: #40;styleIndex: number#41; =#62; void
+  fitOnMap: #40;#41; =#62; void
+  addToMap: #40;#41; =#62; void
+  remove: #40;#41; =#62; void
+  toBaseJSON: #40;#41; =#62; JSONBaseProject
+}
+
+
+
+class JSONBaseReportVAny {
+  <<type>>
+  JSONBaseReport
+}
+JSONBaseReportVAny <.. JSONBaseReport
+
+
+class JSONBaseReport {
+  <<interface>>
+  version: 1
+  name: string
+  zones: JSONMachineZone[]
+  settings: JSONReportSettings
+  screenshots: number[]
+  platform: JSONField[]
+  information: JSONField[]
+  dataLabels: JSONBaseReportDataLabels
+  thresholds: JSONBaseReportThresholds
+}
+JSONBaseReport <.. JSONBaseReportDataLabels
+JSONBaseReport <.. JSONBaseReportThresholds
+
+
+class JSONBaseReportDataLabels {
+  <<interface>>
+  version: 1
+  table: SelectableList#60;number, JSONTableDataLabelsParameters#62;
+}
+
+
+
+class JSONBaseReportThresholds {
+  <<interface>>
+  version: 1
+  colors: JSONThresholdColors
+  inputs: JSONThresholdInputs
+}
+
+
+
+class BaseReport {
+  <<interface>>
+  machine: MachineName
+  name: Field
+  line: Line
+  zones: MachineZone[]
+  screenshots: string[]
+  dataLabels: MachineReportDataLabels
+  thresholds: MachineReportThresholds
+  settings: JSONReportSettings
+  platform: Field[]
+  information: Field[]
+  project: MachineProject
+  isOnMap: boolean
+  fitOnMap: #40;#41; =#62; void
+  toBaseJSON: #40;#41; =#62; JSONBaseReport
+  addToMap: #40;#41; =#62; void
+  remove: #40;#41; =#62; void
+}
+
+
+
+class BaseReportDataLabels {
+  <<interface>>
+  groups: SelectableList#60;BaseGroupedDataLabels#62;
+  table: SelectableList#60;BaseTableDataLabelsParameters#62;
+}
+BaseReportDataLabels <.. BaseGroupedDataLabels
+BaseReportDataLabels <.. BaseTableDataLabelsParameters
+
+
+class BaseGroupedDataLabels {
+  <<interface>>
+  from: DataLabelsFrom
+  choices: SelectableList#60;DataLabel#60;string#62;#62;
+  indexes?: SelectableList#60;MachineDropIndex#62;
+}
+
+
+
+class BaseTableDataLabelsParameters {
+  <<interface>>
+  group: MachineGroupedDataLabels
+  index?: MachineDropIndex
+  dataLabels: DataLabel#60;string#62;[]
+}
+
+
+
+class BaseReportThresholds {
+  <<interface>>
+  groups: MachineUnitsSkeleton#60;GroupedThresolds#60;string#62;#62;
+  colors: JSONThresholdColors
+  inputs: JSONThresholdInputs
+}
+
+
+
+class PartialExtendedObject~BaseObject, MachineObject~ {
+  <<type>>
+  Required#60;BaseObject#62; &   Partial#60;Omit#60;MachineObject, keyof BaseObject#62;#62;
+}
+
+
+
+class BaseZoneCreatorParameters {
+  <<interface>>
+  machine: MachineName
+}
+
+
+
+class JSONBaseZoneVAny {
+  <<type>>
+  JSONBaseZone
+}
+JSONBaseZoneVAny <.. JSONBaseZone
+
+
+class JSONBaseZone {
+  <<interface>>
+  version: 1
+  name: string
+  points: JSONMachinePoint[]
+  settings: JSONZoneSettings
+}
+
+
+
+class BaseZone {
+  <<interface>>
+  machine: MachineName
+  points: MachinePoint[]
+  settings: JSONZoneSettings
+  name: string
+  report: MachineReport
+  init: #40;#41; =#62; void
+  clean: #40;#41; =#62; void
+  toBaseJSON: #40;#41; =#62; JSONBaseZone
+}
+
+
+

@@ -1,0 +1,954 @@
+classDiagram
+class JSONDataLabelVAny~T~ {
+  <<type>>
+  JSONDataLabel#60;T#62;
+}
+JSONDataLabelVAny~T~ <.. JSONDataLabel~T~
+
+
+class JSONDataLabel~T~ {
+  <<interface>>
+  version: 1
+  name: string
+  unit: T
+}
+
+
+
+class JSONDataValueVAny {
+  <<type>>
+  JSONDataValue
+}
+JSONDataValueVAny <.. JSONDataValue
+
+
+class JSONDataValue {
+  <<interface>>
+  version: 1
+  label: string
+  value: number
+}
+
+
+
+class JSONBaseDropVAny {
+  <<type>>
+  JSONBaseDrop
+}
+JSONBaseDropVAny <.. JSONBaseDrop
+
+
+class JSONBaseDrop {
+  <<interface>>
+  version: 1
+  index: number
+  data: JSONDataValue[]
+}
+JSONBaseDrop <.. JSONDataValue
+
+
+class JSONBaseDropIndexVAny {
+  <<type>>
+  JSONBaseDropIndex
+}
+JSONBaseDropIndexVAny <.. JSONBaseDropIndex
+
+
+class JSONBaseDropIndex {
+  <<interface>>
+  version: 1
+  displayedIndex: number
+}
+
+
+
+class JSONHeavydynDropVAny {
+  <<type>>
+  JSONHeavydynDrop
+}
+JSONHeavydynDropVAny <.. JSONHeavydynDrop
+
+
+class JSONHeavydynDrop {
+  <<interface>>
+  version: 1
+  base: JSONBaseDrop
+  distinct: JSONHeavydynDropDistinct
+}
+JSONHeavydynDrop <.. JSONBaseDrop
+JSONHeavydynDrop <.. JSONHeavydynDropDistinct
+
+
+class JSONHeavydynDropDistinct {
+  <<interface>>
+  version: 1
+}
+
+
+
+class JSONHeavydynDropIndexVAny {
+  <<type>>
+  JSONHeavydynDropIndex
+}
+JSONHeavydynDropIndexVAny <.. JSONHeavydynDropIndex
+
+
+class JSONHeavydynDropIndex {
+  <<interface>>
+  version: 1
+  base: JSONBaseDropIndex
+  distinct: JSONHeavydynDropIndexDistinct
+}
+JSONHeavydynDropIndex <.. JSONBaseDropIndex
+JSONHeavydynDropIndex <.. JSONHeavydynDropIndexDistinct
+
+
+class JSONHeavydynDropIndexDistinct {
+  <<interface>>
+  version: 1
+  type: HeavydynDropType
+  value: number
+  unit: string
+}
+
+
+
+class JSONMaxidynDropVAny {
+  <<type>>
+  JSONMaxidynDrop
+}
+JSONMaxidynDropVAny <.. JSONMaxidynDrop
+
+
+class JSONMaxidynDrop {
+  <<interface>>
+  version: 1
+  base: JSONBaseDrop
+  distinct: JSONMaxidynDropDistinct
+}
+JSONMaxidynDrop <.. JSONBaseDrop
+JSONMaxidynDrop <.. JSONMaxidynDropDistinct
+
+
+class JSONMaxidynDropDistinct {
+  <<interface>>
+  version: 1
+}
+
+
+
+class JSONMaxidynDropIndexVAny {
+  <<type>>
+  JSONMaxidynDropIndex
+}
+JSONMaxidynDropIndexVAny <.. JSONMaxidynDropIndex
+
+
+class JSONMaxidynDropIndex {
+  <<interface>>
+  version: 1
+  base: JSONBaseDropIndex
+  distinct: JSONMaxidynDropIndexDistinct
+}
+JSONMaxidynDropIndex <.. JSONBaseDropIndex
+JSONMaxidynDropIndex <.. JSONMaxidynDropIndexDistinct
+
+
+class JSONMaxidynDropIndexDistinct {
+  <<interface>>
+  version: 1
+  type: MaxidynDropType
+}
+
+
+
+class JSONMinidynDropVAny {
+  <<type>>
+  JSONMinidynDrop
+}
+JSONMinidynDropVAny <.. JSONMinidynDrop
+
+
+class JSONMinidynDrop {
+  <<interface>>
+  version: 1
+  base: JSONBaseDrop
+  distinct: JSONMinidynDropDistinct
+}
+JSONMinidynDrop <.. JSONBaseDrop
+JSONMinidynDrop <.. JSONMinidynDropDistinct
+
+
+class JSONMinidynDropDistinct {
+  <<interface>>
+  version: 1
+}
+
+
+
+class JSONMinidynDropIndexVAny {
+  <<type>>
+  JSONMinidynDropIndex
+}
+JSONMinidynDropIndexVAny <.. JSONMinidynDropIndex
+
+
+class JSONMinidynDropIndex {
+  <<interface>>
+  version: 1
+  base: JSONBaseDropIndex
+  distinct: JSONMinidynDropIndexDistinct
+}
+JSONMinidynDropIndex <.. JSONBaseDropIndex
+JSONMinidynDropIndex <.. JSONMinidynDropIndexDistinct
+
+
+class JSONMinidynDropIndexDistinct {
+  <<interface>>
+  version: 1
+  type: MinidynDropType
+}
+
+
+
+class JSONMachineDropIndex {
+  <<type>>
+  | JSONHeavydynDropIndex   | JSONMaxidynDropIndex   | JSONMinidynDropIndex
+}
+JSONMachineDropIndex <.. JSONHeavydynDropIndex
+JSONMachineDropIndex <.. JSONMaxidynDropIndex
+JSONMachineDropIndex <.. JSONMinidynDropIndex
+
+
+class JSONMachineDrop {
+  <<type>>
+  JSONHeavydynDrop | JSONMaxidynDrop | JSONMinidynDrop
+}
+JSONMachineDrop <.. JSONHeavydynDrop
+JSONMachineDrop <.. JSONMaxidynDrop
+JSONMachineDrop <.. JSONMinidynDrop
+
+
+class JSONFieldVAny {
+  <<type>>
+  JSONField
+}
+JSONFieldVAny <.. JSONField
+
+
+class JSONField {
+  <<interface>>
+  version: 1
+  label: string
+  value: boolean | number | string
+  settings: JSONFieldSettings
+}
+JSONField <.. JSONFieldSettings
+
+
+class JSONFieldSettings {
+  <<interface>>
+  version: 1
+  readOnly?: true
+}
+
+
+
+class JSONHeavydynUnits {
+  <<type>>
+  HeavydynUnitsSkeleton#60;   JSONMathUnit#60;PossibleHeavydynDeflectionUnits#62;,   JSONMathUnit#60;PossibleHeavydynForceUnits#62;,   JSONMathUnit#60;PossibleHeavydynTemperatureUnits#62;,   JSONMathUnit#60;PossibleHeavydynDistanceUnits#62;,   JSONMathUnit#60;PossibleHeavydynTimeUnits#62; #62;
+}
+JSONHeavydynUnits <.. JSONMathUnit~PossibleUnits~
+
+
+class JSONMaxidynUnits {
+  <<type>>
+  MaxidynUnitsSkeleton#60;   JSONMathUnit#60;PossibleMaxidynModulusUnits#62;,   JSONMathUnit#60;PossibleMaxidynStiffnessUnits#62;,   JSONMathUnit#60;PossibleMaxidynDeflectionUnits#62;,   JSONMathUnit#60;PossibleMaxidynForceUnits#62;,   JSONMathUnit#60;PossibleMaxidynDistanceUnits#62;,   JSONMathUnit#60;PossibleMaxidynTimeUnits#62;,   JSONMathUnit#60;PossibleMaxidynPercentageUnits#62; #62;
+}
+JSONMaxidynUnits <.. JSONMathUnit~PossibleUnits~
+
+
+class JSONMinidynUnits {
+  <<type>>
+  MinidynUnitsSkeleton#60;   JSONMathUnit#60;PossibleMinidynModulusUnits#62;,   JSONMathUnit#60;PossibleMinidynStiffnessUnits#62;,   JSONMathUnit#60;PossibleMinidynDeflectionUnits#62;,   JSONMathUnit#60;PossibleMinidynForceUnits#62;,   JSONMathUnit#60;PossibleMinidynTimeUnits#62;,   JSONMathUnit#60;PossibleMinidynPercentageUnits#62; #62;
+}
+JSONMinidynUnits <.. JSONMathUnit~PossibleUnits~
+
+
+class JSONMathUnit~PossibleUnits~ {
+  <<interface>>
+  version: 1
+  currentUnit: PossibleUnits
+  currentPrecision: number
+  max: number
+  min?: number
+}
+
+
+
+class JSONOverlay {
+  <<interface>>
+  version: 1
+  name: string
+  opacity?: number
+  coordinates?: #123;     nw: LngLat     se: LngLat   #125;
+}
+
+
+
+class JSONBasePointVAny {
+  <<type>>
+  JSONBasePoint
+}
+JSONBasePointVAny <.. JSONBasePoint
+
+
+class JSONBasePoint {
+  <<interface>>
+  version: 1
+  id: string
+  number: number
+  index: number
+  date: string
+  coordinates: mapboxgl.LngLatLike
+  data: JSONDataValue[]
+  settings: JSONPointSettings
+  information: JSONField[]
+  drops: JSONMachineDrop[]
+}
+JSONBasePoint <.. JSONDataValue
+JSONBasePoint <.. JSONPointSettings
+JSONBasePoint <.. JSONField
+JSONBasePoint <.. JSONMachineDrop
+
+
+class JSONPointSettings {
+  <<interface>>
+  version: 1
+  isVisible: boolean
+}
+
+
+
+class JSONHeavydynPointVAny {
+  <<type>>
+  JSONHeavydynPoint
+}
+JSONHeavydynPointVAny <.. JSONHeavydynPoint
+
+
+class JSONHeavydynPoint {
+  <<interface>>
+  version: 1
+  base: JSONBasePoint
+  distinct: JSONHeavydynPointDistinct
+}
+JSONHeavydynPoint <.. JSONBasePoint
+JSONHeavydynPoint <.. JSONHeavydynPointDistinct
+
+
+class JSONHeavydynPointDistinct {
+  <<interface>>
+  version: 1
+}
+
+
+
+class JSONMaxidynPointVAny {
+  <<type>>
+  JSONMaxidynPoint
+}
+JSONMaxidynPointVAny <.. JSONMaxidynPoint
+
+
+class JSONMaxidynPoint {
+  <<interface>>
+  version: 1
+  base: JSONBasePoint
+  distinct: JSONMaxidynPointDistinct
+}
+JSONMaxidynPoint <.. JSONBasePoint
+JSONMaxidynPoint <.. JSONMaxidynPointDistinct
+
+
+class JSONMaxidynPointDistinct {
+  <<interface>>
+  version: 1
+}
+
+
+
+class JSONMinidynPointVAny {
+  <<type>>
+  JSONMinidynPoint
+}
+JSONMinidynPointVAny <.. JSONMinidynPoint
+
+
+class JSONMinidynPoint {
+  <<interface>>
+  version: 1
+  base: JSONBasePoint
+  distinct: JSONMinidynPointDistinct
+}
+JSONMinidynPoint <.. JSONBasePoint
+JSONMinidynPoint <.. JSONMinidynPointDistinct
+
+
+class JSONMinidynPointDistinct {
+  <<interface>>
+  version: 1
+}
+
+
+
+class JSONMachinePoint {
+  <<type>>
+  JSONHeavydynPoint | JSONMaxidynPoint | JSONMinidynPoint
+}
+JSONMachinePoint <.. JSONHeavydynPoint
+JSONMachinePoint <.. JSONMaxidynPoint
+JSONMachinePoint <.. JSONMinidynPoint
+
+
+class JSONBaseProjectVAny {
+  <<type>>
+  JSONBaseProject
+}
+JSONBaseProjectVAny <.. JSONBaseProject
+
+
+class JSONBaseProject {
+  <<interface>>
+  version: 1
+  name: string
+  machine: MachineName
+  reports: SelectableList#60;number, JSONMachineReport#62;
+  settings: JSONProjectSettings
+  overlays: JSONOverlay[]
+  information: JSONField[]
+  hardware: JSONField[]
+  acquisitionParameters: JSONAcquisitionParameters
+}
+JSONBaseProject <.. JSONMachineReport
+JSONBaseProject <.. JSONProjectSettings
+JSONBaseProject <.. JSONOverlay
+JSONBaseProject <.. JSONField
+JSONBaseProject <.. JSONAcquisitionParameters
+
+
+class JSONProjectSettings {
+  <<interface>>
+  version: 1
+  arePointsVisible: boolean
+  arePointsLinked: boolean
+  arePointsLocked: boolean
+  areOverlaysVisible: boolean
+  pointsState: 'value' | 'number' | 'nothing'
+  map: #123;     version: 1     styleIndex: number     coordinates: LngLat | null     zoom: number | null   #125;
+}
+
+
+
+class JSONAcquisitionParameters {
+  <<interface>>
+  version: 1
+  nbSamples: number
+  frequency: number
+  preTrig: number
+  smoothing?: boolean
+}
+
+
+
+class JSONHeavydynProjectVAny {
+  <<type>>
+  JSONHeavydynProject
+}
+JSONHeavydynProjectVAny <.. JSONHeavydynProject
+
+
+class JSONHeavydynProject {
+  <<interface>>
+  version: 1
+  base: JSONBaseProject
+  distinct: JSONHeavydynProjectDistinct
+}
+JSONHeavydynProject <.. JSONBaseProject
+JSONHeavydynProject <.. JSONHeavydynProjectDistinct
+
+
+class JSONHeavydynProjectDistinct {
+  <<interface>>
+  version: 1
+  units: JSONHeavydynUnits
+  calibrations: JSONHeavydynCalibrations
+}
+JSONHeavydynProjectDistinct <.. JSONHeavydynUnits
+JSONHeavydynProjectDistinct <.. JSONHeavydynCalibrations
+
+
+class JSONHeavydynCalibrations {
+  <<interface>>
+  version: 1
+  date: string
+  dPlate: number
+  channels: JSONChannel[]
+  sensors: JSONSensor[]
+}
+JSONHeavydynCalibrations <.. JSONChannel
+JSONHeavydynCalibrations <.. JSONSensor
+
+
+class JSONChannel {
+  <<interface>>
+  version: 1
+  name: string
+  position: string
+  gain: number
+  acquisition: number
+  type: 'LoadCell' | 'Geophone'
+}
+
+
+
+class JSONSensor {
+  <<interface>>
+  version: 1
+  name: string
+  gain: number
+  type: 'AirTemp' | 'SurfTemp' | 'Dmi'
+}
+
+
+
+class JSONMaxidynProjectVAny {
+  <<type>>
+  JSONMaxidynProject
+}
+JSONMaxidynProjectVAny <.. JSONMaxidynProject
+
+
+class JSONMaxidynProject {
+  <<interface>>
+  version: 1
+  base: JSONBaseProject
+  distinct: JSONMaxidynProjectDistinct
+}
+JSONMaxidynProject <.. JSONBaseProject
+JSONMaxidynProject <.. JSONMaxidynProjectDistinct
+
+
+class JSONMaxidynProjectDistinct {
+  <<interface>>
+  version: 1
+  units: JSONMaxidynUnits
+  bearingParameters: JSONBearingParameters
+}
+JSONMaxidynProjectDistinct <.. JSONMaxidynUnits
+JSONMaxidynProjectDistinct <.. JSONBearingParameters
+
+
+class JSONMinidynProjectVAny {
+  <<type>>
+  JSONMinidynProject
+}
+JSONMinidynProjectVAny <.. JSONMinidynProject
+
+
+class JSONMinidynProject {
+  <<interface>>
+  version: 1
+  base: JSONBaseProject
+  distinct: JSONMinidynProjectDistinct
+}
+JSONMinidynProject <.. JSONBaseProject
+JSONMinidynProject <.. JSONMinidynProjectDistinct
+
+
+class JSONMinidynProjectDistinct {
+  <<interface>>
+  version: 1
+  units: JSONMinidynUnits
+  bearingParameters: JSONBearingParameters
+}
+JSONMinidynProjectDistinct <.. JSONMinidynUnits
+JSONMinidynProjectDistinct <.. JSONBearingParameters
+
+
+class JSONMachineProject {
+  <<type>>
+  | JSONHeavydynProject   | JSONMaxidynProject   | JSONMinidynProject
+}
+JSONMachineProject <.. JSONHeavydynProject
+JSONMachineProject <.. JSONMaxidynProject
+JSONMachineProject <.. JSONMinidynProject
+
+
+class JSONBearingParameters {
+  <<interface>>
+  version: 1
+  name: string
+  algoBearing: string
+  hasQuality: boolean
+  algoProcessing1: string
+  algoProcessing2: string
+  dPlate: number
+  cPoisson: number
+  fForme: number
+  k: number
+  alpha: number
+}
+
+
+
+class JSONBaseReportVAny {
+  <<type>>
+  JSONBaseReport
+}
+JSONBaseReportVAny <.. JSONBaseReport
+
+
+class JSONBaseReport {
+  <<interface>>
+  version: 1
+  name: string
+  zones: JSONMachineZone[]
+  settings: JSONReportSettings
+  screenshots: number[]
+  platform: JSONField[]
+  information: JSONField[]
+  dataLabels: JSONBaseReportDataLabels
+  thresholds: JSONBaseReportThresholds
+}
+JSONBaseReport <.. JSONMachineZone
+JSONBaseReport <.. JSONReportSettings
+JSONBaseReport <.. JSONField
+JSONBaseReport <.. JSONBaseReportDataLabels
+JSONBaseReport <.. JSONBaseReportThresholds
+
+
+class JSONBaseReportDataLabels {
+  <<interface>>
+  version: 1
+  table: SelectableList#60;number, JSONTableDataLabelsParameters#62;
+}
+JSONBaseReportDataLabels <.. JSONTableDataLabelsParameters
+
+
+class JSONTableDataLabelsParameters {
+  <<interface>>
+  version: 1
+  from: DataLabelsFrom
+  index?: number
+  dataLabels: string[]
+}
+
+
+
+class JSONBaseReportThresholds {
+  <<interface>>
+  version: 1
+  colors: JSONThresholdColors
+  inputs: JSONThresholdInputs
+}
+JSONBaseReportThresholds <.. JSONThresholdColors
+JSONBaseReportThresholds <.. JSONThresholdInputs
+
+
+class JSONThresholdColors {
+  <<interface>>
+  version: 1
+  low: ColorName
+  middle: ColorName
+  high: ColorName
+}
+
+
+
+class JSONThresholdInputs {
+  <<interface>>
+  version: 1
+  isRequiredARange: boolean
+  isOptionalARange: boolean
+}
+
+
+
+class JSONReportSettings {
+  <<interface>>
+  version: 1
+  iconName: IconName
+  isVisible: boolean
+  colorization: ReportColorization
+  groupBy: ReportGroupBy
+}
+
+
+
+class JSONHeavydynReportVAny {
+  <<type>>
+  JSONHeavydynReport
+}
+JSONHeavydynReportVAny <.. JSONHeavydynReport
+
+
+class JSONHeavydynReport {
+  <<interface>>
+  version: 1
+  base: JSONBaseReport
+  distinct: JSONHeavydynReportDistinct
+}
+JSONHeavydynReport <.. JSONBaseReport
+JSONHeavydynReport <.. JSONHeavydynReportDistinct
+
+
+class JSONHeavydynReportDistinct {
+  <<interface>>
+  version: 1
+  groupedDataLabels: SelectableList#60;     number,     JSONHeavydynGroupedDataLabels   #62;
+  thresholds: HeavydynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;
+}
+JSONHeavydynReportDistinct <.. JSONHeavydynGroupedDataLabels
+JSONHeavydynReportDistinct <.. JSONDistinctThresholdsConfiguration
+
+
+class JSONHeavydynGroupedDataLabels {
+  <<interface>>
+  version: 1
+  from: DataLabelsFrom
+  choices: SelectableList#60;number, JSONDataLabel#60;HeavydynUnitsNames#62;#62;
+  indexes?: SelectableList#60;number, JSONHeavydynDropIndex#62;
+}
+JSONHeavydynGroupedDataLabels <.. JSONDataLabel~T~
+JSONHeavydynGroupedDataLabels <.. JSONHeavydynDropIndex
+
+
+class JSONMaxidynReportVAny {
+  <<type>>
+  JSONMaxidynReport
+}
+JSONMaxidynReportVAny <.. JSONMaxidynReport
+
+
+class JSONMaxidynReport {
+  <<interface>>
+  version: 1
+  base: JSONBaseReport
+  distinct: JSONMaxidynReportDistinct
+}
+JSONMaxidynReport <.. JSONBaseReport
+JSONMaxidynReport <.. JSONMaxidynReportDistinct
+
+
+class JSONMaxidynReportDistinct {
+  <<interface>>
+  version: 1
+  groupedDataLabels: SelectableList#60;     number,     JSONMaxidynGroupedDataLabels   #62;
+  thresholds: MaxidynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;
+}
+JSONMaxidynReportDistinct <.. JSONMaxidynGroupedDataLabels
+JSONMaxidynReportDistinct <.. JSONDistinctThresholdsConfiguration
+
+
+class JSONMaxidynGroupedDataLabels {
+  <<interface>>
+  version: 1
+  from: DataLabelsFrom
+  choices: SelectableList#60;number, JSONDataLabel#60;MaxidynUnitsNames#62;#62;
+  indexes?: SelectableList#60;number, JSONMaxidynDropIndex#62;
+}
+JSONMaxidynGroupedDataLabels <.. JSONDataLabel~T~
+JSONMaxidynGroupedDataLabels <.. JSONMaxidynDropIndex
+
+
+class JSONMinidynReportVAny {
+  <<type>>
+  JSONMinidynReport
+}
+JSONMinidynReportVAny <.. JSONMinidynReport
+
+
+class JSONMinidynReport {
+  <<interface>>
+  version: 1
+  base: JSONBaseReport
+  distinct: JSONMinidynReportDistinct
+}
+JSONMinidynReport <.. JSONBaseReport
+JSONMinidynReport <.. JSONMinidynReportDistinct
+
+
+class JSONMinidynReportDistinct {
+  <<interface>>
+  version: 1
+  groupedDataLabels: SelectableList#60;     number,     JSONMinidynGroupedDataLabels   #62;
+  thresholds: MinidynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;
+}
+JSONMinidynReportDistinct <.. JSONMinidynGroupedDataLabels
+JSONMinidynReportDistinct <.. JSONDistinctThresholdsConfiguration
+
+
+class JSONMinidynGroupedDataLabels {
+  <<interface>>
+  version: 1
+  from: DataLabelsFrom
+  choices: SelectableList#60;number, JSONDataLabel#60;MinidynUnitsNames#62;#62;
+  indexes?: SelectableList#60;number, JSONMinidynDropIndex#62;
+}
+JSONMinidynGroupedDataLabels <.. JSONDataLabel~T~
+JSONMinidynGroupedDataLabels <.. JSONMinidynDropIndex
+
+
+class JSONMachineReport {
+  <<type>>
+  | JSONHeavydynReport   | JSONMaxidynReport   | JSONMinidynReport
+}
+JSONMachineReport <.. JSONHeavydynReport
+JSONMachineReport <.. JSONMaxidynReport
+JSONMachineReport <.. JSONMinidynReport
+
+
+class JSONMachineGroupedDataLabels {
+  <<type>>
+  | JSONHeavydynGroupedDataLabels   | JSONMaxidynGroupedDataLabels   | JSONMinidynGroupedDataLabels
+}
+JSONMachineGroupedDataLabels <.. JSONHeavydynGroupedDataLabels
+JSONMachineGroupedDataLabels <.. JSONMaxidynGroupedDataLabels
+JSONMachineGroupedDataLabels <.. JSONMinidynGroupedDataLabels
+
+
+class JSONCustomThreshold {
+  <<interface>>
+  version: 1
+  type: CustomThresholdType
+  value: number
+  valueHigh: number
+}
+
+
+
+class JSONDistinctThresholdsConfiguration {
+  <<interface>>
+  version: 1
+  selected: number
+  custom: JSONCustomThreshold
+}
+JSONDistinctThresholdsConfiguration <.. JSONCustomThreshold
+
+
+class JSONBaseZoneVAny {
+  <<type>>
+  JSONBaseZone
+}
+JSONBaseZoneVAny <.. JSONBaseZone
+
+
+class JSONBaseZone {
+  <<interface>>
+  version: 1
+  name: string
+  points: JSONMachinePoint[]
+  settings: JSONZoneSettings
+}
+JSONBaseZone <.. JSONMachinePoint
+JSONBaseZone <.. JSONZoneSettings
+
+
+class JSONZoneSettings {
+  <<interface>>
+  version: 1
+  color: ColorName
+  isVisible: boolean
+}
+
+
+
+class JSONHeavydynZoneVAny {
+  <<type>>
+  JSONHeavydynZone
+}
+JSONHeavydynZoneVAny <.. JSONHeavydynZone
+
+
+class JSONHeavydynZone {
+  <<interface>>
+  version: 1
+  base: JSONBaseZone
+  distinct: JSONHeavydynZoneDistinct
+}
+JSONHeavydynZone <.. JSONBaseZone
+JSONHeavydynZone <.. JSONHeavydynZoneDistinct
+
+
+class JSONHeavydynZoneDistinct {
+  <<interface>>
+  version: 1
+}
+
+
+
+class JSONMaxidynZoneVAny {
+  <<type>>
+  JSONMaxidynZone
+}
+JSONMaxidynZoneVAny <.. JSONMaxidynZone
+
+
+class JSONMaxidynZone {
+  <<interface>>
+  version: 1
+  base: JSONBaseZone
+  distinct: JSONMaxidynZoneDistinct
+}
+JSONMaxidynZone <.. JSONBaseZone
+JSONMaxidynZone <.. JSONMaxidynZoneDistinct
+
+
+class JSONMaxidynZoneDistinct {
+  <<interface>>
+  version: 1
+}
+
+
+
+class JSONMinidynZoneVAny {
+  <<type>>
+  JSONMinidynZone
+}
+JSONMinidynZoneVAny <.. JSONMinidynZone
+
+
+class JSONMinidynZone {
+  <<interface>>
+  version: 1
+  base: JSONBaseZone
+  distinct: JSONMinidynZoneDistinct
+}
+JSONMinidynZone <.. JSONBaseZone
+JSONMinidynZone <.. JSONMinidynZoneDistinct
+
+
+class JSONMinidynZoneDistinct {
+  <<interface>>
+  version: 1
+}
+
+
+
+class JSONMachineZone {
+  <<type>>
+  JSONHeavydynZone | JSONMaxidynZone | JSONMinidynZone
+}
+JSONMachineZone <.. JSONHeavydynZone
+JSONMachineZone <.. JSONMaxidynZone
+JSONMachineZone <.. JSONMinidynZone
+
+
+class AnyJSON {
+  <<interface>>
+  [key: string]: any
+}
+
+
+

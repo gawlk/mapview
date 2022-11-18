@@ -6,16 +6,16 @@
   <div class="space-y-6 text-gray-400">
     <p class="flex justify-center space-x-6">
       <a
-        href="mailto:incoming+isaan-mapview-dev-mapview2-23904966-issue-@incoming.gitlab.com"
         class="hover:text-gray-500"
+        href="mailto:incoming+isaan-mapview-dev-mapview2-23904966-issue-@incoming.gitlab.com"
       >
         <IconHeroiconsSolidExclamationCircle class="h-5 w-5" />
       </a>
       <a
+        class="hover:text-gray-500"
         href="https://gitlab.com/isaan/mapview-dev/mapview2"
         target="_blank"
         rel="noopener noreferrer"
-        class="hover:text-gray-500"
       >
         <IconTablerBrandGitlab class="h-5 w-5" />
       </a>

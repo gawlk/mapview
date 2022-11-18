@@ -1,0 +1,527 @@
+[
+  {
+    "name": "MinidynDropCreatorParameters",
+    "value": {
+      "point": "MinidynPoint"
+    },
+    "dependencies": [
+      "MinidynPoint"
+    ],
+    "extends": [
+      "MachineDropCreatorParameters"
+    ]
+  },
+  {
+    "name": "JSONMinidynDropVAny",
+    "value": "JSONMinidynDrop",
+    "dependencies": [
+      "JSONMinidynDrop"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynDrop",
+    "value": {
+      "version": "1",
+      "base": "JSONBaseDrop",
+      "distinct": "JSONMinidynDropDistinct"
+    },
+    "dependencies": [
+      "JSONBaseDrop",
+      "JSONMinidynDropDistinct"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynDropDistinct",
+    "value": {
+      "version": "1"
+    },
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynDropIndexVAny",
+    "value": "JSONMinidynDropIndex",
+    "dependencies": [
+      "JSONMinidynDropIndex"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynDropIndex",
+    "value": {
+      "version": "1",
+      "base": "JSONBaseDropIndex",
+      "distinct": "JSONMinidynDropIndexDistinct"
+    },
+    "dependencies": [
+      "JSONBaseDropIndex",
+      "JSONMinidynDropIndexDistinct"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynDropIndexDistinct",
+    "value": {
+      "version": "1",
+      "type": "MinidynDropType"
+    },
+    "dependencies": [
+      "MinidynDropType"
+    ],
+    "extends": []
+  },
+  {
+    "name": "MinidynDropType",
+    "value": "'Training' | 'Averaging'",
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "MinidynDrop",
+    "value": {
+      "index": "MinidynDropIndex",
+      "point": "MinidynPoint",
+      "toJSON": "#40;#41; =#62; JSONMinidynDrop"
+    },
+    "dependencies": [
+      "MinidynDropIndex",
+      "MinidynPoint"
+    ],
+    "extends": [
+      "BaseDrop"
+    ]
+  },
+  {
+    "name": "MinidynDropIndex",
+    "value": {
+      "machine": "'Minidyn'",
+      "type": "MinidynDropType",
+      "toJSON": "#40;#41; =#62; JSONMinidynDropIndex"
+    },
+    "dependencies": [
+      "MinidynDropType"
+    ],
+    "extends": [
+      "BaseDropIndex"
+    ]
+  },
+  {
+    "name": "MinidynUnitsSkeleton~A, B, C, D, E, F~",
+    "value": {
+      "modulus": "A",
+      "stiffness": "B",
+      "deflection": "C",
+      "force": "D",
+      "time": "E",
+      "percentage": "F"
+    },
+    "dependencies": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F"
+    ],
+    "extends": []
+  },
+  {
+    "name": "PossibleMinidynModulusUnits",
+    "value": "'MPa'",
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "PossibleMinidynStiffnessUnits",
+    "value": "'MN / m'",
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "PossibleMinidynDeflectionUnits",
+    "value": "'mm' | 'um'",
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "PossibleMinidynForceUnits",
+    "value": "'N' | 'kN'",
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "PossibleMinidynTimeUnits",
+    "value": "'s' | 'ms' | 'us'",
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "PossibleMinidynPercentageUnits",
+    "value": "'%'",
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynUnits",
+    "value": "MinidynUnitsSkeleton#60;   JSONMathUnit#60;PossibleMinidynModulusUnits#62;,   JSONMathUnit#60;PossibleMinidynStiffnessUnits#62;,   JSONMathUnit#60;PossibleMinidynDeflectionUnits#62;,   JSONMathUnit#60;PossibleMinidynForceUnits#62;,   JSONMathUnit#60;PossibleMinidynTimeUnits#62;,   JSONMathUnit#60;PossibleMinidynPercentageUnits#62; #62;",
+    "dependencies": [
+      "MinidynUnitsSkeleton",
+      "JSONMathUnit",
+      "PossibleMinidynModulusUnits",
+      "PossibleMinidynStiffnessUnits",
+      "PossibleMinidynDeflectionUnits",
+      "PossibleMinidynForceUnits",
+      "PossibleMinidynTimeUnits",
+      "PossibleMinidynPercentageUnits"
+    ],
+    "extends": []
+  },
+  {
+    "name": "MinidynMathUnits",
+    "value": "MinidynUnitsSkeleton#60;   MathUnit#60;PossibleMinidynModulusUnits#62;,   MathUnit#60;PossibleMinidynStiffnessUnits#62;,   MathUnit#60;PossibleMinidynDeflectionUnits#62;,   MathUnit#60;PossibleMinidynForceUnits#62;,   MathUnit#60;PossibleMinidynTimeUnits#62;,   MathUnit#60;PossibleMinidynPercentageUnits#62; #62;",
+    "dependencies": [
+      "MinidynUnitsSkeleton",
+      "MathUnit",
+      "PossibleMinidynModulusUnits",
+      "PossibleMinidynStiffnessUnits",
+      "PossibleMinidynDeflectionUnits",
+      "PossibleMinidynForceUnits",
+      "PossibleMinidynTimeUnits",
+      "PossibleMinidynPercentageUnits"
+    ],
+    "extends": []
+  },
+  {
+    "name": "MinidynUnitsNames",
+    "value": "keyof MinidynUnitsSkeleton#60;any#62;",
+    "dependencies": [
+      "MinidynUnitsSkeleton"
+    ],
+    "extends": []
+  },
+  {
+    "name": "MinidynPointCreatorParameters",
+    "value": {
+      "zone": "MinidynZone"
+    },
+    "dependencies": [
+      "MinidynZone"
+    ],
+    "extends": [
+      "MachinePointCreatorParameters"
+    ]
+  },
+  {
+    "name": "JSONMinidynPointVAny",
+    "value": "JSONMinidynPoint",
+    "dependencies": [
+      "JSONMinidynPoint"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynPoint",
+    "value": {
+      "version": "1",
+      "base": "JSONBasePoint",
+      "distinct": "JSONMinidynPointDistinct"
+    },
+    "dependencies": [
+      "JSONBasePoint",
+      "JSONMinidynPointDistinct"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynPointDistinct",
+    "value": {
+      "version": "1"
+    },
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "MinidynPoint",
+    "value": {
+      "machine": "'Minidyn'",
+      "drops": "MinidynDrop[]",
+      "zone": "MinidynZone",
+      "toJSON": "#40;#41; =#62; JSONMinidynPoint"
+    },
+    "dependencies": [
+      "MinidynDrop",
+      "MinidynZone"
+    ],
+    "extends": [
+      "BasePoint"
+    ]
+  },
+  {
+    "name": "JSONMinidynProjectVAny",
+    "value": "JSONMinidynProject",
+    "dependencies": [
+      "JSONMinidynProject"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynProject",
+    "value": {
+      "version": "1",
+      "base": "JSONBaseProject",
+      "distinct": "JSONMinidynProjectDistinct"
+    },
+    "dependencies": [
+      "JSONBaseProject",
+      "JSONMinidynProjectDistinct"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynProjectDistinct",
+    "value": {
+      "version": "1",
+      "units": "JSONMinidynUnits",
+      "bearingParameters": "JSONBearingParameters"
+    },
+    "dependencies": [
+      "JSONMinidynUnits",
+      "JSONBearingParameters"
+    ],
+    "extends": []
+  },
+  {
+    "name": "MinidynProject",
+    "value": {
+      "machine": "'Minidyn'",
+      "reports": "SelectableList#60;MinidynReport#62;",
+      "units": "MinidynMathUnits",
+      "bearingParameters": "JSONBearingParameters",
+      "toJSON": "#40;#41; =#62; JSONMinidynProject"
+    },
+    "dependencies": [
+      "SelectableList",
+      "MinidynReport",
+      "MinidynMathUnits",
+      "JSONBearingParameters"
+    ],
+    "extends": [
+      "BaseProject"
+    ]
+  },
+  {
+    "name": "MinidynReportCreatorParameters",
+    "value": {
+      "project": "MinidynProject"
+    },
+    "dependencies": [
+      "MinidynProject"
+    ],
+    "extends": [
+      "MachineReportCreatorParameters"
+    ]
+  },
+  {
+    "name": "JSONMinidynReportVAny",
+    "value": "JSONMinidynReport",
+    "dependencies": [
+      "JSONMinidynReport"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynReport",
+    "value": {
+      "version": "1",
+      "base": "JSONBaseReport",
+      "distinct": "JSONMinidynReportDistinct"
+    },
+    "dependencies": [
+      "JSONBaseReport",
+      "JSONMinidynReportDistinct"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynReportDistinct",
+    "value": {
+      "version": "1",
+      "groupedDataLabels": "SelectableList#60;     number,     JSONMinidynGroupedDataLabels   #62;",
+      "thresholds": "MinidynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;"
+    },
+    "dependencies": [
+      "SelectableList",
+      "JSONMinidynGroupedDataLabels",
+      "MinidynUnitsSkeleton",
+      "JSONDistinctThresholdsConfiguration"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynGroupedDataLabels",
+    "value": {
+      "version": "1",
+      "from": "DataLabelsFrom",
+      "choices": "SelectableList#60;number, JSONDataLabel#60;MinidynUnitsNames#62;#62;",
+      "indexes?": "SelectableList#60;number, JSONMinidynDropIndex#62;"
+    },
+    "dependencies": [
+      "DataLabelsFrom",
+      "SelectableList",
+      "JSONDataLabel",
+      "MinidynUnitsNames",
+      "JSONMinidynDropIndex"
+    ],
+    "extends": []
+  },
+  {
+    "name": "MinidynReport",
+    "value": {
+      "machine": "'Minidyn'",
+      "zones": "MinidynZone[]",
+      "dataLabels": "MinidynReportDataLabels",
+      "thresholds": "MinidynReportThresholds",
+      "project": "MinidynProject",
+      "toJSON": "#40;#41; =#62; JSONMinidynReport"
+    },
+    "dependencies": [
+      "MinidynZone",
+      "MinidynReportDataLabels",
+      "MinidynReportThresholds",
+      "MinidynProject"
+    ],
+    "extends": [
+      "BaseReport"
+    ]
+  },
+  {
+    "name": "MinidynReportDataLabels",
+    "value": {
+      "groups": "SelectableList#60;MinidynGroupedDataLabels#62;",
+      "table": "SelectableList#60;MinidynTableDataLabelsParameters#62;"
+    },
+    "dependencies": [
+      "SelectableList",
+      "MinidynGroupedDataLabels",
+      "MinidynTableDataLabelsParameters"
+    ],
+    "extends": [
+      "BaseReportDataLabels"
+    ]
+  },
+  {
+    "name": "MinidynGroupedDataLabels",
+    "value": {
+      "indexes?": "SelectableList#60;MinidynDropIndex#62;"
+    },
+    "dependencies": [
+      "SelectableList",
+      "MinidynDropIndex"
+    ],
+    "extends": [
+      "BaseGroupedDataLabels"
+    ]
+  },
+  {
+    "name": "MinidynTableDataLabelsParameters",
+    "value": {
+      "group": "MinidynGroupedDataLabels",
+      "index?": "MinidynDropIndex"
+    },
+    "dependencies": [
+      "MinidynGroupedDataLabels",
+      "MinidynDropIndex"
+    ],
+    "extends": [
+      "BaseTableDataLabelsParameters"
+    ]
+  },
+  {
+    "name": "MinidynReportThresholds",
+    "value": {
+      "groups": "MinidynReportThresholdsGroups"
+    },
+    "dependencies": [
+      "MinidynReportThresholdsGroups"
+    ],
+    "extends": [
+      "BaseReportThresholds"
+    ]
+  },
+  {
+    "name": "MinidynReportThresholdsGroups",
+    "value": "MinidynUnitsSkeleton#60;   GroupedThresolds#60;string#62; #62;",
+    "dependencies": [
+      "MinidynUnitsSkeleton",
+      "GroupedThresolds"
+    ],
+    "extends": []
+  },
+  {
+    "name": "MinidynZoneCreatorParameters",
+    "value": {
+      "report": "MinidynReport"
+    },
+    "dependencies": [
+      "MinidynReport"
+    ],
+    "extends": [
+      "MachineZoneCreatorParameters"
+    ]
+  },
+  {
+    "name": "JSONMinidynZoneVAny",
+    "value": "JSONMinidynZone",
+    "dependencies": [
+      "JSONMinidynZone"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynZone",
+    "value": {
+      "version": "1",
+      "base": "JSONBaseZone",
+      "distinct": "JSONMinidynZoneDistinct"
+    },
+    "dependencies": [
+      "JSONBaseZone",
+      "JSONMinidynZoneDistinct"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynZoneDistinct",
+    "value": {
+      "version": "1"
+    },
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "MinidynZone",
+    "value": {
+      "machine": "'Minidyn'",
+      "points": "MinidynPoint[]",
+      "toJSON": "#40;#41; =#62; JSONMinidynZone"
+    },
+    "dependencies": [
+      "MinidynPoint"
+    ],
+    "extends": [
+      "BaseZone"
+    ]
+  },
+  {
+    "name": "MinidynExporter",
+    "value": {
+      "export": "#40;project: MinidynProject#41; =#62; Promise#60;File#62;"
+    },
+    "dependencies": [],
+    "extends": [
+      "Exporter"
+    ]
+  }
+]

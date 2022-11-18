@@ -55,6 +55,7 @@
 <template>
   <div :class="[props.full ? 'w-full' : '']">
     <Button
+      class="h-full"
       @click="open"
       :leftIcon="props.leftIcon"
       :icon="props.icon"
@@ -63,15 +64,14 @@
       :red="props.red"
       :orange="props.orange"
       :full="props.full"
-      class="h-full"
     >
       <slot name="button" />
     </Button>
     <TransitionRoot appear :show="props.isOpen" as="template">
       <HeadlessDialog
+        class="fixed inset-0 z-10 min-h-screen overflow-y-auto text-center"
         as="div"
         @close="close"
-        class="fixed inset-0 z-10 min-h-screen overflow-y-auto text-center"
       >
         <TransitionChild
           as="template"
@@ -101,7 +101,7 @@
           <div
             class="inline-flex min-h-full w-full transform flex-col justify-center space-y-8 bg-white p-4 text-left align-middle shadow-xl transition-all sm:my-8 sm:min-h-0 sm:max-w-lg sm:rounded-2xl sm:border-2 sm:border-gray-100 sm:p-8"
           >
-            <DialogTitle as="h3" class="pl-4 text-2xl font-medium leading-6">
+            <DialogTitle class="pl-4 text-2xl font-medium leading-6" as="h3">
               {{ props.title }}
             </DialogTitle>
 

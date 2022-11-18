@@ -19,7 +19,7 @@
     <Logo />
 
     <Initializer v-if="!store.projects.selected" />
-    <div v-else class="space-y-8">
+    <div class="space-y-8" v-else>
       <div v-for="menu in props.menus" :key="menu.name">
         <MenuWrapperDesktop
           v-if="

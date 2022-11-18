@@ -45,7 +45,8 @@
       />
       <Input
         :id="`threshold-input-${label}`"
-        @input="(value) => emit('input', Number(value))"
+        @input="(value) => props.isRange && emit('input', Number(value))"
+        @focusout="(event: Event) => props.isRange || emit('input', Number((event.target as HTMLInputElement).value))"
         :value="convertValue(props.value)"
         :type="props.isRange ? 'range' : 'number'"
         :step="10 ** (props.unit.currentPrecision * -1)"

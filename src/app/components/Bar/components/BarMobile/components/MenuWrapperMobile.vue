@@ -15,6 +15,7 @@
 
 <template>
   <button
+    class="flex w-full flex-col items-center justify-center p-2 text-gray-400 focus:outline-none"
     @click="emit('click')"
     :class="[
       props.disabled
@@ -22,9 +23,8 @@
         : 'cursor-pointer hover:text-gray-600',
       props.opened && 'text-gray-600',
     ]"
-    class="flex w-full flex-col items-center justify-center p-2 text-gray-400 focus:outline-none"
   >
-    <component :is="props.icon" class="h-5 w-5" />
+    <component class="h-5 w-5" :is="props.icon" />
     <span class="text-xs font-medium leading-6">
       {{ props.name }}
     </span>
@@ -41,8 +41,8 @@
     >
       <div class="select-none p-1">
         <hr
-          @click="emit('click')"
           class="mx-auto w-1/6 cursor-pointer rounded-full border-2 border-gray-200"
+          @click="emit('click')"
         />
       </div>
 

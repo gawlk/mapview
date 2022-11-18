@@ -63,19 +63,19 @@
 <template>
   <div class="flex space-x-2">
     <Popover
+      class="flex-1"
       :icon="IconViewList"
       :preText="`${t('Selected')}${t(':')}`"
       hidePreTextOnMobile
       :buttonText="`${store.projects.selected?.name.value} - ${store.projects.selected?.machine}`"
       full
-      class="flex-1"
     >
       <div
+        class="flex space-x-1 truncate"
         v-for="(name, index) of store.projects.list.map(
           (project) => `${project.name.value} - ${project.machine}`
         )"
         :key="name"
-        class="flex space-x-1 truncate"
       >
         <Button
           :leftIcon="IconZoomIn"
@@ -88,20 +88,20 @@
       </div>
     </Popover>
     <Button
+      class="hidden sm:block"
       @click="inputFile.click()"
       :icon="IconPlus"
-      class="hidden sm:block"
     />
     <input
+      class="hidden"
       @change="(event) => addProject((event.target as HTMLInputElement).files?.[0])"
       :accept="acceptedExtensions"
       type="file"
       ref="inputFile"
-      class="hidden"
     />
     <Dialog
-      :isOpen="state.isOpen"
       v-if="store.projects.list.length > 1"
+      :isOpen="state.isOpen"
       :title="t('Delete project')"
       :icon="IconTrash"
       red
@@ -118,11 +118,11 @@
     </Dialog>
   </div>
   <Button
+    class="sm:hidden"
     @click="inputFile.click()"
     :leftIcon="IconArchive"
     :rightIcon="IconPlus"
     full
-    class="sm:hidden"
   >
     {{ t('Add a project') }}
   </Button>

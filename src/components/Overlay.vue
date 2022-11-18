@@ -31,8 +31,8 @@
 <template>
   <TransitionRoot appear :show="state.isOpen" as="template">
     <HeadlessDialog
-      as="div"
       class="fixed inset-0 z-10 min-h-screen overflow-y-auto text-center"
+      as="div"
     >
       <TransitionChild
         as="template"

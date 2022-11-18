@@ -2,7 +2,6 @@ import favicons from '@darkobits/vite-plugin-favicons'
 import i18n from '@intlify/vite-plugin-vue-i18n'
 import vue from '@vitejs/plugin-vue'
 import autoprefixer from 'autoprefixer'
-import analyze from 'rollup-plugin-analyzer'
 import tailwindcss from 'tailwindcss'
 import { viteTS2Mermaid } from 'ts2mermaid'
 import autoImport from 'unplugin-auto-import/vite'
@@ -81,68 +80,35 @@ export default defineConfig({
 
     VitePWA({}),
 
-    analyze({
-      summaryOnly: true,
-    }),
-
     viteTS2Mermaid({
       global: {
         pathToSave: 'docs/mermaid',
       },
       list: [
         {
-          name: 'labelsAndLists',
-          include: [/GroupedDataLabels/, /[L|l]ist/],
+          name: 'Objects',
+          exclude: [/JSON/],
         },
-        // {
-        //   name: 'all',
-        // },
-        // {
-        //   name: 'allWithoutDependencies',
-        //   hideDependencies: true,
-        // },
-        // {
-        //   name: 'allWithoutExtends',
-        //   hideExtends: true,
-        // },
-        // {
-        //   name: 'allInterfaces',
-        //   hideTypes: true,
-        // },
-        // {
-        //   name: 'allTypes',
-        //   hideInterfaces: true,
-        // },
-        // {
-        //   name: 'onlyHeavydyn',
-        //   include: [/[H|h]eavydyn/],
-        // },
-        // {
-        //   name: 'onlyMaxidyn',
-        //   include: [/[M|m]axidyn/],
-        // },
-        // {
-        //   name: 'onlyMinidyn',
-        //   include: [/[M|m]inidyn/],
-        // },
-        // {
-        //   name: 'onlyMachines',
-        //   include: [
-        //     /[H|h]eavydyn/,
-        //     /[M|m]axidyn/,
-        //     /[M|m]inidyn/,
-        //     /[M|m]achine/,
-        //   ],
-        // },
-        // {
-        //   name: 'exceptMachines',
-        //   exclude: [
-        //     /[H|h]eavydyn/,
-        //     /[M|m]axidyn/,
-        //     /[M|m]inidyn/,
-        //     /[M|m]achine/,
-        //   ],
-        // },
+        {
+          name: 'JSONs',
+          include: [/JSON/],
+        },
+        {
+          name: 'Heavydyn',
+          include: [/Heavydyn/],
+        },
+        {
+          name: 'Maxidyn',
+          include: [/Maxidyn/],
+        },
+        {
+          name: 'Minidyn',
+          include: [/Minidyn/],
+        },
+        {
+          name: 'Base',
+          include: [/Base/],
+        },
       ],
     }),
   ],

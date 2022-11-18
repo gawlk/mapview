@@ -38,7 +38,7 @@
     @close="() => (state.isOpen = false)"
   >
     <template v-slot:button>
-      {{ t('Export the report') }}
+      {{ t('Export report') }}
     </template>
     <template v-slot:dialog>
       <div class="space-y-2">
@@ -70,5 +70,5 @@
 
 <i18n lang="yaml">
 fr:
-  'Export the report': 'Exporter le rapport'
+  'Export report': 'Exporter le rapport'
 </i18n>

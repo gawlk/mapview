@@ -28,8 +28,8 @@
 <template>
   <Overlay :isOpen="!!props.image">
     <img
-      :src="state.image"
       class="max-h-[70vh] rounded-lg border-4 border-white"
+      :src="state.image"
     />
     <div class="flex space-x-4">
       <Button green @click="emit('save')">

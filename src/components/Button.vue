@@ -38,6 +38,7 @@
 
 <template>
   <button
+    class="group inline-flex items-center space-x-2 leading-6 transition-colors duration-200 focus:outline-none focus:ring"
     :disabled="props.disabled"
     :class="[
       props.xxl
@@ -82,34 +83,33 @@
         ? 'cursor-default opacity-75'
         : !props.as && 'cursor-pointer',
     ]"
-    class="group inline-flex items-center space-x-2 leading-6 transition-colors duration-200 focus:outline-none focus:ring"
   >
     <component
+      class="h-5 w-5 transition-colors duration-200"
       v-if="props.icon || props.leftIcon || props.rightIcon"
       :is="props.icon || props.leftIcon || 'span'"
       :class="iconsClasses || iconsColors"
-      class="h-5 w-5 transition-colors duration-200"
     />
     <span
-      v-else-if="props.leftHTMLIcon"
       class="h-5 w-5 transition-colors duration-200"
+      v-else-if="props.leftHTMLIcon"
       v-html="props.leftHTMLIcon"
     />
     <span
+      class="flex-1"
       v-if="!props.icon"
       :class="[
         props.centered ? 'text-center' : 'text-left',
         props.truncate && 'truncate',
       ]"
-      class="flex-1"
     >
       <slot />
     </span>
     <component
+      class="h-5 w-5 transition-colors duration-200"
       v-if="props.rightIcon"
       :is="props.rightIcon || 'span'"
       :class="iconsClasses || iconsColors"
-      class="h-5 w-5 transition-colors duration-200"
     />
   </button>
 </template>

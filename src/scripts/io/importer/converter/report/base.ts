@@ -35,8 +35,8 @@ export const convertPRJZToBaseReport = (
       })(),
       inputs: {
         version: 1,
-        isRequiredARange: false,
-        isOptionalARange: false,
+        isRequiredARange: true,
+        isOptionalARange: true,
       },
     },
     zones: [

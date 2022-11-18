@@ -80,10 +80,10 @@
 <template>
   <div class="flex space-x-2">
     <div
+      class="flex w-full space-x-2"
       v-if="
         (store.projects.selected?.reports.selected?.screenshots.length || 0) > 0
       "
-      class="flex w-full space-x-2"
     >
       <Button
         :leftIcon="IconPhotograph"
@@ -117,11 +117,11 @@
       {{ t('Import an image') }}
     </Button>
     <input
+      class="hidden"
       @change="importScreenshots(($event.target as HTMLInputElement).files)"
       accept="image/png, image/jpeg"
       type="file"
       ref="file"
-      class="hidden"
       multiple
     />
     <OverlayScreenshot
@@ -130,8 +130,8 @@
       @save="save"
     />
     <div
-      v-if="state.screenshooting"
       class="fixed inset-0 z-50 bg-black bg-opacity-10"
+      v-if="state.screenshooting"
     />
   </div>
 </template>

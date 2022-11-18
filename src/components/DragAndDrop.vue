@@ -30,12 +30,12 @@
 <template>
   <div>
     <div
-      :class="state.dragging ? 'bg-gray-200' : 'bg-gray-100'"
       class="group relative hidden h-[55vh] w-full cursor-pointer items-center justify-center rounded-lg p-1.5 transition-colors duration-200 hover:bg-gray-200 lg:block"
+      :class="state.dragging ? 'bg-gray-200' : 'bg-gray-100'"
     >
       <div
-        :class="state.dragging ? 'border-gray-400' : 'border-gray-300'"
         class="font-gray-900 flex h-full w-full items-center justify-center rounded-lg border-[3px] border-dashed text-sm font-medium transition-colors duration-200 group-hover:border-gray-400"
+        :class="state.dragging ? 'border-gray-400' : 'border-gray-300'"
       >
         <div class="space-y-4">
           <IconHeroiconsOutlineDocumentAdd
@@ -46,27 +46,27 @@
       </div>
 
       <div
+        class="absolute inset-0 h-full w-full"
         @click="file.click()"
         @dragenter="state.dragging = true"
         @dragleave="state.dragging = false"
         @dragover.prevent
         @drop.stop.prevent="drop($event.dataTransfer)"
-        class="absolute inset-0 h-full w-full"
       />
 
       <input
+        class="hidden"
         @change="emit('input', ($event.target as HTMLInputElement).files)"
         :accept="props.accept"
         type="file"
         ref="file"
-        class="hidden"
       />
     </div>
     <Button
+      class="lg:hidden"
       @click="file.click()"
       full
       :leftIcon="IconSolidDocumentAdd"
-      class="lg:hidden"
     >
       {{ props.buttonText }}
     </Button>

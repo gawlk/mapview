@@ -13,5 +13,5 @@
 </script>
 
 <template>
-  <div id="map" class="h-full w-full" />
+  <div class="h-full w-full" id="map" />
 </template>

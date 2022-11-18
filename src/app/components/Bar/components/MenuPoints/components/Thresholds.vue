@@ -71,9 +71,9 @@
 
 <template>
   <div
+    class="space-y-2"
     v-if="selectedReport && typeof selectedUnit === 'object'"
     :icon="IconFold"
-    class="space-y-2"
   >
     <Listbox
       :icon="IconViewList"
@@ -166,11 +166,11 @@
         "
     />
     <div
+      class="space-y-2"
       v-if="
         currentGroupedThresholds?.choices.selected?.kind === 'custom' &&
         currentGroupedThresholds.choices.selected.type !== 'Bicolor'
       "
-      class="space-y-2"
     >
       <ListboxColors
         v-if="currentGroupedThresholds.choices.selected.type === 'Tricolor'"

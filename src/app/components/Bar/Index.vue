@@ -66,6 +66,6 @@
 </script>
 
 <template>
-  <BarDesktop :menus="menus" class="hidden lg:block" />
-  <BarMobile :menus="menus" class="lg:hidden" />
+  <BarDesktop class="hidden lg:block" :menus="menus" />
+  <BarMobile class="lg:hidden" :menus="menus" />
 </template>

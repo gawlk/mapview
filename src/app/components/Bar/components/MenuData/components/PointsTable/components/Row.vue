@@ -63,14 +63,14 @@
 <template>
   <tr class="odd:bg-gray-100">
     <td
-      v-if="selectedReport?.settings.groupBy === 'Number'"
       class="border-2 border-gray-100 bg-gray-100 px-1 text-right"
+      v-if="selectedReport?.settings.groupBy === 'Number'"
     >
-      <Button sm :icon="IconHand" class="handle" />
+      <Button class="handle" sm :icon="IconHand" />
     </td>
     <td
-      v-if="selectedReport && selectedReport.zones.length > 1"
       class="border-2 border-gray-100 bg-gray-100 px-1 text-right"
+      v-if="selectedReport && selectedReport.zones.length > 1"
     >
       <Select
         sm
@@ -80,6 +80,7 @@
       />
     </td>
     <td
+      class="cursor-pointer border-2 border-gray-100 px-2 text-right font-bold"
       @click="
         store.map?.flyTo({
           center: point.marker?.getLngLat(),
@@ -87,12 +88,12 @@
         })
       "
       :style="`background-color: ${point.icon?.color}44`"
-      class="cursor-pointer border-2 border-gray-100 px-2 text-right font-bold"
       :class="[!props.point.settings.isVisible && 'italic opacity-50']"
     >
       {{ props.point.number }}
     </td>
     <td
+      class="whitespace-nowrap border-2 border-gray-100 px-2 text-right"
       v-for="dataLabel of selectedTableDataLabelsParameters?.dataLabels"
       :class="[!props.point.settings.isVisible && 'italic opacity-50']"
       @click="
@@ -107,7 +108,6 @@
           ? '88'
           : '44'
       };`"
-      class="whitespace-nowrap border-2 border-gray-100 px-2 text-right"
     >
       {{
         groupFrom &&

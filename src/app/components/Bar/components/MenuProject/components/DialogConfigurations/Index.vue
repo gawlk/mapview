@@ -42,11 +42,11 @@
         </h4>
         <div class="space-y-4">
           <div
+            class="space-y-1"
             v-for="unit in (Object.values(
               store.projects.selected?.units || {}
             ).filter((unit) => !unit.readOnly) as MathUnit<string>[])"
             :key="unit.name"
-            class="space-y-1"
           >
             <h5 class="pl-4 font-medium text-gray-700">
               {{ t(unit.name) }}

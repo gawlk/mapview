@@ -1,0 +1,1201 @@
+[
+  {
+    "name": "JSONDataLabelVAny~T~",
+    "value": "JSONDataLabel#60;T#62;",
+    "dependencies": [
+      "JSONDataLabel",
+      "T"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONDataLabel~T~",
+    "value": {
+      "version": "1",
+      "name": "string",
+      "unit": "T"
+    },
+    "dependencies": [
+      "T"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONDataValueVAny",
+    "value": "JSONDataValue",
+    "dependencies": [
+      "JSONDataValue"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONDataValue",
+    "value": {
+      "version": "1",
+      "label": "string",
+      "value": "number"
+    },
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "JSONBaseDropVAny",
+    "value": "JSONBaseDrop",
+    "dependencies": [
+      "JSONBaseDrop"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONBaseDrop",
+    "value": {
+      "version": "1",
+      "index": "number",
+      "data": "JSONDataValue[]"
+    },
+    "dependencies": [
+      "JSONDataValue"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONBaseDropIndexVAny",
+    "value": "JSONBaseDropIndex",
+    "dependencies": [
+      "JSONBaseDropIndex"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONBaseDropIndex",
+    "value": {
+      "version": "1",
+      "displayedIndex": "number"
+    },
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynDropVAny",
+    "value": "JSONHeavydynDrop",
+    "dependencies": [
+      "JSONHeavydynDrop"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynDrop",
+    "value": {
+      "version": "1",
+      "base": "JSONBaseDrop",
+      "distinct": "JSONHeavydynDropDistinct"
+    },
+    "dependencies": [
+      "JSONBaseDrop",
+      "JSONHeavydynDropDistinct"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynDropDistinct",
+    "value": {
+      "version": "1"
+    },
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynDropIndexVAny",
+    "value": "JSONHeavydynDropIndex",
+    "dependencies": [
+      "JSONHeavydynDropIndex"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynDropIndex",
+    "value": {
+      "version": "1",
+      "base": "JSONBaseDropIndex",
+      "distinct": "JSONHeavydynDropIndexDistinct"
+    },
+    "dependencies": [
+      "JSONBaseDropIndex",
+      "JSONHeavydynDropIndexDistinct"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynDropIndexDistinct",
+    "value": {
+      "version": "1",
+      "type": "HeavydynDropType",
+      "value": "number",
+      "unit": "string"
+    },
+    "dependencies": [
+      "HeavydynDropType"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynDropVAny",
+    "value": "JSONMaxidynDrop",
+    "dependencies": [
+      "JSONMaxidynDrop"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynDrop",
+    "value": {
+      "version": "1",
+      "base": "JSONBaseDrop",
+      "distinct": "JSONMaxidynDropDistinct"
+    },
+    "dependencies": [
+      "JSONBaseDrop",
+      "JSONMaxidynDropDistinct"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynDropDistinct",
+    "value": {
+      "version": "1"
+    },
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynDropIndexVAny",
+    "value": "JSONMaxidynDropIndex",
+    "dependencies": [
+      "JSONMaxidynDropIndex"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynDropIndex",
+    "value": {
+      "version": "1",
+      "base": "JSONBaseDropIndex",
+      "distinct": "JSONMaxidynDropIndexDistinct"
+    },
+    "dependencies": [
+      "JSONBaseDropIndex",
+      "JSONMaxidynDropIndexDistinct"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynDropIndexDistinct",
+    "value": {
+      "version": "1",
+      "type": "MaxidynDropType"
+    },
+    "dependencies": [
+      "MaxidynDropType"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynDropVAny",
+    "value": "JSONMinidynDrop",
+    "dependencies": [
+      "JSONMinidynDrop"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynDrop",
+    "value": {
+      "version": "1",
+      "base": "JSONBaseDrop",
+      "distinct": "JSONMinidynDropDistinct"
+    },
+    "dependencies": [
+      "JSONBaseDrop",
+      "JSONMinidynDropDistinct"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynDropDistinct",
+    "value": {
+      "version": "1"
+    },
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynDropIndexVAny",
+    "value": "JSONMinidynDropIndex",
+    "dependencies": [
+      "JSONMinidynDropIndex"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynDropIndex",
+    "value": {
+      "version": "1",
+      "base": "JSONBaseDropIndex",
+      "distinct": "JSONMinidynDropIndexDistinct"
+    },
+    "dependencies": [
+      "JSONBaseDropIndex",
+      "JSONMinidynDropIndexDistinct"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynDropIndexDistinct",
+    "value": {
+      "version": "1",
+      "type": "MinidynDropType"
+    },
+    "dependencies": [
+      "MinidynDropType"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMachineDropIndex",
+    "value": "| JSONHeavydynDropIndex   | JSONMaxidynDropIndex   | JSONMinidynDropIndex",
+    "dependencies": [
+      "JSONHeavydynDropIndex",
+      "JSONMaxidynDropIndex",
+      "JSONMinidynDropIndex"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMachineDrop",
+    "value": "JSONHeavydynDrop | JSONMaxidynDrop | JSONMinidynDrop",
+    "dependencies": [
+      "JSONHeavydynDrop",
+      "JSONMaxidynDrop",
+      "JSONMinidynDrop"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONFieldVAny",
+    "value": "JSONField",
+    "dependencies": [
+      "JSONField"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONField",
+    "value": {
+      "version": "1",
+      "label": "string",
+      "value": "boolean | number | string",
+      "settings": "JSONFieldSettings"
+    },
+    "dependencies": [
+      "JSONFieldSettings"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONFieldSettings",
+    "value": {
+      "version": "1",
+      "readOnly?": "true"
+    },
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynUnits",
+    "value": "HeavydynUnitsSkeleton#60;   JSONMathUnit#60;PossibleHeavydynDeflectionUnits#62;,   JSONMathUnit#60;PossibleHeavydynForceUnits#62;,   JSONMathUnit#60;PossibleHeavydynTemperatureUnits#62;,   JSONMathUnit#60;PossibleHeavydynDistanceUnits#62;,   JSONMathUnit#60;PossibleHeavydynTimeUnits#62; #62;",
+    "dependencies": [
+      "HeavydynUnitsSkeleton",
+      "JSONMathUnit",
+      "PossibleHeavydynDeflectionUnits",
+      "PossibleHeavydynForceUnits",
+      "PossibleHeavydynTemperatureUnits",
+      "PossibleHeavydynDistanceUnits",
+      "PossibleHeavydynTimeUnits"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynUnits",
+    "value": "MaxidynUnitsSkeleton#60;   JSONMathUnit#60;PossibleMaxidynModulusUnits#62;,   JSONMathUnit#60;PossibleMaxidynStiffnessUnits#62;,   JSONMathUnit#60;PossibleMaxidynDeflectionUnits#62;,   JSONMathUnit#60;PossibleMaxidynForceUnits#62;,   JSONMathUnit#60;PossibleMaxidynDistanceUnits#62;,   JSONMathUnit#60;PossibleMaxidynTimeUnits#62;,   JSONMathUnit#60;PossibleMaxidynPercentageUnits#62; #62;",
+    "dependencies": [
+      "MaxidynUnitsSkeleton",
+      "JSONMathUnit",
+      "PossibleMaxidynModulusUnits",
+      "PossibleMaxidynStiffnessUnits",
+      "PossibleMaxidynDeflectionUnits",
+      "PossibleMaxidynForceUnits",
+      "PossibleMaxidynDistanceUnits",
+      "PossibleMaxidynTimeUnits",
+      "PossibleMaxidynPercentageUnits"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynUnits",
+    "value": "MinidynUnitsSkeleton#60;   JSONMathUnit#60;PossibleMinidynModulusUnits#62;,   JSONMathUnit#60;PossibleMinidynStiffnessUnits#62;,   JSONMathUnit#60;PossibleMinidynDeflectionUnits#62;,   JSONMathUnit#60;PossibleMinidynForceUnits#62;,   JSONMathUnit#60;PossibleMinidynTimeUnits#62;,   JSONMathUnit#60;PossibleMinidynPercentageUnits#62; #62;",
+    "dependencies": [
+      "MinidynUnitsSkeleton",
+      "JSONMathUnit",
+      "PossibleMinidynModulusUnits",
+      "PossibleMinidynStiffnessUnits",
+      "PossibleMinidynDeflectionUnits",
+      "PossibleMinidynForceUnits",
+      "PossibleMinidynTimeUnits",
+      "PossibleMinidynPercentageUnits"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMathUnit~PossibleUnits~",
+    "value": {
+      "version": "1",
+      "currentUnit": "PossibleUnits",
+      "currentPrecision": "number",
+      "max": "number",
+      "min?": "number"
+    },
+    "dependencies": [
+      "PossibleUnits"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONOverlay",
+    "value": {
+      "version": "1",
+      "name": "string",
+      "opacity?": "number",
+      "coordinates?": "#123;     nw: LngLat     se: LngLat   #125;"
+    },
+    "dependencies": [
+      "LngLat"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONBasePointVAny",
+    "value": "JSONBasePoint",
+    "dependencies": [
+      "JSONBasePoint"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONBasePoint",
+    "value": {
+      "version": "1",
+      "id": "string",
+      "number": "number",
+      "index": "number",
+      "date": "string",
+      "coordinates": "mapboxgl.LngLatLike",
+      "data": "JSONDataValue[]",
+      "settings": "JSONPointSettings",
+      "information": "JSONField[]",
+      "drops": "JSONMachineDrop[]"
+    },
+    "dependencies": [
+      "mapboxgl.LngLatLike",
+      "JSONDataValue",
+      "JSONPointSettings",
+      "JSONField",
+      "JSONMachineDrop"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONPointSettings",
+    "value": {
+      "version": "1",
+      "isVisible": "boolean"
+    },
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynPointVAny",
+    "value": "JSONHeavydynPoint",
+    "dependencies": [
+      "JSONHeavydynPoint"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynPoint",
+    "value": {
+      "version": "1",
+      "base": "JSONBasePoint",
+      "distinct": "JSONHeavydynPointDistinct"
+    },
+    "dependencies": [
+      "JSONBasePoint",
+      "JSONHeavydynPointDistinct"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynPointDistinct",
+    "value": {
+      "version": "1"
+    },
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynPointVAny",
+    "value": "JSONMaxidynPoint",
+    "dependencies": [
+      "JSONMaxidynPoint"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynPoint",
+    "value": {
+      "version": "1",
+      "base": "JSONBasePoint",
+      "distinct": "JSONMaxidynPointDistinct"
+    },
+    "dependencies": [
+      "JSONBasePoint",
+      "JSONMaxidynPointDistinct"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynPointDistinct",
+    "value": {
+      "version": "1"
+    },
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynPointVAny",
+    "value": "JSONMinidynPoint",
+    "dependencies": [
+      "JSONMinidynPoint"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynPoint",
+    "value": {
+      "version": "1",
+      "base": "JSONBasePoint",
+      "distinct": "JSONMinidynPointDistinct"
+    },
+    "dependencies": [
+      "JSONBasePoint",
+      "JSONMinidynPointDistinct"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynPointDistinct",
+    "value": {
+      "version": "1"
+    },
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "JSONMachinePoint",
+    "value": "JSONHeavydynPoint | JSONMaxidynPoint | JSONMinidynPoint",
+    "dependencies": [
+      "JSONHeavydynPoint",
+      "JSONMaxidynPoint",
+      "JSONMinidynPoint"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONBaseProjectVAny",
+    "value": "JSONBaseProject",
+    "dependencies": [
+      "JSONBaseProject"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONBaseProject",
+    "value": {
+      "version": "1",
+      "name": "string",
+      "machine": "MachineName",
+      "reports": "SelectableList#60;number, JSONMachineReport#62;",
+      "settings": "JSONProjectSettings",
+      "overlays": "JSONOverlay[]",
+      "information": "JSONField[]",
+      "hardware": "JSONField[]",
+      "acquisitionParameters": "JSONAcquisitionParameters"
+    },
+    "dependencies": [
+      "MachineName",
+      "SelectableList",
+      "JSONMachineReport",
+      "JSONProjectSettings",
+      "JSONOverlay",
+      "JSONField",
+      "JSONAcquisitionParameters"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONProjectSettings",
+    "value": {
+      "version": "1",
+      "arePointsVisible": "boolean",
+      "arePointsLinked": "boolean",
+      "arePointsLocked": "boolean",
+      "areOverlaysVisible": "boolean",
+      "pointsState": "'value' | 'number' | 'nothing'",
+      "map": "#123;     version: 1     styleIndex: number     coordinates: LngLat | null     zoom: number | null   #125;"
+    },
+    "dependencies": [
+      "LngLat"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONAcquisitionParameters",
+    "value": {
+      "version": "1",
+      "nbSamples": "number",
+      "frequency": "number",
+      "preTrig": "number",
+      "smoothing?": "boolean"
+    },
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynProjectVAny",
+    "value": "JSONHeavydynProject",
+    "dependencies": [
+      "JSONHeavydynProject"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynProject",
+    "value": {
+      "version": "1",
+      "base": "JSONBaseProject",
+      "distinct": "JSONHeavydynProjectDistinct"
+    },
+    "dependencies": [
+      "JSONBaseProject",
+      "JSONHeavydynProjectDistinct"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynProjectDistinct",
+    "value": {
+      "version": "1",
+      "units": "JSONHeavydynUnits",
+      "calibrations": "JSONHeavydynCalibrations"
+    },
+    "dependencies": [
+      "JSONHeavydynUnits",
+      "JSONHeavydynCalibrations"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynCalibrations",
+    "value": {
+      "version": "1",
+      "date": "string",
+      "dPlate": "number",
+      "channels": "JSONChannel[]",
+      "sensors": "JSONSensor[]"
+    },
+    "dependencies": [
+      "JSONChannel",
+      "JSONSensor"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONChannel",
+    "value": {
+      "version": "1",
+      "name": "string",
+      "position": "string",
+      "gain": "number",
+      "acquisition": "number",
+      "type": "'LoadCell' | 'Geophone'"
+    },
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "JSONSensor",
+    "value": {
+      "version": "1",
+      "name": "string",
+      "gain": "number",
+      "type": "'AirTemp' | 'SurfTemp' | 'Dmi'"
+    },
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynProjectVAny",
+    "value": "JSONMaxidynProject",
+    "dependencies": [
+      "JSONMaxidynProject"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynProject",
+    "value": {
+      "version": "1",
+      "base": "JSONBaseProject",
+      "distinct": "JSONMaxidynProjectDistinct"
+    },
+    "dependencies": [
+      "JSONBaseProject",
+      "JSONMaxidynProjectDistinct"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynProjectDistinct",
+    "value": {
+      "version": "1",
+      "units": "JSONMaxidynUnits",
+      "bearingParameters": "JSONBearingParameters"
+    },
+    "dependencies": [
+      "JSONMaxidynUnits",
+      "JSONBearingParameters"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynProjectVAny",
+    "value": "JSONMinidynProject",
+    "dependencies": [
+      "JSONMinidynProject"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynProject",
+    "value": {
+      "version": "1",
+      "base": "JSONBaseProject",
+      "distinct": "JSONMinidynProjectDistinct"
+    },
+    "dependencies": [
+      "JSONBaseProject",
+      "JSONMinidynProjectDistinct"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynProjectDistinct",
+    "value": {
+      "version": "1",
+      "units": "JSONMinidynUnits",
+      "bearingParameters": "JSONBearingParameters"
+    },
+    "dependencies": [
+      "JSONMinidynUnits",
+      "JSONBearingParameters"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMachineProject",
+    "value": "| JSONHeavydynProject   | JSONMaxidynProject   | JSONMinidynProject",
+    "dependencies": [
+      "JSONHeavydynProject",
+      "JSONMaxidynProject",
+      "JSONMinidynProject"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONBearingParameters",
+    "value": {
+      "version": "1",
+      "name": "string",
+      "algoBearing": "string",
+      "hasQuality": "boolean",
+      "algoProcessing1": "string",
+      "algoProcessing2": "string",
+      "dPlate": "number",
+      "cPoisson": "number",
+      "fForme": "number",
+      "k": "number",
+      "alpha": "number"
+    },
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "JSONBaseReportVAny",
+    "value": "JSONBaseReport",
+    "dependencies": [
+      "JSONBaseReport"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONBaseReport",
+    "value": {
+      "version": "1",
+      "name": "string",
+      "zones": "JSONMachineZone[]",
+      "settings": "JSONReportSettings",
+      "screenshots": "number[]",
+      "platform": "JSONField[]",
+      "information": "JSONField[]",
+      "dataLabels": "JSONBaseReportDataLabels",
+      "thresholds": "JSONBaseReportThresholds"
+    },
+    "dependencies": [
+      "JSONMachineZone",
+      "JSONReportSettings",
+      "JSONField",
+      "JSONBaseReportDataLabels",
+      "JSONBaseReportThresholds"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONBaseReportDataLabels",
+    "value": {
+      "version": "1",
+      "table": "SelectableList#60;number, JSONTableDataLabelsParameters#62;"
+    },
+    "dependencies": [
+      "SelectableList",
+      "JSONTableDataLabelsParameters"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONTableDataLabelsParameters",
+    "value": {
+      "version": "1",
+      "from": "DataLabelsFrom",
+      "index?": "number",
+      "dataLabels": "string[]"
+    },
+    "dependencies": [
+      "DataLabelsFrom"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONBaseReportThresholds",
+    "value": {
+      "version": "1",
+      "colors": "JSONThresholdColors",
+      "inputs": "JSONThresholdInputs"
+    },
+    "dependencies": [
+      "JSONThresholdColors",
+      "JSONThresholdInputs"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONThresholdColors",
+    "value": {
+      "version": "1",
+      "low": "ColorName",
+      "middle": "ColorName",
+      "high": "ColorName"
+    },
+    "dependencies": [
+      "ColorName"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONThresholdInputs",
+    "value": {
+      "version": "1",
+      "isRequiredARange": "boolean",
+      "isOptionalARange": "boolean"
+    },
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "JSONReportSettings",
+    "value": {
+      "version": "1",
+      "iconName": "IconName",
+      "isVisible": "boolean",
+      "colorization": "ReportColorization",
+      "groupBy": "ReportGroupBy"
+    },
+    "dependencies": [
+      "IconName",
+      "ReportColorization",
+      "ReportGroupBy"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynReportVAny",
+    "value": "JSONHeavydynReport",
+    "dependencies": [
+      "JSONHeavydynReport"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynReport",
+    "value": {
+      "version": "1",
+      "base": "JSONBaseReport",
+      "distinct": "JSONHeavydynReportDistinct"
+    },
+    "dependencies": [
+      "JSONBaseReport",
+      "JSONHeavydynReportDistinct"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynReportDistinct",
+    "value": {
+      "version": "1",
+      "groupedDataLabels": "SelectableList#60;     number,     JSONHeavydynGroupedDataLabels   #62;",
+      "thresholds": "HeavydynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;"
+    },
+    "dependencies": [
+      "SelectableList",
+      "JSONHeavydynGroupedDataLabels",
+      "HeavydynUnitsSkeleton",
+      "JSONDistinctThresholdsConfiguration"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynGroupedDataLabels",
+    "value": {
+      "version": "1",
+      "from": "DataLabelsFrom",
+      "choices": "SelectableList#60;number, JSONDataLabel#60;HeavydynUnitsNames#62;#62;",
+      "indexes?": "SelectableList#60;number, JSONHeavydynDropIndex#62;"
+    },
+    "dependencies": [
+      "DataLabelsFrom",
+      "SelectableList",
+      "JSONDataLabel",
+      "HeavydynUnitsNames",
+      "JSONHeavydynDropIndex"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynReportVAny",
+    "value": "JSONMaxidynReport",
+    "dependencies": [
+      "JSONMaxidynReport"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynReport",
+    "value": {
+      "version": "1",
+      "base": "JSONBaseReport",
+      "distinct": "JSONMaxidynReportDistinct"
+    },
+    "dependencies": [
+      "JSONBaseReport",
+      "JSONMaxidynReportDistinct"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynReportDistinct",
+    "value": {
+      "version": "1",
+      "groupedDataLabels": "SelectableList#60;     number,     JSONMaxidynGroupedDataLabels   #62;",
+      "thresholds": "MaxidynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;"
+    },
+    "dependencies": [
+      "SelectableList",
+      "JSONMaxidynGroupedDataLabels",
+      "MaxidynUnitsSkeleton",
+      "JSONDistinctThresholdsConfiguration"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynGroupedDataLabels",
+    "value": {
+      "version": "1",
+      "from": "DataLabelsFrom",
+      "choices": "SelectableList#60;number, JSONDataLabel#60;MaxidynUnitsNames#62;#62;",
+      "indexes?": "SelectableList#60;number, JSONMaxidynDropIndex#62;"
+    },
+    "dependencies": [
+      "DataLabelsFrom",
+      "SelectableList",
+      "JSONDataLabel",
+      "MaxidynUnitsNames",
+      "JSONMaxidynDropIndex"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynReportVAny",
+    "value": "JSONMinidynReport",
+    "dependencies": [
+      "JSONMinidynReport"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynReport",
+    "value": {
+      "version": "1",
+      "base": "JSONBaseReport",
+      "distinct": "JSONMinidynReportDistinct"
+    },
+    "dependencies": [
+      "JSONBaseReport",
+      "JSONMinidynReportDistinct"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynReportDistinct",
+    "value": {
+      "version": "1",
+      "groupedDataLabels": "SelectableList#60;     number,     JSONMinidynGroupedDataLabels   #62;",
+      "thresholds": "MinidynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;"
+    },
+    "dependencies": [
+      "SelectableList",
+      "JSONMinidynGroupedDataLabels",
+      "MinidynUnitsSkeleton",
+      "JSONDistinctThresholdsConfiguration"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynGroupedDataLabels",
+    "value": {
+      "version": "1",
+      "from": "DataLabelsFrom",
+      "choices": "SelectableList#60;number, JSONDataLabel#60;MinidynUnitsNames#62;#62;",
+      "indexes?": "SelectableList#60;number, JSONMinidynDropIndex#62;"
+    },
+    "dependencies": [
+      "DataLabelsFrom",
+      "SelectableList",
+      "JSONDataLabel",
+      "MinidynUnitsNames",
+      "JSONMinidynDropIndex"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMachineReport",
+    "value": "| JSONHeavydynReport   | JSONMaxidynReport   | JSONMinidynReport",
+    "dependencies": [
+      "JSONHeavydynReport",
+      "JSONMaxidynReport",
+      "JSONMinidynReport"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMachineGroupedDataLabels",
+    "value": "| JSONHeavydynGroupedDataLabels   | JSONMaxidynGroupedDataLabels   | JSONMinidynGroupedDataLabels",
+    "dependencies": [
+      "JSONHeavydynGroupedDataLabels",
+      "JSONMaxidynGroupedDataLabels",
+      "JSONMinidynGroupedDataLabels"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONCustomThreshold",
+    "value": {
+      "version": "1",
+      "type": "CustomThresholdType",
+      "value": "number",
+      "valueHigh": "number"
+    },
+    "dependencies": [
+      "CustomThresholdType"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONDistinctThresholdsConfiguration",
+    "value": {
+      "version": "1",
+      "selected": "number",
+      "custom": "JSONCustomThreshold"
+    },
+    "dependencies": [
+      "JSONCustomThreshold"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONBaseZoneVAny",
+    "value": "JSONBaseZone",
+    "dependencies": [
+      "JSONBaseZone"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONBaseZone",
+    "value": {
+      "version": "1",
+      "name": "string",
+      "points": "JSONMachinePoint[]",
+      "settings": "JSONZoneSettings"
+    },
+    "dependencies": [
+      "JSONMachinePoint",
+      "JSONZoneSettings"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONZoneSettings",
+    "value": {
+      "version": "1",
+      "color": "ColorName",
+      "isVisible": "boolean"
+    },
+    "dependencies": [
+      "ColorName"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynZoneVAny",
+    "value": "JSONHeavydynZone",
+    "dependencies": [
+      "JSONHeavydynZone"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynZone",
+    "value": {
+      "version": "1",
+      "base": "JSONBaseZone",
+      "distinct": "JSONHeavydynZoneDistinct"
+    },
+    "dependencies": [
+      "JSONBaseZone",
+      "JSONHeavydynZoneDistinct"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynZoneDistinct",
+    "value": {
+      "version": "1"
+    },
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynZoneVAny",
+    "value": "JSONMaxidynZone",
+    "dependencies": [
+      "JSONMaxidynZone"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynZone",
+    "value": {
+      "version": "1",
+      "base": "JSONBaseZone",
+      "distinct": "JSONMaxidynZoneDistinct"
+    },
+    "dependencies": [
+      "JSONBaseZone",
+      "JSONMaxidynZoneDistinct"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynZoneDistinct",
+    "value": {
+      "version": "1"
+    },
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynZoneVAny",
+    "value": "JSONMinidynZone",
+    "dependencies": [
+      "JSONMinidynZone"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynZone",
+    "value": {
+      "version": "1",
+      "base": "JSONBaseZone",
+      "distinct": "JSONMinidynZoneDistinct"
+    },
+    "dependencies": [
+      "JSONBaseZone",
+      "JSONMinidynZoneDistinct"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynZoneDistinct",
+    "value": {
+      "version": "1"
+    },
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "JSONMachineZone",
+    "value": "JSONHeavydynZone | JSONMaxidynZone | JSONMinidynZone",
+    "dependencies": [
+      "JSONHeavydynZone",
+      "JSONMaxidynZone",
+      "JSONMinidynZone"
+    ],
+    "extends": []
+  },
+  {
+    "name": "AnyJSON",
+    "value": {
+      "[key: string]": "any"
+    },
+    "dependencies": [],
+    "extends": []
+  }
+]

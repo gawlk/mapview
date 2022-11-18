@@ -64,7 +64,7 @@
 
 <template>
   <div class="space-y-2">
-    <div v-for="(zone, index) of selectedReport?.zones" class="flex space-x-2">
+    <div class="flex space-x-2" v-for="(zone, index) of selectedReport?.zones">
       <ListboxColors
         :icon="IconColorSwatch"
         @selectColor="(color: ColorName) => 

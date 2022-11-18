@@ -1,0 +1,405 @@
+classDiagram
+class HeavydynDropCreatorParameters {
+  <<interface>>
+  point: HeavydynPoint
+}
+HeavydynDropCreatorParameters <.. HeavydynPoint
+
+
+class JSONHeavydynDropVAny {
+  <<type>>
+  JSONHeavydynDrop
+}
+JSONHeavydynDropVAny <.. JSONHeavydynDrop
+
+
+class JSONHeavydynDrop {
+  <<interface>>
+  version: 1
+  base: JSONBaseDrop
+  distinct: JSONHeavydynDropDistinct
+}
+JSONHeavydynDrop <.. JSONHeavydynDropDistinct
+
+
+class JSONHeavydynDropDistinct {
+  <<interface>>
+  version: 1
+}
+
+
+
+class JSONHeavydynDropIndexVAny {
+  <<type>>
+  JSONHeavydynDropIndex
+}
+JSONHeavydynDropIndexVAny <.. JSONHeavydynDropIndex
+
+
+class JSONHeavydynDropIndex {
+  <<interface>>
+  version: 1
+  base: JSONBaseDropIndex
+  distinct: JSONHeavydynDropIndexDistinct
+}
+JSONHeavydynDropIndex <.. JSONHeavydynDropIndexDistinct
+
+
+class JSONHeavydynDropIndexDistinct {
+  <<interface>>
+  version: 1
+  type: HeavydynDropType
+  value: number
+  unit: string
+}
+JSONHeavydynDropIndexDistinct <.. HeavydynDropType
+
+
+class HeavydynDropType {
+  <<type>>
+  'Distance' | 'Time' | 'Force' | 'Height'
+}
+
+
+
+class HeavydynDrop {
+  <<interface>>
+  index: HeavydynDropIndex
+  point: HeavydynPoint
+  toJSON: #40;#41; =#62; JSONHeavydynDrop
+}
+HeavydynDrop <.. HeavydynDropIndex
+HeavydynDrop <..< HeavydynPoint
+
+
+class HeavydynDropIndex {
+  <<interface>>
+  machine: 'Heavydyn'
+  type: HeavydynDropType
+  value: MathNumber
+  toJSON: #40;#41; =#62; JSONHeavydynDropIndex
+}
+HeavydynDropIndex <.. HeavydynDropType
+
+
+class HeavydynUnitsSkeleton~A, B, C, D, E~ {
+  <<interface>>
+  deflection: A
+  force: B
+  temperature: C
+  distance: D
+  time: E
+}
+
+
+
+class HeavydynUnitsNames {
+  <<type>>
+  keyof HeavydynUnitsSkeleton#60;any#62;
+}
+HeavydynUnitsNames <.. HeavydynUnitsSkeleton~A, B, C, D, E~
+
+
+class PossibleHeavydynDeflectionUnits {
+  <<type>>
+  'mm' | '1/100 mm' | 'um'
+}
+
+
+
+class PossibleHeavydynForceUnits {
+  <<type>>
+  'N' | 'kN' | 'lbs'
+}
+
+
+
+class PossibleHeavydynTemperatureUnits {
+  <<type>>
+  '°C' | '°F' | 'K'
+}
+
+
+
+class PossibleHeavydynDistanceUnits {
+  <<type>>
+  'm' | 'km' | 'mi'
+}
+
+
+
+class PossibleHeavydynTimeUnits {
+  <<type>>
+  's' | 'ms' | 'us'
+}
+
+
+
+class JSONHeavydynUnits {
+  <<type>>
+  HeavydynUnitsSkeleton#60;   JSONMathUnit#60;PossibleHeavydynDeflectionUnits#62;,   JSONMathUnit#60;PossibleHeavydynForceUnits#62;,   JSONMathUnit#60;PossibleHeavydynTemperatureUnits#62;,   JSONMathUnit#60;PossibleHeavydynDistanceUnits#62;,   JSONMathUnit#60;PossibleHeavydynTimeUnits#62; #62;
+}
+JSONHeavydynUnits <.. HeavydynUnitsSkeleton~A, B, C, D, E~
+JSONHeavydynUnits <.. PossibleHeavydynDeflectionUnits
+JSONHeavydynUnits <.. PossibleHeavydynForceUnits
+JSONHeavydynUnits <.. PossibleHeavydynTemperatureUnits
+JSONHeavydynUnits <.. PossibleHeavydynDistanceUnits
+JSONHeavydynUnits <.. PossibleHeavydynTimeUnits
+
+
+class HeavydynMathUnits {
+  <<type>>
+  HeavydynUnitsSkeleton#60;   MathUnit#60;PossibleHeavydynDeflectionUnits#62;,   MathUnit#60;PossibleHeavydynForceUnits#62;,   MathUnit#60;PossibleHeavydynTemperatureUnits#62;,   MathUnit#60;PossibleHeavydynDistanceUnits#62;,   MathUnit#60;PossibleHeavydynTimeUnits#62; #62;
+}
+HeavydynMathUnits <.. HeavydynUnitsSkeleton~A, B, C, D, E~
+HeavydynMathUnits <.. PossibleHeavydynDeflectionUnits
+HeavydynMathUnits <.. PossibleHeavydynForceUnits
+HeavydynMathUnits <.. PossibleHeavydynTemperatureUnits
+HeavydynMathUnits <.. PossibleHeavydynDistanceUnits
+HeavydynMathUnits <.. PossibleHeavydynTimeUnits
+
+
+class HeavydynPointCreatorParameters {
+  <<interface>>
+  zone: HeavydynZone
+}
+HeavydynPointCreatorParameters <.. HeavydynZone
+
+
+class JSONHeavydynPointVAny {
+  <<type>>
+  JSONHeavydynPoint
+}
+JSONHeavydynPointVAny <.. JSONHeavydynPoint
+
+
+class JSONHeavydynPoint {
+  <<interface>>
+  version: 1
+  base: JSONBasePoint
+  distinct: JSONHeavydynPointDistinct
+}
+JSONHeavydynPoint <.. JSONHeavydynPointDistinct
+
+
+class JSONHeavydynPointDistinct {
+  <<interface>>
+  version: 1
+}
+
+
+
+class HeavydynPoint {
+  <<interface>>
+  machine: 'Heavydyn'
+  drops: HeavydynDrop[]
+  zone: HeavydynZone
+  toJSON: #40;#41; =#62; JSONHeavydynPoint
+}
+HeavydynPoint <..< HeavydynZone
+
+
+class JSONHeavydynProjectVAny {
+  <<type>>
+  JSONHeavydynProject
+}
+JSONHeavydynProjectVAny <.. JSONHeavydynProject
+
+
+class JSONHeavydynProject {
+  <<interface>>
+  version: 1
+  base: JSONBaseProject
+  distinct: JSONHeavydynProjectDistinct
+}
+JSONHeavydynProject <.. JSONHeavydynProjectDistinct
+
+
+class JSONHeavydynProjectDistinct {
+  <<interface>>
+  version: 1
+  units: JSONHeavydynUnits
+  calibrations: JSONHeavydynCalibrations
+}
+JSONHeavydynProjectDistinct <.. JSONHeavydynUnits
+JSONHeavydynProjectDistinct <.. JSONHeavydynCalibrations
+
+
+class JSONHeavydynCalibrations {
+  <<interface>>
+  version: 1
+  date: string
+  dPlate: number
+  channels: JSONChannel[]
+  sensors: JSONSensor[]
+}
+
+
+
+class HeavydynProject {
+  <<interface>>
+  machine: 'Heavydyn'
+  reports: SelectableList#60;HeavydynReport#62;
+  units: HeavydynMathUnits
+  calibrations: HeavydynCalibrations
+  toJSON: #40;#41; =#62; JSONHeavydynProject
+}
+HeavydynProject <..< HeavydynReport
+HeavydynProject <.. HeavydynMathUnits
+HeavydynProject <.. HeavydynCalibrations
+
+
+class HeavydynCalibrations {
+  <<interface>>
+  date: Date
+  dPlate: number
+  channels: JSONChannel[]
+  sensors: JSONSensor[]
+}
+
+
+
+class HeavydynReportCreatorParameters {
+  <<interface>>
+  project: HeavydynProject
+}
+HeavydynReportCreatorParameters <.. HeavydynProject
+
+
+class JSONHeavydynReportVAny {
+  <<type>>
+  JSONHeavydynReport
+}
+JSONHeavydynReportVAny <.. JSONHeavydynReport
+
+
+class JSONHeavydynReport {
+  <<interface>>
+  version: 1
+  base: JSONBaseReport
+  distinct: JSONHeavydynReportDistinct
+}
+JSONHeavydynReport <.. JSONHeavydynReportDistinct
+
+
+class JSONHeavydynReportDistinct {
+  <<interface>>
+  version: 1
+  groupedDataLabels: SelectableList#60;     number,     JSONHeavydynGroupedDataLabels   #62;
+  thresholds: HeavydynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;
+}
+JSONHeavydynReportDistinct <.. JSONHeavydynGroupedDataLabels
+JSONHeavydynReportDistinct <.. HeavydynUnitsSkeleton~A, B, C, D, E~
+
+
+class JSONHeavydynGroupedDataLabels {
+  <<interface>>
+  version: 1
+  from: DataLabelsFrom
+  choices: SelectableList#60;number, JSONDataLabel#60;HeavydynUnitsNames#62;#62;
+  indexes?: SelectableList#60;number, JSONHeavydynDropIndex#62;
+}
+JSONHeavydynGroupedDataLabels <.. HeavydynUnitsNames
+JSONHeavydynGroupedDataLabels <.. JSONHeavydynDropIndex
+
+
+class HeavydynReport {
+  <<interface>>
+  machine: 'Heavydyn'
+  zones: HeavydynZone[]
+  dataLabels: HeavydynReportDataLabels
+  thresholds: HeavydynReportThresholds
+  project: HeavydynProject
+  toJSON: #40;#41; =#62; JSONHeavydynReport
+}
+HeavydynReport <.. HeavydynZone
+HeavydynReport <.. HeavydynReportDataLabels
+HeavydynReport <.. HeavydynReportThresholds
+
+
+class HeavydynReportDataLabels {
+  <<interface>>
+  groups: SelectableList#60;HeavydynGroupedDataLabels#62;
+  table: SelectableList#60;HeavydynTableDataLabelsParameters#62;
+}
+HeavydynReportDataLabels <.. HeavydynGroupedDataLabels
+HeavydynReportDataLabels <.. HeavydynTableDataLabelsParameters
+
+
+class HeavydynGroupedDataLabels {
+  <<interface>>
+  indexes?: SelectableList#60;HeavydynDropIndex#62;
+  sequenceName?: string
+}
+HeavydynGroupedDataLabels <.. HeavydynDropIndex
+
+
+class HeavydynTableDataLabelsParameters {
+  <<interface>>
+  group: HeavydynGroupedDataLabels
+  index?: HeavydynDropIndex
+}
+HeavydynTableDataLabelsParameters <.. HeavydynGroupedDataLabels
+HeavydynTableDataLabelsParameters <.. HeavydynDropIndex
+
+
+class HeavydynReportThresholds {
+  <<interface>>
+  groups: HeavydynUnitsSkeleton#60;GroupedThresolds#60;string#62;#62;
+}
+HeavydynReportThresholds <.. HeavydynUnitsSkeleton~A, B, C, D, E~
+
+
+class HeavydynReportThresholdsGroups {
+  <<type>>
+  HeavydynUnitsSkeleton#60;   GroupedThresolds#60;string#62; #62;
+}
+HeavydynReportThresholdsGroups <.. HeavydynUnitsSkeleton~A, B, C, D, E~
+
+
+class HeavydynZoneCreatorParameters {
+  <<interface>>
+  report: HeavydynReport
+}
+HeavydynZoneCreatorParameters <.. HeavydynReport
+
+
+class JSONHeavydynZoneVAny {
+  <<type>>
+  JSONHeavydynZone
+}
+JSONHeavydynZoneVAny <.. JSONHeavydynZone
+
+
+class JSONHeavydynZone {
+  <<interface>>
+  version: 1
+  base: JSONBaseZone
+  distinct: JSONHeavydynZoneDistinct
+}
+JSONHeavydynZone <.. JSONHeavydynZoneDistinct
+
+
+class JSONHeavydynZoneDistinct {
+  <<interface>>
+  version: 1
+}
+
+
+
+class HeavydynZone {
+  <<interface>>
+  machine: 'Heavydyn'
+  points: HeavydynPoint[]
+  toJSON: #40;#41; =#62; JSONHeavydynZone
+}
+
+
+
+class HeavydynExporter {
+  <<interface>>
+  export: #40;project: HeavydynProject#41; =#62; Promise#60;File#62;
+}
+
+
+

@@ -1,0 +1,553 @@
+[
+  {
+    "name": "HeavydynDropCreatorParameters",
+    "value": {
+      "point": "HeavydynPoint"
+    },
+    "dependencies": [
+      "HeavydynPoint"
+    ],
+    "extends": [
+      "MachineDropCreatorParameters"
+    ]
+  },
+  {
+    "name": "JSONHeavydynDropVAny",
+    "value": "JSONHeavydynDrop",
+    "dependencies": [
+      "JSONHeavydynDrop"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynDrop",
+    "value": {
+      "version": "1",
+      "base": "JSONBaseDrop",
+      "distinct": "JSONHeavydynDropDistinct"
+    },
+    "dependencies": [
+      "JSONBaseDrop",
+      "JSONHeavydynDropDistinct"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynDropDistinct",
+    "value": {
+      "version": "1"
+    },
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynDropIndexVAny",
+    "value": "JSONHeavydynDropIndex",
+    "dependencies": [
+      "JSONHeavydynDropIndex"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynDropIndex",
+    "value": {
+      "version": "1",
+      "base": "JSONBaseDropIndex",
+      "distinct": "JSONHeavydynDropIndexDistinct"
+    },
+    "dependencies": [
+      "JSONBaseDropIndex",
+      "JSONHeavydynDropIndexDistinct"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynDropIndexDistinct",
+    "value": {
+      "version": "1",
+      "type": "HeavydynDropType",
+      "value": "number",
+      "unit": "string"
+    },
+    "dependencies": [
+      "HeavydynDropType"
+    ],
+    "extends": []
+  },
+  {
+    "name": "HeavydynDropType",
+    "value": "'Distance' | 'Time' | 'Force' | 'Height'",
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "HeavydynDrop",
+    "value": {
+      "index": "HeavydynDropIndex",
+      "point": "HeavydynPoint",
+      "toJSON": "#40;#41; =#62; JSONHeavydynDrop"
+    },
+    "dependencies": [
+      "HeavydynDropIndex",
+      "HeavydynPoint"
+    ],
+    "extends": [
+      "BaseDrop"
+    ]
+  },
+  {
+    "name": "HeavydynDropIndex",
+    "value": {
+      "machine": "'Heavydyn'",
+      "type": "HeavydynDropType",
+      "value": "MathNumber",
+      "toJSON": "#40;#41; =#62; JSONHeavydynDropIndex"
+    },
+    "dependencies": [
+      "HeavydynDropType",
+      "MathNumber"
+    ],
+    "extends": [
+      "BaseDropIndex"
+    ]
+  },
+  {
+    "name": "HeavydynUnitsSkeleton~A, B, C, D, E~",
+    "value": {
+      "deflection": "A",
+      "force": "B",
+      "temperature": "C",
+      "distance": "D",
+      "time": "E"
+    },
+    "dependencies": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E"
+    ],
+    "extends": []
+  },
+  {
+    "name": "HeavydynUnitsNames",
+    "value": "keyof HeavydynUnitsSkeleton#60;any#62;",
+    "dependencies": [
+      "HeavydynUnitsSkeleton"
+    ],
+    "extends": []
+  },
+  {
+    "name": "PossibleHeavydynDeflectionUnits",
+    "value": "'mm' | '1/100 mm' | 'um'",
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "PossibleHeavydynForceUnits",
+    "value": "'N' | 'kN' | 'lbs'",
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "PossibleHeavydynTemperatureUnits",
+    "value": "'°C' | '°F' | 'K'",
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "PossibleHeavydynDistanceUnits",
+    "value": "'m' | 'km' | 'mi'",
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "PossibleHeavydynTimeUnits",
+    "value": "'s' | 'ms' | 'us'",
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynUnits",
+    "value": "HeavydynUnitsSkeleton#60;   JSONMathUnit#60;PossibleHeavydynDeflectionUnits#62;,   JSONMathUnit#60;PossibleHeavydynForceUnits#62;,   JSONMathUnit#60;PossibleHeavydynTemperatureUnits#62;,   JSONMathUnit#60;PossibleHeavydynDistanceUnits#62;,   JSONMathUnit#60;PossibleHeavydynTimeUnits#62; #62;",
+    "dependencies": [
+      "HeavydynUnitsSkeleton",
+      "JSONMathUnit",
+      "PossibleHeavydynDeflectionUnits",
+      "PossibleHeavydynForceUnits",
+      "PossibleHeavydynTemperatureUnits",
+      "PossibleHeavydynDistanceUnits",
+      "PossibleHeavydynTimeUnits"
+    ],
+    "extends": []
+  },
+  {
+    "name": "HeavydynMathUnits",
+    "value": "HeavydynUnitsSkeleton#60;   MathUnit#60;PossibleHeavydynDeflectionUnits#62;,   MathUnit#60;PossibleHeavydynForceUnits#62;,   MathUnit#60;PossibleHeavydynTemperatureUnits#62;,   MathUnit#60;PossibleHeavydynDistanceUnits#62;,   MathUnit#60;PossibleHeavydynTimeUnits#62; #62;",
+    "dependencies": [
+      "HeavydynUnitsSkeleton",
+      "MathUnit",
+      "PossibleHeavydynDeflectionUnits",
+      "PossibleHeavydynForceUnits",
+      "PossibleHeavydynTemperatureUnits",
+      "PossibleHeavydynDistanceUnits",
+      "PossibleHeavydynTimeUnits"
+    ],
+    "extends": []
+  },
+  {
+    "name": "HeavydynPointCreatorParameters",
+    "value": {
+      "zone": "HeavydynZone"
+    },
+    "dependencies": [
+      "HeavydynZone"
+    ],
+    "extends": [
+      "MachinePointCreatorParameters"
+    ]
+  },
+  {
+    "name": "JSONHeavydynPointVAny",
+    "value": "JSONHeavydynPoint",
+    "dependencies": [
+      "JSONHeavydynPoint"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynPoint",
+    "value": {
+      "version": "1",
+      "base": "JSONBasePoint",
+      "distinct": "JSONHeavydynPointDistinct"
+    },
+    "dependencies": [
+      "JSONBasePoint",
+      "JSONHeavydynPointDistinct"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynPointDistinct",
+    "value": {
+      "version": "1"
+    },
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "HeavydynPoint",
+    "value": {
+      "machine": "'Heavydyn'",
+      "drops": "HeavydynDrop[]",
+      "zone": "HeavydynZone",
+      "toJSON": "#40;#41; =#62; JSONHeavydynPoint"
+    },
+    "dependencies": [
+      "HeavydynDrop",
+      "HeavydynZone"
+    ],
+    "extends": [
+      "BasePoint"
+    ]
+  },
+  {
+    "name": "JSONHeavydynProjectVAny",
+    "value": "JSONHeavydynProject",
+    "dependencies": [
+      "JSONHeavydynProject"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynProject",
+    "value": {
+      "version": "1",
+      "base": "JSONBaseProject",
+      "distinct": "JSONHeavydynProjectDistinct"
+    },
+    "dependencies": [
+      "JSONBaseProject",
+      "JSONHeavydynProjectDistinct"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynProjectDistinct",
+    "value": {
+      "version": "1",
+      "units": "JSONHeavydynUnits",
+      "calibrations": "JSONHeavydynCalibrations"
+    },
+    "dependencies": [
+      "JSONHeavydynUnits",
+      "JSONHeavydynCalibrations"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynCalibrations",
+    "value": {
+      "version": "1",
+      "date": "string",
+      "dPlate": "number",
+      "channels": "JSONChannel[]",
+      "sensors": "JSONSensor[]"
+    },
+    "dependencies": [
+      "JSONChannel",
+      "JSONSensor"
+    ],
+    "extends": []
+  },
+  {
+    "name": "HeavydynProject",
+    "value": {
+      "machine": "'Heavydyn'",
+      "reports": "SelectableList#60;HeavydynReport#62;",
+      "units": "HeavydynMathUnits",
+      "calibrations": "HeavydynCalibrations",
+      "toJSON": "#40;#41; =#62; JSONHeavydynProject"
+    },
+    "dependencies": [
+      "SelectableList",
+      "HeavydynReport",
+      "HeavydynMathUnits",
+      "HeavydynCalibrations"
+    ],
+    "extends": [
+      "BaseProject"
+    ]
+  },
+  {
+    "name": "HeavydynCalibrations",
+    "value": {
+      "date": "Date",
+      "dPlate": "number",
+      "channels": "JSONChannel[]",
+      "sensors": "JSONSensor[]"
+    },
+    "dependencies": [
+      "Date",
+      "JSONChannel",
+      "JSONSensor"
+    ],
+    "extends": []
+  },
+  {
+    "name": "HeavydynReportCreatorParameters",
+    "value": {
+      "project": "HeavydynProject"
+    },
+    "dependencies": [
+      "HeavydynProject"
+    ],
+    "extends": [
+      "MachineReportCreatorParameters"
+    ]
+  },
+  {
+    "name": "JSONHeavydynReportVAny",
+    "value": "JSONHeavydynReport",
+    "dependencies": [
+      "JSONHeavydynReport"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynReport",
+    "value": {
+      "version": "1",
+      "base": "JSONBaseReport",
+      "distinct": "JSONHeavydynReportDistinct"
+    },
+    "dependencies": [
+      "JSONBaseReport",
+      "JSONHeavydynReportDistinct"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynReportDistinct",
+    "value": {
+      "version": "1",
+      "groupedDataLabels": "SelectableList#60;     number,     JSONHeavydynGroupedDataLabels   #62;",
+      "thresholds": "HeavydynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;"
+    },
+    "dependencies": [
+      "SelectableList",
+      "JSONHeavydynGroupedDataLabels",
+      "HeavydynUnitsSkeleton",
+      "JSONDistinctThresholdsConfiguration"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynGroupedDataLabels",
+    "value": {
+      "version": "1",
+      "from": "DataLabelsFrom",
+      "choices": "SelectableList#60;number, JSONDataLabel#60;HeavydynUnitsNames#62;#62;",
+      "indexes?": "SelectableList#60;number, JSONHeavydynDropIndex#62;"
+    },
+    "dependencies": [
+      "DataLabelsFrom",
+      "SelectableList",
+      "JSONDataLabel",
+      "HeavydynUnitsNames",
+      "JSONHeavydynDropIndex"
+    ],
+    "extends": []
+  },
+  {
+    "name": "HeavydynReport",
+    "value": {
+      "machine": "'Heavydyn'",
+      "zones": "HeavydynZone[]",
+      "dataLabels": "HeavydynReportDataLabels",
+      "thresholds": "HeavydynReportThresholds",
+      "project": "HeavydynProject",
+      "toJSON": "#40;#41; =#62; JSONHeavydynReport"
+    },
+    "dependencies": [
+      "HeavydynZone",
+      "HeavydynReportDataLabels",
+      "HeavydynReportThresholds",
+      "HeavydynProject"
+    ],
+    "extends": [
+      "BaseReport"
+    ]
+  },
+  {
+    "name": "HeavydynReportDataLabels",
+    "value": {
+      "groups": "SelectableList#60;HeavydynGroupedDataLabels#62;",
+      "table": "SelectableList#60;HeavydynTableDataLabelsParameters#62;"
+    },
+    "dependencies": [
+      "SelectableList",
+      "HeavydynGroupedDataLabels",
+      "HeavydynTableDataLabelsParameters"
+    ],
+    "extends": [
+      "BaseReportDataLabels"
+    ]
+  },
+  {
+    "name": "HeavydynGroupedDataLabels",
+    "value": {
+      "indexes?": "SelectableList#60;HeavydynDropIndex#62;",
+      "sequenceName?": "string"
+    },
+    "dependencies": [
+      "SelectableList",
+      "HeavydynDropIndex"
+    ],
+    "extends": [
+      "BaseGroupedDataLabels"
+    ]
+  },
+  {
+    "name": "HeavydynTableDataLabelsParameters",
+    "value": {
+      "group": "HeavydynGroupedDataLabels",
+      "index?": "HeavydynDropIndex"
+    },
+    "dependencies": [
+      "HeavydynGroupedDataLabels",
+      "HeavydynDropIndex"
+    ],
+    "extends": [
+      "BaseTableDataLabelsParameters"
+    ]
+  },
+  {
+    "name": "HeavydynReportThresholds",
+    "value": {
+      "groups": "HeavydynUnitsSkeleton#60;GroupedThresolds#60;string#62;#62;"
+    },
+    "dependencies": [
+      "HeavydynUnitsSkeleton",
+      "GroupedThresolds"
+    ],
+    "extends": [
+      "BaseReportThresholds"
+    ]
+  },
+  {
+    "name": "HeavydynReportThresholdsGroups",
+    "value": "HeavydynUnitsSkeleton#60;   GroupedThresolds#60;string#62; #62;",
+    "dependencies": [
+      "HeavydynUnitsSkeleton",
+      "GroupedThresolds"
+    ],
+    "extends": []
+  },
+  {
+    "name": "HeavydynZoneCreatorParameters",
+    "value": {
+      "report": "HeavydynReport"
+    },
+    "dependencies": [
+      "HeavydynReport"
+    ],
+    "extends": [
+      "MachineZoneCreatorParameters"
+    ]
+  },
+  {
+    "name": "JSONHeavydynZoneVAny",
+    "value": "JSONHeavydynZone",
+    "dependencies": [
+      "JSONHeavydynZone"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynZone",
+    "value": {
+      "version": "1",
+      "base": "JSONBaseZone",
+      "distinct": "JSONHeavydynZoneDistinct"
+    },
+    "dependencies": [
+      "JSONBaseZone",
+      "JSONHeavydynZoneDistinct"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynZoneDistinct",
+    "value": {
+      "version": "1"
+    },
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "HeavydynZone",
+    "value": {
+      "machine": "'Heavydyn'",
+      "points": "HeavydynPoint[]",
+      "toJSON": "#40;#41; =#62; JSONHeavydynZone"
+    },
+    "dependencies": [
+      "HeavydynPoint"
+    ],
+    "extends": [
+      "BaseZone"
+    ]
+  },
+  {
+    "name": "HeavydynExporter",
+    "value": {
+      "export": "#40;project: HeavydynProject#41; =#62; Promise#60;File#62;"
+    },
+    "dependencies": [],
+    "extends": [
+      "Exporter"
+    ]
+  }
+]

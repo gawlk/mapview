@@ -1,0 +1,538 @@
+[
+  {
+    "name": "MaxidynDropCreatorParameters",
+    "value": {
+      "point": "MaxidynPoint"
+    },
+    "dependencies": [
+      "MaxidynPoint"
+    ],
+    "extends": [
+      "MachineDropCreatorParameters"
+    ]
+  },
+  {
+    "name": "JSONMaxidynDropVAny",
+    "value": "JSONMaxidynDrop",
+    "dependencies": [
+      "JSONMaxidynDrop"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynDrop",
+    "value": {
+      "version": "1",
+      "base": "JSONBaseDrop",
+      "distinct": "JSONMaxidynDropDistinct"
+    },
+    "dependencies": [
+      "JSONBaseDrop",
+      "JSONMaxidynDropDistinct"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynDropDistinct",
+    "value": {
+      "version": "1"
+    },
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynDropIndexVAny",
+    "value": "JSONMaxidynDropIndex",
+    "dependencies": [
+      "JSONMaxidynDropIndex"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynDropIndex",
+    "value": {
+      "version": "1",
+      "base": "JSONBaseDropIndex",
+      "distinct": "JSONMaxidynDropIndexDistinct"
+    },
+    "dependencies": [
+      "JSONBaseDropIndex",
+      "JSONMaxidynDropIndexDistinct"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynDropIndexDistinct",
+    "value": {
+      "version": "1",
+      "type": "MaxidynDropType"
+    },
+    "dependencies": [
+      "MaxidynDropType"
+    ],
+    "extends": []
+  },
+  {
+    "name": "MaxidynDropType",
+    "value": "'Training' | 'Averaging'",
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "MaxidynDrop",
+    "value": {
+      "index": "MaxidynDropIndex",
+      "point": "MaxidynPoint",
+      "toJSON": "#40;#41; =#62; JSONMaxidynDrop"
+    },
+    "dependencies": [
+      "MaxidynDropIndex",
+      "MaxidynPoint"
+    ],
+    "extends": [
+      "BaseDrop"
+    ]
+  },
+  {
+    "name": "MaxidynDropIndex",
+    "value": {
+      "machine": "'Maxidyn'",
+      "type": "MaxidynDropType",
+      "toJSON": "#40;#41; =#62; JSONMaxidynDropIndex"
+    },
+    "dependencies": [
+      "MaxidynDropType"
+    ],
+    "extends": [
+      "BaseDropIndex"
+    ]
+  },
+  {
+    "name": "MaxidynUnitsSkeleton~A, B, C, D, E, F, G~",
+    "value": {
+      "modulus": "A",
+      "stiffness": "B",
+      "deflection": "C",
+      "force": "D",
+      "distance": "E",
+      "time": "F",
+      "percentage": "G"
+    },
+    "dependencies": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F",
+      "G"
+    ],
+    "extends": []
+  },
+  {
+    "name": "PossibleMaxidynModulusUnits",
+    "value": "'MPa'",
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "PossibleMaxidynStiffnessUnits",
+    "value": "'MN / m'",
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "PossibleMaxidynDeflectionUnits",
+    "value": "'mm' | 'um'",
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "PossibleMaxidynForceUnits",
+    "value": "'N' | 'kN'",
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "PossibleMaxidynDistanceUnits",
+    "value": "'m' | 'km' | 'mi'",
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "PossibleMaxidynTimeUnits",
+    "value": "'s' | 'ms' | 'us'",
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "PossibleMaxidynPercentageUnits",
+    "value": "'%'",
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynUnits",
+    "value": "MaxidynUnitsSkeleton#60;   JSONMathUnit#60;PossibleMaxidynModulusUnits#62;,   JSONMathUnit#60;PossibleMaxidynStiffnessUnits#62;,   JSONMathUnit#60;PossibleMaxidynDeflectionUnits#62;,   JSONMathUnit#60;PossibleMaxidynForceUnits#62;,   JSONMathUnit#60;PossibleMaxidynDistanceUnits#62;,   JSONMathUnit#60;PossibleMaxidynTimeUnits#62;,   JSONMathUnit#60;PossibleMaxidynPercentageUnits#62; #62;",
+    "dependencies": [
+      "MaxidynUnitsSkeleton",
+      "JSONMathUnit",
+      "PossibleMaxidynModulusUnits",
+      "PossibleMaxidynStiffnessUnits",
+      "PossibleMaxidynDeflectionUnits",
+      "PossibleMaxidynForceUnits",
+      "PossibleMaxidynDistanceUnits",
+      "PossibleMaxidynTimeUnits",
+      "PossibleMaxidynPercentageUnits"
+    ],
+    "extends": []
+  },
+  {
+    "name": "MaxidynMathUnits",
+    "value": "MaxidynUnitsSkeleton#60;   MathUnit#60;PossibleMaxidynModulusUnits#62;,   MathUnit#60;PossibleMaxidynStiffnessUnits#62;,   MathUnit#60;PossibleMaxidynDeflectionUnits#62;,   MathUnit#60;PossibleMaxidynForceUnits#62;,   MathUnit#60;PossibleMaxidynDistanceUnits#62;,   MathUnit#60;PossibleMaxidynTimeUnits#62;,   MathUnit#60;PossibleMaxidynPercentageUnits#62; #62;",
+    "dependencies": [
+      "MaxidynUnitsSkeleton",
+      "MathUnit",
+      "PossibleMaxidynModulusUnits",
+      "PossibleMaxidynStiffnessUnits",
+      "PossibleMaxidynDeflectionUnits",
+      "PossibleMaxidynForceUnits",
+      "PossibleMaxidynDistanceUnits",
+      "PossibleMaxidynTimeUnits",
+      "PossibleMaxidynPercentageUnits"
+    ],
+    "extends": []
+  },
+  {
+    "name": "MaxidynUnitsNames",
+    "value": "keyof MaxidynUnitsSkeleton#60;any#62;",
+    "dependencies": [
+      "MaxidynUnitsSkeleton"
+    ],
+    "extends": []
+  },
+  {
+    "name": "MaxidynPointCreatorParameters",
+    "value": {
+      "zone": "MaxidynZone"
+    },
+    "dependencies": [
+      "MaxidynZone"
+    ],
+    "extends": [
+      "MachinePointCreatorParameters"
+    ]
+  },
+  {
+    "name": "JSONMaxidynPointVAny",
+    "value": "JSONMaxidynPoint",
+    "dependencies": [
+      "JSONMaxidynPoint"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynPoint",
+    "value": {
+      "version": "1",
+      "base": "JSONBasePoint",
+      "distinct": "JSONMaxidynPointDistinct"
+    },
+    "dependencies": [
+      "JSONBasePoint",
+      "JSONMaxidynPointDistinct"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynPointDistinct",
+    "value": {
+      "version": "1"
+    },
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "MaxidynPoint",
+    "value": {
+      "machine": "'Maxidyn'",
+      "drops": "MaxidynDrop[]",
+      "zone": "MaxidynZone",
+      "toJSON": "#40;#41; =#62; JSONMaxidynPoint"
+    },
+    "dependencies": [
+      "MaxidynDrop",
+      "MaxidynZone"
+    ],
+    "extends": [
+      "BasePoint"
+    ]
+  },
+  {
+    "name": "JSONMaxidynProjectVAny",
+    "value": "JSONMaxidynProject",
+    "dependencies": [
+      "JSONMaxidynProject"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynProject",
+    "value": {
+      "version": "1",
+      "base": "JSONBaseProject",
+      "distinct": "JSONMaxidynProjectDistinct"
+    },
+    "dependencies": [
+      "JSONBaseProject",
+      "JSONMaxidynProjectDistinct"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynProjectDistinct",
+    "value": {
+      "version": "1",
+      "units": "JSONMaxidynUnits",
+      "bearingParameters": "JSONBearingParameters"
+    },
+    "dependencies": [
+      "JSONMaxidynUnits",
+      "JSONBearingParameters"
+    ],
+    "extends": []
+  },
+  {
+    "name": "MaxidynProject",
+    "value": {
+      "machine": "'Maxidyn'",
+      "reports": "SelectableList#60;MaxidynReport#62;",
+      "units": "MaxidynMathUnits",
+      "bearingParameters": "JSONBearingParameters",
+      "toJSON": "#40;#41; =#62; JSONMaxidynProject"
+    },
+    "dependencies": [
+      "SelectableList",
+      "MaxidynReport",
+      "MaxidynMathUnits",
+      "JSONBearingParameters"
+    ],
+    "extends": [
+      "BaseProject"
+    ]
+  },
+  {
+    "name": "MaxidynReportCreatorParameters",
+    "value": {
+      "project": "MaxidynProject"
+    },
+    "dependencies": [
+      "MaxidynProject"
+    ],
+    "extends": [
+      "MachineReportCreatorParameters"
+    ]
+  },
+  {
+    "name": "JSONMaxidynReportVAny",
+    "value": "JSONMaxidynReport",
+    "dependencies": [
+      "JSONMaxidynReport"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynReport",
+    "value": {
+      "version": "1",
+      "base": "JSONBaseReport",
+      "distinct": "JSONMaxidynReportDistinct"
+    },
+    "dependencies": [
+      "JSONBaseReport",
+      "JSONMaxidynReportDistinct"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynReportDistinct",
+    "value": {
+      "version": "1",
+      "groupedDataLabels": "SelectableList#60;     number,     JSONMaxidynGroupedDataLabels   #62;",
+      "thresholds": "MaxidynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;"
+    },
+    "dependencies": [
+      "SelectableList",
+      "JSONMaxidynGroupedDataLabels",
+      "MaxidynUnitsSkeleton",
+      "JSONDistinctThresholdsConfiguration"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynGroupedDataLabels",
+    "value": {
+      "version": "1",
+      "from": "DataLabelsFrom",
+      "choices": "SelectableList#60;number, JSONDataLabel#60;MaxidynUnitsNames#62;#62;",
+      "indexes?": "SelectableList#60;number, JSONMaxidynDropIndex#62;"
+    },
+    "dependencies": [
+      "DataLabelsFrom",
+      "SelectableList",
+      "JSONDataLabel",
+      "MaxidynUnitsNames",
+      "JSONMaxidynDropIndex"
+    ],
+    "extends": []
+  },
+  {
+    "name": "MaxidynReport",
+    "value": {
+      "machine": "'Maxidyn'",
+      "zones": "MaxidynZone[]",
+      "dataLabels": "MaxidynReportDataLabels",
+      "thresholds": "MaxidynReportThresholds",
+      "project": "MaxidynProject",
+      "toJSON": "#40;#41; =#62; JSONMaxidynReport"
+    },
+    "dependencies": [
+      "MaxidynZone",
+      "MaxidynReportDataLabels",
+      "MaxidynReportThresholds",
+      "MaxidynProject"
+    ],
+    "extends": [
+      "BaseReport"
+    ]
+  },
+  {
+    "name": "MaxidynReportDataLabels",
+    "value": {
+      "groups": "SelectableList#60;MaxidynGroupedDataLabels#62;",
+      "table": "SelectableList#60;MaxidynTableDataLabelsParameters#62;"
+    },
+    "dependencies": [
+      "SelectableList",
+      "MaxidynGroupedDataLabels",
+      "MaxidynTableDataLabelsParameters"
+    ],
+    "extends": [
+      "BaseReportDataLabels"
+    ]
+  },
+  {
+    "name": "MaxidynGroupedDataLabels",
+    "value": {
+      "indexes?": "SelectableList#60;MaxidynDropIndex#62;"
+    },
+    "dependencies": [
+      "SelectableList",
+      "MaxidynDropIndex"
+    ],
+    "extends": [
+      "BaseGroupedDataLabels"
+    ]
+  },
+  {
+    "name": "MaxidynTableDataLabelsParameters",
+    "value": {
+      "group": "MaxidynGroupedDataLabels",
+      "index?": "MaxidynDropIndex"
+    },
+    "dependencies": [
+      "MaxidynGroupedDataLabels",
+      "MaxidynDropIndex"
+    ],
+    "extends": [
+      "BaseTableDataLabelsParameters"
+    ]
+  },
+  {
+    "name": "MaxidynReportThresholds",
+    "value": {
+      "groups": "MaxidynUnitsSkeleton#60;GroupedThresolds#60;string#62;#62;"
+    },
+    "dependencies": [
+      "MaxidynUnitsSkeleton",
+      "GroupedThresolds"
+    ],
+    "extends": [
+      "BaseReportThresholds"
+    ]
+  },
+  {
+    "name": "MaxidynReportThresholdsGroups",
+    "value": "MaxidynUnitsSkeleton#60;   GroupedThresolds#60;string#62; #62;",
+    "dependencies": [
+      "MaxidynUnitsSkeleton",
+      "GroupedThresolds"
+    ],
+    "extends": []
+  },
+  {
+    "name": "MaxidynZoneCreatorParameters",
+    "value": {
+      "report": "MaxidynReport"
+    },
+    "dependencies": [
+      "MaxidynReport"
+    ],
+    "extends": [
+      "MachineZoneCreatorParameters"
+    ]
+  },
+  {
+    "name": "JSONMaxidynZoneVAny",
+    "value": "JSONMaxidynZone",
+    "dependencies": [
+      "JSONMaxidynZone"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynZone",
+    "value": {
+      "version": "1",
+      "base": "JSONBaseZone",
+      "distinct": "JSONMaxidynZoneDistinct"
+    },
+    "dependencies": [
+      "JSONBaseZone",
+      "JSONMaxidynZoneDistinct"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynZoneDistinct",
+    "value": {
+      "version": "1"
+    },
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "MaxidynZone",
+    "value": {
+      "machine": "'Maxidyn'",
+      "points": "MaxidynPoint[]",
+      "toJSON": "#40;#41; =#62; JSONMaxidynZone"
+    },
+    "dependencies": [
+      "MaxidynPoint"
+    ],
+    "extends": [
+      "BaseZone"
+    ]
+  },
+  {
+    "name": "MaxidynExporter",
+    "value": {
+      "export": "#40;project: MaxidynProject#41; =#62; Promise#60;File#62;"
+    },
+    "dependencies": [],
+    "extends": [
+      "Exporter"
+    ]
+  }
+]

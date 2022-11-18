@@ -26,13 +26,13 @@
     <div class="flex h-screen w-full flex-col">
       <div class="flex h-full space-x-4 overflow-x-auto p-4 sm:px-8">
         <div
+          class="flex flex-none flex-col items-center justify-center space-y-4"
           v-for="(screenshot, index) in store.projects.selected?.reports
             .selected?.screenshots"
-          class="flex flex-none flex-col items-center justify-center space-y-4"
         >
           <img
-            :src="screenshot"
             class="h-[50vh] rounded-lg border-4 border-white lg:h-[70vh]"
+            :src="screenshot"
           />
           <div class="space-x-2">
             <Button

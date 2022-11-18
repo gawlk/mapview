@@ -30,20 +30,20 @@
     :defaultOpen="props.defaultOpen"
   >
     <DisclosureButton
-      :class="emitToggle(open) ? 'rounded-t-lg' : 'rounded-lg'"
       class="group flex w-full items-center justify-between bg-gray-100 py-2 px-4 text-sm font-medium leading-6 transition-colors duration-200 hover:bg-gray-200 focus:outline-none focus-visible:ring focus-visible:ring-gray-500 focus-visible:ring-opacity-75"
+      :class="emitToggle(open) ? 'rounded-t-lg' : 'rounded-lg'"
     >
       <div class="flex items-center">
         <component
+          class="mr-1 h-5 w-5 text-gray-400 transition-colors duration-200 group-hover:text-gray-500"
           v-if="props.icon"
           :is="props.icon"
-          class="mr-1 h-5 w-5 text-gray-400 transition-colors duration-200 group-hover:text-gray-500"
         />
         <span class="ml-1 truncate">{{ props.text }}</span>
       </div>
       <IconHeroiconsSolidChevronRight
-        :class="open ? 'rotate-90 transform' : ''"
         class="h-5 w-5 text-gray-400 transition-colors duration-200 group-hover:text-gray-500"
+        :class="open ? 'rotate-90 transform' : ''"
       />
     </DisclosureButton>
     <DisclosurePanel

@@ -23,6 +23,7 @@
     readonly label?: string
   }>()
 
+  // Max 5 digits
   const convertValue = (value: number) =>
     Math.round(
       convertValueFromUnitAToUnitB(
@@ -31,6 +32,14 @@
         props.unit.currentUnit
       ) * 100000
     ) / 100000
+
+  const min = computed(() =>
+    props.isRange ? convertValue(props.unit.min) : undefined
+  )
+
+  const max = computed(() =>
+    props.isRange ? convertValue(props.unit.max) : undefined
+  )
 </script>
 
 <template>
@@ -50,8 +59,8 @@
         :value="convertValue(props.value)"
         :type="props.isRange ? 'range' : 'number'"
         :step="10 ** (props.unit.currentPrecision * -1)"
-        :min="props.isRange ? convertValue(props.unit.min) : undefined"
-        :max="props.isRange ? convertValue(props.unit.max) : undefined"
+        :min="min"
+        :max="max"
       />
     </div>
   </div>

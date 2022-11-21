@@ -1,5 +1,3 @@
-import { isIOS } from '@vueuse/core'
-
 export const getBrowser = () => {
   if (navigator) {
     if (

@@ -220,9 +220,11 @@ class JSONHeavydynProjectDistinct {
   version: 1
   units: JSONHeavydynUnits
   calibrations: JSONHeavydynCalibrations
+  correctionParameters: JSONHeavydynCorrectionParameters
 }
 JSONHeavydynProjectDistinct <.. JSONHeavydynUnits
 JSONHeavydynProjectDistinct <.. JSONHeavydynCalibrations
+JSONHeavydynProjectDistinct <.. JSONHeavydynCorrectionParameters
 
 
 class JSONHeavydynCalibrations {
@@ -236,17 +238,26 @@ class JSONHeavydynCalibrations {
 
 
 
+class JSONHeavydynCorrectionParameters {
+  <<interface>>
+
+}
+
+
+
 class HeavydynProject {
   <<interface>>
   machine: 'Heavydyn'
   reports: SelectableList#60;HeavydynReport#62;
   units: HeavydynMathUnits
   calibrations: HeavydynCalibrations
+  correctionParameters: JSONHeavydynCorrectionParameters
   toJSON: #40;#41; =#62; JSONHeavydynProject
 }
 HeavydynProject <..< HeavydynReport
 HeavydynProject <.. HeavydynMathUnits
 HeavydynProject <.. HeavydynCalibrations
+HeavydynProject <.. JSONHeavydynCorrectionParameters
 
 
 class HeavydynCalibrations {

@@ -45,15 +45,15 @@
         },
       }
 
-      const createZone =
+      const _createZone =
         selectedReport.value?.machine === 'Heavydyn'
           ? createHeavydynZoneFromJSON
           : selectedReport.value?.machine === 'Maxidyn'
           ? createMaxidynZoneFromJSON
           : createMinidynZoneFromJSON
 
-      const zone = createZone(json, store.map, {
-        report: selectedReport.value,
+      const zone = _createZone(json, store.map, {
+        report: selectedReport.value as MachineReport,
       })
 
       zone.init()

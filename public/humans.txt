@@ -1,0 +1,20 @@
+/* TEAM */
+
+Name: Kevin GAWLIK
+Site: github.com/gawlk
+Role: Main dev (2018-2022)
+
+Name: Sébastien PELLEVRAULT
+Role: CEO (2018-Today)
+
+/* THANKS */
+
+Name: The whole Rincent NDT team
+Site: http://www.rincent-ndt.fr/
+                            
+/* SITE */
+
+Last update: 2022/11/25
+Standards: HTML5, CSS3, Typescript
+Components: Typescript, VueJS, TailwindCSS, ViteJS, NodeJS, ...
+Software: VSCode

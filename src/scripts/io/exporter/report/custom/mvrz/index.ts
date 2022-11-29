@@ -2,9 +2,9 @@ import { getBrowserLocale } from '/src/locales'
 
 import { createMathNumber, createZipFromProject } from '/src/scripts'
 
-export const mrvzExporter: MachineExporter = {
+export const mrvzExporter = {
   name: '.mvrz (Excel)',
-  export: async (project: MachineProject) =>
+  export: async (project: MachineProject, template: File) =>
     new File(
       [
         await createZipFromProject(project, {
@@ -14,6 +14,7 @@ export const mrvzExporter: MachineExporter = {
             name: 'database.json',
             json: createMVRZJson(project),
           },
+          additionalFile: template,
         }),
       ],
       `${project.reports.selected?.name.toString().replaceAll(' ', '_')}.mvrz`,

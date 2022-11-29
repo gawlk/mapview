@@ -6,7 +6,7 @@
   import DialogInformations from '/src/components/DialogInformations.vue'
   import Submenu from '/src/components/Submenu.vue'
 
-  import DialogExport from './components/DialogExport.vue'
+  import Export from './components/Export/Index.vue'
   import GroupAlbum from './components/GroupAlbum/Index.vue'
   import GroupReports from './components/GroupReports.vue'
   import Zones from './components/Zones.vue'
@@ -49,7 +49,7 @@
   >
     <Zones />
   </Submenu>
-  <DialogExport />
+  <Export />
 </template>
 
 <i18n lang="yaml">

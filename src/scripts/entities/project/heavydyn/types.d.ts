@@ -14,6 +14,7 @@ interface JSONHeavydynProjectDistinct {
   readonly version: 1
   readonly units: JSONHeavydynUnits
   readonly calibrations: JSONHeavydynCalibrations
+  readonly correctionParameters: JSONHeavydynCorrectionParameters
 }
 
 interface JSONHeavydynCalibrations {
@@ -40,6 +41,10 @@ interface JSONSensor {
   readonly type: 'AirTemp' | 'SurfTemp' | 'Dmi'
 }
 
+interface JSONHeavydynCorrectionParameters {
+  // a: number
+}
+
 // ---
 // Object
 // ---
@@ -49,6 +54,7 @@ interface HeavydynProject extends BaseProject {
   readonly reports: SelectableList<HeavydynReport>
   readonly units: HeavydynMathUnits
   calibrations: HeavydynCalibrations
+  correctionParameters: JSONHeavydynCorrectionParameters
   toJSON: () => JSONHeavydynProject
 }
 

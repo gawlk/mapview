@@ -12,6 +12,7 @@ export const createZipFromProject = async (
     screenshots?: boolean
     rawData?: boolean
     customJSON?: { name: string; json: AnyJSON }
+    additionalFile?: File
   }
 ) => {
   const zip: Zippable = {}
@@ -25,6 +26,7 @@ export const createZipFromProject = async (
     parameters.rawData && addRawDataToZip(zip, project),
     parameters.customJSON &&
       addJSONToZip(zip, parameters.customJSON.name, parameters.customJSON.json),
+    parameters.additionalFile && addFileToZip(zip, parameters.additionalFile),
   ])
 
   return zipSync(zip)
@@ -42,6 +44,10 @@ const addProjectToZip = async (zip: Zippable, json: JSONMachineProject) =>
 
 const addJSONToZip = async (zip: Zippable, name: string, json: AnyJSON) => {
   zip[name] = await jsonToUint8Array(json)
+}
+
+const addFileToZip = async (zip: Zippable, file: File) => {
+  zip[file.name] = new Uint8Array(await file.arrayBuffer())
 }
 
 const addOverlaysToZip = async (zip: Zippable, project: MachineProject) => {

@@ -107,6 +107,10 @@
             </div>
           </div>
         </div>
+        <h4 class="pl-4 text-lg font-medium leading-6">
+          {{ t('Corrected data') }}
+        </h4>
+        ...
       </div>
     </template>
   </Dialog>

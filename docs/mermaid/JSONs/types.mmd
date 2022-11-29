@@ -483,9 +483,11 @@ class JSONHeavydynProjectDistinct {
   version: 1
   units: JSONHeavydynUnits
   calibrations: JSONHeavydynCalibrations
+  correctionParameters: JSONHeavydynCorrectionParameters
 }
 JSONHeavydynProjectDistinct <.. JSONHeavydynUnits
 JSONHeavydynProjectDistinct <.. JSONHeavydynCalibrations
+JSONHeavydynProjectDistinct <.. JSONHeavydynCorrectionParameters
 
 
 class JSONHeavydynCalibrations {
@@ -518,6 +520,13 @@ class JSONSensor {
   name: string
   gain: number
   type: 'AirTemp' | 'SurfTemp' | 'Dmi'
+}
+
+
+
+class JSONHeavydynCorrectionParameters {
+  <<interface>>
+
 }
 
 

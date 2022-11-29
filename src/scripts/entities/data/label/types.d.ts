@@ -15,6 +15,7 @@ interface JSONDataLabel<T extends String> {
 // ---
 
 interface DataLabel<T> {
+  // Add kind (raw, computed, ...)
   readonly name: string
   readonly unit: MathUnit<T>
   readonly scientificName?: string

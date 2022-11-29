@@ -29,6 +29,7 @@ export const convertPRJZToHeavydynProjectDistinct = (
   return {
     version: 1,
     units,
+    correctionParameters: {},
     calibrations: {
       version: 1,
       date: json.Calibrations.Date,
@@ -151,6 +152,7 @@ export const convertPRJZToHeavydynUnits = (json: any): JSONHeavydynUnits => {
         }
       })(),
       currentPrecision: 0,
+      min: -50,
       max: 100,
     },
   }

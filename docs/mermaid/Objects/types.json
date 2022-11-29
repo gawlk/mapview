@@ -986,13 +986,15 @@
       "reports": "SelectableList#60;HeavydynReport#62;",
       "units": "HeavydynMathUnits",
       "calibrations": "HeavydynCalibrations",
+      "correctionParameters": "JSONHeavydynCorrectionParameters",
       "toJSON": "#40;#41; =#62; JSONHeavydynProject"
     },
     "dependencies": [
       "SelectableList",
       "HeavydynReport",
       "HeavydynMathUnits",
-      "HeavydynCalibrations"
+      "HeavydynCalibrations",
+      "JSONHeavydynCorrectionParameters"
     ],
     "extends": [
       "BaseProject"

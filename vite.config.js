@@ -2,6 +2,7 @@ import favicons from '@darkobits/vite-plugin-favicons'
 import vueI18N from '@intlify/vite-plugin-vue-i18n'
 import vue from '@vitejs/plugin-vue'
 import autoprefixer from 'autoprefixer'
+import { visualizer } from 'rollup-plugin-visualizer'
 import tailwindcss from 'tailwindcss'
 import { viteTS2Mermaid } from 'ts2mermaid'
 import unpluginAutoImport from 'unplugin-auto-import/vite'
@@ -110,6 +111,21 @@ export default defineConfig({
           include: [/Base/],
         },
       ],
+    }),
+
+    visualizer({
+      template: 'treemap',
+      filename: './docs/visualizer/treemap.html',
+    }),
+
+    visualizer({
+      template: 'network',
+      filename: './docs/visualizer/network.html',
+    }),
+
+    visualizer({
+      template: 'sunburst',
+      filename: './docs/visualizer/sunburst.html',
     }),
   ],
   css: {

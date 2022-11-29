@@ -605,11 +605,13 @@
     "value": {
       "version": "1",
       "units": "JSONHeavydynUnits",
-      "calibrations": "JSONHeavydynCalibrations"
+      "calibrations": "JSONHeavydynCalibrations",
+      "correctionParameters": "JSONHeavydynCorrectionParameters"
     },
     "dependencies": [
       "JSONHeavydynUnits",
-      "JSONHeavydynCalibrations"
+      "JSONHeavydynCalibrations",
+      "JSONHeavydynCorrectionParameters"
     ],
     "extends": []
   },
@@ -649,6 +651,12 @@
       "gain": "number",
       "type": "'AirTemp' | 'SurfTemp' | 'Dmi'"
     },
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynCorrectionParameters",
+    "value": {},
     "dependencies": [],
     "extends": []
   },

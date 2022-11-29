@@ -17,7 +17,7 @@
     file: null as File | null,
   })
 
-  let input: HTMLInputElement | undefined
+  const input = ref(undefined as HTMLInputElement | undefined)
 
   const key = computed(
     () => `template${store.projects.selected?.machine}${props.n}`
@@ -47,10 +47,6 @@
 
   const fetchExcel = async () => {
     if (store.projects.selected && state.file) {
-      const zip = await mrvzExporter.export(store.projects.selected, state.file)
-
-      downloadFile(zip)
-
       const res = await fetch(
         `https://mvreport.azurewebsites.net/api/getreport?local=${getBrowserLocale()}`,
         {
@@ -60,16 +56,16 @@
             'x-functions-key':
               'v7IwtPEOA8etaIi-CnqPsWE749uRZRKL31iuTTi6n8tIAzFuE_220w==',
           },
-          body: zip,
+          body: await mrvzExporter.export(store.projects.selected, state.file),
         }
       )
 
-      const file = new File(
-        [await res.blob()],
-        `${store.projects.selected.reports.selected?.name.toString()}.xlsx`
+      downloadFile(
+        new File(
+          [await res.blob()],
+          `${store.projects.selected.reports.selected?.name.toString()}.xlsx`
+        )
       )
-
-      downloadFile(file)
     }
   }
 </script>

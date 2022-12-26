@@ -2,7 +2,7 @@
   import store from '/src/store'
 
   import { createOverlay } from '/src/scripts'
-  import { fileToBase64 } from '/src/scripts'
+  import { convertFileToDataURL } from '/src/scripts'
 
   import IconCollection from '~icons/heroicons-solid/collection'
   import IconEye from '~icons/heroicons-solid/eye'
@@ -26,7 +26,7 @@
 
   const addOverlay = async (file?: File) => {
     if (file && store.projects.selected) {
-      const data64 = await fileToBase64(file)
+      const data64 = await convertFileToDataURL(file)
 
       const overlay = await createOverlay(data64, store.map, {
         version: 1,

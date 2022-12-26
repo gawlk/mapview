@@ -9,16 +9,3 @@ type JSONMachinePoint = JSONHeavydynPoint | JSONMaxidynPoint | JSONMinidynPoint
 // ---
 
 type MachinePoint = HeavydynPoint | MaxidynPoint | MinidynPoint
-
-type PartialMachinePoint<MachinePoint> = PartialExtendedObject<
-  BasePoint,
-  MachinePoint
->
-
-// ---
-// Parameters
-// ---
-
-interface MachinePointCreatorParameters {
-  readonly zone: MachineZone
-}

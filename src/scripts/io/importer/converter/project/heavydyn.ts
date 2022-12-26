@@ -6,6 +6,7 @@ export const convertPRJZToHeavydynProject = (
 ): JSONHeavydynProject => {
   const project: JSONHeavydynProject = {
     version: 1,
+    machine: 'Heavydyn',
     base: baseProject,
     distinct: convertPRJZToHeavydynProjectDistinct(json),
   }
@@ -16,7 +17,10 @@ export const convertPRJZToHeavydynProject = (
         convertPRJZToHeavydynReport(jsonPV, index, json)
     )
   )
-  project.base.reports.selected = project.base.reports.list.length ? 0 : null
+
+  project.base.reports.selectedIndex = project.base.reports.list.length
+    ? 0
+    : null
 
   return project
 }
@@ -29,7 +33,7 @@ export const convertPRJZToHeavydynProjectDistinct = (
   return {
     version: 1,
     units,
-    correctionParameters: {},
+    // correctionParameters: {},
     calibrations: {
       version: 1,
       date: json.Calibrations.Date,
@@ -153,7 +157,7 @@ export const convertPRJZToHeavydynUnits = (json: any): JSONHeavydynUnits => {
       })(),
       currentPrecision: 0,
       min: -50,
-      max: 100,
+      max: 150,
     },
   }
 }

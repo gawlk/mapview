@@ -18,19 +18,24 @@ export const convertPRJZToBaseDrop = (
         .map((exportedData: any): JSONDataValue => {
           return {
             version: 1,
+            category: 'Base',
             label: exportedData.Name,
             value: jsonDrop[exportedData.Name],
           }
         }),
       ...(exportedDeflections
-        ? jsonDrop.Deflections.map((value: number, index: number) => {
-            return {
-              label: convertSensorPositionToName(
-                json.Calibrations.SensorsPosition[index]
-              ),
-              value,
+        ? jsonDrop.Deflections.map(
+            (value: number, index: number): JSONDataValue => {
+              return {
+                version: 1,
+                category: 'Base',
+                label: convertSensorPositionToName(
+                  json.Calibrations.SensorsPosition[index]
+                ),
+                value,
+              }
             }
-          })
+          )
         : []),
     ],
   }

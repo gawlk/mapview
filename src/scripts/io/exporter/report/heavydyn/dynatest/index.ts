@@ -15,7 +15,9 @@ export const heavydynDynatestExporter: HeavydynExporter = {
           .map((line) => line.padEnd(80, ' '))
           .join('\n'),
       ],
-      `${project.reports.selected?.name.toString().replaceAll(' ', '_')}.fwd`,
+      `${project.reports.selected?.name
+        .toString()
+        .replaceAll(' ', '_')}-dynatest.fwd`,
       { type: 'text/plain' }
     )
   },

@@ -13,13 +13,21 @@ export const createMaxidynZoneFromJSON = (
 ) => {
   json = upgradeJSON(json)
 
-  const zone: PartialMachineZone<MaxidynZone> = createBaseZoneFromJSON(
-    json.base,
-    {
-      machine: 'Maxidyn',
+  const zone: MaxidynZone = shallowReactive({
+    ...createBaseZoneFromJSON(json.base, {
       report: parameters.report,
-    }
-  )
+    }),
+    machine: 'Maxidyn',
+    toJSON: function (): JSONMaxidynZone {
+      return {
+        version: json.version,
+        base: this.toBaseJSON(),
+        distinct: {
+          version: json.distinct.version,
+        },
+      }
+    },
+  })
 
   zone.points.push(
     ...json.base.points.map((jsonPoint) =>
@@ -28,16 +36,6 @@ export const createMaxidynZoneFromJSON = (
       })
     )
   )
-
-  zone.toJSON = function (): JSONMaxidynZone {
-    return {
-      version: json.version,
-      base: this.toBaseJSON(),
-      distinct: {
-        version: json.distinct.version,
-      },
-    }
-  }
 
   return zone as MaxidynZone
 }

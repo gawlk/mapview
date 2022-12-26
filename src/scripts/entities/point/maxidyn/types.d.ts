@@ -18,9 +18,6 @@ interface JSONMaxidynPointDistinct {
 // Object
 // ---
 
-interface MaxidynPoint extends BasePoint {
-  readonly machine: 'Maxidyn'
-  readonly drops: MaxidynDrop[]
-  zone: MaxidynZone
-  toJSON: () => JSONMaxidynPoint
-}
+interface MaxidynPoint
+  extends MaxidynObject<JSONMaxidynPoint>,
+    BasePoint<MaxidynDrop, MaxidynZone> {}

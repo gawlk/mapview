@@ -27,11 +27,6 @@ interface JSONBearingParameters {
 
 type MachineProject = HeavydynProject | MaxidynProject | MinidynProject
 
-type PartialMachineProject<MachineProject> = PartialExtendedObject<
-  BaseProject,
-  MachineProject
->
-
 type MachineMathUnits = HeavydynMathUnits | MaxidynMathUnits | MinidynMathUnits
 
 type MachineUnitsSkeleton<T> =

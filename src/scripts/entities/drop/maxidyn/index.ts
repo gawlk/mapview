@@ -1,34 +1,38 @@
 import { createBaseDropFromJSON, createBaseDropIndexFromJSON } from '../base'
 
-interface MaxidynDropCreatorParameters extends MachineDropCreatorParameters {
-  point: MaxidynPoint
-}
-
 export const createMaxidynDropFromJSON = (
   json: JSONMaxidynDropVAny,
-  parameters: MaxidynDropCreatorParameters
+  parameters: {
+    point: MaxidynPoint
+  }
 ) => {
   json = upgradeJSONDrop(json)
 
-  const drop: PartialMachineDrop<MaxidynDrop> = createBaseDropFromJSON(
-    json.base,
-    {
-      machine: 'Maxidyn',
-      point: parameters.point,
-    }
-  )
+  const dropGroup = parameters.point.zone.report.dataLabels.groups.list[0]
 
-  drop.toJSON = function (): JSONMaxidynDrop {
-    return {
-      version: json.version,
-      base: this.toBaseJSON(),
-      distinct: {
-        version: json.distinct.version,
-      },
-    }
-  }
+  const index = dropGroup?.indexes?.list[json.base.index]
 
-  return drop as MaxidynDrop
+  const baseDrop = createBaseDropFromJSON(json.base, {
+    point: parameters.point,
+    index,
+    dropGroup,
+  })
+
+  const drop: MaxidynDrop = shallowReactive({
+    ...baseDrop,
+    machine: 'Maxidyn',
+    toJSON: function () {
+      return {
+        version: json.version,
+        base: this.toBaseJSON(),
+        distinct: {
+          version: json.distinct.version,
+        },
+      }
+    },
+  })
+
+  return drop
 }
 
 const upgradeJSONDrop = (json: JSONMaxidynDropVAny): JSONMaxidynDrop => {
@@ -42,16 +46,14 @@ const upgradeJSONDrop = (json: JSONMaxidynDropVAny): JSONMaxidynDrop => {
   return json
 }
 
-export const createMaxidynDropIndexFromJSON = (
-  json: JSONMaxidynDropIndex
-): MaxidynDropIndex => {
+export const createMaxidynDropIndexFromJSON = (json: JSONMaxidynDropIndex) => {
   json = upgradeJSONDropIndex(json)
 
-  return {
-    machine: 'Maxidyn',
+  const dropIndex: MaxidynDropIndex = {
     ...createBaseDropIndexFromJSON(json.base),
+    machine: 'Maxidyn',
     type: json.distinct.type,
-    toJSON: function (): JSONMaxidynDropIndex {
+    toJSON: function () {
       return {
         version: json.version,
         base: this.toBaseJSON(),
@@ -62,6 +64,8 @@ export const createMaxidynDropIndexFromJSON = (
       }
     },
   }
+
+  return dropIndex
 }
 
 const upgradeJSONDropIndex = (

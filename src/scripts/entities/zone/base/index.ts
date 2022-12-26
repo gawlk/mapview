@@ -1,21 +1,21 @@
 import { createWatcherHandler, sortPoints } from '/src/scripts'
 
-interface BaseZoneCreatorParameters extends MachineZoneCreatorParameters {
-  machine: MachineName
-}
-
-export const createBaseZoneFromJSON = (
+export const createBaseZoneFromJSON = <
+  Point extends MachinePoint,
+  Report extends BaseReport
+>(
   json: JSONBaseZoneVAny,
-  parameters: BaseZoneCreatorParameters
-): BaseZone => {
+  parameters: {
+    report: Report
+  }
+) => {
   json = upgradeJSON(json)
 
   const watcherHandler = createWatcherHandler()
 
-  return shallowReactive({
-    machine: parameters.machine,
+  const zone: BaseZone<Point, Report> = {
     name: json.name,
-    points: shallowReactive([] as MachinePoint[]),
+    points: shallowReactive([]),
     settings: shallowReactive(json.settings),
     report: parameters.report,
     init: function () {
@@ -81,7 +81,9 @@ export const createBaseZoneFromJSON = (
         },
       }
     },
-  })
+  }
+
+  return zone
 }
 
 const upgradeJSON = (json: JSONBaseZoneVAny): JSONBaseZone => {

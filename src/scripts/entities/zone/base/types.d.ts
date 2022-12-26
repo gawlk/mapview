@@ -21,13 +21,14 @@ interface JSONZoneSettings {
 // Object
 // ---
 
-interface BaseZone {
-  readonly machine: MachineName
-  readonly points: MachinePoint[]
+interface BaseZone<
+  Point extends MachinePoint = MachinePoint,
+  Report extends BaseReport = BaseReport
+> extends BaseObject<JSONBaseZone> {
+  readonly points: Point[]
   readonly settings: JSONZoneSettings
   name: string
-  report: MachineReport
+  report: Report
   readonly init: () => void
   readonly clean: () => void
-  readonly toBaseJSON: () => JSONBaseZone
 }

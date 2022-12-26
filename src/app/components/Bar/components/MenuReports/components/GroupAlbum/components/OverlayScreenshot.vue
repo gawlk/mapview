@@ -23,6 +23,12 @@
     () => props.image,
     (image) => image && (state.image = image)
   )
+
+  const download = () => {
+    downloadImage(state.image)
+
+    emit('close')
+  }
 </script>
 
 <template>
@@ -35,15 +41,7 @@
       <Button green @click="emit('save')">
         {{ t('Add to album') }}
       </Button>
-      <Button
-        yellow
-        @click="
-          () => {
-            downloadImage(state.image)
-            emit('close')
-          }
-        "
-      >
+      <Button yellow @click="download">
         {{ t('Download picture') }}
       </Button>
       <Button red @click="emit('close')">

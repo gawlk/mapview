@@ -21,6 +21,317 @@
     "extends": []
   },
   {
+    "name": "JSONBaseDataLabelsGroup~From, T~",
+    "value": {
+      "version": "1",
+      "from": "From",
+      "choices": "JSONSelectableList#60;JSONDataLabel#60;T#62;#62;"
+    },
+    "dependencies": [
+      "From",
+      "JSONSelectableList",
+      "JSONDataLabel",
+      "T"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONBaseDataLabels",
+    "value": {
+      "version": "1",
+      "table": "JSONSelectableList#60;JSONTableDataLabelsParameters#62;"
+    },
+    "dependencies": [
+      "JSONSelectableList",
+      "JSONTableDataLabelsParameters"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONTableDataLabelsParameters",
+    "value": {
+      "version": "1",
+      "from": "DataLabelsFrom",
+      "index?": "number",
+      "dataLabels": "string[]"
+    },
+    "dependencies": [
+      "DataLabelsFrom"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynDataLabelsGroup",
+    "value": "JSONHeavydynDataLabelsGroups[number]",
+    "dependencies": [
+      "JSONHeavydynDataLabelsGroups"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynDataLabelsGroups",
+    "value": "[   JSONHeavydynDropDataLabelsGroup,   JSONHeavydynTestDataLabelsGroup,   JSONHeavydynZoneDataLabelsGroup ]",
+    "dependencies": [
+      "JSONHeavydynDropDataLabelsGroup",
+      "JSONHeavydynTestDataLabelsGroup",
+      "JSONHeavydynZoneDataLabelsGroup"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynDropDataLabelsGroup",
+    "value": {
+      "version": "1",
+      "base": "JSONBaseDataLabelsGroup#60;'Drop', HeavydynUnitsNames#62;",
+      "distinct": "JSONHeavydynDropDataLabelsGroupDistinct"
+    },
+    "dependencies": [
+      "JSONBaseDataLabelsGroup",
+      "HeavydynUnitsNames",
+      "JSONHeavydynDropDataLabelsGroupDistinct"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynDropDataLabelsGroupDistinct",
+    "value": {
+      "version": "1",
+      "indexes": "JSONSelectableList#60;JSONHeavydynDropIndex#62;",
+      "sequenceName": "string"
+    },
+    "dependencies": [
+      "JSONSelectableList",
+      "JSONHeavydynDropIndex"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynTestDataLabelsGroup",
+    "value": {
+      "version": "1",
+      "base": "JSONBaseDataLabelsGroup#60;'Test', HeavydynUnitsNames#62;",
+      "distinct": "#123;     readonly version: 1   #125;"
+    },
+    "dependencies": [
+      "JSONBaseDataLabelsGroup",
+      "HeavydynUnitsNames"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynTestDataLabelsGroupDistinct",
+    "value": {
+      "version": "1"
+    },
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynZoneDataLabelsGroup",
+    "value": {
+      "version": "1",
+      "base": "JSONBaseDataLabelsGroup#60;'Zone', HeavydynUnitsNames#62;",
+      "distinct": "JSONHeavydynZoneDataLabelsGroupDistinct"
+    },
+    "dependencies": [
+      "JSONBaseDataLabelsGroup",
+      "HeavydynUnitsNames",
+      "JSONHeavydynZoneDataLabelsGroupDistinct"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynZoneDataLabelsGroupDistinct",
+    "value": {
+      "version": "1"
+    },
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynDataLabelsGroup",
+    "value": "JSONMaxidynDataLabelsGroups[number]",
+    "dependencies": [
+      "JSONMaxidynDataLabelsGroups"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynDataLabelsGroups",
+    "value": "[   JSONMaxidynDropDataLabelsGroup,   JSONMaxidynTestDataLabelsGroup,   JSONMaxidynZoneDataLabelsGroup ]",
+    "dependencies": [
+      "JSONMaxidynDropDataLabelsGroup",
+      "JSONMaxidynTestDataLabelsGroup",
+      "JSONMaxidynZoneDataLabelsGroup"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynDropDataLabelsGroup",
+    "value": {
+      "version": "1",
+      "base": "JSONBaseDataLabelsGroup#60;'Drop', MaxidynUnitsNames#62;",
+      "distinct": "JSONMaxidynDropDataLabelsGroupDistinct"
+    },
+    "dependencies": [
+      "JSONBaseDataLabelsGroup",
+      "MaxidynUnitsNames",
+      "JSONMaxidynDropDataLabelsGroupDistinct"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynDropDataLabelsGroupDistinct",
+    "value": {
+      "version": "1",
+      "indexes": "JSONSelectableList#60;JSONMaxidynDropIndex#62;"
+    },
+    "dependencies": [
+      "JSONSelectableList",
+      "JSONMaxidynDropIndex"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynTestDataLabelsGroup",
+    "value": {
+      "version": "1",
+      "base": "JSONBaseDataLabelsGroup#60;'Test', MaxidynUnitsNames#62;",
+      "distinct": "#123;     readonly version: 1   #125;"
+    },
+    "dependencies": [
+      "JSONBaseDataLabelsGroup",
+      "MaxidynUnitsNames"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynTestDataLabelsGroupDistinct",
+    "value": {
+      "version": "1"
+    },
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynZoneDataLabelsGroup",
+    "value": {
+      "version": "1",
+      "base": "JSONBaseDataLabelsGroup#60;'Zone', MaxidynUnitsNames#62;",
+      "distinct": "JSONMaxidynZoneDataLabelsGroupDistinct"
+    },
+    "dependencies": [
+      "JSONBaseDataLabelsGroup",
+      "MaxidynUnitsNames",
+      "JSONMaxidynZoneDataLabelsGroupDistinct"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynZoneDataLabelsGroupDistinct",
+    "value": {
+      "version": "1"
+    },
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynDataLabelsGroup",
+    "value": "JSONMinidynDataLabelsGroups[number]",
+    "dependencies": [
+      "JSONMinidynDataLabelsGroups"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynDataLabelsGroups",
+    "value": "[   JSONMinidynDropDataLabelsGroup,   JSONMinidynTestDataLabelsGroup,   JSONMinidynZoneDataLabelsGroup ]",
+    "dependencies": [
+      "JSONMinidynDropDataLabelsGroup",
+      "JSONMinidynTestDataLabelsGroup",
+      "JSONMinidynZoneDataLabelsGroup"
+    ],
+    "extends": []
+  },
+  {
+    "name": "AnyJSONMinidynDropDataLabelsGroup",
+    "value": "JSONMinidynDropDataLabelsGroup",
+    "dependencies": [
+      "JSONMinidynDropDataLabelsGroup"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynDropDataLabelsGroup",
+    "value": {
+      "version": "1",
+      "base": "JSONBaseDataLabelsGroup#60;'Drop', MinidynUnitsNames#62;",
+      "distinct": "JSONMinidynDropDataLabelsGroupDistinct"
+    },
+    "dependencies": [
+      "JSONBaseDataLabelsGroup",
+      "MinidynUnitsNames",
+      "JSONMinidynDropDataLabelsGroupDistinct"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynDropDataLabelsGroupDistinct",
+    "value": {
+      "version": "1",
+      "indexes": "JSONSelectableList#60;JSONMinidynDropIndex#62;"
+    },
+    "dependencies": [
+      "JSONSelectableList",
+      "JSONMinidynDropIndex"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynTestDataLabelsGroup",
+    "value": {
+      "version": "1",
+      "base": "JSONBaseDataLabelsGroup#60;'Test', MinidynUnitsNames#62;",
+      "distinct": "JSONMinidynTestDataLabelsGroupDistinct"
+    },
+    "dependencies": [
+      "JSONBaseDataLabelsGroup",
+      "MinidynUnitsNames",
+      "JSONMinidynTestDataLabelsGroupDistinct"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynTestDataLabelsGroupDistinct",
+    "value": {
+      "version": "1"
+    },
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynZoneDataLabelsGroup",
+    "value": {
+      "version": "1",
+      "base": "JSONBaseDataLabelsGroup#60;'Zone', MinidynUnitsNames#62;",
+      "distinct": "JSONMinidynZoneDataLabelsGroupDistinct"
+    },
+    "dependencies": [
+      "JSONBaseDataLabelsGroup",
+      "MinidynUnitsNames",
+      "JSONMinidynZoneDataLabelsGroupDistinct"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynZoneDataLabelsGroupDistinct",
+    "value": {
+      "version": "1"
+    },
+    "dependencies": [],
+    "extends": []
+  },
+  {
     "name": "JSONDataValueVAny",
     "value": "JSONDataValue",
     "dependencies": [
@@ -32,6 +343,7 @@
     "name": "JSONDataValue",
     "value": {
       "version": "1",
+      "category": "string",
       "label": "string",
       "value": "number"
     },
@@ -261,22 +573,22 @@
     "extends": []
   },
   {
-    "name": "JSONMachineDropIndex",
-    "value": "| JSONHeavydynDropIndex   | JSONMaxidynDropIndex   | JSONMinidynDropIndex",
-    "dependencies": [
-      "JSONHeavydynDropIndex",
-      "JSONMaxidynDropIndex",
-      "JSONMinidynDropIndex"
-    ],
-    "extends": []
-  },
-  {
     "name": "JSONMachineDrop",
     "value": "JSONHeavydynDrop | JSONMaxidynDrop | JSONMinidynDrop",
     "dependencies": [
       "JSONHeavydynDrop",
       "JSONMaxidynDrop",
       "JSONMinidynDrop"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMachineDropIndex",
+    "value": "| JSONHeavydynDropIndex   | JSONMaxidynDropIndex   | JSONMinidynDropIndex",
+    "dependencies": [
+      "JSONHeavydynDropIndex",
+      "JSONMaxidynDropIndex",
+      "JSONMinidynDropIndex"
     ],
     "extends": []
   },
@@ -308,6 +620,20 @@
       "readOnly?": "true"
     },
     "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "JSONMathUnit~PossibleUnits~",
+    "value": {
+      "version": "1",
+      "currentUnit": "PossibleUnits",
+      "currentPrecision": "number",
+      "max": "number",
+      "min?": "number"
+    },
+    "dependencies": [
+      "PossibleUnits"
+    ],
     "extends": []
   },
   {
@@ -352,20 +678,6 @@
       "PossibleMinidynForceUnits",
       "PossibleMinidynTimeUnits",
       "PossibleMinidynPercentageUnits"
-    ],
-    "extends": []
-  },
-  {
-    "name": "JSONMathUnit~PossibleUnits~",
-    "value": {
-      "version": "1",
-      "currentUnit": "PossibleUnits",
-      "currentPrecision": "number",
-      "max": "number",
-      "min?": "number"
-    },
-    "dependencies": [
-      "PossibleUnits"
     ],
     "extends": []
   },
@@ -532,8 +844,7 @@
     "value": {
       "version": "1",
       "name": "string",
-      "machine": "MachineName",
-      "reports": "SelectableList#60;number, JSONMachineReport#62;",
+      "reports": "JSONSelectableList#60;JSONMachineReport#62;",
       "settings": "JSONProjectSettings",
       "overlays": "JSONOverlay[]",
       "information": "JSONField[]",
@@ -541,8 +852,7 @@
       "acquisitionParameters": "JSONAcquisitionParameters"
     },
     "dependencies": [
-      "MachineName",
-      "SelectableList",
+      "JSONSelectableList",
       "JSONMachineReport",
       "JSONProjectSettings",
       "JSONOverlay",
@@ -591,6 +901,7 @@
     "name": "JSONHeavydynProject",
     "value": {
       "version": "1",
+      "machine": "'Heavydyn'",
       "base": "JSONBaseProject",
       "distinct": "JSONHeavydynProjectDistinct"
     },
@@ -606,7 +917,7 @@
       "version": "1",
       "units": "JSONHeavydynUnits",
       "calibrations": "JSONHeavydynCalibrations",
-      "correctionParameters": "JSONHeavydynCorrectionParameters"
+      "correctionParameters?": "JSONHeavydynCorrectionParameters"
     },
     "dependencies": [
       "JSONHeavydynUnits",
@@ -656,8 +967,20 @@
   },
   {
     "name": "JSONHeavydynCorrectionParameters",
-    "value": {},
-    "dependencies": [],
+    "value": {
+      "isLoadCorrection": "boolean",
+      "loadParameters": "#123;     // Or boolean instead of optional object     loadReferenceSource: SelectableList#60;       LoadReferenceSourceList[number],       LoadReferenceSourceList     #62;     customValue: MathNumber   #125;",
+      "isTemperatureCorrection": "boolean",
+      "temperatureParameters": "#123;     // Temperature from #62; Temperature to     temperatureFromSource: SelectableList#60;       TemperatureFromSourceList[number],       TemperatureFromSourceList     #62;     average: SelectableList#60;       TemperatureAverageList[number],       TemperatureAverageList     #62;     customValue: MathNumber     temperatureTo: number // Given by the user, in France 15 deg celsius by default     structureType: SelectableList#60;       TemperatureStructureTypeList[number],       TemperatureStructureTypeList     #62;   #125;"
+    },
+    "dependencies": [
+      "SelectableList",
+      "LoadReferenceSourceList",
+      "MathNumber",
+      "TemperatureFromSourceList",
+      "TemperatureAverageList",
+      "TemperatureStructureTypeList"
+    ],
     "extends": []
   },
   {
@@ -672,6 +995,7 @@
     "name": "JSONMaxidynProject",
     "value": {
       "version": "1",
+      "machine": "'Maxidyn'",
       "base": "JSONBaseProject",
       "distinct": "JSONMaxidynProjectDistinct"
     },
@@ -706,6 +1030,7 @@
     "name": "JSONMinidynProject",
     "value": {
       "version": "1",
+      "machine": "'Minidyn'",
       "base": "JSONBaseProject",
       "distinct": "JSONMinidynProjectDistinct"
     },
@@ -774,45 +1099,20 @@
       "screenshots": "number[]",
       "platform": "JSONField[]",
       "information": "JSONField[]",
-      "dataLabels": "JSONBaseReportDataLabels",
-      "thresholds": "JSONBaseReportThresholds"
+      "dataLabels": "JSONBaseDataLabels",
+      "thresholds": "JSONBaseThresholdsSettings"
     },
     "dependencies": [
       "JSONMachineZone",
       "JSONReportSettings",
       "JSONField",
-      "JSONBaseReportDataLabels",
-      "JSONBaseReportThresholds"
+      "JSONBaseDataLabels",
+      "JSONBaseThresholdsSettings"
     ],
     "extends": []
   },
   {
-    "name": "JSONBaseReportDataLabels",
-    "value": {
-      "version": "1",
-      "table": "SelectableList#60;number, JSONTableDataLabelsParameters#62;"
-    },
-    "dependencies": [
-      "SelectableList",
-      "JSONTableDataLabelsParameters"
-    ],
-    "extends": []
-  },
-  {
-    "name": "JSONTableDataLabelsParameters",
-    "value": {
-      "version": "1",
-      "from": "DataLabelsFrom",
-      "index?": "number",
-      "dataLabels": "string[]"
-    },
-    "dependencies": [
-      "DataLabelsFrom"
-    ],
-    "extends": []
-  },
-  {
-    "name": "JSONBaseReportThresholds",
+    "name": "JSONBaseThresholdsSettings",
     "value": {
       "version": "1",
       "colors": "JSONThresholdColors",
@@ -888,31 +1188,15 @@
     "name": "JSONHeavydynReportDistinct",
     "value": {
       "version": "1",
-      "groupedDataLabels": "SelectableList#60;     number,     JSONHeavydynGroupedDataLabels   #62;",
+      "dataLabels": "JSONSelectableList#60;     JSONHeavydynDataLabelsGroup,     JSONHeavydynDataLabelsGroups   #62;",
       "thresholds": "HeavydynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;"
     },
     "dependencies": [
-      "SelectableList",
-      "JSONHeavydynGroupedDataLabels",
+      "JSONSelectableList",
+      "JSONHeavydynDataLabelsGroup",
+      "JSONHeavydynDataLabelsGroups",
       "HeavydynUnitsSkeleton",
       "JSONDistinctThresholdsConfiguration"
-    ],
-    "extends": []
-  },
-  {
-    "name": "JSONHeavydynGroupedDataLabels",
-    "value": {
-      "version": "1",
-      "from": "DataLabelsFrom",
-      "choices": "SelectableList#60;number, JSONDataLabel#60;HeavydynUnitsNames#62;#62;",
-      "indexes?": "SelectableList#60;number, JSONHeavydynDropIndex#62;"
-    },
-    "dependencies": [
-      "DataLabelsFrom",
-      "SelectableList",
-      "JSONDataLabel",
-      "HeavydynUnitsNames",
-      "JSONHeavydynDropIndex"
     ],
     "extends": []
   },
@@ -941,31 +1225,15 @@
     "name": "JSONMaxidynReportDistinct",
     "value": {
       "version": "1",
-      "groupedDataLabels": "SelectableList#60;     number,     JSONMaxidynGroupedDataLabels   #62;",
+      "dataLabels": "JSONSelectableList#60;     JSONMaxidynDataLabelsGroup,     JSONMaxidynDataLabelsGroups   #62;",
       "thresholds": "MaxidynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;"
     },
     "dependencies": [
-      "SelectableList",
-      "JSONMaxidynGroupedDataLabels",
+      "JSONSelectableList",
+      "JSONMaxidynDataLabelsGroup",
+      "JSONMaxidynDataLabelsGroups",
       "MaxidynUnitsSkeleton",
       "JSONDistinctThresholdsConfiguration"
-    ],
-    "extends": []
-  },
-  {
-    "name": "JSONMaxidynGroupedDataLabels",
-    "value": {
-      "version": "1",
-      "from": "DataLabelsFrom",
-      "choices": "SelectableList#60;number, JSONDataLabel#60;MaxidynUnitsNames#62;#62;",
-      "indexes?": "SelectableList#60;number, JSONMaxidynDropIndex#62;"
-    },
-    "dependencies": [
-      "DataLabelsFrom",
-      "SelectableList",
-      "JSONDataLabel",
-      "MaxidynUnitsNames",
-      "JSONMaxidynDropIndex"
     ],
     "extends": []
   },
@@ -994,31 +1262,15 @@
     "name": "JSONMinidynReportDistinct",
     "value": {
       "version": "1",
-      "groupedDataLabels": "SelectableList#60;     number,     JSONMinidynGroupedDataLabels   #62;",
+      "dataLabels": "JSONSelectableList#60;     JSONMinidynDataLabelsGroup,     JSONMinidynDataLabelsGroups   #62;",
       "thresholds": "MinidynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;"
     },
     "dependencies": [
-      "SelectableList",
-      "JSONMinidynGroupedDataLabels",
+      "JSONSelectableList",
+      "JSONMinidynDataLabelsGroup",
+      "JSONMinidynDataLabelsGroups",
       "MinidynUnitsSkeleton",
       "JSONDistinctThresholdsConfiguration"
-    ],
-    "extends": []
-  },
-  {
-    "name": "JSONMinidynGroupedDataLabels",
-    "value": {
-      "version": "1",
-      "from": "DataLabelsFrom",
-      "choices": "SelectableList#60;number, JSONDataLabel#60;MinidynUnitsNames#62;#62;",
-      "indexes?": "SelectableList#60;number, JSONMinidynDropIndex#62;"
-    },
-    "dependencies": [
-      "DataLabelsFrom",
-      "SelectableList",
-      "JSONDataLabel",
-      "MinidynUnitsNames",
-      "JSONMinidynDropIndex"
     ],
     "extends": []
   },
@@ -1033,12 +1285,22 @@
     "extends": []
   },
   {
-    "name": "JSONMachineGroupedDataLabels",
-    "value": "| JSONHeavydynGroupedDataLabels   | JSONMaxidynGroupedDataLabels   | JSONMinidynGroupedDataLabels",
+    "name": "JSONMachineDataLabelsGroup",
+    "value": "| JSONHeavydynDataLabelsGroup   | JSONMaxidynDataLabelsGroup   | JSONMinidynDataLabelsGroup",
     "dependencies": [
-      "JSONHeavydynGroupedDataLabels",
-      "JSONMaxidynGroupedDataLabels",
-      "JSONMinidynGroupedDataLabels"
+      "JSONHeavydynDataLabelsGroup",
+      "JSONMaxidynDataLabelsGroup",
+      "JSONMinidynDataLabelsGroup"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMachineDataLabelsGroups",
+    "value": "| JSONHeavydynDataLabelsGroups   | JSONMaxidynDataLabelsGroups   | JSONMinidynDataLabelsGroups",
+    "dependencies": [
+      "JSONHeavydynDataLabelsGroups",
+      "JSONMaxidynDataLabelsGroups",
+      "JSONMinidynDataLabelsGroups"
     ],
     "extends": []
   },
@@ -1059,7 +1321,7 @@
     "name": "JSONDistinctThresholdsConfiguration",
     "value": {
       "version": "1",
-      "selected": "number",
+      "selectedIndex": "number",
       "custom": "JSONCustomThreshold"
     },
     "dependencies": [
@@ -1195,6 +1457,17 @@
       "JSONHeavydynZone",
       "JSONMaxidynZone",
       "JSONMinidynZone"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONSelectableList~T, L~",
+    "value": {
+      "selectedIndex": "number | null",
+      "list": "L"
+    },
+    "dependencies": [
+      "L"
     ],
     "extends": []
   },

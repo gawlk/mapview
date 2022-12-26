@@ -1,34 +1,38 @@
 import { createBaseDropFromJSON, createBaseDropIndexFromJSON } from '../base'
 
-interface MinidynDropCreatorParameters extends MachineDropCreatorParameters {
-  point: MinidynPoint
-}
-
 export const createMinidynDropFromJSON = (
   json: JSONMinidynDropVAny,
-  parameters: MinidynDropCreatorParameters
+  parameters: {
+    point: MinidynPoint
+  }
 ) => {
   json = upgradeJSONDrop(json)
 
-  const drop: PartialMachineDrop<MinidynDrop> = createBaseDropFromJSON(
-    json.base,
-    {
-      machine: 'Minidyn',
-      point: parameters.point,
-    }
-  )
+  const dropGroup = parameters.point.zone.report.dataLabels.groups.list[0]
 
-  drop.toJSON = function (): JSONMinidynDrop {
-    return {
-      version: json.version,
-      base: this.toBaseJSON(),
-      distinct: {
-        version: json.distinct.version,
-      },
-    }
-  }
+  const index = dropGroup?.indexes?.list[json.base.index]
 
-  return drop as MinidynDrop
+  const baseDrop = createBaseDropFromJSON(json.base, {
+    point: parameters.point,
+    index,
+    dropGroup,
+  })
+
+  const drop: MinidynDrop = shallowReactive({
+    ...baseDrop,
+    machine: 'Minidyn',
+    toJSON: function () {
+      return {
+        version: json.version,
+        base: this.toBaseJSON(),
+        distinct: {
+          version: json.distinct.version,
+        },
+      }
+    },
+  })
+
+  return drop
 }
 
 const upgradeJSONDrop = (json: JSONMinidynDropVAny): JSONMinidynDrop => {
@@ -44,14 +48,14 @@ const upgradeJSONDrop = (json: JSONMinidynDropVAny): JSONMinidynDrop => {
 
 export const createMinidynDropIndexFromJSON = (
   json: JSONMinidynDropIndexVAny
-): MinidynDropIndex => {
+) => {
   json = upgradeJSONDropIndex(json)
 
-  return {
-    machine: 'Minidyn',
+  const dropIndex: MinidynDropIndex = {
     ...createBaseDropIndexFromJSON(json.base),
+    machine: 'Minidyn',
     type: json.distinct.type,
-    toJSON: function (): JSONMinidynDropIndex {
+    toJSON: function () {
       return {
         version: json.version,
         base: this.toBaseJSON(),
@@ -62,6 +66,8 @@ export const createMinidynDropIndexFromJSON = (
       }
     },
   }
+
+  return dropIndex
 }
 
 const upgradeJSONDropIndex = (

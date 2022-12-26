@@ -2,51 +2,44 @@ import { createFieldFromJSON, createMinidynDropFromJSON } from '/src/scripts'
 
 import { createBasePointFromJSON } from '../base'
 
-interface MinidynPointCreatorParameters extends MachinePointCreatorParameters {
-  zone: MinidynZone
-}
-
 export const createMinidynPointFromJSON = (
   json: JSONMinidynPointVAny,
   map: mapboxgl.Map | null,
-  parameters: MinidynPointCreatorParameters
+  parameters: {
+    zone: MinidynZone
+  }
 ) => {
   json = upgradeJSON(json)
 
-  const point: PartialMachinePoint<MinidynPoint> = createBasePointFromJSON(
-    json.base,
-    map,
-    {
-      machine: 'Minidyn',
-      zone: parameters.zone,
-    }
-  )
+  const basePoint = createBasePointFromJSON(json.base, map, {
+    zone: parameters.zone,
+    information: json.base.information,
+    drops: [] as MinidynDrop[],
+  })
+
+  const point: MinidynPoint = shallowReactive({
+    ...basePoint,
+    machine: 'Minidyn',
+    toJSON: function () {
+      return {
+        version: json.version,
+        base: this.toBaseJSON(),
+        distinct: {
+          version: json.distinct.version,
+        },
+      }
+    },
+  })
 
   point.drops.push(
     ...json.base.drops.map((jsonDrop) =>
       createMinidynDropFromJSON(jsonDrop, {
-        point: point as MinidynPoint,
+        point,
       })
     )
   )
 
-  point.information.push(
-    ...json.base.information.map((field: JSONField) =>
-      createFieldFromJSON(field)
-    )
-  )
-
-  point.toJSON = function (): JSONMinidynPoint {
-    return {
-      version: json.version,
-      base: this.toBaseJSON(),
-      distinct: {
-        version: json.distinct.version,
-      },
-    }
-  }
-
-  return point as MinidynPoint
+  return point
 }
 
 const upgradeJSON = (json: JSONMinidynPointVAny): JSONMinidynPoint => {

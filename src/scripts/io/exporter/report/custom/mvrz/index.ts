@@ -1,10 +1,14 @@
-import { getBrowserLocale } from '/src/locales'
+import { getBrowserLocale, translate } from '/src/locales'
 
-import { createMathNumber, createZipFromProject } from '/src/scripts'
+import {
+  convertValueFromUnitAToUnitB,
+  createMathNumber,
+  createZipFromProject,
+} from '/src/scripts'
 
 export const mrvzExporter = {
   name: '.mvrz (Excel)',
-  export: async (project: MachineProject, template: File) =>
+  export: async (project: MachineProject, template?: File) =>
     new File(
       [
         await createZipFromProject(project, {
@@ -147,31 +151,101 @@ const generateUnits = (units: MachineMathUnits): ExcelJson =>
   Object.values(units).reduce<ExcelJson>(
     (a, unit: MathUnit<string>) => ({
       ...a,
-      ['Unit_' + unit.name]: unit.currentUnit,
+      [`Unit_${unit.name}_Name`]: translate(unit.name),
+      [`Unit_${unit.name}_Unit`]: unit.currentUnit,
+      [`Unit_${unit.name}_Max`]: convertValueFromUnitAToUnitB(
+        unit.max,
+        unit.baseUnit,
+        unit.currentUnit
+      ),
+      [`Unit_${unit.name}_Min`]: convertValueFromUnitAToUnitB(
+        unit.min,
+        unit.baseUnit,
+        unit.currentUnit
+      ),
     }),
     {}
   )
 
-const generateThresholds = (thresholds: MachineReportThresholds): ExcelJson =>
+const generateThresholds = (thresholds: MachineThresholds): ExcelJson =>
   Object.values(thresholds.groups).reduce<ExcelJson>(
-    (a, group: GroupedThresolds<string>) => {
+    (a, group: ThresholdsGroup<string>) => {
       if (group.choices.selected) {
-        const value = createMathNumber(group.choices.selected.value, group.unit)
         return {
           ...a,
           ['Thresholds_' + group.unit.name + '_Kind']:
             group.choices.selected.kind,
           ['Thresholds_' + group.unit.name + '_Name']:
             group.choices.selected.name,
-          ['Thresholds_' + group.unit.name + '_Value']: value.getValueAs(
-            group.unit.currentUnit
-          ),
+          ['Thresholds_' + group.unit.name + '_Value']: createMathNumber(
+            group.choices.selected.value,
+            group.unit
+          ).getValueAs(group.unit.currentUnit),
+          ...(group.choices.selected.kind === 'custom' &&
+          group.choices.selected.type !== 'Bicolor'
+            ? {
+                ['Thresholds_' + group.unit.name + '_ValueHigh']:
+                  createMathNumber(
+                    group.choices.selected.valueHigh,
+                    group.unit
+                  ).getValueAs(group.unit.currentUnit),
+              }
+            : {}),
         }
       }
       return a
     },
     {}
   )
+
+const generateAcquisitionParameters = (project: MachineProject) => ({
+  AcquisitionParameters_NbSamples: project.acquisitionParameters.nbSamples,
+  AcquisitionParameters_Frequency: project.acquisitionParameters.frequency,
+  AcquisitionParameters_Pretrig: project.acquisitionParameters.preTrig,
+  ...(project.acquisitionParameters.smoothing
+    ? {
+        AcquisitionParameters_Smoothing:
+          project.acquisitionParameters.smoothing,
+      }
+    : {}),
+})
+
+const generateSequence = (report: MachineReport): ExcelJson => {
+  if (report.machine === 'Heavydyn') {
+    const dropDataLabels = report.dataLabels.groups.list[0]
+
+    const dropSequence: ExcelJson = {
+      DropSequence_Name: dropDataLabels.sequenceName,
+      DropSequence_Total: dropDataLabels.indexes.list.length || 0,
+    }
+
+    dropDataLabels.indexes.list.map((dropIndex, index) => {
+      dropSequence[`DropSequence_Drop${index + 1}_Type`] = translate(
+        dropIndex.type
+      )
+
+      dropSequence[`DropSequence_Drop${index + 1}_Value`] =
+        dropIndex.value.getValueAs(dropIndex.value.unit.currentUnit)
+    })
+
+    return dropSequence
+  } else {
+    const indexesList = report.dataLabels.groups.list[0].indexes.list as (
+      | MaxidynDropIndex
+      | MinidynDropIndex
+    )[]
+
+    return {
+      DropSequence_Total: indexesList.length,
+      DropSequence_Training: indexesList.filter(
+        (index) => index.type === 'Training'
+      ).length,
+      DropSequence_Averaging: indexesList.filter(
+        (index) => index.type === 'Averaging'
+      ).length,
+    }
+  }
+}
 
 const generateCalibrations = (
   calibrations: HeavydynCalibrations
@@ -254,8 +328,10 @@ const createBaseJson = (project: MachineProject): ExcelJson => {
     Database_Iterators_Optional: [true, false, false],
     Database_Iterators_FixedSize: [true, false, true],
     Database_Iterators_DirectAdressing: [true, false, true],
+    Project_Name: project.name.toString(),
     ...generateInformationFromFields(project.information, 'Project_'),
     ...generateInformationFromFields(project.hardware, 'Hardware_'),
+    Report_Name: project.reports.selected.name.toString(),
     ...generateInformationFromFields(
       project.reports.selected.information,
       'Report_'
@@ -264,8 +340,10 @@ const createBaseJson = (project: MachineProject): ExcelJson => {
       project.reports.selected.platform,
       'Platform_'
     ),
+    ...generateAcquisitionParameters(project),
     ...generateUnits(project.units),
     ...generateThresholds(project.reports.selected.thresholds),
+    ...generateSequence(project.reports.selected),
   }
 }
 

@@ -6,6 +6,7 @@ type JSONMaxidynProjectVAny = JSONMaxidynProject
 
 interface JSONMaxidynProject {
   readonly version: 1
+  readonly machine: 'Maxidyn'
   readonly base: JSONBaseProject
   readonly distinct: JSONMaxidynProjectDistinct
 }
@@ -20,10 +21,8 @@ interface JSONMaxidynProjectDistinct {
 // Object
 // ---
 
-interface MaxidynProject extends BaseProject {
-  readonly machine: 'Maxidyn'
-  readonly reports: SelectableList<MaxidynReport>
-  readonly units: MaxidynMathUnits
+interface MaxidynProject
+  extends MaxidynObject<JSONMaxidynProject>,
+    BaseProject<MaxidynReport, MaxidynMathUnits> {
   bearingParameters: JSONBearingParameters
-  toJSON: () => JSONMaxidynProject
 }

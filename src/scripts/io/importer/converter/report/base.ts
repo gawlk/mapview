@@ -7,6 +7,7 @@ export const convertPRJZToBaseReport = (
   reportIndex: number,
   parameters: {
     machine: MachineName
+    dropChoices: JSONDataLabel<string>[]
     dropIndexes: JSONMachineDropIndex[]
     testChoices: JSONDataLabel<string>[]
   }
@@ -60,15 +61,7 @@ export const convertPRJZToBaseReport = (
     dataLabels: {
       version: 1,
       table: {
-        selected: ((): number => {
-          switch (parameters.machine) {
-            case 'Heavydyn':
-              return 0
-            case 'Maxidyn':
-            case 'Minidyn':
-              return 1
-          }
-        })(),
+        selectedIndex: parameters.machine === 'Heavydyn' ? 0 : 1,
         list: [
           {
             version: 1,
@@ -80,18 +73,18 @@ export const convertPRJZToBaseReport = (
                   return [
                     'Load',
                     ...(() => {
-                      const indexD0 = parameters.testChoices.findIndex(
+                      const indexD0 = parameters.dropChoices.findIndex(
                         (choice) => choice.name === 'D0'
                       )
 
-                      return parameters.testChoices
+                      return parameters.dropChoices
                         .map((choice) => choice.name)
                         .slice(indexD0, indexD0 + 3)
                     })(),
                   ]
                 case 'Maxidyn':
                 case 'Minidyn':
-                  return parameters.testChoices
+                  return parameters.dropChoices
                     .map((choice) => choice.name)
                     .filter(
                       (name) =>

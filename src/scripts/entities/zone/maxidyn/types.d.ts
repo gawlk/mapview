@@ -18,8 +18,6 @@ interface JSONMaxidynZoneDistinct {
 // Object
 // ---
 
-interface MaxidynZone extends BaseZone {
-  readonly machine: 'Maxidyn'
-  readonly points: MaxidynPoint[]
-  toJSON: () => JSONMaxidynZone
-}
+interface MaxidynZone
+  extends MaxidynObject<JSONMaxidynZone>,
+    BaseZone<MaxidynPoint, MaxidynReport> {}

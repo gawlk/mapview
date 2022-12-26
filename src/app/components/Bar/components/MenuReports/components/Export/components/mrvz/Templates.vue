@@ -1,28 +1,49 @@
 <script setup lang="ts">
   import { type Component } from 'vue'
 
+  import store from '/src/store'
+
+  import { downloadFile, mrvzExporter } from '/src/scripts'
+
+  import Button from '/src/components/Button.vue'
+
   import Template from './Template.vue'
 
-  const state = reactive({
-    template1: null as File | null,
-    template2: null as File | null,
-    template3: null as File | null,
-  })
+  const isDev = import.meta.env.DEV
+
+  const { t } = useI18n()
 
   const emit = defineEmits<{
-    (event: 'component', value: Component): void
+    (event: 'component', value: Component, props?: any): void
   }>()
 </script>
 
 <template>
   <div class="space-y-2">
-    <Template :n="1"></Template>
-    <Template :n="2"></Template>
-    <Template :n="3"></Template>
+    <Button full>TODO: {{ t('Default') }} </Button>
+    <Template
+      @component="(component, props) => emit('component', component, props)"
+      :n="1"
+    />
+    <Template
+      @component="(component, props) => emit('component', component, props)"
+      :n="2"
+    />
+    <Template
+      @component="(component, props) => emit('component', component, props)"
+      :n="3"
+    />
+    <Button
+      v-if="isDev"
+      @click="
+        () =>
+          (async () =>
+            store.projects.selected &&
+            downloadFile(await mrvzExporter.export(store.projects.selected)))()
+      "
+      full
+    >
+      Download MRVZ JSON
+    </Button>
   </div>
 </template>
-
-<i18n lang="yaml">
-fr:
-  'Use the template from the imported project': 'Exporter le rapport'
-</i18n>

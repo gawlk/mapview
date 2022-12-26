@@ -6,6 +6,7 @@ export const convertPRJZToMaxidynProject = (
 ): JSONMaxidynProject => {
   const project: JSONMaxidynProject = {
     version: 1,
+    machine: 'Maxidyn',
     base: baseProject,
     distinct: convertPRJZToMaxidynProjectDistinct(json),
   }
@@ -16,7 +17,9 @@ export const convertPRJZToMaxidynProject = (
         convertPRJZToMaxidynReport(jsonPV, index, json)
     )
   )
-  project.base.reports.selected = project.base.reports.list.length ? 0 : null
+  project.base.reports.selectedIndex = project.base.reports.list.length
+    ? 0
+    : null
 
   return project
 }

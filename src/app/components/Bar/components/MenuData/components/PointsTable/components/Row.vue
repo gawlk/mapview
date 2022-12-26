@@ -22,8 +22,10 @@
     () =>
       dataLabels.value?.table.selected?.group ===
         dataLabels.value?.groups.selected &&
-      dataLabels.value?.table.selected?.index ===
-        dataLabels.value?.groups.selected.indexes?.selected
+      (dataLabels.value?.groups.selected.from !== 'Drop' ||
+        (dataLabels.value?.groups.selected?.from === 'Drop' &&
+          dataLabels.value?.table.selected?.index ===
+            dataLabels.value?.groups.selected.indexes?.selected))
   )
 
   const selectedTableDataLabelsParameters = computed(

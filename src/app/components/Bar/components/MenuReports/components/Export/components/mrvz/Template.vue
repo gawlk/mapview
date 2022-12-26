@@ -1,13 +1,20 @@
 <script setup lang="ts">
   import localForage from 'localforage'
-
-  import { getBrowserLocale } from '/src/locales'
+  import type { Component } from 'vue'
 
   import store from '/src/store'
 
-  import { downloadFile, fileToBase64, mrvzExporter } from '/src/scripts'
+  import { convertFileToDataURL, downloadFile } from '/src/scripts'
 
   import Button from '/src/components/Button.vue'
+
+  import Rest from './Rest.vue'
+
+  const { t } = useI18n()
+
+  const emit = defineEmits<{
+    (event: 'component', value: Component, props?: any): void
+  }>()
 
   const props = defineProps<{
     n: number
@@ -40,33 +47,15 @@
 
       await localForage.setItem(key.value, {
         name: file.name,
-        data64: await fileToBase64(file),
+        data64: await convertFileToDataURL(file),
       })
     }
   }
 
-  const fetchExcel = async () => {
-    if (store.projects.selected && state.file) {
-      const res = await fetch(
-        `https://mvreport.azurewebsites.net/api/getreport?local=${getBrowserLocale()}`,
-        {
-          method: 'POST',
-          headers: {
-            'content-type': 'octet-stream',
-            'x-functions-key':
-              'v7IwtPEOA8etaIi-CnqPsWE749uRZRKL31iuTTi6n8tIAzFuE_220w==',
-          },
-          body: await mrvzExporter.export(store.projects.selected, state.file),
-        }
-      )
+  const remove = () => {
+    state.file = null
 
-      downloadFile(
-        new File(
-          [await res.blob()],
-          `${store.projects.selected.reports.selected?.name.toString()}.xlsx`
-        )
-      )
-    }
+    localForage.removeItem(key.value)
   }
 </script>
 
@@ -75,7 +64,15 @@
     <button
       class="flex-1 overflow-hidden text-ellipsis rounded-lg border-2 border-gray-100 px-3 py-2 text-left text-sm font-medium hover:bg-gray-50"
       :class="state.file ? 'bg-gray-100' : 'border-dashed'"
-      @click="() => (state.file ? fetchExcel() : input?.click())"
+      @click="
+        () =>
+          state.file
+            ? emit('component', Rest, {
+                project: store.projects.selected,
+                template: state.file,
+              })
+            : input?.click()
+      "
     >
       <span class="opacity-50">Template {{ props.n }}:</span>
       {{ state.file ? state.file.name : 'No File' }}
@@ -91,20 +88,8 @@
       v-if="state.file"
       @click="() => state.file && downloadFile(state.file)"
     >
-      Download
+      {{ t('Download') }}
     </Button>
-    <Button
-      v-if="state.file"
-      @click="
-        () => {
-          state.file = null
-
-          localForage.removeItem(key)
-        }
-      "
-      red
-    >
-      Trash
-    </Button>
+    <Button v-if="state.file" @click="remove" red> {{ t('Delete') }} </Button>
   </div>
 </template>

@@ -1,31 +1,27 @@
 import { createDataValueFromJSON } from '/src/scripts'
 
-interface BaseDropCreatorParameters extends MachineDropCreatorParameters {
-  machine: MachineName
-}
-
-export const createBaseDropFromJSON = (
+export const createBaseDropFromJSON = <
+  Point extends MachinePoint,
+  DropIndex extends MachineDropIndex,
+  DropGroup extends MachineDropDataLabelsGroup
+>(
   json: JSONBaseDropVAny,
-  parameters: BaseDropCreatorParameters
-): BaseDrop => {
+  parameters: {
+    point: Point
+    index: DropIndex
+    dropGroup: DropGroup
+  }
+) => {
   json = upgradeJSONDrop(json)
 
-  const dropList = (
-    parameters.point.zone.report.dataLabels.groups
-      .list as MachineGroupedDataLabels[]
-  ).find((groupedDataLabels) => groupedDataLabels.from === 'Drop')
-
-  const index = dropList?.indexes?.list[json.index] as MachineDropIndex
-
-  return {
-    index,
-    data: json.data.map(
-      (jsonDataValue): DataValue<string> =>
-        createDataValueFromJSON(jsonDataValue, dropList?.choices.list || [])
+  const drop: BaseDrop<DropIndex, Point> = {
+    index: parameters.index,
+    data: json.data.map((jsonDataValue) =>
+      createDataValueFromJSON(jsonDataValue, parameters.dropGroup.choices.list)
     ),
     point: parameters.point,
     impactData: null,
-    toBaseJSON: function (): JSONBaseDrop {
+    toBaseJSON: function () {
       return {
         version: json.version,
         data: this.data.map((data) => data.toJSON()),
@@ -33,6 +29,8 @@ export const createBaseDropFromJSON = (
       }
     },
   }
+
+  return drop
 }
 
 const upgradeJSONDrop = (json: JSONBaseDropVAny): JSONBaseDrop => {

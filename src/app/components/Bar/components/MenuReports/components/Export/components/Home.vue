@@ -16,7 +16,7 @@
   import Templates from './mrvz/Templates.vue'
 
   const emit = defineEmits<{
-    (event: 'component', value: Component): void
+    (event: 'component', value: Component, props?: any): void
   }>()
 
   const state = reactive({

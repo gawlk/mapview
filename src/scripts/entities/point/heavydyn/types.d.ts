@@ -18,9 +18,6 @@ interface JSONHeavydynPointDistinct {
 // Object
 // ---
 
-interface HeavydynPoint extends BasePoint {
-  readonly machine: 'Heavydyn'
-  readonly drops: HeavydynDrop[]
-  zone: HeavydynZone
-  toJSON: () => JSONHeavydynPoint
-}
+interface HeavydynPoint
+  extends HeavydynObject<JSONHeavydynPoint>,
+    BasePoint<HeavydynDrop, HeavydynZone> {}

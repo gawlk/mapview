@@ -11,11 +11,13 @@ export const createDataValueFromJSON = (
   ) as DataLabel<string>
 
   return {
+    category: json.category,
     label,
     value: createMathNumber(json.value, label.unit),
     toJSON: function () {
       return {
         version: json.version,
+        category: this.category,
         label: this.label.name,
         value: this.value.value,
       }

@@ -131,7 +131,7 @@
     "value": {
       "name": "string",
       "unit": "MathUnit#60;T#62;",
-      "scientificName?": "string"
+      "toJSON": "#40;#41; =#62; JSONDataLabel#60;T#62;"
     },
     "dependencies": [
       "MathUnit",
@@ -140,8 +140,347 @@
     "extends": []
   },
   {
+    "name": "DataLabelsFrom",
+    "value": "'Drop' | 'Test' | 'Zone'",
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "BaseDataLabels",
+    "value": {
+      "groups": "SelectableList#60;AnyBaseDataLabelsGroup, BaseDataLabelsGroups#62;",
+      "table": "SelectableList#60;BaseTableDataLabelsParameters#62;"
+    },
+    "dependencies": [
+      "SelectableList",
+      "AnyBaseDataLabelsGroup",
+      "BaseDataLabelsGroups",
+      "BaseTableDataLabelsParameters"
+    ],
+    "extends": [
+      "BaseObject"
+    ]
+  },
+  {
+    "name": "BaseDataLabelsGroups",
+    "value": "[   BaseDropDataLabelsGroup#60;BaseDropIndex#62;,   BaseTestDataLabelsGroup,   BaseZoneDataLabelsGroup ]",
+    "dependencies": [
+      "BaseDropDataLabelsGroup",
+      "BaseDropIndex",
+      "BaseTestDataLabelsGroup",
+      "BaseZoneDataLabelsGroup"
+    ],
+    "extends": []
+  },
+  {
+    "name": "AnyBaseDataLabelsGroup",
+    "value": "BaseDataLabelsGroups[number]",
+    "dependencies": [
+      "BaseDataLabelsGroups"
+    ],
+    "extends": []
+  },
+  {
+    "name": "BaseDataLabelsGroup~From~",
+    "value": {
+      "from": "From",
+      "choices": "SelectableList#60;DataLabel#60;string#62;#62;"
+    },
+    "dependencies": [
+      "From",
+      "SelectableList",
+      "DataLabel"
+    ],
+    "extends": [
+      "BaseObject"
+    ]
+  },
+  {
+    "name": "BaseDropDataLabelsGroup~Drop~",
+    "value": {
+      "indexes": "SelectableList#60;Drop#62;"
+    },
+    "dependencies": [
+      "SelectableList",
+      "Drop"
+    ],
+    "extends": [
+      "BaseDataLabelsGroup"
+    ]
+  },
+  {
+    "name": "BaseTestDataLabelsGroup",
+    "value": {},
+    "dependencies": [],
+    "extends": [
+      "BaseDataLabelsGroup"
+    ]
+  },
+  {
+    "name": "BaseZoneDataLabelsGroup",
+    "value": {},
+    "dependencies": [],
+    "extends": [
+      "BaseDataLabelsGroup"
+    ]
+  },
+  {
+    "name": "BaseTableDataLabelsParameters",
+    "value": {
+      "group": "AnyBaseDataLabelsGroup",
+      "dataLabels": "DataLabel#60;string#62;[]",
+      "index?": "BaseDropIndex"
+    },
+    "dependencies": [
+      "AnyBaseDataLabelsGroup",
+      "DataLabel",
+      "BaseDropIndex"
+    ],
+    "extends": []
+  },
+  {
+    "name": "HeavydynDataLabels",
+    "value": {
+      "groups": "SelectableList#60;     HeavydynDataLabelsGroup,     HeavydynDataLabelsGroups   #62;"
+    },
+    "dependencies": [
+      "SelectableList",
+      "HeavydynDataLabelsGroup",
+      "HeavydynDataLabelsGroups"
+    ],
+    "extends": [
+      "BaseDataLabels"
+    ]
+  },
+  {
+    "name": "HeavydynDataLabelsGroup",
+    "value": "HeavydynDataLabelsGroups[number]",
+    "dependencies": [
+      "HeavydynDataLabelsGroups"
+    ],
+    "extends": []
+  },
+  {
+    "name": "HeavydynDataLabelsGroups",
+    "value": "[   HeavydynDropDataLabelsGroup,   HeavydynTestDataLabelsGroup,   HeavydynZoneDataLabelsGroup ]",
+    "dependencies": [
+      "HeavydynDropDataLabelsGroup",
+      "HeavydynTestDataLabelsGroup",
+      "HeavydynZoneDataLabelsGroup"
+    ],
+    "extends": []
+  },
+  {
+    "name": "HeavydynDropDataLabelsGroup",
+    "value": {
+      "indexes": "SelectableList#60;HeavydynDropIndex#62;",
+      "sequenceName": "string",
+      "toJSON": "#40;#41; =#62; JSONHeavydynDropDataLabelsGroup"
+    },
+    "dependencies": [
+      "SelectableList",
+      "HeavydynDropIndex"
+    ],
+    "extends": [
+      "BaseDropDataLabelsGroup"
+    ]
+  },
+  {
+    "name": "HeavydynTestDataLabelsGroup",
+    "value": {
+      "toJSON": "#40;#41; =#62; JSONHeavydynTestDataLabelsGroup"
+    },
+    "dependencies": [],
+    "extends": [
+      "BaseTestDataLabelsGroup"
+    ]
+  },
+  {
+    "name": "HeavydynZoneDataLabelsGroup",
+    "value": {
+      "toJSON": "#40;#41; =#62; JSONHeavydynZoneDataLabelsGroup"
+    },
+    "dependencies": [],
+    "extends": [
+      "BaseZoneDataLabelsGroup"
+    ]
+  },
+  {
+    "name": "MaxidynDataLabels",
+    "value": {
+      "groups": "SelectableList#60;     MaxidynDataLabelsGroup,     MaxidynDataLabelsGroups   #62;"
+    },
+    "dependencies": [
+      "SelectableList",
+      "MaxidynDataLabelsGroup",
+      "MaxidynDataLabelsGroups"
+    ],
+    "extends": [
+      "BaseDataLabels"
+    ]
+  },
+  {
+    "name": "MaxidynDataLabelsGroup",
+    "value": "MaxidynDataLabelsGroups[number]",
+    "dependencies": [
+      "MaxidynDataLabelsGroups"
+    ],
+    "extends": []
+  },
+  {
+    "name": "MaxidynDataLabelsGroups",
+    "value": "[   MaxidynDropDataLabelsGroup,   MaxidynTestDataLabelsGroup,   MaxidynZoneDataLabelsGroup ]",
+    "dependencies": [
+      "MaxidynDropDataLabelsGroup",
+      "MaxidynTestDataLabelsGroup",
+      "MaxidynZoneDataLabelsGroup"
+    ],
+    "extends": []
+  },
+  {
+    "name": "MaxidynDropDataLabelsGroup",
+    "value": {
+      "indexes": "SelectableList#60;MaxidynDropIndex#62;",
+      "toJSON": "#40;#41; =#62; JSONMaxidynDropDataLabelsGroup"
+    },
+    "dependencies": [
+      "SelectableList",
+      "MaxidynDropIndex"
+    ],
+    "extends": [
+      "BaseDropDataLabelsGroup"
+    ]
+  },
+  {
+    "name": "MaxidynTestDataLabelsGroup",
+    "value": {
+      "toJSON": "#40;#41; =#62; JSONMaxidynTestDataLabelsGroup"
+    },
+    "dependencies": [],
+    "extends": [
+      "BaseTestDataLabelsGroup"
+    ]
+  },
+  {
+    "name": "MaxidynZoneDataLabelsGroup",
+    "value": {
+      "toJSON": "#40;#41; =#62; JSONMaxidynZoneDataLabelsGroup"
+    },
+    "dependencies": [],
+    "extends": [
+      "BaseZoneDataLabelsGroup"
+    ]
+  },
+  {
+    "name": "MinidynDataLabels",
+    "value": {
+      "groups": "SelectableList#60;     MinidynDataLabelsGroup,     MinidynDataLabelsGroups   #62;"
+    },
+    "dependencies": [
+      "SelectableList",
+      "MinidynDataLabelsGroup",
+      "MinidynDataLabelsGroups"
+    ],
+    "extends": [
+      "BaseDataLabels"
+    ]
+  },
+  {
+    "name": "MinidynDataLabelsGroup",
+    "value": "MinidynDataLabelsGroups[number]",
+    "dependencies": [
+      "MinidynDataLabelsGroups"
+    ],
+    "extends": []
+  },
+  {
+    "name": "MinidynDataLabelsGroups",
+    "value": "[   MinidynDropDataLabelsGroup,   MinidynTestDataLabelsGroup,   MinidynZoneDataLabelsGroup ]",
+    "dependencies": [
+      "MinidynDropDataLabelsGroup",
+      "MinidynTestDataLabelsGroup",
+      "MinidynZoneDataLabelsGroup"
+    ],
+    "extends": []
+  },
+  {
+    "name": "MinidynDropDataLabelsGroup",
+    "value": {
+      "indexes": "SelectableList#60;MinidynDropIndex#62;",
+      "toJSON": "#40;#41; =#62; JSONMinidynDropDataLabelsGroup"
+    },
+    "dependencies": [
+      "SelectableList",
+      "MinidynDropIndex"
+    ],
+    "extends": [
+      "BaseDropDataLabelsGroup"
+    ]
+  },
+  {
+    "name": "MinidynTestDataLabelsGroup",
+    "value": {
+      "toJSON": "#40;#41; =#62; JSONMinidynTestDataLabelsGroup"
+    },
+    "dependencies": [],
+    "extends": [
+      "BaseTestDataLabelsGroup"
+    ]
+  },
+  {
+    "name": "MinidynZoneDataLabelsGroup",
+    "value": {
+      "toJSON": "#40;#41; =#62; JSONMinidynZoneDataLabelsGroup"
+    },
+    "dependencies": [],
+    "extends": [
+      "BaseZoneDataLabelsGroup"
+    ]
+  },
+  {
+    "name": "MachineDataLabels",
+    "value": "| HeavydynDataLabels   | MaxidynDataLabels   | MinidynDataLabels",
+    "dependencies": [
+      "HeavydynDataLabels",
+      "MaxidynDataLabels",
+      "MinidynDataLabels"
+    ],
+    "extends": []
+  },
+  {
+    "name": "MachineDataLabelsGroups",
+    "value": "| HeavydynDataLabelsGroups   | MaxidynDataLabelsGroups   | MinidynDataLabelsGroups",
+    "dependencies": [
+      "HeavydynDataLabelsGroups",
+      "MaxidynDataLabelsGroups",
+      "MinidynDataLabelsGroups"
+    ],
+    "extends": []
+  },
+  {
+    "name": "MachineDataLabelsGroup",
+    "value": "| HeavydynDataLabelsGroup   | MaxidynDataLabelsGroup   | MinidynDataLabelsGroup",
+    "dependencies": [
+      "HeavydynDataLabelsGroup",
+      "MaxidynDataLabelsGroup",
+      "MinidynDataLabelsGroup"
+    ],
+    "extends": []
+  },
+  {
+    "name": "MachineDropDataLabelsGroup",
+    "value": "| HeavydynDropDataLabelsGroup   | MaxidynDropDataLabelsGroup   | MinidynDropDataLabelsGroup",
+    "dependencies": [
+      "HeavydynDropDataLabelsGroup",
+      "MaxidynDropDataLabelsGroup",
+      "MinidynDropDataLabelsGroup"
+    ],
+    "extends": []
+  },
+  {
     "name": "DataValue~T~",
     "value": {
+      "category": "string",
       "label": "DataLabel#60;T#62;",
       "value": "MathNumber",
       "toJSON": "#40;#41; =#62; JSONDataValue"
@@ -154,53 +493,31 @@
     "extends": []
   },
   {
-    "name": "BaseDropCreatorParameters",
+    "name": "BaseDrop~DropIndex, Point~",
     "value": {
-      "machine": "MachineName"
-    },
-    "dependencies": [
-      "MachineName"
-    ],
-    "extends": [
-      "MachineDropCreatorParameters"
-    ]
-  },
-  {
-    "name": "BaseDrop",
-    "value": {
-      "index": "MachineDropIndex",
+      "index": "DropIndex",
       "data": "DataValue#60;string#62;[]",
-      "point": "MachinePoint",
-      "impactData": "ImpactData | null",
-      "toBaseJSON": "#40;#41; =#62; JSONBaseDrop"
+      "point": "Point",
+      "impactData": "ImpactData | null"
     },
     "dependencies": [
-      "MachineDropIndex",
+      "DropIndex",
       "DataValue",
-      "MachinePoint",
+      "Point",
       "ImpactData"
     ],
-    "extends": []
+    "extends": [
+      "BaseObject"
+    ]
   },
   {
     "name": "BaseDropIndex",
     "value": {
-      "displayedIndex": "number",
-      "toBaseJSON": "#40;#41; =#62; JSONBaseDropIndex"
+      "displayedIndex": "number"
     },
     "dependencies": [],
-    "extends": []
-  },
-  {
-    "name": "HeavydynDropCreatorParameters",
-    "value": {
-      "point": "HeavydynPoint"
-    },
-    "dependencies": [
-      "HeavydynPoint"
-    ],
     "extends": [
-      "MachineDropCreatorParameters"
+      "BaseObject"
     ]
   },
   {
@@ -211,45 +528,26 @@
   },
   {
     "name": "HeavydynDrop",
-    "value": {
-      "index": "HeavydynDropIndex",
-      "point": "HeavydynPoint",
-      "toJSON": "#40;#41; =#62; JSONHeavydynDrop"
-    },
-    "dependencies": [
-      "HeavydynDropIndex",
-      "HeavydynPoint"
-    ],
+    "value": {},
+    "dependencies": [],
     "extends": [
+      "HeavydynObject",
       "BaseDrop"
     ]
   },
   {
     "name": "HeavydynDropIndex",
     "value": {
-      "machine": "'Heavydyn'",
       "type": "HeavydynDropType",
-      "value": "MathNumber",
-      "toJSON": "#40;#41; =#62; JSONHeavydynDropIndex"
+      "value": "MathNumber"
     },
     "dependencies": [
       "HeavydynDropType",
       "MathNumber"
     ],
     "extends": [
+      "HeavydynObject",
       "BaseDropIndex"
-    ]
-  },
-  {
-    "name": "MaxidynDropCreatorParameters",
-    "value": {
-      "point": "MaxidynPoint"
-    },
-    "dependencies": [
-      "MaxidynPoint"
-    ],
-    "extends": [
-      "MachineDropCreatorParameters"
     ]
   },
   {
@@ -260,43 +558,24 @@
   },
   {
     "name": "MaxidynDrop",
-    "value": {
-      "index": "MaxidynDropIndex",
-      "point": "MaxidynPoint",
-      "toJSON": "#40;#41; =#62; JSONMaxidynDrop"
-    },
-    "dependencies": [
-      "MaxidynDropIndex",
-      "MaxidynPoint"
-    ],
+    "value": {},
+    "dependencies": [],
     "extends": [
+      "MaxidynObject",
       "BaseDrop"
     ]
   },
   {
     "name": "MaxidynDropIndex",
     "value": {
-      "machine": "'Maxidyn'",
-      "type": "MaxidynDropType",
-      "toJSON": "#40;#41; =#62; JSONMaxidynDropIndex"
+      "type": "MaxidynDropType"
     },
     "dependencies": [
       "MaxidynDropType"
     ],
     "extends": [
+      "MaxidynObject",
       "BaseDropIndex"
-    ]
-  },
-  {
-    "name": "MinidynDropCreatorParameters",
-    "value": {
-      "point": "MinidynPoint"
-    },
-    "dependencies": [
-      "MinidynPoint"
-    ],
-    "extends": [
-      "MachineDropCreatorParameters"
     ]
   },
   {
@@ -307,30 +586,23 @@
   },
   {
     "name": "MinidynDrop",
-    "value": {
-      "index": "MinidynDropIndex",
-      "point": "MinidynPoint",
-      "toJSON": "#40;#41; =#62; JSONMinidynDrop"
-    },
-    "dependencies": [
-      "MinidynDropIndex",
-      "MinidynPoint"
-    ],
+    "value": {},
+    "dependencies": [],
     "extends": [
+      "MinidynObject",
       "BaseDrop"
     ]
   },
   {
     "name": "MinidynDropIndex",
     "value": {
-      "machine": "'Minidyn'",
-      "type": "MinidynDropType",
-      "toJSON": "#40;#41; =#62; JSONMinidynDropIndex"
+      "type": "MinidynDropType"
     },
     "dependencies": [
       "MinidynDropType"
     ],
     "extends": [
+      "MinidynObject",
       "BaseDropIndex"
     ]
   },
@@ -345,22 +617,12 @@
     "extends": []
   },
   {
-    "name": "PartialMachineDrop~MachineDrop~",
-    "value": "PartialExtendedObject#60;   BaseDrop,   MachineDrop #62;",
+    "name": "MachineDropIndex",
+    "value": "HeavydynDropIndex | MaxidynDropIndex | MinidynDropIndex",
     "dependencies": [
-      "PartialExtendedObject",
-      "BaseDrop",
-      "MachineDrop"
-    ],
-    "extends": []
-  },
-  {
-    "name": "MachineDropCreatorParameters",
-    "value": {
-      "point": "MachinePoint"
-    },
-    "dependencies": [
-      "MachinePoint"
+      "HeavydynDropIndex",
+      "MaxidynDropIndex",
+      "MinidynDropIndex"
     ],
     "extends": []
   },
@@ -485,6 +747,26 @@
       "disableMinAndMax?": "true"
     },
     "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "MathUnit~PossibleUnits~",
+    "value": {
+      "name": "string",
+      "baseUnit": "string",
+      "possibleSettings": "[PossibleUnits, number][]",
+      "possiblePrecisions": "number[]",
+      "readOnly": "boolean",
+      "min": "number",
+      "max": "number",
+      "currentUnit": "PossibleUnits",
+      "currentPrecision": "number",
+      "getAverage": "#40;values: number[]#41; =#62; number",
+      "toJSON": "#40;#41; =#62; JSONMathUnit#60;PossibleUnits#62;"
+    },
+    "dependencies": [
+      "PossibleUnits"
+    ],
     "extends": []
   },
   {
@@ -725,26 +1007,6 @@
     "extends": []
   },
   {
-    "name": "MathUnit~PossibleUnits~",
-    "value": {
-      "name": "string",
-      "baseUnit": "string",
-      "possibleSettings": "[PossibleUnits, number][]",
-      "possiblePrecisions": "number[]",
-      "readOnly": "boolean",
-      "min": "number",
-      "max": "number",
-      "currentUnit": "PossibleUnits",
-      "currentPrecision": "number",
-      "getAverage": "#40;values: number[]#41; =#62; number",
-      "toJSON": "#40;#41; =#62; JSONMathUnit#60;PossibleUnits#62;"
-    },
-    "dependencies": [
-      "PossibleUnits"
-    ],
-    "extends": []
-  },
-  {
     "name": "Overlay",
     "value": {
       "id": "string",
@@ -776,21 +1038,8 @@
     "extends": []
   },
   {
-    "name": "BasePointCreatorParameters",
+    "name": "BasePoint~Drop, Zone~",
     "value": {
-      "machine": "MachineName"
-    },
-    "dependencies": [
-      "MachineName"
-    ],
-    "extends": [
-      "MachinePointCreatorParameters"
-    ]
-  },
-  {
-    "name": "BasePoint",
-    "value": {
-      "machine": "MachineName",
       "id": "string",
       "date": "Date",
       "marker": "mapboxgl.Marker | null",
@@ -798,117 +1047,60 @@
       "settings": "JSONPointSettings",
       "data": "DataValue#60;string#62;[]",
       "information": "Field[]",
-      "drops": "MachineDrop[]",
+      "drops": "Drop[]",
       "index": "number",
       "number": "number",
-      "zone": "MachineZone",
+      "zone": "Zone",
       "rawDataFile": "ArrayBufferLike | null",
-      "getSelectedMathNumber": "#40;     groupFrom: DataLabelsFrom,     dataLabel: DataLabel#60;string#62;,     index?: MachineDropIndex | null   #41; =#62; MathNumber | undefined",
-      "getDisplayedString": "#40;     groupFrom: DataLabelsFrom,     dataLabel: DataLabel#60;string#62;,     index?: MachineDropIndex | null   #41; =#62; string",
+      "getSelectedMathNumber": "#40;     groupFrom: DataLabelsFrom,     dataLabel: DataLabel#60;string#62;,     index?: BaseDropIndex | null   #41; =#62; MathNumber | undefined",
+      "getDisplayedString": "#40;     groupFrom: DataLabelsFrom,     dataLabel: DataLabel#60;string#62;,     index?: BaseDropIndex | null   #41; =#62; string",
       "updateColor": "#40;#41; =#62; void",
       "updateText": "#40;#41; =#62; void",
       "updateVisibility": "#40;#41; =#62; void",
       "updatePopup": "#40;#41; =#62; void",
       "addToMap": "#40;#41; =#62; void",
       "checkVisibility": "#40;#41; =#62; boolean",
-      "remove": "#40;#41; =#62; void",
-      "toBaseJSON": "#40;#41; =#62; JSONBasePoint"
+      "remove": "#40;#41; =#62; void"
     },
     "dependencies": [
-      "MachineName",
       "Date",
       "mapboxgl.Marker",
       "Icon",
       "JSONPointSettings",
       "DataValue",
       "Field",
-      "MachineDrop",
-      "MachineZone",
+      "Drop",
+      "Zone",
       "ArrayBufferLike"
     ],
-    "extends": []
-  },
-  {
-    "name": "HeavydynPointCreatorParameters",
-    "value": {
-      "zone": "HeavydynZone"
-    },
-    "dependencies": [
-      "HeavydynZone"
-    ],
     "extends": [
-      "MachinePointCreatorParameters"
+      "BaseObject"
     ]
   },
   {
     "name": "HeavydynPoint",
-    "value": {
-      "machine": "'Heavydyn'",
-      "drops": "HeavydynDrop[]",
-      "zone": "HeavydynZone",
-      "toJSON": "#40;#41; =#62; JSONHeavydynPoint"
-    },
-    "dependencies": [
-      "HeavydynDrop",
-      "HeavydynZone"
-    ],
+    "value": {},
+    "dependencies": [],
     "extends": [
+      "HeavydynObject",
       "BasePoint"
-    ]
-  },
-  {
-    "name": "MaxidynPointCreatorParameters",
-    "value": {
-      "zone": "MaxidynZone"
-    },
-    "dependencies": [
-      "MaxidynZone"
-    ],
-    "extends": [
-      "MachinePointCreatorParameters"
     ]
   },
   {
     "name": "MaxidynPoint",
-    "value": {
-      "machine": "'Maxidyn'",
-      "drops": "MaxidynDrop[]",
-      "zone": "MaxidynZone",
-      "toJSON": "#40;#41; =#62; JSONMaxidynPoint"
-    },
-    "dependencies": [
-      "MaxidynDrop",
-      "MaxidynZone"
-    ],
+    "value": {},
+    "dependencies": [],
     "extends": [
+      "MaxidynObject",
       "BasePoint"
     ]
   },
   {
-    "name": "MinidynPointCreatorParameters",
-    "value": {
-      "zone": "MinidynZone"
-    },
-    "dependencies": [
-      "MinidynZone"
-    ],
-    "extends": [
-      "MachinePointCreatorParameters"
-    ]
-  },
-  {
     "name": "MinidynPoint",
-    "value": {
-      "machine": "'Minidyn'",
-      "drops": "MinidynDrop[]",
-      "zone": "MinidynZone",
-      "toJSON": "#40;#41; =#62; JSONMinidynPoint"
-    },
-    "dependencies": [
-      "MinidynDrop",
-      "MinidynZone"
-    ],
+    "value": {},
+    "dependencies": [],
     "extends": [
+      "MinidynObject",
       "BasePoint"
     ]
   },
@@ -923,40 +1115,19 @@
     "extends": []
   },
   {
-    "name": "PartialMachinePoint~MachinePoint~",
-    "value": "PartialExtendedObject#60;   BasePoint,   MachinePoint #62;",
-    "dependencies": [
-      "PartialExtendedObject",
-      "BasePoint",
-      "MachinePoint"
-    ],
-    "extends": []
-  },
-  {
-    "name": "MachinePointCreatorParameters",
-    "value": {
-      "zone": "MachineZone"
-    },
-    "dependencies": [
-      "MachineZone"
-    ],
-    "extends": []
-  },
-  {
     "name": "MachineName",
     "value": "'Heavydyn' | 'Maxidyn' | 'Minidyn'",
     "dependencies": [],
     "extends": []
   },
   {
-    "name": "BaseProject",
+    "name": "BaseProject~Report, MathUnits~",
     "value": {
-      "machine": "MachineName",
       "name": "Field",
       "information": "Field[]",
       "hardware": "Field[]",
-      "reports": "SelectableList#60;MachineReport#62;",
-      "units": "MachineMathUnits",
+      "reports": "SelectableList#60;Report#62;",
+      "units": "MathUnits",
       "settings": "JSONProjectSettings",
       "overlays": "Overlay[]",
       "acquisitionParameters": "JSONAcquisitionParameters",
@@ -964,39 +1135,57 @@
       "setMapStyle": "#40;styleIndex: number#41; =#62; void",
       "fitOnMap": "#40;#41; =#62; void",
       "addToMap": "#40;#41; =#62; void",
-      "remove": "#40;#41; =#62; void",
-      "toBaseJSON": "#40;#41; =#62; JSONBaseProject"
+      "remove": "#40;#41; =#62; void"
     },
     "dependencies": [
-      "MachineName",
       "Field",
       "SelectableList",
-      "MachineReport",
-      "MachineMathUnits",
+      "Report",
+      "MathUnits",
       "JSONProjectSettings",
       "Overlay",
       "JSONAcquisitionParameters"
     ],
+    "extends": [
+      "BaseObject"
+    ]
+  },
+  {
+    "name": "LoadReferenceSourceList",
+    "value": "['Sequence' | 'Custom']",
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "TemperatureFromSourceList",
+    "value": "['Tair', 'Tsurf', 'Tman']",
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "TemperatureAverageList",
+    "value": "['Point', 'Zone', 'Report', 'Custom']",
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "TemperatureStructureTypeList",
+    "value": "['1', '2', '3', '4']",
+    "dependencies": [],
     "extends": []
   },
   {
     "name": "HeavydynProject",
     "value": {
-      "machine": "'Heavydyn'",
-      "reports": "SelectableList#60;HeavydynReport#62;",
-      "units": "HeavydynMathUnits",
       "calibrations": "HeavydynCalibrations",
-      "correctionParameters": "JSONHeavydynCorrectionParameters",
-      "toJSON": "#40;#41; =#62; JSONHeavydynProject"
+      "correctionParameters?": "JSONHeavydynCorrectionParameters"
     },
     "dependencies": [
-      "SelectableList",
-      "HeavydynReport",
-      "HeavydynMathUnits",
       "HeavydynCalibrations",
       "JSONHeavydynCorrectionParameters"
     ],
     "extends": [
+      "HeavydynObject",
       "BaseProject"
     ]
   },
@@ -1018,38 +1207,26 @@
   {
     "name": "MaxidynProject",
     "value": {
-      "machine": "'Maxidyn'",
-      "reports": "SelectableList#60;MaxidynReport#62;",
-      "units": "MaxidynMathUnits",
-      "bearingParameters": "JSONBearingParameters",
-      "toJSON": "#40;#41; =#62; JSONMaxidynProject"
+      "bearingParameters": "JSONBearingParameters"
     },
     "dependencies": [
-      "SelectableList",
-      "MaxidynReport",
-      "MaxidynMathUnits",
       "JSONBearingParameters"
     ],
     "extends": [
+      "MaxidynObject",
       "BaseProject"
     ]
   },
   {
     "name": "MinidynProject",
     "value": {
-      "machine": "'Minidyn'",
-      "reports": "SelectableList#60;MinidynReport#62;",
-      "units": "MinidynMathUnits",
-      "bearingParameters": "JSONBearingParameters",
-      "toJSON": "#40;#41; =#62; JSONMinidynProject"
+      "bearingParameters": "JSONBearingParameters"
     },
     "dependencies": [
-      "SelectableList",
-      "MinidynReport",
-      "MinidynMathUnits",
       "JSONBearingParameters"
     ],
     "extends": [
+      "MinidynObject",
       "BaseProject"
     ]
   },
@@ -1060,16 +1237,6 @@
       "HeavydynProject",
       "MaxidynProject",
       "MinidynProject"
-    ],
-    "extends": []
-  },
-  {
-    "name": "PartialMachineProject~MachineProject~",
-    "value": "PartialExtendedObject#60;   BaseProject,   MachineProject #62;",
-    "dependencies": [
-      "PartialExtendedObject",
-      "BaseProject",
-      "MachineProject"
     ],
     "extends": []
   },
@@ -1105,12 +1272,6 @@
     "extends": []
   },
   {
-    "name": "DataLabelsFrom",
-    "value": "'Drop' | 'Test' | 'Zone'",
-    "dependencies": [],
-    "extends": []
-  },
-  {
     "name": "ReportColorization",
     "value": "'Threshold' | 'Zone'",
     "dependencies": [],
@@ -1123,107 +1284,35 @@
     "extends": []
   },
   {
-    "name": "BaseReport",
+    "name": "BaseReport~Project, Zone, DataLabels, Thresholds~",
     "value": {
-      "machine": "MachineName",
       "name": "Field",
       "line": "Line",
-      "zones": "MachineZone[]",
+      "zones": "Zone[]",
       "screenshots": "string[]",
-      "dataLabels": "MachineReportDataLabels",
-      "thresholds": "MachineReportThresholds",
+      "dataLabels": "DataLabels",
+      "thresholds": "Thresholds",
       "settings": "JSONReportSettings",
       "platform": "Field[]",
       "information": "Field[]",
-      "project": "MachineProject",
+      "project": "Project",
       "isOnMap": "boolean",
       "fitOnMap": "#40;#41; =#62; void",
-      "toBaseJSON": "#40;#41; =#62; JSONBaseReport",
       "addToMap": "#40;#41; =#62; void",
       "remove": "#40;#41; =#62; void"
     },
     "dependencies": [
-      "MachineName",
       "Field",
       "Line",
-      "MachineZone",
-      "MachineReportDataLabels",
-      "MachineReportThresholds",
+      "Zone",
+      "DataLabels",
+      "Thresholds",
       "JSONReportSettings",
-      "MachineProject"
+      "Project"
     ],
-    "extends": []
-  },
-  {
-    "name": "BaseReportDataLabels",
-    "value": {
-      "groups": "SelectableList#60;BaseGroupedDataLabels#62;",
-      "table": "SelectableList#60;BaseTableDataLabelsParameters#62;"
-    },
-    "dependencies": [
-      "SelectableList",
-      "BaseGroupedDataLabels",
-      "BaseTableDataLabelsParameters"
-    ],
-    "extends": []
-  },
-  {
-    "name": "BaseGroupedDataLabels",
-    "value": {
-      "from": "DataLabelsFrom",
-      "choices": "SelectableList#60;DataLabel#60;string#62;#62;",
-      "indexes?": "SelectableList#60;MachineDropIndex#62;"
-    },
-    "dependencies": [
-      "DataLabelsFrom",
-      "SelectableList",
-      "DataLabel",
-      "MachineDropIndex"
-    ],
-    "extends": []
-  },
-  {
-    "name": "BaseTableDataLabelsParameters",
-    "value": {
-      "group": "MachineGroupedDataLabels",
-      "index?": "MachineDropIndex",
-      "dataLabels": "DataLabel#60;string#62;[]"
-    },
-    "dependencies": [
-      "MachineGroupedDataLabels",
-      "MachineDropIndex",
-      "DataLabel"
-    ],
-    "extends": []
-  },
-  {
-    "name": "BaseReportThresholds",
-    "value": {
-      "groups": "MachineUnitsSkeleton#60;GroupedThresolds#60;string#62;#62;",
-      "colors": "JSONThresholdColors",
-      "inputs": "JSONThresholdInputs"
-    },
-    "dependencies": [
-      "MachineUnitsSkeleton",
-      "GroupedThresolds",
-      "JSONThresholdColors",
-      "JSONThresholdInputs"
-    ],
-    "extends": []
-  },
-  {
-    "name": "GroupedThresolds~T~",
-    "value": {
-      "unit": "MathUnit#60;T#62;",
-      "choices": "SelectableList#60;AnyThreshold#62;"
-    },
-    "dependencies": [
-      "MathUnit",
-      "T",
-      "SelectableList",
-      "AnyThreshold"
-    ],
-    "extends": []
+    "extends": [
+      "BaseObject"
+    ]
   },
   {
     "name": "HeavydynReportCreatorParameters",
@@ -1240,87 +1329,13 @@
   {
     "name": "HeavydynReport",
     "value": {
-      "machine": "'Heavydyn'",
-      "zones": "HeavydynZone[]",
-      "dataLabels": "HeavydynReportDataLabels",
-      "thresholds": "HeavydynReportThresholds",
-      "project": "HeavydynProject",
-      "toJSON": "#40;#41; =#62; JSONHeavydynReport"
+      "addZone": "#40;#41; =#62; void"
     },
-    "dependencies": [
-      "HeavydynZone",
-      "HeavydynReportDataLabels",
-      "HeavydynReportThresholds",
-      "HeavydynProject"
-    ],
+    "dependencies": [],
     "extends": [
+      "HeavydynObject",
       "BaseReport"
     ]
-  },
-  {
-    "name": "HeavydynReportDataLabels",
-    "value": {
-      "groups": "SelectableList#60;HeavydynGroupedDataLabels#62;",
-      "table": "SelectableList#60;HeavydynTableDataLabelsParameters#62;"
-    },
-    "dependencies": [
-      "SelectableList",
-      "HeavydynGroupedDataLabels",
-      "HeavydynTableDataLabelsParameters"
-    ],
-    "extends": [
-      "BaseReportDataLabels"
-    ]
-  },
-  {
-    "name": "HeavydynGroupedDataLabels",
-    "value": {
-      "indexes?": "SelectableList#60;HeavydynDropIndex#62;",
-      "sequenceName?": "string"
-    },
-    "dependencies": [
-      "SelectableList",
-      "HeavydynDropIndex"
-    ],
-    "extends": [
-      "BaseGroupedDataLabels"
-    ]
-  },
-  {
-    "name": "HeavydynTableDataLabelsParameters",
-    "value": {
-      "group": "HeavydynGroupedDataLabels",
-      "index?": "HeavydynDropIndex"
-    },
-    "dependencies": [
-      "HeavydynGroupedDataLabels",
-      "HeavydynDropIndex"
-    ],
-    "extends": [
-      "BaseTableDataLabelsParameters"
-    ]
-  },
-  {
-    "name": "HeavydynReportThresholds",
-    "value": {
-      "groups": "HeavydynUnitsSkeleton#60;GroupedThresolds#60;string#62;#62;"
-    },
-    "dependencies": [
-      "HeavydynUnitsSkeleton",
-      "GroupedThresolds"
-    ],
-    "extends": [
-      "BaseReportThresholds"
-    ]
-  },
-  {
-    "name": "HeavydynReportThresholdsGroups",
-    "value": "HeavydynUnitsSkeleton#60;   GroupedThresolds#60;string#62; #62;",
-    "dependencies": [
-      "HeavydynUnitsSkeleton",
-      "GroupedThresolds"
-    ],
-    "extends": []
   },
   {
     "name": "MaxidynReportCreatorParameters",
@@ -1337,86 +1352,13 @@
   {
     "name": "MaxidynReport",
     "value": {
-      "machine": "'Maxidyn'",
-      "zones": "MaxidynZone[]",
-      "dataLabels": "MaxidynReportDataLabels",
-      "thresholds": "MaxidynReportThresholds",
-      "project": "MaxidynProject",
-      "toJSON": "#40;#41; =#62; JSONMaxidynReport"
+      "addZone": "#40;#41; =#62; void"
     },
-    "dependencies": [
-      "MaxidynZone",
-      "MaxidynReportDataLabels",
-      "MaxidynReportThresholds",
-      "MaxidynProject"
-    ],
+    "dependencies": [],
     "extends": [
+      "MaxidynObject",
       "BaseReport"
     ]
-  },
-  {
-    "name": "MaxidynReportDataLabels",
-    "value": {
-      "groups": "SelectableList#60;MaxidynGroupedDataLabels#62;",
-      "table": "SelectableList#60;MaxidynTableDataLabelsParameters#62;"
-    },
-    "dependencies": [
-      "SelectableList",
-      "MaxidynGroupedDataLabels",
-      "MaxidynTableDataLabelsParameters"
-    ],
-    "extends": [
-      "BaseReportDataLabels"
-    ]
-  },
-  {
-    "name": "MaxidynGroupedDataLabels",
-    "value": {
-      "indexes?": "SelectableList#60;MaxidynDropIndex#62;"
-    },
-    "dependencies": [
-      "SelectableList",
-      "MaxidynDropIndex"
-    ],
-    "extends": [
-      "BaseGroupedDataLabels"
-    ]
-  },
-  {
-    "name": "MaxidynTableDataLabelsParameters",
-    "value": {
-      "group": "MaxidynGroupedDataLabels",
-      "index?": "MaxidynDropIndex"
-    },
-    "dependencies": [
-      "MaxidynGroupedDataLabels",
-      "MaxidynDropIndex"
-    ],
-    "extends": [
-      "BaseTableDataLabelsParameters"
-    ]
-  },
-  {
-    "name": "MaxidynReportThresholds",
-    "value": {
-      "groups": "MaxidynUnitsSkeleton#60;GroupedThresolds#60;string#62;#62;"
-    },
-    "dependencies": [
-      "MaxidynUnitsSkeleton",
-      "GroupedThresolds"
-    ],
-    "extends": [
-      "BaseReportThresholds"
-    ]
-  },
-  {
-    "name": "MaxidynReportThresholdsGroups",
-    "value": "MaxidynUnitsSkeleton#60;   GroupedThresolds#60;string#62; #62;",
-    "dependencies": [
-      "MaxidynUnitsSkeleton",
-      "GroupedThresolds"
-    ],
-    "extends": []
   },
   {
     "name": "MinidynReportCreatorParameters",
@@ -1433,95 +1375,13 @@
   {
     "name": "MinidynReport",
     "value": {
-      "machine": "'Minidyn'",
-      "zones": "MinidynZone[]",
-      "dataLabels": "MinidynReportDataLabels",
-      "thresholds": "MinidynReportThresholds",
-      "project": "MinidynProject",
-      "toJSON": "#40;#41; =#62; JSONMinidynReport"
+      "addZone": "#40;#41; =#62; void"
     },
-    "dependencies": [
-      "MinidynZone",
-      "MinidynReportDataLabels",
-      "MinidynReportThresholds",
-      "MinidynProject"
-    ],
+    "dependencies": [],
     "extends": [
+      "MinidynObject",
       "BaseReport"
     ]
-  },
-  {
-    "name": "MinidynReportDataLabels",
-    "value": {
-      "groups": "SelectableList#60;MinidynGroupedDataLabels#62;",
-      "table": "SelectableList#60;MinidynTableDataLabelsParameters#62;"
-    },
-    "dependencies": [
-      "SelectableList",
-      "MinidynGroupedDataLabels",
-      "MinidynTableDataLabelsParameters"
-    ],
-    "extends": [
-      "BaseReportDataLabels"
-    ]
-  },
-  {
-    "name": "MinidynGroupedDataLabels",
-    "value": {
-      "indexes?": "SelectableList#60;MinidynDropIndex#62;"
-    },
-    "dependencies": [
-      "SelectableList",
-      "MinidynDropIndex"
-    ],
-    "extends": [
-      "BaseGroupedDataLabels"
-    ]
-  },
-  {
-    "name": "MinidynTableDataLabelsParameters",
-    "value": {
-      "group": "MinidynGroupedDataLabels",
-      "index?": "MinidynDropIndex"
-    },
-    "dependencies": [
-      "MinidynGroupedDataLabels",
-      "MinidynDropIndex"
-    ],
-    "extends": [
-      "BaseTableDataLabelsParameters"
-    ]
-  },
-  {
-    "name": "MinidynReportThresholds",
-    "value": {
-      "groups": "MinidynReportThresholdsGroups"
-    },
-    "dependencies": [
-      "MinidynReportThresholdsGroups"
-    ],
-    "extends": [
-      "BaseReportThresholds"
-    ]
-  },
-  {
-    "name": "MinidynReportThresholdsGroups",
-    "value": "MinidynUnitsSkeleton#60;   GroupedThresolds#60;string#62; #62;",
-    "dependencies": [
-      "MinidynUnitsSkeleton",
-      "GroupedThresolds"
-    ],
-    "extends": []
-  },
-  {
-    "name": "PartialMachineReport~MachineReport~",
-    "value": "PartialExtendedObject#60;   BaseReport,   MachineReport #62;",
-    "dependencies": [
-      "PartialExtendedObject",
-      "BaseReport",
-      "MachineReport"
-    ],
-    "extends": []
   },
   {
     "name": "MachineReport",
@@ -1534,72 +1394,35 @@
     "extends": []
   },
   {
-    "name": "MachineGroupedDataLabels",
-    "value": "| HeavydynGroupedDataLabels   | MaxidynGroupedDataLabels   | MinidynGroupedDataLabels",
-    "dependencies": [
-      "HeavydynGroupedDataLabels",
-      "MaxidynGroupedDataLabels",
-      "MinidynGroupedDataLabels"
-    ],
-    "extends": []
-  },
-  {
-    "name": "MachineDropIndex",
-    "value": "HeavydynDropIndex | MaxidynDropIndex | MinidynDropIndex",
-    "dependencies": [
-      "HeavydynDropIndex",
-      "MaxidynDropIndex",
-      "MinidynDropIndex"
-    ],
-    "extends": []
-  },
-  {
-    "name": "MachineReportThresholds",
-    "value": "| HeavydynReportThresholds   | MaxidynReportThresholds   | MinidynReportThresholds",
-    "dependencies": [
-      "HeavydynReportThresholds",
-      "MaxidynReportThresholds",
-      "MinidynReportThresholds"
-    ],
-    "extends": []
-  },
-  {
-    "name": "MachineReportThresholdsGroups",
-    "value": "| HeavydynReportThresholdsGroups   | MaxidynReportThresholdsGroups   | MinidynReportThresholdsGroups",
-    "dependencies": [
-      "HeavydynReportThresholdsGroups",
-      "MaxidynReportThresholdsGroups",
-      "MinidynReportThresholdsGroups"
-    ],
-    "extends": []
-  },
-  {
-    "name": "MachineTableDataLabelsParameters",
-    "value": "| HeavydynTableDataLabelsParameters   | MaxidynTableDataLabelsParameters   | MinidynTableDataLabelsParameters",
-    "dependencies": [
-      "HeavydynTableDataLabelsParameters",
-      "MaxidynTableDataLabelsParameters",
-      "MinidynTableDataLabelsParameters"
-    ],
-    "extends": []
-  },
-  {
-    "name": "MachineReportDataLabels",
-    "value": "| HeavydynReportDataLabels   | MaxidynReportDataLabels   | MinidynReportDataLabels",
-    "dependencies": [
-      "HeavydynReportDataLabels",
-      "MaxidynReportDataLabels",
-      "MinidynReportDataLabels"
-    ],
-    "extends": []
-  },
-  {
     "name": "MachineReportCreatorParameters",
     "value": {
       "project": "MachineProject"
     },
     "dependencies": [
       "MachineProject"
+    ],
+    "extends": []
+  },
+  {
+    "name": "BaseThresholds~ThresholdsGroups~",
+    "value": {
+      "groups": "ThresholdsGroups",
+      "colors": "JSONThresholdColors",
+      "inputs": "JSONThresholdInputs"
+    },
+    "dependencies": [
+      "ThresholdsGroups",
+      "JSONThresholdColors",
+      "JSONThresholdInputs"
+    ],
+    "extends": []
+  },
+  {
+    "name": "BaseThresholdsGroups",
+    "value": "MachineUnitsSkeleton#60;ThresholdsGroup#60;string#62;#62;",
+    "dependencies": [
+      "MachineUnitsSkeleton",
+      "ThresholdsGroup"
     ],
     "extends": []
   },
@@ -1626,6 +1449,65 @@
     "extends": []
   },
   {
+    "name": "HeavydynThresholds",
+    "value": {
+      "groups": "HeavydynThresholdsGroups"
+    },
+    "dependencies": [
+      "HeavydynThresholdsGroups"
+    ],
+    "extends": [
+      "BaseThresholds"
+    ]
+  },
+  {
+    "name": "HeavydynThresholdsGroups",
+    "value": "HeavydynUnitsSkeleton#60;ThresholdsGroup#60;string#62;#62;",
+    "dependencies": [
+      "HeavydynUnitsSkeleton",
+      "ThresholdsGroup"
+    ],
+    "extends": []
+  },
+  {
+    "name": "MaxidynThresholds",
+    "value": {
+      "groups": "MaxidynThresholdsGroups"
+    },
+    "dependencies": [
+      "MaxidynThresholdsGroups"
+    ],
+    "extends": [
+      "BaseThresholds"
+    ]
+  },
+  {
+    "name": "MaxidynThresholdsGroups",
+    "value": "MaxidynUnitsSkeleton#60;ThresholdsGroup#60;string#62;#62;",
+    "dependencies": [
+      "MaxidynUnitsSkeleton",
+      "ThresholdsGroup"
+    ],
+    "extends": []
+  },
+  {
+    "name": "MinidynThresholds",
+    "value": {},
+    "dependencies": [],
+    "extends": [
+      "BaseThresholds"
+    ]
+  },
+  {
+    "name": "MinidynThresholdsGroups",
+    "value": "MinidynUnitsSkeleton#60;ThresholdsGroup#60;string#62;#62;",
+    "dependencies": [
+      "MinidynUnitsSkeleton",
+      "ThresholdsGroup"
+    ],
+    "extends": []
+  },
+  {
     "name": "PredefinedThreshold",
     "value": {
       "kind": "'predefined'",
@@ -1646,15 +1528,99 @@
     "extends": []
   },
   {
-    "name": "PartialExtendedObject~BaseObject, MachineObject~",
-    "value": "Required#60;BaseObject#62; &   Partial#60;Omit#60;MachineObject, keyof BaseObject#62;#62;",
+    "name": "ThresoldsList",
+    "value": "[...PredefinedThreshold[], CustomThreshold]",
     "dependencies": [
-      "Required",
-      "BaseObject",
-      "Partial",
-      "Omit",
-      "MachineObject"
+      "PredefinedThreshold",
+      "CustomThreshold"
     ],
+    "extends": []
+  },
+  {
+    "name": "MachineThresholds",
+    "value": "| HeavydynThresholds   | MaxidynThresholds   | MinidynThresholds",
+    "dependencies": [
+      "HeavydynThresholds",
+      "MaxidynThresholds",
+      "MinidynThresholds"
+    ],
+    "extends": []
+  },
+  {
+    "name": "MachineThresholdsGroups",
+    "value": "| HeavydynThresholdsGroups   | MaxidynThresholdsGroups   | MinidynThresholdsGroups",
+    "dependencies": [
+      "HeavydynThresholdsGroups",
+      "MaxidynThresholdsGroups",
+      "MinidynThresholdsGroups"
+    ],
+    "extends": []
+  },
+  {
+    "name": "ThresholdsGroup~T~",
+    "value": {
+      "unit": "MathUnit#60;T#62;",
+      "choices": "SelectableList#60;AnyThreshold, ThresoldsList#62;"
+    },
+    "dependencies": [
+      "MathUnit",
+      "T",
+      "SelectableList",
+      "AnyThreshold",
+      "ThresoldsList"
+    ],
+    "extends": []
+  },
+  {
+    "name": "SerializableObject~T~",
+    "value": {
+      "toJSON": "#40;#41; =#62; T"
+    },
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "MachineObject~M, T~",
+    "value": {
+      "machine": "M"
+    },
+    "dependencies": [
+      "M"
+    ],
+    "extends": [
+      "SerializableObject"
+    ]
+  },
+  {
+    "name": "HeavydynObject~T~",
+    "value": {},
+    "dependencies": [],
+    "extends": [
+      "MachineObject"
+    ]
+  },
+  {
+    "name": "MaxidynObject~T~",
+    "value": {},
+    "dependencies": [],
+    "extends": [
+      "MachineObject"
+    ]
+  },
+  {
+    "name": "MinidynObject~T~",
+    "value": {},
+    "dependencies": [],
+    "extends": [
+      "MachineObject"
+    ]
+  },
+  {
+    "name": "BaseObject~T~",
+    "value": {
+      "toBaseJSON": "#40;#41; =#62; T"
+    },
+    "dependencies": [],
     "extends": []
   },
   {
@@ -1669,36 +1635,23 @@
     "extends": []
   },
   {
-    "name": "BaseZoneCreatorParameters",
+    "name": "BaseZone~Point, Report~",
     "value": {
-      "machine": "MachineName"
-    },
-    "dependencies": [
-      "MachineName"
-    ],
-    "extends": [
-      "MachineZoneCreatorParameters"
-    ]
-  },
-  {
-    "name": "BaseZone",
-    "value": {
-      "machine": "MachineName",
-      "points": "MachinePoint[]",
+      "points": "Point[]",
       "settings": "JSONZoneSettings",
       "name": "string",
-      "report": "MachineReport",
+      "report": "Report",
       "init": "#40;#41; =#62; void",
-      "clean": "#40;#41; =#62; void",
-      "toBaseJSON": "#40;#41; =#62; JSONBaseZone"
+      "clean": "#40;#41; =#62; void"
     },
     "dependencies": [
-      "MachineName",
-      "MachinePoint",
+      "Point",
       "JSONZoneSettings",
-      "MachineReport"
+      "Report"
     ],
-    "extends": []
+    "extends": [
+      "BaseObject"
+    ]
   },
   {
     "name": "HeavydynZoneCreatorParameters",
@@ -1714,15 +1667,10 @@
   },
   {
     "name": "HeavydynZone",
-    "value": {
-      "machine": "'Heavydyn'",
-      "points": "HeavydynPoint[]",
-      "toJSON": "#40;#41; =#62; JSONHeavydynZone"
-    },
-    "dependencies": [
-      "HeavydynPoint"
-    ],
+    "value": {},
+    "dependencies": [],
     "extends": [
+      "HeavydynObject",
       "BaseZone"
     ]
   },
@@ -1740,15 +1688,10 @@
   },
   {
     "name": "MaxidynZone",
-    "value": {
-      "machine": "'Maxidyn'",
-      "points": "MaxidynPoint[]",
-      "toJSON": "#40;#41; =#62; JSONMaxidynZone"
-    },
-    "dependencies": [
-      "MaxidynPoint"
-    ],
+    "value": {},
+    "dependencies": [],
     "extends": [
+      "MaxidynObject",
       "BaseZone"
     ]
   },
@@ -1766,15 +1709,10 @@
   },
   {
     "name": "MinidynZone",
-    "value": {
-      "machine": "'Minidyn'",
-      "points": "MinidynPoint[]",
-      "toJSON": "#40;#41; =#62; JSONMinidynZone"
-    },
-    "dependencies": [
-      "MinidynPoint"
-    ],
+    "value": {},
+    "dependencies": [],
     "extends": [
+      "MinidynObject",
       "BaseZone"
     ]
   },
@@ -1785,16 +1723,6 @@
       "HeavydynZone",
       "MaxidynZone",
       "MinidynZone"
-    ],
-    "extends": []
-  },
-  {
-    "name": "PartialMachineZone~MachineZone~",
-    "value": "PartialExtendedObject#60;   BaseZone,   MachineZone #62;",
-    "dependencies": [
-      "PartialExtendedObject",
-      "BaseZone",
-      "MachineZone"
     ],
     "extends": []
   },
@@ -1931,13 +1859,15 @@
     "extends": []
   },
   {
-    "name": "SelectableList~S, L~",
+    "name": "SelectableList~T, L~",
     "value": {
-      "selected": "S | null",
-      "list": "L[]"
+      "selected": "T | null",
+      "list": "L",
+      "selectIndex": "#40;index: number | null#41; =#62; void",
+      "toJSON": "#60;TJSON, LJSON extends TJSON[] = TJSON[]#62;#40;     transform: #40;value: T#41; =#62; LJSON[number]   #41; =#62; JSONSelectableList#60;TJSON, LJSON#62;"
     },
     "dependencies": [
-      "S",
+      "T",
       "L"
     ],
     "extends": []

@@ -1,9 +1,115 @@
 classDiagram
-class MaxidynDropCreatorParameters {
-  <<interface>>
-  point: MaxidynPoint
+class JSONMaxidynDataLabelsGroup {
+  <<type>>
+  JSONMaxidynDataLabelsGroups[number]
 }
-MaxidynDropCreatorParameters <.. MaxidynPoint
+JSONMaxidynDataLabelsGroup <.. JSONMaxidynDataLabelsGroups
+
+
+class JSONMaxidynDataLabelsGroups {
+  <<type>>
+  [   JSONMaxidynDropDataLabelsGroup,   JSONMaxidynTestDataLabelsGroup,   JSONMaxidynZoneDataLabelsGroup ]
+}
+JSONMaxidynDataLabelsGroups <.. JSONMaxidynDropDataLabelsGroup
+JSONMaxidynDataLabelsGroups <.. JSONMaxidynTestDataLabelsGroup
+JSONMaxidynDataLabelsGroups <.. JSONMaxidynZoneDataLabelsGroup
+
+
+class JSONMaxidynDropDataLabelsGroup {
+  <<interface>>
+  version: 1
+  base: JSONBaseDataLabelsGroup#60;'Drop', MaxidynUnitsNames#62;
+  distinct: JSONMaxidynDropDataLabelsGroupDistinct
+}
+JSONMaxidynDropDataLabelsGroup <.. MaxidynUnitsNames
+JSONMaxidynDropDataLabelsGroup <.. JSONMaxidynDropDataLabelsGroupDistinct
+
+
+class JSONMaxidynDropDataLabelsGroupDistinct {
+  <<interface>>
+  version: 1
+  indexes: JSONSelectableList#60;JSONMaxidynDropIndex#62;
+}
+JSONMaxidynDropDataLabelsGroupDistinct <.. JSONMaxidynDropIndex
+
+
+class JSONMaxidynTestDataLabelsGroup {
+  <<interface>>
+  version: 1
+  base: JSONBaseDataLabelsGroup#60;'Test', MaxidynUnitsNames#62;
+  distinct: #123;     readonly version: 1   #125;
+}
+JSONMaxidynTestDataLabelsGroup <.. MaxidynUnitsNames
+
+
+class JSONMaxidynTestDataLabelsGroupDistinct {
+  <<interface>>
+  version: 1
+}
+
+
+
+class JSONMaxidynZoneDataLabelsGroup {
+  <<interface>>
+  version: 1
+  base: JSONBaseDataLabelsGroup#60;'Zone', MaxidynUnitsNames#62;
+  distinct: JSONMaxidynZoneDataLabelsGroupDistinct
+}
+JSONMaxidynZoneDataLabelsGroup <.. MaxidynUnitsNames
+JSONMaxidynZoneDataLabelsGroup <.. JSONMaxidynZoneDataLabelsGroupDistinct
+
+
+class JSONMaxidynZoneDataLabelsGroupDistinct {
+  <<interface>>
+  version: 1
+}
+
+
+
+class MaxidynDataLabels {
+  <<interface>>
+  groups: SelectableList#60;     MaxidynDataLabelsGroup,     MaxidynDataLabelsGroups   #62;
+}
+MaxidynDataLabels <.. MaxidynDataLabelsGroup
+MaxidynDataLabels <.. MaxidynDataLabelsGroups
+
+
+class MaxidynDataLabelsGroup {
+  <<type>>
+  MaxidynDataLabelsGroups[number]
+}
+MaxidynDataLabelsGroup <.. MaxidynDataLabelsGroups
+
+
+class MaxidynDataLabelsGroups {
+  <<type>>
+  [   MaxidynDropDataLabelsGroup,   MaxidynTestDataLabelsGroup,   MaxidynZoneDataLabelsGroup ]
+}
+MaxidynDataLabelsGroups <.. MaxidynDropDataLabelsGroup
+MaxidynDataLabelsGroups <.. MaxidynTestDataLabelsGroup
+MaxidynDataLabelsGroups <.. MaxidynZoneDataLabelsGroup
+
+
+class MaxidynDropDataLabelsGroup {
+  <<interface>>
+  indexes: SelectableList#60;MaxidynDropIndex#62;
+  toJSON: #40;#41; =#62; JSONMaxidynDropDataLabelsGroup
+}
+MaxidynDropDataLabelsGroup <.. MaxidynDropIndex
+
+
+class MaxidynTestDataLabelsGroup {
+  <<interface>>
+  toJSON: #40;#41; =#62; JSONMaxidynTestDataLabelsGroup
+}
+
+
+
+class MaxidynZoneDataLabelsGroup {
+  <<interface>>
+  toJSON: #40;#41; =#62; JSONMaxidynZoneDataLabelsGroup
+}
+
 
 
 class JSONMaxidynDropVAny {
@@ -62,19 +168,14 @@ class MaxidynDropType {
 
 class MaxidynDrop {
   <<interface>>
-  index: MaxidynDropIndex
-  point: MaxidynPoint
-  toJSON: #40;#41; =#62; JSONMaxidynDrop
+
 }
-MaxidynDrop <.. MaxidynDropIndex
-MaxidynDrop <..< MaxidynPoint
+
 
 
 class MaxidynDropIndex {
   <<interface>>
-  machine: 'Maxidyn'
   type: MaxidynDropType
-  toJSON: #40;#41; =#62; JSONMaxidynDropIndex
 }
 MaxidynDropIndex <.. MaxidynDropType
 
@@ -176,13 +277,6 @@ class MaxidynUnitsNames {
 MaxidynUnitsNames <.. MaxidynUnitsSkeleton~A, B, C, D, E, F, G~
 
 
-class MaxidynPointCreatorParameters {
-  <<interface>>
-  zone: MaxidynZone
-}
-MaxidynPointCreatorParameters <.. MaxidynZone
-
-
 class JSONMaxidynPointVAny {
   <<type>>
   JSONMaxidynPoint
@@ -208,12 +302,9 @@ class JSONMaxidynPointDistinct {
 
 class MaxidynPoint {
   <<interface>>
-  machine: 'Maxidyn'
-  drops: MaxidynDrop[]
-  zone: MaxidynZone
-  toJSON: #40;#41; =#62; JSONMaxidynPoint
+
 }
-MaxidynPoint <..< MaxidynZone
+
 
 
 class JSONMaxidynProjectVAny {
@@ -226,6 +317,7 @@ JSONMaxidynProjectVAny <.. JSONMaxidynProject
 class JSONMaxidynProject {
   <<interface>>
   version: 1
+  machine: 'Maxidyn'
   base: JSONBaseProject
   distinct: JSONMaxidynProjectDistinct
 }
@@ -243,14 +335,9 @@ JSONMaxidynProjectDistinct <.. JSONMaxidynUnits
 
 class MaxidynProject {
   <<interface>>
-  machine: 'Maxidyn'
-  reports: SelectableList#60;MaxidynReport#62;
-  units: MaxidynMathUnits
   bearingParameters: JSONBearingParameters
-  toJSON: #40;#41; =#62; JSONMaxidynProject
 }
-MaxidynProject <..< MaxidynReport
-MaxidynProject <.. MaxidynMathUnits
+
 
 
 class MaxidynReportCreatorParameters {
@@ -279,75 +366,40 @@ JSONMaxidynReport <.. JSONMaxidynReportDistinct
 class JSONMaxidynReportDistinct {
   <<interface>>
   version: 1
-  groupedDataLabels: SelectableList#60;     number,     JSONMaxidynGroupedDataLabels   #62;
+  dataLabels: JSONSelectableList#60;     JSONMaxidynDataLabelsGroup,     JSONMaxidynDataLabelsGroups   #62;
   thresholds: MaxidynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;
 }
-JSONMaxidynReportDistinct <.. JSONMaxidynGroupedDataLabels
+JSONMaxidynReportDistinct <.. JSONMaxidynDataLabelsGroup
+JSONMaxidynReportDistinct <.. JSONMaxidynDataLabelsGroups
 JSONMaxidynReportDistinct <.. MaxidynUnitsSkeleton~A, B, C, D, E, F, G~
-
-
-class JSONMaxidynGroupedDataLabels {
-  <<interface>>
-  version: 1
-  from: DataLabelsFrom
-  choices: SelectableList#60;number, JSONDataLabel#60;MaxidynUnitsNames#62;#62;
-  indexes?: SelectableList#60;number, JSONMaxidynDropIndex#62;
-}
-JSONMaxidynGroupedDataLabels <.. MaxidynUnitsNames
-JSONMaxidynGroupedDataLabels <.. JSONMaxidynDropIndex
 
 
 class MaxidynReport {
   <<interface>>
-  machine: 'Maxidyn'
-  zones: MaxidynZone[]
-  dataLabels: MaxidynReportDataLabels
-  thresholds: MaxidynReportThresholds
-  project: MaxidynProject
-  toJSON: #40;#41; =#62; JSONMaxidynReport
+  addZone: #40;#41; =#62; void
 }
-MaxidynReport <.. MaxidynZone
-MaxidynReport <.. MaxidynReportDataLabels
-MaxidynReport <.. MaxidynReportThresholds
 
 
-class MaxidynReportDataLabels {
+
+class MaxidynThresholds {
   <<interface>>
-  groups: SelectableList#60;MaxidynGroupedDataLabels#62;
-  table: SelectableList#60;MaxidynTableDataLabelsParameters#62;
+  groups: MaxidynThresholdsGroups
 }
-MaxidynReportDataLabels <.. MaxidynGroupedDataLabels
-MaxidynReportDataLabels <.. MaxidynTableDataLabelsParameters
+MaxidynThresholds <.. MaxidynThresholdsGroups
 
 
-class MaxidynGroupedDataLabels {
-  <<interface>>
-  indexes?: SelectableList#60;MaxidynDropIndex#62;
-}
-MaxidynGroupedDataLabels <.. MaxidynDropIndex
-
-
-class MaxidynTableDataLabelsParameters {
-  <<interface>>
-  group: MaxidynGroupedDataLabels
-  index?: MaxidynDropIndex
-}
-MaxidynTableDataLabelsParameters <.. MaxidynGroupedDataLabels
-MaxidynTableDataLabelsParameters <.. MaxidynDropIndex
-
-
-class MaxidynReportThresholds {
-  <<interface>>
-  groups: MaxidynUnitsSkeleton#60;GroupedThresolds#60;string#62;#62;
-}
-MaxidynReportThresholds <.. MaxidynUnitsSkeleton~A, B, C, D, E, F, G~
-
-
-class MaxidynReportThresholdsGroups {
+class MaxidynThresholdsGroups {
   <<type>>
-  MaxidynUnitsSkeleton#60;   GroupedThresolds#60;string#62; #62;
+  MaxidynUnitsSkeleton#60;ThresholdsGroup#60;string#62;#62;
 }
-MaxidynReportThresholdsGroups <.. MaxidynUnitsSkeleton~A, B, C, D, E, F, G~
+MaxidynThresholdsGroups <.. MaxidynUnitsSkeleton~A, B, C, D, E, F, G~
+
+
+class MaxidynObject~T~ {
+  <<interface>>
+
+}
+
 
 
 class MaxidynZoneCreatorParameters {
@@ -382,9 +434,7 @@ class JSONMaxidynZoneDistinct {
 
 class MaxidynZone {
   <<interface>>
-  machine: 'Maxidyn'
-  points: MaxidynPoint[]
-  toJSON: #40;#41; =#62; JSONMaxidynZone
+
 }
 
 

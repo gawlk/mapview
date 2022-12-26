@@ -1,15 +1,123 @@
 [
   {
-    "name": "BaseDropCreatorParameters",
+    "name": "JSONBaseDataLabelsGroup~From, T~",
     "value": {
-      "machine": "MachineName"
+      "version": "1",
+      "from": "From",
+      "choices": "JSONSelectableList#60;JSONDataLabel#60;T#62;#62;"
     },
     "dependencies": [
-      "MachineName"
+      "From",
+      "JSONSelectableList",
+      "JSONDataLabel",
+      "T"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONBaseDataLabels",
+    "value": {
+      "version": "1",
+      "table": "JSONSelectableList#60;JSONTableDataLabelsParameters#62;"
+    },
+    "dependencies": [
+      "JSONSelectableList",
+      "JSONTableDataLabelsParameters"
+    ],
+    "extends": []
+  },
+  {
+    "name": "BaseDataLabels",
+    "value": {
+      "groups": "SelectableList#60;AnyBaseDataLabelsGroup, BaseDataLabelsGroups#62;",
+      "table": "SelectableList#60;BaseTableDataLabelsParameters#62;"
+    },
+    "dependencies": [
+      "SelectableList",
+      "AnyBaseDataLabelsGroup",
+      "BaseDataLabelsGroups",
+      "BaseTableDataLabelsParameters"
     ],
     "extends": [
-      "MachineDropCreatorParameters"
+      "BaseObject"
     ]
+  },
+  {
+    "name": "BaseDataLabelsGroups",
+    "value": "[   BaseDropDataLabelsGroup#60;BaseDropIndex#62;,   BaseTestDataLabelsGroup,   BaseZoneDataLabelsGroup ]",
+    "dependencies": [
+      "BaseDropDataLabelsGroup",
+      "BaseDropIndex",
+      "BaseTestDataLabelsGroup",
+      "BaseZoneDataLabelsGroup"
+    ],
+    "extends": []
+  },
+  {
+    "name": "AnyBaseDataLabelsGroup",
+    "value": "BaseDataLabelsGroups[number]",
+    "dependencies": [
+      "BaseDataLabelsGroups"
+    ],
+    "extends": []
+  },
+  {
+    "name": "BaseDataLabelsGroup~From~",
+    "value": {
+      "from": "From",
+      "choices": "SelectableList#60;DataLabel#60;string#62;#62;"
+    },
+    "dependencies": [
+      "From",
+      "SelectableList",
+      "DataLabel"
+    ],
+    "extends": [
+      "BaseObject"
+    ]
+  },
+  {
+    "name": "BaseDropDataLabelsGroup~Drop~",
+    "value": {
+      "indexes": "SelectableList#60;Drop#62;"
+    },
+    "dependencies": [
+      "SelectableList",
+      "Drop"
+    ],
+    "extends": [
+      "BaseDataLabelsGroup"
+    ]
+  },
+  {
+    "name": "BaseTestDataLabelsGroup",
+    "value": {},
+    "dependencies": [],
+    "extends": [
+      "BaseDataLabelsGroup"
+    ]
+  },
+  {
+    "name": "BaseZoneDataLabelsGroup",
+    "value": {},
+    "dependencies": [],
+    "extends": [
+      "BaseDataLabelsGroup"
+    ]
+  },
+  {
+    "name": "BaseTableDataLabelsParameters",
+    "value": {
+      "group": "AnyBaseDataLabelsGroup",
+      "dataLabels": "DataLabel#60;string#62;[]",
+      "index?": "BaseDropIndex"
+    },
+    "dependencies": [
+      "AnyBaseDataLabelsGroup",
+      "DataLabel",
+      "BaseDropIndex"
+    ],
+    "extends": []
   },
   {
     "name": "JSONBaseDropVAny",
@@ -49,41 +157,31 @@
     "extends": []
   },
   {
-    "name": "BaseDrop",
+    "name": "BaseDrop~DropIndex, Point~",
     "value": {
-      "index": "MachineDropIndex",
+      "index": "DropIndex",
       "data": "DataValue#60;string#62;[]",
-      "point": "MachinePoint",
-      "impactData": "ImpactData | null",
-      "toBaseJSON": "#40;#41; =#62; JSONBaseDrop"
+      "point": "Point",
+      "impactData": "ImpactData | null"
     },
     "dependencies": [
-      "MachineDropIndex",
+      "DropIndex",
       "DataValue",
-      "MachinePoint",
+      "Point",
       "ImpactData"
     ],
-    "extends": []
+    "extends": [
+      "BaseObject"
+    ]
   },
   {
     "name": "BaseDropIndex",
     "value": {
-      "displayedIndex": "number",
-      "toBaseJSON": "#40;#41; =#62; JSONBaseDropIndex"
+      "displayedIndex": "number"
     },
     "dependencies": [],
-    "extends": []
-  },
-  {
-    "name": "BasePointCreatorParameters",
-    "value": {
-      "machine": "MachineName"
-    },
-    "dependencies": [
-      "MachineName"
-    ],
     "extends": [
-      "MachinePointCreatorParameters"
+      "BaseObject"
     ]
   },
   {
@@ -118,9 +216,8 @@
     "extends": []
   },
   {
-    "name": "BasePoint",
+    "name": "BasePoint~Drop, Zone~",
     "value": {
-      "machine": "MachineName",
       "id": "string",
       "date": "Date",
       "marker": "mapboxgl.Marker | null",
@@ -128,35 +225,35 @@
       "settings": "JSONPointSettings",
       "data": "DataValue#60;string#62;[]",
       "information": "Field[]",
-      "drops": "MachineDrop[]",
+      "drops": "Drop[]",
       "index": "number",
       "number": "number",
-      "zone": "MachineZone",
+      "zone": "Zone",
       "rawDataFile": "ArrayBufferLike | null",
-      "getSelectedMathNumber": "#40;     groupFrom: DataLabelsFrom,     dataLabel: DataLabel#60;string#62;,     index?: MachineDropIndex | null   #41; =#62; MathNumber | undefined",
-      "getDisplayedString": "#40;     groupFrom: DataLabelsFrom,     dataLabel: DataLabel#60;string#62;,     index?: MachineDropIndex | null   #41; =#62; string",
+      "getSelectedMathNumber": "#40;     groupFrom: DataLabelsFrom,     dataLabel: DataLabel#60;string#62;,     index?: BaseDropIndex | null   #41; =#62; MathNumber | undefined",
+      "getDisplayedString": "#40;     groupFrom: DataLabelsFrom,     dataLabel: DataLabel#60;string#62;,     index?: BaseDropIndex | null   #41; =#62; string",
       "updateColor": "#40;#41; =#62; void",
       "updateText": "#40;#41; =#62; void",
       "updateVisibility": "#40;#41; =#62; void",
       "updatePopup": "#40;#41; =#62; void",
       "addToMap": "#40;#41; =#62; void",
       "checkVisibility": "#40;#41; =#62; boolean",
-      "remove": "#40;#41; =#62; void",
-      "toBaseJSON": "#40;#41; =#62; JSONBasePoint"
+      "remove": "#40;#41; =#62; void"
     },
     "dependencies": [
-      "MachineName",
       "Date",
       "mapboxgl.Marker",
       "Icon",
       "JSONPointSettings",
       "DataValue",
       "Field",
-      "MachineDrop",
-      "MachineZone",
+      "Drop",
+      "Zone",
       "ArrayBufferLike"
     ],
-    "extends": []
+    "extends": [
+      "BaseObject"
+    ]
   },
   {
     "name": "JSONBaseProjectVAny",
@@ -171,8 +268,7 @@
     "value": {
       "version": "1",
       "name": "string",
-      "machine": "MachineName",
-      "reports": "SelectableList#60;number, JSONMachineReport#62;",
+      "reports": "JSONSelectableList#60;JSONMachineReport#62;",
       "settings": "JSONProjectSettings",
       "overlays": "JSONOverlay[]",
       "information": "JSONField[]",
@@ -180,8 +276,7 @@
       "acquisitionParameters": "JSONAcquisitionParameters"
     },
     "dependencies": [
-      "MachineName",
-      "SelectableList",
+      "JSONSelectableList",
       "JSONMachineReport",
       "JSONProjectSettings",
       "JSONOverlay",
@@ -191,14 +286,13 @@
     "extends": []
   },
   {
-    "name": "BaseProject",
+    "name": "BaseProject~Report, MathUnits~",
     "value": {
-      "machine": "MachineName",
       "name": "Field",
       "information": "Field[]",
       "hardware": "Field[]",
-      "reports": "SelectableList#60;MachineReport#62;",
-      "units": "MachineMathUnits",
+      "reports": "SelectableList#60;Report#62;",
+      "units": "MathUnits",
       "settings": "JSONProjectSettings",
       "overlays": "Overlay[]",
       "acquisitionParameters": "JSONAcquisitionParameters",
@@ -206,20 +300,20 @@
       "setMapStyle": "#40;styleIndex: number#41; =#62; void",
       "fitOnMap": "#40;#41; =#62; void",
       "addToMap": "#40;#41; =#62; void",
-      "remove": "#40;#41; =#62; void",
-      "toBaseJSON": "#40;#41; =#62; JSONBaseProject"
+      "remove": "#40;#41; =#62; void"
     },
     "dependencies": [
-      "MachineName",
       "Field",
       "SelectableList",
-      "MachineReport",
-      "MachineMathUnits",
+      "Report",
+      "MathUnits",
       "JSONProjectSettings",
       "Overlay",
       "JSONAcquisitionParameters"
     ],
-    "extends": []
+    "extends": [
+      "BaseObject"
+    ]
   },
   {
     "name": "JSONBaseReportVAny",
@@ -239,32 +333,20 @@
       "screenshots": "number[]",
       "platform": "JSONField[]",
       "information": "JSONField[]",
-      "dataLabels": "JSONBaseReportDataLabels",
-      "thresholds": "JSONBaseReportThresholds"
+      "dataLabels": "JSONBaseDataLabels",
+      "thresholds": "JSONBaseThresholdsSettings"
     },
     "dependencies": [
       "JSONMachineZone",
       "JSONReportSettings",
       "JSONField",
-      "JSONBaseReportDataLabels",
-      "JSONBaseReportThresholds"
+      "JSONBaseDataLabels",
+      "JSONBaseThresholdsSettings"
     ],
     "extends": []
   },
   {
-    "name": "JSONBaseReportDataLabels",
-    "value": {
-      "version": "1",
-      "table": "SelectableList#60;number, JSONTableDataLabelsParameters#62;"
-    },
-    "dependencies": [
-      "SelectableList",
-      "JSONTableDataLabelsParameters"
-    ],
-    "extends": []
-  },
-  {
-    "name": "JSONBaseReportThresholds",
+    "name": "JSONBaseThresholdsSettings",
     "value": {
       "version": "1",
       "colors": "JSONThresholdColors",
@@ -277,117 +359,66 @@
     "extends": []
   },
   {
-    "name": "BaseReport",
+    "name": "BaseReport~Project, Zone, DataLabels, Thresholds~",
     "value": {
-      "machine": "MachineName",
       "name": "Field",
       "line": "Line",
-      "zones": "MachineZone[]",
+      "zones": "Zone[]",
       "screenshots": "string[]",
-      "dataLabels": "MachineReportDataLabels",
-      "thresholds": "MachineReportThresholds",
+      "dataLabels": "DataLabels",
+      "thresholds": "Thresholds",
       "settings": "JSONReportSettings",
       "platform": "Field[]",
       "information": "Field[]",
-      "project": "MachineProject",
+      "project": "Project",
       "isOnMap": "boolean",
       "fitOnMap": "#40;#41; =#62; void",
-      "toBaseJSON": "#40;#41; =#62; JSONBaseReport",
       "addToMap": "#40;#41; =#62; void",
       "remove": "#40;#41; =#62; void"
     },
     "dependencies": [
-      "MachineName",
       "Field",
       "Line",
-      "MachineZone",
-      "MachineReportDataLabels",
-      "MachineReportThresholds",
+      "Zone",
+      "DataLabels",
+      "Thresholds",
       "JSONReportSettings",
-      "MachineProject"
+      "Project"
     ],
-    "extends": []
+    "extends": [
+      "BaseObject"
+    ]
   },
   {
-    "name": "BaseReportDataLabels",
+    "name": "BaseThresholds~ThresholdsGroups~",
     "value": {
-      "groups": "SelectableList#60;BaseGroupedDataLabels#62;",
-      "table": "SelectableList#60;BaseTableDataLabelsParameters#62;"
-    },
-    "dependencies": [
-      "SelectableList",
-      "BaseGroupedDataLabels",
-      "BaseTableDataLabelsParameters"
-    ],
-    "extends": []
-  },
-  {
-    "name": "BaseGroupedDataLabels",
-    "value": {
-      "from": "DataLabelsFrom",
-      "choices": "SelectableList#60;DataLabel#60;string#62;#62;",
-      "indexes?": "SelectableList#60;MachineDropIndex#62;"
-    },
-    "dependencies": [
-      "DataLabelsFrom",
-      "SelectableList",
-      "DataLabel",
-      "MachineDropIndex"
-    ],
-    "extends": []
-  },
-  {
-    "name": "BaseTableDataLabelsParameters",
-    "value": {
-      "group": "MachineGroupedDataLabels",
-      "index?": "MachineDropIndex",
-      "dataLabels": "DataLabel#60;string#62;[]"
-    },
-    "dependencies": [
-      "MachineGroupedDataLabels",
-      "MachineDropIndex",
-      "DataLabel"
-    ],
-    "extends": []
-  },
-  {
-    "name": "BaseReportThresholds",
-    "value": {
-      "groups": "MachineUnitsSkeleton#60;GroupedThresolds#60;string#62;#62;",
+      "groups": "ThresholdsGroups",
       "colors": "JSONThresholdColors",
       "inputs": "JSONThresholdInputs"
     },
     "dependencies": [
-      "MachineUnitsSkeleton",
-      "GroupedThresolds",
+      "ThresholdsGroups",
       "JSONThresholdColors",
       "JSONThresholdInputs"
     ],
     "extends": []
   },
   {
-    "name": "PartialExtendedObject~BaseObject, MachineObject~",
-    "value": "Required#60;BaseObject#62; &   Partial#60;Omit#60;MachineObject, keyof BaseObject#62;#62;",
+    "name": "BaseThresholdsGroups",
+    "value": "MachineUnitsSkeleton#60;ThresholdsGroup#60;string#62;#62;",
     "dependencies": [
-      "Required",
-      "BaseObject",
-      "Partial",
-      "Omit",
-      "MachineObject"
+      "MachineUnitsSkeleton",
+      "ThresholdsGroup"
     ],
     "extends": []
   },
   {
-    "name": "BaseZoneCreatorParameters",
+    "name": "BaseObject~T~",
     "value": {
-      "machine": "MachineName"
+      "toBaseJSON": "#40;#41; =#62; T"
     },
-    "dependencies": [
-      "MachineName"
-    ],
-    "extends": [
-      "MachineZoneCreatorParameters"
-    ]
+    "dependencies": [],
+    "extends": []
   },
   {
     "name": "JSONBaseZoneVAny",
@@ -412,23 +443,22 @@
     "extends": []
   },
   {
-    "name": "BaseZone",
+    "name": "BaseZone~Point, Report~",
     "value": {
-      "machine": "MachineName",
-      "points": "MachinePoint[]",
+      "points": "Point[]",
       "settings": "JSONZoneSettings",
       "name": "string",
-      "report": "MachineReport",
+      "report": "Report",
       "init": "#40;#41; =#62; void",
-      "clean": "#40;#41; =#62; void",
-      "toBaseJSON": "#40;#41; =#62; JSONBaseZone"
+      "clean": "#40;#41; =#62; void"
     },
     "dependencies": [
-      "MachineName",
-      "MachinePoint",
+      "Point",
       "JSONZoneSettings",
-      "MachineReport"
+      "Report"
     ],
-    "extends": []
+    "extends": [
+      "BaseObject"
+    ]
   }
 ]

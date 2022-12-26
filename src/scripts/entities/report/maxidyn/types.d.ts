@@ -12,52 +12,24 @@ interface JSONMaxidynReport {
 
 interface JSONMaxidynReportDistinct {
   readonly version: 1
-  readonly groupedDataLabels: SelectableList<
-    number,
-    JSONMaxidynGroupedDataLabels
+  readonly dataLabels: JSONSelectableList<
+    JSONMaxidynDataLabelsGroup,
+    JSONMaxidynDataLabelsGroups
   >
   readonly thresholds: MaxidynUnitsSkeleton<JSONDistinctThresholdsConfiguration>
-}
-
-interface JSONMaxidynGroupedDataLabels {
-  readonly version: 1
-  readonly from: DataLabelsFrom
-  readonly choices: SelectableList<number, JSONDataLabel<MaxidynUnitsNames>>
-  readonly indexes?: SelectableList<number, JSONMaxidynDropIndex>
 }
 
 // ---
 // Object
 // ---
 
-interface MaxidynReport extends BaseReport {
-  readonly machine: 'Maxidyn'
-  readonly zones: MaxidynZone[]
-  readonly dataLabels: MaxidynReportDataLabels
-  readonly thresholds: MaxidynReportThresholds
-  project: MaxidynProject
-  toJSON: () => JSONMaxidynReport
+interface MaxidynReport
+  extends MaxidynObject<JSONMaxidynReport>,
+    BaseReport<
+      MaxidynProject,
+      MaxidynZone,
+      MaxidynDataLabels,
+      MaxidynThresholds
+    > {
+  addZone: () => void
 }
-
-interface MaxidynReportDataLabels extends BaseReportDataLabels {
-  readonly groups: SelectableList<MaxidynGroupedDataLabels>
-  readonly table: SelectableList<MaxidynTableDataLabelsParameters>
-}
-
-interface MaxidynGroupedDataLabels extends BaseGroupedDataLabels {
-  readonly indexes?: SelectableList<MaxidynDropIndex>
-}
-
-interface MaxidynTableDataLabelsParameters
-  extends BaseTableDataLabelsParameters {
-  readonly group: MaxidynGroupedDataLabels
-  index?: MaxidynDropIndex
-}
-
-interface MaxidynReportThresholds extends BaseReportThresholds {
-  readonly groups: MaxidynUnitsSkeleton<GroupedThresolds<string>>
-}
-
-type MaxidynReportThresholdsGroups = MaxidynUnitsSkeleton<
-  GroupedThresolds<string>
->

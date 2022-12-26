@@ -1,9 +1,85 @@
 classDiagram
-class BaseDropCreatorParameters {
+class JSONBaseDataLabelsGroup~From, T~ {
   <<interface>>
-  machine: MachineName
+  version: 1
+  from: From
+  choices: JSONSelectableList#60;JSONDataLabel#60;T#62;#62;
 }
 
+
+
+class JSONBaseDataLabels {
+  <<interface>>
+  version: 1
+  table: JSONSelectableList#60;JSONTableDataLabelsParameters#62;
+}
+
+
+
+class BaseDataLabels {
+  <<interface>>
+  groups: SelectableList#60;AnyBaseDataLabelsGroup, BaseDataLabelsGroups#62;
+  table: SelectableList#60;BaseTableDataLabelsParameters#62;
+}
+BaseDataLabels <.. AnyBaseDataLabelsGroup
+BaseDataLabels <.. BaseDataLabelsGroups
+BaseDataLabels <.. BaseTableDataLabelsParameters
+
+
+class BaseDataLabelsGroups {
+  <<type>>
+  [   BaseDropDataLabelsGroup#60;BaseDropIndex#62;,   BaseTestDataLabelsGroup,   BaseZoneDataLabelsGroup ]
+}
+BaseDataLabelsGroups <.. BaseDropDataLabelsGroup~Drop~
+BaseDataLabelsGroups <.. BaseDropIndex
+BaseDataLabelsGroups <.. BaseTestDataLabelsGroup
+BaseDataLabelsGroups <.. BaseZoneDataLabelsGroup
+
+
+class AnyBaseDataLabelsGroup {
+  <<type>>
+  BaseDataLabelsGroups[number]
+}
+AnyBaseDataLabelsGroup <.. BaseDataLabelsGroups
+
+
+class BaseDataLabelsGroup~From~ {
+  <<interface>>
+  from: From
+  choices: SelectableList#60;DataLabel#60;string#62;#62;
+}
+
+
+
+class BaseDropDataLabelsGroup~Drop~ {
+  <<interface>>
+  indexes: SelectableList#60;Drop#62;
+}
+
+
+
+class BaseTestDataLabelsGroup {
+  <<interface>>
+
+}
+
+
+
+class BaseZoneDataLabelsGroup {
+  <<interface>>
+
+}
+
+
+
+class BaseTableDataLabelsParameters {
+  <<interface>>
+  group: AnyBaseDataLabelsGroup
+  dataLabels: DataLabel#60;string#62;[]
+  index?: BaseDropIndex
+}
+BaseTableDataLabelsParameters <.. AnyBaseDataLabelsGroup
+BaseTableDataLabelsParameters <.. BaseDropIndex
 
 
 class JSONBaseDropVAny {
@@ -37,13 +113,12 @@ class JSONBaseDropIndex {
 
 
 
-class BaseDrop {
+class BaseDrop~DropIndex, Point~ {
   <<interface>>
-  index: MachineDropIndex
+  index: DropIndex
   data: DataValue#60;string#62;[]
-  point: MachinePoint
+  point: Point
   impactData: ImpactData | null
-  toBaseJSON: #40;#41; =#62; JSONBaseDrop
 }
 
 
@@ -51,14 +126,6 @@ class BaseDrop {
 class BaseDropIndex {
   <<interface>>
   displayedIndex: number
-  toBaseJSON: #40;#41; =#62; JSONBaseDropIndex
-}
-
-
-
-class BasePointCreatorParameters {
-  <<interface>>
-  machine: MachineName
 }
 
 
@@ -86,9 +153,8 @@ class JSONBasePoint {
 
 
 
-class BasePoint {
+class BasePoint~Drop, Zone~ {
   <<interface>>
-  machine: MachineName
   id: string
   date: Date
   marker: mapboxgl.Marker | null
@@ -96,13 +162,13 @@ class BasePoint {
   settings: JSONPointSettings
   data: DataValue#60;string#62;[]
   information: Field[]
-  drops: MachineDrop[]
+  drops: Drop[]
   index: number
   number: number
-  zone: MachineZone
+  zone: Zone
   rawDataFile: ArrayBufferLike | null
-  getSelectedMathNumber: #40;     groupFrom: DataLabelsFrom,     dataLabel: DataLabel#60;string#62;,     index?: MachineDropIndex | null   #41; =#62; MathNumber | undefined
-  getDisplayedString: #40;     groupFrom: DataLabelsFrom,     dataLabel: DataLabel#60;string#62;,     index?: MachineDropIndex | null   #41; =#62; string
+  getSelectedMathNumber: #40;     groupFrom: DataLabelsFrom,     dataLabel: DataLabel#60;string#62;,     index?: BaseDropIndex | null   #41; =#62; MathNumber | undefined
+  getDisplayedString: #40;     groupFrom: DataLabelsFrom,     dataLabel: DataLabel#60;string#62;,     index?: BaseDropIndex | null   #41; =#62; string
   updateColor: #40;#41; =#62; void
   updateText: #40;#41; =#62; void
   updateVisibility: #40;#41; =#62; void
@@ -110,7 +176,6 @@ class BasePoint {
   addToMap: #40;#41; =#62; void
   checkVisibility: #40;#41; =#62; boolean
   remove: #40;#41; =#62; void
-  toBaseJSON: #40;#41; =#62; JSONBasePoint
 }
 
 
@@ -126,8 +191,7 @@ class JSONBaseProject {
   <<interface>>
   version: 1
   name: string
-  machine: MachineName
-  reports: SelectableList#60;number, JSONMachineReport#62;
+  reports: JSONSelectableList#60;JSONMachineReport#62;
   settings: JSONProjectSettings
   overlays: JSONOverlay[]
   information: JSONField[]
@@ -137,14 +201,13 @@ class JSONBaseProject {
 
 
 
-class BaseProject {
+class BaseProject~Report, MathUnits~ {
   <<interface>>
-  machine: MachineName
   name: Field
   information: Field[]
   hardware: Field[]
-  reports: SelectableList#60;MachineReport#62;
-  units: MachineMathUnits
+  reports: SelectableList#60;Report#62;
+  units: MathUnits
   settings: JSONProjectSettings
   overlays: Overlay[]
   acquisitionParameters: JSONAcquisitionParameters
@@ -153,7 +216,6 @@ class BaseProject {
   fitOnMap: #40;#41; =#62; void
   addToMap: #40;#41; =#62; void
   remove: #40;#41; =#62; void
-  toBaseJSON: #40;#41; =#62; JSONBaseProject
 }
 
 
@@ -174,22 +236,14 @@ class JSONBaseReport {
   screenshots: number[]
   platform: JSONField[]
   information: JSONField[]
-  dataLabels: JSONBaseReportDataLabels
-  thresholds: JSONBaseReportThresholds
+  dataLabels: JSONBaseDataLabels
+  thresholds: JSONBaseThresholdsSettings
 }
-JSONBaseReport <.. JSONBaseReportDataLabels
-JSONBaseReport <.. JSONBaseReportThresholds
+JSONBaseReport <.. JSONBaseDataLabels
+JSONBaseReport <.. JSONBaseThresholdsSettings
 
 
-class JSONBaseReportDataLabels {
-  <<interface>>
-  version: 1
-  table: SelectableList#60;number, JSONTableDataLabelsParameters#62;
-}
-
-
-
-class JSONBaseReportThresholds {
+class JSONBaseThresholdsSettings {
   <<interface>>
   version: 1
   colors: JSONThresholdColors
@@ -198,74 +252,45 @@ class JSONBaseReportThresholds {
 
 
 
-class BaseReport {
+class BaseReport~Project, Zone, DataLabels, Thresholds~ {
   <<interface>>
-  machine: MachineName
   name: Field
   line: Line
-  zones: MachineZone[]
+  zones: Zone[]
   screenshots: string[]
-  dataLabels: MachineReportDataLabels
-  thresholds: MachineReportThresholds
+  dataLabels: DataLabels
+  thresholds: Thresholds
   settings: JSONReportSettings
   platform: Field[]
   information: Field[]
-  project: MachineProject
+  project: Project
   isOnMap: boolean
   fitOnMap: #40;#41; =#62; void
-  toBaseJSON: #40;#41; =#62; JSONBaseReport
   addToMap: #40;#41; =#62; void
   remove: #40;#41; =#62; void
 }
 
 
 
-class BaseReportDataLabels {
+class BaseThresholds~ThresholdsGroups~ {
   <<interface>>
-  groups: SelectableList#60;BaseGroupedDataLabels#62;
-  table: SelectableList#60;BaseTableDataLabelsParameters#62;
-}
-BaseReportDataLabels <.. BaseGroupedDataLabels
-BaseReportDataLabels <.. BaseTableDataLabelsParameters
-
-
-class BaseGroupedDataLabels {
-  <<interface>>
-  from: DataLabelsFrom
-  choices: SelectableList#60;DataLabel#60;string#62;#62;
-  indexes?: SelectableList#60;MachineDropIndex#62;
-}
-
-
-
-class BaseTableDataLabelsParameters {
-  <<interface>>
-  group: MachineGroupedDataLabels
-  index?: MachineDropIndex
-  dataLabels: DataLabel#60;string#62;[]
-}
-
-
-
-class BaseReportThresholds {
-  <<interface>>
-  groups: MachineUnitsSkeleton#60;GroupedThresolds#60;string#62;#62;
+  groups: ThresholdsGroups
   colors: JSONThresholdColors
   inputs: JSONThresholdInputs
 }
 
 
 
-class PartialExtendedObject~BaseObject, MachineObject~ {
+class BaseThresholdsGroups {
   <<type>>
-  Required#60;BaseObject#62; &   Partial#60;Omit#60;MachineObject, keyof BaseObject#62;#62;
+  MachineUnitsSkeleton#60;ThresholdsGroup#60;string#62;#62;
 }
 
 
 
-class BaseZoneCreatorParameters {
+class BaseObject~T~ {
   <<interface>>
-  machine: MachineName
+  toBaseJSON: #40;#41; =#62; T
 }
 
 
@@ -287,16 +312,14 @@ class JSONBaseZone {
 
 
 
-class BaseZone {
+class BaseZone~Point, Report~ {
   <<interface>>
-  machine: MachineName
-  points: MachinePoint[]
+  points: Point[]
   settings: JSONZoneSettings
   name: string
-  report: MachineReport
+  report: Report
   init: #40;#41; =#62; void
   clean: #40;#41; =#62; void
-  toBaseJSON: #40;#41; =#62; JSONBaseZone
 }
 
 

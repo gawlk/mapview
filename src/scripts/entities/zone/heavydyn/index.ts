@@ -13,13 +13,21 @@ export const createHeavydynZoneFromJSON = (
 ) => {
   json = upgradeJSON(json)
 
-  const zone: PartialMachineZone<HeavydynZone> = createBaseZoneFromJSON(
-    json.base,
-    {
-      machine: 'Heavydyn',
+  const zone: HeavydynZone = shallowReactive({
+    ...createBaseZoneFromJSON(json.base, {
       report: parameters.report,
-    }
-  )
+    }),
+    machine: 'Heavydyn',
+    toJSON: function (): JSONHeavydynZone {
+      return {
+        version: json.version,
+        base: this.toBaseJSON(),
+        distinct: {
+          version: json.distinct.version,
+        },
+      }
+    },
+  })
 
   zone.points.push(
     ...json.base.points.map((jsonPoint) =>
@@ -29,17 +37,7 @@ export const createHeavydynZoneFromJSON = (
     )
   )
 
-  zone.toJSON = function (): JSONHeavydynZone {
-    return {
-      version: json.version,
-      base: this.toBaseJSON(),
-      distinct: {
-        version: json.distinct.version,
-      },
-    }
-  }
-
-  return zone as HeavydynZone
+  return zone
 }
 
 const upgradeJSON = (json: JSONHeavydynZoneVAny): JSONHeavydynZone => {

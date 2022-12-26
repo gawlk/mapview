@@ -18,8 +18,6 @@ interface JSONMinidynZoneDistinct {
 // Object
 // ---
 
-interface MinidynZone extends BaseZone {
-  readonly machine: 'Minidyn'
-  readonly points: MinidynPoint[]
-  toJSON: () => JSONMinidynZone
-}
+interface MinidynZone
+  extends MinidynObject<JSONMinidynZone>,
+    BaseZone<MinidynPoint, MinidynReport> {}

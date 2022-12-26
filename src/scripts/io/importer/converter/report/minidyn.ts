@@ -16,6 +16,7 @@ export const convertPRJZToMinidynReport = (
     version: 1,
     base: convertPRJZToBaseReport(jsonPV, index, {
       machine: 'Minidyn',
+      dropChoices: convertPRJZToMinidynDropChoices(json),
       dropIndexes: convertPRJZToMinidynDropIndexes(json),
       testChoices: convertPRJZToTestChoices(json),
     }),
@@ -44,7 +45,7 @@ export const convertPRJZToMinidynReportDistinct = (
     thresholds: {
       modulus: {
         version: 1,
-        selected: 0,
+        selectedIndex: 0,
         custom: {
           version: 1,
           type: 'Bicolor',
@@ -54,7 +55,7 @@ export const convertPRJZToMinidynReportDistinct = (
       },
       deflection: {
         version: 1,
-        selected: 0,
+        selectedIndex: 0,
         custom: {
           version: 1,
           type: 'Bicolor',
@@ -64,7 +65,7 @@ export const convertPRJZToMinidynReportDistinct = (
       },
       force: {
         version: 1,
-        selected: 0,
+        selectedIndex: 0,
         custom: {
           version: 1,
           type: 'Bicolor',
@@ -74,7 +75,7 @@ export const convertPRJZToMinidynReportDistinct = (
       },
       time: {
         version: 1,
-        selected: 0,
+        selectedIndex: 0,
         custom: {
           version: 1,
           type: 'Bicolor',
@@ -84,7 +85,7 @@ export const convertPRJZToMinidynReportDistinct = (
       },
       percentage: {
         version: 1,
-        selected: 0,
+        selectedIndex: 0,
         custom: {
           version: 1,
           type: 'Bicolor',
@@ -94,7 +95,7 @@ export const convertPRJZToMinidynReportDistinct = (
       },
       stiffness: {
         version: 1,
-        selected: 0,
+        selectedIndex: 0,
         custom: {
           version: 1,
           type: 'Bicolor',
@@ -103,38 +104,56 @@ export const convertPRJZToMinidynReportDistinct = (
         },
       },
     },
-    groupedDataLabels: {
-      selected: 1,
+    dataLabels: {
+      selectedIndex: 1,
       list: [
         {
           version: 1,
-          from: 'Drop',
-          choices: {
-            selected: 0,
-            list: dropChoices,
+          base: {
+            version: 1,
+            from: 'Drop',
+            choices: {
+              selectedIndex: 0,
+              list: dropChoices,
+            },
           },
-          indexes: {
-            selected: dropIndexes.length - 1,
-            list: dropIndexes,
-          },
-        },
-        {
-          version: 1,
-          from: 'Test',
-          choices: {
-            selected:
-              testChoices.findIndex(
-                (choice) => choice.name === 'BearingCapacity'
-              ) || 0,
-            list: testChoices as JSONDataLabel<MinidynUnitsNames>[],
+          distinct: {
+            version: 1,
+            indexes: {
+              selectedIndex: dropIndexes.length - 1,
+              list: dropIndexes,
+            },
           },
         },
         {
           version: 1,
-          from: 'Zone',
-          choices: {
-            selected: 0,
-            list: [],
+          base: {
+            version: 1,
+            from: 'Test',
+            choices: {
+              selectedIndex:
+                testChoices.findIndex(
+                  (choice) => choice.name === 'BearingCapacity'
+                ) || 0,
+              list: testChoices as JSONDataLabel<MinidynUnitsNames>[],
+            },
+          },
+          distinct: {
+            version: 1,
+          },
+        },
+        {
+          version: 1,
+          base: {
+            version: 1,
+            from: 'Zone',
+            choices: {
+              selectedIndex: 0,
+              list: [],
+            },
+          },
+          distinct: {
+            version: 1,
           },
         },
       ],

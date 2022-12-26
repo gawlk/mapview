@@ -2,51 +2,42 @@ import { createFieldFromJSON, createMaxidynDropFromJSON } from '/src/scripts'
 
 import { createBasePointFromJSON } from '../base'
 
-interface MaxidynPointCreatorParameters extends MachinePointCreatorParameters {
-  zone: MaxidynZone
-}
-
 export const createMaxidynPointFromJSON = (
   json: JSONMaxidynPointVAny,
   map: mapboxgl.Map | null,
-  parameters: MaxidynPointCreatorParameters
+  parameters: {
+    zone: MaxidynZone
+  }
 ) => {
   json = upgradeJSON(json)
 
-  const point: PartialMachinePoint<MaxidynPoint> = createBasePointFromJSON(
-    json.base,
-    map,
-    {
-      machine: 'Maxidyn',
+  const point: MaxidynPoint = shallowReactive({
+    ...createBasePointFromJSON(json.base, map, {
       zone: parameters.zone,
-    }
-  )
+      information: json.base.information,
+      drops: [] as MaxidynDrop[],
+    }),
+    machine: 'Maxidyn',
+    toJSON: function () {
+      return {
+        version: json.version,
+        base: this.toBaseJSON(),
+        distinct: {
+          version: json.distinct.version,
+        },
+      }
+    },
+  })
 
   point.drops.push(
     ...json.base.drops.map((jsonDrop) =>
       createMaxidynDropFromJSON(jsonDrop, {
-        point: point as MaxidynPoint,
+        point: point,
       })
     )
   )
 
-  point.information.push(
-    ...json.base.information.map((field: JSONField) =>
-      createFieldFromJSON(field)
-    )
-  )
-
-  point.toJSON = function (): JSONMaxidynPoint {
-    return {
-      version: json.version,
-      base: this.toBaseJSON(),
-      distinct: {
-        version: json.distinct.version,
-      },
-    }
-  }
-
-  return point as MaxidynPoint
+  return point
 }
 
 const upgradeJSON = (json: JSONMaxidynPointVAny): JSONMaxidynPoint => {

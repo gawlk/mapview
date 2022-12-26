@@ -26,8 +26,10 @@ interface JSONPointSettings {
 // Object
 // ---
 
-interface BasePoint {
-  readonly machine: MachineName
+interface BasePoint<
+  Drop extends BaseDrop = MachineDrop,
+  Zone extends BaseZone = BaseZone
+> extends BaseObject<JSONBasePoint> {
   readonly id: string
   readonly date: Date
   readonly marker: mapboxgl.Marker | null
@@ -35,20 +37,20 @@ interface BasePoint {
   readonly settings: JSONPointSettings
   readonly data: DataValue<string>[]
   readonly information: Field[]
-  readonly drops: MachineDrop[]
+  readonly drops: Drop[]
   index: number
   number: number
-  zone: MachineZone
+  zone: Zone
   rawDataFile: ArrayBufferLike | null
   readonly getSelectedMathNumber: (
     groupFrom: DataLabelsFrom,
     dataLabel: DataLabel<string>,
-    index?: MachineDropIndex | null
+    index?: BaseDropIndex | null
   ) => MathNumber | undefined
   readonly getDisplayedString: (
     groupFrom: DataLabelsFrom,
     dataLabel: DataLabel<string>,
-    index?: MachineDropIndex | null
+    index?: BaseDropIndex | null
   ) => string
   readonly updateColor: () => void
   readonly updateText: () => void
@@ -57,5 +59,4 @@ interface BasePoint {
   readonly addToMap: () => void
   readonly checkVisibility: () => boolean
   readonly remove: () => void
-  readonly toBaseJSON: () => JSONBasePoint
 }

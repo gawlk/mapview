@@ -35,15 +35,13 @@ type HeavydynDropType = 'Distance' | 'Time' | 'Force' | 'Height'
 // Object
 // ---
 
-interface HeavydynDrop extends BaseDrop {
-  readonly index: HeavydynDropIndex
-  readonly point: HeavydynPoint
-  toJSON: () => JSONHeavydynDrop
-}
+interface HeavydynDrop
+  extends HeavydynObject<JSONHeavydynDrop>,
+    BaseDrop<HeavydynDropIndex, HeavydynPoint> {}
 
-interface HeavydynDropIndex extends BaseDropIndex {
-  readonly machine: 'Heavydyn'
+interface HeavydynDropIndex
+  extends HeavydynObject<JSONHeavydynDropIndex>,
+    BaseDropIndex {
   readonly type: HeavydynDropType
   readonly value: MathNumber
-  readonly toJSON: () => JSONHeavydynDropIndex
 }

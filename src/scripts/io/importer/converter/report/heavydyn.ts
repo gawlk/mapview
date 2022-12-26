@@ -16,6 +16,7 @@ export const convertPRJZToHeavydynReport = (
     version: 1,
     base: convertPRJZToBaseReport(jsonPV, index, {
       machine: 'Heavydyn',
+      dropChoices: convertPRJZToHeavydynDropChoices(json),
       dropIndexes: convertPRJZToHeavydynDropIndexes(json),
       testChoices: convertPRJZToTestChoices(json),
     }),
@@ -44,7 +45,7 @@ export const convertPRJZToHeavydynReportDistinct = (
     thresholds: {
       deflection: {
         version: 1,
-        selected: 0,
+        selectedIndex: 0,
         custom: {
           version: 1,
           type: 'Bicolor',
@@ -54,7 +55,7 @@ export const convertPRJZToHeavydynReportDistinct = (
       },
       force: {
         version: 1,
-        selected: 0,
+        selectedIndex: 0,
         custom: {
           version: 1,
           type: 'Bicolor',
@@ -64,7 +65,7 @@ export const convertPRJZToHeavydynReportDistinct = (
       },
       temperature: {
         version: 1,
-        selected: 0,
+        selectedIndex: 0,
         custom: {
           version: 1,
           type: 'Bicolor',
@@ -74,7 +75,7 @@ export const convertPRJZToHeavydynReportDistinct = (
       },
       distance: {
         version: 1,
-        selected: 0,
+        selectedIndex: 0,
         custom: {
           version: 1,
           type: 'Bicolor',
@@ -84,7 +85,7 @@ export const convertPRJZToHeavydynReportDistinct = (
       },
       time: {
         version: 1,
-        selected: 0,
+        selectedIndex: 0,
         custom: {
           version: 1,
           type: 'Bicolor',
@@ -93,36 +94,55 @@ export const convertPRJZToHeavydynReportDistinct = (
         },
       },
     },
-    groupedDataLabels: {
-      selected: 0,
+    dataLabels: {
+      selectedIndex: 0,
       list: [
         {
           version: 1,
-          from: 'Drop',
-          choices: {
-            selected:
-              dropChoices.findIndex((choice) => choice.name === 'D0') || 0,
-            list: dropChoices,
+          base: {
+            version: 1,
+            from: 'Drop',
+            choices: {
+              selectedIndex:
+                dropChoices.findIndex((choice) => choice.name === 'D0') || 0,
+              list: dropChoices,
+            },
           },
-          indexes: {
-            selected: dropIndexes.length - 1,
-            list: dropIndexes,
+          distinct: {
+            version: 1,
+            indexes: {
+              selectedIndex: dropIndexes.length - 1,
+              list: dropIndexes,
+            },
+            sequenceName: json.Sequences.Name,
           },
         },
         {
           version: 1,
-          from: 'Test',
-          choices: {
-            selected: 0,
-            list: testChoices as JSONDataLabel<HeavydynUnitsNames>[],
+          base: {
+            version: 1,
+            from: 'Test',
+            choices: {
+              selectedIndex: 0,
+              list: testChoices as JSONDataLabel<HeavydynUnitsNames>[],
+            },
+          },
+          distinct: {
+            version: 1,
           },
         },
         {
           version: 1,
-          from: 'Zone',
-          choices: {
-            selected: 0,
-            list: [],
+          base: {
+            version: 1,
+            from: 'Zone',
+            choices: {
+              selectedIndex: 0,
+              list: [],
+            },
+          },
+          distinct: {
+            version: 1,
           },
         },
       ],

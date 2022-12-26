@@ -13,13 +13,21 @@ export const createMinidynZoneFromJSON = (
 ) => {
   json = upgradeJSON(json)
 
-  const zone: PartialMachineZone<MinidynZone> = createBaseZoneFromJSON(
-    json.base,
-    {
-      machine: 'Minidyn',
+  const zone: MinidynZone = shallowReactive({
+    ...createBaseZoneFromJSON(json.base, {
       report: parameters.report,
-    }
-  )
+    }),
+    machine: 'Minidyn',
+    toJSON: function (): JSONMinidynZone {
+      return {
+        version: json.version,
+        base: this.toBaseJSON(),
+        distinct: {
+          version: json.distinct.version,
+        },
+      }
+    },
+  })
 
   zone.points.push(
     ...json.base.points.map((jsonPoint) =>
@@ -29,17 +37,7 @@ export const createMinidynZoneFromJSON = (
     )
   )
 
-  zone.toJSON = function (): JSONMinidynZone {
-    return {
-      version: json.version,
-      base: this.toBaseJSON(),
-      distinct: {
-        version: json.distinct.version,
-      },
-    }
-  }
-
-  return zone as MinidynZone
+  return zone
 }
 
 const upgradeJSON = (json: JSONMinidynZoneVAny): JSONMinidynZone => {

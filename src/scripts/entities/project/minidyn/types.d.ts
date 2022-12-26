@@ -6,6 +6,7 @@ type JSONMinidynProjectVAny = JSONMinidynProject
 
 interface JSONMinidynProject {
   readonly version: 1
+  readonly machine: 'Minidyn'
   readonly base: JSONBaseProject
   readonly distinct: JSONMinidynProjectDistinct
 }
@@ -20,10 +21,8 @@ interface JSONMinidynProjectDistinct {
 // Object
 // ---
 
-interface MinidynProject extends BaseProject {
-  readonly machine: 'Minidyn'
-  readonly reports: SelectableList<MinidynReport>
-  readonly units: MinidynMathUnits
+interface MinidynProject
+  extends MinidynObject<JSONMinidynProject>,
+    BaseProject<MinidynReport, MinidynMathUnits> {
   bearingParameters: JSONBearingParameters
-  toJSON: () => JSONMinidynProject
 }

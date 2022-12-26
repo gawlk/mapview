@@ -12,53 +12,24 @@ interface JSONHeavydynReport {
 
 interface JSONHeavydynReportDistinct {
   readonly version: 1
-  readonly groupedDataLabels: SelectableList<
-    number,
-    JSONHeavydynGroupedDataLabels
+  readonly dataLabels: JSONSelectableList<
+    JSONHeavydynDataLabelsGroup,
+    JSONHeavydynDataLabelsGroups
   >
   readonly thresholds: HeavydynUnitsSkeleton<JSONDistinctThresholdsConfiguration>
-}
-
-interface JSONHeavydynGroupedDataLabels {
-  readonly version: 1
-  readonly from: DataLabelsFrom
-  readonly choices: SelectableList<number, JSONDataLabel<HeavydynUnitsNames>>
-  readonly indexes?: SelectableList<number, JSONHeavydynDropIndex>
 }
 
 // ---
 // Object
 // ---
 
-interface HeavydynReport extends BaseReport {
-  readonly machine: 'Heavydyn'
-  readonly zones: HeavydynZone[]
-  readonly dataLabels: HeavydynReportDataLabels
-  readonly thresholds: HeavydynReportThresholds
-  project: HeavydynProject
-  toJSON: () => JSONHeavydynReport
+interface HeavydynReport
+  extends HeavydynObject<JSONHeavydynReport>,
+    BaseReport<
+      HeavydynProject,
+      HeavydynZone,
+      HeavydynDataLabels,
+      HeavydynThresholds
+    > {
+  addZone: () => void
 }
-
-interface HeavydynReportDataLabels extends BaseReportDataLabels {
-  readonly groups: SelectableList<HeavydynGroupedDataLabels>
-  readonly table: SelectableList<HeavydynTableDataLabelsParameters>
-}
-
-interface HeavydynGroupedDataLabels extends BaseGroupedDataLabels {
-  readonly indexes?: SelectableList<HeavydynDropIndex>
-  readonly sequenceName?: string
-}
-
-interface HeavydynTableDataLabelsParameters
-  extends BaseTableDataLabelsParameters {
-  readonly group: HeavydynGroupedDataLabels
-  index?: HeavydynDropIndex
-}
-
-interface HeavydynReportThresholds extends BaseReportThresholds {
-  readonly groups: HeavydynUnitsSkeleton<GroupedThresolds<string>>
-}
-
-type HeavydynReportThresholdsGroups = HeavydynUnitsSkeleton<
-  GroupedThresolds<string>
->

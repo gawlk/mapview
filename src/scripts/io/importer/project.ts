@@ -6,14 +6,14 @@ import {
   createMinidynProjectFromJSON,
 } from '/src/scripts'
 
-export const importProject = async (
+export const importProjectFromJSON = async (
   json: JSONMachineProject
 ): Promise<MachineProject | null> => {
   const map = store.map as mapboxgl.Map
 
   let project = null
 
-  switch (json.base.machine) {
+  switch (json.machine) {
     case 'Heavydyn':
       project = await createHeavydynProjectFromJSON(
         json as JSONHeavydynProject,
@@ -39,8 +39,6 @@ export const importProject = async (
   if (project) {
     store.projects.list.push(project)
   }
-
-  console.log('project', project)
 
   return project
 }

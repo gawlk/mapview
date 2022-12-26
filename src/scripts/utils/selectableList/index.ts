@@ -1,35 +1,42 @@
-export const createSelectableList = <T>(
-  list: T[],
+export const createSelectableList = <T, L extends T[] = T[]>(
+  list: L,
   parameters?: {
-    selected?: T | number | null
-    index?: true // Used when T is of type number
+    selected?: L[number]
+    selectedIndex?: number | null
   }
-): SelectableList<T> => {
+): SelectableList<L[number], L> => {
   const selected = parameters?.selected
 
   return shallowReactive({
-    selected: (selected === undefined ||
-    (typeof selected === 'number' &&
-      (typeof list.at(0) !== 'number' || parameters?.index))
-      ? getSelectedFromIndexInList(
-          selected === undefined
-            ? 0
-            : typeof selected === 'number'
-            ? selected
-            : null,
-          list
-        )
-      : list.includes(selected as T)
-      ? selected
-      : null) as T | null,
+    selected: parameters
+      ? typeof parameters.selectedIndex === 'number'
+        ? getSelectedFromIndexInList(parameters.selectedIndex, list)
+        : typeof parameters.selected !== 'undefined'
+        ? list.includes(selected as L[number])
+          ? (selected as L[number])
+          : null
+        : null
+      : null,
     list,
+    selectIndex: function (index: number | null) {
+      this.selected = getSelectedFromIndexInList(index, this.list)
+    },
+    toJSON: function <TJSON, LJSON extends TJSON[] = TJSON[]>(
+      transform: (value: T) => TJSON
+    ): JSONSelectableList<TJSON, LJSON> {
+      return {
+        selectedIndex: getIndexOfSelectedInSelectableList(this),
+        list: list.map((value) => transform(value)) as LJSON,
+      }
+    },
   })
 }
 
-export const getIndexOfSelectedInSelectableList = <T>(sl: SelectableList<T>) =>
-  sl.selected ? sl.list.indexOf(sl.selected) : null
+export const getIndexOfSelectedInSelectableList = <T, L extends T[] = T[]>(
+  sl: SelectableList<T, L>
+) => (sl.selected ? sl.list.indexOf(sl.selected) : null)
 
-export const getSelectedFromIndexInList = <T>(
+const getSelectedFromIndexInList = <T, L extends T[] = T[]>(
   index: number | null,
-  list: T[]
+  list: L
 ) => (index !== null && list.length > 0 ? list.at(index) || list[0] : null)

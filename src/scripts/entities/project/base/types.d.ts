@@ -7,8 +7,7 @@ type JSONBaseProjectVAny = JSONBaseProject
 interface JSONBaseProject {
   readonly version: 1
   readonly name: string
-  readonly machine: MachineName
-  readonly reports: SelectableList<number, JSONMachineReport>
+  readonly reports: JSONSelectableList<JSONMachineReport>
   readonly settings: JSONProjectSettings
   readonly overlays: JSONOverlay[]
   readonly information: JSONField[]
@@ -45,13 +44,15 @@ interface JSONAcquisitionParameters {
 // Object
 // ---
 
-interface BaseProject {
-  readonly machine: MachineName
+interface BaseProject<
+  Report extends BaseReport = MachineReport,
+  MathUnits extends MachineMathUnits = MachineMathUnits
+> extends BaseObject<JSONBaseProject> {
   readonly name: Field
   readonly information: Field[]
   readonly hardware: Field[]
-  readonly reports: SelectableList<MachineReport>
-  readonly units: MachineMathUnits
+  readonly reports: SelectableList<Report>
+  readonly units: MathUnits
   readonly settings: JSONProjectSettings
   readonly overlays: Overlay[]
   readonly acquisitionParameters: JSONAcquisitionParameters
@@ -60,5 +61,4 @@ interface BaseProject {
   readonly fitOnMap: () => void
   readonly addToMap: () => void
   readonly remove: () => void
-  readonly toBaseJSON: () => JSONBaseProject
 }

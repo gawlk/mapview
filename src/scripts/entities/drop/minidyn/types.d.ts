@@ -33,14 +33,12 @@ type MinidynDropType = 'Training' | 'Averaging'
 // Object
 // ---
 
-interface MinidynDrop extends BaseDrop {
-  readonly index: MinidynDropIndex
-  readonly point: MinidynPoint
-  toJSON: () => JSONMinidynDrop
-}
+interface MinidynDrop
+  extends MinidynObject<JSONMinidynDrop>,
+    BaseDrop<MinidynDropIndex, MinidynPoint> {}
 
-interface MinidynDropIndex extends BaseDropIndex {
-  readonly machine: 'Minidyn'
+interface MinidynDropIndex
+  extends MinidynObject<JSONMinidynDropIndex>,
+    BaseDropIndex {
   readonly type: MinidynDropType
-  readonly toJSON: () => JSONMinidynDropIndex
 }

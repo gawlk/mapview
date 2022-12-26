@@ -12,25 +12,12 @@ interface JSONBaseReport {
   readonly screenshots: number[]
   readonly platform: JSONField[]
   readonly information: JSONField[]
-  readonly dataLabels: JSONBaseReportDataLabels
-  readonly thresholds: JSONBaseReportThresholds
+  readonly dataLabels: JSONBaseDataLabels
+  readonly thresholds: JSONBaseThresholdsSettings
 }
 
-interface JSONBaseReportDataLabels {
-  readonly version: 1
-  readonly table: SelectableList<number, JSONTableDataLabelsParameters>
-}
-
-interface JSONTableDataLabelsParameters {
-  readonly version: 1
-  readonly from: DataLabelsFrom
-  readonly index?: number
-  readonly dataLabels: string[]
-}
-
-type DataLabelsFrom = 'Drop' | 'Test' | 'Zone'
-
-interface JSONBaseReportThresholds {
+// Settings only
+interface JSONBaseThresholdsSettings {
   readonly version: 1
   colors: JSONThresholdColors
   inputs: JSONThresholdInputs
@@ -65,49 +52,24 @@ type ReportGroupBy = 'Number' | 'Zone'
 // Object
 // ---
 
-interface BaseReport {
-  readonly machine: MachineName
+interface BaseReport<
+  Project extends BaseProject = BaseProject,
+  Zone extends BaseZone = MachineZone,
+  DataLabels extends BaseDataLabels = MachineDataLabels,
+  Thresholds extends BaseThresholds = BaseThresholds
+> extends BaseObject<JSONBaseReport> {
   readonly name: Field
   readonly line: Line
-  readonly zones: MachineZone[]
+  readonly zones: Zone[]
   readonly screenshots: string[]
-  readonly dataLabels: MachineReportDataLabels
-  readonly thresholds: MachineReportThresholds
+  readonly dataLabels: DataLabels
+  readonly thresholds: Thresholds
   readonly settings: JSONReportSettings
   readonly platform: Field[]
   readonly information: Field[]
-  project: MachineProject
+  project: Project
   isOnMap: boolean
   readonly fitOnMap: () => void
-  readonly toBaseJSON: () => JSONBaseReport
   addToMap: () => void
   remove: () => void
-}
-
-interface BaseReportDataLabels {
-  readonly groups: SelectableList<BaseGroupedDataLabels>
-  readonly table: SelectableList<BaseTableDataLabelsParameters>
-}
-
-interface BaseGroupedDataLabels {
-  readonly from: DataLabelsFrom
-  readonly choices: SelectableList<DataLabel<string>>
-  readonly indexes?: SelectableList<MachineDropIndex>
-}
-
-interface BaseTableDataLabelsParameters {
-  readonly group: MachineGroupedDataLabels
-  readonly index?: MachineDropIndex
-  readonly dataLabels: DataLabel<string>[]
-}
-
-interface BaseReportThresholds {
-  readonly groups: MachineUnitsSkeleton<GroupedThresolds<string>>
-  readonly colors: JSONThresholdColors
-  readonly inputs: JSONThresholdInputs
-}
-
-interface GroupedThresolds<T> {
-  readonly unit: MathUnit<T>
-  readonly choices: SelectableList<AnyThreshold>
 }

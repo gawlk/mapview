@@ -30,14 +30,12 @@
     )
   )
 
-  const selectGroupedDataLabels = (index: number) => {
+  const selectDataLabelsGroup = (index: number) => {
     tableDataLabels.value?.selected &&
       (tableDataLabels.value.selected = tableDataLabels.value?.list[index])
   }
 
   const selectDataLabel = (index: number) => {
-    console.log(index)
-
     const dataLabel = tableDataLabels.value?.selected?.group.choices.list[index]
 
     if (dataLabel) {
@@ -57,20 +55,21 @@
   <Select
     :icon="IconViewList"
     :values="
-      (tableDataLabels?.list as MachineTableDataLabelsParameters[] | undefined)?.filter((parameters) => parameters.group.choices.list.length > 0)
+      tableDataLabels?.list
+        ?.filter((parameters) => parameters.group.choices.list.length > 0)
         .map((parameters) => t(parameters.group.from))
     "
     :selected="t(tableDataLabels?.selected?.group.from || '')"
-    @selectIndex="selectGroupedDataLabels"
+    @selectIndex="selectDataLabelsGroup"
     :preSelected="`${t('Source')}${t(':')}`"
     :postSelected="`(${store.projects.selected?.reports.selected?.name.value})`"
     full
   />
   <Select
-    v-if="tableDataLabels?.selected?.group.indexes"
+    v-if="tableDataLabels?.selected?.group.from === 'Drop'"
     :icon="IconDotsVertical"
     :values="
-      tableDataLabels?.selected?.group.indexes?.list.map(
+      (tableDataLabels?.selected?.group.indexes?.list as MachineDropIndex[]).map(
         (index) =>
           `${index.displayedIndex} - ${t(index.type)}${
             index.machine === 'Heavydyn' && index.value
@@ -84,8 +83,9 @@
     @selectIndex="
       (index) =>
         tableDataLabels?.selected &&
+        tableDataLabels?.selected?.group.from === 'Drop' &&
         (tableDataLabels.selected.index =
-          tableDataLabels?.selected?.group.indexes?.list[index])
+          tableDataLabels?.selected?.group.indexes.list[index])
     "
     full
   />

@@ -18,7 +18,7 @@
   <Listbox
     :icon="IconDotsHorizontal"
     :values="
-      (groupedDataLabels?.list as MachineGroupedDataLabels[] | undefined)?.filter((list) => list.from !== 'Zone')
+      (groupedDataLabels?.list as MachineDataLabelsGroup[] | undefined)?.filter((list) => list.from !== 'Zone')
         .map((list) => t(list.from))
     "
     :selected="t(groupedDataLabels?.selected?.from || '')"
@@ -31,7 +31,7 @@
     full
   />
   <Listbox
-    v-if="groupedDataLabels?.selected?.indexes"
+    v-if="groupedDataLabels?.selected?.from === 'Drop'"
     :icon="IconDotsVertical"
     :values="
       groupedDataLabels?.selected?.indexes.list.map(
@@ -49,7 +49,7 @@
     "
     @selectIndex="
       (index) =>
-        groupedDataLabels?.selected?.indexes &&
+        groupedDataLabels?.selected?.from === 'Drop' &&
         (groupedDataLabels.selected.indexes.selected =
           groupedDataLabels.selected.indexes.list[index])
     "

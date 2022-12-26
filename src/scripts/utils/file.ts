@@ -1,9 +1,14 @@
-export const fileToBase64 = (file: File) =>
+export const convertFileToDataURL = (file: File) =>
   new Promise<string>((resolve, reject) => {
     const reader = new FileReader()
     reader.readAsDataURL(file)
     reader.onload = () => resolve(reader.result as string)
     reader.onerror = (error) => reject(error)
+  })
+
+export const convertJSONToFile = (json: AnyJSON, name: string) =>
+  new File([JSON.stringify(json, null, 2)], name, {
+    type: 'json',
   })
 
 export const convertUint8ArrayToData64Image = (
@@ -17,19 +22,23 @@ export const convertUint8ArrayToData64Image = (
       .join('')
   )
 
-export const convertData64ImageToUint8Array = async (data64: string) => {
+export const convertData64ImageToFile = async (data64: string) => {
   const res = await fetch(data64)
   const blob = await res.blob()
 
-  return new Uint8Array(
-    await new Blob([blob], {
-      type: 'image/png',
-    }).arrayBuffer()
-  )
+  return await new File([blob], 'screenshot.png', {
+    type: 'image/png',
+  })
 }
 
-export const downloadImage = (screenshot: string) =>
-  downloadFile(new File([screenshot], 'screenshot.png'))
+export const convertData64ImageToUint8Array = async (data64: string) => {
+  const file = await convertData64ImageToFile(data64)
+
+  return new Uint8Array(await file.arrayBuffer())
+}
+
+export const downloadImage = async (screenshot: string) =>
+  downloadFile(await convertData64ImageToFile(screenshot))
 
 export const downloadFile = async (file: File) => {
   const a = document.createElement('a')

@@ -5,19 +5,23 @@ import { translate } from '/src/locales'
 import {
   colorsClasses,
   createDataValueFromJSON,
+  createFieldFromJSON,
   createIcon,
   createWatcherHandler,
 } from '/src/scripts'
 
-interface BasePointCreatorParameters extends MachinePointCreatorParameters {
-  machine: MachineName
-}
-
-export const createBasePointFromJSON = (
+export const createBasePointFromJSON = <
+  Zone extends MachineZone,
+  Drop extends MachineDrop
+>(
   json: JSONBasePointVAny,
   map: mapboxgl.Map | null,
-  parameters: BasePointCreatorParameters
-): BasePoint => {
+  parameters: {
+    zone: Zone
+    information: JSONField[]
+    drops: Drop[]
+  }
+) => {
   json = upgradeJSON(json)
 
   const icon = createIcon(parameters.zone.report.settings.iconName)
@@ -33,34 +37,33 @@ export const createBasePointFromJSON = (
 
   let watcherMarkersString: any
 
-  const point: BasePoint = shallowReactive({
-    machine: parameters.machine,
+  const point: BasePoint<Drop, Zone> = {
     id: json.id,
     number: json.number,
     index: json.index,
     date: new Date(json.date),
     marker,
     icon,
-    information: [] as Field[],
+    information: shallowReactive(
+      parameters.information.map((field: JSONField) =>
+        createFieldFromJSON(field)
+      )
+    ),
     settings: reactive(json.settings),
     zone: parameters.zone,
     data: json.data.map(
       (jsonDataValue): DataValue<string> =>
         createDataValueFromJSON(
           jsonDataValue,
-          (
-            parameters.zone.report.dataLabels.groups
-              .list as MachineGroupedDataLabels[]
-          ).find((groupedDataLabels) => groupedDataLabels.from === 'Test')
-            ?.choices.list || []
+          parameters.zone.report.dataLabels.groups.list[1].choices.list
         )
     ),
-    drops: [] as MachineDrop[],
+    drops: [],
     rawDataFile: null,
     getSelectedMathNumber: function (
       groupFrom: DataLabelsFrom,
       dataLabel: DataLabel<string>,
-      index?: MachineDropIndex | null
+      index?: BaseDropIndex | null
     ) {
       let source
 
@@ -85,7 +88,7 @@ export const createBasePointFromJSON = (
     getDisplayedString: function (
       groupFrom: DataLabelsFrom,
       dataLabel: DataLabel<string>,
-      index?: MachineDropIndex | null
+      index?: BaseDropIndex | null
     ) {
       const value = this.getSelectedMathNumber(groupFrom, dataLabel, index)
 
@@ -103,7 +106,7 @@ export const createBasePointFromJSON = (
           const mathNumber = this.getSelectedMathNumber(
             group.from,
             group.choices.selected,
-            group.indexes?.selected
+            group.from === 'Drop' ? group.indexes.selected : undefined
           )
 
           const unit = mathNumber?.unit
@@ -154,7 +157,7 @@ export const createBasePointFromJSON = (
             text = this.getDisplayedString(
               group.from,
               group.choices.selected,
-              group.indexes?.selected
+              group.from === 'Drop' ? group.indexes.selected : undefined
             )
           }
 
@@ -182,9 +185,16 @@ export const createBasePointFromJSON = (
       appendToPopup(translate('Date'), this.date.toLocaleString())
       appendToPopup(
         translate('Longitude'),
-        String(this.marker?.getLngLat().lng)
+        this.marker?.getLngLat().lng.toLocaleString(undefined, {
+          maximumFractionDigits: 6,
+        }) || ''
       )
-      appendToPopup(translate('Latitude'), String(this.marker?.getLngLat().lat))
+      appendToPopup(
+        translate('Latitude'),
+        this.marker?.getLngLat().lat.toLocaleString(undefined, {
+          maximumFractionDigits: 6,
+        }) || ''
+      )
 
       this.data.forEach((dataValue) => {
         appendToPopup(
@@ -209,7 +219,10 @@ export const createBasePointFromJSON = (
 
             point.updateVisibility()
 
-            let index = sortedPoints.findIndex((_point) => point === _point) + 1
+            // TODO: Changed from point === _point to point.index === _point.index because type change, check if code still works
+            let index =
+              sortedPoints.findIndex((_point) => point.index === _point.index) +
+              1
 
             for (index; index < sortedPoints.length; index++) {
               sortedPoints[index].number += point.settings.isVisible ? 1 : -1
@@ -232,7 +245,7 @@ export const createBasePointFromJSON = (
       this.marker?.remove()
       watcherHandler.clean()
     },
-    toBaseJSON: function (): JSONBasePoint {
+    toBaseJSON: function () {
       return {
         version: json.version,
         id: this.id,
@@ -243,12 +256,10 @@ export const createBasePointFromJSON = (
         coordinates: this.marker?.getLngLat() || json.coordinates,
         data: this.data.map((data) => data.toJSON()),
         information: this.information.map((field) => field.toJSON()),
-        drops: this.drops.map(
-          (drop) => drop.toJSON() as unknown as JSONMachineDrop
-        ),
+        drops: this.drops.map((drop) => drop.toJSON()),
       }
     },
-  })
+  }
 
   marker?.on('dragend', () => point.updatePopup())
 

@@ -1,16 +1,14 @@
-import { type Unzipped } from 'fflate'
-
 import store from '/src/store'
 
 import { convertUint8ArrayToData64Image, createOverlay } from '/src/scripts'
 
-export const importOverlays = (
-  zip: Unzipped,
+export const importOverlaysFromZIP = (
+  zip: Fflate.Unzipped,
   json: JSONMachineProject,
   project: MachineProject
 ) =>
   json.base.overlays.forEach(async (jsonOverlay) => {
-    const array = zip[`images/${jsonOverlay.name}`]
+    const array = zip[`overlays/${jsonOverlay.name}`]
 
     if (array) {
       const data64 = convertUint8ArrayToData64Image(

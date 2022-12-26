@@ -5,16 +5,20 @@ import {
   createSelectableList,
   createWatcherHandler,
   debounce,
-  getIndexOfSelectedInSelectableList,
   mapStyles,
 } from '/src/scripts'
 
-export const createBaseProjectFromJSON = async (
+export const createBaseProjectFromJSON = <
+  Report extends MachineReport,
+  MathUnits extends MachineMathUnits
+>(
   json: JSONBaseProjectVAny,
   map: mapboxgl.Map | null,
   parameters: {
-    machine: MachineName
-    units: MachineMathUnits
+    reports: Report[]
+    information: JSONField[]
+    hardware: JSONField[]
+    units: MathUnits
   }
 ) => {
   json = upgradeJSON(json)
@@ -23,8 +27,7 @@ export const createBaseProjectFromJSON = async (
 
   const settings = reactive(json.settings)
 
-  const project: BaseProject = shallowReactive({
-    machine: parameters.machine,
+  const project: BaseProject<Report, MathUnits> = shallowReactive({
     name: createFieldFromJSON({
       version: 1,
       label: 'Name',
@@ -33,12 +36,18 @@ export const createBaseProjectFromJSON = async (
         version: 1,
       },
     }),
-    reports: createSelectableList<MachineReport>([]),
+    reports: createSelectableList(parameters.reports),
     overlays: shallowReactive([] as Overlay[]),
     units: parameters.units,
     settings,
-    information: shallowReactive([] as Field[]),
-    hardware: shallowReactive([] as Field[]),
+    information: shallowReactive(
+      parameters.information.map((field: JSONField) =>
+        createFieldFromJSON(field)
+      )
+    ),
+    hardware: shallowReactive(
+      parameters.hardware.map((field: JSONField) => createFieldFromJSON(field))
+    ),
     acquisitionParameters: json.acquisitionParameters,
     refreshLinesAndOverlays: function () {
       if (this.settings.arePointsLinked) {
@@ -252,16 +261,12 @@ export const createBaseProjectFromJSON = async (
       return {
         version: json.version,
         name: this.name.value as string,
-        machine: this.machine,
         settings: this.settings,
         acquisitionParameters: this.acquisitionParameters,
         overlays: this.overlays.map((overlay) => overlay.toJSON()),
         information: this.information.map((field) => field.toJSON()),
         hardware: this.hardware.map((field) => field.toJSON()),
-        reports: {
-          selected: getIndexOfSelectedInSelectableList(this.reports),
-          list: this.reports.list.map((report) => report.toJSON()),
-        },
+        reports: this.reports.toJSON((report) => report.toJSON()),
       }
     },
   })

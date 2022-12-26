@@ -32,25 +32,23 @@ export const createMathNumber = (
       let value = this.value
       let preString = ''
 
-      if (typeof this.unit !== 'string') {
-        numberToLocaleOptions.precision ??= this.unit.currentPrecision
+      numberToLocaleOptions.precision ??= this.unit.currentPrecision
 
-        if (!options.disableMinAndMax) {
-          if (this.value < this.unit.min) {
-            value = this.unit.min
-            preString = '<'
-          } else if (this.unit.max && this.value > this.unit.max) {
-            value = this.unit.max
-            preString = '>'
-          }
+      if (!options.disableMinAndMax) {
+        if (this.value < this.unit.min) {
+          value = this.unit.min
+          preString = '<'
+        } else if (this.unit.max && this.value > this.unit.max) {
+          value = this.unit.max
+          preString = '>'
         }
-
-        value = convertValueFromUnitAToUnitB(
-          value,
-          this.unit.baseUnit,
-          options.unit ?? this.unit.currentUnit
-        )
       }
+
+      value = convertValueFromUnitAToUnitB(
+        value,
+        this.unit.baseUnit,
+        options.unit ?? this.unit.currentUnit
+      )
 
       const localeString = `${
         options.disablePreString ? '' : preString

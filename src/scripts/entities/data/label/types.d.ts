@@ -2,9 +2,9 @@
 // JSON
 // ---
 
-type JSONDataLabelVAny<T extends String> = JSONDataLabel<T>
+type JSONDataLabelVAny<T extends string> = JSONDataLabel<T>
 
-interface JSONDataLabel<T extends String> {
+interface JSONDataLabel<T extends string> {
   readonly version: 1
   readonly name: string
   readonly unit: T
@@ -14,9 +14,8 @@ interface JSONDataLabel<T extends String> {
 // Object
 // ---
 
-interface DataLabel<T> {
-  // Add kind (raw, computed, ...)
+interface DataLabel<T extends string> {
   readonly name: string
   readonly unit: MathUnit<T>
-  readonly scientificName?: string
+  readonly toJSON: () => JSONDataLabel<T>
 }

@@ -9,12 +9,25 @@
 
   import Home from './components/Home.vue'
 
+  const { t } = useI18n()
+
   const state = shallowReactive({
-    components: shallowReactive([] as Component[]),
+    components: shallowReactive(
+      [] as {
+        component: Component
+        props: any
+      }[]
+    ),
     isOpen: false,
   })
 
-  const { t } = useI18n()
+  const close = () => {
+    state.isOpen = false
+
+    setTimeout(() => {
+      state.components.length = 0
+    }, 500)
+  }
 </script>
 
 <template>
@@ -25,14 +38,24 @@
     :leftIcon="IconCloudDownload"
     orange
     @open="() => (state.isOpen = true)"
-    @close="() => (state.isOpen = false)"
+    @close="close"
   >
     <template v-slot:button>
       {{ t('Export report') }}
     </template>
     <template v-slot:dialog>
       <div class="-mb-8 space-y-8" v-if="state.components.length">
-        <component :is="state.components[state.components.length - 1]" />
+        <component
+          v-bind="state.components[state.components.length - 1].props"
+          :is="state.components[state.components.length - 1].component"
+          @component="
+          (component: Component, props: any) =>
+            state.components.push({
+              component,
+              props,
+            })
+        "
+        />
         <Button
           class="z-20"
           :leftIcon="IconHeroiconsSolidChevronLeft"
@@ -43,7 +66,13 @@
       </div>
       <Home
         v-else
-        @component="(component) => state.components.push(component)"
+        @component="
+          (component, props) =>
+            state.components.push({
+              component,
+              props,
+            })
+        "
       />
     </template>
   </Dialog>

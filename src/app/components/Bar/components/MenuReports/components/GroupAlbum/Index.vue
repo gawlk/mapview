@@ -3,7 +3,7 @@
 
   import store from '/src/store'
 
-  import { fileToBase64 } from '/src/scripts'
+  import { convertFileToDataURL } from '/src/scripts'
 
   import IconArrowSmRight from '~icons/heroicons-solid/arrow-sm-right'
   import IconCamera from '~icons/heroicons-solid/camera'
@@ -71,7 +71,7 @@
   const importScreenshots = (files: FileList | null) => {
     Array.from(files || []).forEach(async (file: File) => {
       store.projects.selected?.reports.selected?.screenshots.push(
-        await fileToBase64(file)
+        await convertFileToDataURL(file)
       )
     })
   }

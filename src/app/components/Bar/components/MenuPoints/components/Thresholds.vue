@@ -31,21 +31,21 @@
     () => selectedDataLabel.value?.unit as MathUnit<string> | undefined
   )
 
-  const currentGroupedThresholds = computed(
+  const currentThresholdsGroup = computed(
     () =>
       selectedReport.value &&
       (Object.values(selectedReport.value.thresholds.groups).find(
-        (group: GroupedThresolds<string>) =>
+        (group: ThresholdsGroup<string>) =>
           group.unit === selectedDataLabel.value?.unit
-      ) as GroupedThresolds<string>)
+      ) as ThresholdsGroup<string>)
   )
 
   const formattedTresholdValue = computed(
     () =>
       `${
-        currentGroupedThresholds.value?.choices.selected && selectedUnit.value
+        currentThresholdsGroup.value?.choices.selected && selectedUnit.value
           ? convertValueFromUnitAToUnitB(
-              currentGroupedThresholds.value.choices.selected.value,
+              currentThresholdsGroup.value.choices.selected.value,
               selectedUnit.value.baseUnit,
               selectedUnit.value.currentUnit
             ).toLocaleString()
@@ -56,11 +56,11 @@
   const formattedTresholdValueHigh = computed(
     () =>
       `${
-        currentGroupedThresholds.value?.choices.selected && selectedUnit.value
+        currentThresholdsGroup.value?.choices.selected && selectedUnit.value
           ? convertValueFromUnitAToUnitB(
-              currentGroupedThresholds.value.choices.selected.kind === 'custom'
-                ? currentGroupedThresholds.value.choices.selected.valueHigh
-                : currentGroupedThresholds.value.choices.selected.value,
+              currentThresholdsGroup.value.choices.selected.kind === 'custom'
+                ? currentThresholdsGroup.value.choices.selected.valueHigh
+                : currentThresholdsGroup.value.choices.selected.value,
               selectedUnit.value.baseUnit,
               selectedUnit.value.currentUnit
             )?.toLocaleString()
@@ -78,36 +78,36 @@
     <Listbox
       :icon="IconViewList"
       :values="
-        currentGroupedThresholds?.choices.list.map((threshold) =>
+        currentThresholdsGroup?.choices.list.map((threshold) =>
           t(threshold.name)
         )
       "
       @selectIndex="
         (index) =>
-          currentGroupedThresholds &&
-          (currentGroupedThresholds.choices.selected =
-            currentGroupedThresholds.choices.list[index])
+          currentThresholdsGroup &&
+          (currentThresholdsGroup.choices.selected =
+            currentThresholdsGroup.choices.list[index])
       "
       :preSelected="`${t('Selected')}${t(':')}`"
-      :selected="t(currentGroupedThresholds?.choices.selected?.name || '')"
+      :selected="t(currentThresholdsGroup?.choices.selected?.name || '')"
       full
     />
     <Divider
-      v-if="currentGroupedThresholds?.choices.selected?.kind === 'custom'"
+      v-if="currentThresholdsGroup?.choices.selected?.kind === 'custom'"
     />
     <Listbox
-      v-if="currentGroupedThresholds?.choices.selected?.kind === 'custom'"
+      v-if="currentThresholdsGroup?.choices.selected?.kind === 'custom'"
       :icon="IconColorSwatch"
       :values="[t('Bicolor'), t('Gradient'), t('Tricolor')]"
       @selectIndex="
         (index) =>
-          currentGroupedThresholds &&
-          currentGroupedThresholds.choices.selected?.kind === 'custom' &&
-          (currentGroupedThresholds.choices.selected.type =
+          currentThresholdsGroup &&
+          currentThresholdsGroup.choices.selected?.kind === 'custom' &&
+          (currentThresholdsGroup.choices.selected.type =
             index === 0 ? 'Bicolor' : index === 1 ? 'Gradient' : 'Tricolor')
       "
       :preSelected="`${t('Type')}${t(':')}`"
-      :selected="t(currentGroupedThresholds?.choices.selected.type)"
+      :selected="t(currentThresholdsGroup?.choices.selected.type)"
       full
     />
     <ListboxColors
@@ -125,9 +125,9 @@
       )} < ${formattedTresholdValue}`"
     />
     <InputNumberSwitchable
-      v-if="currentGroupedThresholds?.choices.selected?.kind === 'custom'"
+      v-if="currentThresholdsGroup?.choices.selected?.kind === 'custom'"
       :isRange="selectedReport?.thresholds.inputs.isRequiredARange"
-      :value="currentGroupedThresholds.choices.selected?.value || 0"
+      :value="currentThresholdsGroup.choices.selected?.value || 0"
       :unit="selectedUnit"
       @switch="
         (value) =>
@@ -137,7 +137,7 @@
       @input="
           (value) => {
             if (
-              currentGroupedThresholds?.choices.selected &&
+              currentThresholdsGroup?.choices.selected &&
               selectedUnit
             ) {
               value = convertValueFromUnitAToUnitB(
@@ -153,13 +153,13 @@
               //     ? selectedUnit.max
               //     : value
 
-              ;(currentGroupedThresholds.choices.selected as CustomThreshold).value = value
+              ;(currentThresholdsGroup.choices.selected as CustomThreshold).value = value
 
               if (
-                currentGroupedThresholds.choices.selected.kind === 'custom' &&
-                currentGroupedThresholds.choices.selected.valueHigh < value
+                currentThresholdsGroup.choices.selected.kind === 'custom' &&
+                currentThresholdsGroup.choices.selected.valueHigh < value
               ) {
-                currentGroupedThresholds.choices.selected.valueHigh = value
+                currentThresholdsGroup.choices.selected.valueHigh = value
               }
             }
           }
@@ -168,12 +168,12 @@
     <div
       class="space-y-2"
       v-if="
-        currentGroupedThresholds?.choices.selected?.kind === 'custom' &&
-        currentGroupedThresholds.choices.selected.type !== 'Bicolor'
+        currentThresholdsGroup?.choices.selected?.kind === 'custom' &&
+        currentThresholdsGroup.choices.selected.type !== 'Bicolor'
       "
     >
       <ListboxColors
-        v-if="currentGroupedThresholds.choices.selected.type === 'Tricolor'"
+        v-if="currentThresholdsGroup.choices.selected.type === 'Tricolor'"
         :icon="IconColorSwatch"
         :color="selectedReport.thresholds.colors.middle"
         @selectColor="(color: ColorName) => {
@@ -211,7 +211,7 @@
 
       <InputNumberSwitchable
         :isRange="selectedReport?.thresholds.inputs.isOptionalARange"
-        :value="currentGroupedThresholds.choices.selected?.valueHigh || 0"
+        :value="currentThresholdsGroup.choices.selected?.valueHigh || 0"
         :unit="selectedUnit"
         @switch="
           (value) =>
@@ -222,7 +222,7 @@
             (value) => {
               if (
                 selectedUnit &&
-                currentGroupedThresholds?.choices.selected?.kind === 'custom'
+                currentThresholdsGroup?.choices.selected?.kind === 'custom'
               ) {
                 value = convertValueFromUnitAToUnitB(
                   value as number,
@@ -230,20 +230,13 @@
                   selectedUnit.baseUnit
                 )
 
-                // value =
-                //   value < selectedUnit.min
-                //     ? selectedUnit.min
-                //     : selectedUnit.max && value > selectedUnit.max
-                //     ? selectedUnit.max
-                //     : value
-
-                currentGroupedThresholds.choices.selected.valueHigh = value
+                currentThresholdsGroup.choices.selected.valueHigh = value
 
                 if (
-                  currentGroupedThresholds.choices.selected.value >
-                  currentGroupedThresholds.choices.selected.valueHigh
+                  currentThresholdsGroup.choices.selected.value >
+                  currentThresholdsGroup.choices.selected.valueHigh
                 ) {
-                  currentGroupedThresholds.choices.selected.value = value
+                  currentThresholdsGroup.choices.selected.value = value
                 }
               }
             }
@@ -257,8 +250,8 @@
           selectedReport && (selectedReport.thresholds.colors.high = color)
         }"
       :text="`${
-        currentGroupedThresholds?.choices.selected?.kind === 'custom' &&
-        currentGroupedThresholds?.choices.selected.type !== 'Tricolor'
+        currentThresholdsGroup?.choices.selected?.kind === 'custom' &&
+        currentThresholdsGroup?.choices.selected.type !== 'Tricolor'
           ? formattedTresholdValue
           : formattedTresholdValueHigh
       } ≤ ${t(selectedDataLabel?.name || '')} ≤ ${

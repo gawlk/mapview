@@ -16,7 +16,7 @@ export const mapStyles = [
 export const waitForMap = () =>
   new Promise<boolean>((resolve) => {
     const interval = setInterval(async () => {
-      if (store.map?.isStyleLoaded()) {
+      if (!store.map || store.map?.isStyleLoaded()) {
         clearInterval(interval)
         resolve(true)
       }
@@ -77,8 +77,6 @@ export const createMap = (container: string): mapboxgl.Map => {
   })
 
   map.on('style.load', () => {
-    console.log('map loaded')
-
     addDummyLayersToMap(map)
 
     store.projects.selected?.refreshLinesAndOverlays()

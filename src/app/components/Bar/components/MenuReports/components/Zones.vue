@@ -1,13 +1,6 @@
 <script setup lang="ts">
   import store from '/src/store'
 
-  import {
-    colorsClasses,
-    createHeavydynZoneFromJSON,
-    createMaxidynZoneFromJSON,
-    createMinidynZoneFromJSON,
-  } from '/src/scripts'
-
   import IconColorSwatch from '~icons/heroicons-solid/color-swatch'
   import IconPlus from '~icons/heroicons-solid/plus'
   import IconTrash from '~icons/heroicons-solid/trash'
@@ -23,42 +16,7 @@
   )
 
   const createZone = () => {
-    const colorNames = Object.keys(colorsClasses)
-
-    if (store.projects.selected && selectedReport.value && store.map) {
-      const json: JSONMachineZone = {
-        version: 1,
-        base: {
-          version: 1,
-          name: `Zone ${selectedReport.value.zones.length + 1}`,
-          settings: {
-            version: 1,
-            color: colorNames[
-              Math.floor(Math.random() * colorNames.length)
-            ] as ColorName,
-            isVisible: true,
-          },
-          points: [],
-        },
-        distinct: {
-          version: 1,
-        },
-      }
-
-      const _createZone =
-        selectedReport.value?.machine === 'Heavydyn'
-          ? createHeavydynZoneFromJSON
-          : selectedReport.value?.machine === 'Maxidyn'
-          ? createMaxidynZoneFromJSON
-          : createMinidynZoneFromJSON
-
-      const zone = _createZone(json, store.map, {
-        report: selectedReport.value as MachineReport,
-      })
-
-      zone.init()
-      ;(selectedReport.value.zones as MachineZone[]).push(zone)
-    }
+    selectedReport.value?.addZone()
   }
 </script>
 

@@ -1,4 +1,4 @@
-import mapboxgl, { Marker } from 'mapbox-gl'
+import { type Map, Marker } from 'mapbox-gl'
 import pica from 'pica'
 
 import {
@@ -12,7 +12,7 @@ import SVGRotate from '/src/assets/svg/custom/rotate.svg?raw'
 
 export const createOverlay = async (
   data64: string,
-  map: mapboxgl.Map | null,
+  map: Map | null,
   parameters: JSONOverlay
 ): Promise<Overlay> => {
   const id = `overlay-${parameters.name}-${+new Date() + Math.random()}`

@@ -33,14 +33,12 @@ type MaxidynDropType = 'Training' | 'Averaging'
 // Object
 // ---
 
-interface MaxidynDrop extends BaseDrop {
-  readonly index: MaxidynDropIndex
-  readonly point: MaxidynPoint
-  toJSON: () => JSONMaxidynDrop
-}
+interface MaxidynDrop
+  extends MaxidynObject<JSONMaxidynDrop>,
+    BaseDrop<MaxidynDropIndex, MaxidynPoint> {}
 
-interface MaxidynDropIndex extends BaseDropIndex {
-  readonly machine: 'Maxidyn'
+interface MaxidynDropIndex
+  extends MaxidynObject<JSONMaxidynDropIndex>,
+    BaseDropIndex {
   readonly type: MaxidynDropType
-  readonly toJSON: () => JSONMaxidynDropIndex
 }

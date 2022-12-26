@@ -15,6 +15,248 @@ class JSONDataLabel~T~ {
 
 
 
+class JSONBaseDataLabelsGroup~From, T~ {
+  <<interface>>
+  version: 1
+  from: From
+  choices: JSONSelectableList#60;JSONDataLabel#60;T#62;#62;
+}
+JSONBaseDataLabelsGroup~From, T~ <.. JSONSelectableList~T, L~
+JSONBaseDataLabelsGroup~From, T~ <.. JSONDataLabel~T~
+
+
+class JSONBaseDataLabels {
+  <<interface>>
+  version: 1
+  table: JSONSelectableList#60;JSONTableDataLabelsParameters#62;
+}
+JSONBaseDataLabels <.. JSONSelectableList~T, L~
+JSONBaseDataLabels <.. JSONTableDataLabelsParameters
+
+
+class JSONTableDataLabelsParameters {
+  <<interface>>
+  version: 1
+  from: DataLabelsFrom
+  index?: number
+  dataLabels: string[]
+}
+
+
+
+class JSONHeavydynDataLabelsGroup {
+  <<type>>
+  JSONHeavydynDataLabelsGroups[number]
+}
+JSONHeavydynDataLabelsGroup <.. JSONHeavydynDataLabelsGroups
+
+
+class JSONHeavydynDataLabelsGroups {
+  <<type>>
+  [   JSONHeavydynDropDataLabelsGroup,   JSONHeavydynTestDataLabelsGroup,   JSONHeavydynZoneDataLabelsGroup ]
+}
+JSONHeavydynDataLabelsGroups <.. JSONHeavydynDropDataLabelsGroup
+JSONHeavydynDataLabelsGroups <.. JSONHeavydynTestDataLabelsGroup
+JSONHeavydynDataLabelsGroups <.. JSONHeavydynZoneDataLabelsGroup
+
+
+class JSONHeavydynDropDataLabelsGroup {
+  <<interface>>
+  version: 1
+  base: JSONBaseDataLabelsGroup#60;'Drop', HeavydynUnitsNames#62;
+  distinct: JSONHeavydynDropDataLabelsGroupDistinct
+}
+JSONHeavydynDropDataLabelsGroup <.. JSONBaseDataLabelsGroup~From, T~
+JSONHeavydynDropDataLabelsGroup <.. JSONHeavydynDropDataLabelsGroupDistinct
+
+
+class JSONHeavydynDropDataLabelsGroupDistinct {
+  <<interface>>
+  version: 1
+  indexes: JSONSelectableList#60;JSONHeavydynDropIndex#62;
+  sequenceName: string
+}
+JSONHeavydynDropDataLabelsGroupDistinct <.. JSONSelectableList~T, L~
+JSONHeavydynDropDataLabelsGroupDistinct <.. JSONHeavydynDropIndex
+
+
+class JSONHeavydynTestDataLabelsGroup {
+  <<interface>>
+  version: 1
+  base: JSONBaseDataLabelsGroup#60;'Test', HeavydynUnitsNames#62;
+  distinct: #123;     readonly version: 1   #125;
+}
+JSONHeavydynTestDataLabelsGroup <.. JSONBaseDataLabelsGroup~From, T~
+
+
+class JSONHeavydynTestDataLabelsGroupDistinct {
+  <<interface>>
+  version: 1
+}
+
+
+
+class JSONHeavydynZoneDataLabelsGroup {
+  <<interface>>
+  version: 1
+  base: JSONBaseDataLabelsGroup#60;'Zone', HeavydynUnitsNames#62;
+  distinct: JSONHeavydynZoneDataLabelsGroupDistinct
+}
+JSONHeavydynZoneDataLabelsGroup <.. JSONBaseDataLabelsGroup~From, T~
+JSONHeavydynZoneDataLabelsGroup <.. JSONHeavydynZoneDataLabelsGroupDistinct
+
+
+class JSONHeavydynZoneDataLabelsGroupDistinct {
+  <<interface>>
+  version: 1
+}
+
+
+
+class JSONMaxidynDataLabelsGroup {
+  <<type>>
+  JSONMaxidynDataLabelsGroups[number]
+}
+JSONMaxidynDataLabelsGroup <.. JSONMaxidynDataLabelsGroups
+
+
+class JSONMaxidynDataLabelsGroups {
+  <<type>>
+  [   JSONMaxidynDropDataLabelsGroup,   JSONMaxidynTestDataLabelsGroup,   JSONMaxidynZoneDataLabelsGroup ]
+}
+JSONMaxidynDataLabelsGroups <.. JSONMaxidynDropDataLabelsGroup
+JSONMaxidynDataLabelsGroups <.. JSONMaxidynTestDataLabelsGroup
+JSONMaxidynDataLabelsGroups <.. JSONMaxidynZoneDataLabelsGroup
+
+
+class JSONMaxidynDropDataLabelsGroup {
+  <<interface>>
+  version: 1
+  base: JSONBaseDataLabelsGroup#60;'Drop', MaxidynUnitsNames#62;
+  distinct: JSONMaxidynDropDataLabelsGroupDistinct
+}
+JSONMaxidynDropDataLabelsGroup <.. JSONBaseDataLabelsGroup~From, T~
+JSONMaxidynDropDataLabelsGroup <.. JSONMaxidynDropDataLabelsGroupDistinct
+
+
+class JSONMaxidynDropDataLabelsGroupDistinct {
+  <<interface>>
+  version: 1
+  indexes: JSONSelectableList#60;JSONMaxidynDropIndex#62;
+}
+JSONMaxidynDropDataLabelsGroupDistinct <.. JSONSelectableList~T, L~
+JSONMaxidynDropDataLabelsGroupDistinct <.. JSONMaxidynDropIndex
+
+
+class JSONMaxidynTestDataLabelsGroup {
+  <<interface>>
+  version: 1
+  base: JSONBaseDataLabelsGroup#60;'Test', MaxidynUnitsNames#62;
+  distinct: #123;     readonly version: 1   #125;
+}
+JSONMaxidynTestDataLabelsGroup <.. JSONBaseDataLabelsGroup~From, T~
+
+
+class JSONMaxidynTestDataLabelsGroupDistinct {
+  <<interface>>
+  version: 1
+}
+
+
+
+class JSONMaxidynZoneDataLabelsGroup {
+  <<interface>>
+  version: 1
+  base: JSONBaseDataLabelsGroup#60;'Zone', MaxidynUnitsNames#62;
+  distinct: JSONMaxidynZoneDataLabelsGroupDistinct
+}
+JSONMaxidynZoneDataLabelsGroup <.. JSONBaseDataLabelsGroup~From, T~
+JSONMaxidynZoneDataLabelsGroup <.. JSONMaxidynZoneDataLabelsGroupDistinct
+
+
+class JSONMaxidynZoneDataLabelsGroupDistinct {
+  <<interface>>
+  version: 1
+}
+
+
+
+class JSONMinidynDataLabelsGroup {
+  <<type>>
+  JSONMinidynDataLabelsGroups[number]
+}
+JSONMinidynDataLabelsGroup <.. JSONMinidynDataLabelsGroups
+
+
+class JSONMinidynDataLabelsGroups {
+  <<type>>
+  [   JSONMinidynDropDataLabelsGroup,   JSONMinidynTestDataLabelsGroup,   JSONMinidynZoneDataLabelsGroup ]
+}
+JSONMinidynDataLabelsGroups <.. JSONMinidynDropDataLabelsGroup
+JSONMinidynDataLabelsGroups <.. JSONMinidynTestDataLabelsGroup
+JSONMinidynDataLabelsGroups <.. JSONMinidynZoneDataLabelsGroup
+
+
+class AnyJSONMinidynDropDataLabelsGroup {
+  <<type>>
+  JSONMinidynDropDataLabelsGroup
+}
+AnyJSONMinidynDropDataLabelsGroup <.. JSONMinidynDropDataLabelsGroup
+
+
+class JSONMinidynDropDataLabelsGroup {
+  <<interface>>
+  version: 1
+  base: JSONBaseDataLabelsGroup#60;'Drop', MinidynUnitsNames#62;
+  distinct: JSONMinidynDropDataLabelsGroupDistinct
+}
+JSONMinidynDropDataLabelsGroup <.. JSONBaseDataLabelsGroup~From, T~
+JSONMinidynDropDataLabelsGroup <.. JSONMinidynDropDataLabelsGroupDistinct
+
+
+class JSONMinidynDropDataLabelsGroupDistinct {
+  <<interface>>
+  version: 1
+  indexes: JSONSelectableList#60;JSONMinidynDropIndex#62;
+}
+JSONMinidynDropDataLabelsGroupDistinct <.. JSONSelectableList~T, L~
+JSONMinidynDropDataLabelsGroupDistinct <.. JSONMinidynDropIndex
+
+
+class JSONMinidynTestDataLabelsGroup {
+  <<interface>>
+  version: 1
+  base: JSONBaseDataLabelsGroup#60;'Test', MinidynUnitsNames#62;
+  distinct: JSONMinidynTestDataLabelsGroupDistinct
+}
+JSONMinidynTestDataLabelsGroup <.. JSONBaseDataLabelsGroup~From, T~
+JSONMinidynTestDataLabelsGroup <.. JSONMinidynTestDataLabelsGroupDistinct
+
+
+class JSONMinidynTestDataLabelsGroupDistinct {
+  <<interface>>
+  version: 1
+}
+
+
+
+class JSONMinidynZoneDataLabelsGroup {
+  <<interface>>
+  version: 1
+  base: JSONBaseDataLabelsGroup#60;'Zone', MinidynUnitsNames#62;
+  distinct: JSONMinidynZoneDataLabelsGroupDistinct
+}
+JSONMinidynZoneDataLabelsGroup <.. JSONBaseDataLabelsGroup~From, T~
+JSONMinidynZoneDataLabelsGroup <.. JSONMinidynZoneDataLabelsGroupDistinct
+
+
+class JSONMinidynZoneDataLabelsGroupDistinct {
+  <<interface>>
+  version: 1
+}
+
+
+
 class JSONDataValueVAny {
   <<type>>
   JSONDataValue
@@ -25,6 +267,7 @@ JSONDataValueVAny <.. JSONDataValue
 class JSONDataValue {
   <<interface>>
   version: 1
+  category: string
   label: string
   value: number
 }
@@ -211,15 +454,6 @@ class JSONMinidynDropIndexDistinct {
 
 
 
-class JSONMachineDropIndex {
-  <<type>>
-  | JSONHeavydynDropIndex   | JSONMaxidynDropIndex   | JSONMinidynDropIndex
-}
-JSONMachineDropIndex <.. JSONHeavydynDropIndex
-JSONMachineDropIndex <.. JSONMaxidynDropIndex
-JSONMachineDropIndex <.. JSONMinidynDropIndex
-
-
 class JSONMachineDrop {
   <<type>>
   JSONHeavydynDrop | JSONMaxidynDrop | JSONMinidynDrop
@@ -227,6 +461,15 @@ class JSONMachineDrop {
 JSONMachineDrop <.. JSONHeavydynDrop
 JSONMachineDrop <.. JSONMaxidynDrop
 JSONMachineDrop <.. JSONMinidynDrop
+
+
+class JSONMachineDropIndex {
+  <<type>>
+  | JSONHeavydynDropIndex   | JSONMaxidynDropIndex   | JSONMinidynDropIndex
+}
+JSONMachineDropIndex <.. JSONHeavydynDropIndex
+JSONMachineDropIndex <.. JSONMaxidynDropIndex
+JSONMachineDropIndex <.. JSONMinidynDropIndex
 
 
 class JSONFieldVAny {
@@ -254,6 +497,17 @@ class JSONFieldSettings {
 
 
 
+class JSONMathUnit~PossibleUnits~ {
+  <<interface>>
+  version: 1
+  currentUnit: PossibleUnits
+  currentPrecision: number
+  max: number
+  min?: number
+}
+
+
+
 class JSONHeavydynUnits {
   <<type>>
   HeavydynUnitsSkeleton#60;   JSONMathUnit#60;PossibleHeavydynDeflectionUnits#62;,   JSONMathUnit#60;PossibleHeavydynForceUnits#62;,   JSONMathUnit#60;PossibleHeavydynTemperatureUnits#62;,   JSONMathUnit#60;PossibleHeavydynDistanceUnits#62;,   JSONMathUnit#60;PossibleHeavydynTimeUnits#62; #62;
@@ -273,17 +527,6 @@ class JSONMinidynUnits {
   MinidynUnitsSkeleton#60;   JSONMathUnit#60;PossibleMinidynModulusUnits#62;,   JSONMathUnit#60;PossibleMinidynStiffnessUnits#62;,   JSONMathUnit#60;PossibleMinidynDeflectionUnits#62;,   JSONMathUnit#60;PossibleMinidynForceUnits#62;,   JSONMathUnit#60;PossibleMinidynTimeUnits#62;,   JSONMathUnit#60;PossibleMinidynPercentageUnits#62; #62;
 }
 JSONMinidynUnits <.. JSONMathUnit~PossibleUnits~
-
-
-class JSONMathUnit~PossibleUnits~ {
-  <<interface>>
-  version: 1
-  currentUnit: PossibleUnits
-  currentPrecision: number
-  max: number
-  min?: number
-}
-
 
 
 class JSONOverlay {
@@ -422,14 +665,14 @@ class JSONBaseProject {
   <<interface>>
   version: 1
   name: string
-  machine: MachineName
-  reports: SelectableList#60;number, JSONMachineReport#62;
+  reports: JSONSelectableList#60;JSONMachineReport#62;
   settings: JSONProjectSettings
   overlays: JSONOverlay[]
   information: JSONField[]
   hardware: JSONField[]
   acquisitionParameters: JSONAcquisitionParameters
 }
+JSONBaseProject <.. JSONSelectableList~T, L~
 JSONBaseProject <.. JSONMachineReport
 JSONBaseProject <.. JSONProjectSettings
 JSONBaseProject <.. JSONOverlay
@@ -471,6 +714,7 @@ JSONHeavydynProjectVAny <.. JSONHeavydynProject
 class JSONHeavydynProject {
   <<interface>>
   version: 1
+  machine: 'Heavydyn'
   base: JSONBaseProject
   distinct: JSONHeavydynProjectDistinct
 }
@@ -483,7 +727,7 @@ class JSONHeavydynProjectDistinct {
   version: 1
   units: JSONHeavydynUnits
   calibrations: JSONHeavydynCalibrations
-  correctionParameters: JSONHeavydynCorrectionParameters
+  correctionParameters?: JSONHeavydynCorrectionParameters
 }
 JSONHeavydynProjectDistinct <.. JSONHeavydynUnits
 JSONHeavydynProjectDistinct <.. JSONHeavydynCalibrations
@@ -526,7 +770,10 @@ class JSONSensor {
 
 class JSONHeavydynCorrectionParameters {
   <<interface>>
-
+  isLoadCorrection: boolean
+  loadParameters: #123;     // Or boolean instead of optional object     loadReferenceSource: SelectableList#60;       LoadReferenceSourceList[number],       LoadReferenceSourceList     #62;     customValue: MathNumber   #125;
+  isTemperatureCorrection: boolean
+  temperatureParameters: #123;     // Temperature from #62; Temperature to     temperatureFromSource: SelectableList#60;       TemperatureFromSourceList[number],       TemperatureFromSourceList     #62;     average: SelectableList#60;       TemperatureAverageList[number],       TemperatureAverageList     #62;     customValue: MathNumber     temperatureTo: number // Given by the user, in France 15 deg celsius by default     structureType: SelectableList#60;       TemperatureStructureTypeList[number],       TemperatureStructureTypeList     #62;   #125;
 }
 
 
@@ -541,6 +788,7 @@ JSONMaxidynProjectVAny <.. JSONMaxidynProject
 class JSONMaxidynProject {
   <<interface>>
   version: 1
+  machine: 'Maxidyn'
   base: JSONBaseProject
   distinct: JSONMaxidynProjectDistinct
 }
@@ -568,6 +816,7 @@ JSONMinidynProjectVAny <.. JSONMinidynProject
 class JSONMinidynProject {
   <<interface>>
   version: 1
+  machine: 'Minidyn'
   base: JSONBaseProject
   distinct: JSONMinidynProjectDistinct
 }
@@ -627,42 +876,24 @@ class JSONBaseReport {
   screenshots: number[]
   platform: JSONField[]
   information: JSONField[]
-  dataLabels: JSONBaseReportDataLabels
-  thresholds: JSONBaseReportThresholds
+  dataLabels: JSONBaseDataLabels
+  thresholds: JSONBaseThresholdsSettings
 }
 JSONBaseReport <.. JSONMachineZone
 JSONBaseReport <.. JSONReportSettings
 JSONBaseReport <.. JSONField
-JSONBaseReport <.. JSONBaseReportDataLabels
-JSONBaseReport <.. JSONBaseReportThresholds
+JSONBaseReport <.. JSONBaseDataLabels
+JSONBaseReport <.. JSONBaseThresholdsSettings
 
 
-class JSONBaseReportDataLabels {
-  <<interface>>
-  version: 1
-  table: SelectableList#60;number, JSONTableDataLabelsParameters#62;
-}
-JSONBaseReportDataLabels <.. JSONTableDataLabelsParameters
-
-
-class JSONTableDataLabelsParameters {
-  <<interface>>
-  version: 1
-  from: DataLabelsFrom
-  index?: number
-  dataLabels: string[]
-}
-
-
-
-class JSONBaseReportThresholds {
+class JSONBaseThresholdsSettings {
   <<interface>>
   version: 1
   colors: JSONThresholdColors
   inputs: JSONThresholdInputs
 }
-JSONBaseReportThresholds <.. JSONThresholdColors
-JSONBaseReportThresholds <.. JSONThresholdInputs
+JSONBaseThresholdsSettings <.. JSONThresholdColors
+JSONBaseThresholdsSettings <.. JSONThresholdInputs
 
 
 class JSONThresholdColors {
@@ -715,22 +946,13 @@ JSONHeavydynReport <.. JSONHeavydynReportDistinct
 class JSONHeavydynReportDistinct {
   <<interface>>
   version: 1
-  groupedDataLabels: SelectableList#60;     number,     JSONHeavydynGroupedDataLabels   #62;
+  dataLabels: JSONSelectableList#60;     JSONHeavydynDataLabelsGroup,     JSONHeavydynDataLabelsGroups   #62;
   thresholds: HeavydynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;
 }
-JSONHeavydynReportDistinct <.. JSONHeavydynGroupedDataLabels
+JSONHeavydynReportDistinct <.. JSONSelectableList~T, L~
+JSONHeavydynReportDistinct <.. JSONHeavydynDataLabelsGroup
+JSONHeavydynReportDistinct <.. JSONHeavydynDataLabelsGroups
 JSONHeavydynReportDistinct <.. JSONDistinctThresholdsConfiguration
-
-
-class JSONHeavydynGroupedDataLabels {
-  <<interface>>
-  version: 1
-  from: DataLabelsFrom
-  choices: SelectableList#60;number, JSONDataLabel#60;HeavydynUnitsNames#62;#62;
-  indexes?: SelectableList#60;number, JSONHeavydynDropIndex#62;
-}
-JSONHeavydynGroupedDataLabels <.. JSONDataLabel~T~
-JSONHeavydynGroupedDataLabels <.. JSONHeavydynDropIndex
 
 
 class JSONMaxidynReportVAny {
@@ -753,22 +975,13 @@ JSONMaxidynReport <.. JSONMaxidynReportDistinct
 class JSONMaxidynReportDistinct {
   <<interface>>
   version: 1
-  groupedDataLabels: SelectableList#60;     number,     JSONMaxidynGroupedDataLabels   #62;
+  dataLabels: JSONSelectableList#60;     JSONMaxidynDataLabelsGroup,     JSONMaxidynDataLabelsGroups   #62;
   thresholds: MaxidynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;
 }
-JSONMaxidynReportDistinct <.. JSONMaxidynGroupedDataLabels
+JSONMaxidynReportDistinct <.. JSONSelectableList~T, L~
+JSONMaxidynReportDistinct <.. JSONMaxidynDataLabelsGroup
+JSONMaxidynReportDistinct <.. JSONMaxidynDataLabelsGroups
 JSONMaxidynReportDistinct <.. JSONDistinctThresholdsConfiguration
-
-
-class JSONMaxidynGroupedDataLabels {
-  <<interface>>
-  version: 1
-  from: DataLabelsFrom
-  choices: SelectableList#60;number, JSONDataLabel#60;MaxidynUnitsNames#62;#62;
-  indexes?: SelectableList#60;number, JSONMaxidynDropIndex#62;
-}
-JSONMaxidynGroupedDataLabels <.. JSONDataLabel~T~
-JSONMaxidynGroupedDataLabels <.. JSONMaxidynDropIndex
 
 
 class JSONMinidynReportVAny {
@@ -791,22 +1004,13 @@ JSONMinidynReport <.. JSONMinidynReportDistinct
 class JSONMinidynReportDistinct {
   <<interface>>
   version: 1
-  groupedDataLabels: SelectableList#60;     number,     JSONMinidynGroupedDataLabels   #62;
+  dataLabels: JSONSelectableList#60;     JSONMinidynDataLabelsGroup,     JSONMinidynDataLabelsGroups   #62;
   thresholds: MinidynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;
 }
-JSONMinidynReportDistinct <.. JSONMinidynGroupedDataLabels
+JSONMinidynReportDistinct <.. JSONSelectableList~T, L~
+JSONMinidynReportDistinct <.. JSONMinidynDataLabelsGroup
+JSONMinidynReportDistinct <.. JSONMinidynDataLabelsGroups
 JSONMinidynReportDistinct <.. JSONDistinctThresholdsConfiguration
-
-
-class JSONMinidynGroupedDataLabels {
-  <<interface>>
-  version: 1
-  from: DataLabelsFrom
-  choices: SelectableList#60;number, JSONDataLabel#60;MinidynUnitsNames#62;#62;
-  indexes?: SelectableList#60;number, JSONMinidynDropIndex#62;
-}
-JSONMinidynGroupedDataLabels <.. JSONDataLabel~T~
-JSONMinidynGroupedDataLabels <.. JSONMinidynDropIndex
 
 
 class JSONMachineReport {
@@ -818,13 +1022,22 @@ JSONMachineReport <.. JSONMaxidynReport
 JSONMachineReport <.. JSONMinidynReport
 
 
-class JSONMachineGroupedDataLabels {
+class JSONMachineDataLabelsGroup {
   <<type>>
-  | JSONHeavydynGroupedDataLabels   | JSONMaxidynGroupedDataLabels   | JSONMinidynGroupedDataLabels
+  | JSONHeavydynDataLabelsGroup   | JSONMaxidynDataLabelsGroup   | JSONMinidynDataLabelsGroup
 }
-JSONMachineGroupedDataLabels <.. JSONHeavydynGroupedDataLabels
-JSONMachineGroupedDataLabels <.. JSONMaxidynGroupedDataLabels
-JSONMachineGroupedDataLabels <.. JSONMinidynGroupedDataLabels
+JSONMachineDataLabelsGroup <.. JSONHeavydynDataLabelsGroup
+JSONMachineDataLabelsGroup <.. JSONMaxidynDataLabelsGroup
+JSONMachineDataLabelsGroup <.. JSONMinidynDataLabelsGroup
+
+
+class JSONMachineDataLabelsGroups {
+  <<type>>
+  | JSONHeavydynDataLabelsGroups   | JSONMaxidynDataLabelsGroups   | JSONMinidynDataLabelsGroups
+}
+JSONMachineDataLabelsGroups <.. JSONHeavydynDataLabelsGroups
+JSONMachineDataLabelsGroups <.. JSONMaxidynDataLabelsGroups
+JSONMachineDataLabelsGroups <.. JSONMinidynDataLabelsGroups
 
 
 class JSONCustomThreshold {
@@ -840,7 +1053,7 @@ class JSONCustomThreshold {
 class JSONDistinctThresholdsConfiguration {
   <<interface>>
   version: 1
-  selected: number
+  selectedIndex: number
   custom: JSONCustomThreshold
 }
 JSONDistinctThresholdsConfiguration <.. JSONCustomThreshold
@@ -952,6 +1165,14 @@ class JSONMachineZone {
 JSONMachineZone <.. JSONHeavydynZone
 JSONMachineZone <.. JSONMaxidynZone
 JSONMachineZone <.. JSONMinidynZone
+
+
+class JSONSelectableList~T, L~ {
+  <<interface>>
+  selectedIndex: number | null
+  list: L
+}
+
 
 
 class AnyJSON {

@@ -6,6 +6,7 @@ type JSONHeavydynProjectVAny = JSONHeavydynProject
 
 interface JSONHeavydynProject {
   readonly version: 1
+  readonly machine: 'Heavydyn'
   readonly base: JSONBaseProject
   readonly distinct: JSONHeavydynProjectDistinct
 }
@@ -14,7 +15,7 @@ interface JSONHeavydynProjectDistinct {
   readonly version: 1
   readonly units: JSONHeavydynUnits
   readonly calibrations: JSONHeavydynCalibrations
-  readonly correctionParameters: JSONHeavydynCorrectionParameters
+  readonly correctionParameters?: JSONHeavydynCorrectionParameters
 }
 
 interface JSONHeavydynCalibrations {
@@ -42,20 +43,50 @@ interface JSONSensor {
 }
 
 interface JSONHeavydynCorrectionParameters {
-  // a: number
+  isLoadCorrection: boolean
+  readonly loadParameters: {
+    // Or boolean instead of optional object
+    loadReferenceSource: SelectableList<
+      LoadReferenceSourceList[number],
+      LoadReferenceSourceList
+    >
+    customValue: MathNumber
+  }
+  isTemperatureCorrection: boolean
+  readonly temperatureParameters: {
+    // Temperature from > Temperature to
+    temperatureFromSource: SelectableList<
+      TemperatureFromSourceList[number],
+      TemperatureFromSourceList
+    >
+    average: SelectableList<
+      TemperatureAverageList[number],
+      TemperatureAverageList
+    >
+    customValue: MathNumber
+    temperatureTo: number // Given by the user, in France 15 deg celsius by default
+    structureType: SelectableList<
+      TemperatureStructureTypeList[number],
+      TemperatureStructureTypeList
+    >
+  }
 }
+
+type LoadReferenceSourceList = ['Sequence' | 'Custom']
+
+type TemperatureFromSourceList = ['Tair', 'Tsurf', 'Tman'] // Warning: Hard coded DataLabels names
+type TemperatureAverageList = ['Point', 'Zone', 'Report', 'Custom']
+type TemperatureStructureTypeList = ['1', '2', '3', '4']
 
 // ---
 // Object
 // ---
 
-interface HeavydynProject extends BaseProject {
-  readonly machine: 'Heavydyn'
-  readonly reports: SelectableList<HeavydynReport>
-  readonly units: HeavydynMathUnits
+interface HeavydynProject
+  extends HeavydynObject<JSONHeavydynProject>,
+    BaseProject<HeavydynReport, HeavydynMathUnits> {
   calibrations: HeavydynCalibrations
-  correctionParameters: JSONHeavydynCorrectionParameters
-  toJSON: () => JSONHeavydynProject
+  correctionParameters?: JSONHeavydynCorrectionParameters
 }
 
 interface HeavydynCalibrations {

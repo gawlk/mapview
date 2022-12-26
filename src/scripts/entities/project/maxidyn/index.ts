@@ -1,122 +1,62 @@
 import {
-  createFieldFromJSON,
-  createMathUnit,
+  createMaxidynMathUnitsFromJSON,
   createMaxidynReportFromJSON,
-  getSelectedFromIndexInList,
 } from '/src/scripts'
 
 import { createBaseProjectFromJSON } from '../base'
 
-export const createMaxidynProjectFromJSON = async (
+export const createMaxidynProjectFromJSON = (
   json: JSONMaxidynProjectVAny,
   map: mapboxgl.Map | null
 ) => {
   json = upgradeJSON(json)
 
-  const jsonUnits = json.distinct.units as JSONMaxidynUnits
+  const units = createMaxidynMathUnitsFromJSON(json.distinct.units)
 
-  const units: MaxidynMathUnits = {
-    modulus: createMathUnit('Modulus', jsonUnits.modulus, 'Pa', [['MPa', 0]], {
-      averageFunction: 'capOutliers',
-    }),
-    stiffness: createMathUnit(
-      'Stiffness',
-      jsonUnits.stiffness,
-      'N / m',
-      [['MN / m', 0]],
-      {
-        averageFunction: 'capOutliers',
-      }
-    ),
-    deflection: createMathUnit('Deflection', jsonUnits.deflection, 'm', [
-      ['mm', 0],
-      ['um', 0],
-    ]),
-    force: createMathUnit('Force', jsonUnits.force, 'N', [
-      ['N', 0],
-      ['kN', 0],
-    ]),
-    distance: createMathUnit('Distance', jsonUnits.distance, 'm', [
-      ['m', 0],
-      ['km', 0],
-      ['mi', 0],
-    ]),
-    time: createMathUnit('Time', jsonUnits.time, 's', [
-      ['s', 0],
-      ['ms', 0],
-      ['us', 0],
-    ]),
-    percentage: createMathUnit(
-      'Percentage',
-      {
-        version: 1,
-        currentUnit: '%',
-        currentPrecision: 0,
-        max: 100,
-      },
-      '%',
-      [['%', 0]],
-      {
-        step: 0.5,
-        readOnly: true,
-      }
-    ),
-  }
+  const baseProject = createBaseProjectFromJSON(json.base, map, {
+    reports: [] as MaxidynReport[],
+    units,
+    information: json.base.information,
+    hardware: json.base.hardware,
+  })
 
-  const project: PartialMachineProject<MaxidynProject> =
-    await createBaseProjectFromJSON(json.base, map, {
-      machine: 'Maxidyn',
-      units,
-    })
+  const project: MaxidynProject = shallowReactive({
+    ...baseProject,
+    machine: 'Maxidyn',
+    bearingParameters: shallowReactive(json.distinct.bearingParameters),
+    toJSON: function (): JSONMaxidynProject {
+      return {
+        version: json.version,
+        machine: 'Maxidyn',
+        base: project.toBaseJSON(),
+        distinct: {
+          version: json.distinct.version,
+          bearingParameters: json.distinct.bearingParameters,
+          units: {
+            deflection: this.units.deflection.toJSON(),
+            distance: this.units.distance.toJSON(),
+            force: this.units.force.toJSON(),
+            modulus: this.units.modulus.toJSON(),
+            percentage: this.units.percentage.toJSON(),
+            stiffness: this.units.stiffness.toJSON(),
+            time: this.units.time.toJSON(),
+          },
+        },
+      }
+    },
+  })
 
   project.reports.list.push(
     ...json.base.reports.list.map((report) =>
       createMaxidynReportFromJSON(report as JSONMaxidynReport, map, {
-        project: project as MaxidynProject,
+        project,
       })
     )
   )
 
-  project.reports.selected = getSelectedFromIndexInList(
-    json.base.reports.selected,
-    project.reports.list
-  )
+  project.reports.selectIndex(json.base.reports.selectedIndex)
 
-  project.information.push(
-    ...json.base.information.map((field: JSONField) =>
-      createFieldFromJSON(field)
-    )
-  )
-
-  project.hardware.push(
-    ...json.base.hardware.map((field: JSONField) => createFieldFromJSON(field))
-  )
-
-  project.bearingParameters = json.distinct.bearingParameters
-
-  project.toJSON = function (): JSONMaxidynProject {
-    const project = this as MaxidynProject
-
-    return {
-      version: json.version,
-      base: project.toBaseJSON(),
-      distinct: {
-        version: json.distinct.version,
-        bearingParameters: json.distinct.bearingParameters,
-        units: {
-          deflection: project.units.deflection.toJSON(),
-          distance: project.units.distance.toJSON(),
-          force: project.units.force.toJSON(),
-          modulus: project.units.modulus.toJSON(),
-          percentage: project.units.percentage.toJSON(),
-          stiffness: project.units.stiffness.toJSON(),
-          time: project.units.time.toJSON(),
-        },
-      },
-    }
-  }
-
-  return project as MaxidynProject
+  return project
 }
 
 const upgradeJSON = (json: JSONMaxidynProjectVAny): JSONMaxidynProject => {

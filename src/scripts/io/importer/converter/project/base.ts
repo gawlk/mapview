@@ -1,17 +1,12 @@
 import { convertPRJZObjectToFields } from '../shared'
 
-export const convertPRJZToBaseProject = (json: any): JSONBaseProject => {
-  const machine =
-    json.Database.Software === 'Fwddyn'
-      ? 'Heavydyn'
-      : json.Hardware.Serial.split('-')[0] === 'MAX'
-      ? 'Maxidyn'
-      : 'Minidyn'
-
+export const convertPRJZToBaseProject = (
+  json: any,
+  machine: MachineName
+): JSONBaseProject => {
   return {
     version: 1,
     name: json.Project.Name,
-    machine,
     settings: {
       version: 1,
       arePointsLinked: (() => {
@@ -44,12 +39,12 @@ export const convertPRJZToBaseProject = (json: any): JSONBaseProject => {
       nbSamples: json.ParamsAcqu.NbSamples,
       frequency: json.ParamsAcqu.FreqAcqu,
       preTrig: json.ParamsAcqu.PreTrig,
-      ...(json.ParamsAcqu.NbSamples
-        ? { smoothing: json.ParamsAcqu.NbSamples }
+      ...('Smoothing' in json.ParamsAcqu
+        ? { smoothing: json.ParamsAcqu.Smoothing }
         : {}),
     },
     reports: {
-      selected: null,
+      selectedIndex: null,
       list: [],
     },
   }

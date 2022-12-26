@@ -2,35 +2,39 @@ import { createMathNumber } from '/src/scripts'
 
 import { createBaseDropFromJSON, createBaseDropIndexFromJSON } from '../base'
 
-interface HeavydynDropCreatorParameters extends MachineDropCreatorParameters {
-  point: HeavydynPoint
-}
-
 export const createHeavydynDropFromJSON = (
   json: JSONHeavydynDropVAny,
-  parameters: HeavydynDropCreatorParameters
+  parameters: {
+    point: HeavydynPoint
+  }
 ) => {
   json = upgradeJSONDrop(json)
 
-  const drop: PartialMachineDrop<HeavydynDrop> = createBaseDropFromJSON(
-    json.base,
-    {
-      machine: 'Heavydyn',
-      point: parameters.point,
-    }
-  )
+  const dropGroup = parameters.point.zone.report.dataLabels.groups.list[0]
 
-  drop.toJSON = function (): JSONHeavydynDrop {
-    return {
-      version: json.version,
-      base: this.toBaseJSON(),
-      distinct: {
-        version: json.distinct.version,
-      },
-    }
-  }
+  const index = dropGroup?.indexes?.list[json.base.index]
 
-  return drop as HeavydynDrop
+  const baseDrop = createBaseDropFromJSON(json.base, {
+    point: parameters.point,
+    index,
+    dropGroup,
+  })
+
+  const drop: HeavydynDrop = shallowReactive({
+    ...baseDrop,
+    machine: 'Heavydyn',
+    toJSON: function () {
+      return {
+        version: json.version,
+        base: this.toBaseJSON(),
+        distinct: {
+          version: json.distinct.version,
+        },
+      }
+    },
+  })
+
+  return drop
 }
 
 const upgradeJSONDrop = (json: JSONHeavydynDropVAny): JSONHeavydynDrop => {
@@ -49,20 +53,20 @@ export const createHeavydynDropIndexFromJSON = (
   parameters: {
     project: HeavydynProject
   }
-): HeavydynDropIndex => {
+) => {
   json = upgradeJSONDropIndex(json)
 
   const unitName = json.distinct.unit.toLocaleLowerCase()
 
-  return {
-    machine: 'Heavydyn',
+  const dropIndex: HeavydynDropIndex = {
     ...createBaseDropIndexFromJSON(json.base),
+    machine: 'Heavydyn',
     type: json.distinct.type,
     value: createMathNumber(
       json.distinct.value,
       parameters.project.units[unitName as keyof HeavydynMathUnits]
     ),
-    toJSON: function (): JSONHeavydynDropIndex {
+    toJSON: function () {
       return {
         version: json.version,
         base: this.toBaseJSON(),
@@ -75,6 +79,8 @@ export const createHeavydynDropIndexFromJSON = (
       }
     },
   }
+
+  return dropIndex
 }
 
 const upgradeJSONDropIndex = (

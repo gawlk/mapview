@@ -6,8 +6,14 @@ import {
 } from './project'
 
 export const convertJSONFromPRJZToMPVZ = (json: any) => {
-  const baseProject = convertPRJZToBaseProject(json)
-  const machine = baseProject.machine
+  const machine =
+    json.Database.Software === 'Fwddyn'
+      ? 'Heavydyn'
+      : json.Hardware.Serial.split('-')[0] === 'MAX'
+      ? 'Maxidyn'
+      : 'Minidyn'
+
+  const baseProject = convertPRJZToBaseProject(json, machine)
 
   switch (machine) {
     case 'Heavydyn': {

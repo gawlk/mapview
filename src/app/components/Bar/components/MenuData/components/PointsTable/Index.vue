@@ -19,8 +19,6 @@
   )
 
   onMounted(() => {
-    console.log('points', props.points)
-
     if (tbody && selectedReport.value?.settings.groupBy === 'Number') {
       sortable = new Sortable(tbody.value, {
         draggable: 'tr',

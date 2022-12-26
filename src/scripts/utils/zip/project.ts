@@ -1,0 +1,41 @@
+import { zipSync } from 'fflate'
+
+import { addFileToZip, addJSONToZip } from '/src/scripts'
+
+import { addOverlaysToZip } from './overlays'
+import { addRawDataToZip } from './rawdata'
+import { addScreenshotsToZip } from './screenshots'
+
+export const createZipFromProject = async (
+  project: MachineProject,
+  parameters: {
+    project?: boolean
+    overlays?: boolean
+    screenshots?: boolean
+    rawData?: boolean
+    customJSON?: { name: string; json: AnyJSON }
+    additionalFile?: File
+  }
+) => {
+  const zip: Fflate.Zippable = {}
+
+  const json = project.toJSON()
+
+  await Promise.all([
+    parameters.overlays && addOverlaysToZip(zip, project),
+    parameters.screenshots && addScreenshotsToZip(zip, project, json),
+    parameters.rawData && addRawDataToZip(zip, project),
+    parameters.customJSON &&
+      addJSONToZip(zip, parameters.customJSON.name, parameters.customJSON.json),
+    parameters.additionalFile && addFileToZip(zip, parameters.additionalFile),
+  ])
+
+  await addProjectToZip(zip, json)
+
+  return zipSync(zip)
+}
+
+const addProjectToZip = async (
+  zip: Fflate.Zippable,
+  json: JSONMachineProject
+) => addJSONToZip(zip, 'database.json', json)

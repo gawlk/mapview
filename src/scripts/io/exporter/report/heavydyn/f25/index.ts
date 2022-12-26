@@ -4,6 +4,10 @@ import { format } from 'mathjs'
 
 import { findFieldInArray } from '/src/scripts'
 
+// TODO:
+// Everything is always in the same order, with same precision, spaces, etc
+// Test: Compare if strings are a match
+
 export const heavydynF25Exporter: HeavydynExporter = {
   name: '.F25',
   export: async (project: HeavydynProject) => {
@@ -33,10 +37,8 @@ const writeHeader = (project: HeavydynProject): string => {
     'Operator'
   )?.toString()
 
-  const sequenceName = findFieldInArray(
-    project.information,
-    'Sequence'
-  )?.toString()
+  const sequenceName =
+    project.reports.selected?.dataLabels.groups.list[0].sequenceName
 
   const date = dayjs(
     (

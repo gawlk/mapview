@@ -1,9 +1,117 @@
 classDiagram
-class HeavydynDropCreatorParameters {
-  <<interface>>
-  point: HeavydynPoint
+class JSONHeavydynDataLabelsGroup {
+  <<type>>
+  JSONHeavydynDataLabelsGroups[number]
 }
-HeavydynDropCreatorParameters <.. HeavydynPoint
+JSONHeavydynDataLabelsGroup <.. JSONHeavydynDataLabelsGroups
+
+
+class JSONHeavydynDataLabelsGroups {
+  <<type>>
+  [   JSONHeavydynDropDataLabelsGroup,   JSONHeavydynTestDataLabelsGroup,   JSONHeavydynZoneDataLabelsGroup ]
+}
+JSONHeavydynDataLabelsGroups <.. JSONHeavydynDropDataLabelsGroup
+JSONHeavydynDataLabelsGroups <.. JSONHeavydynTestDataLabelsGroup
+JSONHeavydynDataLabelsGroups <.. JSONHeavydynZoneDataLabelsGroup
+
+
+class JSONHeavydynDropDataLabelsGroup {
+  <<interface>>
+  version: 1
+  base: JSONBaseDataLabelsGroup#60;'Drop', HeavydynUnitsNames#62;
+  distinct: JSONHeavydynDropDataLabelsGroupDistinct
+}
+JSONHeavydynDropDataLabelsGroup <.. HeavydynUnitsNames
+JSONHeavydynDropDataLabelsGroup <.. JSONHeavydynDropDataLabelsGroupDistinct
+
+
+class JSONHeavydynDropDataLabelsGroupDistinct {
+  <<interface>>
+  version: 1
+  indexes: JSONSelectableList#60;JSONHeavydynDropIndex#62;
+  sequenceName: string
+}
+JSONHeavydynDropDataLabelsGroupDistinct <.. JSONHeavydynDropIndex
+
+
+class JSONHeavydynTestDataLabelsGroup {
+  <<interface>>
+  version: 1
+  base: JSONBaseDataLabelsGroup#60;'Test', HeavydynUnitsNames#62;
+  distinct: #123;     readonly version: 1   #125;
+}
+JSONHeavydynTestDataLabelsGroup <.. HeavydynUnitsNames
+
+
+class JSONHeavydynTestDataLabelsGroupDistinct {
+  <<interface>>
+  version: 1
+}
+
+
+
+class JSONHeavydynZoneDataLabelsGroup {
+  <<interface>>
+  version: 1
+  base: JSONBaseDataLabelsGroup#60;'Zone', HeavydynUnitsNames#62;
+  distinct: JSONHeavydynZoneDataLabelsGroupDistinct
+}
+JSONHeavydynZoneDataLabelsGroup <.. HeavydynUnitsNames
+JSONHeavydynZoneDataLabelsGroup <.. JSONHeavydynZoneDataLabelsGroupDistinct
+
+
+class JSONHeavydynZoneDataLabelsGroupDistinct {
+  <<interface>>
+  version: 1
+}
+
+
+
+class HeavydynDataLabels {
+  <<interface>>
+  groups: SelectableList#60;     HeavydynDataLabelsGroup,     HeavydynDataLabelsGroups   #62;
+}
+HeavydynDataLabels <.. HeavydynDataLabelsGroup
+HeavydynDataLabels <.. HeavydynDataLabelsGroups
+
+
+class HeavydynDataLabelsGroup {
+  <<type>>
+  HeavydynDataLabelsGroups[number]
+}
+HeavydynDataLabelsGroup <.. HeavydynDataLabelsGroups
+
+
+class HeavydynDataLabelsGroups {
+  <<type>>
+  [   HeavydynDropDataLabelsGroup,   HeavydynTestDataLabelsGroup,   HeavydynZoneDataLabelsGroup ]
+}
+HeavydynDataLabelsGroups <.. HeavydynDropDataLabelsGroup
+HeavydynDataLabelsGroups <.. HeavydynTestDataLabelsGroup
+HeavydynDataLabelsGroups <.. HeavydynZoneDataLabelsGroup
+
+
+class HeavydynDropDataLabelsGroup {
+  <<interface>>
+  indexes: SelectableList#60;HeavydynDropIndex#62;
+  sequenceName: string
+  toJSON: #40;#41; =#62; JSONHeavydynDropDataLabelsGroup
+}
+HeavydynDropDataLabelsGroup <.. HeavydynDropIndex
+
+
+class HeavydynTestDataLabelsGroup {
+  <<interface>>
+  toJSON: #40;#41; =#62; JSONHeavydynTestDataLabelsGroup
+}
+
+
+
+class HeavydynZoneDataLabelsGroup {
+  <<interface>>
+  toJSON: #40;#41; =#62; JSONHeavydynZoneDataLabelsGroup
+}
+
 
 
 class JSONHeavydynDropVAny {
@@ -64,20 +172,15 @@ class HeavydynDropType {
 
 class HeavydynDrop {
   <<interface>>
-  index: HeavydynDropIndex
-  point: HeavydynPoint
-  toJSON: #40;#41; =#62; JSONHeavydynDrop
+
 }
-HeavydynDrop <.. HeavydynDropIndex
-HeavydynDrop <..< HeavydynPoint
+
 
 
 class HeavydynDropIndex {
   <<interface>>
-  machine: 'Heavydyn'
   type: HeavydynDropType
   value: MathNumber
-  toJSON: #40;#41; =#62; JSONHeavydynDropIndex
 }
 HeavydynDropIndex <.. HeavydynDropType
 
@@ -159,13 +262,6 @@ HeavydynMathUnits <.. PossibleHeavydynDistanceUnits
 HeavydynMathUnits <.. PossibleHeavydynTimeUnits
 
 
-class HeavydynPointCreatorParameters {
-  <<interface>>
-  zone: HeavydynZone
-}
-HeavydynPointCreatorParameters <.. HeavydynZone
-
-
 class JSONHeavydynPointVAny {
   <<type>>
   JSONHeavydynPoint
@@ -191,12 +287,9 @@ class JSONHeavydynPointDistinct {
 
 class HeavydynPoint {
   <<interface>>
-  machine: 'Heavydyn'
-  drops: HeavydynDrop[]
-  zone: HeavydynZone
-  toJSON: #40;#41; =#62; JSONHeavydynPoint
+
 }
-HeavydynPoint <..< HeavydynZone
+
 
 
 class JSONHeavydynProjectVAny {
@@ -209,6 +302,7 @@ JSONHeavydynProjectVAny <.. JSONHeavydynProject
 class JSONHeavydynProject {
   <<interface>>
   version: 1
+  machine: 'Heavydyn'
   base: JSONBaseProject
   distinct: JSONHeavydynProjectDistinct
 }
@@ -220,7 +314,7 @@ class JSONHeavydynProjectDistinct {
   version: 1
   units: JSONHeavydynUnits
   calibrations: JSONHeavydynCalibrations
-  correctionParameters: JSONHeavydynCorrectionParameters
+  correctionParameters?: JSONHeavydynCorrectionParameters
 }
 JSONHeavydynProjectDistinct <.. JSONHeavydynUnits
 JSONHeavydynProjectDistinct <.. JSONHeavydynCalibrations
@@ -240,22 +334,19 @@ class JSONHeavydynCalibrations {
 
 class JSONHeavydynCorrectionParameters {
   <<interface>>
-
+  isLoadCorrection: boolean
+  loadParameters: #123;     // Or boolean instead of optional object     loadReferenceSource: SelectableList#60;       LoadReferenceSourceList[number],       LoadReferenceSourceList     #62;     customValue: MathNumber   #125;
+  isTemperatureCorrection: boolean
+  temperatureParameters: #123;     // Temperature from #62; Temperature to     temperatureFromSource: SelectableList#60;       TemperatureFromSourceList[number],       TemperatureFromSourceList     #62;     average: SelectableList#60;       TemperatureAverageList[number],       TemperatureAverageList     #62;     customValue: MathNumber     temperatureTo: number // Given by the user, in France 15 deg celsius by default     structureType: SelectableList#60;       TemperatureStructureTypeList[number],       TemperatureStructureTypeList     #62;   #125;
 }
 
 
 
 class HeavydynProject {
   <<interface>>
-  machine: 'Heavydyn'
-  reports: SelectableList#60;HeavydynReport#62;
-  units: HeavydynMathUnits
   calibrations: HeavydynCalibrations
-  correctionParameters: JSONHeavydynCorrectionParameters
-  toJSON: #40;#41; =#62; JSONHeavydynProject
+  correctionParameters?: JSONHeavydynCorrectionParameters
 }
-HeavydynProject <..< HeavydynReport
-HeavydynProject <.. HeavydynMathUnits
 HeavydynProject <.. HeavydynCalibrations
 HeavydynProject <.. JSONHeavydynCorrectionParameters
 
@@ -296,76 +387,40 @@ JSONHeavydynReport <.. JSONHeavydynReportDistinct
 class JSONHeavydynReportDistinct {
   <<interface>>
   version: 1
-  groupedDataLabels: SelectableList#60;     number,     JSONHeavydynGroupedDataLabels   #62;
+  dataLabels: JSONSelectableList#60;     JSONHeavydynDataLabelsGroup,     JSONHeavydynDataLabelsGroups   #62;
   thresholds: HeavydynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;
 }
-JSONHeavydynReportDistinct <.. JSONHeavydynGroupedDataLabels
+JSONHeavydynReportDistinct <.. JSONHeavydynDataLabelsGroup
+JSONHeavydynReportDistinct <.. JSONHeavydynDataLabelsGroups
 JSONHeavydynReportDistinct <.. HeavydynUnitsSkeleton~A, B, C, D, E~
-
-
-class JSONHeavydynGroupedDataLabels {
-  <<interface>>
-  version: 1
-  from: DataLabelsFrom
-  choices: SelectableList#60;number, JSONDataLabel#60;HeavydynUnitsNames#62;#62;
-  indexes?: SelectableList#60;number, JSONHeavydynDropIndex#62;
-}
-JSONHeavydynGroupedDataLabels <.. HeavydynUnitsNames
-JSONHeavydynGroupedDataLabels <.. JSONHeavydynDropIndex
 
 
 class HeavydynReport {
   <<interface>>
-  machine: 'Heavydyn'
-  zones: HeavydynZone[]
-  dataLabels: HeavydynReportDataLabels
-  thresholds: HeavydynReportThresholds
-  project: HeavydynProject
-  toJSON: #40;#41; =#62; JSONHeavydynReport
+  addZone: #40;#41; =#62; void
 }
-HeavydynReport <.. HeavydynZone
-HeavydynReport <.. HeavydynReportDataLabels
-HeavydynReport <.. HeavydynReportThresholds
 
 
-class HeavydynReportDataLabels {
+
+class HeavydynThresholds {
   <<interface>>
-  groups: SelectableList#60;HeavydynGroupedDataLabels#62;
-  table: SelectableList#60;HeavydynTableDataLabelsParameters#62;
+  groups: HeavydynThresholdsGroups
 }
-HeavydynReportDataLabels <.. HeavydynGroupedDataLabels
-HeavydynReportDataLabels <.. HeavydynTableDataLabelsParameters
+HeavydynThresholds <.. HeavydynThresholdsGroups
 
 
-class HeavydynGroupedDataLabels {
-  <<interface>>
-  indexes?: SelectableList#60;HeavydynDropIndex#62;
-  sequenceName?: string
-}
-HeavydynGroupedDataLabels <.. HeavydynDropIndex
-
-
-class HeavydynTableDataLabelsParameters {
-  <<interface>>
-  group: HeavydynGroupedDataLabels
-  index?: HeavydynDropIndex
-}
-HeavydynTableDataLabelsParameters <.. HeavydynGroupedDataLabels
-HeavydynTableDataLabelsParameters <.. HeavydynDropIndex
-
-
-class HeavydynReportThresholds {
-  <<interface>>
-  groups: HeavydynUnitsSkeleton#60;GroupedThresolds#60;string#62;#62;
-}
-HeavydynReportThresholds <.. HeavydynUnitsSkeleton~A, B, C, D, E~
-
-
-class HeavydynReportThresholdsGroups {
+class HeavydynThresholdsGroups {
   <<type>>
-  HeavydynUnitsSkeleton#60;   GroupedThresolds#60;string#62; #62;
+  HeavydynUnitsSkeleton#60;ThresholdsGroup#60;string#62;#62;
 }
-HeavydynReportThresholdsGroups <.. HeavydynUnitsSkeleton~A, B, C, D, E~
+HeavydynThresholdsGroups <.. HeavydynUnitsSkeleton~A, B, C, D, E~
+
+
+class HeavydynObject~T~ {
+  <<interface>>
+
+}
+
 
 
 class HeavydynZoneCreatorParameters {
@@ -400,9 +455,7 @@ class JSONHeavydynZoneDistinct {
 
 class HeavydynZone {
   <<interface>>
-  machine: 'Heavydyn'
-  points: HeavydynPoint[]
-  toJSON: #40;#41; =#62; JSONHeavydynZone
+
 }
 
 

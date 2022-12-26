@@ -1,5 +1,5 @@
 import favicons from '@darkobits/vite-plugin-favicons'
-import vueI18N from '@intlify/vite-plugin-vue-i18n'
+import unpluginVueI18N from '@intlify/unplugin-vue-i18n/vite'
 import vue from '@vitejs/plugin-vue'
 import autoprefixer from 'autoprefixer'
 import { visualizer } from 'rollup-plugin-visualizer'
@@ -25,7 +25,7 @@ export default defineConfig({
   plugins: [
     vue(),
 
-    vueI18N({
+    unpluginVueI18N({
       include: [
         fileURLToPath(new URL('./src/locales/**.(json|yaml)', import.meta.url)),
       ],
@@ -132,5 +132,8 @@ export default defineConfig({
     postcss: {
       plugins: [autoprefixer(), tailwindcss()],
     },
+  },
+  test: {
+    environment: 'edge-runtime',
   },
 })

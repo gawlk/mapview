@@ -2,51 +2,42 @@ import { createFieldFromJSON, createHeavydynDropFromJSON } from '/src/scripts'
 
 import { createBasePointFromJSON } from '../base'
 
-interface HeavydynPointCreatorParameters extends MachinePointCreatorParameters {
-  zone: HeavydynZone
-}
-
 export const createHeavydynPointFromJSON = (
   json: JSONHeavydynPointVAny,
   map: mapboxgl.Map | null,
-  parameters: HeavydynPointCreatorParameters
+  parameters: {
+    zone: HeavydynZone
+  }
 ) => {
   json = upgradeJSON(json)
 
-  const point: PartialMachinePoint<HeavydynPoint> = createBasePointFromJSON(
-    json.base,
-    map,
-    {
-      machine: 'Heavydyn',
+  const point: HeavydynPoint = shallowReactive({
+    ...createBasePointFromJSON(json.base, map, {
       zone: parameters.zone,
-    }
-  )
+      information: json.base.information,
+      drops: [] as HeavydynDrop[],
+    }),
+    machine: 'Heavydyn',
+    toJSON: function () {
+      return {
+        version: json.version,
+        base: this.toBaseJSON(),
+        distinct: {
+          version: json.distinct.version,
+        },
+      }
+    },
+  })
 
   point.drops.push(
     ...json.base.drops.map((jsonDrop) =>
       createHeavydynDropFromJSON(jsonDrop, {
-        point: point as HeavydynPoint,
+        point,
       })
     )
   )
 
-  point.information.push(
-    ...json.base.information.map((field: JSONField) =>
-      createFieldFromJSON(field)
-    )
-  )
-
-  point.toJSON = function (): JSONHeavydynPoint {
-    return {
-      version: json.version,
-      base: this.toBaseJSON(),
-      distinct: {
-        version: json.distinct.version,
-      },
-    }
-  }
-
-  return point as HeavydynPoint
+  return point
 }
 
 const upgradeJSON = (json: JSONHeavydynPointVAny): JSONHeavydynPoint => {

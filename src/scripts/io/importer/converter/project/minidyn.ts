@@ -6,6 +6,7 @@ export const convertPRJZToMinidynProject = (
 ): JSONMinidynProject => {
   const project: JSONMinidynProject = {
     version: 1,
+    machine: 'Minidyn',
     base: baseProject,
     distinct: convertPRJZToMinidynProjectDistinct(json),
   }
@@ -39,8 +40,6 @@ export const convertPRJZToMinidynProjectDistinct = (
       fForme: json.ParamsBearing.FForme,
       k: json.ParamsBearing.K,
       alpha: json.ParamsBearing.Alpha,
-      // min: json.ParamsBearing.MinBearing,
-      // max: json.ParamsBearing.MaxBearing,
     },
   }
 }

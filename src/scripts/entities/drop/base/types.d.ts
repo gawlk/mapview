@@ -21,15 +21,16 @@ interface JSONBaseDropIndex {
 // Object
 // ---
 
-interface BaseDrop {
-  readonly index: MachineDropIndex
+interface BaseDrop<
+  DropIndex extends BaseDropIndex = MachineDropIndex,
+  Point extends BasePoint = MachinePoint
+> extends BaseObject<JSONBaseDrop> {
+  readonly index: DropIndex
   readonly data: DataValue<string>[]
-  readonly point: MachinePoint
+  readonly point: Point
   impactData: ImpactData | null
-  readonly toBaseJSON: () => JSONBaseDrop
 }
 
-interface BaseDropIndex {
+interface BaseDropIndex extends BaseObject<JSONBaseDropIndex> {
   readonly displayedIndex: number
-  readonly toBaseJSON: () => JSONBaseDropIndex
 }

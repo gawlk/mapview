@@ -35,8 +35,6 @@
       const project = await importFile(file)
 
       if (project) {
-        console.log(project)
-
         store.projects.selected = project
       }
     }

@@ -388,11 +388,18 @@ class JSONHeavydynReportDistinct {
   <<interface>>
   version: 1
   dataLabels: JSONSelectableList#60;     JSONHeavydynDataLabelsGroup,     JSONHeavydynDataLabelsGroups   #62;
-  thresholds: HeavydynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;
+  thresholds: JSONHeavydynThresholdsConfigurations
 }
 JSONHeavydynReportDistinct <.. JSONHeavydynDataLabelsGroup
 JSONHeavydynReportDistinct <.. JSONHeavydynDataLabelsGroups
-JSONHeavydynReportDistinct <.. HeavydynUnitsSkeleton~A, B, C, D, E~
+JSONHeavydynReportDistinct <.. JSONHeavydynThresholdsConfigurations
+
+
+class JSONHeavydynThresholdsConfigurations {
+  <<type>>
+  HeavydynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;
+}
+JSONHeavydynThresholdsConfigurations <.. HeavydynUnitsSkeleton~A, B, C, D, E~
 
 
 class HeavydynReport {

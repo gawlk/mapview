@@ -365,11 +365,18 @@ class JSONMinidynReportDistinct {
   <<interface>>
   version: 1
   dataLabels: JSONSelectableList#60;     JSONMinidynDataLabelsGroup,     JSONMinidynDataLabelsGroups   #62;
-  thresholds: MinidynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;
+  thresholds: JSONMinidynThresholdsConfigurations
 }
 JSONMinidynReportDistinct <.. JSONMinidynDataLabelsGroup
 JSONMinidynReportDistinct <.. JSONMinidynDataLabelsGroups
-JSONMinidynReportDistinct <.. MinidynUnitsSkeleton~A, B, C, D, E, F~
+JSONMinidynReportDistinct <.. JSONMinidynThresholdsConfigurations
+
+
+class JSONMinidynThresholdsConfigurations {
+  <<type>>
+  MinidynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;
+}
+JSONMinidynThresholdsConfigurations <.. MinidynUnitsSkeleton~A, B, C, D, E, F~
 
 
 class MinidynReport {

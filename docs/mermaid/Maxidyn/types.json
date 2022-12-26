@@ -469,12 +469,20 @@
     "value": {
       "version": "1",
       "dataLabels": "JSONSelectableList#60;     JSONMaxidynDataLabelsGroup,     JSONMaxidynDataLabelsGroups   #62;",
-      "thresholds": "MaxidynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;"
+      "thresholds": "JSONMaxidynThresholdsConfigurations"
     },
     "dependencies": [
       "JSONSelectableList",
       "JSONMaxidynDataLabelsGroup",
       "JSONMaxidynDataLabelsGroups",
+      "JSONMaxidynThresholdsConfigurations"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynThresholdsConfigurations",
+    "value": "MaxidynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;",
+    "dependencies": [
       "MaxidynUnitsSkeleton",
       "JSONDistinctThresholdsConfiguration"
     ],

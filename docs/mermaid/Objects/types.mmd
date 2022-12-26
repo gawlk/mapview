@@ -95,6 +95,13 @@ class ColorName {
 
 
 
+class DataCategory {
+  <<interface>>
+  name: string
+}
+
+
+
 class MathNumberObject {
   <<interface>>
   [key: string]: MathNumber | MathNumber[] | MathNumber[][]
@@ -116,9 +123,11 @@ class DataLabel~T~ {
   <<interface>>
   name: string
   unit: MathUnit#60;T#62;
+  category: DataCategory
   toJSON: #40;#41; =#62; JSONDataLabel#60;T#62;
 }
 DataLabel~T~ <.. MathUnit~PossibleUnits~
+DataLabel~T~ <.. DataCategory
 
 
 class DataLabelsFrom {

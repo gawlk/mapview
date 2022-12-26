@@ -507,12 +507,20 @@
     "value": {
       "version": "1",
       "dataLabels": "JSONSelectableList#60;     JSONHeavydynDataLabelsGroup,     JSONHeavydynDataLabelsGroups   #62;",
-      "thresholds": "HeavydynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;"
+      "thresholds": "JSONHeavydynThresholdsConfigurations"
     },
     "dependencies": [
       "JSONSelectableList",
       "JSONHeavydynDataLabelsGroup",
       "JSONHeavydynDataLabelsGroups",
+      "JSONHeavydynThresholdsConfigurations"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynThresholdsConfigurations",
+    "value": "HeavydynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;",
+    "dependencies": [
       "HeavydynUnitsSkeleton",
       "JSONDistinctThresholdsConfiguration"
     ],

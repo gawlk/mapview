@@ -1,4 +1,8 @@
-import { createDataLabelFromJSON, createSelectableList } from '/src/scripts'
+import {
+  baseCategory,
+  createDataLabelFromJSON,
+  createSelectableList,
+} from '/src/scripts'
 
 export const createBaseDataLabelsFromJSON = (
   jsonTable: JSONSelectableList<JSONTableDataLabelsParameters>,
@@ -72,7 +76,7 @@ export const createBaseDataLabelsGroupFromJSON = <
     from: json.from,
     choices: createSelectableList(
       json.choices.list.map((jsonChoice) =>
-        createDataLabelFromJSON(jsonChoice, units)
+        createDataLabelFromJSON(jsonChoice, units, baseCategory)
       ) || [],
       {
         selectedIndex: json.choices.selectedIndex,

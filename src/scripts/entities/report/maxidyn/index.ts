@@ -1,10 +1,8 @@
 import {
-  colorsClasses,
-  createCustomThreshold,
+  createJSONBaseZone,
   createMaxidynDataLabelsFromJSON,
+  createMaxidynThresholdsGroupsFromJSON,
   createMaxidynZoneFromJSON,
-  createSelectableList,
-  defaultThresholds,
 } from '/src/scripts'
 
 import {
@@ -24,99 +22,12 @@ export const createMaxidynReportFromJSON = (
 ) => {
   json = upgradeJSON(json)
 
-  const thresholdsGroups: MaxidynThresholdsGroups = {
-    modulus: {
-      unit: parameters.project.units.modulus,
-      choices: createSelectableList(
-        [
-          defaultThresholds.ns,
-          defaultThresholds.ar1,
-          defaultThresholds.ar2,
-          defaultThresholds.ar3,
-          defaultThresholds.ar4,
-          defaultThresholds.pf1,
-          defaultThresholds.pf2,
-          defaultThresholds['pf2+'],
-          defaultThresholds.pf3,
-          defaultThresholds.pf4,
-          createCustomThreshold(json.distinct.thresholds.modulus.custom),
-        ] as ThresoldsList,
-        {
-          selectedIndex: json.distinct.thresholds.modulus.selectedIndex,
-        }
-      ),
-    },
-    stiffness: {
-      unit: parameters.project.units.stiffness,
-      choices: createSelectableList(
-        [
-          createCustomThreshold(json.distinct.thresholds.stiffness.custom),
-        ] as ThresoldsList,
-        {
-          selectedIndex: json.distinct.thresholds.stiffness.selectedIndex,
-        }
-      ),
-    },
-    deflection: {
-      unit: parameters.project.units.deflection,
-      choices: createSelectableList(
-        [
-          createCustomThreshold(json.distinct.thresholds.deflection.custom),
-        ] as ThresoldsList,
-        {
-          selectedIndex: json.distinct.thresholds.deflection.selectedIndex,
-        }
-      ),
-    },
-    force: {
-      unit: parameters.project.units.force,
-      choices: createSelectableList(
-        [
-          createCustomThreshold(json.distinct.thresholds.force.custom),
-        ] as ThresoldsList,
-        {
-          selectedIndex: json.distinct.thresholds.force.selectedIndex,
-        }
-      ),
-    },
-    distance: {
-      unit: parameters.project.units.distance,
-      choices: createSelectableList(
-        [
-          createCustomThreshold(json.distinct.thresholds.distance.custom),
-        ] as ThresoldsList,
-        {
-          selectedIndex: json.distinct.thresholds.distance.selectedIndex,
-        }
-      ),
-    },
-    time: {
-      unit: parameters.project.units.time,
-      choices: createSelectableList(
-        [
-          createCustomThreshold(json.distinct.thresholds.time.custom),
-        ] as ThresoldsList,
-        {
-          selectedIndex: json.distinct.thresholds.time.selectedIndex,
-        }
-      ),
-    },
-    percentage: {
-      unit: parameters.project.units.percentage,
-      choices: createSelectableList(
-        [
-          createCustomThreshold(json.distinct.thresholds.percentage.custom),
-        ] as ThresoldsList,
-        {
-          selectedIndex: json.distinct.thresholds.percentage.selectedIndex,
-        }
-      ),
-    },
-  }
-
   const baseReport = createBaseReportFromJSON(json.base, map, {
     zones: [] as MaxidynZone[],
-    thresholdsGroups,
+    thresholdsGroups: createMaxidynThresholdsGroupsFromJSON(
+      json.distinct.thresholds,
+      parameters.project.units
+    ),
     dataLabels: createMaxidynDataLabelsFromJSON(
       json.distinct.dataLabels,
       json.base.dataLabels.table,
@@ -131,22 +42,9 @@ export const createMaxidynReportFromJSON = (
     ...baseReport,
     machine: 'Maxidyn',
     addZone: function () {
-      const colorNames = Object.keys(colorsClasses)
-
       const json: JSONMaxidynZone = {
         version: 1,
-        base: {
-          version: 1,
-          name: `Zone ${this.zones.length + 1}`,
-          settings: {
-            version: 1,
-            color: colorNames[
-              Math.floor(Math.random() * colorNames.length)
-            ] as ColorName,
-            isVisible: true,
-          },
-          points: [],
-        },
+        base: createJSONBaseZone(this.zones.length),
         distinct: {
           version: 1,
         },

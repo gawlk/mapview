@@ -25,12 +25,17 @@ export const createZipFromProject = async (
     parameters.overlays && addOverlaysToZip(zip, project),
     parameters.screenshots && addScreenshotsToZip(zip, project, json),
     parameters.rawData && addRawDataToZip(zip, project),
-    parameters.customJSON &&
-      addJSONToZip(zip, parameters.customJSON.name, parameters.customJSON.json),
+
     parameters.additionalFile && addFileToZip(zip, parameters.additionalFile),
   ])
 
-  await addProjectToZip(zip, json)
+  parameters.customJSON
+    ? await addJSONToZip(
+        zip,
+        parameters.customJSON.name,
+        parameters.customJSON.json
+      )
+    : await addProjectToZip(zip, json)
 
   return zipSync(zip)
 }

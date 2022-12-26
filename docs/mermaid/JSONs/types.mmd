@@ -947,12 +947,19 @@ class JSONHeavydynReportDistinct {
   <<interface>>
   version: 1
   dataLabels: JSONSelectableList#60;     JSONHeavydynDataLabelsGroup,     JSONHeavydynDataLabelsGroups   #62;
-  thresholds: HeavydynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;
+  thresholds: JSONHeavydynThresholdsConfigurations
 }
 JSONHeavydynReportDistinct <.. JSONSelectableList~T, L~
 JSONHeavydynReportDistinct <.. JSONHeavydynDataLabelsGroup
 JSONHeavydynReportDistinct <.. JSONHeavydynDataLabelsGroups
-JSONHeavydynReportDistinct <.. JSONDistinctThresholdsConfiguration
+JSONHeavydynReportDistinct <.. JSONHeavydynThresholdsConfigurations
+
+
+class JSONHeavydynThresholdsConfigurations {
+  <<type>>
+  HeavydynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;
+}
+JSONHeavydynThresholdsConfigurations <.. JSONDistinctThresholdsConfiguration
 
 
 class JSONMaxidynReportVAny {
@@ -976,12 +983,19 @@ class JSONMaxidynReportDistinct {
   <<interface>>
   version: 1
   dataLabels: JSONSelectableList#60;     JSONMaxidynDataLabelsGroup,     JSONMaxidynDataLabelsGroups   #62;
-  thresholds: MaxidynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;
+  thresholds: JSONMaxidynThresholdsConfigurations
 }
 JSONMaxidynReportDistinct <.. JSONSelectableList~T, L~
 JSONMaxidynReportDistinct <.. JSONMaxidynDataLabelsGroup
 JSONMaxidynReportDistinct <.. JSONMaxidynDataLabelsGroups
-JSONMaxidynReportDistinct <.. JSONDistinctThresholdsConfiguration
+JSONMaxidynReportDistinct <.. JSONMaxidynThresholdsConfigurations
+
+
+class JSONMaxidynThresholdsConfigurations {
+  <<type>>
+  MaxidynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;
+}
+JSONMaxidynThresholdsConfigurations <.. JSONDistinctThresholdsConfiguration
 
 
 class JSONMinidynReportVAny {
@@ -1005,12 +1019,19 @@ class JSONMinidynReportDistinct {
   <<interface>>
   version: 1
   dataLabels: JSONSelectableList#60;     JSONMinidynDataLabelsGroup,     JSONMinidynDataLabelsGroups   #62;
-  thresholds: MinidynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;
+  thresholds: JSONMinidynThresholdsConfigurations
 }
 JSONMinidynReportDistinct <.. JSONSelectableList~T, L~
 JSONMinidynReportDistinct <.. JSONMinidynDataLabelsGroup
 JSONMinidynReportDistinct <.. JSONMinidynDataLabelsGroups
-JSONMinidynReportDistinct <.. JSONDistinctThresholdsConfiguration
+JSONMinidynReportDistinct <.. JSONMinidynThresholdsConfigurations
+
+
+class JSONMinidynThresholdsConfigurations {
+  <<type>>
+  MinidynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;
+}
+JSONMinidynThresholdsConfigurations <.. JSONDistinctThresholdsConfiguration
 
 
 class JSONMachineReport {

@@ -367,11 +367,18 @@ class JSONMaxidynReportDistinct {
   <<interface>>
   version: 1
   dataLabels: JSONSelectableList#60;     JSONMaxidynDataLabelsGroup,     JSONMaxidynDataLabelsGroups   #62;
-  thresholds: MaxidynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;
+  thresholds: JSONMaxidynThresholdsConfigurations
 }
 JSONMaxidynReportDistinct <.. JSONMaxidynDataLabelsGroup
 JSONMaxidynReportDistinct <.. JSONMaxidynDataLabelsGroups
-JSONMaxidynReportDistinct <.. MaxidynUnitsSkeleton~A, B, C, D, E, F, G~
+JSONMaxidynReportDistinct <.. JSONMaxidynThresholdsConfigurations
+
+
+class JSONMaxidynThresholdsConfigurations {
+  <<type>>
+  MaxidynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;
+}
+JSONMaxidynThresholdsConfigurations <.. MaxidynUnitsSkeleton~A, B, C, D, E, F, G~
 
 
 class MaxidynReport {

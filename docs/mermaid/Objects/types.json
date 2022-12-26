@@ -104,6 +104,14 @@
     "extends": []
   },
   {
+    "name": "DataCategory",
+    "value": {
+      "name": "string"
+    },
+    "dependencies": [],
+    "extends": []
+  },
+  {
     "name": "MathNumberObject",
     "value": {
       "[key: string]": "MathNumber | MathNumber[] | MathNumber[][]"
@@ -131,11 +139,13 @@
     "value": {
       "name": "string",
       "unit": "MathUnit#60;T#62;",
+      "category": "DataCategory",
       "toJSON": "#40;#41; =#62; JSONDataLabel#60;T#62;"
     },
     "dependencies": [
       "MathUnit",
-      "T"
+      "T",
+      "DataCategory"
     ],
     "extends": []
   },

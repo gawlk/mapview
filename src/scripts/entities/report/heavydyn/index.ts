@@ -1,9 +1,8 @@
 import {
-  colorsClasses,
-  createCustomThreshold,
   createHeavydynDataLabelsFromJSON,
+  createHeavydynThresholdsGroupsFromJSON,
   createHeavydynZoneFromJSON,
-  createSelectableList,
+  createJSONBaseZone,
   createWatcherHandler,
 } from '/src/scripts'
 
@@ -26,67 +25,12 @@ export const createHeavydynReportFromJSON = (
 
   const watcherHandler = createWatcherHandler()
 
-  const thresholdsGroups: HeavydynThresholdsGroups = {
-    deflection: {
-      unit: parameters.project.units.deflection,
-      choices: createSelectableList(
-        [
-          createCustomThreshold(json.distinct.thresholds.deflection.custom),
-        ] as ThresoldsList,
-        {
-          selectedIndex: json.distinct.thresholds.deflection.selectedIndex,
-        }
-      ),
-    },
-    force: {
-      unit: parameters.project.units.force,
-      choices: createSelectableList(
-        [
-          createCustomThreshold(json.distinct.thresholds.force.custom),
-        ] as ThresoldsList,
-        {
-          selectedIndex: json.distinct.thresholds.force.selectedIndex,
-        }
-      ),
-    },
-    temperature: {
-      unit: parameters.project.units.temperature,
-      choices: createSelectableList(
-        [
-          createCustomThreshold(json.distinct.thresholds.temperature.custom),
-        ] as ThresoldsList,
-        {
-          selectedIndex: json.distinct.thresholds.temperature.selectedIndex,
-        }
-      ),
-    },
-    distance: {
-      unit: parameters.project.units.distance,
-      choices: createSelectableList(
-        [
-          createCustomThreshold(json.distinct.thresholds.distance.custom),
-        ] as ThresoldsList,
-        {
-          selectedIndex: json.distinct.thresholds.distance.selectedIndex,
-        }
-      ),
-    },
-    time: {
-      unit: parameters.project.units.time,
-      choices: createSelectableList(
-        [
-          createCustomThreshold(json.distinct.thresholds.time.custom),
-        ] as ThresoldsList,
-        {
-          selectedIndex: json.distinct.thresholds.time.selectedIndex,
-        }
-      ),
-    },
-  }
-
   const baseReport = createBaseReportFromJSON(json.base, map, {
     zones: [] as HeavydynZone[],
-    thresholdsGroups,
+    thresholdsGroups: createHeavydynThresholdsGroupsFromJSON(
+      json.distinct.thresholds,
+      parameters.project.units
+    ),
     dataLabels: createHeavydynDataLabelsFromJSON(
       json.distinct.dataLabels,
       json.base.dataLabels.table,
@@ -101,22 +45,9 @@ export const createHeavydynReportFromJSON = (
     ...baseReport,
     machine: 'Heavydyn',
     addZone: function () {
-      const colorNames = Object.keys(colorsClasses)
-
       const json: JSONHeavydynZone = {
         version: 1,
-        base: {
-          version: 1,
-          name: `Zone ${this.zones.length + 1}`,
-          settings: {
-            version: 1,
-            color: colorNames[
-              Math.floor(Math.random() * colorNames.length)
-            ] as ColorName,
-            isVisible: true,
-          },
-          points: [],
-        },
+        base: createJSONBaseZone(this.zones.length),
         distinct: {
           version: 1,
         },

@@ -17,5 +17,6 @@ interface JSONDataLabel<T extends string> {
 interface DataLabel<T extends string> {
   readonly name: string
   readonly unit: MathUnit<T>
+  readonly category: DataCategory
   readonly toJSON: () => JSONDataLabel<T>
 }

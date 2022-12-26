@@ -1,4 +1,23 @@
-import { createWatcherHandler, sortPoints } from '/src/scripts'
+import { colorsClasses, createWatcherHandler, sortPoints } from '/src/scripts'
+
+export const createJSONBaseZone = (length: number) => {
+  const colorNames = Object.keys(colorsClasses)
+
+  const json: JSONBaseZone = {
+    version: 1,
+    name: `Zone ${length + 1}`,
+    settings: {
+      version: 1,
+      color: colorNames[
+        Math.floor(Math.random() * colorNames.length)
+      ] as ColorName,
+      isVisible: true,
+    },
+    points: [],
+  }
+
+  return json
+}
 
 export const createBaseZoneFromJSON = <
   Point extends MachinePoint,

@@ -1,2 +1,5 @@
 export * from './custom'
 export * from './predefined'
+export * from './heavydyn'
+export * from './maxidyn'
+export * from './minidyn'

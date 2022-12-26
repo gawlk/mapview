@@ -1189,12 +1189,20 @@
     "value": {
       "version": "1",
       "dataLabels": "JSONSelectableList#60;     JSONHeavydynDataLabelsGroup,     JSONHeavydynDataLabelsGroups   #62;",
-      "thresholds": "HeavydynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;"
+      "thresholds": "JSONHeavydynThresholdsConfigurations"
     },
     "dependencies": [
       "JSONSelectableList",
       "JSONHeavydynDataLabelsGroup",
       "JSONHeavydynDataLabelsGroups",
+      "JSONHeavydynThresholdsConfigurations"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONHeavydynThresholdsConfigurations",
+    "value": "HeavydynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;",
+    "dependencies": [
       "HeavydynUnitsSkeleton",
       "JSONDistinctThresholdsConfiguration"
     ],
@@ -1226,12 +1234,20 @@
     "value": {
       "version": "1",
       "dataLabels": "JSONSelectableList#60;     JSONMaxidynDataLabelsGroup,     JSONMaxidynDataLabelsGroups   #62;",
-      "thresholds": "MaxidynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;"
+      "thresholds": "JSONMaxidynThresholdsConfigurations"
     },
     "dependencies": [
       "JSONSelectableList",
       "JSONMaxidynDataLabelsGroup",
       "JSONMaxidynDataLabelsGroups",
+      "JSONMaxidynThresholdsConfigurations"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMaxidynThresholdsConfigurations",
+    "value": "MaxidynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;",
+    "dependencies": [
       "MaxidynUnitsSkeleton",
       "JSONDistinctThresholdsConfiguration"
     ],
@@ -1263,12 +1279,20 @@
     "value": {
       "version": "1",
       "dataLabels": "JSONSelectableList#60;     JSONMinidynDataLabelsGroup,     JSONMinidynDataLabelsGroups   #62;",
-      "thresholds": "MinidynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;"
+      "thresholds": "JSONMinidynThresholdsConfigurations"
     },
     "dependencies": [
       "JSONSelectableList",
       "JSONMinidynDataLabelsGroup",
       "JSONMinidynDataLabelsGroups",
+      "JSONMinidynThresholdsConfigurations"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynThresholdsConfigurations",
+    "value": "MinidynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;",
+    "dependencies": [
       "MinidynUnitsSkeleton",
       "JSONDistinctThresholdsConfiguration"
     ],

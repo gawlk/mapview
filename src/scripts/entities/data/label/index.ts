@@ -1,11 +1,13 @@
 export const createDataLabelFromJSON = <T extends string>(
   json: JSONDataLabelVAny<T>,
-  units: MachineMathUnits
+  units: MachineMathUnits,
+  category: DataCategory
 ): DataLabel<T> => {
   json = upgradeJSON(json)
 
   return {
     name: json.name,
+    category,
     unit: (units as any)[json.unit],
     toJSON: function () {
       return {

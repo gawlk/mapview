@@ -468,12 +468,20 @@
     "value": {
       "version": "1",
       "dataLabels": "JSONSelectableList#60;     JSONMinidynDataLabelsGroup,     JSONMinidynDataLabelsGroups   #62;",
-      "thresholds": "MinidynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;"
+      "thresholds": "JSONMinidynThresholdsConfigurations"
     },
     "dependencies": [
       "JSONSelectableList",
       "JSONMinidynDataLabelsGroup",
       "JSONMinidynDataLabelsGroups",
+      "JSONMinidynThresholdsConfigurations"
+    ],
+    "extends": []
+  },
+  {
+    "name": "JSONMinidynThresholdsConfigurations",
+    "value": "MinidynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;",
+    "dependencies": [
       "MinidynUnitsSkeleton",
       "JSONDistinctThresholdsConfiguration"
     ],

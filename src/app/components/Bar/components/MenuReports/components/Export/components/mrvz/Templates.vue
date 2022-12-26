@@ -9,8 +9,6 @@
 
   import Template from './Template.vue'
 
-  const isDev = import.meta.env.DEV
-
   const { t } = useI18n()
 
   const emit = defineEmits<{
@@ -34,7 +32,6 @@
       :n="3"
     />
     <Button
-      v-if="isDev"
       @click="
         () =>
           (async () =>

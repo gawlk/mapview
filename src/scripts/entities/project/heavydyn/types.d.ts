@@ -15,7 +15,7 @@ interface JSONHeavydynProjectDistinct {
   readonly version: 1
   readonly units: JSONHeavydynUnits
   readonly calibrations: JSONHeavydynCalibrations
-  readonly correctionParameters?: JSONHeavydynCorrectionParameters
+  readonly correctionParameters: JSONHeavydynCorrectionParameters
 }
 
 interface JSONHeavydynCalibrations {
@@ -33,6 +33,7 @@ interface JSONChannel {
   readonly gain: number
   readonly acquisition: number
   readonly type: 'LoadCell' | 'Geophone'
+  readonly v0: number
 }
 
 interface JSONSensor {
@@ -43,40 +44,51 @@ interface JSONSensor {
 }
 
 interface JSONHeavydynCorrectionParameters {
-  isLoadCorrection: boolean
-  readonly loadParameters: {
-    // Or boolean instead of optional object
-    loadReferenceSource: SelectableList<
-      LoadReferenceSourceList[number],
-      LoadReferenceSourceList
-    >
-    customValue: MathNumber
+  readonly version: 1
+  readonly load: {
+    readonly version: 1
+    readonly active: boolean
+    readonly loadReferenceSource: LoadReferenceSourceValue
+    readonly customValue: number
   }
-  isTemperatureCorrection: boolean
-  readonly temperatureParameters: {
-    // Temperature from > Temperature to
-    temperatureFromSource: SelectableList<
-      TemperatureFromSourceList[number],
-      TemperatureFromSourceList
-    >
-    average: SelectableList<
-      TemperatureAverageList[number],
-      TemperatureAverageList
-    >
-    customValue: MathNumber
-    temperatureTo: number // Given by the user, in France 15 deg celsius by default
-    structureType: SelectableList<
-      TemperatureStructureTypeList[number],
-      TemperatureStructureTypeList
-    >
+  readonly temperature: {
+    readonly version: 1
+    readonly active: boolean
+    readonly temperatureFromSource: TemperatureFromSourceValue
+    readonly average: TemperatureAverageValue
+    readonly customValue: number
+    readonly temperatureTo: number
+    readonly structureType: number
   }
 }
 
-type LoadReferenceSourceList = ['Sequence' | 'Custom']
+type LoadReferenceSourceValue = LoadReferenceSourceList[number]
+type LoadReferenceSourceList = ['Sequence', 'Custom']
 
-type TemperatureFromSourceList = ['Tair', 'Tsurf', 'Tman'] // Warning: Hard coded DataLabels names
+type TemperatureFromSourceValue = TemperatureFromSourceList[number]
+type TemperatureFromSourceList = ['Tair', 'Tsurf', 'Tman']
+type TemperatureAverageValue = TemperatureAverageList[number]
 type TemperatureAverageList = ['Point', 'Zone', 'Report', 'Custom']
-type TemperatureStructureTypeList = ['1', '2', '3', '4']
+type TemperatureStructureTypeValue = TemperatureStructureTypeList[number]
+type TemperatureStructureTypeList = [
+  // TODO: Translate
+  {
+    name: 'Souple'
+    k: 0.15
+  },
+  {
+    name: 'Bitumineux épais'
+    k: 0.2
+  },
+  {
+    name: 'Mixte'
+    k: 0.08
+  },
+  {
+    name: 'Semi-rigide'
+    k: 0.04
+  }
+]
 
 // ---
 // Object
@@ -86,7 +98,7 @@ interface HeavydynProject
   extends HeavydynObject<JSONHeavydynProject>,
     BaseProject<HeavydynReport, HeavydynMathUnits> {
   calibrations: HeavydynCalibrations
-  correctionParameters?: JSONHeavydynCorrectionParameters
+  correctionParameters: HeavydynCorrectionParameters
 }
 
 interface HeavydynCalibrations {
@@ -94,4 +106,29 @@ interface HeavydynCalibrations {
   readonly dPlate: number
   readonly channels: JSONChannel[]
   readonly sensors: JSONSensor[]
+}
+
+interface HeavydynCorrectionParameters {
+  readonly load: {
+    active: boolean
+    loadReferenceSource: SelectableList<
+      LoadReferenceSourceValue,
+      LoadReferenceSourceList
+    >
+    customValue: MathNumber
+  }
+  readonly temperature: {
+    active: boolean
+    temperatureFromSource: SelectableList<
+      TemperatureFromSourceValue,
+      TemperatureFromSourceList
+    >
+    average: SelectableList<TemperatureAverageValue, TemperatureAverageList>
+    customValue: MathNumber
+    temperatureTo: MathNumber
+    structureType: SelectableList<
+      TemperatureStructureTypeValue,
+      TemperatureStructureTypeList
+    >
+  }
 }

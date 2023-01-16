@@ -208,7 +208,7 @@ class BaseProject~Report, MathUnits~ {
   hardware: Field[]
   reports: SelectableList#60;Report#62;
   units: MathUnits
-  settings: JSONProjectSettings
+  settings: BaseProjectSettings
   overlays: Overlay[]
   acquisitionParameters: JSONAcquisitionParameters
   refreshLinesAndOverlays: #40;#41; =#62; void
@@ -216,6 +216,13 @@ class BaseProject~Report, MathUnits~ {
   fitOnMap: #40;#41; =#62; void
   addToMap: #40;#41; =#62; void
   remove: #40;#41; =#62; void
+}
+BaseProject~Report, MathUnits~ <.. BaseProjectSettings
+
+
+class BaseProjectSettings {
+  <<interface>>
+  arePointsLocked: boolean
 }
 
 
@@ -318,6 +325,7 @@ class BaseZone~Point, Report~ {
   settings: JSONZoneSettings
   name: string
   report: Report
+  data: DataValue#60;string#62;[]
   init: #40;#41; =#62; void
   clean: #40;#41; =#62; void
 }

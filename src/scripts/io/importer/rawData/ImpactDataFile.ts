@@ -38,8 +38,11 @@ class IsaanSimpleFileHeader extends SimpleFileStreamable {
 
   public fromStream(br: ExtendedBinaryReader): void {
     super.fromStream(br)
+
     const magic: string = br.readString()
+
     if (magic != this.FILE_MAGIC) throw new Error('Not a Isaan simple file')
+
     this.fileType = br.readUInt32() as IsaanSimpleFileType
     this.fileVersion = br.readInt32()
   }
@@ -50,6 +53,7 @@ class ImpactDataHeader extends SimpleFileStreamable {
   public nbSamples!: number
   public nbOfImpact!: number
   public nbOfDisplacement!: number
+  // public frequency!: number
 
   constructor() {
     super()
@@ -62,6 +66,7 @@ class ImpactDataHeader extends SimpleFileStreamable {
     this.nbSamples = br.readInt32()
     this.nbOfImpact = br.readInt32()
     this.nbOfDisplacement = br.readInt32()
+    // this.frequency = br.readFloat32()
   }
 }
 
@@ -77,6 +82,7 @@ export default class ImpactDataFile {
     this.fileHeader.fileVersion = this.maxSupportedVersion
     this.impactDataHeader = new ImpactDataHeader()
     this.impactDatas = new Array<ImpactData>()
+
     if (impactSetData) {
       this.impactDataHeader.pointId = impactSetData.ID
       this.impactDataHeader.nbSamples = impactSetData.numberOfSamples
@@ -89,20 +95,32 @@ export default class ImpactDataFile {
 
   public loadFromFile(br: ExtendedBinaryReader): void {
     this.fileHeader.fromStream(br)
+
     if (this.fileHeader.fileType !== IsaanSimpleFileType.ImpactDataFile) {
       throw new Error('Not a ImpactDataFile')
     }
+
     if (this.fileHeader.fileVersion > this.maxSupportedVersion) {
       throw new Error('Version not supported')
     }
+
     this.impactDataHeader = new ImpactDataHeader()
     this.impactDataHeader.fromStream(br)
     this.impactDatas = new Array(this.impactDataHeader.nbOfImpact)
+
     for (let i = 0; i < this.impactDataHeader.nbOfImpact; i++) {
-      this.impactDatas[i] = {
-        load: br.readArrayDouble(),
-        displacement: br.readTwoDimentionArraySingleAsDouble(),
+      console.log(i)
+
+      const load = br.readArrayDouble()
+
+      const displacement = br.readTwoDimentionArraySingleAsDouble()
+
+      const impactData: ImpactData = {
+        load,
+        displacement,
       }
+
+      this.impactDatas[i] = impactData
     }
   }
 

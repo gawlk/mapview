@@ -24,14 +24,14 @@
     version: packageJSON.version,
   })
 
-  const fixMapHeight = (delay: number = 50) => {
+  const fixMapHeight = () => {
     setTimeout(() => {
       window.dispatchEvent(new Event('resize'))
-    }, delay)
+    }, 200)
   }
 
   onMounted(async () => {
-    fixMapHeight(200)
+    fixMapHeight()
 
     if (navigator.serviceWorker) {
       if (window.location.protocol === 'https:') {

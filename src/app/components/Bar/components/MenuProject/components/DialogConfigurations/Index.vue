@@ -1,6 +1,4 @@
 <script setup lang="ts">
-  import { numberToLocaleString } from '/src/locales'
-
   import store from '/src/store'
 
   import { convertValueFromUnitAToUnitB } from '/src/scripts'
@@ -9,6 +7,9 @@
 
   import Dialog from '/src/components/Dialog.vue'
   import Input from '/src/components/Input.vue'
+
+  import CorrectionHeavydynVue from './CorrectionHeavydyn.vue'
+  import CorrectionMdynVue from './CorrectionMdyn.vue'
 
   const { t } = useI18n()
 
@@ -36,7 +37,7 @@
       {{ t('See configurations') }}
     </template>
     <template v-slot:dialog>
-      <div class="space-y-6 sm:space-y-6">
+      <div class="space-y-6">
         <h4 class="pl-4 text-lg font-medium leading-6">
           {{ t('Units') }}
         </h4>
@@ -110,7 +111,12 @@
         <h4 class="pl-4 text-lg font-medium leading-6">
           {{ t('Corrected data') }}
         </h4>
-        ...
+        <div class="space-y-4">
+          <CorrectionHeavydynVue
+            v-if="store.projects.selected?.machine === 'Heavydyn'"
+          />
+          <CorrectionMdynVue v-else />
+        </div>
       </div>
     </template>
   </Dialog>

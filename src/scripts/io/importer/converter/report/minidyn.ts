@@ -20,7 +20,7 @@ export const convertPRJZToMinidynReport = (
       dropIndexes: convertPRJZToMinidynDropIndexes(json),
       testChoices: convertPRJZToTestChoices(json),
     }),
-    distinct: convertPRJZToMinidynReportDistinct(json),
+    distinct: convertPRJZToMinidynReportDistinct(jsonPV, json),
   }
 
   report.base.zones[0].base.points.push(
@@ -34,11 +34,14 @@ export const convertPRJZToMinidynReport = (
 }
 
 export const convertPRJZToMinidynReportDistinct = (
+  jsonPV: any,
   json: any
 ): JSONMinidynReportDistinct => {
   const dropChoices = convertPRJZToMinidynDropChoices(json)
   const dropIndexes = convertPRJZToMinidynDropIndexes(json)
   const testChoices = convertPRJZToTestChoices(json)
+
+  // Threshold
 
   return {
     version: 1,
@@ -133,7 +136,8 @@ export const convertPRJZToMinidynReportDistinct = (
             choices: {
               selectedIndex:
                 testChoices.findIndex(
-                  (choice) => choice.name === 'BearingCapacity'
+                  (choice) =>
+                    choice.unit === 'modulus' || choice.unit === 'stiffness'
                 ) || 0,
               list: testChoices as JSONDataLabel<MinidynUnitsNames>[],
             },

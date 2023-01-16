@@ -17,7 +17,6 @@ export const convertPRJZToBaseProject = (
             return false
         }
       })(),
-      arePointsLocked: true,
       arePointsVisible: true,
       areOverlaysVisible: true,
       pointsState: 'number',

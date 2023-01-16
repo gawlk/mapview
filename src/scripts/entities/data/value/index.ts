@@ -1,5 +1,22 @@
 import { createMathNumber } from '/src/scripts'
 
+export const createDataValue = (
+  value: number,
+  label: DataLabel<string>
+): DataValue<string> => {
+  return {
+    label,
+    value: createMathNumber(value, label.unit),
+    toJSON: function () {
+      return {
+        version: 1,
+        label: this.label.name,
+        value: this.value.value,
+      }
+    },
+  }
+}
+
 export const createDataValueFromJSON = (
   json: JSONDataValueVAny,
   list: DataLabel<string>[]
@@ -10,19 +27,7 @@ export const createDataValueFromJSON = (
     (dataLabel) => dataLabel.name === json.label
   ) as DataLabel<string>
 
-  return {
-    category: json.category,
-    label,
-    value: createMathNumber(json.value, label.unit),
-    toJSON: function () {
-      return {
-        version: json.version,
-        category: this.category,
-        label: this.label.name,
-        value: this.value.value,
-      }
-    },
-  }
+  return createDataValue(json.value, label)
 }
 
 const upgradeJSON = (json: JSONDataValueVAny): JSONDataValue => {

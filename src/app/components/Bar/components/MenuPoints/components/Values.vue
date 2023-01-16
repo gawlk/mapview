@@ -17,10 +17,7 @@
 <template>
   <Listbox
     :icon="IconDotsHorizontal"
-    :values="
-      (groupedDataLabels?.list as MachineDataLabelsGroup[] | undefined)?.filter((list) => list.from !== 'Zone')
-        .map((list) => t(list.from))
-    "
+    :values="groupedDataLabels?.list.slice(0, 2).map((list) => t(list.from))"
     :selected="t(groupedDataLabels?.selected?.from || '')"
     @selectIndex="
       (index) =>
@@ -60,21 +57,13 @@
     :values="
       groupedDataLabels?.selected?.choices.list.map(
         (dataLabel) =>
-          `${t(dataLabel.name)} - ${t(
-            typeof dataLabel.unit === 'string'
-              ? dataLabel.unit
-              : dataLabel.unit.name
-          )}`
+          `${t(dataLabel.getFullName())} - ${t(dataLabel.unit.name)}`
       )
     "
     :preSelected="`${t('Selected')}${t(':')}`"
     :selected="`${t(
-      groupedDataLabels?.selected?.choices.selected?.name || ''
-    )} - ${t(
-      typeof groupedDataLabels?.selected?.choices.selected?.unit === 'string'
-        ? groupedDataLabels?.selected?.choices.selected?.unit
-        : groupedDataLabels?.selected?.choices.selected?.unit.name || ''
-    )}`"
+      groupedDataLabels?.selected?.choices.selected?.getFullName() || ''
+    )} - ${t(groupedDataLabels?.selected?.choices.selected?.unit.name || '')}`"
     @selectIndex="
       (index) =>
         groupedDataLabels?.selected &&

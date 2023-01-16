@@ -17,6 +17,7 @@ export const convertPRJZToMaxidynProject = (
         convertPRJZToMaxidynReport(jsonPV, index, json)
     )
   )
+
   project.base.reports.selectedIndex = project.base.reports.list.length
     ? 0
     : null
@@ -49,50 +50,28 @@ export const convertPRJZToMaxidynProjectDistinct = (
 }
 
 export const convertPRJZToMaxidynUnits = (json: any): JSONMaxidynUnits => {
+  const exportedModulus = json.ExportedData.Points.find(
+    (exportedUnit: any) => exportedUnit.Type === 'Modulus'
+  )
+
+  const exportedStiffness = json.ExportedData.Points.find(
+    (exportedUnit: any) => exportedUnit.Type === 'Modulus'
+  )
+
   return {
     modulus: {
       version: 1,
-      currentUnit: ((): PossibleMaxidynModulusUnits => {
-        switch (
-          (json.ExportedData.Points as any[]).find(
-            (exportedUnit) => exportedUnit.Type === 'Modulus'
-          )?.Unit
-        ) {
-          default:
-            return 'MPa'
-        }
-      })(),
+      currentUnit: 'MPa',
       currentPrecision: 0,
-      min: json.ExportedData.Points.find((data: any) => data.Type === 'Modulus')
-        ? json.ParamsBearing.MinBearing
-        : 20000000,
-      max: json.ExportedData.Points.find((data: any) => data.Type === 'Modulus')
-        ? json.ParamsBearing.MaxBearing
-        : 250000000,
+      min: exportedModulus ? json.ParamsBearing.MinBearing : 20000000,
+      max: exportedModulus ? json.ParamsBearing.MaxBearing : 250000000,
     },
     stiffness: {
       version: 1,
-      currentUnit: ((): PossibleMaxidynStiffnessUnits => {
-        switch (
-          (json.ExportedData.Points as any[]).find(
-            (exportedUnit) => exportedUnit.Type === 'Stiffness'
-          )?.Unit
-        ) {
-          default:
-            return 'MN / m'
-        }
-      })(),
+      currentUnit: 'MN / m',
       currentPrecision: 0,
-      min: json.ExportedData.Points.find(
-        (data: any) => data.Type === 'Stiffness'
-      )
-        ? json.ParamsBearing.MinBearing
-        : 0,
-      max: json.ExportedData.Points.find(
-        (data: any) => data.Type === 'Stiffness'
-      )
-        ? json.ParamsBearing.MaxBearing
-        : 1000,
+      min: exportedStiffness ? json.ParamsBearing.MinBearing : 0,
+      max: exportedStiffness ? json.ParamsBearing.MaxBearing : 1000,
     },
     deflection: {
       version: 1,

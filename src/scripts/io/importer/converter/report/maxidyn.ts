@@ -1,3 +1,5 @@
+import { defaultThresholds } from '/src/scripts/entities'
+
 import { convertPRJZToBaseReport } from './base'
 
 import {
@@ -20,7 +22,7 @@ export const convertPRJZToMaxidynReport = (
       dropIndexes: convertPRJZToMaxidynDropIndexes(json),
       testChoices: convertPRJZToTestChoices(json),
     }),
-    distinct: convertPRJZToMaxidynReportDistinct(json),
+    distinct: convertPRJZToMaxidynReportDistinct(jsonPV, json),
   }
 
   report.base.zones[0].base.points.push(
@@ -34,23 +36,31 @@ export const convertPRJZToMaxidynReport = (
 }
 
 export const convertPRJZToMaxidynReportDistinct = (
+  jsonPV: any,
   json: any
 ): JSONMaxidynReportDistinct => {
   const dropChoices = convertPRJZToMaxidynDropChoices(json)
   const dropIndexes = convertPRJZToMaxidynDropIndexes(json)
   const testChoices = convertPRJZToTestChoices(json)
 
+  const modulusThresholdIndex = defaultThresholds.modulus.findIndex(
+    (threshold) => {
+      return threshold.value === jsonPV.Threshold.Threshold
+    }
+  )
+
   return {
     version: 1,
     thresholds: {
       modulus: {
         version: 1,
-        selectedIndex: 0,
+        selectedIndex: modulusThresholdIndex,
         custom: {
           version: 1,
           type: 'Bicolor',
-          value: 0,
-          valueHigh: 0,
+          value: modulusThresholdIndex == -1 ? jsonPV.Threshold.Threshold : 0,
+          valueHigh:
+            modulusThresholdIndex == -1 ? jsonPV.Threshold.Threshold : 0,
         },
       },
       deflection: {
@@ -144,7 +154,8 @@ export const convertPRJZToMaxidynReportDistinct = (
             choices: {
               selectedIndex:
                 testChoices.findIndex(
-                  (choice) => choice.name === 'BearingCapacity'
+                  (choice) =>
+                    choice.unit === 'modulus' || choice.unit === 'stiffness'
                 ) || 0,
               list: testChoices as JSONDataLabel<MaxidynUnitsNames>[],
             },

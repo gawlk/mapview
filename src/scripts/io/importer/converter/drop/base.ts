@@ -1,3 +1,5 @@
+import { rawCategory } from '/src/scripts/entities'
+
 import { convertSensorPositionToName } from '../shared'
 
 export const convertPRJZToBaseDrop = (
@@ -18,7 +20,6 @@ export const convertPRJZToBaseDrop = (
         .map((exportedData: any): JSONDataValue => {
           return {
             version: 1,
-            category: 'Base',
             label: exportedData.Name,
             value: jsonDrop[exportedData.Name],
           }
@@ -28,7 +29,6 @@ export const convertPRJZToBaseDrop = (
             (value: number, index: number): JSONDataValue => {
               return {
                 version: 1,
-                category: 'Base',
                 label: convertSensorPositionToName(
                   json.Calibrations.SensorsPosition[index]
                 ),

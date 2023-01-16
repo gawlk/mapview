@@ -1,10 +1,13 @@
 <script setup lang="ts">
   import store from '/src/store'
 
-  import { acceptedExtensions, importFile } from '/src/scripts'
+  import {
+    acceptedExtensions,
+    fetchFileFromGitlab,
+    importFile,
+  } from '/src/scripts'
 
   import IconBeaker from '~icons/heroicons-solid/beaker'
-  import IconSave from '~icons/heroicons-solid/save'
 
   import Button from '/src/components/Button.vue'
   import DragAndDrop from '/src/components/DragAndDrop.vue'
@@ -23,30 +26,26 @@
     }
   }
 
-  const getDemoFile = async (path: string) => {
-    const url = `${window.location.href}/demos/${path}`
-
-    const response = await fetch(url)
-
-    const blob = await response.blob()
-
-    return new File([blob], path.split('/').pop() as string)
-  }
-
   const openDemo = async () => {
-    if (demoHeavydyn && demoMaxidyn) {
-      const project = await importFile(demoHeavydyn)
+    if (demoHeavydyn && demoMaxidyn && demoMinidyn) {
+      const project = await importFile(demoMinidyn)
       store.projects.selected = project
 
       importFile(demoMaxidyn)
-      // importFile(demoMinidyn)
+      importFile(demoHeavydyn)
     }
   }
 
-  onMounted(async () => {
-    demoHeavydyn = await getDemoFile('heavydyn/demo.prjz')
-    demoMaxidyn = await getDemoFile('maxidyn/demo.prjz')
-    // demoMinidyn = await getDemoFile('minidyn/demo.dynz')
+  onMounted(() => {
+    ;(async () => {
+      demoHeavydyn = await fetchFileFromGitlab('demo', 'heavydyn.prjz')
+    })()
+    ;(async () => {
+      demoMaxidyn = await fetchFileFromGitlab('demo', 'maxidyn.prjz')
+    })()
+    ;(async () => {
+      demoMinidyn = await fetchFileFromGitlab('demo', 'minidyn.dynz')
+    })()
   })
 </script>
 

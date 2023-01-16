@@ -17,9 +17,14 @@ export const createSelectableList = <T, L extends T[] = T[]>(
           : null
         : null
       : null,
-    list,
+    list: shallowReactive(list),
     selectIndex: function (index: number | null) {
       this.selected = getSelectedFromIndexInList(index, this.list)
+    },
+    getSelectedIndex: function () {
+      const index = this.list.indexOf(this.selected as L[number])
+
+      return index === -1 ? null : index
     },
     toJSON: function <TJSON, LJSON extends TJSON[] = TJSON[]>(
       transform: (value: T) => TJSON

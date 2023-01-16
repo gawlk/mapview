@@ -179,7 +179,10 @@ const writePoints = (project: HeavydynProject): string => {
       .map((point) => {
         const header = dedent`
           ${writePointGps(point)}
-          ${writePointHeader(point, project.reports.selected as MachineReport)}
+          ${writePointHeader(
+            point as HeavydynPoint,
+            project.reports.selected as HeavydynReport
+          )}
         `
         const values = writeDrops(point, project.calibrations.dPlate)
 
@@ -189,7 +192,7 @@ const writePoints = (project: HeavydynProject): string => {
   } else throw new Error()
 }
 
-const writePointGps = (point: MachinePoint) => {
+const writePointGps = (point: BasePoint) => {
   return dedent`
     5280,0,140418.0,${point.marker
       ?.getLngLat()
@@ -204,8 +207,8 @@ const writePointGps = (point: MachinePoint) => {
 }
 
 const writePointHeader = (
-  point: MachinePoint,
-  report: MachineReport
+  point: HeavydynPoint,
+  report: HeavydynReport
 ): string => {
   const date = dayjs(point.date).format('YYYY, MM, DD, HH, mm')
 
@@ -247,7 +250,7 @@ const writePointHeader = (
     `
 }
 
-const writeDrops = (point: MachinePoint, dPlate: number): string => {
+const writeDrops = (point: BasePoint, dPlate: number): string => {
   return point.drops
     .map((drop) => {
       const nbr = drop.index.displayedIndex.toString().padStart(3, ' ')

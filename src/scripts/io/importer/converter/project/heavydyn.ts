@@ -33,7 +33,24 @@ export const convertPRJZToHeavydynProjectDistinct = (
   return {
     version: 1,
     units,
-    // correctionParameters: {},
+    correctionParameters: {
+      version: 1,
+      load: {
+        version: 1,
+        active: false,
+        loadReferenceSource: 'Sequence',
+        customValue: 0,
+      },
+      temperature: {
+        version: 1,
+        active: false,
+        temperatureFromSource: 'Tair',
+        average: 'Zone',
+        customValue: 0,
+        temperatureTo: 15,
+        structureType: 0,
+      },
+    },
     calibrations: {
       version: 1,
       date: json.Calibrations.Date,
@@ -47,6 +64,7 @@ export const convertPRJZToHeavydynProjectDistinct = (
             gain: channel.Gain,
             acquisition: channel.ChannelAcqu,
             type: channel.Type,
+            v0: channel.V0,
           }
         }) || [],
       sensors:

@@ -39,7 +39,7 @@
         v-if="index !== 0"
         @click="
             () => {
-              (selectedReport?.zones[0].points as MachinePoint[]).push(...zone.points)
+              (selectedReport?.zones[0].points as BasePoint[]).push(...zone.points)
 
               zone.clean()
 

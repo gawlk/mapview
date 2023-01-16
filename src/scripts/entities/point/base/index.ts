@@ -92,7 +92,7 @@ export const createBasePointFromJSON = <
     ) {
       const value = this.getSelectedMathNumber(groupFrom, dataLabel, index)
 
-      return typeof value === 'object' ? value.displayedString : ''
+      return value ? value.displayedString : ''
     },
     updateColor: function () {
       if (this.zone.report.settings.colorization === 'Zone') {

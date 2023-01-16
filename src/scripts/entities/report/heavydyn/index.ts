@@ -90,6 +90,26 @@ export const createHeavydynReportFromJSON = (
         },
       }
     },
+    addToMap: function () {
+      // TODO: To test
+
+      baseReport.addToMap.call(report) // Has to be .call because baseReport isn't reactive
+
+      report.dataLabels.groups.list[0].indexes.list.forEach((dropIndex) => {
+        if (typeof dropIndex.value.unit === 'object') {
+          watcherHandler.add(
+            watch(dropIndex.value.unit, () => {
+              dropIndex.value.updateDisplayedStrings()
+            })
+          )
+        }
+      })
+    },
+    remove: function () {
+      baseReport.remove.call(report)
+
+      watcherHandler.clean()
+    },
   })
 
   report.zones.push(
@@ -99,28 +119,6 @@ export const createHeavydynReportFromJSON = (
       })
     )
   )
-
-  const baseAddToMap = report.addToMap
-  report.addToMap = () => {
-    baseAddToMap.call(report)
-
-    report.dataLabels.groups.list[0].indexes.list.forEach((dropIndex) => {
-      if (typeof dropIndex.value.unit === 'object') {
-        watcherHandler.add(
-          watch(dropIndex.value.unit, () => {
-            dropIndex.value.updateDisplayedStrings()
-          })
-        )
-      }
-    })
-  }
-
-  const baseRemove = report.remove
-  report.remove = () => {
-    baseRemove.call(report)
-
-    watcherHandler.clean()
-  }
 
   return report as HeavydynReport
 }

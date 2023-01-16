@@ -8,7 +8,7 @@
   import PointsRow from './components/Row.vue'
 
   const props = defineProps<{
-    readonly points: MachinePoint[]
+    readonly points: BasePoint[]
   }>()
 
   let tbody = ref(null)

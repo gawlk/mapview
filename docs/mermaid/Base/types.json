@@ -293,7 +293,7 @@
       "hardware": "Field[]",
       "reports": "SelectableList#60;Report#62;",
       "units": "MathUnits",
-      "settings": "JSONProjectSettings",
+      "settings": "BaseProjectSettings",
       "overlays": "Overlay[]",
       "acquisitionParameters": "JSONAcquisitionParameters",
       "refreshLinesAndOverlays": "#40;#41; =#62; void",
@@ -307,12 +307,22 @@
       "SelectableList",
       "Report",
       "MathUnits",
-      "JSONProjectSettings",
+      "BaseProjectSettings",
       "Overlay",
       "JSONAcquisitionParameters"
     ],
     "extends": [
       "BaseObject"
+    ]
+  },
+  {
+    "name": "BaseProjectSettings",
+    "value": {
+      "arePointsLocked": "boolean"
+    },
+    "dependencies": [],
+    "extends": [
+      "JSONProjectSettings"
     ]
   },
   {
@@ -449,13 +459,15 @@
       "settings": "JSONZoneSettings",
       "name": "string",
       "report": "Report",
+      "data": "DataValue#60;string#62;[]",
       "init": "#40;#41; =#62; void",
       "clean": "#40;#41; =#62; void"
     },
     "dependencies": [
       "Point",
       "JSONZoneSettings",
-      "Report"
+      "Report",
+      "DataValue"
     ],
     "extends": [
       "BaseObject"

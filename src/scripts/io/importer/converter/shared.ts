@@ -37,7 +37,7 @@ export const convertPRJZObjectToFields = (
 export const convertExportedUnitToJSONDataLabel = (
   exportedUnit: any
 ): JSONDataLabel<string> => {
-  const mathUnitName = (exportedUnit.Type as string).toLowerCase()
+  const mathUnitName = String(exportedUnit.Type).toLowerCase()
 
   return {
     version: 1,

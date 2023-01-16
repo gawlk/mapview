@@ -25,7 +25,10 @@ export const createBaseProjectFromJSON = <
 
   const watcherHandler = createWatcherHandler()
 
-  const settings = reactive(json.settings)
+  const settings: BaseProjectSettings = reactive({
+    ...json.settings,
+    arePointsLocked: true,
+  })
 
   const project: BaseProject<Report, MathUnits> = shallowReactive({
     name: createFieldFromJSON({

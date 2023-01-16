@@ -79,6 +79,9 @@ export default defineConfig({
 
     VitePWA({
       manifest: false,
+      workbox: {
+        skipWaiting: true,
+      },
     }),
 
     viteTS2Mermaid({

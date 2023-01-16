@@ -6,33 +6,24 @@ import {
   createMinidynProjectFromJSON,
 } from '/src/scripts'
 
-export const importProjectFromJSON = async (
+export const importProjectFromJSON = (
   json: JSONMachineProject
-): Promise<MachineProject | null> => {
+): MachineProject => {
   const map = store.map as mapboxgl.Map
 
   let project = null
 
   switch (json.machine) {
     case 'Heavydyn':
-      project = await createHeavydynProjectFromJSON(
-        json as JSONHeavydynProject,
-        map
-      )
+      project = createHeavydynProjectFromJSON(json, map)
       break
 
     case 'Maxidyn':
-      project = await createMaxidynProjectFromJSON(
-        json as JSONMaxidynProject,
-        map
-      )
+      project = createMaxidynProjectFromJSON(json, map)
       break
 
     case 'Minidyn':
-      project = await createMinidynProjectFromJSON(
-        json as JSONMinidynProject,
-        map
-      )
+      project = createMinidynProjectFromJSON(json, map)
       break
   }
 

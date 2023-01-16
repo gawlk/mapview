@@ -18,6 +18,11 @@ export const createMathNumber = (
         appendUnitToString: true,
       })
     },
+    updateValue: function (value: number) {
+      this.value = value
+
+      this.updateDisplayedStrings()
+    },
     getValueAs: function (unit: string) {
       return typeof this.unit === 'object'
         ? convertValueFromUnitAToUnitB(this.value, this.unit.baseUnit, unit)

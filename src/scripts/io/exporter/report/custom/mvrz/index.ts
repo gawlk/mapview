@@ -49,7 +49,7 @@ const toPascalCase = (str: string): string =>
     .replace(/\s+/g, '')
 
 const generatePointData = (
-  points: MachinePoint[],
+  points: BasePoint[],
   labelPrefix: string
 ): ExcelJson =>
   points.reduce<FlatDataJson>(
@@ -67,10 +67,7 @@ const generatePointData = (
     {}
   )
 
-const generatePointInformation = (
-  points: MachinePoint[],
-  labelPrefix: string
-) =>
+const generatePointInformation = (points: BasePoint[], labelPrefix: string) =>
   points.reduce<FlatDataJson>(
     (a, point) => ({
       ...point.information.reduce<FlatDataJson>((b, information) => {
@@ -108,7 +105,7 @@ const generatePointInformation = (
   )
 
 const generateDropData = (
-  points: MachinePoint[],
+  points: BasePoint[],
   labelPrefix: string
 ): ExcelJson =>
   points.reduce<FlatDataJson>((a, point) => {

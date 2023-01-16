@@ -1,8 +1,9 @@
 interface MathNumber {
-  readonly value: number
+  value: number
   readonly unit: MathUnit<string>
   displayedString: string
   displayedStringWithUnit: string
+  readonly updateValue: (value: number) => void
   readonly updateDisplayedStrings: () => void
   readonly getLocaleString: (
     options: MathNumberGetLocaleStringOptions

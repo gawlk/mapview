@@ -314,7 +314,7 @@ class JSONHeavydynProjectDistinct {
   version: 1
   units: JSONHeavydynUnits
   calibrations: JSONHeavydynCalibrations
-  correctionParameters?: JSONHeavydynCorrectionParameters
+  correctionParameters: JSONHeavydynCorrectionParameters
 }
 JSONHeavydynProjectDistinct <.. JSONHeavydynUnits
 JSONHeavydynProjectDistinct <.. JSONHeavydynCalibrations
@@ -334,10 +334,9 @@ class JSONHeavydynCalibrations {
 
 class JSONHeavydynCorrectionParameters {
   <<interface>>
-  isLoadCorrection: boolean
-  loadParameters: #123;     // Or boolean instead of optional object     loadReferenceSource: SelectableList#60;       LoadReferenceSourceList[number],       LoadReferenceSourceList     #62;     customValue: MathNumber   #125;
-  isTemperatureCorrection: boolean
-  temperatureParameters: #123;     // Temperature from #62; Temperature to     temperatureFromSource: SelectableList#60;       TemperatureFromSourceList[number],       TemperatureFromSourceList     #62;     average: SelectableList#60;       TemperatureAverageList[number],       TemperatureAverageList     #62;     customValue: MathNumber     temperatureTo: number // Given by the user, in France 15 deg celsius by default     structureType: SelectableList#60;       TemperatureStructureTypeList[number],       TemperatureStructureTypeList     #62;   #125;
+  version: 1
+  load: #123;     readonly version: 1     readonly active: boolean     readonly loadReferenceSource: LoadReferenceSourceValue     readonly customValue: number   #125;
+  temperature: #123;     readonly version: 1     readonly active: boolean     readonly temperatureFromSource: TemperatureFromSourceValue     readonly average: TemperatureAverageValue     readonly customValue: number     readonly temperatureTo: number     readonly structureType: number   #125;
 }
 
 
@@ -345,10 +344,10 @@ class JSONHeavydynCorrectionParameters {
 class HeavydynProject {
   <<interface>>
   calibrations: HeavydynCalibrations
-  correctionParameters?: JSONHeavydynCorrectionParameters
+  correctionParameters: HeavydynCorrectionParameters
 }
 HeavydynProject <.. HeavydynCalibrations
-HeavydynProject <.. JSONHeavydynCorrectionParameters
+HeavydynProject <.. HeavydynCorrectionParameters
 
 
 class HeavydynCalibrations {
@@ -357,6 +356,14 @@ class HeavydynCalibrations {
   dPlate: number
   channels: JSONChannel[]
   sensors: JSONSensor[]
+}
+
+
+
+class HeavydynCorrectionParameters {
+  <<interface>>
+  load: #123;     active: boolean     loadReferenceSource: SelectableList#60;       LoadReferenceSourceValue,       LoadReferenceSourceList     #62;     customValue: MathNumber   #125;
+  temperature: #123;     active: boolean     temperatureFromSource: SelectableList#60;       TemperatureFromSourceValue,       TemperatureFromSourceList     #62;     average: SelectableList#60;TemperatureAverageValue, TemperatureAverageList#62;     customValue: MathNumber     temperatureTo: MathNumber     structureType: SelectableList#60;       TemperatureStructureTypeValue,       TemperatureStructureTypeList     #62;   #125;
 }
 
 

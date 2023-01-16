@@ -97,7 +97,7 @@
       <div
         class="flex space-x-1"
         v-for="report of store.projects.selected?.reports.list"
-        :key="(report.name.value as string)"
+        :key="String(report.name.value)"
       >
         <Button
           :leftHTMLIcon="icons[report.settings.iconName]"

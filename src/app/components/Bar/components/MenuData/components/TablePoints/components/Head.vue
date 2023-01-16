@@ -6,7 +6,7 @@
   const { t } = useI18n()
 
   const props = defineProps<{
-    readonly points: MachinePoint[]
+    readonly points: BasePoint[]
   }>()
 
   const selectedReport = computed(
@@ -24,7 +24,7 @@
   )
 
   const filteredPoints = computed(() =>
-    (props.points as MachinePoint[]).filter((point) => point.settings.isVisible)
+    props.points.filter((point) => point.settings.isVisible)
   )
 
   const getBasicAverage = (values: number[]) =>
@@ -32,14 +32,14 @@
     values.length
 
   const getValuesFromPoints = (
-    points: MachinePoint[],
+    points: BasePoint[],
     dataLabel: DataLabel<string>
   ) =>
     points.map(
       (point) =>
         (groupFrom &&
           point.getSelectedMathNumber(
-            groupFrom.value as DataLabelsFrom,
+            groupFrom.value || 'Drop',
             dataLabel,
             selectedTableDataLabelsParameters.value?.index
           )?.value) ||
@@ -88,7 +88,7 @@
       }
     })"
   >
-    <p class="font-semibold">{{ t(dataLabel.name) }}</p>
+    <p class="font-semibold">{{ dataLabel.getFullName() }}</p>
     <p class="whitespace-nowrap text-xs">
       {{
         typeof dataLabel.unit === 'object'

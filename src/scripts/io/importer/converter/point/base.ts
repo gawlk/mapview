@@ -31,7 +31,6 @@ export const convertPRJZToBasePoint = (
     data: json.ExportedData.Points.map((exportedData: any): JSONDataValue => {
       return {
         version: 1,
-        category: 'Base',
         label: exportedData.Name,
         value: jsonPoint.Point[exportedData.Name],
       }

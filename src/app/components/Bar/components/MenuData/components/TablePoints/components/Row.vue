@@ -9,7 +9,7 @@
   import Select from '/src/components/Select.vue'
 
   const props = defineProps<{
-    readonly point: MachinePoint
+    readonly point: BasePoint
   }>()
 
   const selectedReport = computed(
@@ -36,22 +36,23 @@
     () => selectedTableDataLabelsParameters.value?.group.from
   )
 
-  const movePointToZoneIndex = (point: MachinePoint, zoneIndex: number) => {
-    const zones = selectedReport.value?.zones as MachineZone[] | undefined
+  const movePointToZoneIndex = (point: BasePoint, zoneIndex: number) => {
+    const zones = selectedReport.value?.zones
 
     zones?.some((zone) => {
-      const index = (zone.points as MachinePoint[]).findIndex(
-        (_point) => _point === point
-      )
+      const index = zone.points.findIndex((_point) => _point === point)
 
       if (index !== -1) {
         zone.points.splice(index, 1)
-        ;(zones[zoneIndex].points as MachinePoint[]).push(point)
+
+        const points: BasePoint[] = zones[zoneIndex].points
+
+        points.push(point)
+
         point.zone = zones[zoneIndex]
 
         if (selectedReport.value?.settings.colorization === 'Zone') {
           point.updateColor()
-          // selectedReport.value?.line.update()
         }
 
         return true

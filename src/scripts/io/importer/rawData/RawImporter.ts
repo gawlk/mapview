@@ -1,11 +1,7 @@
 import { ExtendedBinaryReader } from './ExtendedBinaryStream'
 import ImpactDataFile from './ImpactDataFile'
 
-function saveRawData(
-  file: ArrayBufferLike,
-  points: MachinePoint[],
-  id: string
-) {
+function saveRawData(file: ArrayBufferLike, points: BasePoint[], id: string) {
   const reader = new ExtendedBinaryReader(file)
   const impactDataFile = new ImpactDataFile()
   const point = points.find((p) => p.id === id)

@@ -12,7 +12,8 @@
 
   import ColumnsSelection from './components/ColumnsSelection.vue'
   import ListboxGroupBy from './components/ListboxGroupBy.vue'
-  import PointsTable from './components/PointsTable/Index.vue'
+  import TablePoints from './components/TablePoints/Index.vue'
+  import TableZones from './components/TableZones/Index.vue'
 
   const { t } = useI18n()
 
@@ -28,12 +29,13 @@
 <template>
   <ColumnsSelection />
   <ListboxGroupBy />
-  <div
-    class="-mx-2"
-    v-if="selectedReport?.dataLabels.table.selected?.group.from !== 'Zone'"
-  >
-    <PointsTable
-      v-if="selectedReport?.settings.groupBy === 'Number'"
+  <div class="-mx-2">
+    <TableZones
+      v-if="selectedReport?.dataLabels.table.selected?.group.from === 'Zone'"
+      :zones="selectedReport.zones"
+    />
+    <TablePoints
+      v-else-if="selectedReport?.settings.groupBy === 'Number'"
       :points="selectedReport.line.sortedPoints"
     />
     <div class="border-t-2 border-gray-100" v-else>
@@ -60,7 +62,7 @@
             @click="zone.settings.isVisible = !zone.settings.isVisible"
           />
         </div>
-        <PointsTable :points="zone.points" />
+        <TablePoints :points="zone.points" />
       </div>
     </div>
   </div>

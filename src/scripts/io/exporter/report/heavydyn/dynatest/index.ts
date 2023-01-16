@@ -136,7 +136,7 @@ const writeEndHeader = () => {
     `
 }
 
-const writePointGPS = (point: MachinePoint) => {
+const writePointGPS = (point: BasePoint) => {
   let [lat, lng] = [1, 1]
   if (point.marker) {
     ;({ lng, lat } = point.marker.getLngLat())
@@ -183,7 +183,7 @@ const writePoints = (project: HeavydynProject) => {
   })
 }
 
-const writeDrops = (point: MachinePoint, dPlate: number) => {
+const writeDrops = (point: BasePoint, dPlate: number) => {
   return point.drops
     .map((drop) => {
       const values = drop.data.slice(2).map((data) => {

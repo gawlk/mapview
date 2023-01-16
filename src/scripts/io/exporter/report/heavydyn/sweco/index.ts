@@ -128,7 +128,7 @@ const writePoints = (project: HeavydynProject): string => {
   )
 }
 
-const writeDrops = (point: MachinePoint, channels: JSONChannel[]): string => {
+const writeDrops = (point: BasePoint, channels: JSONChannel[]): string => {
   const pointInfos = [
     'Sequence: 1/1',
     'No. of drops: ' + point.drops.length.toString(),

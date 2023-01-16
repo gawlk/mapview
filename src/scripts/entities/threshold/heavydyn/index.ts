@@ -12,7 +12,10 @@ export const createHeavydynThresholdsGroupsFromJSON = (
     deflection: {
       unit: units.deflection,
       choices: createSelectableList(
-        [createCustomThreshold(json.deflection.custom)] as ThresoldsList,
+        [
+          ...defaultThresholds.deflection,
+          createCustomThreshold(json.deflection.custom),
+        ] as ThresoldsList,
         {
           selectedIndex: json.deflection.selectedIndex,
         }

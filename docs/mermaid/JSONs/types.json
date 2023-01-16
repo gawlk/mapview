@@ -343,7 +343,6 @@
     "name": "JSONDataValue",
     "value": {
       "version": "1",
-      "category": "string",
       "label": "string",
       "value": "number"
     },
@@ -867,7 +866,6 @@
       "version": "1",
       "arePointsVisible": "boolean",
       "arePointsLinked": "boolean",
-      "arePointsLocked": "boolean",
       "areOverlaysVisible": "boolean",
       "pointsState": "'value' | 'number' | 'nothing'",
       "map": "#123;     version: 1     styleIndex: number     coordinates: LngLat | null     zoom: number | null   #125;"
@@ -917,7 +915,7 @@
       "version": "1",
       "units": "JSONHeavydynUnits",
       "calibrations": "JSONHeavydynCalibrations",
-      "correctionParameters?": "JSONHeavydynCorrectionParameters"
+      "correctionParameters": "JSONHeavydynCorrectionParameters"
     },
     "dependencies": [
       "JSONHeavydynUnits",
@@ -949,7 +947,8 @@
       "position": "string",
       "gain": "number",
       "acquisition": "number",
-      "type": "'LoadCell' | 'Geophone'"
+      "type": "'LoadCell' | 'Geophone'",
+      "v0": "number"
     },
     "dependencies": [],
     "extends": []
@@ -968,18 +967,14 @@
   {
     "name": "JSONHeavydynCorrectionParameters",
     "value": {
-      "isLoadCorrection": "boolean",
-      "loadParameters": "#123;     // Or boolean instead of optional object     loadReferenceSource: SelectableList#60;       LoadReferenceSourceList[number],       LoadReferenceSourceList     #62;     customValue: MathNumber   #125;",
-      "isTemperatureCorrection": "boolean",
-      "temperatureParameters": "#123;     // Temperature from #62; Temperature to     temperatureFromSource: SelectableList#60;       TemperatureFromSourceList[number],       TemperatureFromSourceList     #62;     average: SelectableList#60;       TemperatureAverageList[number],       TemperatureAverageList     #62;     customValue: MathNumber     temperatureTo: number // Given by the user, in France 15 deg celsius by default     structureType: SelectableList#60;       TemperatureStructureTypeList[number],       TemperatureStructureTypeList     #62;   #125;"
+      "version": "1",
+      "load": "#123;     readonly version: 1     readonly active: boolean     readonly loadReferenceSource: LoadReferenceSourceValue     readonly customValue: number   #125;",
+      "temperature": "#123;     readonly version: 1     readonly active: boolean     readonly temperatureFromSource: TemperatureFromSourceValue     readonly average: TemperatureAverageValue     readonly customValue: number     readonly temperatureTo: number     readonly structureType: number   #125;"
     },
     "dependencies": [
-      "SelectableList",
-      "LoadReferenceSourceList",
-      "MathNumber",
-      "TemperatureFromSourceList",
-      "TemperatureAverageList",
-      "TemperatureStructureTypeList"
+      "LoadReferenceSourceValue",
+      "TemperatureFromSourceValue",
+      "TemperatureAverageValue"
     ],
     "extends": []
   },

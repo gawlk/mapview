@@ -37,6 +37,7 @@ export const createBaseZoneFromJSON = <
     points: shallowReactive([]),
     settings: shallowReactive(json.settings),
     report: parameters.report,
+    data: shallowReactive([]),
     init: function () {
       this.points.forEach((point) => point.addToMap())
 

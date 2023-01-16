@@ -98,36 +98,30 @@ class ColorName {
 class DataCategory {
   <<interface>>
   name: string
+  saveable?: true
+  neededInExcelName?: true
 }
 
 
 
-class MathNumberObject {
+class DataFactory {
   <<interface>>
-  [key: string]: MathNumber | MathNumber[] | MathNumber[][]
+  label?: DataLabel
+  createDataValueTuple: #40;#41; =#62; DataValueTuple | []
 }
-MathNumberObject <.. MathNumber
+DataFactory <.. DataLabel~T, Unit~
 
 
-class ComputedData {
-  <<interface>>
-  raw: MathNumberObject
-  parameters: MathNumberObject
-  computed: MathNumberObject
-  compute: #40;#41; =#62; void
-}
-ComputedData <.. MathNumberObject
-
-
-class DataLabel~T~ {
+class DataLabel~T, Unit~ {
   <<interface>>
   name: string
   unit: MathUnit#60;T#62;
   category: DataCategory
-  toJSON: #40;#41; =#62; JSONDataLabel#60;T#62;
+  getFullName: #40;#41; =#62; string
+  toJSON: #40;#41; =#62; JSONDataLabel#60;Unit#62;
 }
-DataLabel~T~ <.. MathUnit~PossibleUnits~
-DataLabel~T~ <.. DataCategory
+DataLabel~T, Unit~ <.. MathUnit~PossibleUnits~
+DataLabel~T, Unit~ <.. DataCategory
 
 
 class DataLabelsFrom {
@@ -171,7 +165,7 @@ class BaseDataLabelsGroup~From~ {
   choices: SelectableList#60;DataLabel#60;string#62;#62;
 }
 BaseDataLabelsGroup~From~ <.. SelectableList~T, L~
-BaseDataLabelsGroup~From~ <.. DataLabel~T~
+BaseDataLabelsGroup~From~ <.. DataLabel~T, Unit~
 
 
 class BaseDropDataLabelsGroup~Drop~ {
@@ -202,7 +196,7 @@ class BaseTableDataLabelsParameters {
   index?: BaseDropIndex
 }
 BaseTableDataLabelsParameters <.. AnyBaseDataLabelsGroup
-BaseTableDataLabelsParameters <.. DataLabel~T~
+BaseTableDataLabelsParameters <.. DataLabel~T, Unit~
 BaseTableDataLabelsParameters <.. BaseDropIndex
 
 
@@ -389,13 +383,27 @@ MachineDropDataLabelsGroup <.. MinidynDropDataLabelsGroup
 
 class DataValue~T~ {
   <<interface>>
-  category: string
   label: DataLabel#60;T#62;
   value: MathNumber
   toJSON: #40;#41; =#62; JSONDataValue
 }
-DataValue~T~ <.. DataLabel~T~
+DataValue~T~ <.. DataLabel~T, Unit~
 DataValue~T~ <.. MathNumber
+
+
+class DataValueTuple {
+  <<type>>
+  [DataValue#60;string#62;, DataValueUpdater]
+}
+DataValueTuple <.. DataValue~T~
+DataValueTuple <.. DataValueUpdater
+
+
+class DataValueUpdater {
+  <<type>>
+  #40;   dataList: DataValue#60;string#62;[],   index?: number,   array?: DataValue#60;string#62;[][] #41; =#62; void
+}
+
 
 
 class BaseDrop~DropIndex, Point~ {
@@ -571,12 +579,12 @@ class IconName {
 
 class Line {
   <<interface>>
-  sortedPoints: MachinePoint[]
+  sortedPoints: BasePoint[]
   addToMap: #40;#41; =#62; void
   update: #40;#41; =#62; void
   remove: #40;#41; =#62; void
 }
-Line <.. MachinePoint
+Line <.. BasePoint~Drop, Zone~
 
 
 class MathNumber {
@@ -585,6 +593,7 @@ class MathNumber {
   unit: MathUnit#60;string#62;
   displayedString: string
   displayedStringWithUnit: string
+  updateValue: #40;value: number#41; =#62; void
   updateDisplayedStrings: #40;#41; =#62; void
   getLocaleString: #40;     options: MathNumberGetLocaleStringOptions   #41; =#62; string
   getValueAs: #40;unit: string#41; =#62; number
@@ -944,7 +953,7 @@ class BaseProject~Report, MathUnits~ {
   hardware: Field[]
   reports: SelectableList#60;Report#62;
   units: MathUnits
-  settings: JSONProjectSettings
+  settings: BaseProjectSettings
   overlays: Overlay[]
   acquisitionParameters: JSONAcquisitionParameters
   refreshLinesAndOverlays: #40;#41; =#62; void
@@ -955,14 +964,36 @@ class BaseProject~Report, MathUnits~ {
 }
 BaseProject~Report, MathUnits~ <.. Field
 BaseProject~Report, MathUnits~ <.. SelectableList~T, L~
+BaseProject~Report, MathUnits~ <.. BaseProjectSettings
 BaseProject~Report, MathUnits~ <.. Overlay
+
+
+class BaseProjectSettings {
+  <<interface>>
+  arePointsLocked: boolean
+}
+
+
+
+class LoadReferenceSourceValue {
+  <<type>>
+  LoadReferenceSourceList[number]
+}
+LoadReferenceSourceValue <.. LoadReferenceSourceList
 
 
 class LoadReferenceSourceList {
   <<type>>
-  ['Sequence' | 'Custom']
+  ['Sequence', 'Custom']
 }
 
+
+
+class TemperatureFromSourceValue {
+  <<type>>
+  TemperatureFromSourceList[number]
+}
+TemperatureFromSourceValue <.. TemperatureFromSourceList
 
 
 class TemperatureFromSourceList {
@@ -972,6 +1003,13 @@ class TemperatureFromSourceList {
 
 
 
+class TemperatureAverageValue {
+  <<type>>
+  TemperatureAverageList[number]
+}
+TemperatureAverageValue <.. TemperatureAverageList
+
+
 class TemperatureAverageList {
   <<type>>
   ['Point', 'Zone', 'Report', 'Custom']
@@ -979,9 +1017,16 @@ class TemperatureAverageList {
 
 
 
+class TemperatureStructureTypeValue {
+  <<type>>
+  TemperatureStructureTypeList[number]
+}
+TemperatureStructureTypeValue <.. TemperatureStructureTypeList
+
+
 class TemperatureStructureTypeList {
   <<type>>
-  ['1', '2', '3', '4']
+  [   // TODO: Translate   #123;     name: 'Souple'     k: 0.15   #125;,   #123;     name: 'Bitumineux épais'     k: 0.2   #125;,   #123;     name: 'Mixte'     k: 0.08   #125;,   #123;     name: 'Semi-rigide'     k: 0.04   #125; ]
 }
 
 
@@ -989,9 +1034,10 @@ class TemperatureStructureTypeList {
 class HeavydynProject {
   <<interface>>
   calibrations: HeavydynCalibrations
-  correctionParameters?: JSONHeavydynCorrectionParameters
+  correctionParameters: HeavydynCorrectionParameters
 }
 HeavydynProject <.. HeavydynCalibrations
+HeavydynProject <.. HeavydynCorrectionParameters
 
 
 class HeavydynCalibrations {
@@ -1002,6 +1048,23 @@ class HeavydynCalibrations {
   sensors: JSONSensor[]
 }
 
+
+
+class HeavydynCorrectionParameters {
+  <<interface>>
+  load: #123;     active: boolean     loadReferenceSource: SelectableList#60;       LoadReferenceSourceValue,       LoadReferenceSourceList     #62;     customValue: MathNumber   #125;
+  temperature: #123;     active: boolean     temperatureFromSource: SelectableList#60;       TemperatureFromSourceValue,       TemperatureFromSourceList     #62;     average: SelectableList#60;TemperatureAverageValue, TemperatureAverageList#62;     customValue: MathNumber     temperatureTo: MathNumber     structureType: SelectableList#60;       TemperatureStructureTypeValue,       TemperatureStructureTypeList     #62;   #125;
+}
+HeavydynCorrectionParameters <.. SelectableList~T, L~
+HeavydynCorrectionParameters <.. LoadReferenceSourceValue
+HeavydynCorrectionParameters <.. LoadReferenceSourceList
+HeavydynCorrectionParameters <.. MathNumber
+HeavydynCorrectionParameters <.. TemperatureFromSourceValue
+HeavydynCorrectionParameters <.. TemperatureFromSourceList
+HeavydynCorrectionParameters <.. TemperatureAverageValue
+HeavydynCorrectionParameters <.. TemperatureAverageList
+HeavydynCorrectionParameters <.. TemperatureStructureTypeValue
+HeavydynCorrectionParameters <.. TemperatureStructureTypeList
 
 
 class MaxidynProject {
@@ -1342,10 +1405,11 @@ class BaseZone~Point, Report~ {
   settings: JSONZoneSettings
   name: string
   report: Report
+  data: DataValue#60;string#62;[]
   init: #40;#41; =#62; void
   clean: #40;#41; =#62; void
 }
-
+BaseZone~Point, Report~ <.. DataValue~T~
 
 
 class HeavydynZoneCreatorParameters {
@@ -1510,6 +1574,7 @@ class SelectableList~T, L~ {
   selected: T | null
   list: L
   selectIndex: #40;index: number | null#41; =#62; void
+  getSelectedIndex: #40;#41; =#62; number | null
   toJSON: #60;TJSON, LJSON extends TJSON[] = TJSON[]#62;#40;     transform: #40;value: T#41; =#62; LJSON[number]   #41; =#62; JSONSelectableList#60;TJSON, LJSON#62;
 }
 
@@ -1525,12 +1590,15 @@ DeepRequired~T~ <.. DeepRequired~T~
 class Store {
   <<interface>>
   projects: SelectableList#60;MachineProject#62;
+  selectedProject: MachineProject | null
+  selectedReport: MachineReport | null
   map: mapboxgl.Map | null
   updateAvailable: boolean
   save: #40;key: StoreKeys, value: StoreSaveableTypes#41; =#62; void
 }
 Store <.. SelectableList~T, L~
 Store <.. MachineProject
+Store <.. MachineReport
 
 
 class StoreKeys {

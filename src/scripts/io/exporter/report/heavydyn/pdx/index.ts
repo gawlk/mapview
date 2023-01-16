@@ -207,7 +207,7 @@ const writePoints = (project: HeavydynProject) => {
     .join('')
 }
 
-const writeDrops = (point: MachinePoint, dPlate: number) => {
+const writeDrops = (point: BasePoint, dPlate: number) => {
   return point.drops
     .map((drop, index) => {
       const values = drop.data.slice(2).map((data) => {

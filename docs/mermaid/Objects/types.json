@@ -106,41 +106,32 @@
   {
     "name": "DataCategory",
     "value": {
-      "name": "string"
+      "name": "string",
+      "saveable?": "true",
+      "neededInExcelName?": "true"
     },
     "dependencies": [],
     "extends": []
   },
   {
-    "name": "MathNumberObject",
+    "name": "DataFactory",
     "value": {
-      "[key: string]": "MathNumber | MathNumber[] | MathNumber[][]"
+      "label?": "DataLabel",
+      "createDataValueTuple": "#40;#41; =#62; DataValueTuple | []"
     },
     "dependencies": [
-      "MathNumber"
+      "DataLabel"
     ],
     "extends": []
   },
   {
-    "name": "ComputedData",
-    "value": {
-      "raw": "MathNumberObject",
-      "parameters": "MathNumberObject",
-      "computed": "MathNumberObject",
-      "compute": "#40;#41; =#62; void"
-    },
-    "dependencies": [
-      "MathNumberObject"
-    ],
-    "extends": []
-  },
-  {
-    "name": "DataLabel~T~",
+    "name": "DataLabel~T, Unit~",
     "value": {
       "name": "string",
       "unit": "MathUnit#60;T#62;",
       "category": "DataCategory",
-      "toJSON": "#40;#41; =#62; JSONDataLabel#60;T#62;"
+      "getFullName": "#40;#41; =#62; string",
+      "toJSON": "#40;#41; =#62; JSONDataLabel#60;Unit#62;"
     },
     "dependencies": [
       "MathUnit",
@@ -490,7 +481,6 @@
   {
     "name": "DataValue~T~",
     "value": {
-      "category": "string",
       "label": "DataLabel#60;T#62;",
       "value": "MathNumber",
       "toJSON": "#40;#41; =#62; JSONDataValue"
@@ -500,6 +490,21 @@
       "T",
       "MathNumber"
     ],
+    "extends": []
+  },
+  {
+    "name": "DataValueTuple",
+    "value": "[DataValue#60;string#62;, DataValueUpdater]",
+    "dependencies": [
+      "DataValue",
+      "DataValueUpdater"
+    ],
+    "extends": []
+  },
+  {
+    "name": "DataValueUpdater",
+    "value": "#40;   dataList: DataValue#60;string#62;[],   index?: number,   array?: DataValue#60;string#62;[][] #41; =#62; void",
+    "dependencies": [],
     "extends": []
   },
   {
@@ -719,13 +724,13 @@
   {
     "name": "Line",
     "value": {
-      "sortedPoints": "MachinePoint[]",
+      "sortedPoints": "BasePoint[]",
       "addToMap": "#40;#41; =#62; void",
       "update": "#40;#41; =#62; void",
       "remove": "#40;#41; =#62; void"
     },
     "dependencies": [
-      "MachinePoint"
+      "BasePoint"
     ],
     "extends": []
   },
@@ -736,6 +741,7 @@
       "unit": "MathUnit#60;string#62;",
       "displayedString": "string",
       "displayedStringWithUnit": "string",
+      "updateValue": "#40;value: number#41; =#62; void",
       "updateDisplayedStrings": "#40;#41; =#62; void",
       "getLocaleString": "#40;     options: MathNumberGetLocaleStringOptions   #41; =#62; string",
       "getValueAs": "#40;unit: string#41; =#62; number"
@@ -1138,7 +1144,7 @@
       "hardware": "Field[]",
       "reports": "SelectableList#60;Report#62;",
       "units": "MathUnits",
-      "settings": "JSONProjectSettings",
+      "settings": "BaseProjectSettings",
       "overlays": "Overlay[]",
       "acquisitionParameters": "JSONAcquisitionParameters",
       "refreshLinesAndOverlays": "#40;#41; =#62; void",
@@ -1152,7 +1158,7 @@
       "SelectableList",
       "Report",
       "MathUnits",
-      "JSONProjectSettings",
+      "BaseProjectSettings",
       "Overlay",
       "JSONAcquisitionParameters"
     ],
@@ -1161,9 +1167,35 @@
     ]
   },
   {
-    "name": "LoadReferenceSourceList",
-    "value": "['Sequence' | 'Custom']",
+    "name": "BaseProjectSettings",
+    "value": {
+      "arePointsLocked": "boolean"
+    },
     "dependencies": [],
+    "extends": [
+      "JSONProjectSettings"
+    ]
+  },
+  {
+    "name": "LoadReferenceSourceValue",
+    "value": "LoadReferenceSourceList[number]",
+    "dependencies": [
+      "LoadReferenceSourceList"
+    ],
+    "extends": []
+  },
+  {
+    "name": "LoadReferenceSourceList",
+    "value": "['Sequence', 'Custom']",
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "TemperatureFromSourceValue",
+    "value": "TemperatureFromSourceList[number]",
+    "dependencies": [
+      "TemperatureFromSourceList"
+    ],
     "extends": []
   },
   {
@@ -1173,14 +1205,30 @@
     "extends": []
   },
   {
+    "name": "TemperatureAverageValue",
+    "value": "TemperatureAverageList[number]",
+    "dependencies": [
+      "TemperatureAverageList"
+    ],
+    "extends": []
+  },
+  {
     "name": "TemperatureAverageList",
     "value": "['Point', 'Zone', 'Report', 'Custom']",
     "dependencies": [],
     "extends": []
   },
   {
+    "name": "TemperatureStructureTypeValue",
+    "value": "TemperatureStructureTypeList[number]",
+    "dependencies": [
+      "TemperatureStructureTypeList"
+    ],
+    "extends": []
+  },
+  {
     "name": "TemperatureStructureTypeList",
-    "value": "['1', '2', '3', '4']",
+    "value": "[   // TODO: Translate   #123;     name: 'Souple'     k: 0.15   #125;,   #123;     name: 'Bitumineux épais'     k: 0.2   #125;,   #123;     name: 'Mixte'     k: 0.08   #125;,   #123;     name: 'Semi-rigide'     k: 0.04   #125; ]",
     "dependencies": [],
     "extends": []
   },
@@ -1188,11 +1236,11 @@
     "name": "HeavydynProject",
     "value": {
       "calibrations": "HeavydynCalibrations",
-      "correctionParameters?": "JSONHeavydynCorrectionParameters"
+      "correctionParameters": "HeavydynCorrectionParameters"
     },
     "dependencies": [
       "HeavydynCalibrations",
-      "JSONHeavydynCorrectionParameters"
+      "HeavydynCorrectionParameters"
     ],
     "extends": [
       "HeavydynObject",
@@ -1211,6 +1259,26 @@
       "Date",
       "JSONChannel",
       "JSONSensor"
+    ],
+    "extends": []
+  },
+  {
+    "name": "HeavydynCorrectionParameters",
+    "value": {
+      "load": "#123;     active: boolean     loadReferenceSource: SelectableList#60;       LoadReferenceSourceValue,       LoadReferenceSourceList     #62;     customValue: MathNumber   #125;",
+      "temperature": "#123;     active: boolean     temperatureFromSource: SelectableList#60;       TemperatureFromSourceValue,       TemperatureFromSourceList     #62;     average: SelectableList#60;TemperatureAverageValue, TemperatureAverageList#62;     customValue: MathNumber     temperatureTo: MathNumber     structureType: SelectableList#60;       TemperatureStructureTypeValue,       TemperatureStructureTypeList     #62;   #125;"
+    },
+    "dependencies": [
+      "SelectableList",
+      "LoadReferenceSourceValue",
+      "LoadReferenceSourceList",
+      "MathNumber",
+      "TemperatureFromSourceValue",
+      "TemperatureFromSourceList",
+      "TemperatureAverageValue",
+      "TemperatureAverageList",
+      "TemperatureStructureTypeValue",
+      "TemperatureStructureTypeList"
     ],
     "extends": []
   },
@@ -1651,13 +1719,15 @@
       "settings": "JSONZoneSettings",
       "name": "string",
       "report": "Report",
+      "data": "DataValue#60;string#62;[]",
       "init": "#40;#41; =#62; void",
       "clean": "#40;#41; =#62; void"
     },
     "dependencies": [
       "Point",
       "JSONZoneSettings",
-      "Report"
+      "Report",
+      "DataValue"
     ],
     "extends": [
       "BaseObject"
@@ -1874,6 +1944,7 @@
       "selected": "T | null",
       "list": "L",
       "selectIndex": "#40;index: number | null#41; =#62; void",
+      "getSelectedIndex": "#40;#41; =#62; number | null",
       "toJSON": "#60;TJSON, LJSON extends TJSON[] = TJSON[]#62;#40;     transform: #40;value: T#41; =#62; LJSON[number]   #41; =#62; JSONSelectableList#60;TJSON, LJSON#62;"
     },
     "dependencies": [
@@ -1897,6 +1968,8 @@
     "name": "Store",
     "value": {
       "projects": "SelectableList#60;MachineProject#62;",
+      "selectedProject": "MachineProject | null",
+      "selectedReport": "MachineReport | null",
       "map": "mapboxgl.Map | null",
       "updateAvailable": "boolean",
       "save": "#40;key: StoreKeys, value: StoreSaveableTypes#41; =#62; void"
@@ -1904,6 +1977,7 @@
     "dependencies": [
       "SelectableList",
       "MachineProject",
+      "MachineReport",
       "mapboxgl.Map"
     ],
     "extends": []

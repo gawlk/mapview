@@ -13,16 +13,7 @@ export const createMaxidynThresholdsGroupsFromJSON = (
       unit: units.modulus,
       choices: createSelectableList(
         [
-          defaultThresholds.ns,
-          defaultThresholds.ar1,
-          defaultThresholds.ar2,
-          defaultThresholds.ar3,
-          defaultThresholds.ar4,
-          defaultThresholds.pf1,
-          defaultThresholds.pf2,
-          defaultThresholds['pf2+'],
-          defaultThresholds.pf3,
-          defaultThresholds.pf4,
+          ...defaultThresholds.modulus,
           createCustomThreshold(json.modulus.custom),
         ] as ThresoldsList,
         {

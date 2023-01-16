@@ -1,5 +1,7 @@
 interface Store {
   readonly projects: SelectableList<MachineProject>
+  selectedProject: MachineProject | null
+  selectedReport: MachineReport | null
   map: mapboxgl.Map | null
   updateAvailable: boolean
   readonly save: (key: StoreKeys, value: StoreSaveableTypes) => void

@@ -16,6 +16,7 @@
 
 <template>
   <Select
+    v-if="selectedReport?.dataLabels.table.selected?.group.from !== 'Zone'"
     :icon="IconViewGrid"
     :values="[t('Number'), t('Zone')]"
     :preSelected="`${t('Group by')}${t(':')}`"

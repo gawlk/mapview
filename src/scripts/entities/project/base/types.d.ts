@@ -21,7 +21,7 @@ interface JSONProjectSettings {
   readonly version: 1
   arePointsVisible: boolean
   arePointsLinked: boolean
-  arePointsLocked: boolean
+  // arePointsLocked: boolean
   areOverlaysVisible: boolean
   pointsState: 'value' | 'number' | 'nothing'
   readonly map: {
@@ -53,7 +53,7 @@ interface BaseProject<
   readonly hardware: Field[]
   readonly reports: SelectableList<Report>
   readonly units: MathUnits
-  readonly settings: JSONProjectSettings
+  readonly settings: BaseProjectSettings
   readonly overlays: Overlay[]
   readonly acquisitionParameters: JSONAcquisitionParameters
   readonly refreshLinesAndOverlays: () => void
@@ -61,4 +61,8 @@ interface BaseProject<
   readonly fitOnMap: () => void
   readonly addToMap: () => void
   readonly remove: () => void
+}
+
+interface BaseProjectSettings extends JSONProjectSettings {
+  arePointsLocked: boolean
 }

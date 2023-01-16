@@ -48,7 +48,7 @@
     const index = props.selectedList?.findIndex((v) => v === value)
 
     return typeof index === 'number' && index !== -1
-      ? ` (${t('Column')} ${index + 1})`
+      ? ` - ${t('Column')} ${index + 1}`
       : ''
   }
 

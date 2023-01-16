@@ -1,3 +1,2 @@
-export const baseCategory: DataCategory = {
-  name: 'Base',
-}
+export * from './base'
+export * from './heavydyn'

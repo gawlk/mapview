@@ -27,9 +27,7 @@
     () => selectedReport.value?.dataLabels.groups.selected?.choices.selected
   )
 
-  const selectedUnit = computed(
-    () => selectedDataLabel.value?.unit as MathUnit<string> | undefined
-  )
+  const selectedUnit = computed(() => selectedDataLabel.value?.unit)
 
   const currentThresholdsGroup = computed(
     () =>
@@ -75,26 +73,29 @@
     v-if="selectedReport && typeof selectedUnit === 'object'"
     :icon="IconFold"
   >
-    <Listbox
-      :icon="IconViewList"
-      :values="
-        currentThresholdsGroup?.choices.list.map((threshold) =>
-          t(threshold.name)
-        )
-      "
-      @selectIndex="
-        (index) =>
-          currentThresholdsGroup &&
-          (currentThresholdsGroup.choices.selected =
-            currentThresholdsGroup.choices.list[index])
-      "
-      :preSelected="`${t('Selected')}${t(':')}`"
-      :selected="t(currentThresholdsGroup?.choices.selected?.name || '')"
-      full
-    />
-    <Divider
-      v-if="currentThresholdsGroup?.choices.selected?.kind === 'custom'"
-    />
+    <div
+      class="space-y-2"
+      :hidden="currentThresholdsGroup?.choices.list.length === 1"
+    >
+      <Listbox
+        :icon="IconViewList"
+        :values="
+          currentThresholdsGroup?.choices.list.map((threshold) =>
+            t(threshold.name)
+          )
+        "
+        @selectIndex="
+          (index) =>
+            currentThresholdsGroup &&
+            (currentThresholdsGroup.choices.selected =
+              currentThresholdsGroup.choices.list[index])
+        "
+        :preSelected="`${t('Selected')}${t(':')}`"
+        :selected="t(currentThresholdsGroup?.choices.selected?.name || '')"
+        full
+      />
+      <Divider />
+    </div>
     <Listbox
       v-if="currentThresholdsGroup?.choices.selected?.kind === 'custom'"
       :icon="IconColorSwatch"
@@ -121,7 +122,7 @@
         selectedUnit.baseUnit,
         selectedUnit.currentUnit
       ).toLocaleString()} ${selectedUnit?.currentUnit} ≤ ${t(
-        selectedDataLabel?.name || ''
+        selectedDataLabel?.getFullName() || ''
       )} < ${formattedTresholdValue}`"
     />
     <InputNumberSwitchable
@@ -145,13 +146,6 @@
                 selectedUnit.currentUnit,
                 selectedUnit.baseUnit
               )
-              
-              // value =
-              //   value < selectedUnit.min
-              //     ? selectedUnit.min
-              //     : selectedUnit.max && value > selectedUnit.max
-              //     ? selectedUnit.max
-              //     : value
 
               ;(currentThresholdsGroup.choices.selected as CustomThreshold).value = value
 
@@ -180,7 +174,7 @@
           selectedReport && (selectedReport.thresholds.colors.middle = color)
         }"
         :text="`${formattedTresholdValue} ≤ ${t(
-          selectedDataLabel?.name || ''
+          selectedDataLabel?.getFullName() || ''
         )} < ${formattedTresholdValueHigh}`"
       />
       <Button
@@ -204,7 +198,7 @@
       >
         {{
           `${formattedTresholdValue} ≤ ${t(
-            selectedDataLabel?.name || ''
+            selectedDataLabel?.getFullName() || ''
           )} < ${formattedTresholdValueHigh}`
         }}
       </Button>
@@ -219,28 +213,28 @@
             (selectedReport.thresholds.inputs.isOptionalARange = value)
         "
         @input="
-            (value) => {
+          (value) => {
+            if (
+              selectedUnit &&
+              currentThresholdsGroup?.choices.selected?.kind === 'custom'
+            ) {
+              value = convertValueFromUnitAToUnitB(
+                value,
+                selectedUnit.currentUnit,
+                selectedUnit.baseUnit
+              )
+
+              currentThresholdsGroup.choices.selected.valueHigh = value
+
               if (
-                selectedUnit &&
-                currentThresholdsGroup?.choices.selected?.kind === 'custom'
+                currentThresholdsGroup.choices.selected.value >
+                currentThresholdsGroup.choices.selected.valueHigh
               ) {
-                value = convertValueFromUnitAToUnitB(
-                  value as number,
-                  selectedUnit.currentUnit,
-                  selectedUnit.baseUnit
-                )
-
-                currentThresholdsGroup.choices.selected.valueHigh = value
-
-                if (
-                  currentThresholdsGroup.choices.selected.value >
-                  currentThresholdsGroup.choices.selected.valueHigh
-                ) {
-                  currentThresholdsGroup.choices.selected.value = value
-                }
+                currentThresholdsGroup.choices.selected.value = value
               }
             }
-          "
+          }
+        "
       />
     </div>
     <ListboxColors
@@ -254,7 +248,7 @@
         currentThresholdsGroup?.choices.selected.type !== 'Tricolor'
           ? formattedTresholdValue
           : formattedTresholdValueHigh
-      } ≤ ${t(selectedDataLabel?.name || '')} ≤ ${
+      } ≤ ${t(selectedDataLabel?.getFullName() || '')} ≤ ${
         selectedUnit.max
           ? convertValueFromUnitAToUnitB(
               selectedUnit.max,

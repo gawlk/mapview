@@ -13,6 +13,8 @@ export const createHeavydynZoneFromJSON = (
 ) => {
   json = upgradeJSON(json)
 
+  // TODO: Add average of all temps of points
+
   const zone: HeavydynZone = shallowReactive({
     ...createBaseZoneFromJSON(json.base, {
       report: parameters.report,

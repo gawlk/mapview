@@ -10,7 +10,9 @@ export class ExtendedBinaryReader {
   private read(length: number): DataView {
     const buffer = this.buffer.slice(this.cursor, (this.cursor += length))
 
-    return new DataView(buffer, 0, length)
+    const dataView = new DataView(buffer, 0, length)
+
+    return dataView
   }
 
   public readInt8(): number {

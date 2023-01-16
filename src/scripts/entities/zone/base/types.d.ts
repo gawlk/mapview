@@ -29,6 +29,7 @@ interface BaseZone<
   readonly settings: JSONZoneSettings
   name: string
   report: Report
+  data: DataValue<string>[]
   readonly init: () => void
   readonly clean: () => void
 }

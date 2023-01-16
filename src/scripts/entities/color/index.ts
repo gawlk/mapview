@@ -1,11 +1,6 @@
 export const colorsClasses: {
   [color: string]: Color
 } = {
-  // black: {
-  //   buttonColors: 'bg-black hover:bg-gray-900 text-white',
-  //   iconsClasses: 'text-gray-500 group-hover:text-gray-400',
-  //   hexColor: '#000000',
-  // },
   white: {
     buttonColors: 'bg-white hover:bg-gray-100 text-black',
     iconsClasses: 'text-gray-500 group-hover:text-gray-600',

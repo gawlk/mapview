@@ -26,7 +26,7 @@ export const importScreenshotsFromZIP = (
 
         const data64 = convertUint8ArrayToData64Image(
           array,
-          screenshotFileName.split('.').pop() as string
+          String(screenshotFileName.split('.').pop())
         )
 
         project.reports.list[index]?.screenshots.push(data64)

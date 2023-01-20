@@ -10,15 +10,12 @@ import {
   createBaseReportFromJSON,
 } from '../base'
 
-interface MinidynReportCreatorParameters
-  extends MachineReportCreatorParameters {
-  project: MinidynProject
-}
-
 export const createMinidynReportFromJSON = (
   json: JSONMinidynReport,
   map: mapboxgl.Map | null,
-  parameters: MinidynReportCreatorParameters
+  parameters: {
+    project: MinidynProject
+  }
 ) => {
   json = upgradeJSON(json)
 

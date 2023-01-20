@@ -1,5 +1,5 @@
 export * from './category'
-export * from './factory'
+export * from './computer'
 export * from './label'
 export * from './labels'
 export * from './value'

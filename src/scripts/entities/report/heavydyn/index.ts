@@ -1,8 +1,16 @@
 import {
+  createBLIDataComputer,
+  createCharacteristicDeflectionComputer, // createCharacteristicDeflectionFactory,
+  // createCumSumDataCompute,
+  // createCurvatureRadiusDataCompute,
+  createHeavydynCurrentDropDataComputers,
   createHeavydynDataLabelsFromJSON,
+  createHeavydynSurfaceModulusDataComputers, // createHeavydynSurfaceModulusDataFactories,
   createHeavydynThresholdsGroupsFromJSON,
   createHeavydynZoneFromJSON,
   createJSONBaseZone,
+  createLLIDataComputer,
+  createMLIDataComputer,
   createWatcherHandler,
 } from '/src/scripts'
 
@@ -11,15 +19,12 @@ import {
   createBaseReportFromJSON,
 } from '../base'
 
-interface HeavydynReportCreatorParameters
-  extends MachineReportCreatorParameters {
-  project: HeavydynProject
-}
-
 export const createHeavydynReportFromJSON = (
   json: JSONHeavydynReport,
   map: mapboxgl.Map | null,
-  parameters: HeavydynReportCreatorParameters
+  parameters: {
+    project: HeavydynProject
+  }
 ) => {
   json = upgradeJSON(json)
 
@@ -91,9 +96,7 @@ export const createHeavydynReportFromJSON = (
       }
     },
     addToMap: function () {
-      // TODO: To test
-
-      baseReport.addToMap.call(report) // Has to be .call because baseReport isn't reactive
+      baseReport.addToMap.call(report)
 
       report.dataLabels.groups.list[0].indexes.list.forEach((dropIndex) => {
         if (typeof dropIndex.value.unit === 'object') {
@@ -119,6 +122,111 @@ export const createHeavydynReportFromJSON = (
       })
     )
   )
+
+  // Warning: Order matters
+  ;[
+    ...createHeavydynCurrentDropDataComputers(report), // Needs to be first
+    createBLIDataComputer(report),
+    createMLIDataComputer(report),
+    createLLIDataComputer(report),
+    ...createHeavydynSurfaceModulusDataComputers(report),
+    createCharacteristicDeflectionComputer(report),
+  ].forEach((computer) => computer?.init())
+
+  // const dropDataLabels = report.dataLabels.groups.list[0].choices.list
+  // const zoneDataLabels = report.dataLabels.groups.list[2].choices.list
+
+  // const units = parameters.project.units
+
+  // const dropDataFactories = [
+  //   ...,
+  //   // createBLIDataCompute(dropDataLabels, units),
+  //   // createMLIDataCompute(dropDataLabels, units),
+  //   // createLLIDataCompute(dropDataLabels, units),
+  //   // ...createHeavydynSurfaceModulusDataFactories(dropDataLabels, units),
+  //   // createCurvatureRadiusDataCompute(dropDataLabels, units),
+  //   // createCumSumDataCompute(dropDataLabels, units),
+  // ]
+
+  // dropDataLabels.push(
+  //   ...(dropDataFactories.filter((factory) => factory) as DataCompute[]).map(
+  //     (factory) => factory.label
+  //   )
+  // )
+
+  // const zoneCharacteristicDeflectionFactory =
+  // createCharacteristicDeflectionFactory(dropDataLabels, units)
+
+  // const zoneFactories = [zoneCharacteristicDeflectionFactory]
+
+  // TODO: Clean dataLabels before
+  // zoneDataLabels.push(
+  //   ...(zoneFactories
+  //     .map((factory) => factory.label)
+  //     .filter((label) => label) as DataLabel[])
+  // )
+
+  // watcherHandler.add(
+  //   watch(
+  //     () => report.zones.length,
+  //     () => {
+  //       console.log('update report.zones.length')
+
+  //       report.zones.forEach((zone, index, list) => {
+  //         zone.data.length = 0
+
+  //         zone.points.forEach((point) => {
+  //           point.drops.forEach((drop, index, drops) => {
+  //             dropDataFactories.forEach((factory) => {
+  //               // TODO: Fix this (queue removed)
+
+  //               const [value, updater] = factory.createDataValueTuple()
+
+  //               if (value && updater) {
+  //                 drop.data.push(value)
+
+  //                 updater(drop.data)
+  //               }
+  //             })
+  //           })
+  //         })
+
+  //         // update zone data
+
+  //         // Deflection caracteristique
+  //         // Prevoir choix du numero du drop - par defaut dernier
+
+  //         const [value, updater] =
+  //           zoneCharacteristicDeflectionFactory.createDataValueTuple()
+
+  //         if (value && updater) {
+  //           zone.data.push(value)
+
+  //           watcherHandler.add(
+  //             watch(
+  //               () => zone.points.length,
+  //               () => {
+  //                 console.log('update zone.points.length', zone.name)
+
+  //                 updater(
+  //                   zone.points
+  //                     .map((point) => (point.drops.at(-1) as HeavydynDrop).data)
+  //                     .flat()
+  //                 )
+  //               },
+  //               {
+  //                 immediate: true,
+  //               }
+  //             )
+  //           )
+  //         }
+  //       })
+  //     },
+  //     {
+  //       immediate: true,
+  //     }
+  //   )
+  // )
 
   return report as HeavydynReport
 }

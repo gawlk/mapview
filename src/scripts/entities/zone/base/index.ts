@@ -64,6 +64,7 @@ export const createBaseZoneFromJSON = <
         )
       )
 
+      // TODO: Move all or a part to report
       watcherHandler.add(
         watch(
           () => this.points.length,

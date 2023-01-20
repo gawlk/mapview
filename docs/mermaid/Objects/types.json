@@ -114,10 +114,17 @@
     "extends": []
   },
   {
-    "name": "DataFactory",
+    "name": "DataCompute",
+    "value": "#40;label: DataLabel#41; =#62; void",
+    "dependencies": [],
+    "extends": []
+  },
+  {
+    "name": "DataComputer",
     "value": {
-      "label?": "DataLabel",
-      "createDataValueTuple": "#40;#41; =#62; DataValueTuple | []"
+      "label": "DataLabel",
+      "init": "#40;#41; =#62; void",
+      "clean": "#40;#41; =#62; void"
     },
     "dependencies": [
       "DataLabel"
@@ -1393,18 +1400,6 @@
     ]
   },
   {
-    "name": "HeavydynReportCreatorParameters",
-    "value": {
-      "project": "HeavydynProject"
-    },
-    "dependencies": [
-      "HeavydynProject"
-    ],
-    "extends": [
-      "MachineReportCreatorParameters"
-    ]
-  },
-  {
     "name": "HeavydynReport",
     "value": {
       "addZone": "#40;#41; =#62; void"
@@ -1416,18 +1411,6 @@
     ]
   },
   {
-    "name": "MaxidynReportCreatorParameters",
-    "value": {
-      "project": "MaxidynProject"
-    },
-    "dependencies": [
-      "MaxidynProject"
-    ],
-    "extends": [
-      "MachineReportCreatorParameters"
-    ]
-  },
-  {
     "name": "MaxidynReport",
     "value": {
       "addZone": "#40;#41; =#62; void"
@@ -1436,18 +1419,6 @@
     "extends": [
       "MaxidynObject",
       "BaseReport"
-    ]
-  },
-  {
-    "name": "MinidynReportCreatorParameters",
-    "value": {
-      "project": "MinidynProject"
-    },
-    "dependencies": [
-      "MinidynProject"
-    ],
-    "extends": [
-      "MachineReportCreatorParameters"
     ]
   },
   {
@@ -1468,16 +1439,6 @@
       "HeavydynReport",
       "MaxidynReport",
       "MinidynReport"
-    ],
-    "extends": []
-  },
-  {
-    "name": "MachineReportCreatorParameters",
-    "value": {
-      "project": "MachineProject"
-    },
-    "dependencies": [
-      "MachineProject"
     ],
     "extends": []
   },

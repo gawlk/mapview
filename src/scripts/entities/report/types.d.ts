@@ -22,11 +22,3 @@ type JSONMachineDataLabelsGroups =
 // ---
 
 type MachineReport = HeavydynReport | MaxidynReport | MinidynReport
-
-// ---
-// Parameters
-// ---
-
-interface MachineReportCreatorParameters {
-  readonly project: MachineProject
-}

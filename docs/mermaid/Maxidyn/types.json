@@ -432,18 +432,6 @@
     ]
   },
   {
-    "name": "MaxidynReportCreatorParameters",
-    "value": {
-      "project": "MaxidynProject"
-    },
-    "dependencies": [
-      "MaxidynProject"
-    ],
-    "extends": [
-      "MachineReportCreatorParameters"
-    ]
-  },
-  {
     "name": "JSONMaxidynReportVAny",
     "value": "JSONMaxidynReport",
     "dependencies": [

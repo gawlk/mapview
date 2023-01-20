@@ -104,12 +104,20 @@ class DataCategory {
 
 
 
-class DataFactory {
-  <<interface>>
-  label?: DataLabel
-  createDataValueTuple: #40;#41; =#62; DataValueTuple | []
+class DataCompute {
+  <<type>>
+  #40;label: DataLabel#41; =#62; void
 }
-DataFactory <.. DataLabel~T, Unit~
+
+
+
+class DataComputer {
+  <<interface>>
+  label: DataLabel
+  init: #40;#41; =#62; void
+  clean: #40;#41; =#62; void
+}
+DataComputer <.. DataLabel~T, Unit~
 
 
 class DataLabel~T, Unit~ {
@@ -1152,13 +1160,6 @@ BaseReport~Project, Zone, DataLabels, Thresholds~ <.. Field
 BaseReport~Project, Zone, DataLabels, Thresholds~ <.. Line
 
 
-class HeavydynReportCreatorParameters {
-  <<interface>>
-  project: HeavydynProject
-}
-HeavydynReportCreatorParameters <.. HeavydynProject
-MachineReportCreatorParameters <|-- HeavydynReportCreatorParameters
-
 class HeavydynReport {
   <<interface>>
   addZone: #40;#41; =#62; void
@@ -1166,26 +1167,12 @@ class HeavydynReport {
 
 
 
-class MaxidynReportCreatorParameters {
-  <<interface>>
-  project: MaxidynProject
-}
-MaxidynReportCreatorParameters <.. MaxidynProject
-MachineReportCreatorParameters <|-- MaxidynReportCreatorParameters
-
 class MaxidynReport {
   <<interface>>
   addZone: #40;#41; =#62; void
 }
 
 
-
-class MinidynReportCreatorParameters {
-  <<interface>>
-  project: MinidynProject
-}
-MinidynReportCreatorParameters <.. MinidynProject
-MachineReportCreatorParameters <|-- MinidynReportCreatorParameters
 
 class MinidynReport {
   <<interface>>
@@ -1201,13 +1188,6 @@ class MachineReport {
 MachineReport <.. HeavydynReport
 MachineReport <.. MaxidynReport
 MachineReport <.. MinidynReport
-
-
-class MachineReportCreatorParameters {
-  <<interface>>
-  project: MachineProject
-}
-MachineReportCreatorParameters <.. MachineProject
 
 
 class BaseThresholds~ThresholdsGroups~ {

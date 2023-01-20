@@ -486,18 +486,6 @@
     "extends": []
   },
   {
-    "name": "HeavydynReportCreatorParameters",
-    "value": {
-      "project": "HeavydynProject"
-    },
-    "dependencies": [
-      "HeavydynProject"
-    ],
-    "extends": [
-      "MachineReportCreatorParameters"
-    ]
-  },
-  {
     "name": "JSONHeavydynReportVAny",
     "value": "JSONHeavydynReport",
     "dependencies": [

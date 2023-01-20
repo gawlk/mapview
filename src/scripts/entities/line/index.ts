@@ -9,7 +9,7 @@ export const createLine = (map: mapboxgl.Map | null): Line => {
   const watcherHandler = createWatcherHandler()
 
   const line: Line = shallowReactive({
-    sortedPoints: [] as BasePoint[],
+    sortedPoints: shallowReactive([] as BasePoint[]),
     addToMap: function () {
       map?.addLayer(
         {

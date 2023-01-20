@@ -431,18 +431,6 @@
     ]
   },
   {
-    "name": "MinidynReportCreatorParameters",
-    "value": {
-      "project": "MinidynProject"
-    },
-    "dependencies": [
-      "MinidynProject"
-    ],
-    "extends": [
-      "MachineReportCreatorParameters"
-    ]
-  },
-  {
     "name": "JSONMinidynReportVAny",
     "value": "JSONMinidynReport",
     "dependencies": [

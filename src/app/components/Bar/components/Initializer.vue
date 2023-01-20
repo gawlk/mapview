@@ -28,11 +28,11 @@
 
   const openDemo = async () => {
     if (demoHeavydyn && demoMaxidyn && demoMinidyn) {
-      const project = await importFile(demoMinidyn)
+      const project = await importFile(demoHeavydyn)
       store.projects.selected = project
 
       importFile(demoMaxidyn)
-      importFile(demoHeavydyn)
+      importFile(demoMinidyn)
     }
   }
 

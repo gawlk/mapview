@@ -10,15 +10,12 @@ import {
   createBaseReportFromJSON,
 } from '../base'
 
-interface MaxidynReportCreatorParameters
-  extends MachineReportCreatorParameters {
-  project: MaxidynProject
-}
-
 export const createMaxidynReportFromJSON = (
   json: JSONMaxidynReport,
   map: mapboxgl.Map | null,
-  parameters: MaxidynReportCreatorParameters
+  parameters: {
+    project: MaxidynProject
+  }
 ) => {
   json = upgradeJSON(json)
 

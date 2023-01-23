@@ -9,6 +9,7 @@ export const createHeavydynMathUnitsFromJSON = (
       ['1/100 mm', 0],
       ['um', 0],
     ]),
+    modulus: createMathUnit('Modulus', json.modulus, 'Pa', [['MPa', 2]]),
     force: createMathUnit('Force', json.force, 'N', [
       ['N', 0],
       ['kN', 0],

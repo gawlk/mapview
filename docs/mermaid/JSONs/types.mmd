@@ -10,7 +10,7 @@ class JSONDataLabel~T~ {
   <<interface>>
   version: 1
   name: string
-  unit: T
+  unit?: T
 }
 
 
@@ -509,7 +509,7 @@ class JSONMathUnit~PossibleUnits~ {
 
 class JSONHeavydynUnits {
   <<type>>
-  HeavydynUnitsSkeleton#60;   JSONMathUnit#60;PossibleHeavydynDeflectionUnits#62;,   JSONMathUnit#60;PossibleHeavydynForceUnits#62;,   JSONMathUnit#60;PossibleHeavydynTemperatureUnits#62;,   JSONMathUnit#60;PossibleHeavydynDistanceUnits#62;,   JSONMathUnit#60;PossibleHeavydynTimeUnits#62; #62;
+  HeavydynUnitsSkeleton#60;   JSONMathUnit#60;PossibleHeavydynDeflectionUnits#62;,   JSONMathUnit#60;PossibleHeavydynForceUnits#62;,   JSONMathUnit#60;PossibleHeavydynTemperatureUnits#62;,   JSONMathUnit#60;PossibleHeavydynDistanceUnits#62;,   JSONMathUnit#60;PossibleHeavydynTimeUnits#62;,   JSONMathUnit#60;PossibleHeavydynModulusUnits#62; #62;
 }
 JSONHeavydynUnits <.. JSONMathUnit~PossibleUnits~
 

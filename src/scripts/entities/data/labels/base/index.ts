@@ -4,6 +4,9 @@ import {
   rawCategory,
 } from '/src/scripts'
 
+const convertFromToIndex = (from: DataLabelsFrom) =>
+  from === 'Drop' ? 0 : from === 'Test' ? 1 : 2
+
 export const createBaseDataLabelsFromJSON = (
   jsonTable: JSONSelectableList<JSONTableDataLabelsParameters>,
   groups: SelectableList<AnyBaseDataLabelsGroup, BaseDataLabelsGroups>
@@ -18,6 +21,17 @@ export const createBaseDataLabelsFromJSON = (
   return shallowReactive({
     groups,
     table,
+    getList: (from: DataLabelsFrom) =>
+      groups.list[convertFromToIndex(from)].choices.list,
+    findIn: (from: DataLabelsFrom, name: string, category?: DataCategory) =>
+      groups.list[convertFromToIndex(from)].choices.list.find(
+        (label) =>
+          label.name === name && (category ? label.category === category : true)
+      ),
+    pushTo: (from: DataLabelsFrom, label: DataLabel) =>
+      groups.list[convertFromToIndex(from)].choices.list.push(label)
+        ? label
+        : undefined,
     toBaseJSON: function () {
       return {
         version: 1,

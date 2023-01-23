@@ -57,13 +57,13 @@
     :values="
       groupedDataLabels?.selected?.choices.list.map(
         (dataLabel) =>
-          `${t(dataLabel.getFullName())} - ${t(dataLabel.unit.name)}`
+          `${t(dataLabel.getFullName())} - ${t(dataLabel.unit?.name || '')}`
       )
     "
     :preSelected="`${t('Selected')}${t(':')}`"
     :selected="`${t(
       groupedDataLabels?.selected?.choices.selected?.getFullName() || ''
-    )} - ${t(groupedDataLabels?.selected?.choices.selected?.unit.name || '')}`"
+    )} - ${t(groupedDataLabels?.selected?.choices.selected?.unit?.name || '')}`"
     @selectIndex="
       (index) =>
         groupedDataLabels?.selected &&

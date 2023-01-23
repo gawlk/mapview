@@ -135,7 +135,7 @@
     "name": "DataLabel~T, Unit~",
     "value": {
       "name": "string",
-      "unit": "MathUnit#60;T#62;",
+      "unit?": "MathUnit#60;T#62;",
       "category": "DataCategory",
       "getFullName": "#40;#41; =#62; string",
       "toJSON": "#40;#41; =#62; JSONDataLabel#60;Unit#62;"
@@ -157,7 +157,10 @@
     "name": "BaseDataLabels",
     "value": {
       "groups": "SelectableList#60;AnyBaseDataLabelsGroup, BaseDataLabelsGroups#62;",
-      "table": "SelectableList#60;BaseTableDataLabelsParameters#62;"
+      "table": "SelectableList#60;BaseTableDataLabelsParameters#62;",
+      "getList": "#40;from: DataLabelsFrom#41; =#62; DataLabel#60;string, string#62;[]",
+      "findIn": "#40;     from: DataLabelsFrom,     name: string,     category?: DataCategory   #41; =#62; DataLabel#60;string, string#62; | undefined",
+      "pushTo": "#40;     from: DataLabelsFrom,     label: DataLabel   #41; =#62; DataLabel#60;string, string#62; | undefined"
     },
     "dependencies": [
       "SelectableList",
@@ -745,7 +748,7 @@
     "name": "MathNumber",
     "value": {
       "value": "number",
-      "unit": "MathUnit#60;string#62;",
+      "unit?": "MathUnit#60;string#62;",
       "displayedString": "string",
       "displayedStringWithUnit": "string",
       "updateValue": "#40;value: number#41; =#62; void",
@@ -793,20 +796,22 @@
     "extends": []
   },
   {
-    "name": "HeavydynUnitsSkeleton~A, B, C, D, E~",
+    "name": "HeavydynUnitsSkeleton~A, B, C, D, E, F~",
     "value": {
       "deflection": "A",
       "force": "B",
       "temperature": "C",
       "distance": "D",
-      "time": "E"
+      "time": "E",
+      "modulus": "F"
     },
     "dependencies": [
       "A",
       "B",
       "C",
       "D",
-      "E"
+      "E",
+      "F"
     ],
     "extends": []
   },
@@ -849,8 +854,14 @@
     "extends": []
   },
   {
+    "name": "PossibleHeavydynModulusUnits",
+    "value": "'MPa'",
+    "dependencies": [],
+    "extends": []
+  },
+  {
     "name": "HeavydynMathUnits",
-    "value": "HeavydynUnitsSkeleton#60;   MathUnit#60;PossibleHeavydynDeflectionUnits#62;,   MathUnit#60;PossibleHeavydynForceUnits#62;,   MathUnit#60;PossibleHeavydynTemperatureUnits#62;,   MathUnit#60;PossibleHeavydynDistanceUnits#62;,   MathUnit#60;PossibleHeavydynTimeUnits#62; #62;",
+    "value": "HeavydynUnitsSkeleton#60;   MathUnit#60;PossibleHeavydynDeflectionUnits#62;,   MathUnit#60;PossibleHeavydynForceUnits#62;,   MathUnit#60;PossibleHeavydynTemperatureUnits#62;,   MathUnit#60;PossibleHeavydynDistanceUnits#62;,   MathUnit#60;PossibleHeavydynTimeUnits#62;,   MathUnit#60;PossibleHeavydynModulusUnits#62; #62;",
     "dependencies": [
       "HeavydynUnitsSkeleton",
       "MathUnit",
@@ -858,7 +869,8 @@
       "PossibleHeavydynForceUnits",
       "PossibleHeavydynTemperatureUnits",
       "PossibleHeavydynDistanceUnits",
-      "PossibleHeavydynTimeUnits"
+      "PossibleHeavydynTimeUnits",
+      "PossibleHeavydynModulusUnits"
     ],
     "extends": []
   },

@@ -16,9 +16,15 @@ export const createCustomThreshold = (parameters: {
       const hexColorMiddle = colorsClasses[colors.middle].hexColor
       const hexColorHigh = colorsClasses[colors.high].hexColor
 
-      const value = Math.max(this.value, mathNumber.unit.min)
+      const value = Math.max(
+        this.value,
+        mathNumber.unit ? mathNumber.unit.min : -Infinity
+      )
 
-      const valueHigh = Math.min(this.valueHigh, mathNumber.unit.max)
+      const valueHigh = Math.min(
+        this.valueHigh,
+        mathNumber.unit ? mathNumber.unit.max : Infinity
+      )
 
       return mathNumber.value < value
         ? hexColorLow

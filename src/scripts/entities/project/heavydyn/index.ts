@@ -122,6 +122,7 @@ export const createHeavydynProjectFromJSON = (
             force: this.units.force.toJSON(),
             temperature: this.units.temperature.toJSON(),
             time: this.units.time.toJSON(),
+            modulus: this.units.modulus.toJSON(),
           },
           correctionParameters: {
             version: 1,

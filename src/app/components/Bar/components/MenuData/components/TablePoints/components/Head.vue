@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import store from '/src/store'
 
-  import { createMathNumber } from '/src/scripts'
+  import { average, createMathNumber } from '/src/scripts'
 
   const { t } = useI18n()
 
@@ -26,10 +26,6 @@
   const filteredPoints = computed(() =>
     props.points.filter((point) => point.settings.isVisible)
   )
-
-  const getBasicAverage = (values: number[]) =>
-    values.reduce((total, currentValue) => total + currentValue, 0) /
-    values.length
 
   const getValuesFromPoints = (
     points: BasePoint[],
@@ -77,8 +73,8 @@
     } of selectedTableDataLabelsParameters?.dataLabels.map((dataLabel) => {
       return {
         mathNumber: createMathNumber(
-          typeof dataLabel.unit === 'string'
-            ? getBasicAverage(getValuesFromPoints(filteredPoints, dataLabel))
+          typeof dataLabel.unit !== 'object'
+            ? average(getValuesFromPoints(filteredPoints, dataLabel))
             : dataLabel.unit.getAverage(
                 getValuesFromPoints(filteredPoints, dataLabel)
               ),

@@ -248,20 +248,22 @@
     ]
   },
   {
-    "name": "HeavydynUnitsSkeleton~A, B, C, D, E~",
+    "name": "HeavydynUnitsSkeleton~A, B, C, D, E, F~",
     "value": {
       "deflection": "A",
       "force": "B",
       "temperature": "C",
       "distance": "D",
-      "time": "E"
+      "time": "E",
+      "modulus": "F"
     },
     "dependencies": [
       "A",
       "B",
       "C",
       "D",
-      "E"
+      "E",
+      "F"
     ],
     "extends": []
   },
@@ -304,8 +306,14 @@
     "extends": []
   },
   {
+    "name": "PossibleHeavydynModulusUnits",
+    "value": "'MPa'",
+    "dependencies": [],
+    "extends": []
+  },
+  {
     "name": "JSONHeavydynUnits",
-    "value": "HeavydynUnitsSkeleton#60;   JSONMathUnit#60;PossibleHeavydynDeflectionUnits#62;,   JSONMathUnit#60;PossibleHeavydynForceUnits#62;,   JSONMathUnit#60;PossibleHeavydynTemperatureUnits#62;,   JSONMathUnit#60;PossibleHeavydynDistanceUnits#62;,   JSONMathUnit#60;PossibleHeavydynTimeUnits#62; #62;",
+    "value": "HeavydynUnitsSkeleton#60;   JSONMathUnit#60;PossibleHeavydynDeflectionUnits#62;,   JSONMathUnit#60;PossibleHeavydynForceUnits#62;,   JSONMathUnit#60;PossibleHeavydynTemperatureUnits#62;,   JSONMathUnit#60;PossibleHeavydynDistanceUnits#62;,   JSONMathUnit#60;PossibleHeavydynTimeUnits#62;,   JSONMathUnit#60;PossibleHeavydynModulusUnits#62; #62;",
     "dependencies": [
       "HeavydynUnitsSkeleton",
       "JSONMathUnit",
@@ -313,13 +321,14 @@
       "PossibleHeavydynForceUnits",
       "PossibleHeavydynTemperatureUnits",
       "PossibleHeavydynDistanceUnits",
-      "PossibleHeavydynTimeUnits"
+      "PossibleHeavydynTimeUnits",
+      "PossibleHeavydynModulusUnits"
     ],
     "extends": []
   },
   {
     "name": "HeavydynMathUnits",
-    "value": "HeavydynUnitsSkeleton#60;   MathUnit#60;PossibleHeavydynDeflectionUnits#62;,   MathUnit#60;PossibleHeavydynForceUnits#62;,   MathUnit#60;PossibleHeavydynTemperatureUnits#62;,   MathUnit#60;PossibleHeavydynDistanceUnits#62;,   MathUnit#60;PossibleHeavydynTimeUnits#62; #62;",
+    "value": "HeavydynUnitsSkeleton#60;   MathUnit#60;PossibleHeavydynDeflectionUnits#62;,   MathUnit#60;PossibleHeavydynForceUnits#62;,   MathUnit#60;PossibleHeavydynTemperatureUnits#62;,   MathUnit#60;PossibleHeavydynDistanceUnits#62;,   MathUnit#60;PossibleHeavydynTimeUnits#62;,   MathUnit#60;PossibleHeavydynModulusUnits#62; #62;",
     "dependencies": [
       "HeavydynUnitsSkeleton",
       "MathUnit",
@@ -327,7 +336,8 @@
       "PossibleHeavydynForceUnits",
       "PossibleHeavydynTemperatureUnits",
       "PossibleHeavydynDistanceUnits",
-      "PossibleHeavydynTimeUnits"
+      "PossibleHeavydynTimeUnits",
+      "PossibleHeavydynModulusUnits"
     ],
     "extends": []
   },

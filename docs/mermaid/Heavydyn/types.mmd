@@ -185,13 +185,14 @@ class HeavydynDropIndex {
 HeavydynDropIndex <.. HeavydynDropType
 
 
-class HeavydynUnitsSkeleton~A, B, C, D, E~ {
+class HeavydynUnitsSkeleton~A, B, C, D, E, F~ {
   <<interface>>
   deflection: A
   force: B
   temperature: C
   distance: D
   time: E
+  modulus: F
 }
 
 
@@ -200,7 +201,7 @@ class HeavydynUnitsNames {
   <<type>>
   keyof HeavydynUnitsSkeleton#60;any#62;
 }
-HeavydynUnitsNames <.. HeavydynUnitsSkeleton~A, B, C, D, E~
+HeavydynUnitsNames <.. HeavydynUnitsSkeleton~A, B, C, D, E, F~
 
 
 class PossibleHeavydynDeflectionUnits {
@@ -238,28 +239,37 @@ class PossibleHeavydynTimeUnits {
 
 
 
+class PossibleHeavydynModulusUnits {
+  <<type>>
+  'MPa'
+}
+
+
+
 class JSONHeavydynUnits {
   <<type>>
-  HeavydynUnitsSkeleton#60;   JSONMathUnit#60;PossibleHeavydynDeflectionUnits#62;,   JSONMathUnit#60;PossibleHeavydynForceUnits#62;,   JSONMathUnit#60;PossibleHeavydynTemperatureUnits#62;,   JSONMathUnit#60;PossibleHeavydynDistanceUnits#62;,   JSONMathUnit#60;PossibleHeavydynTimeUnits#62; #62;
+  HeavydynUnitsSkeleton#60;   JSONMathUnit#60;PossibleHeavydynDeflectionUnits#62;,   JSONMathUnit#60;PossibleHeavydynForceUnits#62;,   JSONMathUnit#60;PossibleHeavydynTemperatureUnits#62;,   JSONMathUnit#60;PossibleHeavydynDistanceUnits#62;,   JSONMathUnit#60;PossibleHeavydynTimeUnits#62;,   JSONMathUnit#60;PossibleHeavydynModulusUnits#62; #62;
 }
-JSONHeavydynUnits <.. HeavydynUnitsSkeleton~A, B, C, D, E~
+JSONHeavydynUnits <.. HeavydynUnitsSkeleton~A, B, C, D, E, F~
 JSONHeavydynUnits <.. PossibleHeavydynDeflectionUnits
 JSONHeavydynUnits <.. PossibleHeavydynForceUnits
 JSONHeavydynUnits <.. PossibleHeavydynTemperatureUnits
 JSONHeavydynUnits <.. PossibleHeavydynDistanceUnits
 JSONHeavydynUnits <.. PossibleHeavydynTimeUnits
+JSONHeavydynUnits <.. PossibleHeavydynModulusUnits
 
 
 class HeavydynMathUnits {
   <<type>>
-  HeavydynUnitsSkeleton#60;   MathUnit#60;PossibleHeavydynDeflectionUnits#62;,   MathUnit#60;PossibleHeavydynForceUnits#62;,   MathUnit#60;PossibleHeavydynTemperatureUnits#62;,   MathUnit#60;PossibleHeavydynDistanceUnits#62;,   MathUnit#60;PossibleHeavydynTimeUnits#62; #62;
+  HeavydynUnitsSkeleton#60;   MathUnit#60;PossibleHeavydynDeflectionUnits#62;,   MathUnit#60;PossibleHeavydynForceUnits#62;,   MathUnit#60;PossibleHeavydynTemperatureUnits#62;,   MathUnit#60;PossibleHeavydynDistanceUnits#62;,   MathUnit#60;PossibleHeavydynTimeUnits#62;,   MathUnit#60;PossibleHeavydynModulusUnits#62; #62;
 }
-HeavydynMathUnits <.. HeavydynUnitsSkeleton~A, B, C, D, E~
+HeavydynMathUnits <.. HeavydynUnitsSkeleton~A, B, C, D, E, F~
 HeavydynMathUnits <.. PossibleHeavydynDeflectionUnits
 HeavydynMathUnits <.. PossibleHeavydynForceUnits
 HeavydynMathUnits <.. PossibleHeavydynTemperatureUnits
 HeavydynMathUnits <.. PossibleHeavydynDistanceUnits
 HeavydynMathUnits <.. PossibleHeavydynTimeUnits
+HeavydynMathUnits <.. PossibleHeavydynModulusUnits
 
 
 class JSONHeavydynPointVAny {
@@ -399,7 +409,7 @@ class JSONHeavydynThresholdsConfigurations {
   <<type>>
   HeavydynUnitsSkeleton#60;JSONDistinctThresholdsConfiguration#62;
 }
-JSONHeavydynThresholdsConfigurations <.. HeavydynUnitsSkeleton~A, B, C, D, E~
+JSONHeavydynThresholdsConfigurations <.. HeavydynUnitsSkeleton~A, B, C, D, E, F~
 
 
 class HeavydynReport {
@@ -420,7 +430,7 @@ class HeavydynThresholdsGroups {
   <<type>>
   HeavydynUnitsSkeleton#60;ThresholdsGroup#60;string#62;#62;
 }
-HeavydynThresholdsGroups <.. HeavydynUnitsSkeleton~A, B, C, D, E~
+HeavydynThresholdsGroups <.. HeavydynUnitsSkeleton~A, B, C, D, E, F~
 
 
 class HeavydynObject~T~ {

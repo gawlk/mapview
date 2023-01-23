@@ -9,25 +9,25 @@ import {
 export const createHeavydynSurfaceModulusDataComputers = (
   report: HeavydynReport
 ) => {
-  const labels = report.dataLabels.groups.list[0].choices.list
+  const unitName: HeavydynUnitsNames = 'modulus'
 
-  return labels
+  return report.dataLabels
+    .getList('Drop')
     .filter(
       (label) =>
         label.name.startsWith('D') && label.category === currentCategory
     )
     .map((currentLabel) => {
-      const smLabel = createDataLabel(
-        `SM${currentLabel.name.slice(1)}`,
-        currentLabel.unit,
-        'deflection' as HeavydynUnitsNames,
-        indicatorsCategory
-      )
-
-      labels.push(smLabel)
-
       return createDataComputer({
-        label: smLabel,
+        label: report.dataLabels.pushTo(
+          'Drop',
+          createDataLabel({
+            name: `SM${currentLabel.name.slice(1)}`,
+            unit: report.project.units[unitName],
+            unitKey: unitName,
+            category: indicatorsCategory,
+          })
+        ),
         compute: (label) => {
           const isSM0 = label.name === 'SM0'
 
@@ -52,20 +52,20 @@ export const createHeavydynSurfaceModulusDataComputers = (
                   drop.data[drop.data.push(createDataValue(0, label)) - 1]
 
                 if (load && deflection) {
-                  const pression = load.value.value / (Math.PI * radius ** 2)
+                  const pressure = load.value.value / (Math.PI * radius ** 2)
 
-                  const multiplicator = isSM0 ? 2 : 1
+                  const multiplier = isSM0 ? 2 : 1
 
-                  const correctedDefl = isSM0
+                  const correctedDeflection = isSM0
                     ? 1
                     : Number(deflection.label.name.slice(1)) *
                       deflection.value.value
 
                   const value =
-                    multiplicator *
-                    pression *
+                    multiplier *
+                    pressure *
                     (1 - poisson) *
-                    (radius / correctedDefl)
+                    (radius / correctedDeflection)
 
                   sm.value.updateValue(value)
                 }

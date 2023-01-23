@@ -1,6 +1,4 @@
 <script setup lang="ts">
-  import { numberToLocaleString } from '/src/locales'
-
   import store from '/src/store'
 
   import { convertValueFromUnitAToUnitB } from '/src/scripts'
@@ -99,7 +97,7 @@
     />
     <Input
       :id="`load-custom-value`"
-      :label="`Custom value`"
+      :label="`Custom value (${selectedProject?.correctionParameters.load.customValue.unit?.currentUnit})`"
       :value="
         selectedProject
           ? convertValue(

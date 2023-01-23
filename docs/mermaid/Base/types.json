@@ -30,7 +30,10 @@
     "name": "BaseDataLabels",
     "value": {
       "groups": "SelectableList#60;AnyBaseDataLabelsGroup, BaseDataLabelsGroups#62;",
-      "table": "SelectableList#60;BaseTableDataLabelsParameters#62;"
+      "table": "SelectableList#60;BaseTableDataLabelsParameters#62;",
+      "getList": "#40;from: DataLabelsFrom#41; =#62; DataLabel#60;string, string#62;[]",
+      "findIn": "#40;     from: DataLabelsFrom,     name: string,     category?: DataCategory   #41; =#62; DataLabel#60;string, string#62; | undefined",
+      "pushTo": "#40;     from: DataLabelsFrom,     label: DataLabel   #41; =#62; DataLabel#60;string, string#62; | undefined"
     },
     "dependencies": [
       "SelectableList",

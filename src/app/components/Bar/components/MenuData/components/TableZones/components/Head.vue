@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  import { values } from 'lodash-es'
+
   import store from '/src/store'
 
   import { average, createMathNumber } from '/src/scripts'
@@ -32,14 +34,14 @@
     } of dataLabels?.table.selected?.dataLabels.map((dataLabel) => {
       return {
         mathNumber: createMathNumber(
-          dataLabel.unit.getAverage(
+          (dataLabel.unit?.getAverage || average)(
             props.zones
               .map(
                 (zone) =>
                   zone.data.find((data) => data.label === dataLabel)?.value
                     .value
               )
-              .filter((value) => typeof value === 'number') as number[]
+        .filter((value) => typeof value === 'number') as number[]
           ),
           dataLabel.unit
         ),
@@ -49,7 +51,7 @@
   >
     <p class="font-semibold">{{ dataLabel.getFullName() }}</p>
     <p class="whitespace-nowrap text-xs">
-      {{ t(dataLabel.unit.currentUnit) }}
+      {{ t(dataLabel.unit?.currentUnit || '') }}
     </p>
     <p class="whitespace-nowrap font-semibold text-black">
       {{ mathNumber.displayedString }}

@@ -6,7 +6,7 @@ import {
   currentCategory,
 } from '/src/scripts'
 
-export const createHeavydynCurrentDropDataComputers = (
+export const createHeavydynCurrentDeflectionDropDataComputers = (
   report: HeavydynReport
 ) => {
   const dropGroupDataLabels = report.dataLabels.groups.list[0]
@@ -15,18 +15,16 @@ export const createHeavydynCurrentDropDataComputers = (
   return labels
     .filter((label) => label.name.startsWith('D'))
     .map((rawLabel) => {
-      // TODO: ne pas oublié de update toutes les force current à force ref
-
       return createDataComputer({
         label:
           labels[
             labels.push(
-              createDataLabel(
-                rawLabel.name,
-                rawLabel.unit,
-                'deflection' as HeavydynUnitsNames,
-                currentCategory
-              )
+              createDataLabel({
+                name: rawLabel.name,
+                unit: rawLabel.unit,
+                unitKey: 'deflection' as HeavydynUnitsNames,
+                category: currentCategory,
+              })
             ) - 1
           ],
         compute: (currentLabel) => {

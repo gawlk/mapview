@@ -4,7 +4,7 @@ import { convertValueFromUnitAToUnitB } from '/src/scripts'
 
 export const createMathNumber = (
   value: number,
-  unit: MathUnit<string>
+  unit?: MathUnit<string>
 ): MathNumber => {
   const mathNumber = shallowReactive({
     value,
@@ -37,28 +37,30 @@ export const createMathNumber = (
       let value = this.value
       let preString = ''
 
-      numberToLocaleOptions.precision ??= this.unit.currentPrecision
+      if (this.unit) {
+        numberToLocaleOptions.precision ??= this.unit.currentPrecision
 
-      if (!options.disableMinAndMax) {
-        if (this.value < this.unit.min) {
-          value = this.unit.min
-          preString = '<'
-        } else if (this.unit.max && this.value > this.unit.max) {
-          value = this.unit.max
-          preString = '>'
+        if (!options.disableMinAndMax) {
+          if (this.value < this.unit.min) {
+            value = this.unit.min
+            preString = '<'
+          } else if (this.unit.max && this.value > this.unit.max) {
+            value = this.unit.max
+            preString = '>'
+          }
         }
-      }
 
-      value = convertValueFromUnitAToUnitB(
-        value,
-        this.unit.baseUnit,
-        options.unit ?? this.unit.currentUnit
-      )
+        value = convertValueFromUnitAToUnitB(
+          value,
+          this.unit.baseUnit,
+          options.unit ?? this.unit.currentUnit
+        )
+      }
 
       const localeString = `${
         options.disablePreString ? '' : preString
       } ${numberToLocaleString(value, numberToLocaleOptions)} ${
-        options.appendUnitToString
+        this.unit && options.appendUnitToString
           ? typeof this.unit !== 'string'
             ? this.unit.currentUnit
             : this.unit

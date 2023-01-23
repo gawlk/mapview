@@ -13,7 +13,7 @@
     "value": {
       "version": "1",
       "name": "string",
-      "unit": "T"
+      "unit?": "T"
     },
     "dependencies": [
       "T"
@@ -637,7 +637,7 @@
   },
   {
     "name": "JSONHeavydynUnits",
-    "value": "HeavydynUnitsSkeleton#60;   JSONMathUnit#60;PossibleHeavydynDeflectionUnits#62;,   JSONMathUnit#60;PossibleHeavydynForceUnits#62;,   JSONMathUnit#60;PossibleHeavydynTemperatureUnits#62;,   JSONMathUnit#60;PossibleHeavydynDistanceUnits#62;,   JSONMathUnit#60;PossibleHeavydynTimeUnits#62; #62;",
+    "value": "HeavydynUnitsSkeleton#60;   JSONMathUnit#60;PossibleHeavydynDeflectionUnits#62;,   JSONMathUnit#60;PossibleHeavydynForceUnits#62;,   JSONMathUnit#60;PossibleHeavydynTemperatureUnits#62;,   JSONMathUnit#60;PossibleHeavydynDistanceUnits#62;,   JSONMathUnit#60;PossibleHeavydynTimeUnits#62;,   JSONMathUnit#60;PossibleHeavydynModulusUnits#62; #62;",
     "dependencies": [
       "HeavydynUnitsSkeleton",
       "JSONMathUnit",
@@ -645,7 +645,8 @@
       "PossibleHeavydynForceUnits",
       "PossibleHeavydynTemperatureUnits",
       "PossibleHeavydynDistanceUnits",
-      "PossibleHeavydynTimeUnits"
+      "PossibleHeavydynTimeUnits",
+      "PossibleHeavydynModulusUnits"
     ],
     "extends": []
   },

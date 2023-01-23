@@ -29,88 +29,87 @@ const layerIndexCompute =
   }
 
 export const createBLIDataComputer = (report: HeavydynReport) => {
-  const labels = report.dataLabels.groups.list[0].choices.list
+  const d0DataLabel = report.dataLabels.findIn('Drop', 'D0', currentCategory)
 
-  const d0DataLabel = labels.find(
-    (label) => label.name === 'D0' && label.category === currentCategory
+  const d300DataLabel = report.dataLabels.findIn(
+    'Drop',
+    'D300',
+    currentCategory
   )
-
-  const d300DataLabel = labels.find(
-    (label) => label.name === 'D300' && label.category === currentCategory
-  )
-
-  const label =
-    d0DataLabel &&
-    d300DataLabel &&
-    createDataLabel(
-      'BLI (Base layer index)',
-      d0DataLabel.unit,
-      'deflection' as HeavydynUnitsNames,
-      indicatorsCategory
-    )
-
-  label && labels.push(label)
 
   return createDataComputer({
-    label,
+    label:
+      d0DataLabel &&
+      d300DataLabel &&
+      report.dataLabels.pushTo(
+        'Drop',
+        createDataLabel({
+          name: 'BLI (Base layer index)',
+          unit: d0DataLabel.unit,
+          unitKey: 'deflection' as HeavydynUnitsNames,
+          category: indicatorsCategory,
+        })
+      ),
     compute: layerIndexCompute(report, d0DataLabel, d300DataLabel),
   })
 }
 
 export const createMLIDataComputer = (report: HeavydynReport) => {
-  const labels = report.dataLabels.groups.list[0].choices.list
-
-  const d300DataLabel = labels.find(
-    (label) => label.name === 'D300' && label.category === currentCategory
+  const d300DataLabel = report.dataLabels.findIn(
+    'Drop',
+    'D300',
+    currentCategory
   )
 
-  const d600DataLabel = labels.find(
-    (label) => label.name === 'D600' && label.category === currentCategory
+  const d600DataLabel = report.dataLabels.findIn(
+    'Drop',
+    'D600',
+    currentCategory
   )
-
-  const label =
-    d300DataLabel &&
-    d600DataLabel &&
-    createDataLabel(
-      'MLI (Middle layer index)',
-      d300DataLabel.unit,
-      'deflection' as HeavydynUnitsNames,
-      indicatorsCategory
-    )
-
-  label && labels.push(label)
 
   return createDataComputer({
-    label,
+    label:
+      d300DataLabel &&
+      d600DataLabel &&
+      report.dataLabels.pushTo(
+        'Drop',
+        createDataLabel({
+          name: 'MLI (Middle layer index)',
+          unit: d300DataLabel.unit,
+          unitKey: 'deflection' as HeavydynUnitsNames,
+          category: indicatorsCategory,
+        })
+      ),
     compute: layerIndexCompute(report, d300DataLabel, d600DataLabel),
   })
 }
 
 export const createLLIDataComputer = (report: HeavydynReport) => {
-  const labels = report.dataLabels.groups.list[0].choices.list
-
-  const d600DataLabel = labels.find(
-    (label) => label.name === 'D600' && label.category === currentCategory
+  const d600DataLabel = report.dataLabels.findIn(
+    'Drop',
+    'D600',
+    currentCategory
   )
 
-  const d900DataLabel = labels.find(
-    (label) => label.name === 'D900' && label.category === currentCategory
+  const d900DataLabel = report.dataLabels.findIn(
+    'Drop',
+    'D900',
+    currentCategory
   )
-
-  const label =
-    d600DataLabel &&
-    d900DataLabel &&
-    createDataLabel(
-      'LLI (Lower layer index)',
-      d600DataLabel.unit,
-      'deflection' as HeavydynUnitsNames,
-      indicatorsCategory
-    )
-
-  label && labels.push(label)
 
   return createDataComputer({
-    label,
+    label:
+      d600DataLabel &&
+      d900DataLabel &&
+      report.dataLabels.pushTo(
+        'Drop',
+        createDataLabel({
+          name: 'LLI (Lower layer index)',
+          unit: d600DataLabel.unit,
+          unitKey: 'deflection' as HeavydynUnitsNames,
+          category: indicatorsCategory,
+        })
+      ),
     compute: layerIndexCompute(report, d600DataLabel, d900DataLabel),
   })
 }

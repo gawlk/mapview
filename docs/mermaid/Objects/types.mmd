@@ -123,7 +123,7 @@ DataComputer <.. DataLabel~T, Unit~
 class DataLabel~T, Unit~ {
   <<interface>>
   name: string
-  unit: MathUnit#60;T#62;
+  unit?: MathUnit#60;T#62;
   category: DataCategory
   getFullName: #40;#41; =#62; string
   toJSON: #40;#41; =#62; JSONDataLabel#60;Unit#62;
@@ -143,6 +143,9 @@ class BaseDataLabels {
   <<interface>>
   groups: SelectableList#60;AnyBaseDataLabelsGroup, BaseDataLabelsGroups#62;
   table: SelectableList#60;BaseTableDataLabelsParameters#62;
+  getList: #40;from: DataLabelsFrom#41; =#62; DataLabel#60;string, string#62;[]
+  findIn: #40;     from: DataLabelsFrom,     name: string,     category?: DataCategory   #41; =#62; DataLabel#60;string, string#62; | undefined
+  pushTo: #40;     from: DataLabelsFrom,     label: DataLabel   #41; =#62; DataLabel#60;string, string#62; | undefined
 }
 BaseDataLabels <.. SelectableList~T, L~
 BaseDataLabels <.. AnyBaseDataLabelsGroup
@@ -598,7 +601,7 @@ Line <.. BasePoint~Drop, Zone~
 class MathNumber {
   <<interface>>
   value: number
-  unit: MathUnit#60;string#62;
+  unit?: MathUnit#60;string#62;
   displayedString: string
   displayedStringWithUnit: string
   updateValue: #40;value: number#41; =#62; void
@@ -639,13 +642,14 @@ class MathUnit~PossibleUnits~ {
 
 
 
-class HeavydynUnitsSkeleton~A, B, C, D, E~ {
+class HeavydynUnitsSkeleton~A, B, C, D, E, F~ {
   <<interface>>
   deflection: A
   force: B
   temperature: C
   distance: D
   time: E
+  modulus: F
 }
 
 
@@ -654,7 +658,7 @@ class HeavydynUnitsNames {
   <<type>>
   keyof HeavydynUnitsSkeleton#60;any#62;
 }
-HeavydynUnitsNames <.. HeavydynUnitsSkeleton~A, B, C, D, E~
+HeavydynUnitsNames <.. HeavydynUnitsSkeleton~A, B, C, D, E, F~
 
 
 class PossibleHeavydynDeflectionUnits {
@@ -692,17 +696,25 @@ class PossibleHeavydynTimeUnits {
 
 
 
+class PossibleHeavydynModulusUnits {
+  <<type>>
+  'MPa'
+}
+
+
+
 class HeavydynMathUnits {
   <<type>>
-  HeavydynUnitsSkeleton#60;   MathUnit#60;PossibleHeavydynDeflectionUnits#62;,   MathUnit#60;PossibleHeavydynForceUnits#62;,   MathUnit#60;PossibleHeavydynTemperatureUnits#62;,   MathUnit#60;PossibleHeavydynDistanceUnits#62;,   MathUnit#60;PossibleHeavydynTimeUnits#62; #62;
+  HeavydynUnitsSkeleton#60;   MathUnit#60;PossibleHeavydynDeflectionUnits#62;,   MathUnit#60;PossibleHeavydynForceUnits#62;,   MathUnit#60;PossibleHeavydynTemperatureUnits#62;,   MathUnit#60;PossibleHeavydynDistanceUnits#62;,   MathUnit#60;PossibleHeavydynTimeUnits#62;,   MathUnit#60;PossibleHeavydynModulusUnits#62; #62;
 }
-HeavydynMathUnits <.. HeavydynUnitsSkeleton~A, B, C, D, E~
+HeavydynMathUnits <.. HeavydynUnitsSkeleton~A, B, C, D, E, F~
 HeavydynMathUnits <.. MathUnit~PossibleUnits~
 HeavydynMathUnits <.. PossibleHeavydynDeflectionUnits
 HeavydynMathUnits <.. PossibleHeavydynForceUnits
 HeavydynMathUnits <.. PossibleHeavydynTemperatureUnits
 HeavydynMathUnits <.. PossibleHeavydynDistanceUnits
 HeavydynMathUnits <.. PossibleHeavydynTimeUnits
+HeavydynMathUnits <.. PossibleHeavydynModulusUnits
 
 
 class MaxidynUnitsSkeleton~A, B, C, D, E, F, G~ {
@@ -1111,7 +1123,7 @@ class MachineUnitsSkeleton~T~ {
   <<type>>
   | HeavydynUnitsSkeleton#60;T#62;   | MaxidynUnitsSkeleton#60;T#62;   | MinidynUnitsSkeleton#60;T#62;
 }
-MachineUnitsSkeleton~T~ <.. HeavydynUnitsSkeleton~A, B, C, D, E~
+MachineUnitsSkeleton~T~ <.. HeavydynUnitsSkeleton~A, B, C, D, E, F~
 MachineUnitsSkeleton~T~ <.. MaxidynUnitsSkeleton~A, B, C, D, E, F, G~
 MachineUnitsSkeleton~T~ <.. MinidynUnitsSkeleton~A, B, C, D, E, F~
 
@@ -1238,7 +1250,7 @@ class HeavydynThresholdsGroups {
   <<type>>
   HeavydynUnitsSkeleton#60;ThresholdsGroup#60;string#62;#62;
 }
-HeavydynThresholdsGroups <.. HeavydynUnitsSkeleton~A, B, C, D, E~
+HeavydynThresholdsGroups <.. HeavydynUnitsSkeleton~A, B, C, D, E, F~
 HeavydynThresholdsGroups <.. ThresholdsGroup~T~
 
 

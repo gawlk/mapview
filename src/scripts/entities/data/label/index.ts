@@ -1,15 +1,13 @@
 import { translate } from '/src/locales'
 
-export const createDataLabel = <T extends string, Unit extends string>(
-  name: string,
-  unit: MathUnit<T>,
-  unitKey: Unit,
+export const createDataLabel = <T extends string, Unit extends string>(args: {
+  name: string
+  unit?: MathUnit<T>
+  unitKey?: Unit
   category: DataCategory
-): DataLabel<T> => {
+}): DataLabel<T> => {
   return {
-    name,
-    category,
-    unit,
+    ...args,
     getFullName: function () {
       return `${translate(this.name)}${
         this.category.neededInExcelName
@@ -21,7 +19,7 @@ export const createDataLabel = <T extends string, Unit extends string>(
       return {
         version: 1,
         name: this.name,
-        unit: unitKey,
+        unit: args.unitKey,
       }
     },
   }
@@ -37,12 +35,12 @@ export const createDataLabelFromJSON = <
 ): DataLabel<T> => {
   json = upgradeJSON(json)
 
-  return createDataLabel(
-    json.name,
-    (units as any)[json.unit],
-    json.unit,
-    category
-  )
+  return createDataLabel({
+    name: json.name,
+    unit: (units as any)[json.unit],
+    unitKey: json.unit,
+    category,
+  })
 }
 
 const upgradeJSON = <T extends string>(

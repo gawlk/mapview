@@ -18,12 +18,12 @@ export const createCharacteristicDeflectionComputer = (
 
   const label =
     d0DataLabel &&
-    createDataLabel(
-      'Characteristic deflection',
-      report.project.units[unitName],
-      unitName,
-      indicatorsCategory
-    )
+    createDataLabel({
+      name: 'Characteristic deflection',
+      unit: report.project.units[unitName],
+      unitKey: unitName,
+      category: indicatorsCategory,
+    })
 
   label && report.dataLabels.groups.list[2].choices.list.push(label)
 
@@ -45,14 +45,16 @@ export const createCharacteristicDeflectionComputer = (
           )
           .flat()
 
-        const d0sMean = average(d0s.map((d0) => d0.value.value))
+        const d0sAverage = average(d0s.map((d0) => d0.value.value))
 
-        const standardDeviation =
-          d0s
-            .map((d0) => Math.abs(d0sMean - d0.value.value))
-            .reduce((total, value) => total + value, 0) / d0s.length
-
-        data.value.updateValue(d0sMean + 2 * standardDeviation)
+        data.value.updateValue(
+          Math.sqrt(
+            (1 / (d0s.length - 1)) *
+              d0s
+                .map((d0) => (d0sAverage - d0.value.value) ** 2)
+                .reduce((total, value) => total + value, 0)
+          )
+        )
       })
     },
   })

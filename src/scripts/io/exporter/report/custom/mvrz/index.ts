@@ -56,7 +56,9 @@ const generatePointData = (
     (a, point) =>
       point.data.reduce<FlatDataJson>((b, data) => {
         const label = labelPrefix + toPascalCase(data.label.name)
-        const value = data.value.getValueAs(data.label.unit.currentUnit)
+        const value = data.label.unit
+          ? data.value.getValueAs(data.label.unit.currentUnit)
+          : data.value.value
         const values = [...((b[label] || []) as number[]), value]
 
         return {
@@ -121,7 +123,11 @@ const generateDropData = (
             toPascalCase(data.label.name)
           const values = (c[label] || []) as number[]
 
-          values.push(data.value.getValueAs(data.label.unit.currentUnit))
+          values.push(
+            data.label.unit
+              ? data.value.getValueAs(data.label.unit.currentUnit)
+              : data.value.value
+          )
           return {
             ...c,
             [label]: values,
@@ -221,8 +227,9 @@ const generateSequence = (report: MachineReport): ExcelJson => {
         dropIndex.type
       )
 
-      dropSequence[`DropSequence_Drop${index + 1}_Value`] =
-        dropIndex.value.getValueAs(dropIndex.value.unit.currentUnit)
+      dropSequence[`DropSequence_Drop${index + 1}_Value`] = dropIndex.value.unit
+        ? dropIndex.value.getValueAs(dropIndex.value.unit?.currentUnit)
+        : dropIndex.value.value
     })
 
     return dropSequence

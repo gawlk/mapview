@@ -57,6 +57,15 @@ export const createHeavydynThresholdsGroupsFromJSON = (
         }
       ),
     },
+    modulus: {
+      unit: units.modulus,
+      choices: createSelectableList(
+        [createCustomThreshold(json.modulus.custom)] as ThresoldsList,
+        {
+          selectedIndex: json.modulus.selectedIndex,
+        }
+      ),
+    },
   }
 
   return thresholdsGroups

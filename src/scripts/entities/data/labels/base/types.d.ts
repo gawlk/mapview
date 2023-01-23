@@ -32,6 +32,16 @@ type DataLabelsFrom = 'Drop' | 'Test' | 'Zone'
 interface BaseDataLabels extends BaseObject<JSONBaseDataLabels> {
   readonly groups: SelectableList<AnyBaseDataLabelsGroup, BaseDataLabelsGroups>
   readonly table: SelectableList<BaseTableDataLabelsParameters>
+  readonly getList: (from: DataLabelsFrom) => DataLabel<string, string>[]
+  readonly findIn: (
+    from: DataLabelsFrom,
+    name: string,
+    category?: DataCategory
+  ) => DataLabel<string, string> | undefined
+  readonly pushTo: (
+    from: DataLabelsFrom,
+    label: DataLabel
+  ) => DataLabel<string, string> | undefined
 }
 
 type BaseDataLabelsGroups = [

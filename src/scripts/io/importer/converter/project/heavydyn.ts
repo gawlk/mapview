@@ -39,7 +39,7 @@ export const convertPRJZToHeavydynProjectDistinct = (
         version: 1,
         active: false,
         loadReferenceSource: 'Sequence',
-        customValue: 0,
+        customValue: 65000,
       },
       temperature: {
         version: 1,
@@ -80,8 +80,8 @@ export const convertPRJZToHeavydynProjectDistinct = (
   }
 }
 
-export const convertPRJZToHeavydynUnits = (json: any): JSONHeavydynUnits => {
-  return {
+export const convertPRJZToHeavydynUnits = (json: any) => {
+  const units: JSONHeavydynUnits = {
     deflection: {
       version: 1,
       currentUnit: ((): PossibleHeavydynDeflectionUnits => {
@@ -177,5 +177,13 @@ export const convertPRJZToHeavydynUnits = (json: any): JSONHeavydynUnits => {
       min: -50,
       max: 150,
     },
+    modulus: {
+      version: 1,
+      currentUnit: 'MPa',
+      currentPrecision: 0,
+      max: 100000000000,
+    },
   }
+
+  return units
 }

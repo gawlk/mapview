@@ -17,7 +17,7 @@
 <template>
   <Listbox
     :icon="IconDotsHorizontal"
-    :values="groupedDataLabels?.list.slice(0, 2).map((list) => t(list.from))"
+    :values="groupedDataLabels?.list.map((list) => t(list.from))"
     :selected="t(groupedDataLabels?.selected?.from || '')"
     @selectIndex="
       (index) =>
@@ -57,12 +57,14 @@
     :values="
       groupedDataLabels?.selected?.choices.list.map(
         (dataLabel) =>
-          `${t(dataLabel.getFullName())} - ${t(dataLabel.unit?.name || '')}`
+          `${t(dataLabel.getDisplayedName())} - ${t(
+            dataLabel.unit?.name || ''
+          )}`
       )
     "
     :preSelected="`${t('Selected')}${t(':')}`"
     :selected="`${t(
-      groupedDataLabels?.selected?.choices.selected?.getFullName() || ''
+      groupedDataLabels?.selected?.choices.selected?.getDisplayedName() || ''
     )} - ${t(groupedDataLabels?.selected?.choices.selected?.unit?.name || '')}`"
     @selectIndex="
       (index) =>

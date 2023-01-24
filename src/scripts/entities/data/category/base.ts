@@ -6,5 +6,4 @@ export const rawCategory: DataCategory = {
 
 export const currentCategory: DataCategory = {
   name: 'Current',
-  neededInExcelName: true,
 }

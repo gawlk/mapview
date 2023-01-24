@@ -45,6 +45,7 @@ export const createBLIDataComputer = (report: HeavydynReport) => {
         'Drop',
         createDataLabel({
           name: 'BLI (Base layer index)',
+          shortName: 'BLI',
           unit: d0DataLabel.unit,
           unitKey: 'deflection' as HeavydynUnitsNames,
           category: indicatorsCategory,
@@ -75,6 +76,7 @@ export const createMLIDataComputer = (report: HeavydynReport) => {
         'Drop',
         createDataLabel({
           name: 'MLI (Middle layer index)',
+          shortName: 'MLI',
           unit: d300DataLabel.unit,
           unitKey: 'deflection' as HeavydynUnitsNames,
           category: indicatorsCategory,
@@ -105,6 +107,7 @@ export const createLLIDataComputer = (report: HeavydynReport) => {
         'Drop',
         createDataLabel({
           name: 'LLI (Lower layer index)',
+          shortName: 'LLI',
           unit: d600DataLabel.unit,
           unitKey: 'deflection' as HeavydynUnitsNames,
           category: indicatorsCategory,

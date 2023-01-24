@@ -16,26 +16,23 @@ export const createCharacteristicDeflectionComputer = (
     (label) => label.name === 'D0' && label.category === currentCategory
   )
 
-  const label =
-    d0DataLabel &&
-    createDataLabel({
-      name: 'Characteristic deflection',
-      unit: report.project.units[unitName],
-      unitKey: unitName,
-      category: indicatorsCategory,
-    })
-
-  label && report.dataLabels.groups.list[2].choices.list.push(label)
-
   return createDataComputer({
-    label,
+    label:
+      d0DataLabel &&
+      report.dataLabels.pushTo(
+        'Zone',
+        createDataLabel({
+          name: 'Characteristic deflection',
+          unit: report.project.units[unitName],
+          unitKey: unitName,
+          category: indicatorsCategory,
+        })
+      ),
     compute: (label) => {
       report.zones.forEach((zone) => {
         const data =
           zone.data.find((data) => data.label === label) ||
           zone.data[zone.data.push(createDataValue(0, label)) - 1]
-
-        console.log('zone data', zone.data)
 
         const d0s = zone.points
           .map((point) =>
@@ -47,14 +44,14 @@ export const createCharacteristicDeflectionComputer = (
 
         const d0sAverage = average(d0s.map((d0) => d0.value.value))
 
-        data.value.updateValue(
-          Math.sqrt(
-            (1 / (d0s.length - 1)) *
-              d0s
-                .map((d0) => (d0sAverage - d0.value.value) ** 2)
-                .reduce((total, value) => total + value, 0)
-          )
+        const value = Math.sqrt(
+          (1 / (d0s.length - 1)) *
+            d0s
+              .map((d0) => (d0sAverage - d0.value.value) ** 2)
+              .reduce((total, value) => total + value, 0)
         )
+
+        data.value.updateValue(value)
       })
     },
   })

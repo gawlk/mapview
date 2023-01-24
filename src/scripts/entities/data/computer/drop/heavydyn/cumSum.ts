@@ -20,7 +20,7 @@ export const createCumSumDataComputer = (report: HeavydynReport) => {
       report.dataLabels.pushTo(
         'Drop',
         createDataLabel({
-          name: 'Cumulative Sum',
+          name: 'Cumulative sum',
           category: indicatorsCategory,
         })
       ),

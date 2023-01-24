@@ -84,7 +84,7 @@
       }
     })"
   >
-    <p class="font-semibold">{{ dataLabel.getFullName() }}</p>
+    <p class="font-semibold">{{ dataLabel.getDisplayedName() }}</p>
     <p class="whitespace-nowrap text-xs">
       {{
         typeof dataLabel.unit === 'object'

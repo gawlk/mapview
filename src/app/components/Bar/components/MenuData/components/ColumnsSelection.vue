@@ -93,13 +93,13 @@
     :icon="IconViewBoards"
     :values="
       tableDataLabels?.selected?.group.choices.list.map((dataLabel) =>
-        dataLabel.getFullName()
+        dataLabel.getDisplayedName()
       )
     "
     :preSelected="`${t('Columns')}${t(':')}`"
     :selectedList="
       tableDataLabels.selected.dataLabels.map((dataLabel) =>
-        dataLabel.getFullName()
+        dataLabel.getDisplayedName()
       )
     "
     @selectIndex="selectDataLabel"

@@ -123,9 +123,11 @@ DataComputer <.. DataLabel~T, Unit~
 class DataLabel~T, Unit~ {
   <<interface>>
   name: string
+  shortName?: string
   unit?: MathUnit#60;T#62;
   category: DataCategory
-  getFullName: #40;#41; =#62; string
+  getDisplayedName: #40;#41; =#62; string
+  getSerializedName: #40;#41; =#62; string
   toJSON: #40;#41; =#62; JSONDataLabel#60;Unit#62;
 }
 DataLabel~T, Unit~ <.. MathUnit~PossibleUnits~

@@ -16,8 +16,10 @@ interface JSONDataLabel<T extends string> {
 
 interface DataLabel<T extends string = string, Unit extends string = string> {
   readonly name: string
+  readonly shortName?: string
   readonly unit?: MathUnit<T>
   readonly category: DataCategory
-  readonly getFullName: () => string
+  readonly getDisplayedName: () => string
+  readonly getSerializedName: () => string
   readonly toJSON: () => JSONDataLabel<Unit>
 }

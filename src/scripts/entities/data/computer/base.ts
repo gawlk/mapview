@@ -14,8 +14,6 @@ export const createDataComputer = (parameters: {
       init: function () {
         watcherHandler.add(
           watchEffect(() => {
-            console.log('effect', label)
-
             this.label && compute(this.label)
           })
         )

@@ -44,8 +44,8 @@ const generateInformationFromFields = (
 const toPascalCase = (str: string): string =>
   str
     .replace(/-/g, 'M')
-    .replace(/_/g, ' ')
     .replace(/(?:^\w|[A-Z]|\b\w)/g, (word) => word.toUpperCase())
+    .replace(/\(|\)/g, '')
     .replace(/\s+/g, '')
 
 const generatePointData = (
@@ -55,10 +55,11 @@ const generatePointData = (
   points.reduce<FlatDataJson>(
     (a, point) =>
       point.data.reduce<FlatDataJson>((b, data) => {
-        const label = labelPrefix + toPascalCase(data.label.name)
+        const label = labelPrefix + toPascalCase(data.label.getSerializedName())
         const value = data.label.unit
           ? data.value.getValueAs(data.label.unit.currentUnit)
           : data.value.value
+
         const values = [...((b[label] || []) as number[]), value]
 
         return {
@@ -120,14 +121,14 @@ const generateDropData = (
             labelPrefix +
             drop.index.displayedIndex +
             '_' +
-            toPascalCase(data.label.name)
+            toPascalCase(data.label.getSerializedName())
           const values = (c[label] || []) as number[]
 
-          values.push(
-            data.label.unit
-              ? data.value.getValueAs(data.label.unit.currentUnit)
-              : data.value.value
-          )
+          const value = data.label.unit
+            ? data.value.getValueAs(data.label.unit.currentUnit)
+            : data.value.value
+
+          values.push(value)
           return {
             ...c,
             [label]: values,
@@ -139,16 +140,24 @@ const generateDropData = (
   }, {})
 
 const generateZoneData = (zones: MachineZone[]): ExcelJson =>
-  zones.reduce<ExcelJson>(
-    (a, zone, index) => ({
+  zones.reduce<ExcelJson>((a, zone, index) => {
+    const Z = 'Z' + (index + 1)
+
+    return {
       ...a,
-      ['Z' + (index + 1) + '_Name']: zone.name,
-      ...generatePointInformation(zone.points, 'Z' + (index + 1) + '_Pi_'),
-      ...generatePointData(zone.points, 'Z' + (index + 1) + '_Pi_'),
-      ...generateDropData(zone.points, 'Z' + (index + 1) + '_Pi_D'),
-    }),
-    {}
-  )
+      [Z + '_Name']: zone.name,
+      ...zone.data.reduce<ExcelJson>(
+        (prev, data) => ({
+          ...prev,
+          [Z + '_' + toPascalCase(data.label.name)]: data.value.value,
+        }),
+        {}
+      ),
+      ...generatePointInformation(zone.points, Z + '_Pi_'),
+      ...generatePointData(zone.points, Z + '_Pi_'),
+      ...generateDropData(zone.points, Z + '_Pi_D'),
+    }
+  }, {})
 
 const generateUnits = (units: MachineMathUnits): ExcelJson =>
   Object.values(units).reduce<ExcelJson>(

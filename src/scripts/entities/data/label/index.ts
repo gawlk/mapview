@@ -2,17 +2,23 @@ import { translate } from '/src/locales'
 
 export const createDataLabel = <T extends string, Unit extends string>(args: {
   name: string
+  shortName?: string
   unit?: MathUnit<T>
   unitKey?: Unit
   category: DataCategory
 }): DataLabel<T> => {
   return {
     ...args,
-    getFullName: function () {
+    getDisplayedName: function () {
       return `${translate(this.name)}${
         this.category.neededInExcelName
           ? ` (${translate(this.category.name)})`
           : ''
+      }`
+    },
+    getSerializedName: function () {
+      return `${this.shortName || this.name}${
+        this.category.neededInExcelName ? `_${this.category.name}` : ''
       }`
     },
     toJSON: function () {

@@ -1,6 +1,7 @@
 import {
   createDataLabelFromJSON,
   createSelectableList,
+  currentCategory,
   rawCategory,
 } from '/src/scripts'
 
@@ -89,9 +90,16 @@ export const createBaseDataLabelsGroupFromJSON = <
   return {
     from: json.from,
     choices: createSelectableList(
-      json.choices.list.map((jsonChoice) =>
-        createDataLabelFromJSON(jsonChoice, units, rawCategory)
-      ) || [],
+      json.choices.list.map((jsonChoice) => {
+        const unitKey = jsonChoice.unit as MachineUnitsNames
+        return createDataLabelFromJSON(
+          jsonChoice,
+          units,
+          unitKey === 'force' || unitKey === 'deflection'
+            ? rawCategory
+            : currentCategory
+        )
+      }) || [],
       {
         selectedIndex: json.choices.selectedIndex,
       }

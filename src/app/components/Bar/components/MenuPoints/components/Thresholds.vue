@@ -122,7 +122,7 @@
         selectedUnit.baseUnit,
         selectedUnit.currentUnit
       ).toLocaleString()} ${selectedUnit?.currentUnit} ≤ ${t(
-        selectedDataLabel?.getFullName() || ''
+        selectedDataLabel?.getDisplayedName() || ''
       )} < ${formattedTresholdValue}`"
     />
     <InputNumberSwitchable
@@ -174,7 +174,7 @@
           selectedReport && (selectedReport.thresholds.colors.middle = color)
         }"
         :text="`${formattedTresholdValue} ≤ ${t(
-          selectedDataLabel?.getFullName() || ''
+          selectedDataLabel?.getDisplayedName() || ''
         )} < ${formattedTresholdValueHigh}`"
       />
       <Button
@@ -198,7 +198,7 @@
       >
         {{
           `${formattedTresholdValue} ≤ ${t(
-            selectedDataLabel?.getFullName() || ''
+            selectedDataLabel?.getDisplayedName() || ''
           )} < ${formattedTresholdValueHigh}`
         }}
       </Button>
@@ -248,7 +248,7 @@
         currentThresholdsGroup?.choices.selected.type !== 'Tricolor'
           ? formattedTresholdValue
           : formattedTresholdValueHigh
-      } ≤ ${t(selectedDataLabel?.getFullName() || '')} ≤ ${
+      } ≤ ${t(selectedDataLabel?.getDisplayedName() || '')} ≤ ${
         selectedUnit.max
           ? convertValueFromUnitAToUnitB(
               selectedUnit.max,

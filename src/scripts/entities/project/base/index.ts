@@ -89,14 +89,20 @@ export const createBaseProjectFromJSON = <
       map?.fitBounds(bounds, { padding: 100 })
     },
     addToMap: function () {
-      if (this.settings.map.coordinates && this.settings.map.zoom) {
-        map?.flyTo({
-          center: this.settings.map.coordinates,
-          zoom: this.settings.map.zoom,
-        })
-      } else {
-        this.reports.selected?.fitOnMap()
+      const flyTo = () => {
+        if (this.settings.map.coordinates) {
+          map?.flyTo({
+            center: this.settings.map.coordinates,
+            zoom: this.settings.map.zoom,
+            pitch: this.settings.map.pitch || 0,
+            bearing: this.settings.map.rotation || 0,
+          })
+        } else {
+          this.reports.selected?.fitOnMap()
+        }
       }
+
+      flyTo()
 
       this.setMapStyle(this.settings.map.styleIndex)
 

@@ -9,6 +9,7 @@ interface SelectableList<T, L extends T[] = T[]> {
 }
 
 interface JSONSelectableList<T, L extends Array<T> = T[]> {
+  readonly version: 1
   selectedIndex: number | null
   readonly list: L
 }

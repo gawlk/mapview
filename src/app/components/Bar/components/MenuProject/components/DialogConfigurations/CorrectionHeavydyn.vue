@@ -202,7 +202,7 @@
                 selectedProject.correctionParameters.temperature.customValue
                   .value,
                 selectedProject.correctionParameters.temperature.customValue
-                  .unit
+                  .unit as MathUnit<string>
               )
             : 0
         "

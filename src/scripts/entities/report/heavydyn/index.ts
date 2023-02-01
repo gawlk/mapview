@@ -27,6 +27,8 @@ export const createHeavydynReportFromJSON = (
     project: HeavydynProject
   }
 ) => {
+  console.time('import: report')
+
   json = upgradeJSON(json)
 
   const watcherHandler = createWatcherHandler()
@@ -118,7 +120,9 @@ export const createHeavydynReportFromJSON = (
       watcherHandler.clean()
     },
   })
+  console.timeLog('import: report')
 
+  console.time('import: zones')
   report.zones.push(
     ...json.base.zones.map((jsonZone) =>
       createHeavydynZoneFromJSON(jsonZone, map, {
@@ -126,7 +130,9 @@ export const createHeavydynReportFromJSON = (
       })
     )
   )
+  console.timeEnd('import: zones')
 
+  console.time('import: computers')
   // Warning: Order matters
   ;[
     createHeavydynCurrentLoadDataComputer(report),
@@ -139,6 +145,9 @@ export const createHeavydynReportFromJSON = (
     ...createCurvatureRadiusDataComputers(report),
     createCumSumDataComputer(report),
   ].forEach((computer) => computer?.init())
+  console.timeEnd('import: computers')
+
+  console.timeEnd('import: report')
 
   return report as HeavydynReport
 }

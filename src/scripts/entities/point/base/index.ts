@@ -217,11 +217,15 @@ export const createBasePointFromJSON = <
           () => {
             const sortedPoints = this.zone.report.line.sortedPoints
 
+            console.log(
+              'from',
+              sortedPoints.map((point) => point.number)
+            )
+
             point.updateVisibility()
 
-            // TODO: Changed from point === _point to point.index === _point.index because type change, check if code still works
             let index =
-              sortedPoints.findIndex((_point) => point.index === _point.index) +
+              sortedPoints.findIndex((_point) => this.index === _point.index) +
               1
 
             for (index; index < sortedPoints.length; index++) {

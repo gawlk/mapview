@@ -11,7 +11,7 @@ export const createDataComputer = (parameters: {
 
     const computer: DataComputer = shallowReactive({
       label,
-      init: function () {
+      init: async function () {
         watcherHandler.add(
           watchEffect(() => {
             this.label && compute(this.label)

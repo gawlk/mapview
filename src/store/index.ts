@@ -6,6 +6,7 @@ const store: Store = shallowReactive({
   selectedProject: null,
   selectedReport: null,
   updateAvailable: false,
+  importingFile: false,
   map: null,
   save: (key: StoreKeys, value: StoreSaveableTypes): void => {
     localStorage.setItem(key, JSON.stringify(value))

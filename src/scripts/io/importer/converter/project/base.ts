@@ -23,8 +23,6 @@ export const convertPRJZToBaseProject = (
       map: {
         version: 1,
         styleIndex: 0,
-        coordinates: null,
-        zoom: null,
       },
     },
     overlays: [],
@@ -43,6 +41,7 @@ export const convertPRJZToBaseProject = (
         : {}),
     },
     reports: {
+      version: 1,
       selectedIndex: null,
       list: [],
     },

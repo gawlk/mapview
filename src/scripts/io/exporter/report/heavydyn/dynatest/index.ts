@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
 import dedent from 'dedent'
 
-import { findFieldInArray } from '/src/scripts'
+import { currentCategory, findFieldInArray } from '/src/scripts'
 
 export const heavydynDynatestExporter: HeavydynExporter = {
   name: '.fwd (Dynatest)',
@@ -147,15 +147,17 @@ const writePointGPS = (point: BasePoint) => {
 
 const writePoints = (project: HeavydynProject) => {
   return project.reports.selected?.line.sortedPoints.map((point) => {
-    const celsiusDegreesTemps = point.data.slice(0, 3).map((data, index) => {
-      const precision = index === 0 ? 1 : 0
-      const value = data.value.value.toFixed(precision)
-      if (index === 0) {
-        return value.padStart(4, ' ')
-      } else {
-        return value.padStart(2, ' ')
-      }
-    })
+    const celsiusDegreesTemps = point.data
+      .filter((data) => data.label.unit === project.units.temperature)
+      .map((data, index) => {
+        const precision = index === 0 ? 1 : 0
+        const value = data.value.value.toFixed(precision)
+        if (index === 0) {
+          return value.padStart(4, ' ')
+        } else {
+          return value.padStart(2, ' ')
+        }
+      })
 
     const fahrenheitDegreesTemps = point.data
       .slice(0, 3)
@@ -186,15 +188,30 @@ const writePoints = (project: HeavydynProject) => {
 const writeDrops = (point: BasePoint, dPlate: number) => {
   return point.drops
     .map((drop) => {
-      const values = drop.data.slice(2).map((data) => {
-        let value: string | number = data.value.getValueAs('um')
-        value = value.toFixed(2)
-        if (Number(value) <= 0) value = 0.1
-        return value.toString().padStart(4, ' ')
-      })
+      const values = drop.data
+        .filter(
+          (data) =>
+            data.label.unit === point.zone.report.project.units.deflection &&
+            data.label.category === currentCategory
+        )
+        .map((data) => {
+          let value: string | number = data.value.getValueAs('um')
+          value = value.toFixed(2)
+          if (Number(value) <= 0) value = 0.1
+          return value.toString().padStart(4, ' ')
+        })
 
       const power =
-        ((drop.data[1].value.value * 1e-3) / Math.PI / dPlate / dPlate) * 4
+        (((drop.data.find(
+          (data) =>
+            data.label.unit === point.zone.report.project.units.force &&
+            data.label.category === currentCategory
+        )?.value.value || 0) *
+          1e-3) /
+          Math.PI /
+          dPlate /
+          dPlate) *
+        4
       values.unshift(power.toFixed(2).toString().padStart(4, ' '))
 
       return dedent`

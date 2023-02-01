@@ -40,7 +40,12 @@
 
       state.progress = 90
 
-      downloadFile(new File([blob], `${props.project.name.toString()}.xlsx`))
+      downloadFile(
+        new File(
+          [blob],
+          `${props.project.name.toString()}_${props.project.reports.selected?.name.toString()}.xlsx`
+        )
+      )
 
       state.state = 'success'
       state.message = t('Success !')

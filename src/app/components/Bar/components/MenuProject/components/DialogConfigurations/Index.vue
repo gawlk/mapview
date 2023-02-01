@@ -115,7 +115,8 @@
           <CorrectionHeavydynVue
             v-if="store.projects.selected?.machine === 'Heavydyn'"
           />
-          <CorrectionMdynVue v-else />
+          <!-- TODO: 
+            <CorrectionMdynVue v-else /> -->
         </div>
       </div>
     </template>

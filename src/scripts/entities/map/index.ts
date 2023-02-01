@@ -76,6 +76,18 @@ export const createMap = (container: string): mapboxgl.Map => {
     }
   })
 
+  map.on('pitchend', () => {
+    if (store.projects.selected) {
+      store.projects.selected.settings.map.pitch = map.getPitch()
+    }
+  })
+
+  map.on('rotateend', () => {
+    if (store.projects.selected) {
+      store.projects.selected.settings.map.rotation = map.getBearing()
+    }
+  })
+
   map.on('style.load', () => {
     addDummyLayersToMap(map)
 

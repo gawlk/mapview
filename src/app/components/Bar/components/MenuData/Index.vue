@@ -66,12 +66,13 @@
       </div>
     </div>
   </div>
-  <Button
+  <!-- TODO: When redesigning the dialog component
+    <Button
     full
     :leftIcon="IconArrowsExpand"
     :rightIcon="IconArrowSmRight"
     disabled
   >
     Fullscreen
-  </Button>
+  </Button> -->
 </template>

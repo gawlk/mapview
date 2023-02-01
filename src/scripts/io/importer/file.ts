@@ -1,3 +1,5 @@
+import store from '/src/store'
+
 import {
   convertJSONFromPRJZToMPVZ,
   importOverlaysFromZIP,
@@ -22,32 +24,57 @@ export const getProjectJSONFromZip = (
 }
 
 export const importFile = async (file: File) => {
+  store.importingFile = true
+
   await waitForMap()
+
+  console.time('import: file')
 
   const extension = file.name.split('.').pop()
 
   const unzipped = await unzipFile(file)
 
+  console.time('import: zip to json')
   const jsonProject = getProjectJSONFromZip(unzipped, extension || '')
+  console.timeEnd('import: zip to json')
 
   console.log(jsonProject)
+
   if (jsonProject) {
-    const project = await importProjectFromJSON(jsonProject)
+    console.timeLog('import: file')
+
+    console.time('import: project')
+    const project = importProjectFromJSON(jsonProject)
+    console.timeEnd('import: project')
 
     if (project) {
       setTimeout(async () => {
-        importScreenshotsFromZIP(unzipped, jsonProject, project)
+        console.timeLog('import: file')
 
+        console.time('import: screenshots')
+        importScreenshotsFromZIP(unzipped, jsonProject, project)
+        console.timeEnd('import: screenshots')
+
+        console.time('import: rawdata')
         importRawDataFromZIP(unzipped, project)
+        console.timeEnd('import: rawdata')
 
         await waitForMap()
 
+        console.time('import: overlays')
         importOverlaysFromZIP(unzipped, jsonProject, project)
-      }, 500)
+        console.timeEnd('import: overlays')
+
+        console.timeEnd('import: file')
+      }, 100)
     }
+
+    store.importingFile = false
 
     return project
   } else {
+    store.importingFile = false
+
     return null
   }
 }

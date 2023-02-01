@@ -686,7 +686,7 @@ class JSONProjectSettings {
   arePointsLinked: boolean
   areOverlaysVisible: boolean
   pointsState: 'value' | 'number' | 'nothing'
-  map: #123;     version: 1     styleIndex: number     coordinates: LngLat | null     zoom: number | null   #125;
+  map: #123;     version: 1     styleIndex: number     coordinates?: LngLat     zoom?: number     pitch?: number     rotation?: number   #125;
 }
 
 
@@ -1188,6 +1188,7 @@ JSONMachineZone <.. JSONMinidynZone
 
 class JSONSelectableList~T, L~ {
   <<interface>>
+  version: 1
   selectedIndex: number | null
   list: L
 }

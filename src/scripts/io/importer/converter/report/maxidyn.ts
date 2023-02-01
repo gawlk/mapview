@@ -125,6 +125,7 @@ export const convertPRJZToMaxidynReportDistinct = (
       },
     },
     dataLabels: {
+      version: 1,
       selectedIndex: 1,
       list: [
         {
@@ -133,6 +134,7 @@ export const convertPRJZToMaxidynReportDistinct = (
             version: 1,
             from: 'Drop',
             choices: {
+              version: 1,
               selectedIndex: 0,
               list: dropChoices,
             },
@@ -140,6 +142,7 @@ export const convertPRJZToMaxidynReportDistinct = (
           distinct: {
             version: 1,
             indexes: {
+              version: 1,
               selectedIndex: dropIndexes.length - 1,
               list: dropIndexes,
             },
@@ -152,6 +155,7 @@ export const convertPRJZToMaxidynReportDistinct = (
 
             from: 'Test',
             choices: {
+              version: 1,
               selectedIndex:
                 testChoices.findIndex(
                   (choice) =>
@@ -170,6 +174,7 @@ export const convertPRJZToMaxidynReportDistinct = (
             version: 1,
             from: 'Zone',
             choices: {
+              version: 1,
               selectedIndex: 0,
               list: [],
             },

@@ -61,6 +61,7 @@ export const convertPRJZToBaseReport = (
     dataLabels: {
       version: 1,
       table: {
+        version: 1,
         selectedIndex: parameters.machine === 'Heavydyn' ? 0 : 1,
         list: [
           {

@@ -2,7 +2,7 @@ import dayjs from 'dayjs'
 import dedent from 'dedent'
 import { format } from 'mathjs'
 
-import { findFieldInArray } from '/src/scripts'
+import { currentCategory, findFieldInArray } from '/src/scripts'
 
 // TODO:
 // Everything is always in the same order, with same precision, spaces, etc
@@ -254,16 +254,35 @@ const writeDrops = (point: BasePoint, dPlate: number): string => {
   return point.drops
     .map((drop) => {
       const nbr = drop.index.displayedIndex.toString().padStart(3, ' ')
+
       const force =
-        ((drop.data[1].value.value * 1e-3) / Math.PI / dPlate / dPlate) * 4
+        (((drop.data.find(
+          (data) =>
+            data.label.unit === point.zone.report.project.units.force &&
+            data.label.category === currentCategory
+        )?.value.value || 0) *
+          1e-3) /
+          Math.PI /
+          dPlate /
+          dPlate) *
+        4
+
       let values = ''
-      for (let i = 2; i < drop.data.length; i++) {
-        let value: string | number = drop.data[i].value.getValueAs('um')
-        const precision = value < 1000 ? 1 : 0
-        value = value.toFixed(precision)
-        if (Number(value) <= 0) value = 0.1
-        values += `,${value.toString().padStart(6, ' ')}`
-      }
+
+      drop.data
+        .filter(
+          (data) =>
+            data.label.unit === point.zone.report.project.units.deflection &&
+            data.label.category === currentCategory
+        )
+        .forEach((data) => {
+          let value: string | number = data.value.getValueAs('um')
+          const precision = value < 1000 ? 1 : 0
+          value = value.toFixed(precision)
+          if (Number(value) <= 0) value = 0.1
+          values += `,${value.toString().padStart(6, ' ')}`
+        })
+
       const valuesString = dedent`
             ,${Math.round(force).toString().padStart(6, ' ')}${values}
           `

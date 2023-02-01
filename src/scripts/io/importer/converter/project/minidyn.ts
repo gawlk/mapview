@@ -54,7 +54,7 @@ export const convertPRJZToMinidynUnits = (json: any): JSONMinidynUnits => {
   )
 
   const exportedStiffness = json.ExportedData.Points.find(
-    (exportedUnit: any) => exportedUnit.Type === 'Modulus'
+    (exportedUnit: any) => exportedUnit.Type === 'Stiffness'
   )
 
   return {

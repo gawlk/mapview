@@ -61,7 +61,9 @@ export const createLine = (map: mapboxgl.Map | null): Line => {
       watcherHandler.clean()
     },
     update: function (): void {
-      const visiblePoints = sortPoints(this.sortedPoints).filter((point) =>
+      sortPoints(this.sortedPoints)
+
+      const visiblePoints = this.sortedPoints.filter((point) =>
         point.checkVisibility()
       )
 

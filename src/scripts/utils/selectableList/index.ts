@@ -30,6 +30,7 @@ export const createSelectableList = <T, L extends T[] = T[]>(
       transform: (value: T) => TJSON
     ): JSONSelectableList<TJSON, LJSON> {
       return {
+        version: 1,
         selectedIndex: getIndexOfSelectedInSelectableList(this),
         list: list.map((value) => transform(value)) as LJSON,
       }

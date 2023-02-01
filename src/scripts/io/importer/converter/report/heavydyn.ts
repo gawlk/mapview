@@ -105,6 +105,7 @@ export const convertPRJZToHeavydynReportDistinct = (
       },
     },
     dataLabels: {
+      version: 1,
       selectedIndex: 0,
       list: [
         {
@@ -113,6 +114,7 @@ export const convertPRJZToHeavydynReportDistinct = (
             version: 1,
             from: 'Drop',
             choices: {
+              version: 1,
               selectedIndex:
                 dropChoices.findIndex((choice) => choice.name === 'D0') || 0,
               list: dropChoices,
@@ -121,6 +123,7 @@ export const convertPRJZToHeavydynReportDistinct = (
           distinct: {
             version: 1,
             indexes: {
+              version: 1,
               selectedIndex: dropIndexes.length - 1,
               list: dropIndexes,
             },
@@ -133,6 +136,7 @@ export const convertPRJZToHeavydynReportDistinct = (
             version: 1,
             from: 'Test',
             choices: {
+              version: 1,
               selectedIndex: 0,
               list: testChoices as JSONDataLabel<HeavydynUnitsNames>[],
             },
@@ -147,6 +151,7 @@ export const convertPRJZToHeavydynReportDistinct = (
             version: 1,
             from: 'Zone',
             choices: {
+              version: 1,
               selectedIndex: 0,
               list: [],
             },

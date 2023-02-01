@@ -108,6 +108,7 @@ export const convertPRJZToMinidynReportDistinct = (
       },
     },
     dataLabels: {
+      version: 1,
       selectedIndex: 1,
       list: [
         {
@@ -116,6 +117,7 @@ export const convertPRJZToMinidynReportDistinct = (
             version: 1,
             from: 'Drop',
             choices: {
+              version: 1,
               selectedIndex: 0,
               list: dropChoices,
             },
@@ -123,6 +125,7 @@ export const convertPRJZToMinidynReportDistinct = (
           distinct: {
             version: 1,
             indexes: {
+              version: 1,
               selectedIndex: dropIndexes.length - 1,
               list: dropIndexes,
             },
@@ -134,6 +137,7 @@ export const convertPRJZToMinidynReportDistinct = (
             version: 1,
             from: 'Test',
             choices: {
+              version: 1,
               selectedIndex:
                 testChoices.findIndex(
                   (choice) =>
@@ -152,6 +156,7 @@ export const convertPRJZToMinidynReportDistinct = (
             version: 1,
             from: 'Zone',
             choices: {
+              version: 1,
               selectedIndex: 0,
               list: [],
             },

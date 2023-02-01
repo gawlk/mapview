@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
 import dedent from 'dedent'
 
-import { findFieldInArray } from '/src/scripts/entities'
+import { currentCategory, findFieldInArray } from '/src/scripts/entities'
 
 import { ddToDms } from './coordinates'
 
@@ -137,7 +137,13 @@ const writeDrops = (point: BasePoint, channels: JSONChannel[]): string => {
   ]
   const dropHeader = [
     'Drop',
-    ...point.drops[0].data.slice(2).map((_, index) => `D(${index + 1})`),
+    ...point.drops[0].data
+      .filter(
+        (data) =>
+          data.label.unit === point.zone.report.project.units.deflection &&
+          data.label.category === currentCategory
+      )
+      .map((_, index) => `D(${index + 1})`),
     'kPa',
     'kN',
     'Air',
@@ -159,11 +165,25 @@ const writeDrops = (point: BasePoint, channels: JSONChannel[]): string => {
 const writeDrop = (drop: MachineDrop, channels: JSONChannel[]): string => {
   let str = ''
 
-  const loadMax = drop.data[1].value.getValueAs('kN').toFixed(1)
+  const loadMax =
+    drop.data
+      .find(
+        (data) =>
+          data.label.unit === drop.point.zone.report.project.units.force &&
+          data.label.category === currentCategory
+      )
+      ?.value.getValueAs('kN')
+      .toFixed(1) || 0
 
   const maxValues = [
     drop.index.displayedIndex,
-    ...drop.data.slice(2).map((drop) => drop.value.getValueAs('um').toFixed(1)),
+    ...drop.data
+      .filter(
+        (data) =>
+          data.label.unit === drop.point.zone.report.project.units.deflection &&
+          data.label.category === currentCategory
+      )
+      .map((drop) => drop.value.getValueAs('um').toFixed(1)),
     0,
     loadMax,
     ...drop.point.data
@@ -171,7 +191,14 @@ const writeDrop = (drop: MachineDrop, channels: JSONChannel[]): string => {
       .map((data) =>
         data.value.getLocaleString({ precision: 1, locale: 'en-US' })
       ),
-    drop.data[0].value.getValueAs('ms').toFixed(2),
+    (
+      drop.data
+        .find(
+          (data) =>
+            data.label.unit === drop.point.zone.report.project.units.time
+        )
+        ?.value.getValueAs('ms') || 0
+    ).toFixed(2),
   ]
 
   str += `\n${maxValues.join('\t')}`

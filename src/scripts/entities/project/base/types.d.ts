@@ -27,8 +27,10 @@ interface JSONProjectSettings {
   readonly map: {
     version: 1
     styleIndex: number
-    coordinates: LngLat | null
-    zoom: number | null
+    coordinates?: LngLat
+    zoom?: number
+    pitch?: number
+    rotation?: number
   }
 }
 

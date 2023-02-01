@@ -17,6 +17,7 @@
 
   const emit = defineEmits<{
     (event: 'component', value: Component, props?: any): void
+    (event: 'replace', value: Component, props?: any): void
   }>()
 
   const state = reactive({
@@ -29,6 +30,16 @@
 
     state.isOpen = false
   }
+
+  const exporters = computed(() =>
+    store.projects.selected
+      ? getSimpleReportExports(store.projects.selected)
+      : []
+  )
+
+  if (exporters.value.length === 0) {
+    emit('replace', Templates)
+  }
 </script>
 
 <template>
@@ -37,9 +48,7 @@
       {{ mrvzExporter.name }}
     </Button>
     <Button
-      v-for="exporter in store.projects.selected
-        ? getSimpleReportExports(store.projects.selected)
-        : []"
+      v-for="exporter in exporters"
       :leftIcon="IconDownload"
       full
       @click="downloadExport(exporter)"

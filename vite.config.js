@@ -1,4 +1,4 @@
-import favicons from '@darkobits/vite-plugin-favicons'
+import { faviconsPlugin as favicons } from '@darkobits/vite-plugin-favicons'
 import unpluginVueI18N from '@intlify/unplugin-vue-i18n/vite'
 import vue from '@vitejs/plugin-vue'
 import autoprefixer from 'autoprefixer'

@@ -44,7 +44,7 @@
       {{ t('Export report') }}
     </template>
     <template v-slot:dialog>
-      <div class="-mb-8 space-y-8" v-if="state.components.length">
+      <div class="space-y-8" v-if="state.components.length">
         <component
           v-bind="state.components[state.components.length - 1].props"
           :is="state.components[state.components.length - 1].component"
@@ -57,7 +57,8 @@
         "
         />
         <Button
-          class="z-20"
+          class="z-20 -mb-8"
+          v-if="state.components.length > 1"
           :leftIcon="IconHeroiconsSolidChevronLeft"
           @click="() => state.components.pop()"
         >
@@ -72,6 +73,15 @@
               component,
               props,
             })
+        "
+        @replace="
+          (component, props) =>
+            (state.components = [
+              {
+                component,
+                props,
+              },
+            ])
         "
       />
     </template>

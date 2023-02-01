@@ -4,6 +4,7 @@ interface Store {
   selectedReport: MachineReport | null
   map: mapboxgl.Map | null
   updateAvailable: boolean
+  importingFile: boolean
   readonly save: (key: StoreKeys, value: StoreSaveableTypes) => void
 }
 

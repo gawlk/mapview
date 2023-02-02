@@ -7,11 +7,13 @@
 
   import mapboxDarkStyle from '/src/assets/png/mapboxStyles/dark.png'
   import mapboxLightStyle from '/src/assets/png/mapboxStyles/light.png'
+  import mapboxOutdoorsStyle from '/src/assets/png/mapboxStyles/outdoors.png'
   import mapboxSatelliteStyle from '/src/assets/png/mapboxStyles/satellite.png'
   import mapboxStreetsStyle from '/src/assets/png/mapboxStyles/streets.png'
 
   const stylesImages = [
     mapboxStreetsStyle,
+    mapboxOutdoorsStyle,
     mapboxSatelliteStyle,
     mapboxLightStyle,
     mapboxDarkStyle,

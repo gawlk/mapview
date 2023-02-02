@@ -17,7 +17,7 @@
 <template>
   <Listbox
     :icon="IconDotsHorizontal"
-    :values="(groupedDataLabels?.list as BaseDataLabelsGroups | undefined)?.filter((group) => group.choices.list.length).map((group) => t(group.from))"
+    :values="(groupedDataLabels?.list as BaseDataLabelsGroups | undefined)?.filter((group) => group.choices.list.length && group.from !== 'Zone').map((group) => t(group.from))"
     :selected="t(groupedDataLabels?.selected?.from || '')"
     @selectIndex="
       (index) =>

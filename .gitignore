@@ -32,14 +32,20 @@ node_modules
 * 2*
 
 # ---
+# Services
+# ---
+
+.vercel
+
+# ---
+# Secrets
+# ---
+
+.env
+
+# ---
 # Test
 # ---
 
 coverage
 __snapshots__
-
-# ---
-# Services
-# ---
-
-.vercel

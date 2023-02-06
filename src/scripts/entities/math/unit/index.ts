@@ -1,25 +1,36 @@
 import { unit as Unit, createUnit } from 'mathjs'
 
+export enum ConvertType {
+  BaseToCurrent = 'BaseToCurrent',
+  CurrentToBase = 'CurrentToBase',
+}
+
 createUnit({
   cmm: '10 um',
   dmm: '100 um',
   nlbs: '4.448221628250858 N',
 })
 
-const convertMapviewUnitToMathJSUnit = (unit: string) =>
-  unit === '°C'
-    ? 'degC'
-    : unit === '°F'
-    ? 'degF'
-    : unit === '1/100 mm'
-    ? 'cmm'
-    : unit === '1/10 mm'
-    ? 'dmm'
-    : unit === 'lbs'
-    ? 'nlbs'
-    : unit === '%'
-    ? 'm'
-    : unit
+function convertMapviewUnitToMathJSUnit(unit: undefined): undefined
+function convertMapviewUnitToMathJSUnit(unit: string): string
+function convertMapviewUnitToMathJSUnit(unit: any): any {
+  switch (unit) {
+    case '°C':
+      return 'degC'
+    case '°F':
+      return 'degF'
+    case '1/100 mm':
+      return 'cmm'
+    case '1/10 mm':
+      return 'dmm'
+    case 'lbs':
+      return 'nlbs'
+    case '%':
+      return 'm'
+    default:
+      return unit
+  }
+}
 
 export const createMathUnit = <PossibleUnits extends string>(
   name: string,
@@ -83,6 +94,20 @@ export const createMathUnit = <PossibleUnits extends string>(
         max: this.max,
         min: this.min,
       }
+    },
+    currentToBase: function (value: number) {
+      return convertValueFromUnitAToUnitB(
+        value,
+        this.currentUnit,
+        this.baseUnit
+      )
+    },
+    baseToCurrent: function (value: number) {
+      return convertValueFromUnitAToUnitB(
+        value,
+        this.baseUnit,
+        this.currentUnit
+      )
     },
   })
 

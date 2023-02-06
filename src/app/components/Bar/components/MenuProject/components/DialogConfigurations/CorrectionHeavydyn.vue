@@ -1,12 +1,11 @@
 <script setup lang="ts">
   import store from '/src/store'
 
-  import { convertValueFromUnitAToUnitB } from '/src/scripts'
+  import { ConvertType } from '/src/scripts'
 
   import IconCheck from '~icons/tabler/check'
   import IconX from '~icons/tabler/x'
 
-  import Dialog from '/src/components/Dialog.vue'
   import Input from '/src/components/Input.vue'
   import Label from '/src/components/Label.vue'
   import Listbox from '/src/components/Listbox.vue'
@@ -18,11 +17,19 @@
     isOpen: false,
   })
 
-  const convertValue = (value: number, unit: MathUnit<string>) =>
-    Math.round(
-      convertValueFromUnitAToUnitB(value, unit.baseUnit, unit.currentUnit) *
-        100000
-    ) / 100000
+  const operations = {
+    [ConvertType.BaseToCurrent]: (value: number, unit: MathUnit<string>) =>
+      unit.baseToCurrent(value),
+    [ConvertType.CurrentToBase]: (value: number, unit: MathUnit<string>) =>
+      unit.currentToBase(value),
+  }
+
+  const convertValue = (
+    value: number,
+    unit: MathUnit<string> | undefined,
+    type: ConvertType
+  ) =>
+    Math.round((unit ? operations[type](value, unit) : value) * 100000) / 100000
 
   //     {
   //   readonly load: {
@@ -52,6 +59,25 @@
   const selectedProject = computed(
     () => store.selectedProject as HeavydynProject | null
   )
+
+  function convertWhenPossible(value: string | number) {
+    if (selectedProject.value) {
+      const {
+        correctionParameters: {
+          load: {
+            customValue: { unit },
+            customValue,
+          },
+        },
+      } = selectedProject.value
+
+      customValue.value = convertValue(
+        Number(value),
+        unit,
+        ConvertType.CurrentToBase
+      )
+    }
+  }
 </script>
 
 <template>
@@ -102,26 +128,14 @@
         selectedProject
           ? convertValue(
               selectedProject.correctionParameters.load.customValue.value,
-              selectedProject.correctionParameters.load.customValue.unit
+              selectedProject.correctionParameters.load.customValue.unit,
+              ConvertType.BaseToCurrent
             )
           : 0
       "
       type="number"
       :step="0.00001"
-      @input="
-        (value) => {
-          if (selectedProject) {
-            selectedProject.correctionParameters.load.customValue.value =
-              convertValueFromUnitAToUnitB(
-                Number(value),
-                selectedProject.correctionParameters.load.customValue.unit
-                  .currentUnit,
-                selectedProject.correctionParameters.load.customValue.unit
-                  .baseUnit
-              )
-          }
-        }
-      "
+      @input="convertWhenPossible"
     />
   </div>
   <div class="space-y-2">
@@ -202,26 +216,14 @@
                 selectedProject.correctionParameters.temperature.customValue
                   .value,
                 selectedProject.correctionParameters.temperature.customValue
-                  .unit as MathUnit<string>
+                  .unit,
+                ConvertType.BaseToCurrent
               )
             : 0
         "
         type="number"
         :step="0.00001"
-        @input="
-          (value) => {
-            if (selectedProject) {
-              selectedProject.correctionParameters.temperature.customValue.value =
-                convertValueFromUnitAToUnitB(
-                  Number(value),
-                  selectedProject.correctionParameters.temperature.customValue
-                    .unit.currentUnit,
-                  selectedProject.correctionParameters.temperature.customValue
-                    .unit.baseUnit
-                )
-            }
-          }
-        "
+        @input="convertWhenPossible"
       />
       <Input
         :id="`temp-to`"
@@ -232,26 +234,14 @@
                 selectedProject.correctionParameters.temperature.temperatureTo
                   .value,
                 selectedProject.correctionParameters.temperature.temperatureTo
-                  .unit
+                  .unit,
+                ConvertType.BaseToCurrent
               )
             : 0
         "
         type="number"
         :step="0.00001"
-        @input="
-          (value) => {
-            if (selectedProject) {
-              selectedProject.correctionParameters.temperature.temperatureTo.value =
-                convertValueFromUnitAToUnitB(
-                  Number(value),
-                  selectedProject.correctionParameters.temperature.temperatureTo
-                    .unit.currentUnit,
-                  selectedProject.correctionParameters.temperature.temperatureTo
-                    .unit.baseUnit
-                )
-            }
-          }
-        "
+        @input="convertWhenPossible"
       />
       <div class="space-y-1">
         <Label>{{ t('Structure') }}</Label>

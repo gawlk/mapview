@@ -6,8 +6,8 @@
   "license": "gpl",
   "scripts": {
     "dev": "vite --host",
-    "check": "tsc --noEmit",
-    "build": "vite build",
+    "check": "vue-tsc --noEmit --skipLibCheck",
+    "build": "$npm_execpath run check && vite build",
     "prod": "$npm_execpath run build && vite preview --host",
     "test": "vitest run",
     "test-watch": "vitest",

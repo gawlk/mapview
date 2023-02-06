@@ -26,4 +26,6 @@ interface MathUnit<PossibleUnits> {
   currentPrecision: number
   readonly getAverage: (values: number[]) => number
   readonly toJSON: () => JSONMathUnit<PossibleUnits>
+  readonly currentToBase: (value: number) => number
+  readonly baseToCurrent: (value: number) => number
 }

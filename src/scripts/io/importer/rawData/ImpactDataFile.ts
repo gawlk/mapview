@@ -76,6 +76,14 @@ export default class ImpactDataFile {
   private impactDatas: ImpactData[]
   private maxSupportedVersion: number = 1
 
+  get ImpactDataHeader(): ImpactDataHeader {
+    return this.impactDataHeader
+  }
+
+  get ImpactDatas(): ImpactData[] {
+    return this.impactDatas
+  }
+
   constructor(impactSetData?: ImpactSetData) {
     this.fileHeader = new IsaanSimpleFileHeader()
     this.fileHeader.fileType = IsaanSimpleFileType.ImpactDataFile
@@ -122,13 +130,5 @@ export default class ImpactDataFile {
 
       this.impactDatas[i] = impactData
     }
-  }
-
-  get ImpactDatas(): ImpactData[] {
-    return this.impactDatas
-  }
-
-  get ImpactDataHeader(): ImpactDataHeader {
-    return this.impactDataHeader
   }
 }

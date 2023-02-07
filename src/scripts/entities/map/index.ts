@@ -132,7 +132,7 @@ const add3DTerrainToMap = (map: mapboxgl.Map) => {
     maxzoom: 14,
   })
 
-  map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.5 })
+  map.setTerrain({ source: 'mapbox-dem', exaggeration: 0.5 })
 }
 
 const addBuildingsToMap = (map: mapboxgl.Map) => {

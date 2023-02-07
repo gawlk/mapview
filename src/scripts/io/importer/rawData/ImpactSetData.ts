@@ -2,6 +2,13 @@ export default class ImpactSetData {
   public ID: bigint = BigInt(0)
   public ImpactDatas: ImpactData[] = []
 
+  get numberOfDisplacement(): number {
+    if (!this.numberOfImpact || !this.ImpactDatas[0].displacement) {
+      return 0
+    }
+    return this.ImpactDatas[0].displacement[0].length
+  }
+
   get numberOfImpact(): number {
     return this.ImpactDatas.length
   }
@@ -11,12 +18,5 @@ export default class ImpactSetData {
       return 0
     }
     return this.ImpactDatas[0].load.length
-  }
-
-  get numberOfDisplacement(): number {
-    if (!this.numberOfImpact || !this.ImpactDatas[0].displacement) {
-      return 0
-    }
-    return this.ImpactDatas[0].displacement[0].length
   }
 }

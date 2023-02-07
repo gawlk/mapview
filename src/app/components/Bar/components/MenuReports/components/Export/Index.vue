@@ -8,16 +8,20 @@
   import Dialog from '/src/components/Dialog.vue'
 
   import Home from './components/Home.vue'
+  import { initDemoTemplates } from './components/mrvz/scripts'
 
   const { t } = useI18n()
 
   const state = shallowReactive({
-    components: shallowReactive(
-      [] as {
-        component: Component
-        props: any
-      }[]
-    ),
+    components: shallowReactive([
+      {
+        component: Home,
+        props: {},
+      },
+    ] as {
+      component: Component
+      props: any
+    }[]),
     isOpen: false,
   })
 
@@ -25,9 +29,21 @@
     state.isOpen = false
 
     setTimeout(() => {
-      state.components.length = 0
+      state.components.length = 1
     }, 500)
   }
+
+  onMounted(() => {
+    const key = 'demo-templates-fetched'
+
+    const fetched = localStorage.getItem(key)
+
+    if (fetched !== 'true') {
+      initDemoTemplates()
+
+      localStorage.setItem(key, 'true')
+    }
+  })
 </script>
 
 <template>
@@ -44,7 +60,7 @@
       {{ t('Export report') }}
     </template>
     <template v-slot:dialog>
-      <div class="space-y-8" v-if="state.components.length">
+      <div class="space-y-8">
         <component
           v-bind="state.components[state.components.length - 1].props"
           :is="state.components[state.components.length - 1].component"
@@ -53,8 +69,15 @@
             state.components.push({
               component,
               props,
-            })
-        "
+            })"
+          @replace="
+          (component: Component, props: any) => {
+            state.components.length = 0
+
+            state.components.push({
+              component,
+              props,
+            })}"
         />
         <Button
           class="z-20 -mb-8"
@@ -65,25 +88,6 @@
           {{ t('Back') }}
         </Button>
       </div>
-      <Home
-        v-else
-        @component="
-          (component, props) =>
-            state.components.push({
-              component,
-              props,
-            })
-        "
-        @replace="
-          (component, props) =>
-            (state.components = [
-              {
-                component,
-                props,
-              },
-            ])
-        "
-      />
     </template>
   </Dialog>
 </template>

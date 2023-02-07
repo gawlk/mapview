@@ -90,28 +90,16 @@ export default defineConfig({
       },
       list: [
         {
-          name: 'Objects',
-          exclude: [/JSON/],
-        },
-        {
-          name: 'JSONs',
-          include: [/JSON/],
-        },
-        {
           name: 'Heavydyn',
-          include: [/Heavydyn/],
+          include: [/Heavydyn/, /Base/, 'Line'],
         },
         {
           name: 'Maxidyn',
-          include: [/Maxidyn/],
+          include: [/Maxidyn/, /Base/, 'Line'],
         },
         {
           name: 'Minidyn',
-          include: [/Minidyn/],
-        },
-        {
-          name: 'Base',
-          include: [/Base/],
+          include: [/Minidyn/, /Base/, 'Line'],
         },
       ],
     }),

@@ -12,6 +12,13 @@ dist-ssr
 node_modules
 
 # ---
+# Documentation
+# ---
+
+mermaid
+visualizer
+
+# ---
 # Editors
 # ---
 

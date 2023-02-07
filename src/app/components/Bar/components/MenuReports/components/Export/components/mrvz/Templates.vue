@@ -18,7 +18,6 @@
 
 <template>
   <div class="space-y-2">
-    <Button full>TODO: {{ t('Default') }} </Button>
     <Template
       @component="(component, props) => emit('component', component, props)"
       :n="1"

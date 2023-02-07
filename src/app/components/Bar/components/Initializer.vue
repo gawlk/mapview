@@ -3,7 +3,7 @@
 
   import {
     acceptedExtensions,
-    fetchFileFromGitlab,
+    fetchFileFromURL,
     importFile,
   } from '/src/scripts'
 
@@ -14,10 +14,6 @@
 
   const { t } = useI18n()
 
-  let demoHeavydyn: File | undefined
-  let demoMaxidyn: File | undefined
-  let demoMinidyn: File | undefined
-
   const openFiles = async (files: FileList | null) => {
     const file = files?.[0]
 
@@ -27,33 +23,43 @@
   }
 
   const openDemo = async () => {
-    if (demoHeavydyn && demoMaxidyn && demoMinidyn) {
-      const project = await importFile(demoHeavydyn)
-      store.projects.selected = project
+    const demosHeavydyn = import.meta.glob('/src/assets/demos/heavydyn/*', {
+      as: 'url',
+    })
 
-      importFile(demoMaxidyn)
-      importFile(demoMinidyn)
-    }
+    const demosMaxidyn = import.meta.glob('/src/assets/demos/maxidyn/*', {
+      as: 'url',
+    })
+
+    const demosMinidyn = import.meta.glob('/src/assets/demos/minidyn/*', {
+      as: 'url',
+    })
+
+    const paths = [
+      ...Object.keys(demosHeavydyn),
+      ...Object.keys(demosMaxidyn),
+      ...Object.keys(demosMinidyn),
+    ].filter((path) =>
+      acceptedExtensions.some((extension) => path.endsWith(extension))
+    )
+
+    const projects = await Promise.all(
+      paths.map(async (url) => await importFile(await fetchFileFromURL(url)))
+    )
+
+    store.projects.list.sort(
+      (a, b) => projects.indexOf(a) - projects.indexOf(b)
+    )
+
+    store.projects.selected = projects[0]
   }
-
-  onMounted(() => {
-    ;(async () => {
-      demoHeavydyn = await fetchFileFromGitlab('demo', 'heavydyn.prjz')
-    })()
-    ;(async () => {
-      demoMaxidyn = await fetchFileFromGitlab('demo', 'maxidyn.prjz')
-    })()
-    ;(async () => {
-      demoMinidyn = await fetchFileFromGitlab('demo', 'minidyn.dynz')
-    })()
-  })
 </script>
 
 <template>
   <div class="space-y-2">
     <DragAndDrop
       @input="openFiles"
-      :accept="acceptedExtensions"
+      :accept="acceptedExtensions.join(', ')"
       :buttonText="t('Open a file')"
     >
       {{ t('Drop a file here or click here to choose one') }}

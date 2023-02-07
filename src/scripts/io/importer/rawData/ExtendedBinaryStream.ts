@@ -15,31 +15,10 @@ export class ExtendedBinaryReader {
     return dataView
   }
 
-  public readInt8(): number {
-    return this.read(1).getInt8(0)
-  }
+  public readArrayDouble(): number[] {
+    const length = this.readInt32()
 
-  public readInt32(): number {
-    return this.read(4).getInt32(0, true)
-  }
-
-  public readFloat32(): number {
-    return this.read(4).getFloat32(0, true)
-  }
-
-  public readUInt32(): number {
-    return this.read(4).getUint32(0, true)
-  }
-
-  public readInt64(): bigint {
-    return this.read(8).getBigInt64(0, true)
-  }
-
-  public readString(): string {
-    const length = this.readInt8()
-    const textDecoder = new TextDecoder('utf-8')
-
-    return textDecoder.decode(this.read(length))
+    return this.readArrayDoubleWithLen(length)
   }
 
   public readArrayDoubleWithLen(length: number): number[] {
@@ -52,10 +31,27 @@ export class ExtendedBinaryReader {
     return array
   }
 
-  public readArrayDouble(): number[] {
-    const length = this.readInt32()
+  public readFloat32(): number {
+    return this.read(4).getFloat32(0, true)
+  }
 
-    return this.readArrayDoubleWithLen(length)
+  public readInt32(): number {
+    return this.read(4).getInt32(0, true)
+  }
+
+  public readInt64(): bigint {
+    return this.read(8).getBigInt64(0, true)
+  }
+
+  public readInt8(): number {
+    return this.read(1).getInt8(0)
+  }
+
+  public readString(): string {
+    const length = this.readInt8()
+    const textDecoder = new TextDecoder('utf-8')
+
+    return textDecoder.decode(this.read(length))
   }
 
   public readTwoDimentionArraySingleAsDouble(): number[][] {
@@ -68,5 +64,9 @@ export class ExtendedBinaryReader {
     }
 
     return array
+  }
+
+  public readUInt32(): number {
+    return this.read(4).getUint32(0, true)
   }
 }

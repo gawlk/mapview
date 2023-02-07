@@ -24,57 +24,59 @@ export const getProjectJSONFromZip = (
 }
 
 export const importFile = async (file: File) => {
-  store.importingFile = true
+  let project = null as MachineProject | null
 
-  await waitForMap()
+  try {
+    store.importingFile = true
 
-  console.time('import: file')
+    await waitForMap()
 
-  const extension = file.name.split('.').pop()
+    console.time('import: file')
 
-  const unzipped = await unzipFile(file)
+    const extension = file.name.split('.').pop()
 
-  console.time('import: zip to json')
-  const jsonProject = getProjectJSONFromZip(unzipped, extension || '')
-  console.timeEnd('import: zip to json')
+    const unzipped = await unzipFile(file)
 
-  console.log(jsonProject)
+    console.time('import: zip to json')
+    const jsonProject = getProjectJSONFromZip(unzipped, extension || '')
+    console.timeEnd('import: zip to json')
 
-  if (jsonProject) {
-    console.timeLog('import: file')
+    console.log(jsonProject)
 
-    console.time('import: project')
-    const project = importProjectFromJSON(jsonProject)
-    console.timeEnd('import: project')
+    if (jsonProject) {
+      console.timeLog('import: file')
 
-    if (project) {
+      console.time('import: project')
+      project = importProjectFromJSON(jsonProject)
+      console.timeEnd('import: project')
+
       setTimeout(async () => {
-        console.timeLog('import: file')
+        if (project) {
+          console.timeLog('import: file')
 
-        console.time('import: screenshots')
-        importScreenshotsFromZIP(unzipped, jsonProject, project)
-        console.timeEnd('import: screenshots')
+          console.time('import: screenshots')
+          importScreenshotsFromZIP(unzipped, jsonProject, project)
+          console.timeEnd('import: screenshots')
 
-        console.time('import: rawdata')
-        importRawDataFromZIP(unzipped, project)
-        console.timeEnd('import: rawdata')
+          console.time('import: rawdata')
+          importRawDataFromZIP(unzipped, project)
+          console.timeEnd('import: rawdata')
 
-        await waitForMap()
+          await waitForMap()
 
-        console.time('import: overlays')
-        importOverlaysFromZIP(unzipped, jsonProject, project)
-        console.timeEnd('import: overlays')
+          console.time('import: overlays')
+          importOverlaysFromZIP(unzipped, jsonProject, project)
+          console.timeEnd('import: overlays')
 
-        console.timeEnd('import: file')
+          console.timeEnd('import: file')
+        }
       }, 100)
     }
-
+  } catch (error) {
+    console.log(error)
+  } finally {
     store.importingFile = false
 
     return project
-  } else {
-    store.importingFile = false
-
-    return null
   }
 }

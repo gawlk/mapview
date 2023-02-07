@@ -6,6 +6,8 @@
 
   import { convertFileToDataURL, downloadFile } from '/src/scripts'
 
+  import { getTemplateKey } from './scripts'
+
   import Button from '/src/components/Button.vue'
 
   import Rest from './Rest.vue'
@@ -17,7 +19,7 @@
   }>()
 
   const props = defineProps<{
-    n: number
+    n: 1 | 2 | 3
   }>()
 
   const state = reactive({
@@ -26,8 +28,8 @@
 
   const input = ref(undefined as HTMLInputElement | undefined)
 
-  const key = computed(
-    () => `template${store.projects.selected?.machine}${props.n}`
+  const key = computed(() =>
+    getTemplateKey(store.projects.selected?.machine as MachineName, props.n)
   )
 
   onMounted(async () => {

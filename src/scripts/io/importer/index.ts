@@ -6,5 +6,11 @@ export * from './overlays'
 export * from './project'
 export * from './screenshots'
 
-export const acceptedExtensions =
-  '.prjz, .mpvz, .dynz, .prjz.zip, .mpvz.zip, .dynz.zip'
+export const acceptedExtensions = [
+  '.prjz',
+  '.mpvz',
+  '.dynz',
+  '.prjz.zip',
+  '.mpvz.zip',
+  '.dynz.zip',
+]

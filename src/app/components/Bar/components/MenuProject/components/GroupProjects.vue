@@ -93,7 +93,7 @@
     <input
       class="hidden"
       @change="(event) => addProject((event.target as HTMLInputElement).files?.[0])"
-      :accept="acceptedExtensions"
+      :accept="acceptedExtensions.join(', ')"
       type="file"
       ref="inputFile"
     />

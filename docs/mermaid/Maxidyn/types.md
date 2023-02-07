@@ -1,1 +1,0 @@
-![diagram](./types.svg)

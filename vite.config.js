@@ -17,11 +17,20 @@ import viteVueSvgLoader from 'vite-svg-loader'
 import packageJSON from './package.json'
 
 export default defineConfig({
+  assetsInclude: [
+    '**/*.prjz',
+    '**/*.mpvz',
+    '**/*.dynz',
+    '**/*.mvrz',
+    '**/*.xlsx',
+  ],
+
   resolve: {
     alias: {
       '/src': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+
   plugins: [
     vue(),
 

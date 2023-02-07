@@ -113,7 +113,9 @@ export default class ImpactDataFile {
     }
 
     this.impactDataHeader = new ImpactDataHeader()
+
     this.impactDataHeader.fromStream(br)
+
     this.impactDatas = new Array(this.impactDataHeader.nbOfImpact)
 
     for (let i = 0; i < this.impactDataHeader.nbOfImpact; i++) {
@@ -121,7 +123,7 @@ export default class ImpactDataFile {
 
       const load = br.readArrayDouble()
 
-      const displacement = br.readTwoDimentionArraySingleAsDouble()
+      const displacement = br.readTwoDimensionArraySingleAsDouble()
 
       const impactData: ImpactData = {
         load,

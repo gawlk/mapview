@@ -6,7 +6,7 @@ export const convertPRJZToBasePoint = (
   return {
     version: 1,
     id: jsonPoint.Point.ID,
-    number: jsonPoint.Point.Number,
+    number: index + 1,
     index,
     date: jsonPoint.Point.Date,
     coordinates: {

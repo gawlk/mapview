@@ -4,6 +4,7 @@ export class ExtendedBinaryReader {
 
   constructor(buffer: ArrayBuffer) {
     this.buffer = buffer
+
     this.cursor = 0
   }
 
@@ -54,7 +55,7 @@ export class ExtendedBinaryReader {
     return textDecoder.decode(this.read(length))
   }
 
-  public readTwoDimentionArraySingleAsDouble(): number[][] {
+  public readTwoDimensionArraySingleAsDouble(): number[][] {
     const length = this.readInt32()
     const arrayLen = this.readInt32()
     const array = []

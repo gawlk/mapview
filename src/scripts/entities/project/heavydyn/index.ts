@@ -117,7 +117,6 @@ export const createHeavydynProjectFromJSON = (
         distinct: {
           version: json.distinct.version,
           calibrations: json.distinct.calibrations,
-          // correctionParameters: {},
           units: {
             deflection: this.units.deflection.toJSON(),
             distance: this.units.distance.toJSON(),

@@ -275,6 +275,7 @@ const generateCalibrations = (
       ['Calibration_Channel' + (index + 1) + '_Acquisition']:
         channel.acquisition,
       ['Calibration_Channel' + (index + 1) + '_Type']: channel.type,
+      ['Calibration_Channel' + (index + 1) + '_V0']: channel.v0,
     }),
     {}
   ),
@@ -285,6 +286,7 @@ const generateCalibrations = (
       ['Calibration_Sensor' + (index + 1) + '_Version']: sensor.version,
       ['Calibration_Sensor' + (index + 1) + '_Gain']: sensor.gain,
       ['Calibration_Sensor' + (index + 1) + '_Type']: sensor.type,
+      ['Calibration_Sensor' + (index + 1) + '_V0']: sensor.v0,
     }),
     {}
   ),

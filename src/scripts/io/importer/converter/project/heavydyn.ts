@@ -74,6 +74,7 @@ export const convertPRJZToHeavydynProjectDistinct = (
             name: sensor.Name,
             gain: sensor.Gain,
             type: sensor.Type,
+            v0: sensor.V0,
           }
         }) || [],
     },

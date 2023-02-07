@@ -41,6 +41,7 @@ interface JSONSensor {
   readonly name: string
   readonly gain: number
   readonly type: 'AirTemp' | 'SurfTemp' | 'Dmi'
+  readonly v0: number
 }
 
 interface JSONHeavydynCorrectionParameters {

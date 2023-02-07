@@ -23,24 +23,22 @@
   }
 
   const openDemo = async () => {
-    const demosHeavydyn = import.meta.glob('/src/assets/demos/heavydyn/*', {
-      as: 'url',
-    })
+    const demosHeavydyn = import.meta.glob('/src/assets/demos/heavydyn/*')
 
-    const demosMaxidyn = import.meta.glob('/src/assets/demos/maxidyn/*', {
-      as: 'url',
-    })
+    const demosMaxidyn = import.meta.glob('/src/assets/demos/maxidyn/*')
 
-    const demosMinidyn = import.meta.glob('/src/assets/demos/minidyn/*', {
-      as: 'url',
-    })
+    const demosMinidyn = import.meta.glob('/src/assets/demos/minidyn/*')
 
-    const paths = [
-      ...Object.keys(demosHeavydyn),
-      ...Object.keys(demosMaxidyn),
-      ...Object.keys(demosMinidyn),
-    ].filter((path) =>
-      acceptedExtensions.some((extension) => path.endsWith(extension))
+    const paths = await Promise.all(
+      [
+        ...Object.entries(demosHeavydyn),
+        ...Object.entries(demosMaxidyn),
+        ...Object.entries(demosMinidyn),
+      ]
+        .filter(([key, _]) =>
+          acceptedExtensions.some((extension) => key.endsWith(extension))
+        )
+        .map(async ([_, value]) => String(((await value()) as any).default))
     )
 
     const projects = await Promise.all(

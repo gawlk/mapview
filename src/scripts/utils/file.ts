@@ -50,12 +50,21 @@ export const convertData64ImageToUint8Array = async (data64: string) => {
 export const downloadImage = async (screenshot: string) =>
   downloadFile(await convertData64ImageToFile(screenshot))
 
-export function isValidFileNAme(name: string) {
-  return (
-    name.length > 0 &&
-    !/[\\\|\/*<>:"?\x00-\x1F]/.test(name) &&
-    reservedWords.includes(name.toUpperCase())
-  )
+export function validFileName(name: string, hasExtension: boolean = true) {
+  let toCheck = name
+  let extension = ''
+
+  if (hasExtension && name.includes('.')) {
+    const index = name.lastIndexOf('.')
+    toCheck = name.slice(0, index)
+    extension = name.slice(index, name.length)
+  }
+
+  if (reservedWords.includes(toCheck.toUpperCase()) || toCheck.length === 0) {
+    return `_${extension}`
+  }
+
+  return `${toCheck.replaceAll(/[\\\|\/*<>:"?\x00-\x1F]/g, '_')}${extension}`
 }
 
 export const downloadFile = async (file: File) => {
@@ -63,7 +72,8 @@ export const downloadFile = async (file: File) => {
   const a = document.createElement('a')
 
   a.href = URL.createObjectURL(file)
-  a.download = file.name
+  console.log('file', file)
+  a.download = validFileName(file.name)
 
   console.log('a', a)
 

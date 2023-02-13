@@ -96,10 +96,7 @@ export const createBaseDataLabelsGroupFromJSON = <
             ? rawCategory
             : currentCategory
         )
-      }) || [],
-      {
-        selectedIndex: json.choices.selectedIndex,
-      }
+      }) || []
     ),
     toBaseJSON: function () {
       return {

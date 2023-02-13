@@ -20,7 +20,12 @@ interface JSONTableDataLabelsParameters {
   readonly version: 1
   readonly from: DataLabelsFrom
   readonly index?: number
-  readonly dataLabels: string[]
+  readonly dataLabels: JSONTableDataLabelsValues[]
+}
+
+interface JSONTableDataLabelsValues {
+  name: string
+  category: string
 }
 
 type DataLabelsFrom = 'Drop' | 'Test' | 'Zone'

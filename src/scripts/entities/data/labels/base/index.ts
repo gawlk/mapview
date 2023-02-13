@@ -40,7 +40,10 @@ export const createBaseDataLabelsFromJSON = (
           return {
             version: 1,
             from: params.group.from,
-            dataLabels: params.dataLabels.map((dataLabels) => dataLabels.name),
+            dataLabels: params.dataLabels.map((dataLabels) => ({
+              name: dataLabels.name,
+              category: dataLabels.category.name,
+            })),
             index:
               params.index && table.selected?.group.from === 'Drop'
                 ? table.selected.group.indexes.list.indexOf(params.index)
@@ -67,13 +70,7 @@ export const createTableDataLabelsFromJSON = (
         group.from === 'Drop'
           ? group.indexes.list[tableDataLabels?.index || 0]
           : undefined,
-      dataLabels: shallowReactive(
-        (tableDataLabels?.dataLabels || [])
-          .map((name) =>
-            group.choices.list.find((choice) => choice.name === name)
-          )
-          .filter((dataLabel) => dataLabel) as DataLabel<string>[]
-      ),
+      dataLabels: shallowReactive([]),
     })
   })
 

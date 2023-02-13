@@ -145,11 +145,32 @@ export const createHeavydynReportFromJSON = (
     ...createCurvatureRadiusDataComputers(report),
     createCumSumDataComputer(report),
   ].forEach((computer) => computer?.init())
+
+  report.dataLabels.table.list.forEach((parameters) => {
+    const { group } = parameters
+
+    const tableDataLabels = json.base.dataLabels.table.list.find(
+      (tableDataLabels) => tableDataLabels.from === group.from
+    )
+
+    parameters.dataLabels.push(
+      ...((tableDataLabels?.dataLabels || [])
+        .map((dataLabel) =>
+          group.choices.list.find(
+            (choice) =>
+              choice.name === dataLabel.name &&
+              choice.category.name === dataLabel.category
+          )
+        )
+        .filter((dataLabel) => dataLabel) as DataLabel<string>[])
+    )
+  })
+
   console.timeEnd('import: computers')
 
   console.timeEnd('import: report')
 
-  return report as HeavydynReport
+  return report
 }
 
 const upgradeJSON = (json: JSONHeavydynReportVAny): JSONHeavydynReport => {

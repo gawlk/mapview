@@ -13,6 +13,7 @@ import {
   createLLIDataComputer,
   createMLIDataComputer,
   createWatcherHandler,
+  currentCategory,
 } from '/src/scripts'
 
 import {
@@ -145,6 +146,20 @@ export const createHeavydynReportFromJSON = (
     ...createCurvatureRadiusDataComputers(report),
     createCumSumDataComputer(report),
   ].forEach((computer) => computer?.init())
+
+  report.dataLabels.groups.list.forEach((group, index) => {
+    const indexD0 = group.choices.list.findIndex(
+      (dataLabel) =>
+        dataLabel.name === 'D0' && dataLabel.category === currentCategory
+    )
+
+    group.choices.selectIndex(
+      json.distinct.dataLabels.list[index].base.choices.selectedIndex ??
+        indexD0 === -1
+        ? 0
+        : indexD0
+    )
+  })
 
   report.dataLabels.table.list.forEach((parameters) => {
     const { group } = parameters

@@ -115,8 +115,7 @@ export const convertPRJZToHeavydynReportDistinct = (
             from: 'Drop',
             choices: {
               version: 1,
-              selectedIndex:
-                dropChoices.findIndex((choice) => choice.name === 'D0') || 0,
+              selectedIndex: null,
               list: dropChoices,
             },
           },

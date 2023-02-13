@@ -1,4 +1,4 @@
-export const reservedWords = (() => {
+export const reservedFileNameWords = (() => {
   const words = ['CON', 'PRN', 'AUX', 'NUL']
 
   for (let i = 1; i < 9; i++) {
@@ -50,7 +50,10 @@ export const convertData64ImageToUint8Array = async (data64: string) => {
 export const downloadImage = async (screenshot: string) =>
   downloadFile(await convertData64ImageToFile(screenshot))
 
-export function validFileName(name: string, hasExtension: boolean = true) {
+export function convertFileNameToValidName(
+  name: string,
+  hasExtension: boolean = true
+) {
   let toCheck = name
   let extension = ''
 
@@ -60,7 +63,10 @@ export function validFileName(name: string, hasExtension: boolean = true) {
     extension = name.slice(index, name.length)
   }
 
-  if (reservedWords.includes(toCheck.toUpperCase()) || toCheck.length === 0) {
+  if (
+    reservedFileNameWords.includes(toCheck.toUpperCase()) ||
+    toCheck.length === 0
+  ) {
     return `_${extension}`
   }
 
@@ -73,7 +79,7 @@ export const downloadFile = async (file: File) => {
   const a = document.createElement('a')
 
   a.href = URL.createObjectURL(file)
-  a.download = validFileName(file.name)
+  a.download = convertFileNameToValidName(file.name)
 
   a.target = '_blank' // Needed for Safari
   a.click()

@@ -64,18 +64,16 @@ export function validFileName(name: string, hasExtension: boolean = true) {
     return `_${extension}`
   }
 
-  return `${toCheck.replaceAll(/[\\\|\/*<>:"?\x00-\x1F]/g, '_')}${extension}`
+  return `${toCheck
+    .trim()
+    .replaceAll(/[\\\|\/*<>:"?\x00-\x1F]/g, '_')}${extension}`
 }
 
 export const downloadFile = async (file: File) => {
-  console.log('file', file)
   const a = document.createElement('a')
 
   a.href = URL.createObjectURL(file)
-  console.log('file', file)
   a.download = validFileName(file.name)
-
-  console.log('a', a)
 
   a.target = '_blank' // Needed for Safari
   a.click()

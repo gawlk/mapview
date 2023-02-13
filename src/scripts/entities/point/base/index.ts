@@ -217,11 +217,6 @@ export const createBasePointFromJSON = <
           () => {
             const sortedPoints = this.zone.report.line.sortedPoints
 
-            console.log(
-              'from',
-              sortedPoints.map((point) => point.number)
-            )
-
             point.updateVisibility()
 
             let index =

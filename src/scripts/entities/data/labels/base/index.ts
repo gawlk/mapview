@@ -95,7 +95,18 @@ export const createBaseDataLabelsGroupFromJSON = <
 
   return {
     from: json.from,
-    choices: createSelectableList(choices),
+    choices: createSelectableList(
+      json.choices.list.map((jsonChoice) => {
+        const unitKey = jsonChoice.unit as MachineUnitsNames
+        return createDataLabelFromJSON(
+          jsonChoice,
+          units,
+          unitKey === 'force' || unitKey === 'deflection'
+            ? rawCategory
+            : currentCategory
+        )
+      }) || []
+    ),
     toBaseJSON: function () {
       return {
         version: 1,

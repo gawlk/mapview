@@ -72,7 +72,11 @@ export const convertPRJZToBaseReport = (
               switch (parameters.machine) {
                 case 'Heavydyn':
                   return [
-                    { name: 'Load', category: currentCategory.name },
+                    {
+                      name: 'Load',
+                      category: currentCategory.name,
+                      version: 1,
+                    },
                     ...(() => {
                       const indexD0 = parameters.dropChoices.findIndex(
                         (choice) => choice.name === 'D0'
@@ -80,19 +84,25 @@ export const convertPRJZToBaseReport = (
 
                       return parameters.dropChoices
                         .slice(indexD0, indexD0 + 3)
-                        .map((choice) => ({
-                          name: choice.name,
-                          category: currentCategory.name,
-                        }))
+                        .map(
+                          (choice): JSONTableDataLabelsValues => ({
+                            version: 1,
+                            name: choice.name,
+                            category: currentCategory.name,
+                          })
+                        )
                     })(),
                   ]
                 case 'Maxidyn':
                 case 'Minidyn':
                   return parameters.dropChoices
-                    .map((choice) => ({
-                      name: choice.name,
-                      category: currentCategory.name,
-                    }))
+                    .map(
+                      (choice): JSONTableDataLabelsValues => ({
+                        version: 1,
+                        name: choice.name,
+                        category: currentCategory.name,
+                      })
+                    )
                     .filter(
                       (value) =>
                         value.name === 'Modulus' ||
@@ -109,16 +119,20 @@ export const convertPRJZToBaseReport = (
               switch (parameters.machine) {
                 case 'Heavydyn':
                   return parameters.testChoices.map((choice) => ({
+                    version: 1,
                     name: choice.name,
                     category: currentCategory.name,
                   }))
                 case 'Maxidyn':
                 case 'Minidyn':
                   return parameters.testChoices
-                    .map((choice) => ({
-                      name: choice.name,
-                      category: currentCategory.name,
-                    }))
+                    .map(
+                      (choice): JSONTableDataLabelsValues => ({
+                        version: 1,
+                        name: choice.name,
+                        category: currentCategory.name,
+                      })
+                    )
                     .filter(
                       (value) =>
                         value.name === 'Modulus' ||

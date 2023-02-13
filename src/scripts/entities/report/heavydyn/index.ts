@@ -16,9 +16,11 @@ import {
   currentCategory,
 } from '/src/scripts'
 
+import { selectTableDataLabelsFromJSON } from '../../data/labels/base'
 import {
   convertThresholdsConfigurationToJSON,
   createBaseReportFromJSON,
+  selectGroupChoieFromJSON,
 } from '../base'
 
 export const createHeavydynReportFromJSON = (
@@ -147,39 +149,9 @@ export const createHeavydynReportFromJSON = (
     createCumSumDataComputer(report),
   ].forEach((computer) => computer?.init())
 
-  report.dataLabels.groups.list.forEach((group, index) => {
-    const indexD0 = group.choices.list.findIndex(
-      (dataLabel) =>
-        dataLabel.name === 'D0' && dataLabel.category === currentCategory
-    )
+  selectGroupChoieFromJSON(report, json)
 
-    group.choices.selectIndex(
-      json.distinct.dataLabels.list[index].base.choices.selectedIndex ??
-        indexD0 === -1
-        ? 0
-        : indexD0
-    )
-  })
-
-  report.dataLabels.table.list.forEach((parameters) => {
-    const { group } = parameters
-
-    const tableDataLabels = json.base.dataLabels.table.list.find(
-      (tableDataLabels) => tableDataLabels.from === group.from
-    )
-
-    parameters.dataLabels.push(
-      ...((tableDataLabels?.dataLabels || [])
-        .map((dataLabel) =>
-          group.choices.list.find(
-            (choice) =>
-              choice.name === dataLabel.name &&
-              choice.category.name === dataLabel.category
-          )
-        )
-        .filter((dataLabel) => dataLabel) as DataLabel<string>[])
-    )
-  })
+  selectTableDataLabelsFromJSON(report, json.base)
 
   console.timeEnd('import: computers')
 

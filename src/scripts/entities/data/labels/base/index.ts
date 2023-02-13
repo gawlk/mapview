@@ -36,20 +36,19 @@ export const createBaseDataLabelsFromJSON = (
     toBaseJSON: function () {
       return {
         version: 1,
-        table: table.toJSON((params) => {
-          return {
+        table: table.toJSON((params) => ({
+          version: 1,
+          from: params.group.from,
+          dataLabels: params.dataLabels.map((dataLabels) => ({
             version: 1,
-            from: params.group.from,
-            dataLabels: params.dataLabels.map((dataLabels) => ({
-              name: dataLabels.name,
-              category: dataLabels.category.name,
-            })),
-            index:
-              params.index && table.selected?.group.from === 'Drop'
-                ? table.selected.group.indexes.list.indexOf(params.index)
-                : undefined,
-          }
-        }),
+            name: dataLabels.name,
+            category: dataLabels.category.name,
+          })),
+          index:
+            params.index && table.selected?.group.from === 'Drop'
+              ? table.selected.group.indexes.list.indexOf(params.index)
+              : undefined,
+        })),
       }
     },
   })
@@ -138,4 +137,29 @@ export const createBaseZoneDataLabelsGroupFromJSON = <T extends string>(
   return {
     ...createBaseDataLabelsGroupFromJSON(json, units),
   }
+}
+
+export const selectTableDataLabelsFromJSON = (
+  report: BaseReport,
+  json: JSONBaseReport
+) => {
+  report.dataLabels.table.list.forEach((parameters) => {
+    const { group } = parameters
+
+    const tableDataLabels = json.dataLabels.table.list.find(
+      (tableDataLabels) => tableDataLabels.from === group.from
+    )
+
+    parameters.dataLabels.push(
+      ...((tableDataLabels?.dataLabels || [])
+        .map((dataLabel) =>
+          group.choices.list.find(
+            (choice) =>
+              choice.name === dataLabel.name &&
+              choice.category.name === dataLabel.category
+          )
+        )
+        .filter((dataLabel) => dataLabel) as DataLabel<string>[])
+    )
+  })
 }

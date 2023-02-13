@@ -4,6 +4,7 @@ import {
   createFieldFromJSON,
   createLine,
   createWatcherHandler,
+  currentCategory,
   debounce,
   getIndexOfSelectedInSelectableList,
 } from '/src/scripts'
@@ -236,3 +237,22 @@ export const convertThresholdsConfigurationToJSON = (
   selectedIndex: getIndexOfSelectedInSelectableList(group.choices) || 0,
   custom: (group.choices.list.slice(-1)[0] as CustomThreshold).toJSON(),
 })
+
+export const selectGroupChoieFromJSON = (
+  report: HeavydynReport,
+  json: JSONHeavydynReport
+) => {
+  report.dataLabels.groups.list.forEach((group, index) => {
+    const indexD0 = group.choices.list.findIndex(
+      (dataLabel) =>
+        dataLabel.name === 'D0' && dataLabel.category === currentCategory
+    )
+
+    group.choices.selectIndex(
+      json.distinct.dataLabels.list[index].base.choices.selectedIndex ??
+        indexD0 === -1
+        ? 0
+        : indexD0
+    )
+  })
+}

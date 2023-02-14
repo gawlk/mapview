@@ -20,7 +20,7 @@ export const heavydynPDXExporter: HeavydynExporter = {
             ${writePoints(project)}
           `,
       ],
-      `${project.reports.selected?.name.toString().replaceAll(' ', '_')}.pdx`,
+      `${project.reports.selected?.name.toString()}.pdx`,
       { type: 'text/plain' }
     )
   },

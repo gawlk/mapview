@@ -151,17 +151,25 @@ export const createBasePointFromJSON = <
         case 'value':
           const group = this.zone.report.dataLabels.groups.selected
 
-          let text = ''
-
           if (group && group.choices.selected) {
-            text = this.getDisplayedString(
+            const value = this.getSelectedMathNumber(
               group.from,
               group.choices.selected,
               group.from === 'Drop' ? group.indexes.selected : undefined
             )
-          }
 
-          this.icon?.setText(text)
+            watcherMarkersString = watcherHandler.add(
+              watch(
+                () => value?.displayedString,
+                (displayedString) => {
+                  this.icon?.setText(displayedString || '')
+                },
+                {
+                  immediate: true,
+                }
+              )
+            )
+          }
 
           break
         case 'nothing':
@@ -216,11 +224,6 @@ export const createBasePointFromJSON = <
           () => this.settings.isVisible,
           () => {
             const sortedPoints = this.zone.report.line.sortedPoints
-
-            console.log(
-              'from',
-              sortedPoints.map((point) => point.number)
-            )
 
             point.updateVisibility()
 

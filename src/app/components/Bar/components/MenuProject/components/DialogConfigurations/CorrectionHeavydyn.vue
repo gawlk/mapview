@@ -13,10 +13,6 @@
 
   const { t } = useI18n()
 
-  const state = reactive({
-    isOpen: false,
-  })
-
   const operations = {
     [ConvertType.BaseToCurrent]: (value: number, unit: MathUnit<string>) =>
       unit.baseToCurrent(value),
@@ -31,52 +27,18 @@
   ) =>
     Math.round((unit ? operations[type](value, unit) : value) * 100000) / 100000
 
-  //     {
-  //   readonly load: {
-  //     active: boolean
-  //     loadReferenceSource: SelectableList<
-  //       LoadReferenceSourceValue,
-  //       LoadReferenceSourceList
-  //     >
-  //     customValue: MathNumber
-  //   }
-  //   readonly temperature: {
-  //     active: boolean
-  //     temperatureFromSource: SelectableList<
-  //       TemperatureFromSourceValue,
-  //       TemperatureFromSourceList
-  //     >
-  //     average: SelectableList<TemperatureAverageValue, TemperatureAverageList>
-  //     customValue: MathNumber
-  //     temperatureTo: number
-  //     structureType: SelectableList<
-  //       TemperatureStructureTypeValue,
-  //       TemperatureStructureTypeList
-  //     >
-  //   }
-  // }
-
   const selectedProject = computed(
     () => store.selectedProject as HeavydynProject | null
   )
 
-  function convertWhenPossible(value: string | number) {
-    if (selectedProject.value) {
-      const {
-        correctionParameters: {
-          load: {
-            customValue: { unit },
-            customValue,
-          },
-        },
-      } = selectedProject.value
+  function convertInputValue(mathNumber: MathNumber, value: string | number) {
+    const unit = mathNumber.unit
 
-      customValue.value = convertValue(
-        Number(value),
-        unit,
-        ConvertType.CurrentToBase
-      )
-    }
+    mathNumber.value = convertValue(
+      Number(value),
+      unit,
+      ConvertType.CurrentToBase
+    )
   }
 </script>
 
@@ -135,7 +97,14 @@
       "
       type="number"
       :step="0.00001"
-      @input="convertWhenPossible"
+      @input="
+        (value) =>
+          selectedProject &&
+          convertInputValue(
+            selectedProject.correctionParameters.load.customValue,
+            value
+          )
+      "
     />
   </div>
   <div class="space-y-2">
@@ -223,7 +192,14 @@
         "
         type="number"
         :step="0.00001"
-        @input="convertWhenPossible"
+        @input="
+          (value) =>
+            selectedProject &&
+            convertInputValue(
+              selectedProject.correctionParameters.temperature.customValue,
+              value
+            )
+        "
       />
       <Input
         :id="`temp-to`"
@@ -241,7 +217,14 @@
         "
         type="number"
         :step="0.00001"
-        @input="convertWhenPossible"
+        @input="
+          (value) =>
+            selectedProject &&
+            convertInputValue(
+              selectedProject.correctionParameters.temperature.temperatureTo,
+              value
+            )
+        "
       />
       <div class="space-y-1">
         <Label>{{ t('Structure') }}</Label>

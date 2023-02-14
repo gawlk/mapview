@@ -1,4 +1,4 @@
-import { icons } from '/src/scripts'
+import { currentCategory, icons } from '/src/scripts'
 
 import { convertPRJZObjectToFields } from '../shared'
 
@@ -68,30 +68,46 @@ export const convertPRJZToBaseReport = (
             version: 1,
             from: 'Drop',
             index: parameters.dropIndexes.length - 1,
-            dataLabels: ((): string[] => {
+            dataLabels: ((): JSONTableDataLabelsValues[] => {
               switch (parameters.machine) {
                 case 'Heavydyn':
                   return [
-                    'Load',
+                    {
+                      name: 'Load',
+                      category: currentCategory.name,
+                      version: 1,
+                    },
                     ...(() => {
                       const indexD0 = parameters.dropChoices.findIndex(
                         (choice) => choice.name === 'D0'
                       )
 
                       return parameters.dropChoices
-                        .map((choice) => choice.name)
                         .slice(indexD0, indexD0 + 3)
+                        .map(
+                          (choice): JSONTableDataLabelsValues => ({
+                            version: 1,
+                            name: choice.name,
+                            category: currentCategory.name,
+                          })
+                        )
                     })(),
                   ]
                 case 'Maxidyn':
                 case 'Minidyn':
                   return parameters.dropChoices
-                    .map((choice) => choice.name)
+                    .map(
+                      (choice): JSONTableDataLabelsValues => ({
+                        version: 1,
+                        name: choice.name,
+                        category: currentCategory.name,
+                      })
+                    )
                     .filter(
-                      (name) =>
-                        name === 'Modulus' ||
-                        name === 'Stiffness' ||
-                        name === 'Quality'
+                      (value) =>
+                        value.name === 'Modulus' ||
+                        value.name === 'Stiffness' ||
+                        value.name === 'Quality'
                     )
               }
             })(),
@@ -99,19 +115,29 @@ export const convertPRJZToBaseReport = (
           {
             version: 1,
             from: 'Point',
-            dataLabels: ((): string[] => {
+            dataLabels: ((): JSONTableDataLabelsValues[] => {
               switch (parameters.machine) {
                 case 'Heavydyn':
-                  return parameters.testChoices.map((choice) => choice.name)
+                  return parameters.testChoices.map((choice) => ({
+                    version: 1,
+                    name: choice.name,
+                    category: currentCategory.name,
+                  }))
                 case 'Maxidyn':
                 case 'Minidyn':
                   return parameters.testChoices
-                    .map((choice) => choice.name)
+                    .map(
+                      (choice): JSONTableDataLabelsValues => ({
+                        version: 1,
+                        name: choice.name,
+                        category: currentCategory.name,
+                      })
+                    )
                     .filter(
-                      (name) =>
-                        name === 'Modulus' ||
-                        name === 'Stiffness' ||
-                        name === 'Quality'
+                      (value) =>
+                        value.name === 'Modulus' ||
+                        value.name === 'Stiffness' ||
+                        value.name === 'Quality'
                     )
               }
             })(),

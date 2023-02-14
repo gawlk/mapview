@@ -1,3 +1,13 @@
+export const reservedFileNameWords = (() => {
+  const words = ['CON', 'PRN', 'AUX', 'NUL']
+
+  for (let i = 1; i < 9; i++) {
+    words.push(`COM${i}`, `LPT${i}`)
+  }
+
+  return words
+})()
+
 export const convertFileToDataURL = (file: File) =>
   new Promise<string>((resolve, reject) => {
     const reader = new FileReader()
@@ -40,11 +50,36 @@ export const convertData64ImageToUint8Array = async (data64: string) => {
 export const downloadImage = async (screenshot: string) =>
   downloadFile(await convertData64ImageToFile(screenshot))
 
+export function convertFileNameToValidName(
+  name: string,
+  hasExtension: boolean = true
+) {
+  let toCheck = name
+  let extension = ''
+
+  if (hasExtension && name.includes('.')) {
+    const index = name.lastIndexOf('.')
+    toCheck = name.slice(0, index)
+    extension = name.slice(index, name.length)
+  }
+
+  if (
+    reservedFileNameWords.includes(toCheck.toUpperCase()) ||
+    toCheck.length === 0
+  ) {
+    return `_${extension}`
+  }
+
+  return `${toCheck
+    .trim()
+    .replaceAll(/[\\\|\/*<>:"?\x00-\x1F]/g, '_')}${extension}`
+}
+
 export const downloadFile = async (file: File) => {
   const a = document.createElement('a')
 
   a.href = URL.createObjectURL(file)
-  a.download = file.name
+  a.download = convertFileNameToValidName(file.name)
 
   a.target = '_blank' // Needed for Safari
   a.click()

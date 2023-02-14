@@ -71,7 +71,7 @@ export const createBasePointFromJSON = <
         case 'Drop':
           source = this.drops.find((drop) => drop.index === index)
           break
-        case 'Test':
+        case 'Point':
           source = this
           break
 

@@ -80,7 +80,7 @@ export const createHeavydynTestDataLabelsGroupFromJSON = (
       return {
         version: 1,
         base: this.toBaseJSON() as JSONBaseDataLabelsGroup<
-          'Test',
+          'Point',
           HeavydynUnitsNames
         >,
         distinct: {

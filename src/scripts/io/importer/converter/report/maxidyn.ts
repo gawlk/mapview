@@ -152,8 +152,7 @@ export const convertPRJZToMaxidynReportDistinct = (
           version: 1,
           base: {
             version: 1,
-
-            from: 'Test',
+            from: 'Point',
             choices: {
               version: 1,
               selectedIndex:

@@ -23,7 +23,7 @@ interface JSONMaxidynDropDataLabelsGroupDistinct {
 
 interface JSONMaxidynTestDataLabelsGroup {
   readonly version: 1
-  readonly base: JSONBaseDataLabelsGroup<'Test', MaxidynUnitsNames>
+  readonly base: JSONBaseDataLabelsGroup<'Point', MaxidynUnitsNames>
   readonly distinct: {
     readonly version: 1
   }

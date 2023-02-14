@@ -93,7 +93,7 @@ export const createMaxidynTestDataLabelsGroupFromJSON = (
       return {
         version: 1,
         base: this.toBaseJSON() as JSONBaseDataLabelsGroup<
-          'Test',
+          'Point',
           MaxidynUnitsNames
         >,
         distinct: {

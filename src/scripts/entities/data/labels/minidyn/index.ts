@@ -93,7 +93,7 @@ export const createMinidynTestDataLabelsGroupFromJSON = (
       return {
         version: 1,
         base: this.toBaseJSON() as JSONBaseDataLabelsGroup<
-          'Test',
+          'Point',
           MinidynUnitsNames
         >,
         distinct: {

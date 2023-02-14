@@ -6,7 +6,7 @@ import {
 } from '/src/scripts'
 
 const convertFromToIndex = (from: DataLabelsFrom) =>
-  from === 'Drop' ? 0 : from === 'Test' ? 1 : 2
+  from === 'Drop' ? 0 : from === 'Point' ? 1 : 2
 
 export const createBaseDataLabelsFromJSON = (
   jsonTable: JSONSelectableList<JSONTableDataLabelsParameters>,
@@ -129,7 +129,7 @@ export const createBaseDropDataLabelsGroupFromJSON = <
 }
 
 export const createBaseTestDataLabelsGroupFromJSON = <T extends string>(
-  json: JSONBaseDataLabelsGroup<'Test', T>,
+  json: JSONBaseDataLabelsGroup<'Point', T>,
   units: MachineMathUnits
 ): BaseTestDataLabelsGroup => {
   return {

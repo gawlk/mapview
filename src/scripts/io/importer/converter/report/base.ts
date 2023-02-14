@@ -98,7 +98,7 @@ export const convertPRJZToBaseReport = (
           },
           {
             version: 1,
-            from: 'Test',
+            from: 'Point',
             dataLabels: ((): string[] => {
               switch (parameters.machine) {
                 case 'Heavydyn':

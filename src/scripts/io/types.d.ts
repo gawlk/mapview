@@ -1,7 +1,7 @@
 type JSONMapviewVAny = JSONMapview
 
 interface JSONMapview {
-  version: 1
-  jsonFileFormat: 'Project database from Mapview'
-  project: JSONMachineProject
+  readonly version: 1
+  readonly jsonFileFormat: 'Project database from Mapview'
+  readonly project: JSONMachineProject
 }

@@ -113,15 +113,20 @@ const generateDropData = (
 ): ExcelJson =>
   points.reduce<FlatDataJson>((a, point) => {
     const drops: MachineDrop[] = point.drops
+
     return drops.reduce<FlatDataJson>(
       (b, drop) => ({
         ...b,
+        [`${labelPrefix}${drop.index.displayedIndex}_Number`]: new Array(
+          points.length
+        ).fill(drop.index.displayedIndex),
         ...drop.data.reduce<FlatDataJson>((c, data) => {
           const label =
             labelPrefix +
             drop.index.displayedIndex +
             '_' +
             toPascalCase(data.label.getSerializedName())
+
           const values = (c[label] || []) as number[]
 
           const value = data.label.unit
@@ -129,6 +134,7 @@ const generateDropData = (
             : data.value.value
 
           values.push(value)
+
           return {
             ...c,
             [label]: values,

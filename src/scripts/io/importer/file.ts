@@ -19,7 +19,7 @@ export const getProjectJSONFromZip = (
   const importedJSON: any = JSON.parse(new TextDecoder().decode(jsonUint))
 
   return extension === 'mpvz'
-    ? (importedJSON as JSONMachineProject)
+    ? (importedJSON as JSONMapview).project
     : convertJSONFromPRJZToMPVZ(importedJSON)
 }
 

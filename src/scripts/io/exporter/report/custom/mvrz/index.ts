@@ -21,7 +21,7 @@ export const mrvzExporter = {
           additionalFile: template,
         }),
       ],
-      `${project.reports.selected?.name.toString()}.mvrz`,
+      `${project.name.toString()}_${project.reports.selected?.name.toString()}.mvrz`,
       { type: 'blob' }
     ),
 }

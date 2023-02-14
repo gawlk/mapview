@@ -13,11 +13,14 @@ import {
   createLLIDataComputer,
   createMLIDataComputer,
   createWatcherHandler,
+  currentCategory,
 } from '/src/scripts'
 
+import { selectTableDataLabelsFromJSON } from '../../data/labels/base'
 import {
   convertThresholdsConfigurationToJSON,
   createBaseReportFromJSON,
+  selectGroupChoieFromJSON,
 } from '../base'
 
 export const createHeavydynReportFromJSON = (
@@ -145,11 +148,16 @@ export const createHeavydynReportFromJSON = (
     ...createCurvatureRadiusDataComputers(report),
     createCumSumDataComputer(report),
   ].forEach((computer) => computer?.init())
+
+  selectGroupChoieFromJSON(report, json)
+
+  selectTableDataLabelsFromJSON(report, json.base)
+
   console.timeEnd('import: computers')
 
   console.timeEnd('import: report')
 
-  return report as HeavydynReport
+  return report
 }
 
 const upgradeJSON = (json: JSONHeavydynReportVAny): JSONHeavydynReport => {

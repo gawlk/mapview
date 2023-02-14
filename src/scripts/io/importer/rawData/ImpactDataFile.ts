@@ -119,8 +119,6 @@ export default class ImpactDataFile {
     this.impactDatas = new Array(this.impactDataHeader.nbOfImpact)
 
     for (let i = 0; i < this.impactDataHeader.nbOfImpact; i++) {
-      console.log(i)
-
       const load = br.readArrayDouble()
 
       const displacement = br.readTwoDimensionArraySingleAsDouble()

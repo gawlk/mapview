@@ -42,5 +42,13 @@ export const createZipFromProject = async (
 
 const addProjectToZip = async (
   zip: Fflate.Zippable,
-  json: JSONMachineProject
-) => addJSONToZip(zip, 'database.json', json)
+  jsonProject: JSONMachineProject
+) => {
+  const json: JSONMapview = {
+    version: 1,
+    jsonFileFormat: 'Project database from Mapview',
+    project: jsonProject,
+  }
+
+  return addJSONToZip(zip, 'database.json', json)
+}

@@ -46,7 +46,7 @@ const addProjectToZip = async (
 ) => {
   const json: JSONMapview = {
     version: 1,
-    jsonFileFormat: 'Project database from Mapview',
+    jsonFileFormat: 'Database from Mapview',
     project: jsonProject,
   }
 

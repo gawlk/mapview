@@ -34,6 +34,7 @@ specifiers:
   fflate: ^0.7.4
   file-saver: ^2.0.5
   html2canvas: ^1.4.1
+  husky: ^8.0.3
   iconoir: ^6.2.0
   localforage: ^1.10.0
   lodash-es: ^4.17.21
@@ -104,6 +105,7 @@ devDependencies:
   '@vitest/ui': 0.28.3
   '@vue/compiler-sfc': 3.2.45
   autoprefixer: 10.4.13_postcss@8.4.21
+  husky: 8.0.3
   postcss: 8.4.21
   prettier: 2.8.3
   prettier-plugin-css-order: 1.3.0_2mydsrxicfimatp4yj7qjmo36i
@@ -3996,6 +3998,12 @@ packages:
   /human-signals/2.1.0:
     resolution: {integrity: sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw==}
     engines: {node: '>=10.17.0'}
+    dev: true
+
+  /husky/8.0.3:
+    resolution: {integrity: sha512-+dQSyqPh4x1hlO1swXBiNb2HzTDN1I2IGLQx1GrBuiqFJfoMrnZWwVmatvSiO+Iz8fBUnf+lekwNo4c2LlXItg==}
+    engines: {node: '>=14'}
+    hasBin: true
     dev: true
 
   /iconoir/6.2.0:

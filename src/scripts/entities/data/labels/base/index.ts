@@ -82,7 +82,7 @@ export const createBaseDataLabelsGroupFromJSON = <
 >(
   json: JSONBaseDataLabelsGroup<From, T>,
   units: MachineMathUnits,
-  categorySelector?: (unitKey: MachineUnitsNames) => DataCategory
+  categorySelector?: CategorySelector
 ): BaseDataLabelsGroup<From> => {
   return {
     from: json.from,
@@ -113,7 +113,7 @@ export const createBaseDropDataLabelsGroupFromJSON = <
   json: JSONBaseDataLabelsGroup<'Drop', T>,
   units: MachineMathUnits,
   indexes: SelectableList<DropIndex>,
-  categorySelector?: (unitKey: MachineUnitsNames) => DataCategory
+  categorySelector?: CategorySelector
 ): BaseDropDataLabelsGroup<DropIndex> => {
   return {
     ...createBaseDataLabelsGroupFromJSON(json, units, categorySelector),
@@ -124,7 +124,7 @@ export const createBaseDropDataLabelsGroupFromJSON = <
 export const createBaseTestDataLabelsGroupFromJSON = <T extends string>(
   json: JSONBaseDataLabelsGroup<'Point', T>,
   units: MachineMathUnits,
-  categorySelector?: (unitKey: MachineUnitsNames) => DataCategory
+  categorySelector?: CategorySelector
 ): BaseTestDataLabelsGroup => {
   return {
     ...createBaseDataLabelsGroupFromJSON(json, units, categorySelector),
@@ -134,7 +134,7 @@ export const createBaseTestDataLabelsGroupFromJSON = <T extends string>(
 export const createBaseZoneDataLabelsGroupFromJSON = <T extends string>(
   json: JSONBaseDataLabelsGroup<'Zone', T>,
   units: MachineMathUnits,
-  categorySelector?: (unitKey: MachineUnitsNames) => DataCategory
+  categorySelector?: CategorySelector
 ): BaseZoneDataLabelsGroup => {
   return {
     ...createBaseDataLabelsGroupFromJSON(json, units, categorySelector),

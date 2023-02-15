@@ -3,6 +3,8 @@ import {
   createMaxidynDataLabelsFromJSON,
   createMaxidynThresholdsGroupsFromJSON,
   createMaxidynZoneFromJSON,
+  selectMaxidynGroupChoiceFromJSON,
+  selectTableDataLabelsFromJSON,
 } from '/src/scripts'
 
 import {
@@ -99,6 +101,10 @@ export const createMaxidynReportFromJSON = (
       })
     )
   )
+
+  selectMaxidynGroupChoiceFromJSON(report, json)
+
+  selectTableDataLabelsFromJSON(report, json.base)
 
   return report as MaxidynReport
 }

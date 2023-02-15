@@ -1,6 +1,7 @@
 import {
   createHeavydynDropIndexFromJSON,
   createSelectableList,
+  currentCategory,
 } from '/src/scripts'
 
 import {
@@ -110,4 +111,23 @@ export const createHeavydynZoneDataLabelsGroupFromJSON = (
       }
     },
   }
+}
+
+export const selectHeavydynGroupChoiceFromJSON = (
+  report: HeavydynReport,
+  json: JSONHeavydynReport
+) => {
+  report.dataLabels.groups.list.forEach((group, index) => {
+    const indexD0 = group.choices.list.findIndex(
+      (dataLabel) =>
+        dataLabel.name === 'D0' && dataLabel.category === currentCategory
+    )
+
+    group.choices.selectIndex(
+      json.distinct.dataLabels.list[index].base.choices.selectedIndex ??
+        indexD0 === -1
+        ? 0
+        : indexD0
+    )
+  })
 }

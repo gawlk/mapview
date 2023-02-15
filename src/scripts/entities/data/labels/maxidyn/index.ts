@@ -125,3 +125,21 @@ export const createMaxidynZoneDataLabelsGroupFromJSON = (
     },
   }
 }
+
+export const selectMaxidynGroupChoiceFromJSON = (
+  report: MaxidynReport,
+  json: JSONMaxidynReport
+) => {
+  report.dataLabels.groups.list.forEach((group, index) => {
+    const indexModulus = group.choices.list.findIndex(
+      (dataLabel) => dataLabel.name === 'Modulus'
+    )
+
+    group.choices.selectIndex(
+      json.distinct.dataLabels.list[index].base.choices.selectedIndex ??
+        indexModulus === -1
+        ? 0
+        : indexModulus
+    )
+  })
+}

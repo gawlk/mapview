@@ -129,4 +129,5 @@
 <i18n lang="yaml">
 fr:
   'See configurations': 'Voir les configurations'
+  'Corrected data': 'Données corrigées'
 </i18n>

@@ -2,6 +2,7 @@ import {
   createHeavydynDropIndexFromJSON,
   createSelectableList,
   currentCategory,
+  rawCategory,
 } from '/src/scripts'
 
 import {
@@ -10,6 +11,11 @@ import {
   createBaseTestDataLabelsGroupFromJSON,
   createBaseZoneDataLabelsGroupFromJSON,
 } from '../base'
+
+const heavydynCategorySelector: CategorySelector = (unitKey) =>
+  unitKey === 'force' || unitKey === 'deflection'
+    ? rawCategory
+    : currentCategory
 
 export const createHeavydynDataLabelsFromJSON = (
   jsonGroups: JSONSelectableList<
@@ -52,7 +58,12 @@ export const createHeavydynDropDataLabelsGroupFromJSON = (
   )
 
   return {
-    ...createBaseDropDataLabelsGroupFromJSON(json.base, project.units, indexes),
+    ...createBaseDropDataLabelsGroupFromJSON(
+      json.base,
+      project.units,
+      indexes,
+      heavydynCategorySelector
+    ),
     sequenceName: json.distinct.sequenceName,
     toJSON: function () {
       return {
@@ -76,7 +87,11 @@ export const createHeavydynTestDataLabelsGroupFromJSON = (
   project: HeavydynProject
 ): HeavydynTestDataLabelsGroup => {
   return {
-    ...createBaseTestDataLabelsGroupFromJSON(json.base, project.units),
+    ...createBaseTestDataLabelsGroupFromJSON(
+      json.base,
+      project.units,
+      heavydynCategorySelector
+    ),
     toJSON: function () {
       return {
         version: 1,

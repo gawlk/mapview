@@ -10,9 +10,7 @@ export const heavydynSwecoExporter: HeavydynExporter = {
   export: async (project: HeavydynProject) => {
     return new File(
       ['\n' + writeHeader(project) + writePoints(project) + '\n'],
-      `${project.reports.selected?.name
-        .toString()
-        .replaceAll(' ', '_')}-sweco.fwd`,
+      `${project.reports.selected?.name.toString()}-sweco.fwd`,
       { type: 'text/plain' }
     )
   },

@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
 import dedent from 'dedent'
 
-import { findFieldInArray } from '/src/scripts'
+import { currentCategory, findFieldInArray } from '/src/scripts'
 
 export const heavydynPDXExporter: HeavydynExporter = {
   name: '.pdx',
@@ -20,7 +20,7 @@ export const heavydynPDXExporter: HeavydynExporter = {
             ${writePoints(project)}
           `,
       ],
-      `${project.reports.selected?.name.toString().replaceAll(' ', '_')}.pdx`,
+      `${project.reports.selected?.name.toString()}.pdx`,
       { type: 'text/plain' }
     )
   },
@@ -208,18 +208,25 @@ const writePoints = (project: HeavydynProject) => {
 }
 
 const writeDrops = (point: BasePoint, dPlate: number) => {
+  const deflection = point.zone.report.project.units.deflection
+
   return point.drops
     .map((drop, index) => {
-      const values = drop.data.slice(2).map((data) => {
-        let value: string | number = data.value.getValueAs('um')
-        value = value.toFixed(2)
-        if (Number(value) <= 0) value = 0.1
-        return value.toString()
-      })
+      const values = drop.data
+        .filter((data) => {
+          data.label.unit === deflection &&
+            data.label.category === currentCategory
+        })
+        .map((data) => {
+          const value = data.value.getValueAs('um')
+          return (value <= 0 ? 0.1 : value).toFixed(2)
+        })
 
       const power =
         ((drop.data[1].value.value * 1e-3) / Math.PI / dPlate / dPlate) * 4
+
       values.unshift(power.toFixed(2).toString())
+
       return dedent`
         DropData_${index} = ${values} 
       `

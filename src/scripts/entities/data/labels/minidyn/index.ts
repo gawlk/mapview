@@ -28,6 +28,7 @@ export const createMinidynDataLabelsFromJSON = (
     selectedIndex: jsonGroups.selectedIndex,
   })
 
+  // TODO: Undo deconstruction and add type to function
   return {
     ...createBaseDataLabelsFromJSON(jsonTable, groups),
     groups,
@@ -93,7 +94,7 @@ export const createMinidynTestDataLabelsGroupFromJSON = (
       return {
         version: 1,
         base: this.toBaseJSON() as JSONBaseDataLabelsGroup<
-          'Test',
+          'Point',
           MinidynUnitsNames
         >,
         distinct: {
@@ -123,4 +124,22 @@ export const createMinidynZoneDataLabelsGroupFromJSON = (
       }
     },
   }
+}
+
+export const selectMinidynGroupChoiceFromJSON = (
+  report: MinidynReport,
+  json: JSONMinidynReport
+) => {
+  report.dataLabels.groups.list.forEach((group, index) => {
+    const indexModulus = group.choices.list.findIndex(
+      (dataLabel) => dataLabel.name === 'Modulus'
+    )
+
+    group.choices.selectIndex(
+      json.distinct.dataLabels.list[index].base.choices.selectedIndex ??
+        indexModulus === -1
+        ? 0
+        : indexModulus
+    )
+  })
 }

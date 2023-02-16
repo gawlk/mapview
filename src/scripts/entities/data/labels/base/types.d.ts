@@ -78,3 +78,5 @@ interface BaseTableDataLabelsParameters {
   readonly dataLabels: DataLabel<string>[]
   index?: BaseDropIndex
 }
+
+type CategorySelector = (unitKey: MachineUnitsNames) => DataCategory

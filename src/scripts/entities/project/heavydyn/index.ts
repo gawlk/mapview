@@ -157,6 +157,7 @@ export const createHeavydynProjectFromJSON = (
       }
     },
   })
+
   console.timeEnd('create: project')
 
   console.time('import: reports')

@@ -20,7 +20,7 @@ export const heavydynF25Exporter: HeavydynExporter = {
           ${writePoints(project)}
         `,
       ],
-      `${project.reports.selected?.name.toString().replaceAll(' ', '_')}.F25`,
+      `${project.reports.selected?.name.toString()}.F25`,
       { type: 'text/plain' }
     )
   },

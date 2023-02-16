@@ -13,6 +13,8 @@ import {
   createLLIDataComputer,
   createMLIDataComputer,
   createWatcherHandler,
+  selectHeavydynGroupChoiceFromJSON,
+  selectTableDataLabelsFromJSON,
 } from '/src/scripts'
 
 import {
@@ -145,11 +147,16 @@ export const createHeavydynReportFromJSON = (
     ...createCurvatureRadiusDataComputers(report),
     createCumSumDataComputer(report),
   ].forEach((computer) => computer?.init())
+
+  selectHeavydynGroupChoiceFromJSON(report, json)
+
+  selectTableDataLabelsFromJSON(report, json.base)
+
   console.timeEnd('import: computers')
 
   console.timeEnd('import: report')
 
-  return report as HeavydynReport
+  return report
 }
 
 const upgradeJSON = (json: JSONHeavydynReportVAny): JSONHeavydynReport => {

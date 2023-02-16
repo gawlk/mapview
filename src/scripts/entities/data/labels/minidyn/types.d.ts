@@ -25,7 +25,7 @@ interface JSONMinidynDropDataLabelsGroupDistinct {
 
 interface JSONMinidynTestDataLabelsGroup {
   readonly version: 1
-  readonly base: JSONBaseDataLabelsGroup<'Test', MinidynUnitsNames>
+  readonly base: JSONBaseDataLabelsGroup<'Point', MinidynUnitsNames>
   readonly distinct: JSONMinidynTestDataLabelsGroupDistinct
 }
 

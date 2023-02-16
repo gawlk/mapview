@@ -2,6 +2,7 @@ image: node:latest
 
 stages:
   - build
+  - test
 
 cache:
   paths:
@@ -9,7 +10,14 @@ cache:
 
 build:
   stage: build
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
   script:
     - npx pnpm i --store=node_modules/.pnpm-store
     - npx pnpm run build
     - npm run test
+
+test-job1:
+  stage: test
+  script:
+    - npx pnpm check

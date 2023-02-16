@@ -318,6 +318,7 @@ const generateHeavydynData = (project: HeavydynProject): ExcelJson => {
   const {
     correctionParameters: { load, temperature },
   } = project
+
   return {
     ...generateCalibrations(project.calibrations),
     ...{
@@ -327,6 +328,7 @@ const generateHeavydynData = (project: HeavydynProject): ExcelJson => {
         .loadReferenceSource.selected
         ? load.loadReferenceSource.selected
         : '',
+
       [`CorrectionParameters_Temperature_Active`]: temperature.active,
       [`CorrectionParameters_Temperature_TemperatureFromSource`]: temperature
         .temperatureFromSource.selected

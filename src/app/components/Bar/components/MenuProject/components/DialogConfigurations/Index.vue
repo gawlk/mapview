@@ -9,7 +9,6 @@
   import Input from '/src/components/Input.vue'
 
   import CorrectionHeavydynVue from './CorrectionHeavydyn.vue'
-  import CorrectionMdynVue from './CorrectionMdyn.vue'
 
   const { t } = useI18n()
 
@@ -129,4 +128,5 @@
 <i18n lang="yaml">
 fr:
   'See configurations': 'Voir les configurations'
+  'Corrected data': 'Données corrigées'
 </i18n>

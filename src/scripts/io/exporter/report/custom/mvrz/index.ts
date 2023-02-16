@@ -314,9 +314,42 @@ const generateBearingParameters = (
   ['BearingParameters_Alpha']: parameters.alpha,
 })
 
-const generateHeavydynData = (project: HeavydynProject): ExcelJson => ({
-  ...generateCalibrations(project.calibrations),
-})
+const generateHeavydynData = (project: HeavydynProject): ExcelJson => {
+  const {
+    correctionParameters: { load, temperature },
+  } = project
+  return {
+    ...generateCalibrations(project.calibrations),
+    ...{
+      [`CorrectionParameters_Load_Active`]: load.active,
+      [`CorrectionParameters_Load_CustomValue`]: load.customValue.value,
+      [`CorrectionParameters_Load_LoadReferenceSource`]: load
+        .loadReferenceSource.selected
+        ? load.loadReferenceSource.selected
+        : '',
+      [`CorrectionParameters_Temperature_Active`]: temperature.active,
+      [`CorrectionParameters_Temperature_TemperatureFromSource`]: temperature
+        .temperatureFromSource.selected
+        ? temperature.temperatureFromSource.selected
+        : '',
+      [`CorrectionParameters_Temperature_Average`]: temperature.average.selected
+        ? temperature.average.selected
+        : '',
+      [`CorrectionParameters_Temperature_CustomValue`]:
+        temperature.customValue.value,
+      [`CorrectionParameters_Temperature_TemperatureTo`]:
+        temperature.temperatureTo.value,
+      [`CorrectionParameters_Temperature_StructureType_Name`]: temperature
+        .structureType.selected
+        ? temperature.structureType.selected.name
+        : '',
+      [`CorrectionParameters_Temperature_StructureType_K`]: temperature
+        .structureType.selected
+        ? temperature.structureType.selected.k
+        : '',
+    },
+  }
+}
 
 const generateMaxidynData = (project: MaxidynProject): ExcelJson => ({
   ...generateBearingParameters(project.bearingParameters),

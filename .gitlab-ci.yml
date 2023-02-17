@@ -2,10 +2,31 @@ image: node:latest
 
 stages:
   - build
+  - version
 
 cache:
   paths:
     - node_modules/
+
+version-1:
+  stage: version
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" && $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+      when: on_success
+  script:
+    - npx pnpm install json --save-dev
+    - npx pnpm json -I -f "package.json" -e "this.build=this.build+1"
+
+version-2:
+  stage: version
+  variables:
+    BRANCH_NAME: 'prod'
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" && $CI_COMMIT_REF_NAME == $BRANCH_NAME
+      when: on_success
+  script:
+    - npx pnpm install json --save-dev
+    - npx pnpm json -I -f package.json -e "const versionPart = this.version.split('.');this.version=versionPart[0] + '.' + versionPart[1] + '.' + (Number(versionPart[2]) + 1)"
 
 test-code:
   stage: build

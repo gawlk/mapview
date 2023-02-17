@@ -7,9 +7,19 @@ cache:
   paths:
     - node_modules/
 
-build:
+test-code:
   stage: build
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+
   script:
+    - npx pnpm check
     - npx pnpm i --store=node_modules/.pnpm-store
-    - npx pnpm run build
     - npm run test
+
+test-ts:
+  stage: build
+  rules:
+    - if: $CI_COMMIT_TAG
+  script:
+    - npx pnpm check

@@ -24,7 +24,7 @@ interface JSONHeavydynDropDataLabelsGroupDistinct {
 
 interface JSONHeavydynTestDataLabelsGroup {
   readonly version: 1
-  readonly base: JSONBaseDataLabelsGroup<'Test', HeavydynUnitsNames>
+  readonly base: JSONBaseDataLabelsGroup<'Point', HeavydynUnitsNames>
   readonly distinct: {
     readonly version: 1
   }

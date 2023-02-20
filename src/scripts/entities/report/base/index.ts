@@ -4,6 +4,7 @@ import {
   createFieldFromJSON,
   createLine,
   createWatcherHandler,
+  currentCategory,
   debounce,
   getIndexOfSelectedInSelectableList,
 } from '/src/scripts'

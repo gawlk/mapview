@@ -20,10 +20,16 @@ interface JSONTableDataLabelsParameters {
   readonly version: 1
   readonly from: DataLabelsFrom
   readonly index?: number
-  readonly dataLabels: string[]
+  readonly dataLabels: JSONTableDataLabelsValues[]
 }
 
-type DataLabelsFrom = 'Drop' | 'Test' | 'Zone'
+interface JSONTableDataLabelsValues {
+  readonly version: 1
+  readonly name: string
+  readonly category: string
+}
+
+type DataLabelsFrom = 'Drop' | 'Point' | 'Zone'
 
 // ---
 // Object
@@ -63,7 +69,7 @@ interface BaseDropDataLabelsGroup<Drop extends BaseDropIndex>
   readonly indexes: SelectableList<Drop>
 }
 
-interface BaseTestDataLabelsGroup extends BaseDataLabelsGroup<'Test'> {}
+interface BaseTestDataLabelsGroup extends BaseDataLabelsGroup<'Point'> {}
 
 interface BaseZoneDataLabelsGroup extends BaseDataLabelsGroup<'Zone'> {}
 
@@ -72,3 +78,5 @@ interface BaseTableDataLabelsParameters {
   readonly dataLabels: DataLabel<string>[]
   index?: BaseDropIndex
 }
+
+type CategorySelector = (unitKey: MachineUnitsNames) => DataCategory

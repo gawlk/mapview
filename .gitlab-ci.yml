@@ -1,5 +1,15 @@
 image: node:latest
 
+.git_config: &git_config
+  - mkdir ~/.ssh/
+  - ssh-keyscan $CI_SERVER_HOST > ~/.ssh/known_hosts
+  - echo "${SSH_PUSH_KEY}" > ~/.ssh/id_rsa
+  - chmod 600 ~/.ssh/id_rsa
+  - git config user.email "$user_mail"
+  - git config user.name "$user_name"
+  - git remote remove ssh_origin || true
+  - git remote add ssh_origin "git@$CI_SERVER_HOST:$CI_PROJECT_PATH.git"
+
 stages:
   - build
   - version
@@ -11,22 +21,31 @@ cache:
 version-1:
   stage: version
   rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event" && $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+    - if: $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
       when: on_success
+  before_script: *git_config
   script:
-    - npx pnpm install json --save-dev
-    - npx pnpm json -I -f "package.json" -e "this.build=this.build+1"
+    - npx pnpm install json --save-dev --store=node_modules/.pnpm-store
+    - npx pnpm json -I -f "package.json" -e "this.build=Number(this.build)+1"
+    - git add package.json
+    - git commit -m "update build number [ci skip]"
+    - git push ssh_origin HEAD:$CI_COMMIT_REF_NAME
 
 version-2:
   stage: version
   variables:
     BRANCH_NAME: 'prod'
   rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event" && $CI_COMMIT_REF_NAME == $BRANCH_NAME
+    - if: $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $BRANCH_NAME
       when: on_success
+  before_script:
+    - *git_config
   script:
-    - npx pnpm install json --save-dev
+    - npx pnpm install json --save-dev --store=node_modules/.pnpm-store
     - npx pnpm json -I -f package.json -e "const versionPart = this.version.split('.');this.version=versionPart[0] + '.' + versionPart[1] + '.' + (Number(versionPart[2]) + 1)"
+    - git add package.json
+    - git commit -m "update version [ci skip]"
+    - git push ssh_origin HEAD:$CI_COMMIT_REF_NAME
 
 test-code:
   stage: build

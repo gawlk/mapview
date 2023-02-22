@@ -47,7 +47,7 @@ This check is realise before each push by git hook
 
 If you need it you can skip this step by adding `--no-verify` to your git command
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+## Run Unit Tests with [Vitest](https://vitest.dev/)
 
 ```sh
 pnpm run test

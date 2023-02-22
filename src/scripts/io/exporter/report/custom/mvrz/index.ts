@@ -323,7 +323,9 @@ const generateHeavydynData = (project: HeavydynProject): ExcelJson => {
     ...generateCalibrations(project.calibrations),
     ...{
       [`CorrectionParameters_Load_Active`]: load.active,
-      [`CorrectionParameters_Load_CustomValue`]: load.customValue.value,
+      [`CorrectionParameters_Load_CustomValue`]: load.customValue.getValueAs(
+        load.customValue.unit?.currentUnit || 'raw'
+      ),
       [`CorrectionParameters_Load_LoadReferenceSource`]:
         load.loadReferenceSource.selected || '',
 

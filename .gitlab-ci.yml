@@ -10,6 +10,12 @@ image: node:latest
   - git remote remove ssh_origin || true
   - git remote add ssh_origin "git@$CI_SERVER_HOST:$CI_PROJECT_PATH.git"
 
+.git_tag: &git_tag
+  - build=$(npx pnpm json -f package.json build)
+  - version=$(npx pnpm json -f package.json version)
+  - git tag "$version($build)"
+  - git push --tags ssh_origin
+
 stages:
   - build
   - version
@@ -30,6 +36,8 @@ version-1:
     - git add package.json
     - git commit -m "update build number [ci skip]"
     - git push ssh_origin HEAD:$CI_COMMIT_REF_NAME
+  after_script:
+    - *git_tag
 
 version-2:
   stage: version
@@ -46,6 +54,8 @@ version-2:
     - git add package.json
     - git commit -m "update version [ci skip]"
     - git push ssh_origin HEAD:$CI_COMMIT_REF_NAME
+  after_script:
+    - *git_tag
 
 test-code:
   stage: build

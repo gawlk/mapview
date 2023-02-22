@@ -53,9 +53,9 @@ test-code:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 
   script:
-    - npx pnpm check
     - npx pnpm i --store=node_modules/.pnpm-store
-    - npm run test
+    - npx pnpm check
+    - npx pnpm test
 
 test-ts:
   stage: build

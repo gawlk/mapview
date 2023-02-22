@@ -2,7 +2,7 @@
 
 ## Recommended IDE Setup
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) + [Tailwind CSS IntelliSense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
 
 ## required
 
@@ -50,5 +50,21 @@ If you need it you can skip this step by adding `--no-verify` to your git comman
 ## Run Unit Tests with [Vitest](https://vitest.dev/)
 
 ```sh
-pnpm run test
+pnpm test
+```
+
+## Build project
+
+To build the project run:
+
+```
+pnpm build
+```
+
+## Prod preview
+
+You can have a preview of what you will get in prod by doing this command:
+
+```
+pnpm prod
 ```

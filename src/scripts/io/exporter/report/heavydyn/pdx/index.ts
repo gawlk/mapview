@@ -1,14 +1,18 @@
 import dayjs from 'dayjs'
 import dedent from 'dedent'
 
-import { currentCategory, findFieldInArray } from '/src/scripts'
+import {
+  currentCategory,
+  findFieldInArray,
+  replaceAllLFToCRLF,
+} from '/src/scripts'
 
 export const heavydynPDXExporter: HeavydynExporter = {
   name: '.pdx',
   export: async (project: HeavydynProject) => {
     return new File(
       [
-        dedent`
+        replaceAllLFToCRLF(dedent`
             ${writeHeader(project)}
       
             ${writeDeviceInformation(project)}
@@ -18,9 +22,9 @@ export const heavydynPDXExporter: HeavydynExporter = {
             ${writeDeviceCalibration(project)}
       
             ${writePoints(project)}
-          `,
+          `),
       ],
-      `${project.reports.selected?.name.toString().replaceAll(' ', '_')}.pdx`,
+      `${project.reports.selected?.name.toString()}.pdx`,
       { type: 'text/plain' }
     )
   },

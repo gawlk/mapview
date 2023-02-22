@@ -71,7 +71,7 @@ export const createBasePointFromJSON = <
         case 'Drop':
           source = this.drops.find((drop) => drop.index === index)
           break
-        case 'Test':
+        case 'Point':
           source = this
           break
 
@@ -151,17 +151,25 @@ export const createBasePointFromJSON = <
         case 'value':
           const group = this.zone.report.dataLabels.groups.selected
 
-          let text = ''
-
           if (group && group.choices.selected) {
-            text = this.getDisplayedString(
+            const value = this.getSelectedMathNumber(
               group.from,
               group.choices.selected,
               group.from === 'Drop' ? group.indexes.selected : undefined
             )
-          }
 
-          this.icon?.setText(text)
+            watcherMarkersString = watcherHandler.add(
+              watch(
+                () => value?.displayedString,
+                (displayedString) => {
+                  this.icon?.setText(displayedString || '')
+                },
+                {
+                  immediate: true,
+                }
+              )
+            )
+          }
 
           break
         case 'nothing':

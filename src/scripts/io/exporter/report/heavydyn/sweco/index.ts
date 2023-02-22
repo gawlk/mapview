@@ -1,7 +1,11 @@
 import dayjs from 'dayjs'
 import dedent from 'dedent'
 
-import { currentCategory, findFieldInArray } from '/src/scripts/entities'
+import {
+  currentCategory,
+  findFieldInArray,
+  replaceAllLFToCRLF,
+} from '/src/scripts'
 
 import { ddToDms } from './coordinates'
 
@@ -9,10 +13,12 @@ export const heavydynSwecoExporter: HeavydynExporter = {
   name: '.fwd (Sweco)',
   export: async (project: HeavydynProject) => {
     return new File(
-      ['\n' + writeHeader(project) + writePoints(project) + '\n'],
-      `${project.reports.selected?.name
-        .toString()
-        .replaceAll(' ', '_')}-sweco.fwd`,
+      [
+        replaceAllLFToCRLF(
+          '\n' + writeHeader(project) + writePoints(project) + '\n'
+        ),
+      ],
+      `${project.reports.selected?.name.toString()}-sweco.fwd`,
       { type: 'text/plain' }
     )
   },

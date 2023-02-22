@@ -13,14 +13,13 @@ import {
   createLLIDataComputer,
   createMLIDataComputer,
   createWatcherHandler,
-  currentCategory,
+  selectHeavydynGroupChoiceFromJSON,
+  selectTableDataLabelsFromJSON,
 } from '/src/scripts'
 
-import { selectTableDataLabelsFromJSON } from '../../data/labels/base'
 import {
   convertThresholdsConfigurationToJSON,
   createBaseReportFromJSON,
-  selectGroupChoieFromJSON,
 } from '../base'
 
 export const createHeavydynReportFromJSON = (
@@ -149,7 +148,7 @@ export const createHeavydynReportFromJSON = (
     createCumSumDataComputer(report),
   ].forEach((computer) => computer?.init())
 
-  selectGroupChoieFromJSON(report, json)
+  selectHeavydynGroupChoiceFromJSON(report, json)
 
   selectTableDataLabelsFromJSON(report, json.base)
 

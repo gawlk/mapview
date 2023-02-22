@@ -77,14 +77,7 @@
     "vite": "4.1.4",
     "vite-plugin-pwa": "^0.14.4",
     "vite-svg-loader": "^4.0.0",
-<<<<<<< HEAD
     "vitest": "^0.29.2",
     "vue-tsc": "^1.2.0"
   }
-=======
-    "vitest": "^0.28.3",
-    "vue-tsc": "^1.0.24"
-  },
-  "build": null
->>>>>>> 8e3e028 (update build number [ci skip])
 }

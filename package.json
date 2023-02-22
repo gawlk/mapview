@@ -1,8 +1,7 @@
 {
   "name": "mapview",
   "description": "A web application that generates reports from Rincent ND Technologies machines data files",
-  "version": "2.0.24",
-  "build": 0,
+  "version": "2.0.23",
   "homepage": "https://v2.mapview.fr/",
   "license": "gpl",
   "scripts": {

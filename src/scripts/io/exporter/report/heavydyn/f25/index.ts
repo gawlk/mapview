@@ -2,7 +2,12 @@ import dayjs from 'dayjs'
 import dedent from 'dedent'
 import { format } from 'mathjs'
 
-import { currentCategory, findFieldInArray } from '/src/scripts'
+import {
+  currentCategory,
+  findFieldInArray,
+  replaceAllLFToCRLF,
+  trimAllLines,
+} from '/src/scripts'
 
 // TODO:
 // Everything is always in the same order, with same precision, spaces, etc
@@ -11,16 +16,25 @@ import { currentCategory, findFieldInArray } from '/src/scripts'
 export const heavydynF25Exporter: HeavydynExporter = {
   name: '.F25',
   export: async (project: HeavydynProject) => {
+    console.log(`
+    ${writeHeader(project)}
+    ${writeSensors(project)}
+    ${writeEndHeader(project)}
+    ${writePoints(project)}
+  `)
+
     return new File(
       [
-        dedent`
-          ${writeHeader(project)}
-          ${writeSensors(project)}
-          ${writeEndHeader(project)}
-          ${writePoints(project)}
-        `,
+        replaceAllLFToCRLF(
+          trimAllLines(`
+            ${writeHeader(project)}
+            ${writeSensors(project)}
+            ${writeEndHeader(project)}
+            ${writePoints(project)}
+          `)
+        ),
       ],
-      `${project.reports.selected?.name.toString().replaceAll(' ', '_')}.F25`,
+      `${project.reports.selected?.name.toString()}.F25`,
       { type: 'text/plain' }
     )
   },

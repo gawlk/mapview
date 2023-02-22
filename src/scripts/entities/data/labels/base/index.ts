@@ -6,7 +6,7 @@ import {
 } from '/src/scripts'
 
 const convertFromToIndex = (from: DataLabelsFrom) =>
-  from === 'Drop' ? 0 : from === 'Test' ? 1 : 2
+  from === 'Drop' ? 0 : from === 'Point' ? 1 : 2
 
 export const createBaseDataLabelsFromJSON = (
   jsonTable: JSONSelectableList<JSONTableDataLabelsParameters>,
@@ -81,21 +81,20 @@ export const createBaseDataLabelsGroupFromJSON = <
   From extends DataLabelsFrom
 >(
   json: JSONBaseDataLabelsGroup<From, T>,
-  units: MachineMathUnits
+  units: MachineMathUnits,
+  categorySelector?: CategorySelector
 ): BaseDataLabelsGroup<From> => {
   return {
     from: json.from,
     choices: createSelectableList(
-      json.choices.list.map((jsonChoice) => {
-        const unitKey = jsonChoice.unit as MachineUnitsNames
-        return createDataLabelFromJSON(
+      json.choices.list.map((jsonChoice) =>
+        createDataLabelFromJSON(
           jsonChoice,
           units,
-          unitKey === 'force' || unitKey === 'deflection'
-            ? rawCategory
-            : currentCategory
+          categorySelector?.(jsonChoice.unit as MachineUnitsNames) ||
+            currentCategory
         )
-      }) || []
+      )
     ),
     toBaseJSON: function () {
       return {
@@ -113,29 +112,32 @@ export const createBaseDropDataLabelsGroupFromJSON = <
 >(
   json: JSONBaseDataLabelsGroup<'Drop', T>,
   units: MachineMathUnits,
-  indexes: SelectableList<DropIndex>
+  indexes: SelectableList<DropIndex>,
+  categorySelector?: CategorySelector
 ): BaseDropDataLabelsGroup<DropIndex> => {
   return {
-    ...createBaseDataLabelsGroupFromJSON(json, units),
+    ...createBaseDataLabelsGroupFromJSON(json, units, categorySelector),
     indexes,
   }
 }
 
 export const createBaseTestDataLabelsGroupFromJSON = <T extends string>(
-  json: JSONBaseDataLabelsGroup<'Test', T>,
-  units: MachineMathUnits
+  json: JSONBaseDataLabelsGroup<'Point', T>,
+  units: MachineMathUnits,
+  categorySelector?: CategorySelector
 ): BaseTestDataLabelsGroup => {
   return {
-    ...createBaseDataLabelsGroupFromJSON(json, units),
+    ...createBaseDataLabelsGroupFromJSON(json, units, categorySelector),
   }
 }
 
 export const createBaseZoneDataLabelsGroupFromJSON = <T extends string>(
   json: JSONBaseDataLabelsGroup<'Zone', T>,
-  units: MachineMathUnits
+  units: MachineMathUnits,
+  categorySelector?: CategorySelector
 ): BaseZoneDataLabelsGroup => {
   return {
-    ...createBaseDataLabelsGroupFromJSON(json, units),
+    ...createBaseDataLabelsGroupFromJSON(json, units, categorySelector),
   }
 }
 

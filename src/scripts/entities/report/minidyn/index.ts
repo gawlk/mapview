@@ -3,6 +3,8 @@ import {
   createMinidynDataLabelsFromJSON,
   createMinidynThresholdsGroupsFromJSON,
   createMinidynZoneFromJSON,
+  selectMinidynGroupChoiceFromJSON,
+  selectTableDataLabelsFromJSON,
 } from '/src/scripts'
 
 import {
@@ -94,6 +96,10 @@ export const createMinidynReportFromJSON = (
       })
     )
   )
+
+  selectMinidynGroupChoiceFromJSON(report, json)
+
+  selectTableDataLabelsFromJSON(report, json.base)
 
   return report as MinidynReport
 }

@@ -155,7 +155,9 @@ const generateZoneData = (zones: MachineZone[]): ExcelJson =>
       ...zone.data.reduce<ExcelJson>(
         (prev, data) => ({
           ...prev,
-          [Z + '_' + toPascalCase(data.label.name)]: data.value.value,
+          [Z + '_' + toPascalCase(data.label.name)]: data.value.unit
+            ? data.value.getValueAs(data.value.unit.currentUnit)
+            : data.value.value,
         }),
         {}
       ),
@@ -323,9 +325,9 @@ const generateHeavydynData = (project: HeavydynProject): ExcelJson => {
     ...generateCalibrations(project.calibrations),
     ...{
       [`CorrectionParameters_Load_Active`]: load.active,
-      [`CorrectionParameters_Load_CustomValue`]: load.customValue.getValueAs(
-        load.customValue.unit?.currentUnit || 'raw'
-      ),
+      [`CorrectionParameters_Load_CustomValue`]: load.customValue.unit
+        ? load.customValue.getValueAs(load.customValue.unit.currentUnit)
+        : load.customValue.value,
       [`CorrectionParameters_Load_LoadReferenceSource`]:
         load.loadReferenceSource.selected || '',
 

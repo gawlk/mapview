@@ -27,8 +27,6 @@ export const importFile = async (file: File) => {
   let project = null as MachineProject | null
 
   try {
-    store.importingFile = true
-
     await waitForMap()
 
     console.time('import: file')
@@ -75,8 +73,6 @@ export const importFile = async (file: File) => {
   } catch (error) {
     console.log(error)
   } finally {
-    store.importingFile = false
-
     return project
   }
 }

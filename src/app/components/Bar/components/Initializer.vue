@@ -18,11 +18,17 @@
     const file = files?.[0]
 
     if (file) {
+      store.importingFile = true
+
       store.projects.selected = await importFile(file)
+
+      store.importingFile = false
     }
   }
 
   const openDemo = async () => {
+    store.importingFile = true
+
     const demosHeavydyn = import.meta.glob('/src/assets/demos/heavydyn/*')
 
     const demosMaxidyn = import.meta.glob('/src/assets/demos/maxidyn/*')
@@ -50,6 +56,8 @@
     )
 
     store.projects.selected = projects[0]
+
+    store.importingFile = false
   }
 </script>
 

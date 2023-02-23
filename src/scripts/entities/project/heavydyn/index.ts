@@ -57,7 +57,7 @@ export const createHeavydynProjectFromJSON = (
         active: false,
         // Temperature from > Temperature to
         temperatureFromSource: createSelectableList(
-          ['Tair', 'Tsurf', 'Tman'] as TemperatureFromSourceList,
+          ['Tair', 'Tsurf', 'Tman', 'Custom'] as TemperatureFromSourceList,
           {
             selected:
               json.distinct.correctionParameters.temperature
@@ -65,7 +65,7 @@ export const createHeavydynProjectFromJSON = (
           }
         ),
         average: createSelectableList(
-          ['Point', 'Zone', 'Report', 'Custom'] as TemperatureAverageList,
+          ['Point', 'Zone', 'Report'] as TemperatureAverageList,
           {
             selected: json.distinct.correctionParameters.temperature.average,
           }

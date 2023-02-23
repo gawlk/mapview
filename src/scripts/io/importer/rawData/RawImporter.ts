@@ -7,19 +7,27 @@ function saveRawData(file: ArrayBufferLike, points: BasePoint[], id: string) {
   if (point) {
     point.rawDataFile = file
 
-    try {
-      const reader = new ExtendedBinaryReader(file)
+    // parsePointRawData(file, point, id);
+  }
+}
 
-      const impactDataFile = new ImpactDataFile()
+export function parsePointRawData(
+  file: ArrayBufferLike,
+  point: BasePoint,
+  id: string
+) {
+  try {
+    const reader = new ExtendedBinaryReader(file)
 
-      impactDataFile.loadFromFile(reader)
+    const impactDataFile = new ImpactDataFile()
 
-      for (const index in point.drops) {
-        point.drops[index].impactData = impactDataFile.ImpactDatas[index]
-      }
-    } catch (_) {
-      console.error(`Failed parsing point's ${id} rawdata file`)
-    }
+    impactDataFile.loadFromFile(reader)
+
+    point.drops.forEach((drop, index) => {
+      drop.impactData = impactDataFile.ImpactDatas[index]
+    })
+  } catch (_) {
+    console.error(`Failed parsing point's ${id} rawdata file`)
   }
 }
 

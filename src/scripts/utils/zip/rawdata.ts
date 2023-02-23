@@ -1,12 +1,12 @@
 export const addRawDataToZip = async (
   zip: Fflate.Zippable,
   project: MachineProject,
-  onlyCurrentReport?: boolean
+  onlyFromCurrentReport?: boolean
 ) => {
   const rawdata: { [key: string]: Uint8Array } = {}
 
   const points =
-    onlyCurrentReport && project.reports.selected
+    onlyFromCurrentReport && project.reports.selected
       ? project.reports.selected.line.sortedPoints
       : project.reports.list.map((report) => report.line.sortedPoints).flat()
 

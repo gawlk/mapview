@@ -32,7 +32,11 @@
 
   const addProject = async (file: File | undefined) => {
     if (file) {
+      store.importingFile = true
+
       const project = await importFile(file)
+
+      store.importingFile = false
 
       if (project) {
         store.projects.selected = project

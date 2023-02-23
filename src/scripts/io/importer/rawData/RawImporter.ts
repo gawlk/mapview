@@ -23,9 +23,9 @@ export function parsePointRawData(
 
     impactDataFile.loadFromFile(reader)
 
-    for (const index in point.drops) {
-      point.drops[index].impactData = impactDataFile.ImpactDatas[index]
-    }
+    point.drops.forEach((drop, index) => {
+      drop.impactData = impactDataFile.ImpactDatas[index]
+    })
   } catch (_) {
     console.error(`Failed parsing point's ${id} rawdata file`)
   }

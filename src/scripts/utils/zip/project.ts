@@ -14,12 +14,17 @@ export const createZipFromProject = async (
     screenshots?: boolean
     rawData?: boolean
     customJSON?: { name: string; json: AnyJSON }
-    onlyCurrentReport?: boolean
+    onlyFromCurrentReport?: boolean
     additionalFile?: File
   }
 ) => {
-  const { overlays, screenshots, rawData, onlyCurrentReport, additionalFile } =
-    parameters
+  const {
+    overlays,
+    screenshots,
+    rawData,
+    onlyFromCurrentReport,
+    additionalFile,
+  } = parameters
   const zip: Fflate.Zippable = {}
 
   const json = project.toJSON()
@@ -27,7 +32,7 @@ export const createZipFromProject = async (
   await Promise.all([
     overlays && addOverlaysToZip(zip, project),
     screenshots && addScreenshotsToZip(zip, project, json),
-    rawData && addRawDataToZip(zip, project, onlyCurrentReport),
+    rawData && addRawDataToZip(zip, project, onlyFromCurrentReport),
 
     additionalFile && addFileToZip(zip, additionalFile),
   ])

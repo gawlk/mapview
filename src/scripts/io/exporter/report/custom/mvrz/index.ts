@@ -19,7 +19,7 @@ export const mrvzExporter = {
             json: createMVRZJson(project),
           },
           additionalFile: template,
-          onlyCurrentReport: true,
+          onlyFromCurrentReport: true,
         }),
       ],
       `${project.name.toString()}_${project.reports.selected?.name.toString()}.mvrz`,

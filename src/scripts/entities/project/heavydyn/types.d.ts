@@ -67,9 +67,9 @@ type LoadReferenceSourceValue = LoadReferenceSourceList[number]
 type LoadReferenceSourceList = ['Sequence', 'Custom']
 
 type TemperatureFromSourceValue = TemperatureFromSourceList[number]
-type TemperatureFromSourceList = ['Tair', 'Tsurf', 'Tman']
+type TemperatureFromSourceList = ['Tair', 'Tsurf', 'Tman', 'Custom']
 type TemperatureAverageValue = TemperatureAverageList[number]
-type TemperatureAverageList = ['Point', 'Zone', 'Report', 'Custom']
+type TemperatureAverageList = ['Point', 'Zone', 'Report']
 type TemperatureStructureTypeValue = TemperatureStructureTypeList[number]
 type TemperatureStructureTypeList = [
   // TODO: Translate

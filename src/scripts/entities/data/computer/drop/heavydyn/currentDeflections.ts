@@ -86,8 +86,8 @@ export const createHeavydynCurrentDeflectionDropDataComputers = (
                   }
 
                   const tempData =
-                    correctionParameters.temperature.average.selected ===
-                    'Custom'
+                    correctionParameters.temperature.temperatureFromSource
+                      .selected === 'Custom'
                       ? correctionParameters.temperature.customValue.value
                       : correctionParameters.temperature.average.selected ===
                         'Point'

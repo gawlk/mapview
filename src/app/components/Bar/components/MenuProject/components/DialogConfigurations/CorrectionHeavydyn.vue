@@ -151,7 +151,13 @@
           full
         />
       </div>
-      <div class="space-y-1">
+      <div
+        class="space-y-1"
+        v-if="
+          selectedProject?.correctionParameters.temperature
+            .temperatureFromSource.selected !== 'Custom'
+        "
+      >
         <Label>{{ t('Average') }}</Label>
         <Listbox
           class="flex-1"
@@ -177,6 +183,10 @@
       </div>
       <!-- TODO: Clean create special case for a math unit in the Input component -->
       <Input
+        v-if="
+          selectedProject?.correctionParameters.temperature
+            .temperatureFromSource.selected === 'Custom'
+        "
         :id="`temp-custom-value`"
         :label="`Custom value`"
         :value="

@@ -4,6 +4,7 @@ import {
   createDataLabel,
   createDataValue,
   currentCategory,
+  rawCategory,
 } from '/src/scripts'
 
 export const createHeavydynCurrentDeflectionDropDataComputers = (
@@ -68,20 +69,20 @@ export const createHeavydynCurrentDeflectionDropDataComputers = (
 
                   let value = rawData.value.value
 
-                  const loadData = drop.data.find(
-                    (data) => data.label.name === 'Load'
+                  const currentLoad = drop.data.find(
+                    (data) =>
+                      data.label.name === 'Load' &&
+                      data.label.category === currentCategory
                   )
 
-                  if (loadData && correctionParameters.load.active) {
-                    const loadRef =
-                      correctionParameters.load.loadReferenceSource.selected ===
-                        'Sequence' &&
-                      dropIndexValue &&
-                      dropIndexValue.unit === loadData.label.unit
-                        ? dropIndexValue.value
-                        : correctionParameters.load.customValue.value
+                  const rawLoad = drop.data.find(
+                    (data) =>
+                      data.label.name === 'Load' &&
+                      data.label.category === rawCategory
+                  )
 
-                    value *= loadRef / loadData.value.value
+                  if (currentLoad && rawLoad) {
+                    value *= currentLoad.value.value / rawLoad.value.value
                   }
 
                   const tempData =

@@ -3,43 +3,63 @@ import {
   createDataLabel,
   createDataValue,
   currentCategory,
+  rawCategory,
 } from '/src/scripts'
 
 export const createHeavydynCurrentLoadDataComputer = (
   report: HeavydynReport
 ) => {
-  const loadDataLabel = report.dataLabels.findIn('Drop', 'Load')
+  const rawLoadDataLabel = report.dataLabels.findIn('Drop', 'Load', rawCategory)
 
   // Can be changed
   const indexDataValue =
     report.dataLabels.groups.list[0].indexes.list.at(-1)?.value
 
-  const load =
-    indexDataValue?.unit === report.project.units.force
-      ? indexDataValue.value
-      : report.project.correctionParameters.load.customValue.value
-
   return createDataComputer({
     label:
-      loadDataLabel &&
+      rawLoadDataLabel &&
       report.dataLabels.pushTo(
         'Drop',
         createDataLabel({
-          name: loadDataLabel.name,
-          unit: loadDataLabel.unit,
+          name: rawLoadDataLabel.name,
+          unit: rawLoadDataLabel.unit,
           unitKey: 'load' as HeavydynUnitsNames,
           category: currentCategory,
         })
       ),
-    compute: (label) => {
+    compute: (currentLoadDataLabel) => {
+      const {
+        project: { correctionParameters },
+      } = report
+
+      const correctedLoad =
+        correctionParameters.load.loadReferenceSource.selected === 'Sequence' &&
+        indexDataValue &&
+        indexDataValue.unit === rawLoadDataLabel?.unit
+          ? indexDataValue
+          : correctionParameters.load.customValue
+
       report.zones.forEach((zone) =>
         zone.points.forEach((point) =>
           point.drops.forEach((drop) => {
-            const data =
-              drop.data.find((data) => data.label === label) ||
-              drop.data[drop.data.push(createDataValue(0, label)) - 1]
+            let referenceData: MathNumber
+            if (!correctionParameters.load.active) {
+              referenceData = (
+                drop.data.find(
+                  (data) => data.label === rawLoadDataLabel
+                ) as DataValue<string>
+              ).value // can't be undefined
+            } else {
+              referenceData = correctedLoad
+            }
 
-            data.value.updateValue(load)
+            const data =
+              drop.data.find((data) => data.label === currentLoadDataLabel) ||
+              drop.data[
+                drop.data.push(createDataValue(0, currentLoadDataLabel)) - 1
+              ]
+
+            data.value.updateValue(referenceData.value)
           })
         )
       )

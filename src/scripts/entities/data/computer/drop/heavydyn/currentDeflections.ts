@@ -85,7 +85,7 @@ export const createHeavydynCurrentDeflectionDropDataComputers = (
                     value *= currentLoad.value.value / rawLoad.value.value
                   }
 
-                  const tempData =
+                  const tempRef =
                     correctionParameters.temperature.temperatureFromSource
                       .selected === 'Custom'
                       ? correctionParameters.temperature.customValue.value
@@ -97,7 +97,7 @@ export const createHeavydynCurrentDeflectionDropDataComputers = (
                       ? zoneSourceTempAverage
                       : reportSourceTempAverage
 
-                  if (tempData && correctionParameters.temperature.active) {
+                  if (tempRef && correctionParameters.temperature.active) {
                     const k =
                       correctionParameters.temperature.structureType.selected
                         ?.k || 0
@@ -105,7 +105,7 @@ export const createHeavydynCurrentDeflectionDropDataComputers = (
                     const tempTo =
                       correctionParameters.temperature.temperatureTo.value
 
-                    value *= 1 - (k * tempData) / tempTo
+                    value /= 1 + (k * (tempRef - tempTo)) / tempTo
                   }
 
                   currentData.value.updateValue(value)

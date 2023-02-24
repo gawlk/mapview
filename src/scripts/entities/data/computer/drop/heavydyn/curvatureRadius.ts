@@ -27,6 +27,7 @@ export const createCurvatureRadiusDataComputers = (report: HeavydynReport) => {
   ].map((obj) => {
     return createDataComputer({
       label:
+        d0DataLabel &&
         obj.dl &&
         report.dataLabels.pushTo(
           'Drop',

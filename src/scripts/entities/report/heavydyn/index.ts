@@ -142,7 +142,7 @@ export const createHeavydynReportFromJSON = (
     createBLIDataComputer(report),
     createMLIDataComputer(report),
     createLLIDataComputer(report),
-    ...createHeavydynSurfaceModulusDataComputers(report),
+    createHeavydynSurfaceModulusDataComputers(report),
     createCharacteristicDeflectionComputer(report),
     ...createCurvatureRadiusDataComputers(report),
     createCumSumDataComputer(report),

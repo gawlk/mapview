@@ -11,15 +11,16 @@ import {
 export const mrvzExporter = {
   name: '.mvrz (Excel)',
   export: async (project: MachineProject, template?: File) => {
-    let needRawData = false
+    let needsRawData = false
 
     if (template) {
       const UnzippedTemplate = await unzipFile(template)
+
       const xml = convertUint8arrayToXML(
         UnzippedTemplate['xl/worksheets/sheet1.xml']
       )
 
-      needRawData =
+      needsRawData =
         xml.getElementsByTagName('sheetData')[0].childNodes[2].childNodes[1]
           .firstChild?.firstChild?.nodeValue === '1'
     }
@@ -27,7 +28,7 @@ export const mrvzExporter = {
     return new File(
       [
         await createZipFromProject(project, {
-          rawData: needRawData,
+          rawData: needsRawData,
           screenshots: true,
           customJSON: {
             name: 'database.json',

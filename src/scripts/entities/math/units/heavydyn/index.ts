@@ -38,5 +38,21 @@ export const createHeavydynMathUnitsFromJSON = (
         step: 0.1,
       }
     ),
+    cumSum: createMathUnit(
+      'CumSum',
+      {
+        version: 1,
+        currentUnit: '',
+        currentPrecision: 1,
+        min: -100,
+        max: 100,
+      },
+      '',
+      [['', 1]],
+      {
+        step: 0.1,
+        readOnly: true,
+      }
+    ),
   }
 }

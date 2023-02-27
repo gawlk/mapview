@@ -7,8 +7,6 @@ import {
 } from '/src/scripts'
 
 export const createCurvatureRadiusDataComputers = (report: HeavydynReport) => {
-  const unitName: HeavydynUnitsNames = 'distance'
-
   const d0DataLabel = report.dataLabels.findIn('Drop', 'D0', currentCategory)
 
   return [
@@ -33,8 +31,7 @@ export const createCurvatureRadiusDataComputers = (report: HeavydynReport) => {
           'Drop',
           createDataLabel({
             name: `Curvature radius (${obj.side})`,
-            unit: report.project.units[unitName],
-            unitKey: unitName,
+            unit: report.project.units.distance,
             category: indicatorsCategory,
           })
         ),

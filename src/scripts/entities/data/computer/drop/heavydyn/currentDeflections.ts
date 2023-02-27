@@ -23,7 +23,6 @@ export const createHeavydynCurrentDeflectionDropDataComputers = (
               createDataLabel({
                 name: rawLabel.name,
                 unit: rawLabel.unit,
-                unitKey: 'deflection' as HeavydynUnitsNames,
                 category: currentCategory,
               })
             ) - 1

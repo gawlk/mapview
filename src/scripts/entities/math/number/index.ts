@@ -4,7 +4,7 @@ import { convertValueFromUnitAToUnitB } from '/src/scripts'
 
 export const createMathNumber = (
   value: number,
-  unit?: MathUnit<string>
+  unit: MathUnit<string>
 ): MathNumber => {
   const mathNumber = shallowReactive({
     value,
@@ -24,9 +24,7 @@ export const createMathNumber = (
       this.updateDisplayedStrings()
     },
     getValueAs: function (unit: string) {
-      return typeof this.unit === 'object'
-        ? convertValueFromUnitAToUnitB(this.value, this.unit.baseUnit, unit)
-        : this.value
+      return convertValueFromUnitAToUnitB(this.value, this.unit.baseUnit, unit)
     },
     getLocaleString: function (options: MathNumberGetLocaleStringOptions = {}) {
       const numberToLocaleOptions = {
@@ -60,11 +58,7 @@ export const createMathNumber = (
       const localeString = `${
         options.disablePreString ? '' : preString
       } ${numberToLocaleString(value, numberToLocaleOptions)} ${
-        this.unit && options.appendUnitToString
-          ? typeof this.unit !== 'string'
-            ? this.unit.currentUnit
-            : this.unit
-          : ''
+        options.appendUnitToString ? this.unit.currentUnit : ''
       }`.trim()
 
       return options.removeSpaces

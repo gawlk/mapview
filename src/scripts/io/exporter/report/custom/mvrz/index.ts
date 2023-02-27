@@ -4,7 +4,7 @@ import {
   convertUint8arrayToXML,
   convertValueFromUnitAToUnitB,
   createMathNumber,
-  createZipFromProject,
+  createZipFromEntity,
   unzipFile,
 } from '/src/scripts'
 
@@ -26,18 +26,19 @@ export const mrvzExporter = {
     }
 
     return new File(
-      [
-        await createZipFromProject(project, {
-          rawData: needsRawData,
-          screenshots: true,
-          customJSON: {
-            name: 'database.json',
-            json: createMVRZJson(project),
-          },
-          additionalFile: template,
-          onlyFromCurrentReport: true,
-        }),
-      ],
+      project.reports.selected
+        ? [
+            await createZipFromEntity(project.reports.selected, {
+              rawData: needsRawData,
+              screenshots: true,
+              customJSON: {
+                name: 'database.json',
+                json: createMVRZJson(project),
+              },
+              template: template,
+            }),
+          ]
+        : [],
       `${project.name.toString()}_${project.reports.selected?.name.toString()}.mvrz`,
       { type: 'blob' }
     )

@@ -49,7 +49,8 @@ interface JSONAcquisitionParameters {
 interface BaseProject<
   Report extends BaseReport = MachineReport,
   MathUnits extends MachineMathUnits = MachineMathUnits
-> extends BaseObject<JSONBaseProject> {
+> extends BaseObject<JSONBaseProject>,
+    Entity<'Project'> {
   readonly name: Field
   readonly information: Field[]
   readonly hardware: Field[]

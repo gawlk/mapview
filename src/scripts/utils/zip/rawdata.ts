@@ -1,14 +1,21 @@
 export const addRawDataToZip = async (
   zip: Fflate.Zippable,
-  project: MachineProject,
-  onlyFromCurrentReport?: boolean
+  entity: MachineProject | MachineReport
 ) => {
   const rawdata: { [key: string]: Uint8Array } = {}
 
-  const points =
-    onlyFromCurrentReport && project.reports.selected
-      ? project.reports.selected.line.sortedPoints
-      : project.reports.list.map((report) => report.line.sortedPoints).flat()
+  let points = []
+
+  switch (entity.kind) {
+    case 'Project':
+      points = entity.reports.list
+        .map((report) => report.line.sortedPoints)
+        .flat()
+      break
+    case 'Report':
+      points = entity.line.sortedPoints
+      break
+  }
 
   await Promise.all([
     ...points.map((point) => {

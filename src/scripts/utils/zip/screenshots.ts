@@ -2,30 +2,44 @@ import { convertData64ImageToUint8Array } from '/src/scripts'
 
 export const addScreenshotsToZip = async (
   zip: Fflate.Zippable,
-  project: MachineProject,
+  entity: MachineProject | MachineReport,
   json?: JSONMachineProject
 ) => {
-  const screenshots: { [key: string]: Uint8Array } = {}
+  const screenshotsConverted: { [key: string]: Uint8Array } = {}
+
+  let screenshotsData = []
+
+  switch (entity.kind) {
+    case 'Project':
+      screenshotsData = entity.reports.list
+        .map((report, reportIndex) =>
+          report.screenshots.map((screenshot) => {
+            return {
+              reportIndex,
+              screenshot,
+            }
+          })
+        )
+        .flat()
+      break
+    case 'Report':
+      screenshotsData = entity.screenshots.map((screenshot) => {
+        return {
+          reportIndex: 0,
+          screenshot,
+        }
+      })
+      break
+  }
 
   await Promise.all(
-    project.reports.list
-      .map((report, reportIndex) =>
-        report.screenshots.map((screenshot) => {
-          return {
-            reportIndex,
-            screenshot,
-          }
-        })
-      )
-      .flat()
-      .map(async (obj, index) => {
-        screenshots[`${index}.png`] = await convertData64ImageToUint8Array(
-          obj.screenshot
-        )
+    screenshotsData.map(async (obj, index) => {
+      screenshotsConverted[`${index}.png`] =
+        await convertData64ImageToUint8Array(obj.screenshot)
 
-        json?.base.reports.list[obj.reportIndex].base.screenshots.push(index)
-      })
+      json?.base.reports.list[obj.reportIndex].base.screenshots.push(index)
+    })
   )
 
-  zip.screenshots = screenshots
+  zip.screenshots = screenshotsConverted
 }

@@ -4,7 +4,6 @@ import {
   createFieldFromJSON,
   createLine,
   createWatcherHandler,
-  currentCategory,
   debounce,
   getIndexOfSelectedInSelectableList,
 } from '/src/scripts'
@@ -39,6 +38,7 @@ export const createBaseReportFromJSON = <
   }
 
   const report: BaseReport<Project, Zone, DataLabels, Thresholds> = {
+    kind: 'Report',
     name: createFieldFromJSON({
       version: 1,
       label: 'Name',

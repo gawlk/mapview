@@ -7,11 +7,11 @@ export const addScreenshotsToZip = async (
 ) => {
   const screenshotsConverted: { [key: string]: Uint8Array } = {}
 
-  let screenshotData = []
+  let screenshotsData = []
 
   switch (entity.kind) {
     case 'Project':
-      screenshotData = entity.reports.list
+      screenshotsData = entity.reports.list
         .map((report, reportIndex) =>
           report.screenshots.map((screenshot) => {
             return {
@@ -23,7 +23,7 @@ export const addScreenshotsToZip = async (
         .flat()
       break
     case 'Report':
-      screenshotData = entity.screenshots.map((screenshot) => {
+      screenshotsData = entity.screenshots.map((screenshot) => {
         return {
           reportIndex: 0,
           screenshot,
@@ -33,7 +33,7 @@ export const addScreenshotsToZip = async (
   }
 
   await Promise.all(
-    screenshotData.map(async (obj, index) => {
+    screenshotsData.map(async (obj, index) => {
       screenshotsConverted[`${index}.png`] =
         await convertData64ImageToUint8Array(obj.screenshot)
 

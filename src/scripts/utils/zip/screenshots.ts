@@ -37,8 +37,7 @@ export const addScreenshotsToZip = async (
       screenshotsConverted[`${index}.png`] =
         await convertData64ImageToUint8Array(obj.screenshot)
 
-      json &&
-        json?.base.reports.list[obj.reportIndex].base.screenshots.push(index)
+      json?.base.reports.list[obj.reportIndex].base.screenshots.push(index)
     })
   )
 

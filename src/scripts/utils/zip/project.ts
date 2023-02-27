@@ -19,8 +19,6 @@ export const createZipFromEntity = async (
   const { overlays, screenshots, rawData, template } = parameters
   const zip: Fflate.Zippable = {}
 
-  console.log(entity)
-
   let json
 
   if (entity.kind === 'Project') {

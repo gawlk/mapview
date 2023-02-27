@@ -16,3 +16,8 @@ interface MinidynObject<T> extends MachineObject<'Minidyn', T> {}
 interface BaseObject<T> {
   readonly toBaseJSON: () => T
 }
+type EntityName = 'Project' | 'Report'
+
+interface Entity<T extends EntityName> {
+  readonly kind: T
+}

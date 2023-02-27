@@ -31,6 +31,7 @@ export const createBaseProjectFromJSON = <
   })
 
   const project: BaseProject<Report, MathUnits> = shallowReactive({
+    kind: 'Project',
     name: createFieldFromJSON({
       version: 1,
       label: 'Name',

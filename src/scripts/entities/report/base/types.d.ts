@@ -57,7 +57,8 @@ interface BaseReport<
   Zone extends BaseZone = MachineZone,
   DataLabels extends BaseDataLabels = MachineDataLabels,
   Thresholds extends BaseThresholds = BaseThresholds
-> extends BaseObject<JSONBaseReport> {
+> extends BaseObject<JSONBaseReport>,
+    Entity<'Report'> {
   readonly name: Field
   readonly line: Line
   readonly zones: Zone[]

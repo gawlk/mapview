@@ -12,7 +12,7 @@ export const mpvzExporter: MachineExporter = {
           screenshots: true,
         }),
       ],
-      `${project.name.toString().replaceAll(' ', '_')}.mpvz`,
+      `${project.name.toString()}.mpvz`,
       { type: 'blob' }
     ),
 }

@@ -1,18 +1,34 @@
 import { getBrowserLocale, translate } from '/src/locales'
 
 import {
+  convertUint8arrayToXML,
   convertValueFromUnitAToUnitB,
   createMathNumber,
   createZipFromProject,
+  unzipFile,
 } from '/src/scripts'
 
 export const mrvzExporter = {
   name: '.mvrz (Excel)',
-  export: async (project: MachineProject, template?: File) =>
-    new File(
+  export: async (project: MachineProject, template?: File) => {
+    let needsRawData = false
+
+    if (template) {
+      const UnzippedTemplate = await unzipFile(template)
+
+      const xml = convertUint8arrayToXML(
+        UnzippedTemplate['xl/worksheets/sheet1.xml']
+      )
+
+      needsRawData =
+        xml.getElementsByTagName('sheetData')[0].childNodes[2].childNodes[1]
+          .firstChild?.firstChild?.nodeValue === '1'
+    }
+
+    return new File(
       [
         await createZipFromProject(project, {
-          rawData: true,
+          rawData: needsRawData,
           screenshots: true,
           customJSON: {
             name: 'database.json',
@@ -24,7 +40,8 @@ export const mrvzExporter = {
       ],
       `${project.name.toString()}_${project.reports.selected?.name.toString()}.mvrz`,
       { type: 'blob' }
-    ),
+    )
+  },
 }
 
 const generateInformationFromFields = (

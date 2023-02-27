@@ -3860,6 +3860,11 @@ packages:
     engines: { node: '>=14' }
     dev: true
 
+  /commander/10.0.0:
+    resolution: {integrity: sha512-zS5PnTI22FIRM6ylNW8G4Ap0IEOyk62fhLSD0+uHRT9McRCLGpkVNvao4bjimpK/GShynyQkFFxHhwMcETmduA==}
+    engines: {node: '>=14'}
+    dev: true
+
   /commander/2.20.3:
     resolution:
       {
@@ -5914,6 +5919,20 @@ packages:
         integrity: sha512-LA+31JYDJLs82r2ScLrlz1GjSgu66ZV518eyWT+S8VhyQn/JL0u9MeBOvQMGYiPk1DBiSN9DDMOcXvigJZaViQ==,
       }
     engines: { node: '>=12' }
+    dependencies:
+      '@jridgewell/sourcemap-codec': 1.4.14
+    dev: true
+
+  /magic-string/0.29.0:
+    resolution: {integrity: sha512-WcfidHrDjMY+eLjlU+8OvwREqHwpgCeKVBUpQ3OhYYuvfaYCUgcbuBzappNzZvg/v8onU3oQj+BYpkOJe9Iw4Q==}
+    engines: {node: '>=12'}
+    dependencies:
+      '@jridgewell/sourcemap-codec': 1.4.14
+    dev: true
+
+  /magic-string/0.30.0:
+    resolution: {integrity: sha512-LA+31JYDJLs82r2ScLrlz1GjSgu66ZV518eyWT+S8VhyQn/JL0u9MeBOvQMGYiPk1DBiSN9DDMOcXvigJZaViQ==}
+    engines: {node: '>=12'}
     dependencies:
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: true
@@ -8137,6 +8156,15 @@ packages:
       hookable: 5.4.2
     dev: false
 
+  /unhead/1.1.11:
+    resolution: {integrity: sha512-R7hObRUhNNIWxiZSNiIPXEzA0QJT+hTvvud+FVhqdQzUhkFXhzE1fYuGYI8Ktsr+f8YgefuuDA9f0Mo4q+CRmA==}
+    dependencies:
+      '@unhead/dom': 1.1.11
+      '@unhead/schema': 1.1.11
+      '@unhead/shared': 1.1.11
+      hookable: 5.4.2
+    dev: false
+
   /unicode-canonical-property-names-ecmascript/2.0.0:
     resolution:
       {
@@ -8247,6 +8275,7 @@ packages:
         optional: true
     dependencies:
       '@antfu/utils': 0.7.2
+      '@nuxt/kit': 3.2.2
       '@rollup/pluginutils': 5.0.2
       local-pkg: 0.4.3
       magic-string: 0.30.0
@@ -8255,6 +8284,7 @@ packages:
       unplugin: 1.1.0
     transitivePeerDependencies:
       - rollup
+      - supports-color
     dev: true
 
   /unplugin-icons/0.15.3_@vue+compiler-sfc@3.2.47:

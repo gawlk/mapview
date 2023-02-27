@@ -66,6 +66,15 @@ export const createHeavydynThresholdsGroupsFromJSON = (
         }
       ),
     },
+    cumSum: {
+      unit: units.cumSum,
+      choices: createSelectableList(
+        [createCustomThreshold(json.cumSum.custom)] as ThresoldsList,
+        {
+          selectedIndex: json.cumSum.selectedIndex,
+        }
+      ),
+    },
   }
 
   return thresholdsGroups

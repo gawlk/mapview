@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import store from '/src/store'
 
-  import { average, createMathNumber } from '/src/scripts'
+  import { createMathNumber } from '/src/scripts'
 
   const { t } = useI18n()
 
@@ -73,11 +73,9 @@
     } of selectedTableDataLabelsParameters?.dataLabels.map((dataLabel) => {
       return {
         mathNumber: createMathNumber(
-          typeof dataLabel.unit !== 'object'
-            ? average(getValuesFromPoints(filteredPoints, dataLabel))
-            : dataLabel.unit.getAverage(
-                getValuesFromPoints(filteredPoints, dataLabel)
-              ),
+          dataLabel.unit.getAverage(
+            getValuesFromPoints(filteredPoints, dataLabel)
+          ),
           dataLabel.unit
         ),
         dataLabel,
@@ -86,11 +84,7 @@
   >
     <p class="font-semibold">{{ dataLabel.getDisplayedName() }}</p>
     <p class="whitespace-nowrap text-xs">
-      {{
-        typeof dataLabel.unit === 'object'
-          ? t(dataLabel.unit.currentUnit)
-          : dataLabel.unit ?? ''
-      }}
+      {{ t(dataLabel.unit.currentUnit) }}
     </p>
     <p class="whitespace-nowrap font-semibold text-black">
       {{ mathNumber.displayedString }}

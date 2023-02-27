@@ -3,7 +3,7 @@ import { translate } from '/src/locales'
 export const createDataLabel = <T extends string, Unit extends string>(args: {
   name: string
   shortName?: string
-  unit?: MathUnit<T>
+  unit: MathUnit<T>
   unitKey?: Unit
   category: DataCategory
 }): DataLabel<T> => {

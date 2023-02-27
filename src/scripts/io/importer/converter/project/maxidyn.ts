@@ -149,7 +149,7 @@ export const convertPRJZToMaxidynUnits = (json: any): JSONMaxidynUnits => {
       version: 1,
       currentUnit: '%',
       currentPrecision: 0,
-      max: 1000,
+      max: 100,
     },
   }
 }

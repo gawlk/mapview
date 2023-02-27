@@ -184,6 +184,12 @@ export const convertPRJZToHeavydynUnits = (json: any) => {
       currentPrecision: 0,
       max: 100000000000,
     },
+    cumSum: {
+      version: 1,
+      currentUnit: '',
+      currentPrecision: 0,
+      max: 100,
+    },
   }
 
   return units

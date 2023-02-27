@@ -103,6 +103,16 @@ export const convertPRJZToHeavydynReportDistinct = (
           valueHigh: 0,
         },
       },
+      cumSum: {
+        version: 1,
+        selectedIndex: 0,
+        custom: {
+          version: 1,
+          type: 'Bicolor',
+          value: 0,
+          valueHigh: 0,
+        },
+      },
     },
     dataLabels: {
       version: 1,

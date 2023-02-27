@@ -23,7 +23,6 @@ export const createHeavydynCurrentLoadDataComputer = (
         createDataLabel({
           name: rawLoadDataLabel.name,
           unit: rawLoadDataLabel.unit,
-          unitKey: 'load' as HeavydynUnitsNames,
           category: currentCategory,
         })
       ),

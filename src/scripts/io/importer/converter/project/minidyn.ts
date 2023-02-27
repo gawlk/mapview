@@ -129,7 +129,7 @@ export const convertPRJZToMinidynUnits = (json: any): JSONMinidynUnits => {
       version: 1,
       currentUnit: '%',
       currentPrecision: 0,
-      max: 1000,
+      max: 100,
     },
   }
 }

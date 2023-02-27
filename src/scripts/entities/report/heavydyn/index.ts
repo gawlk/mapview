@@ -99,6 +99,7 @@ export const createHeavydynReportFromJSON = (
             modulus: convertThresholdsConfigurationToJSON(
               thresholdGroup.modulus
             ),
+            cumSum: convertThresholdsConfigurationToJSON(thresholdGroup.cumSum),
           },
         },
       }

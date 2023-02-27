@@ -11,7 +11,7 @@ import {
 export const mrvzExporter = {
   name: '.mvrz (Excel)',
   export: async (project: MachineProject, template?: File) => {
-    let needsRawData = false
+    let needsRawData = true
 
     if (template) {
       const UnzippedTemplate = await unzipFile(template)
@@ -20,10 +20,22 @@ export const mrvzExporter = {
         UnzippedTemplate['xl/worksheets/sheet1.xml']
       )
 
-      needsRawData =
-        xml.getElementsByTagName('sheetData')[0].childNodes[2].childNodes[1]
-          .firstChild?.firstChild?.nodeValue === '1'
+      const rows = Array.from(
+        xml.getElementsByTagName('sheetData')[0].getElementsByTagName('row')
+      )
+
+      const currentRow = rows.find((row) => row.getAttribute('r') === '3')
+
+      const cell = Array.from(currentRow?.getElementsByTagName('c') || []).find(
+        (cell) => cell.getAttribute('r') === 'B3'
+      )
+
+      needsRawData = cell?.firstChild?.firstChild?.nodeValue !== '0' // not sending raw data only if the value we get is false
+
+      console.log(cell?.firstChild?.firstChild?.nodeValue, xml)
     }
+
+    console.log(needsRawData)
 
     return new File(
       project.reports.selected

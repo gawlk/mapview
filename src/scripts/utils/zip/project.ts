@@ -19,40 +19,37 @@ export const createZipFromEntity = async (
   const { overlays, screenshots, rawData, template } = parameters
   const zip: Fflate.Zippable = {}
 
-  let json
+  let json: JSONMapview | AnyJSON | undefined
+  let projectJson
 
   if (entity.kind === 'Project') {
-    json = entity.toJSON() // only for project
+    projectJson = entity.toJSON()
+
+    json = {
+      version: 1,
+      jsonFileFormat: 'Database from Mapview',
+      project: projectJson,
+    } as JSONMapview
+  } else if (parameters.customJSON) {
+    json = parameters.customJSON.json
   }
 
   await Promise.all([
     overlays && entity.kind === 'Project' && addOverlaysToZip(zip, entity),
-    screenshots && addScreenshotsToZip(zip, entity, json),
+
+    screenshots && addScreenshotsToZip(zip, entity, projectJson),
+
     rawData && addRawDataToZip(zip, entity),
 
     template && addFileToZip(zip, template),
   ])
 
-  parameters.customJSON
-    ? await addJSONToZip(
-        zip,
-        parameters.customJSON.name,
-        parameters.customJSON.json
-      )
-    : json && (await addProjectToZip(zip, json))
+  json &&
+    (await addJSONToZip(
+      zip,
+      parameters.customJSON?.name || 'database.json',
+      json
+    ))
 
   return zipSync(zip)
-}
-
-const addProjectToZip = async (
-  zip: Fflate.Zippable,
-  jsonProject: JSONMachineProject
-) => {
-  const json: JSONMapview = {
-    version: 1,
-    jsonFileFormat: 'Database from Mapview',
-    project: jsonProject,
-  }
-
-  return addJSONToZip(zip, 'database.json', json)
 }

@@ -1,10 +1,11 @@
-interface HeavydynUnitsSkeleton<A, B = A, C = A, D = A, E = A, F = A> {
+interface HeavydynUnitsSkeleton<A, B = A, C = A, D = A, E = A, F = A, G = A> {
   readonly deflection: A
   readonly force: B
   readonly temperature: C
   readonly distance: D
   readonly time: E
   readonly modulus: F
+  readonly cumSum: G
 }
 
 type HeavydynUnitsNames = keyof HeavydynUnitsSkeleton<any>
@@ -24,7 +25,8 @@ type JSONHeavydynUnits = HeavydynUnitsSkeleton<
   JSONMathUnit<PossibleHeavydynTemperatureUnits>,
   JSONMathUnit<PossibleHeavydynDistanceUnits>,
   JSONMathUnit<PossibleHeavydynTimeUnits>,
-  JSONMathUnit<PossibleHeavydynModulusUnits>
+  JSONMathUnit<PossibleHeavydynModulusUnits>,
+  JSONMathUnit<''>
 >
 
 type HeavydynMathUnits = HeavydynUnitsSkeleton<
@@ -33,5 +35,6 @@ type HeavydynMathUnits = HeavydynUnitsSkeleton<
   MathUnit<PossibleHeavydynTemperatureUnits>,
   MathUnit<PossibleHeavydynDistanceUnits>,
   MathUnit<PossibleHeavydynTimeUnits>,
-  MathUnit<PossibleHeavydynModulusUnits>
+  MathUnit<PossibleHeavydynModulusUnits>,
+  MathUnit<''>
 >

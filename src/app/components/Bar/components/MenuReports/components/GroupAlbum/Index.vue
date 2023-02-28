@@ -111,7 +111,7 @@
       :rightIcon="IconArrowSmRight"
       @click="screenshot"
     >
-      {{ t('Photograph the map') }}
+      {{ t('Take a screenshot') }}
     </Button>
     <Button :icon="IconPlus" @click="file.click()">
       {{ t('Import an image') }}
@@ -138,6 +138,6 @@
 
 <i18n lang="yaml">
 fr:
-  'Take a screenshot': 'Prendre une capture d'écran'
+  'Take a screenshot': "Prendre une capture d'écran"
   'View the album': "Voir l'album"
 </i18n>

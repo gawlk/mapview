@@ -33,8 +33,6 @@ export const mrvzExporter = {
       needsRawData = cell?.firstChild?.firstChild?.nodeValue !== '0' // not sending raw data only if the value we get is false
     }
 
-    console.log(needsRawData)
-
     return new File(
       project.reports.selected
         ? [

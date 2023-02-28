@@ -20,7 +20,7 @@ export const createHeavydynDropFromJSON = (
     dropGroup,
   })
 
-  const drop: HeavydynDrop = shallowReactive({
+  const drop: HeavydynDrop = createMutable({
     ...baseDrop,
     machine: 'Heavydyn',
     toJSON: function () {

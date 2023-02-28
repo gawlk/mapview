@@ -29,8 +29,6 @@ export const createHeavydynReportFromJSON = (
     project: HeavydynProject
   }
 ) => {
-  console.time('import: report')
-
   json = upgradeJSON(json)
 
   const watcherHandler = createWatcherHandler()
@@ -51,7 +49,7 @@ export const createHeavydynReportFromJSON = (
     project: parameters.project,
   })
 
-  const report: HeavydynReport = shallowReactive({
+  const report: HeavydynReport = createMutable({
     ...baseReport,
     machine: 'Heavydyn',
     addZone: function () {
@@ -72,18 +70,14 @@ export const createHeavydynReportFromJSON = (
       this.zones.push(zone)
     },
     toJSON: function (): JSONHeavydynReport {
-      const report = this as HeavydynReport
-
-      const thresholdGroup = report.thresholds.groups
+      const thresholdGroup = this.thresholds.groups
 
       return {
         version: json.version,
-        base: report.toBaseJSON(),
+        base: this.toBaseJSON(),
         distinct: {
           version: json.version,
-          dataLabels: report.dataLabels.groups.toJSON((group) =>
-            group.toJSON()
-          ),
+          dataLabels: this.dataLabels.groups.toJSON((group) => group.toJSON()),
           thresholds: {
             deflection: convertThresholdsConfigurationToJSON(
               thresholdGroup.deflection
@@ -110,9 +104,12 @@ export const createHeavydynReportFromJSON = (
       report.dataLabels.groups.list[0].indexes.list.forEach((dropIndex) => {
         if (typeof dropIndex.value.unit === 'object') {
           watcherHandler.add(
-            watch(dropIndex.value.unit, () => {
-              dropIndex.value.updateDisplayedStrings()
-            })
+            on(
+              () => dropIndex.value.unit,
+              () => {
+                dropIndex.value.updateDisplayedStrings()
+              }
+            )
           )
         }
       })
@@ -123,9 +120,7 @@ export const createHeavydynReportFromJSON = (
       watcherHandler.clean()
     },
   })
-  console.timeLog('import: report')
 
-  console.time('import: zones')
   report.zones.push(
     ...json.base.zones.map((jsonZone) =>
       createHeavydynZoneFromJSON(jsonZone, map, {
@@ -133,9 +128,7 @@ export const createHeavydynReportFromJSON = (
       })
     )
   )
-  console.timeEnd('import: zones')
 
-  console.time('import: computers')
   // Warning: Order matters
   ;[
     createHeavydynCurrentLoadDataComputer(report),
@@ -152,10 +145,6 @@ export const createHeavydynReportFromJSON = (
   selectHeavydynGroupChoiceFromJSON(report, json)
 
   selectTableDataLabelsFromJSON(report, json.base)
-
-  console.timeEnd('import: computers')
-
-  console.timeEnd('import: report')
 
   return report
 }

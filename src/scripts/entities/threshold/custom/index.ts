@@ -5,7 +5,7 @@ export const createCustomThreshold = (parameters: {
   value: number
   valueHigh: number
 }): CustomThreshold => {
-  return shallowReactive({
+  return createMutable({
     kind: 'custom',
     name: 'Custom',
     type: parameters.type,

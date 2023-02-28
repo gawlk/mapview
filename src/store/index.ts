@@ -1,6 +1,6 @@
 import { createSelectableList } from '/src/scripts/utils/selectableList'
 
-const store: Store = shallowReactive({
+const store: Store = createMutable({
   // example: read('example') || defaultExample,
   projects: createSelectableList([]),
   selectedProject: null,
@@ -15,22 +15,28 @@ const store: Store = shallowReactive({
   },
 })
 
-watch(
-  () => store.projects.selected,
-  (project, oldProject) => {
-    store.selectedProject = project
+createRoot(() => {
+  createEffect(
+    on(
+      () => store.projects.selected,
+      (project, oldProject) => {
+        store.selectedProject = project
 
-    oldProject?.remove()
-    project?.addToMap()
-  }
-)
+        oldProject?.remove()
+        project?.addToMap()
+      }
+    )
+  )
 
-watch(
-  () => store.projects.selected?.reports.selected,
-  (report) => {
-    // @ts-ignore
-    store.selectedReport = report
-  }
-)
+  createEffect(
+    on(
+      () => store.projects.selected?.reports.selected,
+      (report) => {
+        // @ts-ignore
+        store.selectedReport = report
+      }
+    )
+  )
+})
 
 export default store

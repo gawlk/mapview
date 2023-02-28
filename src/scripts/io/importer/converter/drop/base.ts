@@ -1,5 +1,3 @@
-import { rawCategory } from '/src/scripts/entities'
-
 import { convertSensorPositionToName } from '../shared'
 
 export const convertPRJZToBaseDrop = (

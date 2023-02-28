@@ -1,20 +1,15 @@
 <!DOCTYPE html>
-<html class="h-full">
+<html lang="en" class="h-full">
   <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
   </head>
 
-  <body class="h-full" style="touch-action: none">
-    <div class="h-full" id="app"></div>
+  <body class="h-full antialiased" style="touch-action: none">
+    <noscript>You need to enable JavaScript to run this app.</noscript>
 
-    <script type="module" src="/src/main.ts"></script>
+    <div class="h-full" id="root"></div>
 
-    <noscript>
-      Please enable Javascript in order for the website to work properly.
-    </noscript>
+    <script src="/src/index.tsx" type="module"></script>
   </body>
 </html>

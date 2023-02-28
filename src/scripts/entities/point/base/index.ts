@@ -44,12 +44,12 @@ export const createBasePointFromJSON = <
     date: new Date(json.date),
     marker,
     icon,
-    information: shallowReactive(
+    information: createMutable(
       parameters.information.map((field: JSONField) =>
         createFieldFromJSON(field)
       )
     ),
-    settings: reactive(json.settings),
+    settings: createMutable(json.settings),
     zone: parameters.zone,
     data: json.data.map(
       (jsonDataValue): DataValue<string> =>
@@ -136,14 +136,14 @@ export const createBasePointFromJSON = <
       switch (this.zone.report.project.settings.pointsState) {
         case 'number':
           watcherMarkersString = watcherHandler.add(
-            watch(
+            on(
               () => this.number,
               (number) => {
                 this.icon?.setText(String(number))
-              },
-              {
-                immediate: true,
               }
+              // {
+              //   immediate: true,
+              // }
             )
           )
 
@@ -159,14 +159,14 @@ export const createBasePointFromJSON = <
             )
 
             watcherMarkersString = watcherHandler.add(
-              watch(
+              on(
                 () => value?.displayedString,
                 (displayedString) => {
                   this.icon?.setText(displayedString || '')
-                },
-                {
-                  immediate: true,
                 }
+                // {
+                //   immediate: true,
+                // }
               )
             )
           }
@@ -220,7 +220,7 @@ export const createBasePointFromJSON = <
       this.updatePopup()
 
       watcherHandler.add(
-        watch(
+        on(
           () => this.settings.isVisible,
           () => {
             const sortedPoints = this.zone.report.line.sortedPoints

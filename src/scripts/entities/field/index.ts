@@ -1,7 +1,7 @@
 export const createFieldFromJSON = (json: JSONFieldVAny): Field => {
   const { label, value, settings } = json
 
-  return shallowReactive({
+  return createMutable({
     label,
     value: (():
       | boolean
@@ -105,7 +105,7 @@ export const createFieldFromJSON = (json: JSONFieldVAny): Field => {
           return value
       }
     })(),
-    settings: shallowReactive(settings),
+    settings: createMutable(settings),
     getValue: function () {
       return typeof this.value === 'object' ? this.value.value : this.value
     },

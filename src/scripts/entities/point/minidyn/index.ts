@@ -17,7 +17,7 @@ export const createMinidynPointFromJSON = (
     drops: [] as MinidynDrop[],
   })
 
-  const point: MinidynPoint = shallowReactive({
+  const point: MinidynPoint = createMutable({
     ...basePoint,
     machine: 'Minidyn',
     toJSON: function () {

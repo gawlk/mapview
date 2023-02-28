@@ -16,7 +16,7 @@ export const createBaseDropFromJSON = <
 
   const drop: BaseDrop<DropIndex, Point> = {
     index: parameters.index,
-    data: shallowReactive(
+    data: createMutable(
       json.data.map((jsonDataValue) =>
         createDataValueFromJSON(
           jsonDataValue,

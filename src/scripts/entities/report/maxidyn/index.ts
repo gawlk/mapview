@@ -37,7 +37,7 @@ export const createMaxidynReportFromJSON = (
     project: parameters.project,
   })
 
-  const report: MaxidynReport = shallowReactive({
+  const report: MaxidynReport = createMutable({
     ...baseReport,
     machine: 'Maxidyn',
     addZone: function () {
@@ -58,18 +58,14 @@ export const createMaxidynReportFromJSON = (
       this.zones.push(zone)
     },
     toJSON: function (): JSONMaxidynReport {
-      const report = this as MaxidynReport
-
-      const thresholdGroup = report.thresholds.groups
+      const thresholdGroup = this.thresholds.groups
 
       return {
         version: json.version,
-        base: report.toBaseJSON(),
+        base: this.toBaseJSON(),
         distinct: {
           version: json.version,
-          dataLabels: report.dataLabels.groups.toJSON((group) =>
-            group.toJSON()
-          ),
+          dataLabels: this.dataLabels.groups.toJSON((group) => group.toJSON()),
           thresholds: {
             deflection: convertThresholdsConfigurationToJSON(
               thresholdGroup.deflection

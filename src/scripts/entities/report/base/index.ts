@@ -33,8 +33,8 @@ export const createBaseReportFromJSON = <
   // @ts-ignore
   const thresholds: Thresholds = {
     groups: parameters.thresholdsGroups,
-    colors: shallowReactive(json.thresholds.colors),
-    inputs: shallowReactive(json.thresholds.inputs),
+    colors: createMutable(json.thresholds.colors),
+    inputs: createMutable(json.thresholds.inputs),
   }
 
   const report: BaseReport<Project, Zone, DataLabels, Thresholds> = {
@@ -48,16 +48,16 @@ export const createBaseReportFromJSON = <
       },
     }),
     isOnMap: false as boolean,
-    settings: reactive(json.settings),
-    screenshots: shallowReactive([] as string[]),
+    settings: createMutable(json.settings),
+    screenshots: createMutable([] as string[]),
     dataLabels: parameters.dataLabels,
     thresholds,
-    zones: shallowReactive(parameters.zones),
+    zones: createMutable(parameters.zones),
     line: createLine(map),
-    platform: shallowReactive(
+    platform: createMutable(
       parameters.platform.map((field: JSONField) => createFieldFromJSON(field))
     ),
-    information: shallowReactive(
+    information: createMutable(
       parameters.information.map((field: JSONField) =>
         createFieldFromJSON(field)
       )
@@ -74,7 +74,9 @@ export const createBaseReportFromJSON = <
         })
       })
 
-      map?.fitBounds(bounds, { padding: 100 })
+      if (bounds.getCenter()) {
+        map?.fitBounds(bounds, { padding: 100 })
+      }
     },
     addToMap: function () {
       this.isOnMap = true
@@ -83,14 +85,12 @@ export const createBaseReportFromJSON = <
         zone.init()
       })
 
-      if (this.settings.isVisible && this.project.settings.arePointsLinked) {
-        this.line.addToMap()
-      }
-
       watcherHandler.add(
-        watch(
+        on(
           () => this.settings.isVisible,
           (isVisible) => {
+            console.log('isVisible', isVisible)
+
             this.zones.forEach((zone) => {
               zone.points.forEach((point) => {
                 point.updateVisibility()
@@ -107,7 +107,7 @@ export const createBaseReportFromJSON = <
       )
 
       watcherHandler.add(
-        watch(
+        on(
           () => this.settings.iconName,
           (iconName) => {
             this.zones.forEach((zone) => {
@@ -122,7 +122,7 @@ export const createBaseReportFromJSON = <
       )
 
       watcherHandler.add(
-        watch(
+        on(
           () => [
             this.dataLabels.groups.selected,
             this.dataLabels.groups.selected?.choices.selected,
@@ -144,8 +144,8 @@ export const createBaseReportFromJSON = <
       )
 
       watcherHandler.add(
-        watch(
-          [() => this.settings.colorization, this.thresholds.colors],
+        on(
+          [() => this.settings.colorization, () => this.thresholds.colors],
           () => {
             this.zones.forEach((zone) => {
               zone.points.forEach((point) => {
@@ -161,7 +161,7 @@ export const createBaseReportFromJSON = <
       Object.values(this.thresholds.groups).forEach(
         (thresholdGroup: ThresholdsGroup<string>) => {
           watcherHandler.add(
-            watch(
+            on(
               () => [
                 thresholdGroup.choices.selected,
                 (thresholdGroup.choices.list.at(-1) as CustomThreshold).type,

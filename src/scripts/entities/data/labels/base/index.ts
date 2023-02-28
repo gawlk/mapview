@@ -19,7 +19,7 @@ export const createBaseDataLabelsFromJSON = (
     }
   )
 
-  return shallowReactive({
+  return createMutable({
     groups,
     table,
     getList: (from: DataLabelsFrom) =>
@@ -63,13 +63,13 @@ export const createTableDataLabelsFromJSON = (
       (tableDataLabels) => tableDataLabels.from === group.from
     )
 
-    return shallowReactive({
+    return createMutable({
       group,
       index:
         group.from === 'Drop'
           ? group.indexes.list[tableDataLabels?.index || 0]
           : undefined,
-      dataLabels: shallowReactive([]),
+      dataLabels: createMutable([]),
     })
   })
 

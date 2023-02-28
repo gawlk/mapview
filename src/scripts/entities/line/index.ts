@@ -8,9 +8,11 @@ export const createLine = (map: mapboxgl.Map | null): Line => {
 
   const watcherHandler = createWatcherHandler()
 
-  const line: Line = shallowReactive({
-    sortedPoints: shallowReactive([] as BasePoint[]),
+  const line: Line = createMutable({
+    sortedPoints: [] as BasePoint[],
     addToMap: function () {
+      if (map?.getLayer(id)) return
+
       map?.addLayer(
         {
           id,
@@ -35,7 +37,7 @@ export const createLine = (map: mapboxgl.Map | null): Line => {
       )
 
       watcherHandler.add(
-        watch(
+        on(
           () => this.sortedPoints.length,
           () => {
             line.update()
@@ -45,9 +47,6 @@ export const createLine = (map: mapboxgl.Map | null): Line => {
                 line.update()
               })
             })
-          },
-          {
-            immediate: true,
           }
         )
       )

@@ -1,5 +1,7 @@
 import translationsFR from '/src/locales/fr.json?raw'
 
+export * from './dictionaries'
+
 const translations = {
   fr: JSON.parse(translationsFR),
 }

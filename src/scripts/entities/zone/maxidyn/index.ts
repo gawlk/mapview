@@ -13,7 +13,7 @@ export const createMaxidynZoneFromJSON = (
 ) => {
   json = upgradeJSON(json)
 
-  const zone: MaxidynZone = shallowReactive({
+  const zone: MaxidynZone = createMutable({
     ...createBaseZoneFromJSON(json.base, {
       report: parameters.report,
     }),

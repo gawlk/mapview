@@ -12,11 +12,7 @@ export const createHeavydynProjectFromJSON = (
   json: JSONHeavydynProjectVAny,
   map: mapboxgl.Map | null
 ) => {
-  console.time('create: project')
-
   json = upgradeJSON(json)
-
-  const watcherHandler = createWatcherHandler()
 
   const units: HeavydynMathUnits = createHeavydynMathUnitsFromJSON(
     json.distinct.units
@@ -29,7 +25,7 @@ export const createHeavydynProjectFromJSON = (
     units,
   })
 
-  const project: HeavydynProject = shallowReactive({
+  const project: HeavydynProject = createMutable({
     ...baseProject,
     machine: 'Heavydyn',
     calibrations: {
@@ -38,8 +34,8 @@ export const createHeavydynProjectFromJSON = (
       channels: json.distinct.calibrations.channels,
       sensors: json.distinct.calibrations.sensors,
     },
-    correctionParameters: shallowReactive({
-      load: shallowReactive({
+    correctionParameters: createMutable({
+      load: createMutable({
         active: false,
         loadReferenceSource: createSelectableList(
           ['Sequence', 'Custom'] as LoadReferenceSourceList,
@@ -53,7 +49,7 @@ export const createHeavydynProjectFromJSON = (
           units.force
         ),
       }),
-      temperature: shallowReactive({
+      temperature: createMutable({
         active: false,
         // Temperature from > Temperature to
         temperatureFromSource: createSelectableList(
@@ -104,11 +100,6 @@ export const createHeavydynProjectFromJSON = (
         ),
       }),
     }),
-    remove: function () {
-      baseProject.remove.call(project)
-
-      watcherHandler.clean()
-    },
     toJSON: function (): JSONHeavydynProject {
       return {
         version: json.version,
@@ -159,9 +150,6 @@ export const createHeavydynProjectFromJSON = (
     },
   })
 
-  console.timeEnd('create: project')
-
-  console.time('import: reports')
   project.reports.list.push(
     ...json.base.reports.list.map((report) =>
       createHeavydynReportFromJSON(report as JSONHeavydynReport, map, {
@@ -169,7 +157,6 @@ export const createHeavydynProjectFromJSON = (
       })
     )
   )
-  console.timeEnd('import: reports')
 
   project.reports.selectIndex(json.base.reports.selectedIndex)
 

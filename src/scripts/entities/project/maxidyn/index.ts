@@ -20,15 +20,15 @@ export const createMaxidynProjectFromJSON = (
     hardware: json.base.hardware,
   })
 
-  const project: MaxidynProject = shallowReactive({
+  const project: MaxidynProject = createMutable({
     ...baseProject,
     machine: 'Maxidyn',
-    bearingParameters: shallowReactive(json.distinct.bearingParameters),
+    bearingParameters: createMutable(json.distinct.bearingParameters),
     toJSON: function (): JSONMaxidynProject {
       return {
         version: json.version,
         machine: 'Maxidyn',
-        base: project.toBaseJSON(),
+        base: this.toBaseJSON(),
         distinct: {
           version: json.distinct.version,
           bearingParameters: json.distinct.bearingParameters,

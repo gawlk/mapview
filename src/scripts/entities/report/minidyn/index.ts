@@ -37,7 +37,7 @@ export const createMinidynReportFromJSON = (
     project: parameters.project,
   })
 
-  const report: MinidynReport = shallowReactive({
+  const report: MinidynReport = createMutable({
     ...baseReport,
     machine: 'Minidyn',
     addZone: function () {
@@ -58,16 +58,14 @@ export const createMinidynReportFromJSON = (
       this.zones.push(zone)
     },
     toJSON: function (): JSONMinidynReport {
-      const thresholdGroup = report.thresholds.groups
+      const thresholdGroup = this.thresholds.groups
 
       return {
         version: json.version,
-        base: report.toBaseJSON(),
+        base: this.toBaseJSON(),
         distinct: {
           version: json.version,
-          dataLabels: report.dataLabels.groups.toJSON((group) =>
-            group.toJSON()
-          ),
+          dataLabels: this.dataLabels.groups.toJSON((group) => group.toJSON()),
           thresholds: {
             deflection: convertThresholdsConfigurationToJSON(
               thresholdGroup.deflection

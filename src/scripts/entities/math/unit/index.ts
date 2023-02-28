@@ -51,7 +51,7 @@ export const createMathUnit = <PossibleUnits extends string>(
   const min = json.min || 0
   const readOnly = options?.readOnly || false
 
-  const mathUnit = shallowReactive({
+  const mathUnit = createMutable({
     name,
     baseUnit,
     possibleSettings,

@@ -1,3 +1,4 @@
+// TODO: Change iconoir to tabler icons
 import CircleIcon from 'iconoir/icons/circle.svg?raw'
 import FlareIcon from 'iconoir/icons/flare.svg?raw'
 import HeptagonIcon from 'iconoir/icons/heptagon.svg?raw'
@@ -62,7 +63,7 @@ export const createIcon = (iconName: IconName) => {
 
   span.style.textShadow = '-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black'
 
-  const icon = shallowReactive({
+  const icon = createMutable({
     element: div,
     color: baseHexColor,
     setColor: function (color?: string) {

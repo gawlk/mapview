@@ -1,7 +1,4 @@
-export const debounce = (
-  callback: (...args: any[]) => void,
-  wait: number = 250
-) => {
+export const debounce = (callback: (...args: any[]) => void, wait?: number) => {
   let timeoutId: number | undefined
   let latestArgs: any[] | undefined
 
@@ -13,7 +10,7 @@ export const debounce = (
         await callback.apply(null, latestArgs as [])
 
         timeoutId = undefined
-      }, wait)
+      }, wait || 250)
     }
   }
 }

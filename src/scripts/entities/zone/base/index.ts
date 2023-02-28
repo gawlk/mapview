@@ -34,15 +34,15 @@ export const createBaseZoneFromJSON = <
 
   const zone: BaseZone<Point, Report> = {
     name: json.name,
-    points: shallowReactive([]),
-    settings: shallowReactive(json.settings),
+    points: createMutable([]),
+    settings: createMutable(json.settings),
     report: parameters.report,
-    data: shallowReactive([]),
+    data: createMutable([]),
     init: function () {
       this.points.forEach((point) => point.addToMap())
 
       watcherHandler.add(
-        watch(
+        on(
           () => this.settings.color,
           () => {
             this.points.forEach((point) => point.updateColor())
@@ -53,7 +53,7 @@ export const createBaseZoneFromJSON = <
       )
 
       watcherHandler.add(
-        watch(
+        on(
           () => this.settings.isVisible,
           () => {
             this.points.forEach((point) => {
@@ -66,7 +66,7 @@ export const createBaseZoneFromJSON = <
 
       // TODO: Move all or a part to report
       watcherHandler.add(
-        watch(
+        on(
           () => this.points.length,
           () => {
             sortPoints(this.points)
@@ -76,9 +76,6 @@ export const createBaseZoneFromJSON = <
             ) as MachinePoint[]
 
             this.report.line.update()
-          },
-          {
-            immediate: true,
           }
         )
       )

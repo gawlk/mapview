@@ -25,12 +25,12 @@ export const createBaseProjectFromJSON = <
 
   const watcherHandler = createWatcherHandler()
 
-  const settings: BaseProjectSettings = reactive({
+  const settings: BaseProjectSettings = createMutable({
     ...json.settings,
     arePointsLocked: true,
   })
 
-  const project: BaseProject<Report, MathUnits> = shallowReactive({
+  const project: BaseProject<Report, MathUnits> = createMutable({
     kind: 'Project',
     name: createFieldFromJSON({
       version: 1,
@@ -41,19 +41,21 @@ export const createBaseProjectFromJSON = <
       },
     }),
     reports: createSelectableList(parameters.reports),
-    overlays: shallowReactive([] as Overlay[]),
+    overlays: createMutable([] as Overlay[]),
     units: parameters.units,
     settings,
-    information: shallowReactive(
+    information: createMutable(
       parameters.information.map((field: JSONField) =>
         createFieldFromJSON(field)
       )
     ),
-    hardware: shallowReactive(
+    hardware: createMutable(
       parameters.hardware.map((field: JSONField) => createFieldFromJSON(field))
     ),
     acquisitionParameters: json.acquisitionParameters,
     refreshLinesAndOverlays: function () {
+      console.log('refreshLinesAndOverlays')
+
       if (this.settings.arePointsLinked) {
         this.reports.list.forEach((report) => {
           report.isOnMap && report.settings.isVisible && report.line.addToMap()
@@ -65,11 +67,14 @@ export const createBaseProjectFromJSON = <
       })
     },
     setMapStyle: function (styleIndex: number) {
+      console.log('map: set map style')
+
       const oldMapStyle = map?.getStyle().sprite?.split('/').pop()
       const newMapStyle = mapStyles[styleIndex].split('/').pop()
 
       if (oldMapStyle === newMapStyle) {
-        this.refreshLinesAndOverlays()
+        // TODO: Fix
+        // this.refreshLinesAndOverlays()
       } else {
         map?.setStyle(mapStyles[styleIndex])
       }
@@ -90,6 +95,8 @@ export const createBaseProjectFromJSON = <
       map?.fitBounds(bounds, { padding: 100 })
     },
     addToMap: function () {
+      console.log('project: add to map')
+
       const flyTo = () => {
         if (this.settings.map.coordinates) {
           map?.flyTo({
@@ -105,14 +112,12 @@ export const createBaseProjectFromJSON = <
 
       flyTo()
 
-      this.setMapStyle(this.settings.map.styleIndex)
-
       this.reports.list.forEach((report) => {
         report.addToMap()
       })
 
       watcherHandler.add(
-        watch(
+        on(
           () => this.settings.arePointsVisible,
           () => {
             this.reports.list.forEach((report: MachineReport) => {
@@ -127,7 +132,7 @@ export const createBaseProjectFromJSON = <
       )
 
       watcherHandler.add(
-        watch(
+        on(
           () => this.settings.arePointsLinked,
           (arePointsLinked: boolean) => {
             this.reports.list.forEach((report: MachineReport) => {
@@ -140,7 +145,7 @@ export const createBaseProjectFromJSON = <
       )
 
       watcherHandler.add(
-        watch(
+        on(
           () => this.settings.arePointsLocked,
           (arePointsLocked: boolean) => {
             this.reports.list.forEach((report: MachineReport) => {
@@ -155,7 +160,7 @@ export const createBaseProjectFromJSON = <
       )
 
       watcherHandler.add(
-        watch(
+        on(
           () => this.settings.areOverlaysVisible,
           (areOverlaysVisible) => {
             this.overlays.forEach((overlay) => {
@@ -180,7 +185,7 @@ export const createBaseProjectFromJSON = <
       )
 
       watcherHandler.add(
-        watch(
+        on(
           () => this.settings.pointsState,
           () => {
             this.reports.list.forEach((report) => {
@@ -195,7 +200,7 @@ export const createBaseProjectFromJSON = <
       )
 
       watcherHandler.add(
-        watch(
+        on(
           () => this.settings.map.styleIndex,
           (styleIndex) => {
             this.setMapStyle(styleIndex)
@@ -204,11 +209,11 @@ export const createBaseProjectFromJSON = <
       )
 
       watcherHandler.add(
-        watch(
+        on(
           () => this.overlays,
           (overlays, oldOverlays) => {
             overlays.forEach((overlay) => {
-              if (!oldOverlays.includes(overlay)) {
+              if (!oldOverlays?.includes(overlay)) {
                 overlay.addToMap(this.settings.areOverlaysVisible)
               }
             })
@@ -218,8 +223,8 @@ export const createBaseProjectFromJSON = <
 
       Object.values(this.units).forEach((mathUnit) =>
         watcherHandler.add(
-          watch(
-            mathUnit,
+          on(
+            () => mathUnit,
             debounce(() => {
               this.reports.list.forEach((report) => {
                 report.zones.forEach((zone) => {

@@ -18,7 +18,7 @@ export const createMinidynDropFromJSON = (
     dropGroup,
   })
 
-  const drop: MinidynDrop = shallowReactive({
+  const drop: MinidynDrop = createMutable({
     ...baseDrop,
     machine: 'Minidyn',
     toJSON: function () {

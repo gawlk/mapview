@@ -1,32 +1,36 @@
-export const createWatcherHandler = (): WatcherHandler => {
-  const stops: (() => void)[] = []
+export const createWatcherHandler = () => {
+  const disposers: (() => void)[] = []
 
   return {
-    add: (stop: () => void): (() => void) => {
-      stops.push(stop)
-      return stop
-    },
-    remove: (stop: () => void): void => {
+    add: (effect: Solid.EffectFunction<any>): Promise<() => void> =>
+      new Promise((resolve) => {
+        createRoot((dispose) => {
+          createEffect(effect)
+          disposers.push(dispose)
+          resolve(dispose)
+        })
+      }),
+    remove: (dispose: () => void): void => {
       let index: number | undefined
 
-      stops.some((_stop, _index) => {
-        const found = stop === _stop
+      disposers.some((disposer, _index) => {
+        const found = disposer === dispose
         found && (index = _index)
         return found
       })
 
       if (index !== undefined) {
-        stops[index]()
-        stops.splice(index, 1)
+        disposers[index]()
+        disposers.splice(index, 1)
       }
     },
     clean: () => {
-      stops.forEach((stop) => {
-        stop()
+      disposers.forEach((dispose) => {
+        dispose()
       })
 
-      stops.splice(0, stops.length)
+      disposers.splice(0, disposers.length)
     },
-    stops,
+    disposers,
   }
 }

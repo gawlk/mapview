@@ -6,7 +6,7 @@ export const createMathNumber = (
   value: number,
   unit: MathUnit<string>
 ): MathNumber => {
-  const mathNumber = shallowReactive({
+  const mathNumber = createMutable({
     value,
     unit,
     displayedString: '',
@@ -58,7 +58,7 @@ export const createMathNumber = (
       const localeString = `${
         options.disablePreString ? '' : preString
       } ${numberToLocaleString(value, numberToLocaleOptions)} ${
-        options.appendUnitToString ? this.unit.currentUnit : ''
+        options.appendUnitToString && this.unit ? this.unit.currentUnit : ''
       }`.trim()
 
       return options.removeSpaces

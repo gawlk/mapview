@@ -18,7 +18,7 @@ export const createMaxidynDropFromJSON = (
     dropGroup,
   })
 
-  const drop: MaxidynDrop = shallowReactive({
+  const drop: MaxidynDrop = createMutable({
     ...baseDrop,
     machine: 'Maxidyn',
     toJSON: function () {

@@ -11,7 +11,7 @@ export const createHeavydynPointFromJSON = (
 ) => {
   json = upgradeJSON(json)
 
-  const point: HeavydynPoint = shallowReactive({
+  const point: HeavydynPoint = createMutable({
     ...createBasePointFromJSON(json.base, map, {
       zone: parameters.zone,
       information: json.base.information,

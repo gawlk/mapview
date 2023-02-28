@@ -48,7 +48,7 @@ export const createOverlay = async (
 
   const watcherHandler = createWatcherHandler()
 
-  const overlay = shallowReactive({
+  const overlay = createMutable({
     id,
     sourceData,
     markerNW,
@@ -87,7 +87,7 @@ export const createOverlay = async (
       markerSE.on('drag', onMarkerDrag)
 
       watcherHandler.add(
-        watch(
+        on(
           () => overlay.opacity,
           (opacity: number) => {
             map?.setPaintProperty(id, 'raster-opacity', opacity)

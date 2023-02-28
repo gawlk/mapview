@@ -21,10 +21,10 @@ export const createMinidynProjectFromJSON = (
     hardware: json.base.hardware,
   })
 
-  const project: MinidynProject = shallowReactive({
+  const project: MinidynProject = createMutable({
     ...baseProject,
     machine: 'Minidyn',
-    bearingParameters: shallowReactive(json.distinct.bearingParameters),
+    bearingParameters: createMutable(json.distinct.bearingParameters),
     toJSON: function (): JSONMinidynProject {
       return {
         version: json.version,

@@ -9,14 +9,12 @@ export const createDataComputer = (parameters: {
   if (label) {
     const watcherHandler = createWatcherHandler()
 
-    const computer: DataComputer = shallowReactive({
+    const computer: DataComputer = createMutable({
       label,
       init: async function () {
-        watcherHandler.add(
-          watchEffect(() => {
-            this.label && compute(this.label)
-          })
-        )
+        watcherHandler.add(() => {
+          this.label && compute(this.label)
+        })
       },
       clean: () => {
         watcherHandler.clean()

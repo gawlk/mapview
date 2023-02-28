@@ -17,12 +17,16 @@ export const addRawDataToZip = async (
       break
   }
 
+  console.log(points)
+
   await Promise.all([
-    ...points.map((point) => {
-      if (point.rawDataFile) {
-        rawdata[point.id] = new Uint8Array(point.rawDataFile)
-      }
-    }),
+    ...points
+      .filter((point) => point.checkVisibility)
+      .map((point) => {
+        if (point.rawDataFile) {
+          rawdata[point.id] = new Uint8Array(point.rawDataFile)
+        }
+      }),
   ])
 
   zip.rawdata = rawdata

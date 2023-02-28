@@ -138,6 +138,6 @@
 
 <i18n lang="yaml">
 fr:
-  'Photograph the map': 'Photographier la carte'
+  'Take a screenshot': 'Prendre une capture d'écran'
   'View the album': "Voir l'album"
 </i18n>

@@ -27,6 +27,8 @@ export const createMathNumber = (
       return convertValueFromUnitAToUnitB(this.value, this.unit.baseUnit, unit)
     },
     getLocaleString: function (options: MathNumberGetLocaleStringOptions = {}) {
+      console.log(this);
+      
       const numberToLocaleOptions = {
         locale: options.locale,
         precision: options.precision,

@@ -8,9 +8,9 @@ export * from './screenshots'
 
 export const acceptedExtensions = [
   '.prjz',
-  '.mpvz',
+  // '.mpvz',
   '.dynz',
   '.prjz.zip',
-  '.mpvz.zip',
+  // '.mpvz.zip',
   '.dynz.zip',
 ]

@@ -84,7 +84,6 @@ devDependencies:
   '@babel/types': 7.21.2
   '@darkobits/vite-plugin-favicons': 0.3.0_vwvfc4ezh6jlf6pa67auy3eulu
   '@edge-runtime/vm': 2.1.1
-  '@edge-runtime/vm': 2.1.1
   '@iconify-json/heroicons-outline': 1.1.6
   '@iconify-json/heroicons-solid': 1.1.7
   '@iconify-json/octicon': 1.1.34

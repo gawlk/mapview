@@ -17,8 +17,6 @@ export const addRawDataToZip = async (
       break
   }
 
-  console.log(points)
-
   await Promise.all([
     ...points
       .filter((point) => point.checkVisibility)

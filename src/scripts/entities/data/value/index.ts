@@ -4,6 +4,8 @@ export const createDataValue = (
   value: number,
   label: DataLabel<string>
 ): DataValue<string> => {
+  console.log(value, label);
+  
   return {
     label,
     value: createMathNumber(value, label.unit),

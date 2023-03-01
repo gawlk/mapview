@@ -84,25 +84,29 @@ export const createBaseDataLabelsGroupFromJSON = <
   units: MachineMathUnits,
   categorySelector?: CategorySelector
 ): BaseDataLabelsGroup<From> => {
+  const choices = json.choices.list.map((jsonChoice) =>
+    createDataLabelFromJSON(
+      jsonChoice,
+      units,
+      categorySelector?.(jsonChoice.unit as MachineUnitsNames) ||
+        currentCategory
+    )
+  )
+
   return {
     from: json.from,
-    choices: createSelectableList(
-      json.choices.list.map((jsonChoice) =>
-        createDataLabelFromJSON(
-          jsonChoice,
-          units,
-          categorySelector?.(jsonChoice.unit as MachineUnitsNames) ||
-            currentCategory
-        )
-      )
-    ),
+    choices: createSelectableList(choices),
     toBaseJSON: function () {
       return {
         version: 1,
         from: json.from,
-        choices: this.choices.toJSON((choice) => choice.toJSON()),
+        choices: this.choices.toJSON(
+          (choice) => choice.toJSON(),
+          (label) => this.saveableChoices.includes(label)
+        ),
       }
     },
+    saveableChoices: [...choices],
   }
 }
 

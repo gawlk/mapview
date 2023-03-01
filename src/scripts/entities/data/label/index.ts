@@ -1,7 +1,5 @@
 import { translate } from '/src/locales'
 
-import { rawCategory, currentCategory } from '/src/scripts'
-
 export const createDataLabel = <T extends string, Unit extends string>(args: {
   name: string
   shortName?: string

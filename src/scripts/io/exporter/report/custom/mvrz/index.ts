@@ -174,6 +174,10 @@ const generateDropData = (
 
 const generateZoneData = (zones: MachineZone[]): ExcelJson =>
   zones.reduce<ExcelJson>((a, zone, index) => {
+    const { points } = zone as BaseZone
+
+    const visiblePoints = points.filter((point) => point.checkVisibility)
+
     const Z = 'Z' + (index + 1)
 
     return {
@@ -188,9 +192,9 @@ const generateZoneData = (zones: MachineZone[]): ExcelJson =>
         }),
         {}
       ),
-      ...generatePointInformation(zone.points, Z + '_Pi_'),
-      ...generatePointData(zone.points, Z + '_Pi_'),
-      ...generateDropData(zone.points, Z + '_Pi_D'),
+      ...generatePointInformation(visiblePoints, Z + '_Pi_'),
+      ...generatePointData(visiblePoints, Z + '_Pi_'),
+      ...generateDropData(visiblePoints, Z + '_Pi_D'),
     }
   }, {})
 
@@ -427,14 +431,16 @@ const createBaseJson = (project: MachineProject): ExcelJson => {
 
 const createMVRZJson = (project: MachineProject): ExcelJson => {
   if (!project.reports.selected) return {}
+
+  const { sortedPoints } = project.reports.selected.line
+
+  const visiblePoints = sortedPoints.filter((point) => point.checkVisibility)
+
   return {
     ...createBaseJson(project),
-    ...generatePointInformation(
-      project.reports.selected.line.sortedPoints,
-      'Pi_'
-    ),
-    ...generatePointData(project.reports.selected.line.sortedPoints, 'Pi_'),
-    ...generateDropData(project.reports.selected.line.sortedPoints, 'Pi_D'),
+    ...generatePointInformation(visiblePoints, 'Pi_'),
+    ...generatePointData(visiblePoints, 'Pi_'),
+    ...generateDropData(visiblePoints, 'Pi_D'),
     ...generateZoneData(project.reports.selected.zones),
     ...generateSpecificMachineData(project),
   }

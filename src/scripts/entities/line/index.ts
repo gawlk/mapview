@@ -65,14 +65,18 @@ export const createLine = (map: mapboxgl.Map | null): Line => {
 
       const visiblePoints = this.sortedPoints.filter((point) => {
         const {
-          settings,
+          settings: pointSettings,
           zone: {
-            settings: zSettings,
-            report: { settings: rSettings },
+            settings: zoneSettings,
+            report: { settings: reportSettings },
           },
         } = point
 
-        return settings.isVisible && zSettings.isVisible && rSettings.isVisible
+        return (
+          pointSettings.isVisible &&
+          zoneSettings.isVisible &&
+          reportSettings.isVisible
+        )
       })
 
       features = []

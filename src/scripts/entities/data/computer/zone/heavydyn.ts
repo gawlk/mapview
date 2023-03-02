@@ -58,13 +58,6 @@ export const createCharacteristicDeflectionComputer = (
             ? d0sAverage
             : d0sAverage + 2 * getStandardDeviation(d0s)
 
-        console.log(
-          d0s,
-          d0sAverage,
-          value,
-          d0s.length > 1 && getStandardDeviation(d0s)
-        )
-
         data.value.updateValue(value)
       })
     },

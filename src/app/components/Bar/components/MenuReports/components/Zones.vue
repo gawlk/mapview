@@ -39,7 +39,12 @@
         v-if="index !== 0"
         @click="
             () => {
-              (selectedReport?.zones[0].points as BasePoint[]).push(...zone.points)
+              (selectedReport?.zones[0].points as BasePoint[]).push(...zone.points.map((point) => {
+                if (selectedReport) {
+                  point.zone = selectedReport.zones[0]
+                }
+                return point
+              }))
 
               zone.clean()
 

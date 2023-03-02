@@ -1,7 +1,10 @@
-type DialogProps = DialogPropsOnly & InteractiveProps
+type DialogProps = DialogPropsOnly &
+  Omit<InteractiveProps, keyof DialogPropsOnly>
 
 interface DialogPropsOnly {
   button?: DialogButtonProps
+
+  size?: 'small' | 'normal' | 'fullscreen'
 
   title?: string
 

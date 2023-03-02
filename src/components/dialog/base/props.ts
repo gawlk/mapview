@@ -2,6 +2,8 @@ export const dialogBooleanPropsKeysObject: BooleanPropsKeysObject<DialogPropsOnl
   {
     button: true,
 
+    size: true,
+
     title: true,
 
     sticky: true,

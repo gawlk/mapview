@@ -82,6 +82,7 @@ export default () => {
             })),
           }}
           onClose={(value) =>
+            value &&
             (store.projects.selected = store.projects.list[Number(value)])
           }
         />

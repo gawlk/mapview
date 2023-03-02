@@ -1,24 +1,58 @@
+# ---
+# Build
+# ---
 
 dist
-.solid
-.output
-.vercel
-.netlify
-netlify
+dist-ssr
 
-# dependencies
-/node_modules
+# ---
+# Dependencies
+# ---
 
-# IDEs and editors
-/.idea
-.project
-.classpath
-*.launch
-.settings/
+node_modules
 
-# Temp
-gitignore
+# ---
+# Documentation
+# ---
 
-# System Files
+mermaid
+visualizer
+
+# ---
+# Editors
+# ---
+
+.nova
+.vscode
+
+# ---
+# Local
+# ---
+
+*.local
+
+# ---
+# OS
+# ---
+
 .DS_Store
-Thumbs.db
+* 2*
+
+# ---
+# Services
+# ---
+
+.vercel
+
+# ---
+# Secrets
+# ---
+
+.env
+
+# ---
+# Test
+# ---
+
+coverage
+__snapshots__

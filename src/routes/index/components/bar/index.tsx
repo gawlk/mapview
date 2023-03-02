@@ -7,8 +7,8 @@ import MenuData from './components/menuData'
 import MenuMap from './components/menuMap'
 // import MenuPoints from './components/MenuPoints/Index.vue'
 import MenuProject from './components/menuProject'
+import MenuReports from './components/menuReports'
 
-// import MenuReports from './components/MenuReports/Index.vue'
 import DotsIcon from '/src/assets/svg/custom/dots.svg'
 
 export default () => {
@@ -34,8 +34,7 @@ export default () => {
     {
       name: t('Reports'),
       icon: IconTablerFiles,
-      // component: MenuReports,
-      component: () => {},
+      component: MenuReports,
       needsReport: true,
       props: createMutable({
         route: '',

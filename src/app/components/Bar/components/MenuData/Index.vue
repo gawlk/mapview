@@ -3,8 +3,6 @@
 
   import { colorsClasses } from '/src/scripts'
 
-  import IconArrowSmRight from '~icons/heroicons-solid/arrow-sm-right'
-  import IconArrowsExpand from '~icons/heroicons-solid/arrows-expand'
   import IconEye from '~icons/heroicons-solid/eye'
   import IconEyeOff from '~icons/heroicons-solid/eye-off'
 
@@ -24,6 +22,14 @@
   const selectedReport = computed(
     () => store.projects.selected?.reports.selected
   )
+
+  const getDcarString = (zone: MachineZone) => {
+    const dCar = zone.data.find(
+      (data) => data.label.name === 'Characteristic deflection'
+    )
+
+    return dCar ? `Dcar = ${dCar.value.displayedStringWithUnit}` : ''
+  }
 </script>
 
 <template>
@@ -53,6 +59,9 @@
             }}</span>
             <span class="font-semibold">
               {{ zone?.name || t('None') }}
+            </span>
+            <span>
+              {{ getDcarString(zone) }}
             </span>
           </div>
           <div class="w-full" />

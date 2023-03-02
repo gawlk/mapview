@@ -7,6 +7,14 @@ import {
   indicatorsCategory,
 } from '/src/scripts'
 
+const getStandardDeviation = (values: number[]) => {
+  const n = values.length
+  const mean = values.reduce((a, b) => a + b) / n
+  return Math.sqrt(
+    values.map((x) => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n
+  )
+}
+
 export const createCharacteristicDeflectionComputer = (
   report: HeavydynReport
 ) => {
@@ -41,15 +49,14 @@ export const createCharacteristicDeflectionComputer = (
             )
           )
           .flat()
+          .map((d0) => d0.value.value)
 
-        const d0sAverage = average(d0s.map((d0) => d0.value.value))
+        const d0sAverage = average(d0s)
 
-        const value = Math.sqrt(
-          (1 / (d0s.length - 1)) *
-            d0s
-              .map((d0) => (d0sAverage - d0.value.value) ** 2)
-              .reduce((total, value) => total + value, 0)
-        )
+        const value =
+          d0s.length <= 1
+            ? d0sAverage
+            : d0sAverage + 2 * getStandardDeviation(d0s)
 
         data.value.updateValue(value)
       })

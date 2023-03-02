@@ -23,7 +23,7 @@
     () => store.projects.selected?.reports.selected
   )
 
-  const getDcar = (zone: MachineZone) => {
+  const getDcarString = (zone: MachineZone) => {
     const dCar = zone.data.find(
       (data) => data.label.name === 'Characteristic deflection'
     )
@@ -61,7 +61,7 @@
               {{ zone?.name || t('None') }}
             </span>
             <span>
-              {{ getDcar(zone) }}
+              {{ getDcarString(zone) }}
             </span>
           </div>
           <div class="w-full" />

@@ -1,7 +1,7 @@
 import { ExtendedBinaryReader } from './ExtendedBinaryStream'
 import ImpactDataFile from './ImpactDataFile'
 
-const removeLeading0s = (str: string) => str.replaceAll('^0+', '')
+const removeLeading0s = (str: string) => str.replace(/^0+/, '')
 
 const saveRawData = (
   file: ArrayBufferLike,

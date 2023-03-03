@@ -1,8 +1,16 @@
 import { ExtendedBinaryReader } from './ExtendedBinaryStream'
 import ImpactDataFile from './ImpactDataFile'
 
-function saveRawData(file: ArrayBufferLike, points: BasePoint[], id: string) {
-  const point = points.find((p) => p.id === id)
+const removeLeading0s = (str: string) => str.replaceAll('^0+', '')
+
+const saveRawData = (
+  file: ArrayBufferLike,
+  points: BasePoint[],
+  id: string
+) => {
+  const point = points.find(
+    (p) => removeLeading0s(p.id) === removeLeading0s(id)
+  )
 
   if (point) {
     point.rawDataFile = file

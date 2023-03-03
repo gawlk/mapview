@@ -56,3 +56,6 @@ visualizer
 
 coverage
 __snapshots__
+/test-results/
+/playwright-report/
+/playwright/.cache/

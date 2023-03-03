@@ -11,6 +11,7 @@ specifiers:
   '@iconify-json/tabler': ^1.1.64
   '@intlify/unplugin-vue-i18n': ^0.8.2
   '@mermaid-js/mermaid-cli': ^10.0.2
+  '@playwright/test': ^1.31.2
   '@shopify/draggable': 1.0.0-beta.8
   '@tailwindcss/container-queries': ^0.1.0
   '@tailwindcss/line-clamp': ^0.4.2
@@ -35,8 +36,8 @@ specifiers:
   file-saver: ^2.0.5
   html2canvas: ^1.4.1
   husky: ^8.0.3
-  json: ^11.0.0
   iconoir: ^6.4.0
+  json: ^11.0.0
   localforage: ^1.10.0
   lodash-es: ^4.17.21
   mapbox-gl: ^2.13.0
@@ -89,6 +90,7 @@ devDependencies:
   '@iconify-json/tabler': 1.1.64
   '@intlify/unplugin-vue-i18n': 0.8.2_vue-i18n@9.2.2
   '@mermaid-js/mermaid-cli': 10.0.2_typescript@4.9.5
+  '@playwright/test': 1.31.2
   '@tailwindcss/container-queries': 0.1.0_tailwindcss@3.2.7
   '@tailwindcss/line-clamp': 0.4.2_tailwindcss@3.2.7
   '@trivago/prettier-plugin-sort-imports': 4.1.1_ht5m4fjxbv43inzcw5hdarafmm
@@ -1907,6 +1909,17 @@ packages:
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
     dependencies:
       semver: 7.3.8
+    dev: true
+
+  /@playwright/test/1.31.2:
+    resolution: {integrity: sha512-BYVutxDI4JeZKV1+ups6dt5WiqKhjBtIYowyZIJ3kBDmJgsuPKsqqKNIMFbUePLSCmp2cZu+BDL427RcNKTRYw==}
+    engines: {node: '>=14'}
+    hasBin: true
+    dependencies:
+      '@types/node': 18.14.6
+      playwright-core: 1.31.2
+    optionalDependencies:
+      fsevents: 2.3.2
     dev: true
 
   /@polka/url/1.0.0-next.21:
@@ -4811,6 +4824,12 @@ packages:
       jsonc-parser: 3.2.0
       mlly: 1.1.1
       pathe: 1.1.0
+    dev: true
+
+  /playwright-core/1.31.2:
+    resolution: {integrity: sha512-a1dFgCNQw4vCsG7bnojZjDnPewZcw7tZUNFN0ZkcLYKj+mPmXvg4MpaaKZ5SgqPsOmqIf2YsVRkgqiRDxD+fDQ==}
+    engines: {node: '>=14'}
+    hasBin: true
     dev: true
 
   /postcss-import/14.1.0_postcss@8.4.21:

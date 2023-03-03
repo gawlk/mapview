@@ -5,7 +5,6 @@ import {
   createDataValue,
   currentCategory,
   indicatorsCategory,
-  rawCategory,
 } from '/src/scripts'
 
 export const createCumSumDataComputer = (report: HeavydynReport) => {
@@ -45,7 +44,7 @@ export const createCumSumDataComputer = (report: HeavydynReport) => {
           return grouped
         }, new Array(numberOfDrops).fill(null).map(() => []) as HeavydynDrop[][])
 
-        groupedDropsByDropIndex.slice(-1).forEach((drops) => {
+        groupedDropsByDropIndex.forEach((drops) => {
           const d0OnLoadList = drops.map((drop) => {
             const d0 = drop.data.find(
               (data) => data.label === currentD0DataLabel
@@ -73,8 +72,10 @@ export const createCumSumDataComputer = (report: HeavydynReport) => {
 
             const d0OnLoad = d0OnLoadList[index]
 
-            if (index > 0 && typeof d0OnLoad === 'number') {
-              const value = d0OnLoad + lastCumSum - averageD0OnLoad
+            if (typeof d0OnLoad === 'number') {
+              const value = index
+                ? d0OnLoad + lastCumSum - averageD0OnLoad
+                : lastCumSum
 
               lastCumSum = value
 

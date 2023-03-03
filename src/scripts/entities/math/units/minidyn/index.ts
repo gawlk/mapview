@@ -24,6 +24,11 @@ export const createMinidynMathUnitsFromJSON = (
       ['N', 0],
       ['kN', 0],
     ]),
+    distance: createMathUnit('Distance', json.distance, 'm', [
+      ['m', 0],
+      ['km', 0],
+      ['mi', 0],
+    ]),
     time: createMathUnit('Time', json.time, 's', [
       ['s', 0],
       ['ms', 0],

@@ -106,6 +106,25 @@ export const convertPRJZToMinidynUnits = (json: any): JSONMinidynUnits => {
       currentPrecision: 0,
       max: 1000,
     },
+    distance: {
+      version: 1,
+      currentUnit: ((): PossibleMinidynDistanceUnits => {
+        switch (
+          (json.ExportedData.Points as any[]).find(
+            (exportedUnit) => exportedUnit.Type === 'Distance'
+          )?.Unit
+        ) {
+          case 'mi':
+            return 'mi'
+          case 'km':
+            return 'km'
+          default:
+            return 'm'
+        }
+      })(),
+      currentPrecision: 0,
+      max: 1000,
+    },
     time: {
       version: 1,
       currentUnit: ((): PossibleMinidynTimeUnits => {

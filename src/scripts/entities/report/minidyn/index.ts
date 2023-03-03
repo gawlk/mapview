@@ -73,6 +73,9 @@ export const createMinidynReportFromJSON = (
               thresholdGroup.deflection
             ),
             force: convertThresholdsConfigurationToJSON(thresholdGroup.force),
+            distance: convertThresholdsConfigurationToJSON(
+              thresholdGroup.distance
+            ),
             modulus: convertThresholdsConfigurationToJSON(
               thresholdGroup.modulus
             ),

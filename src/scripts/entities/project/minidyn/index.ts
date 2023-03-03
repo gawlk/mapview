@@ -36,6 +36,7 @@ export const createMinidynProjectFromJSON = (
           units: {
             deflection: this.units.deflection.toJSON(),
             force: this.units.force.toJSON(),
+            distance: this.units.distance.toJSON(),
             modulus: this.units.modulus.toJSON(),
             percentage: this.units.percentage.toJSON(),
             stiffness: this.units.stiffness.toJSON(),

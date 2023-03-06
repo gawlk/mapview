@@ -6,6 +6,7 @@ import {
   createWatcherHandler,
   currentCategory,
   debounce,
+  generateBoundsFromPoints,
   getIndexOfSelectedInSelectableList,
 } from '/src/scripts'
 
@@ -65,17 +66,9 @@ export const createBaseReportFromJSON = <
     ),
     project: parameters.project,
     fitOnMap: function () {
-      const bounds = new LngLatBounds()
+      const points = this.zones.map((zone) => zone.points).flat()
 
-      this.zones.forEach((zone) => {
-        zone.points.forEach((point) => {
-          if (point.settings.isVisible && point.marker) {
-            bounds.extend(point.marker.getLngLat())
-          }
-        })
-      })
-
-      map?.fitBounds(bounds, { padding: 100 })
+      map?.fitBounds(generateBoundsFromPoints(points))
     },
     addToMap: function () {
       this.isOnMap = true

@@ -5,6 +5,7 @@ import {
   createSelectableList,
   createWatcherHandler,
   debounce,
+  generateBoundsFromPoints,
   mapStyles,
 } from '/src/scripts'
 
@@ -75,19 +76,11 @@ export const createBaseProjectFromJSON = <
       }
     },
     fitOnMap: function () {
-      const bounds = new LngLatBounds()
+      const points = this.reports.list
+        .map((report) => report.zones.map((zone) => zone.points))
+        .flat(2)
 
-      this.reports.list.forEach((report: MachineReport) => {
-        report.zones.forEach((zone) => {
-          zone.points.forEach((point: MachinePoint) => {
-            if (point.settings.isVisible && point.marker) {
-              bounds.extend(point.marker.getLngLat())
-            }
-          })
-        })
-      })
-
-      map?.fitBounds(bounds, { padding: 100 })
+      map?.fitBounds(generateBoundsFromPoints(points))
     },
     addToMap: function () {
       const flyTo = () => {

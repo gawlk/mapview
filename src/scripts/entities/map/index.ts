@@ -1,4 +1,4 @@
-import mapboxgl, { Map, Marker, NavigationControl } from 'mapbox-gl'
+import { LngLatBounds, Map, Marker, NavigationControl } from 'mapbox-gl'
 
 import store from '/src/store'
 
@@ -179,4 +179,30 @@ const addBuildingsToMap = (map: mapboxgl.Map) => {
     },
     labelLayerId
   )
+}
+
+export const generateBoundsFromPoints = (
+  points: BasePoint[]
+): mapboxgl.LngLatBounds => {
+  const bounds = new LngLatBounds()
+
+  points.forEach((point) => {
+    if (point.settings.isVisible && point.marker) {
+      bounds.extend(point.marker.getLngLat())
+    }
+  })
+
+  const padding = 0.001
+
+  const sw = {
+    lat: bounds.getSouth() + padding,
+    lng: bounds.getWest() - padding,
+  }
+
+  const ne = {
+    lat: bounds.getNorth() - padding,
+    lng: bounds.getEast() + padding,
+  }
+
+  return new LngLatBounds(sw, ne)
 }

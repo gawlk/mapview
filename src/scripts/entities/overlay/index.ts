@@ -19,7 +19,7 @@ export const createOverlay = async (
 
   const imageElement = await getImageFromData64(data64)
 
-  const width = 1000
+  const width = 500
   const height = (width * imageElement.height) / imageElement.width
 
   const canvasTo = document.createElement('canvas')

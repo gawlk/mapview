@@ -43,11 +43,9 @@
       (icon) => ((icon as HTMLSpanElement).style.marginBottom = '1rem')
     )
 
-    const canvasFullSize = await html2canvas(map, {
+    const canvas = await html2canvas(map, {
       logging: false,
     })
-
-    const imageFullSize = canvasFullSize.toDataURL('image/png')
 
     Array.from(map.getElementsByClassName('mapview-icon')).forEach(
       (icon) => ((icon as HTMLSpanElement).style.marginBottom = '')
@@ -59,25 +57,10 @@
 
     state.screenshooting = false
 
-    const image = new Image()
-
-    image.src = imageFullSize
-
-    image.onload = () => {
-      const canvas = document.createElement('canvas')
-
-      const width = 500
-
-      canvas.width = width
-
-      canvas.height = (width * map?.clientHeight) / map?.clientWidth
-
-      const context = canvas.getContext('2d')
-
-      context?.drawImage(image, 0, 0, canvas.width, canvas.height)
-
-      state.image = canvas.toDataURL()
-    }
+    state.image = canvas.toDataURL(
+      'image/jpeg',
+      map?.clientWidth > 1000 ? 0.75 : 1
+    )
   }
 
   const save = () => {

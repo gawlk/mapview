@@ -116,11 +116,13 @@
     >
       <option
         class="text-black"
-        v-for="value in props.values"
+        v-for="(value, index) in props.values"
         :value="value"
         :selected="
           props.multiple
             ? props.selectedList?.includes(value)
+            : typeof props.selectedIndex === 'number'
+            ? props.selectedIndex === index
             : props.selected === value
         "
       >

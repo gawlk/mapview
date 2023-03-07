@@ -71,14 +71,13 @@ test-code:
 test-e2e:
   stage: test
   image: mcr.microsoft.com/playwright:v1.31.0-focal
-  parallel: 7
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 
   script:
     - npx pnpm i --store=node_modules/.pnpm-store
     - npx pnpm check
-    - npx playwright test --shard=$CI_NODE_INDEX/$CI_NODE_TOTAL
+    - npx playwright test
 
 test-ts:
   stage: test

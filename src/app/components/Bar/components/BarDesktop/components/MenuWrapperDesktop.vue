@@ -18,6 +18,7 @@
     :text="props.name + props.menuProps.route"
     :defaultOpen="getDisclosureOpenState(key)"
     @click="(open) => setDisclosureOpenState(key, open)"
+    :data-testid="props.name"
   >
     <slot></slot>
   </Disclosure>

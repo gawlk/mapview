@@ -17,6 +17,7 @@ image: node:latest
   - git push --tags ssh_origin
 
 stages:
+  - test
   - build
   - version
 
@@ -58,7 +59,7 @@ version-2:
     - *git_tag
 
 test-code:
-  stage: build
+  stage: test
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 
@@ -67,8 +68,20 @@ test-code:
     - npx pnpm check
     - npx pnpm test
 
+test-e2e:
+  stage: test
+  image: mcr.microsoft.com/playwright:v1.31.0-focal
+  parallel: 7
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+
+  script:
+    - npx pnpm i --store=node_modules/.pnpm-store
+    - npx pnpm check
+    - npx playwright test --shard=$CI_NODE_INDEX/$CI_NODE_TOTAL
+
 test-ts:
-  stage: build
+  stage: test
   rules:
     - if: $CI_COMMIT_TAG
   script:

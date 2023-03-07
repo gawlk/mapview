@@ -75,6 +75,7 @@
     <div
       class="absolute inset-0 z-10 h-screen w-screen backdrop-blur"
       v-if="store.importingFile"
+      data-testid="loader"
     >
       <div class="flex h-full flex-col items-center justify-center space-y-2">
         <svg

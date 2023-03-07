@@ -1,12 +1,9 @@
-import { LngLatBounds } from 'mapbox-gl'
-
 import {
   createFieldFromJSON,
   createLine,
   createWatcherHandler,
-  currentCategory,
   debounce,
-  generateBoundsFromPoints,
+  flyToPoints,
   getIndexOfSelectedInSelectableList,
 } from '/src/scripts'
 
@@ -68,7 +65,7 @@ export const createBaseReportFromJSON = <
     fitOnMap: function () {
       const points = this.zones.map((zone) => zone.points).flat()
 
-      map?.fitBounds(generateBoundsFromPoints(points))
+      flyToPoints(map, points)
     },
     addToMap: function () {
       this.isOnMap = true

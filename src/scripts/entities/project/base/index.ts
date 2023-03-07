@@ -1,11 +1,9 @@
-import { LngLatBounds } from 'mapbox-gl'
-
 import {
   createFieldFromJSON,
   createSelectableList,
   createWatcherHandler,
   debounce,
-  generateBoundsFromPoints,
+  flyToPoints,
   mapStyles,
 } from '/src/scripts'
 
@@ -80,7 +78,7 @@ export const createBaseProjectFromJSON = <
         .map((report) => report.zones.map((zone) => zone.points))
         .flat(2)
 
-      map?.fitBounds(generateBoundsFromPoints(points))
+      flyToPoints(map, points)
     },
     addToMap: function () {
       const flyTo = () => {

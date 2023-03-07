@@ -1,4 +1,9 @@
-import { LngLatBounds, Map, Marker, NavigationControl } from 'mapbox-gl'
+import mapboxgl, {
+  LngLatBounds,
+  Map,
+  Marker,
+  NavigationControl,
+} from 'mapbox-gl'
 
 import store from '/src/store'
 
@@ -181,9 +186,10 @@ const addBuildingsToMap = (map: mapboxgl.Map) => {
   )
 }
 
-export const generateBoundsFromPoints = (
+export const flyToPoints = (
+  map: mapboxgl.Map | null | undefined,
   points: BasePoint[]
-): mapboxgl.LngLatBounds => {
+): void => {
   const bounds = new LngLatBounds()
 
   points.forEach((point) => {
@@ -192,17 +198,22 @@ export const generateBoundsFromPoints = (
     }
   })
 
-  const padding = 0.001
+  const generatePadding = (higher: number, lower: number) =>
+    Math.max((higher - lower) / 4, 0.0001)
+
+  const horizontalPadding = generatePadding(bounds.getEast(), bounds.getWest())
+
+  const verticalPadding = generatePadding(bounds.getNorth(), bounds.getSouth())
 
   const sw = {
-    lat: bounds.getSouth() + padding,
-    lng: bounds.getWest() - padding,
+    lat: bounds.getSouth() - verticalPadding,
+    lng: bounds.getWest() + horizontalPadding,
   }
 
   const ne = {
-    lat: bounds.getNorth() - padding,
-    lng: bounds.getEast() + padding,
+    lat: bounds.getNorth() + verticalPadding,
+    lng: bounds.getEast() - horizontalPadding,
   }
 
-  return new LngLatBounds(sw, ne)
+  map?.fitBounds(new LngLatBounds(sw, ne))
 }

@@ -369,8 +369,8 @@ const generateHeavydynData = (project: HeavydynProject): ExcelJson => {
         temperature.average.selected || '',
       [`CorrectionParameters_Temperature_CustomValue`]:
         temperature.customValue.value,
-      [`CorrectionParameters_Temperature_TemperatureTo`]:
-        temperature.temperatureTo.value,
+      [`CorrectionParameters_Temperature_RefTemperature`]:
+        temperature.refTemperature.value,
       [`CorrectionParameters_Temperature_StructureType_Name`]:
         temperature.structureType.selected?.name || '',
       [`CorrectionParameters_Temperature_StructureType_K`]:

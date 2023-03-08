@@ -47,7 +47,7 @@ export const convertPRJZToHeavydynProjectDistinct = (
         temperatureFromSource: 'Tair',
         average: 'Zone',
         customValue: 0,
-        temperatureTo: 15,
+        refTemperature: 15,
         structureType: 0,
       },
     },

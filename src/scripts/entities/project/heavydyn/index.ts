@@ -74,8 +74,8 @@ export const createHeavydynProjectFromJSON = (
           json.distinct.correctionParameters.temperature.customValue,
           units.temperature
         ),
-        temperatureTo: createMathNumber(
-          json.distinct.correctionParameters.temperature.temperatureTo,
+        refTemperature: createMathNumber(
+          json.distinct.correctionParameters.temperature.refTemperature,
           units.temperature
         ),
         structureType: createSelectableList(
@@ -147,8 +147,8 @@ export const createHeavydynProjectFromJSON = (
                 'Zone',
               customValue:
                 this.correctionParameters.temperature.customValue.value,
-              temperatureTo:
-                this.correctionParameters.temperature.temperatureTo.value,
+              refTemperature:
+                this.correctionParameters.temperature.refTemperature.value,
               structureType:
                 this.correctionParameters.temperature.structureType.getSelectedIndex() ||
                 0,

@@ -215,13 +215,13 @@
       />
       <Input
         :id="`temp-to`"
-        :label="t('Temperature to')"
+        :label="t('Reference temperature')"
         :value="
           selectedProject
             ? convertValue(
-                selectedProject.correctionParameters.temperature.temperatureTo
+                selectedProject.correctionParameters.temperature.refTemperature
                   .value,
-                selectedProject.correctionParameters.temperature.temperatureTo
+                selectedProject.correctionParameters.temperature.refTemperature
                   .unit,
                 ConvertType.BaseToCurrent
               )
@@ -233,7 +233,7 @@
           (value) =>
             selectedProject &&
             convertInputValue(
-              selectedProject.correctionParameters.temperature.temperatureTo,
+              selectedProject.correctionParameters.temperature.refTemperature,
               value
             )
         "

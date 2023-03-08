@@ -58,7 +58,7 @@ interface JSONHeavydynCorrectionParameters {
     readonly temperatureFromSource: TemperatureFromSourceValue
     readonly average: TemperatureAverageValue
     readonly customValue: number
-    readonly temperatureTo: number
+    readonly refTemperature: number
     readonly structureType: number
   }
 }
@@ -126,7 +126,7 @@ interface HeavydynCorrectionParameters {
     >
     average: SelectableList<TemperatureAverageValue, TemperatureAverageList>
     customValue: MathNumber
-    temperatureTo: MathNumber
+    refTemperature: MathNumber
     structureType: SelectableList<
       TemperatureStructureTypeValue,
       TemperatureStructureTypeList

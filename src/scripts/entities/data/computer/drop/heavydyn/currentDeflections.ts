@@ -101,10 +101,10 @@ export const createHeavydynCurrentDeflectionDropDataComputers = (
                       correctionParameters.temperature.structureType.selected
                         ?.k || 0
 
-                    const tempTo =
-                      correctionParameters.temperature.temperatureTo.value
+                    const refTemp =
+                      correctionParameters.temperature.refTemperature.value
 
-                    value /= 1 + (k * (tempRef - tempTo)) / tempTo
+                    value /= 1 + (k * (tempRef - refTemp)) / refTemp
                   }
 
                   currentData.value.updateValue(value)

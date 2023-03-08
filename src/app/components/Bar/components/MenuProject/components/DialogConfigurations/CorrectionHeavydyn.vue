@@ -85,7 +85,9 @@
     />
     <Input
       :id="`load-custom-value`"
-      :label="`Custom value (${selectedProject?.correctionParameters.load.customValue.unit?.currentUnit})`"
+      :label="`${t('Custom value')} (${
+        selectedProject?.correctionParameters.load.customValue.unit?.currentUnit
+      })`"
       :value="
         selectedProject
           ? convertValue(
@@ -188,7 +190,7 @@
             .temperatureFromSource.selected === 'Custom'
         "
         :id="`temp-custom-value`"
-        :label="`Custom value`"
+        :label="t('Custom value')"
         :value="
           selectedProject
             ? convertValue(
@@ -213,7 +215,7 @@
       />
       <Input
         :id="`temp-to`"
-        :label="`Temperature to`"
+        :label="t('Temperature to')"
         :value="
           selectedProject
             ? convertValue(

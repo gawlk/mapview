@@ -10,7 +10,7 @@ import { defineConfig, devices } from '@playwright/test'
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  testDir: './tests',
+  testDir: './e2e-tests',
   /* Maximum time one test can run for. */
   timeout: 30 * 1000,
   expect: {
@@ -41,6 +41,8 @@ export default defineConfig({
     trace: 'on-first-retry',
 
     baseURL: 'http://localhost:4173',
+
+    screenshot: 'only-on-failure',
   },
 
   /* Configure projects for major browsers */
@@ -88,5 +90,7 @@ export default defineConfig({
   webServer: {
     command: 'npx pnpm prod',
     port: 4173,
+    reuseExistingServer: !process.env.CI,
+    timeout: 120000,
   },
 })

@@ -2,6 +2,7 @@ import {
   createFieldFromJSON,
   createLine,
   createWatcherHandler,
+  currentCategory,
   debounce,
   flyToPoints,
   getIndexOfSelectedInSelectableList,

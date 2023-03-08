@@ -54,8 +54,6 @@ export default (props: Props) => {
       (a, b) => projects.indexOf(a) - projects.indexOf(b)
     )
 
-    console.log(store.projects.list.map((p) => p.name.toString()))
-
     store.projects.selected = projects[0]
 
     store.importingFile = false

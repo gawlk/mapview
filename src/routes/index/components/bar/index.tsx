@@ -5,7 +5,7 @@ import BarMobile from './components/barMobile'
 // import BarMobile from './components/BarMobile/Index.vue'
 import MenuData from './components/menuData'
 import MenuMap from './components/menuMap'
-// import MenuPoints from './components/MenuPoints/Index.vue'
+import MenuPoints from './components/menuPoints'
 import MenuProject from './components/menuProject'
 import MenuReports from './components/menuReports'
 
@@ -43,8 +43,7 @@ export default () => {
     {
       name: t('Points'),
       icon: DotsIcon,
-      // component: MenuPoints,
-      component: () => {},
+      component: MenuPoints,
       needsReport: true,
       props: createMutable({
         route: '',

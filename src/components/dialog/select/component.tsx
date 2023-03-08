@@ -8,6 +8,18 @@ export interface Props
     Solid.JSX.DialogHTMLAttributes
   > {}
 
+const listValueToString = (
+  value: DialogSelectProps['list']['values'][number]
+) =>
+  typeof value === 'string'
+    ? {
+        value,
+      }
+    : value
+
+const valueObjectToString = (value: DialogSelectValueObject) =>
+  value.label || value.value
+
 export default (props: Props) => {
   const [state, setState] = createStore({
     input: undefined as string | undefined,
@@ -27,13 +39,21 @@ export default (props: Props) => {
 
   return (
     <Dialog
-      title={props.title}
+      {...props}
       button={mergeProps(
         {
           id,
           role: 'listbox' as const,
           rightIcon: IconTablerSelector,
-          text: props.list.selected,
+          text:
+            typeof props.list.selected === 'number'
+              ? valueObjectToString(
+                  listValueToString(props.list.values[props.list.selected])
+                )
+              : props.list.values
+                  .map((v) => listValueToString(v))
+                  .find((obj) => obj.value === props.list.selected)?.label ||
+                props.list.selected,
         } as ButtonPropsWithHTMLAttributes,
         props.button
       )}
@@ -62,52 +82,49 @@ export default (props: Props) => {
         <div class="space-y-2">
           {() => {
             const list = createMemo(() =>
-              (props.list.values || [])
-                .map((value) =>
-                  typeof value === 'string'
-                    ? {
-                        value,
-                      }
-                    : value
-                )
-                .filter(
-                  (obj) =>
-                    !state.input ||
-                    (obj.label
-                      ? typeof obj.label === 'string'
-                        ? obj.label
-                        : typeof obj.label === 'function'
-                        ? // @ts-ignore
-                          obj.label()?.textContent
-                        : // @ts-ignore
-                          obj.label.textContent
-                      : obj.value
-                    )
-                      .toLowerCase()
-                      .includes(state.input.toLowerCase())
-                )
+              (props.list.values || []).map(listValueToString).filter(
+                (obj) =>
+                  !state.input ||
+                  (obj.label
+                    ? typeof obj.label === 'string'
+                      ? obj.label
+                      : typeof obj.label === 'function'
+                      ? // @ts-ignore
+                        obj.label()?.textContent
+                      : // @ts-ignore
+                        obj.label.textContent
+                    : obj.value
+                  )
+                    .toLowerCase()
+                    .includes(state.input.toLowerCase())
+              )
             )
 
             return (
               <Show when={list().length} fallback="The list is empty.">
                 <For each={list()}>
-                  {(obj) => (
-                    <Button
-                      full
-                      leftIcon={obj.icon}
-                      rightIcon={
+                  {(obj, index) => {
+                    const isSelected = createMemo(
+                      () =>
+                        (typeof props.list.selected === 'number' &&
+                          index() === props.list.selected) ||
                         props.list.selected === obj.value ||
                         props.list.selected === obj.label
-                          ? IconTablerCheck
-                          : true
-                      }
-                      value={obj.value}
-                    >
-                      <span class="w-full truncate text-left">
-                        {obj.label || obj.value}
-                      </span>
-                    </Button>
-                  )}
+                    )
+
+                    return (
+                      <Button
+                        full
+                        leftIcon={obj.icon}
+                        rightIcon={isSelected() ? IconTablerCheck : true}
+                        value={obj.value}
+                      >
+                        <span class="w-full truncate text-left">
+                          {valueObjectToString(obj)}
+                        </span>
+                      </Button>
+                    )
+                  }}
                 </For>
               </Show>
             )

@@ -16,6 +16,7 @@ export default (props: Props) => {
     onclick: true,
     class: true,
     style: true,
+    ref: true,
   })
 
   return (

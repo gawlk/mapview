@@ -1,5 +1,8 @@
 // import GroupImages from './components/groupImages'
-import GroupPoints from './components/groupPoints'
+import ButtonLineVisibility from './components/buttonLineVisibility'
+import ButtonMarkersMoveability from './components/buttonMarkersMoveability'
+import ButtonMarkersVisibility from './components/buttonMarkersVisibility'
+import SelectMarkersContent from './components/selectMarkersContent'
 
 // import ListboxMapStyles from './components/listboxMapStyles'
 
@@ -12,7 +15,12 @@ export default () => {
     <>
       {/* <ListboxMapStyles /> */}
       {/* <GroupImages /> */}
-      <GroupPoints />
+      <div class="flex space-x-2">
+        <SelectMarkersContent />
+        <ButtonMarkersVisibility />
+        <ButtonLineVisibility />
+        <ButtonMarkersMoveability />
+      </div>
     </>
   )
 }

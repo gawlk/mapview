@@ -11,7 +11,10 @@ import IconEyeOff from '~icons/heroicons-solid/eye-off'
 
 import { Button } from '/src/components'
 
-import ColumnsSelection from './components/columnsSelection'
+import SelectDataLabels from './components/selectDataLabels'
+import SelectGroupBy from './components/selectGroupBy'
+import SelectIndex from './components/selectIndex'
+import SelectSource from './components/selectSource'
 
 // import ListboxGroupBy from './components/ListboxGroupBy.vue'
 // import TablePoints from './components/TablePoints/Index.vue'
@@ -26,7 +29,10 @@ export default (props: Props) => {
 
   return (
     <>
-      <ColumnsSelection />
+      <SelectSource />
+      <SelectIndex />
+      <SelectDataLabels />
+      <SelectGroupBy />
       {/* <ListboxGroupBy /> */}
       {/* <div class="-mx-2">
     <TableZones

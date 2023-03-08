@@ -58,6 +58,17 @@ export default (props: Props) => {
       open: false,
     })
 
+  createEffect(
+    on(
+      () => state.open,
+      (current, previous) => {
+        if (!current && previous) {
+          props.onClose?.(state.value || undefined)
+        }
+      }
+    )
+  )
+
   onMount(() => {
     const windowSize = useWindowSize()
 
@@ -102,6 +113,7 @@ export default (props: Props) => {
     createEffect(() => {
       if (state.open) {
         click?.()
+
         click = makeEventListener(
           window,
           'click',
@@ -160,7 +172,6 @@ export default (props: Props) => {
       </Button>
       <dialog
         {...dialogProps}
-        onClose={() => props.onClose?.(state.value || undefined)}
         onTransitionEnd={(event) => {
           if (event.target === dialog && !state.open) {
             dialog.close()

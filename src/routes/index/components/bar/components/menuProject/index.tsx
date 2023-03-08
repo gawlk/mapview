@@ -2,10 +2,13 @@ import { useI18n } from '@solid-primitives/i18n'
 
 import store from '/src/store'
 
+import ButtonAddProject from './components/buttonAddProject'
 // import DialogInformations from '/src/components/dialogInformations'
 import ButtonSave from './components/buttonSave'
+import DialogInformations from './components/dialogInformations'
+import DialogRemoveProject from './components/dialogRemoveProject'
 // import DialogConfigurations from './components/dialogConfigurations'
-import GroupProjects from './components/groupProjects'
+import SelectProjects from './components/selectProjects'
 
 interface Props {
   readonly menu: MenuProps
@@ -16,7 +19,13 @@ export default (props: Props) => {
 
   return (
     <>
-      <GroupProjects />
+      <div class="flex space-x-2">
+        <SelectProjects />
+        <ButtonAddProject />
+        <DialogRemoveProject />
+        {/* <GroupProjects /> */}
+      </div>
+      <DialogInformations />
       {/* <DialogInformations
     preID="project-"
     data={[

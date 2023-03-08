@@ -28,6 +28,7 @@ declare global {
   const IconTablerFolders: typeof import('~icons/tabler/folders.jsx')['default']
   const IconTablerHammer: typeof import('~icons/tabler/hammer.jsx')['default']
   const IconTablerHome: typeof import('~icons/tabler/home.jsx')['default']
+  const IconTablerInfoCircle: typeof import('~icons/tabler/info-circle.jsx')['default']
   const IconTablerLayout2: typeof import('~icons/tabler/layout2.jsx')['default']
   const IconTablerList: typeof import('~icons/tabler/list.jsx')['default']
   const IconTablerListSearch: typeof import('~icons/tabler/list-search.jsx')['default']

@@ -54,8 +54,6 @@ export const createBaseProjectFromJSON = <
     ),
     acquisitionParameters: json.acquisitionParameters,
     refreshLinesAndOverlays: function () {
-      console.log('refreshLinesAndOverlays')
-
       if (this.settings.arePointsLinked) {
         this.reports.list.forEach((report) => {
           report.isOnMap && report.settings.isVisible && report.line.addToMap()
@@ -67,8 +65,6 @@ export const createBaseProjectFromJSON = <
       })
     },
     setMapStyle: function (styleIndex: number) {
-      console.log('map: set map style')
-
       const oldMapStyle = map?.getStyle().sprite?.split('/').pop()
       const newMapStyle = mapStyles[styleIndex].split('/').pop()
 
@@ -95,8 +91,6 @@ export const createBaseProjectFromJSON = <
       map?.fitBounds(bounds, { padding: 100 })
     },
     addToMap: function () {
-      console.log('project: add to map')
-
       const flyTo = () => {
         if (this.settings.map.coordinates) {
           map?.flyTo({

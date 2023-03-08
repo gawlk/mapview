@@ -85,18 +85,10 @@ export const createBaseReportFromJSON = <
         zone.init()
       })
 
-      setInterval(() => {
-        this.settings.isVisible = !this.settings.isVisible
-      }, 2000)
-
       watcherHandler.add(
         on(
           () => this.settings.isVisible,
           (isVisible) => {
-            console.log(
-              `${this.name.toString()} is${!isVisible ? ' not' : ''} visible`
-            )
-
             this.zones.forEach((zone) => {
               zone.points.forEach((point) => {
                 point.updateVisibility()

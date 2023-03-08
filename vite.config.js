@@ -136,6 +136,6 @@ export default defineConfig({
   },
   test: {
     environment: 'edge-runtime',
-    exclude: [...configDefaults, '**/e2e/**'],
+    exclude: [...configDefaults.exclude, '**/e2e-tests/**'],
   },
 })

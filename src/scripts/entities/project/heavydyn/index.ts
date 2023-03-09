@@ -6,6 +6,8 @@ import {
   createWatcherHandler,
 } from '/src/scripts'
 
+import { createHeavydynProjectCorrectionParametersFromJSON } from './correctionParameters'
+
 import { createBaseProjectFromJSON } from '../base'
 
 export const createHeavydynProjectFromJSON = (
@@ -38,72 +40,10 @@ export const createHeavydynProjectFromJSON = (
       channels: json.distinct.calibrations.channels,
       sensors: json.distinct.calibrations.sensors,
     },
-    correctionParameters: shallowReactive({
-      load: shallowReactive({
-        active: false,
-        loadReferenceSource: createSelectableList(
-          ['Sequence', 'Custom'] as LoadReferenceSourceList,
-          {
-            selected:
-              json.distinct.correctionParameters.load.loadReferenceSource,
-          }
-        ),
-        customValue: createMathNumber(
-          json.distinct.correctionParameters.load.customValue,
-          units.force
-        ),
-      }),
-      temperature: shallowReactive({
-        active: false,
-        // Temperature from > Temperature to
-        temperatureFromSource: createSelectableList(
-          ['Tair', 'Tsurf', 'Tman', 'Custom'] as TemperatureFromSourceList,
-          {
-            selected:
-              json.distinct.correctionParameters.temperature
-                .temperatureFromSource,
-          }
-        ),
-        average: createSelectableList(
-          ['Point', 'Zone', 'Report'] as TemperatureAverageList,
-          {
-            selected: json.distinct.correctionParameters.temperature.average,
-          }
-        ),
-        customValue: createMathNumber(
-          json.distinct.correctionParameters.temperature.customValue,
-          units.temperature
-        ),
-        refTemperature: createMathNumber(
-          json.distinct.correctionParameters.temperature.refTemperature,
-          units.temperature
-        ),
-        structureType: createSelectableList(
-          [
-            {
-              name: 'Souple',
-              k: 0.15,
-            },
-            {
-              name: 'Bitumineux épais',
-              k: 0.2,
-            },
-            {
-              name: 'Mixte',
-              k: 0.08,
-            },
-            {
-              name: 'Semi-rigide',
-              k: 0.04,
-            },
-          ] as TemperatureStructureTypeList,
-          {
-            selectedIndex:
-              json.distinct.correctionParameters.temperature.structureType,
-          }
-        ),
-      }),
-    }),
+    correctionParameters: createHeavydynProjectCorrectionParametersFromJSON(
+      json.distinct.correctionParameters,
+      units
+    ),
     remove: function () {
       baseProject.remove.call(project)
 
@@ -129,26 +69,23 @@ export const createHeavydynProjectFromJSON = (
           correctionParameters: {
             version: 1,
             load: {
-              version: 1,
+              version: 2,
               active: this.correctionParameters.load.active,
-              loadReferenceSource:
-                this.correctionParameters.load.loadReferenceSource.selected ||
-                'Sequence',
+              source:
+                this.correctionParameters.load.source.selected || 'Sequence',
               customValue: this.correctionParameters.load.customValue.value,
             },
             temperature: {
-              version: 1,
+              version: 2,
               active: this.correctionParameters.temperature.active,
-              temperatureFromSource:
-                this.correctionParameters.temperature.temperatureFromSource
-                  .selected || 'Tair',
+              source:
+                this.correctionParameters.temperature.source.selected || 'Tair',
               average:
                 this.correctionParameters.temperature.average.selected ||
                 'Zone',
               customValue:
                 this.correctionParameters.temperature.customValue.value,
-              refTemperature:
-                this.correctionParameters.temperature.refTemperature.value,
+              reference: this.correctionParameters.temperature.reference.value,
               structureType:
                 this.correctionParameters.temperature.structureType.getSelectedIndex() ||
                 0,

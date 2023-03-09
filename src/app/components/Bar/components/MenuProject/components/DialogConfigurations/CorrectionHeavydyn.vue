@@ -65,21 +65,16 @@
     <Listbox
       class="flex-1"
       :values="
-        selectedProject?.correctionParameters.load.loadReferenceSource.list.map(
-          (str) => t(str)
+        selectedProject?.correctionParameters.load.source.list.map((str) =>
+          t(str)
         )
       "
       :selected="
-        t(
-          selectedProject?.correctionParameters.load.loadReferenceSource
-            .selected || ''
-        )
+        t(selectedProject?.correctionParameters.load.source.selected || '')
       "
       @select-index="
         (index) =>
-          selectedProject?.correctionParameters.load.loadReferenceSource.selectIndex(
-            index
-          )
+          selectedProject?.correctionParameters.load.source.selectIndex(index)
       "
       full
     />
@@ -134,19 +129,19 @@
         <Listbox
           class="flex-1"
           :values="
-            selectedProject?.correctionParameters.temperature.temperatureFromSource.list.map(
+            selectedProject?.correctionParameters.temperature.source.list.map(
               (str) => t(str)
             )
           "
           :selected="
             t(
-              selectedProject?.correctionParameters.temperature
-                .temperatureFromSource.selected || ''
+              selectedProject?.correctionParameters.temperature.source
+                .selected || ''
             )
           "
           @select-index="
             (index) =>
-              selectedProject?.correctionParameters.temperature.temperatureFromSource.selectIndex(
+              selectedProject?.correctionParameters.temperature.source.selectIndex(
                 index
               )
           "
@@ -156,8 +151,8 @@
       <div
         class="space-y-1"
         v-if="
-          selectedProject?.correctionParameters.temperature
-            .temperatureFromSource.selected !== 'Custom'
+          selectedProject?.correctionParameters.temperature.source.selected !==
+          'Custom'
         "
       >
         <Label>{{ t('Average') }}</Label>
@@ -186,8 +181,8 @@
       <!-- TODO: Clean create special case for a math unit in the Input component -->
       <Input
         v-if="
-          selectedProject?.correctionParameters.temperature
-            .temperatureFromSource.selected === 'Custom'
+          selectedProject?.correctionParameters.temperature.source.selected ===
+          'Custom'
         "
         :id="`temp-custom-value`"
         :label="t('Custom value')"
@@ -219,10 +214,9 @@
         :value="
           selectedProject
             ? convertValue(
-                selectedProject.correctionParameters.temperature.refTemperature
+                selectedProject.correctionParameters.temperature.reference
                   .value,
-                selectedProject.correctionParameters.temperature.refTemperature
-                  .unit,
+                selectedProject.correctionParameters.temperature.reference.unit,
                 ConvertType.BaseToCurrent
               )
             : 0
@@ -233,7 +227,7 @@
           (value) =>
             selectedProject &&
             convertInputValue(
-              selectedProject.correctionParameters.temperature.refTemperature,
+              selectedProject.correctionParameters.temperature.reference,
               value
             )
         "

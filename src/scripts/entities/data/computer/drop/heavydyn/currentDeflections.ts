@@ -38,8 +38,7 @@ export const createHeavydynCurrentDeflectionDropDataComputers = (
                 point.data.find(
                   (data) =>
                     data.label.name ===
-                    correctionParameters.temperature.temperatureFromSource
-                      .selected
+                    correctionParameters.temperature.source.selected
                 )?.value.value
             )
           )
@@ -84,9 +83,9 @@ export const createHeavydynCurrentDeflectionDropDataComputers = (
                     value *= currentLoad.value.value / rawLoad.value.value
                   }
 
-                  const tempRef =
-                    correctionParameters.temperature.temperatureFromSource
-                      .selected === 'Custom'
+                  const sourceTemperature =
+                    correctionParameters.temperature.source.selected ===
+                    'Custom'
                       ? correctionParameters.temperature.customValue.value
                       : correctionParameters.temperature.average.selected ===
                         'Point'
@@ -96,15 +95,19 @@ export const createHeavydynCurrentDeflectionDropDataComputers = (
                       ? zoneSourceTempAverage
                       : reportSourceTempAverage
 
-                  if (tempRef && correctionParameters.temperature.active) {
+                  if (
+                    sourceTemperature &&
+                    correctionParameters.temperature.active
+                  ) {
                     const k =
                       correctionParameters.temperature.structureType.selected
                         ?.k || 0
 
-                    const refTemp =
-                      correctionParameters.temperature.refTemperature.value
+                    const siRefTemp =
+                      correctionParameters.temperature.reference.value
 
-                    value /= 1 + (k * (tempRef - refTemp)) / refTemp
+                    value /=
+                      1 + (k * (sourceTemperature - siRefTemp)) / siRefTemp
                   }
 
                   currentData.value.updateValue(value)

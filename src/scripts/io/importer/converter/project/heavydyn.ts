@@ -36,18 +36,18 @@ export const convertPRJZToHeavydynProjectDistinct = (
     correctionParameters: {
       version: 1,
       load: {
-        version: 1,
+        version: 2,
         active: false,
-        loadReferenceSource: 'Sequence',
+        source: 'Sequence',
         customValue: 65000,
       },
       temperature: {
-        version: 1,
+        version: 2,
         active: false,
-        temperatureFromSource: 'Tair',
+        source: 'Tair',
         average: 'Zone',
         customValue: 0,
-        refTemperature: 15,
+        reference: 15,
         structureType: 0,
       },
     },

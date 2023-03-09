@@ -33,7 +33,7 @@ export const createHeavydynProjectTemperatureCorrectionParametersFromJSON = (
             k: 0.15,
           },
           {
-            name: 'thick flexible',
+            name: 'Thick flexible',
             k: 0.2,
           },
           {

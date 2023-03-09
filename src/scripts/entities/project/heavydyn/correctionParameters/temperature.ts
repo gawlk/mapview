@@ -29,19 +29,19 @@ export const createHeavydynProjectTemperatureCorrectionParametersFromJSON = (
       structureType: createSelectableList(
         [
           {
-            name: 'Souple',
+            name: 'Flexible',
             k: 0.15,
           },
           {
-            name: 'Bitumineux épais',
+            name: 'thick flexible',
             k: 0.2,
           },
           {
-            name: 'Mixte',
+            name: 'Mixed',
             k: 0.08,
           },
           {
-            name: 'Semi-rigide',
+            name: 'Semi-flexible',
             k: 0.04,
           },
         ] as TemperatureStructureTypeList,

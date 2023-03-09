@@ -145,7 +145,13 @@ export const convertPRJZToBaseReport = (
           {
             version: 1,
             from: 'Zone',
-            dataLabels: [],
+            dataLabels: [
+              {
+                name: 'Characteristic deflection',
+                version: 1,
+                category: indicatorsCategory.name,
+              },
+            ],
           },
         ],
       },

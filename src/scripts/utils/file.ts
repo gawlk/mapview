@@ -1,5 +1,3 @@
-import { Unzipped } from 'fflate'
-
 export const reservedFileNameWords = (() => {
   const words = ['CON', 'PRN', 'AUX', 'NUL']
 

@@ -1,4 +1,5 @@
-import { createFieldFromJSON, createHeavydynDropFromJSON } from '/src/scripts'
+/* eslint-disable no-fallthrough */
+import { createHeavydynDropFromJSON } from '/src/scripts'
 
 import { createBasePointFromJSON } from '../base'
 
@@ -18,7 +19,7 @@ export const createHeavydynPointFromJSON = (
       drops: [] as HeavydynDrop[],
     }),
     machine: 'Heavydyn',
-    toJSON: function () {
+    toJSON() {
       return {
         version: json.version,
         base: this.toBaseJSON(),

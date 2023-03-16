@@ -1,3 +1,4 @@
+/* eslint-disable no-fallthrough */
 import {
   createJSONBaseZone,
   createMaxidynDataLabelsFromJSON,
@@ -40,8 +41,8 @@ export const createMaxidynReportFromJSON = (
   const report: MaxidynReport = shallowReactive({
     ...baseReport,
     machine: 'Maxidyn',
-    addZone: function () {
-      const json: JSONMaxidynZone = {
+    addZone() {
+      const jsonZone: JSONMaxidynZone = {
         version: 1,
         base: createJSONBaseZone(this.zones.length),
         distinct: {
@@ -49,7 +50,7 @@ export const createMaxidynReportFromJSON = (
         },
       }
 
-      const zone = createMaxidynZoneFromJSON(json, map, {
+      const zone = createMaxidynZoneFromJSON(jsonZone, map, {
         report: this,
       })
 
@@ -57,17 +58,17 @@ export const createMaxidynReportFromJSON = (
 
       this.zones.push(zone)
     },
-    toJSON: function (): JSONMaxidynReport {
-      const report = this as MaxidynReport
+    toJSON(): JSONMaxidynReport {
+      const maxydynReport = this as MaxidynReport
 
-      const thresholdGroup = report.thresholds.groups
+      const thresholdGroup = maxydynReport.thresholds.groups
 
       return {
         version: json.version,
-        base: report.toBaseJSON(),
+        base: maxydynReport.toBaseJSON(),
         distinct: {
           version: json.version,
-          dataLabels: report.dataLabels.groups.toJSON((group) =>
+          dataLabels: maxydynReport.dataLabels.groups.toJSON((group) =>
             group.toJSON()
           ),
           thresholds: {

@@ -106,20 +106,20 @@ export const createFieldFromJSON = (json: JSONFieldVAny): Field => {
       }
     })(),
     settings: shallowReactive(settings),
-    getValue: function () {
+    getValue() {
       return typeof this.value === 'object' ? this.value.value : this.value
     },
-    setValue: function (value: string | number) {
+    setValue(newValue: string | number) {
       if (typeof this.value === 'object') {
-        this.value.value = value
+        this.value.value = newValue
       } else {
-        this.value = value
+        this.value = newValue
       }
     },
-    toString: function () {
+    toString() {
       return this.getValue()?.toString() || ''
     },
-    toJSON: function (): JSONField {
+    toJSON(): JSONField {
       return {
         version: json.version,
         label: json.label,

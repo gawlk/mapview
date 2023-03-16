@@ -1,4 +1,5 @@
 export const convertPRJZObjectToFields = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   object: any,
   settings: JSONFieldSettings = {
     version: 1,
@@ -35,23 +36,29 @@ export const convertPRJZObjectToFields = (
     })
 
 export const convertExportedUnitToJSONDataLabel = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   exportedUnit: any
 ): JSONDataLabel<string> => {
   const mathUnitName = String(exportedUnit.Type).toLowerCase()
 
+  let unit = mathUnitName
+
+  if (exportedUnit.Unit === '%') {
+    unit = 'percentage'
+  } else if (mathUnitName === 'number') {
+    unit = exportedUnit.unit
+  }
+
   return {
     version: 1,
     name: exportedUnit.Name,
-    unit:
-      exportedUnit.Unit === '%'
-        ? 'percentage'
-        : mathUnitName === 'number'
-        ? exportedUnit.Unit
-        : mathUnitName,
+    unit,
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const convertPRJZToTestChoices = (json: any): JSONDataLabel<string>[] =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   json.ExportedData.Points.map((exportedUnit: any) =>
     convertExportedUnitToJSONDataLabel(exportedUnit)
   )

@@ -1,4 +1,5 @@
-import { createFieldFromJSON, createMaxidynDropFromJSON } from '/src/scripts'
+/* eslint-disable no-fallthrough */
+import { createMaxidynDropFromJSON } from '/src/scripts'
 
 import { createBasePointFromJSON } from '../base'
 
@@ -18,7 +19,7 @@ export const createMaxidynPointFromJSON = (
       drops: [] as MaxidynDrop[],
     }),
     machine: 'Maxidyn',
-    toJSON: function () {
+    toJSON() {
       return {
         version: json.version,
         base: this.toBaseJSON(),

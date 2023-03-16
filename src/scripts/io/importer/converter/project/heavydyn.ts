@@ -1,6 +1,7 @@
 import { convertPRJZToHeavydynReport } from '../report'
 
 export const convertPRJZToHeavydynProject = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   json: any,
   baseProject: JSONBaseProject
 ): JSONHeavydynProject => {
@@ -13,6 +14,7 @@ export const convertPRJZToHeavydynProject = (
 
   project.base.reports.list.push(
     ...json.PVs.map(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (jsonPV: any, index: number): JSONHeavydynReport =>
         convertPRJZToHeavydynReport(jsonPV, index, json)
     )
@@ -26,6 +28,7 @@ export const convertPRJZToHeavydynProject = (
 }
 
 export const convertPRJZToHeavydynProjectDistinct = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   json: any
 ): JSONHeavydynProjectDistinct => {
   const units = convertPRJZToHeavydynUnits(json)
@@ -56,6 +59,7 @@ export const convertPRJZToHeavydynProjectDistinct = (
       date: json.Calibrations.Date,
       dPlate: json.Calibrations.Dplate,
       channels:
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         json.Calibrations.Channels.map((channel: any): JSONChannel => {
           return {
             version: 1,
@@ -68,6 +72,7 @@ export const convertPRJZToHeavydynProjectDistinct = (
           }
         }) || [],
       sensors:
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         json.Calibrations.Sensors.map((sensor: any): JSONSensor => {
           return {
             version: 1,
@@ -81,12 +86,14 @@ export const convertPRJZToHeavydynProjectDistinct = (
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const convertPRJZToHeavydynUnits = (json: any) => {
   const units: JSONHeavydynUnits = {
     deflection: {
       version: 1,
       currentUnit: ((): PossibleHeavydynDeflectionUnits => {
         switch (
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (json.ExportedData.Drops as any[]).find(
             (exportedUnit) => exportedUnit.Type === 'Deflection'
           )?.Unit
@@ -106,6 +113,7 @@ export const convertPRJZToHeavydynUnits = (json: any) => {
       version: 1,
       currentUnit: ((): PossibleHeavydynForceUnits => {
         switch (
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (json.ExportedData.Drops as any[]).find(
             (exportedUnit) => exportedUnit.Type === 'Load'
           )?.Unit
@@ -123,6 +131,7 @@ export const convertPRJZToHeavydynUnits = (json: any) => {
       version: 1,
       currentUnit: ((): PossibleHeavydynDistanceUnits => {
         switch (
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (json.ExportedData.Points as any[]).find(
             (exportedUnit) => exportedUnit.Type === 'Distance'
           )?.Unit
@@ -142,6 +151,7 @@ export const convertPRJZToHeavydynUnits = (json: any) => {
       version: 1,
       currentUnit: ((): PossibleHeavydynTimeUnits => {
         switch (
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (json.ExportedData.Drops as any[]).find(
             (exportedUnit) => exportedUnit.Type === 'Time'
           )?.Unit
@@ -161,6 +171,7 @@ export const convertPRJZToHeavydynUnits = (json: any) => {
       version: 1,
       currentUnit: ((): PossibleHeavydynTemperatureUnits => {
         switch (
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (json.ExportedData.Points as any[]).find(
             (exportedUnit) => exportedUnit.Type === 'Temperature'
           )?.Unit

@@ -1,4 +1,3 @@
-// @ts-ignore
 import messages from '@intlify/unplugin-vue-i18n/messages'
 import { createHead } from '@vueuse/head'
 import { createI18n } from 'vue-i18n'

@@ -1,6 +1,7 @@
 import { convertPRJZToMinidynReport } from '../report'
 
 export const convertPRJZToMinidynProject = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   json: any,
   baseProject: JSONBaseProject
 ): JSONMinidynProject => {
@@ -12,6 +13,7 @@ export const convertPRJZToMinidynProject = (
   }
 
   project.base.reports.list.push(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ...json.PVs.map((jsonPV: any, index: number) =>
       convertPRJZToMinidynReport(jsonPV, index, json)
     )
@@ -25,6 +27,7 @@ export const convertPRJZToMinidynProject = (
 }
 
 export const convertPRJZToMinidynProjectDistinct = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   json: any
 ): JSONMinidynProjectDistinct => {
   const units = convertPRJZToMinidynUnits(json)
@@ -48,12 +51,15 @@ export const convertPRJZToMinidynProjectDistinct = (
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const convertPRJZToMinidynUnits = (json: any): JSONMinidynUnits => {
   const exportedModulus = json.ExportedData.Points.find(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (exportedUnit: any) => exportedUnit.Type === 'Modulus'
   )
 
   const exportedStiffness = json.ExportedData.Points.find(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (exportedUnit: any) => exportedUnit.Type === 'Stiffness'
   )
 
@@ -76,6 +82,7 @@ export const convertPRJZToMinidynUnits = (json: any): JSONMinidynUnits => {
       version: 1,
       currentUnit: ((): PossibleMinidynDeflectionUnits => {
         switch (
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (json.ExportedData.Drops as any[]).find(
             (exportedUnit) => exportedUnit.Type === 'Deflection'
           )?.Unit
@@ -93,6 +100,7 @@ export const convertPRJZToMinidynUnits = (json: any): JSONMinidynUnits => {
       version: 1,
       currentUnit: ((): PossibleMinidynForceUnits => {
         switch (
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (json.ExportedData.Drops as any[]).find(
             (exportedUnit) => exportedUnit.Type === 'Load'
           )?.Unit
@@ -110,6 +118,7 @@ export const convertPRJZToMinidynUnits = (json: any): JSONMinidynUnits => {
       version: 1,
       currentUnit: ((): PossibleMinidynDistanceUnits => {
         switch (
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (json.ExportedData.Points as any[]).find(
             (exportedUnit) => exportedUnit.Type === 'Distance'
           )?.Unit
@@ -129,6 +138,7 @@ export const convertPRJZToMinidynUnits = (json: any): JSONMinidynUnits => {
       version: 1,
       currentUnit: ((): PossibleMinidynTimeUnits => {
         switch (
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (json.ExportedData.Drops as any[]).find(
             (exportedUnit) => exportedUnit.Type === 'Time'
           )?.Unit

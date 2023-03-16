@@ -1,5 +1,6 @@
 import { unit as Unit, createUnit } from 'mathjs'
 
+// eslint-disable-next-line no-shadow
 export enum ConvertType {
   BaseToCurrent = 'BaseToCurrent',
   CurrentToBase = 'CurrentToBase',
@@ -13,6 +14,7 @@ createUnit({
 
 function convertMapviewUnitToMathJSUnit(unit: undefined): undefined
 function convertMapviewUnitToMathJSUnit(unit: string): string
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function convertMapviewUnitToMathJSUnit(unit: any): any {
   switch (unit) {
     case '°C':
@@ -32,17 +34,36 @@ function convertMapviewUnitToMathJSUnit(unit: any): any {
   }
 }
 
+interface MathUnitOptions {
+  possiblePrecisions?: number[]
+  step?: number
+  averageFunction?: 'allEqual' | 'capOutliers' | 'ignoreOutliers'
+  readOnly?: true
+}
+
+const reduceForAverage = (
+  min: number,
+  max: number,
+  value: number,
+  options?: MathUnitOptions
+) => {
+  if (options?.averageFunction === 'capOutliers') {
+    if (max && value > max) {
+      return max
+    }
+    if (value < min) {
+      return min
+    }
+  }
+  return value
+}
+
 export const createMathUnit = <PossibleUnits extends string>(
   name: string,
   json: JSONMathUnit<PossibleUnits>,
   baseUnit: string,
   possibleSettings: [PossibleUnits, number][],
-  options?: {
-    possiblePrecisions?: number[]
-    step?: number
-    averageFunction?: 'allEqual' | 'capOutliers' | 'ignoreOutliers'
-    readOnly?: true
-  }
+  options?: MathUnitOptions
 ): MathUnit<PossibleUnits> => {
   const currentUnit = json.currentUnit || possibleSettings[0][0]
   const possiblePrecisions = options?.possiblePrecisions || [0, 1, 2]
@@ -51,7 +72,7 @@ export const createMathUnit = <PossibleUnits extends string>(
   const min = json.min || 0
   const readOnly = options?.readOnly || false
 
-  const mathUnit = shallowReactive({
+  return shallowReactive({
     name,
     baseUnit,
     possibleSettings,
@@ -61,10 +82,7 @@ export const createMathUnit = <PossibleUnits extends string>(
     min,
     max,
     readOnly,
-    getAverage: function (values: number[]) {
-      const min = this.min
-      const max = this.max
-
+    getAverage(values: number[]) {
       const filteredValues: number[] = values.filter((value) =>
         options?.averageFunction === 'ignoreOutliers'
           ? value <= this.max && value >= this.min
@@ -75,18 +93,12 @@ export const createMathUnit = <PossibleUnits extends string>(
         ? filteredValues.reduce(
             (total, currentValue) =>
               total +
-              (options?.averageFunction === 'capOutliers'
-                ? max && currentValue > max
-                  ? max
-                  : currentValue < min
-                  ? min
-                  : currentValue
-                : currentValue),
+              reduceForAverage(this.min, this.max, currentValue, options),
             0
           ) / filteredValues.length
         : 0
     },
-    toJSON: function (): JSONMathUnit<PossibleUnits> {
+    toJSON(): JSONMathUnit<PossibleUnits> {
       return {
         version: 1,
         currentUnit: this.currentUnit,
@@ -95,14 +107,14 @@ export const createMathUnit = <PossibleUnits extends string>(
         min: this.min,
       }
     },
-    currentToBase: function (value: number) {
+    currentToBase(value: number) {
       return convertValueFromUnitAToUnitB(
         value,
         this.currentUnit,
         this.baseUnit
       )
     },
-    baseToCurrent: function (value: number) {
+    baseToCurrent(value: number) {
       return convertValueFromUnitAToUnitB(
         value,
         this.baseUnit,
@@ -110,8 +122,6 @@ export const createMathUnit = <PossibleUnits extends string>(
       )
     },
   })
-
-  return mathUnit
 }
 
 export const convertValueFromUnitAToUnitB = (

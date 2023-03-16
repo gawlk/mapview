@@ -65,6 +65,8 @@ const upgradeJSON = (
         reference: json.temperatureTo,
         source: json.temperatureFromSource,
       }
+
+    // No Default
   }
 
   return json

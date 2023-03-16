@@ -1,12 +1,13 @@
-import { rawCategory } from '/src/scripts/entities'
-
 import { convertSensorPositionToName } from '../shared'
 
 export const convertPRJZToBaseDrop = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   jsonDrop: any,
   index: number,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   json: any
 ): JSONBaseDrop => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const exportedDeflections = (json.ExportedData.Drops as any[]).find(
     (exportedData) => exportedData.Name === 'Deflections'
   )
@@ -15,8 +16,10 @@ export const convertPRJZToBaseDrop = (
     version: 1,
     index,
     data: [
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ...(json.ExportedData.Drops as any[])
         .filter((exportedData) => exportedData !== exportedDeflections)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .map((exportedData: any): JSONDataValue => {
           return {
             version: 1,
@@ -26,11 +29,11 @@ export const convertPRJZToBaseDrop = (
         }),
       ...(exportedDeflections
         ? jsonDrop.Deflections.map(
-            (value: number, index: number): JSONDataValue => {
+            (value: number, deflecionIndex: number): JSONDataValue => {
               return {
                 version: 1,
                 label: convertSensorPositionToName(
-                  json.Calibrations.SensorsPosition[index]
+                  json.Calibrations.SensorsPosition[deflecionIndex]
                 ),
                 value,
               }

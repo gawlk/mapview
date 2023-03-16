@@ -27,7 +27,7 @@ export const mrvzExporter = {
       const currentRow = rows.find((row) => row.getAttribute('r') === '3')
 
       const cell = Array.from(currentRow?.getElementsByTagName('c') || []).find(
-        (cell) => cell.getAttribute('r') === 'B3'
+        (_cell) => _cell.getAttribute('r') === 'B3'
       )
 
       needsRawData = cell?.firstChild?.firstChild?.nodeValue !== '0' // not sending raw data only if the value we get is false
@@ -67,7 +67,7 @@ const generateInformationFromFields = (
     }
   }, {})
 
-//Replace to sanitize excel
+// Replace to sanitize excel
 const toPascalCase = (str: string): string =>
   str
     .replace(/-/g, 'M')
@@ -270,7 +270,7 @@ const generateSequence = (report: MachineReport): ExcelJson => {
       DropSequence_Total: dropDataLabels.indexes.list.length || 0,
     }
 
-    dropDataLabels.indexes.list.map((dropIndex, index) => {
+    dropDataLabels.indexes.list.forEach((dropIndex, index) => {
       dropSequence[`DropSequence_Drop${index + 1}_Type`] = translate(
         dropIndex.type
       )
@@ -281,21 +281,21 @@ const generateSequence = (report: MachineReport): ExcelJson => {
     })
 
     return dropSequence
-  } else {
-    const indexesList = report.dataLabels.groups.list[0].indexes.list as (
-      | MaxidynDropIndex
-      | MinidynDropIndex
-    )[]
+  }
 
-    return {
-      DropSequence_Total: indexesList.length,
-      DropSequence_Training: indexesList.filter(
-        (index) => index.type === 'Training'
-      ).length,
-      DropSequence_Averaging: indexesList.filter(
-        (index) => index.type === 'Averaging'
-      ).length,
-    }
+  const indexesList = report.dataLabels.groups.list[0].indexes.list as (
+    | MaxidynDropIndex
+    | MinidynDropIndex
+  )[]
+
+  return {
+    DropSequence_Total: indexesList.length,
+    DropSequence_Training: indexesList.filter(
+      (index) => index.type === 'Training'
+    ).length,
+    DropSequence_Averaging: indexesList.filter(
+      (index) => index.type === 'Averaging'
+    ).length,
   }
 }
 
@@ -395,6 +395,8 @@ const generateSpecificMachineData = (project: MachineProject): ExcelJson => {
       return generateMaxidynData(project as MaxidynProject)
     case 'Minidyn':
       return generateMinidynData(project as MinidynProject)
+
+    // No Default
   }
 }
 

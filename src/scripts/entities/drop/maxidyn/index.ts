@@ -1,3 +1,4 @@
+/* eslint-disable no-fallthrough */
 import { createBaseDropFromJSON, createBaseDropIndexFromJSON } from '../base'
 
 export const createMaxidynDropFromJSON = (
@@ -21,7 +22,7 @@ export const createMaxidynDropFromJSON = (
   const drop: MaxidynDrop = shallowReactive({
     ...baseDrop,
     machine: 'Maxidyn',
-    toJSON: function () {
+    toJSON() {
       return {
         version: json.version,
         base: this.toBaseJSON(),
@@ -53,7 +54,7 @@ export const createMaxidynDropIndexFromJSON = (json: JSONMaxidynDropIndex) => {
     ...createBaseDropIndexFromJSON(json.base),
     machine: 'Maxidyn',
     type: json.distinct.type,
-    toJSON: function () {
+    toJSON() {
       return {
         version: json.version,
         base: this.toBaseJSON(),

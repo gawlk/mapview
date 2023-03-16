@@ -30,6 +30,8 @@ export const addScreenshotsToZip = async (
         }
       })
       break
+
+    // No Default
   }
 
   await Promise.all(

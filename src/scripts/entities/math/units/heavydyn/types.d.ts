@@ -8,6 +8,7 @@ interface HeavydynUnitsSkeleton<A, B = A, C = A, D = A, E = A, F = A, G = A> {
   readonly cumSum: G
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type HeavydynUnitsNames = keyof HeavydynUnitsSkeleton<any>
 
 type PossibleHeavydynDeflectionUnits = 'mm' | '1/100 mm' | 'um'

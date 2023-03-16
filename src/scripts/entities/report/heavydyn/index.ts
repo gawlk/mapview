@@ -1,3 +1,8 @@
+/* eslint-disable no-fallthrough */
+
+/* eslint-disable no-console */
+
+/* eslint-disable sonarjs/no-duplicate-string */
 import {
   createBLIDataComputer,
   createCharacteristicDeflectionComputer,
@@ -54,8 +59,8 @@ export const createHeavydynReportFromJSON = (
   const report: HeavydynReport = shallowReactive({
     ...baseReport,
     machine: 'Heavydyn',
-    addZone: function () {
-      const json: JSONHeavydynZone = {
+    addZone() {
+      const jsonZone: JSONHeavydynZone = {
         version: 1,
         base: createJSONBaseZone(this.zones.length),
         distinct: {
@@ -63,7 +68,7 @@ export const createHeavydynReportFromJSON = (
         },
       }
 
-      const zone = createHeavydynZoneFromJSON(json, map, {
+      const zone = createHeavydynZoneFromJSON(jsonZone, map, {
         report: this,
       })
 
@@ -71,17 +76,17 @@ export const createHeavydynReportFromJSON = (
 
       this.zones.push(zone)
     },
-    toJSON: function (): JSONHeavydynReport {
-      const report = this as HeavydynReport
+    toJSON(): JSONHeavydynReport {
+      const HeavydynReport = this as HeavydynReport
 
-      const thresholdGroup = report.thresholds.groups
+      const thresholdGroup = HeavydynReport.thresholds.groups
 
       return {
         version: json.version,
-        base: report.toBaseJSON(),
+        base: HeavydynReport.toBaseJSON(),
         distinct: {
           version: json.version,
-          dataLabels: report.dataLabels.groups.toJSON((group) =>
+          dataLabels: HeavydynReport.dataLabels.groups.toJSON((group) =>
             group.toJSON()
           ),
           thresholds: {
@@ -104,7 +109,7 @@ export const createHeavydynReportFromJSON = (
         },
       }
     },
-    addToMap: function () {
+    addToMap() {
       baseReport.addToMap.call(report)
 
       report.dataLabels.groups.list[0].indexes.list.forEach((dropIndex) => {
@@ -117,7 +122,7 @@ export const createHeavydynReportFromJSON = (
         }
       })
     },
-    remove: function () {
+    remove() {
       baseReport.remove.call(report)
 
       watcherHandler.clean()

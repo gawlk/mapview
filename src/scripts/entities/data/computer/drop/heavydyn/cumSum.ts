@@ -64,7 +64,7 @@ export const createCumSumDataComputer = (report: HeavydynReport) => {
 
         drops.forEach((drop, index) => {
           const data =
-            drop.data.find((data) => data.label === label) ||
+            drop.data.find((_data) => _data.label === label) ||
             drop.data[drop.data.push(createDataValue(0, label)) - 1]
 
           const d0OnLoad = d0OnLoadList[index]

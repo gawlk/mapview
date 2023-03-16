@@ -1,6 +1,7 @@
 import { convertPRJZObjectToFields } from '../shared'
 
 export const convertPRJZToBaseProject = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   json: any,
   machine: MachineName
 ): JSONBaseProject => {

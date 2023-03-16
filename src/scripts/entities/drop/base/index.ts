@@ -1,3 +1,4 @@
+/* eslint-disable no-fallthrough */
 import { createDataValueFromJSON } from '/src/scripts'
 
 export const createBaseDropFromJSON = <
@@ -26,7 +27,7 @@ export const createBaseDropFromJSON = <
     ),
     point: parameters.point,
     impactData: null,
-    toBaseJSON: function () {
+    toBaseJSON() {
       return {
         version: json.version,
         data: this.data
@@ -62,7 +63,7 @@ export const createBaseDropIndexFromJSON = (
 
   return {
     displayedIndex: json.displayedIndex,
-    toBaseJSON: function (): JSONBaseDropIndex {
+    toBaseJSON(): JSONBaseDropIndex {
       return {
         version: json.version,
         displayedIndex: json.displayedIndex,

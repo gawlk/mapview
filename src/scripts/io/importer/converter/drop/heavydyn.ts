@@ -6,30 +6,33 @@ import {
 } from '../shared'
 
 export const convertPRJZToHeavydynDrop = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   jsonDrop: any,
   index: number,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   json: any
 ): JSONHeavydynDrop => {
   const drop: JSONHeavydynDrop = {
     version: 1,
     base: convertPRJZToBaseDrop(jsonDrop, index, json),
-    distinct: convertPRJZToHeavydynDropDistinct(jsonDrop),
+    distinct: convertPRJZToHeavydynDropDistinct(),
   }
 
   return drop
 }
 
-export const convertPRJZToHeavydynDropDistinct = (
-  jsonDrop: any
-): JSONHeavydynDropDistinct => {
-  return {
-    version: 1,
+export const convertPRJZToHeavydynDropDistinct =
+  (): JSONHeavydynDropDistinct => {
+    return {
+      version: 1,
+    }
   }
-}
 
 export const convertPRJZToHeavydynDropChoices = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   json: any
 ): JSONDataLabel<HeavydynUnitsNames>[] => [
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ...json.ExportedData.Drops.map((exportedUnit: any) =>
     convertExportedUnitToJSONDataLabel(exportedUnit)
   ).filter((choice: JSONDataLabel<string>) => choice.name !== 'Deflections'),
@@ -45,8 +48,10 @@ export const convertPRJZToHeavydynDropChoices = (
 ]
 
 export const convertPRJZToHeavydynDropIndexes = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   json: any
 ): JSONHeavydynDropIndex[] => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return json.Sequences.Steps.map((step: any): JSONHeavydynDropIndex => {
     return {
       version: 1,

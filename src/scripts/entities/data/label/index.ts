@@ -1,3 +1,4 @@
+/* eslint-disable no-fallthrough */
 import { translate } from '/src/locales'
 
 export const createDataLabel = <T extends string, Unit extends string>(args: {
@@ -9,19 +10,19 @@ export const createDataLabel = <T extends string, Unit extends string>(args: {
 }): DataLabel<T> => {
   return {
     ...args,
-    getDisplayedName: function () {
+    getDisplayedName() {
       return `${translate(this.name)}${
         this.category.neededInExcelName
           ? ` (${translate(this.category.name)})`
           : ''
       }`
     },
-    getSerializedName: function () {
+    getSerializedName() {
       return `${this.shortName || this.name}${
         this.category.neededInExcelName ? `_${this.category.name}` : ''
       }`
     },
-    toJSON: function () {
+    toJSON() {
       return {
         version: 1,
         name: this.name,
@@ -43,6 +44,7 @@ export const createDataLabelFromJSON = <
 
   return createDataLabel({
     name: json.name,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     unit: (units as any)[json.unit],
     unitKey: json.unit,
     category,

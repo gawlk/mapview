@@ -1,3 +1,4 @@
+/* eslint-disable no-fallthrough */
 import { createMathNumber } from '/src/scripts'
 
 import { createBaseDropFromJSON, createBaseDropIndexFromJSON } from '../base'
@@ -23,7 +24,7 @@ export const createHeavydynDropFromJSON = (
   const drop: HeavydynDrop = shallowReactive({
     ...baseDrop,
     machine: 'Heavydyn',
-    toJSON: function () {
+    toJSON() {
       return {
         version: json.version,
         base: this.toBaseJSON(),
@@ -66,7 +67,7 @@ export const createHeavydynDropIndexFromJSON = (
       json.distinct.value,
       parameters.project.units[unitName as keyof HeavydynMathUnits]
     ),
-    toJSON: function () {
+    toJSON() {
       return {
         version: json.version,
         base: this.toBaseJSON(),

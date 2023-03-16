@@ -42,7 +42,7 @@ export const convertData64ImageToFile = async (data64: string) => {
   const res = await fetch(data64)
   const blob = await res.blob()
 
-  return await new File([blob], 'screenshot.png', {
+  return new File([blob], 'screenshot.png', {
     type: 'image/png',
   })
 }
@@ -56,10 +56,7 @@ export const convertData64ImageToUint8Array = async (data64: string) => {
 export const downloadImage = async (screenshot: string) =>
   downloadFile(await convertData64ImageToFile(screenshot))
 
-export function convertFileNameToValidName(
-  name: string,
-  hasExtension: boolean = true
-) {
+export function convertFileNameToValidName(name: string, hasExtension = true) {
   let toCheck = name
   let extension = ''
 
@@ -78,7 +75,7 @@ export function convertFileNameToValidName(
 
   return `${toCheck
     .trim()
-    .replaceAll(/[\\\|\/*<>:"?\x00-\x1F]/g, '_')}${extension}`
+    .replaceAll(/[\\|/*<>:"?\x00-\x1F]/g, '_')}${extension}`
 }
 
 export const downloadFile = async (file: File) => {

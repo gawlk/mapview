@@ -1,3 +1,4 @@
+/* eslint-disable no-fallthrough */
 import { createMathNumber } from '/src/scripts'
 
 export const createDataValue = (
@@ -7,7 +8,7 @@ export const createDataValue = (
   return {
     label,
     value: createMathNumber(value, label.unit),
-    toJSON: function () {
+    toJSON() {
       return {
         version: 1,
         label: this.label.name,

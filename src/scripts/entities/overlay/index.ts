@@ -106,7 +106,7 @@ export const createOverlay = async (
 
       watcherHandler.clean()
     },
-    toJSON: function (): JSONOverlay {
+    toJSON(): JSONOverlay {
       return {
         version: 1,
         name: parameters.name,

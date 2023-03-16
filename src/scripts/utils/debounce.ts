@@ -1,7 +1,5 @@
-export const debounce = (
-  callback: (...args: any[]) => void,
-  wait: number = 250
-) => {
+/* eslint-disable @typescript-eslint/no-explicit-any */
+export const debounce = (callback: (...args: any[]) => void, wait = 250) => {
   let timeoutId: number | undefined
   let latestArgs: any[] | undefined
 
@@ -10,7 +8,7 @@ export const debounce = (
 
     if (!timeoutId) {
       timeoutId = window.setTimeout(async () => {
-        await callback.apply(null, latestArgs as [])
+        await callback(...(latestArgs || []))
 
         timeoutId = undefined
       }, wait)

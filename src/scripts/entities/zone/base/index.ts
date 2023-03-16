@@ -1,3 +1,4 @@
+/* eslint-disable no-fallthrough */
 import { colorsClasses, createWatcherHandler, sortPoints } from '/src/scripts'
 
 export const createJSONBaseZone = (length: number) => {
@@ -38,7 +39,7 @@ export const createBaseZoneFromJSON = <
     settings: shallowReactive(json.settings),
     report: parameters.report,
     data: shallowReactive([]),
-    init: function () {
+    init() {
       this.points.forEach((point) => point.addToMap())
 
       watcherHandler.add(
@@ -71,7 +72,7 @@ export const createBaseZoneFromJSON = <
             sortPoints(this.points)
 
             this.report.line.sortedPoints = Array.prototype.concat(
-              ...this.report.zones.map((zone) => zone.points)
+              ...this.report.zones.map((_zone) => _zone.points)
             ) as MachinePoint[]
 
             this.report.line.update()
@@ -82,14 +83,14 @@ export const createBaseZoneFromJSON = <
         )
       )
     },
-    clean: function () {
+    clean() {
       watcherHandler.clean()
 
       this.points.forEach((point) => {
         point.remove()
       })
     },
-    toBaseJSON: function (): JSONBaseZone {
+    toBaseJSON(): JSONBaseZone {
       return {
         version: json.version,
         name: this.name,

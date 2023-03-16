@@ -1,3 +1,4 @@
+/* eslint-disable no-fallthrough */
 import { createBaseDropFromJSON, createBaseDropIndexFromJSON } from '../base'
 
 export const createMinidynDropFromJSON = (
@@ -21,7 +22,7 @@ export const createMinidynDropFromJSON = (
   const drop: MinidynDrop = shallowReactive({
     ...baseDrop,
     machine: 'Minidyn',
-    toJSON: function () {
+    toJSON() {
       return {
         version: json.version,
         base: this.toBaseJSON(),
@@ -55,7 +56,7 @@ export const createMinidynDropIndexFromJSON = (
     ...createBaseDropIndexFromJSON(json.base),
     machine: 'Minidyn',
     type: json.distinct.type,
-    toJSON: function () {
+    toJSON() {
       return {
         version: json.version,
         base: this.toBaseJSON(),

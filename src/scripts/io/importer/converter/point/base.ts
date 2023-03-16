@@ -1,6 +1,8 @@
 export const convertPRJZToBasePoint = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   jsonPoint: any,
   index: number,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   json: any
 ): JSONBasePoint => {
   return {
@@ -28,6 +30,7 @@ export const convertPRJZToBasePoint = (
         },
       },
     ],
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     data: json.ExportedData.Points.map((exportedData: any): JSONDataValue => {
       return {
         version: 1,

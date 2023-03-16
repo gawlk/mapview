@@ -12,7 +12,7 @@ export const translate = (value: string) => {
     : value
 }
 
-export const getBrowserLocale = (languageCodeOnly: boolean = false) => {
+export const getBrowserLocale = (languageCodeOnly = false) => {
   if (typeof navigator === 'undefined' || !navigator?.language) {
     return undefined
   }

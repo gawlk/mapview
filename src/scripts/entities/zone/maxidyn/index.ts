@@ -1,3 +1,4 @@
+/* eslint-disable no-fallthrough */
 import { createMaxidynPointFromJSON } from '/src/scripts'
 
 import { createBaseZoneFromJSON } from '../base'
@@ -18,7 +19,7 @@ export const createMaxidynZoneFromJSON = (
       report: parameters.report,
     }),
     machine: 'Maxidyn',
-    toJSON: function (): JSONMaxidynZone {
+    toJSON(): JSONMaxidynZone {
       return {
         version: json.version,
         base: this.toBaseJSON(),

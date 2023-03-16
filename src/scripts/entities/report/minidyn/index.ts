@@ -1,3 +1,4 @@
+/* eslint-disable no-fallthrough */
 import {
   createJSONBaseZone,
   createMinidynDataLabelsFromJSON,
@@ -40,8 +41,8 @@ export const createMinidynReportFromJSON = (
   const report: MinidynReport = shallowReactive({
     ...baseReport,
     machine: 'Minidyn',
-    addZone: function () {
-      const json: JSONMinidynZone = {
+    addZone() {
+      const jsonZone: JSONMinidynZone = {
         version: 1,
         base: createJSONBaseZone(this.zones.length),
         distinct: {
@@ -49,7 +50,7 @@ export const createMinidynReportFromJSON = (
         },
       }
 
-      const zone = createMinidynZoneFromJSON(json, map, {
+      const zone = createMinidynZoneFromJSON(jsonZone, map, {
         report: this,
       })
 
@@ -57,7 +58,7 @@ export const createMinidynReportFromJSON = (
 
       this.zones.push(zone)
     },
-    toJSON: function (): JSONMinidynReport {
+    toJSON(): JSONMinidynReport {
       const thresholdGroup = report.thresholds.groups
 
       return {

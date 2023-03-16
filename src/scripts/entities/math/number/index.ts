@@ -11,28 +11,32 @@ export const createMathNumber = (
     unit,
     displayedString: '',
     displayedStringWithUnit: '',
-    updateDisplayedStrings: function () {
+    updateDisplayedStrings() {
       this.displayedString = this.getLocaleString()
 
       this.displayedStringWithUnit = this.getLocaleString({
         appendUnitToString: true,
       })
     },
-    updateValue: function (value: number) {
-      this.value = value
+    updateValue(newValue: number) {
+      this.value = newValue
 
       this.updateDisplayedStrings()
     },
-    getValueAs: function (unit: string) {
-      return convertValueFromUnitAToUnitB(this.value, this.unit.baseUnit, unit)
+    getValueAs(unitAs: string) {
+      return convertValueFromUnitAToUnitB(
+        this.value,
+        this.unit.baseUnit,
+        unitAs
+      )
     },
-    getLocaleString: function (options: MathNumberGetLocaleStringOptions = {}) {
+    getLocaleString(options: MathNumberGetLocaleStringOptions = {}) {
       const numberToLocaleOptions = {
         locale: options.locale,
         precision: options.precision,
       }
 
-      let value = this.value
+      let currentValue = this.value
       let preString = ''
 
       if (this.unit) {
@@ -40,16 +44,16 @@ export const createMathNumber = (
 
         if (!options.disableMinAndMax) {
           if (this.value < this.unit.min) {
-            value = this.unit.min
+            currentValue = this.unit.min
             preString = '<'
           } else if (this.unit.max && this.value > this.unit.max) {
-            value = this.unit.max
+            currentValue = this.unit.max
             preString = '>'
           }
         }
 
-        value = convertValueFromUnitAToUnitB(
-          value,
+        currentValue = convertValueFromUnitAToUnitB(
+          currentValue,
           this.unit.baseUnit,
           options.unit ?? this.unit.currentUnit
         )
@@ -57,7 +61,7 @@ export const createMathNumber = (
 
       const localeString = `${
         options.disablePreString ? '' : preString
-      } ${numberToLocaleString(value, numberToLocaleOptions)} ${
+      } ${numberToLocaleString(currentValue, numberToLocaleOptions)} ${
         options.appendUnitToString ? this.unit.currentUnit : ''
       }`.trim()
 

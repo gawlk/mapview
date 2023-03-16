@@ -28,11 +28,7 @@ const writeSeparator = (): string => {
   return ''.padEnd(130, '_')
 }
 
-const padDotString = (
-  str: string,
-  length: number,
-  tab: boolean = true
-): string => {
+const padDotString = (str: string, length: number, tab = true): string => {
   const c = tab ? '\t' : ''
   return str.padEnd(length, '.') + c
 }
@@ -138,7 +134,7 @@ const writeDrops = (point: BasePoint, channels: JSONChannel[]): string => {
   const pointInfos = [
     'Sequence: 1/1',
     'No. of drops: ' + point.drops.length.toString(),
-    'Fallheight: 0', //TODO
+    'Fallheight: 0', // TODO
     'Time: ' + dayjs(point.date).format('HH:mm'),
   ]
   const dropHeader = [
@@ -189,7 +185,7 @@ const writeDrop = (drop: MachineDrop, channels: JSONChannel[]): string => {
           data.label.unit === drop.point.zone.report.project.units.deflection &&
           data.label.category === currentCategory
       )
-      .map((drop) => drop.value.getValueAs('um').toFixed(1)),
+      .map((_drop) => _drop.value.getValueAs('um').toFixed(1)),
     0,
     loadMax,
     ...drop.point.data
@@ -248,7 +244,7 @@ const writeDisplacements = (
 
       const sensorData = [
         sensorName + sensorPosition + '[MPa;µm].',
-        1.0, //TODO
+        1.0, // TODO
         drop.data[index + 2].value.getValueAs('um').toFixed(1),
         ...displacement.map((val) =>
           (val * 1000000).toFixed(1).replace('-0.0', '0.0')

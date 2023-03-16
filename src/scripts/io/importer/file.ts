@@ -1,5 +1,6 @@
-import store from '/src/store'
+/* eslint-disable sonarjs/no-duplicate-string */
 
+/* eslint-disable no-console */
 import {
   convertJSONFromPRJZToMPVZ,
   importOverlaysFromZIP,
@@ -16,6 +17,7 @@ export const getProjectJSONFromZip = (
 ) => {
   const jsonUint = unzipped['database.json']
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const importedJSON: any = JSON.parse(new TextDecoder().decode(jsonUint))
 
   return extension === 'mpvz'
@@ -69,10 +71,12 @@ export const importFile = async (file: File) => {
           console.timeEnd('import: file')
         }
       }, 100)
+      return project
     }
+
+    return null
   } catch (error) {
     console.log(error)
-  } finally {
-    return project
+    return null
   }
 }

@@ -8,8 +8,10 @@ import { convertPRJZToHeavydynPoint } from '../point'
 import { convertPRJZToTestChoices } from '../shared'
 
 export const convertPRJZToHeavydynReport = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   jsonPV: any,
   index: number,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   json: any
 ): JSONHeavydynReport => {
   const report: JSONHeavydynReport = {
@@ -25,8 +27,9 @@ export const convertPRJZToHeavydynReport = (
 
   report.base.zones[0].base.points.push(
     ...jsonPV.Points.map(
-      (jsonPoint: any, index: number): JSONHeavydynPoint =>
-        convertPRJZToHeavydynPoint(jsonPoint, index, json)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (jsonPoint: any, pointIndex: number): JSONHeavydynPoint =>
+        convertPRJZToHeavydynPoint(jsonPoint, pointIndex, json)
     )
   )
 
@@ -34,6 +37,7 @@ export const convertPRJZToHeavydynReport = (
 }
 
 export const convertPRJZToHeavydynReportDistinct = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   json: any
 ): JSONHeavydynReportDistinct => {
   const dropChoices = convertPRJZToHeavydynDropChoices(json)

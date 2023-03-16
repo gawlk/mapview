@@ -5,13 +5,15 @@ import {
   convertPRJZToMinidynProject,
 } from './project'
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const convertJSONFromPRJZToMPVZ = (json: any) => {
-  const machine =
-    json.Database.Software === 'Fwddyn'
-      ? 'Heavydyn'
-      : json.Hardware.Serial.split('-')[0] === 'MAX'
-      ? 'Maxidyn'
-      : 'Minidyn'
+  let machine: MachineName = 'Minidyn'
+
+  if (json.Database.Software === 'Fwddyn') {
+    machine = 'Heavydyn'
+  } else if (json.Hardware.Serial.split('-')[0] === 'MAX') {
+    machine = 'Maxidyn'
+  }
 
   const baseProject = convertPRJZToBaseProject(json, machine)
 
@@ -25,5 +27,7 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
     case 'Minidyn': {
       return convertPRJZToMinidynProject(json, baseProject)
     }
+
+    // No Default
   }
 }

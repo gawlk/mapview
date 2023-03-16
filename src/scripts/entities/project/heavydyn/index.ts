@@ -1,8 +1,9 @@
+/* eslint-disable no-fallthrough */
+
+/* eslint-disable no-console */
 import {
   createHeavydynMathUnitsFromJSON,
   createHeavydynReportFromJSON,
-  createMathNumber,
-  createSelectableList,
   createWatcherHandler,
 } from '/src/scripts'
 
@@ -44,12 +45,12 @@ export const createHeavydynProjectFromJSON = (
       json.distinct.correctionParameters,
       units
     ),
-    remove: function () {
+    remove() {
       baseProject.remove.call(project)
 
       watcherHandler.clean()
     },
-    toJSON: function (): JSONHeavydynProject {
+    toJSON(): JSONHeavydynProject {
       return {
         version: json.version,
         machine: 'Heavydyn',

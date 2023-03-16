@@ -45,7 +45,7 @@ export const createCurvatureRadiusDataComputers = (report: HeavydynReport) => {
 
               if (d1 && d2) {
                 const data =
-                  drop.data.find((data) => data.label === label) ||
+                  drop.data.find((_data) => _data.label === label) ||
                   drop.data[drop.data.push(createDataValue(0, label)) - 1]
 
                 data.value.updateValue(

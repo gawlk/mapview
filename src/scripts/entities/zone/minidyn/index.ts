@@ -1,3 +1,4 @@
+/* eslint-disable no-fallthrough */
 import { createMinidynPointFromJSON } from '/src/scripts'
 
 import { createBaseZoneFromJSON } from '../base'
@@ -18,7 +19,7 @@ export const createMinidynZoneFromJSON = (
       report: parameters.report,
     }),
     machine: 'Minidyn',
-    toJSON: function (): JSONMinidynZone {
+    toJSON(): JSONMinidynZone {
       return {
         version: json.version,
         base: this.toBaseJSON(),

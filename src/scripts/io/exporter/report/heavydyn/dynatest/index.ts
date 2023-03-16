@@ -158,9 +158,8 @@ const writePoints = (project: HeavydynProject) => {
         const value = data.value.value.toFixed(precision)
         if (index === 0) {
           return value.padStart(4, ' ')
-        } else {
-          return value.padStart(2, ' ')
         }
+        return value.padStart(2, ' ')
       })
 
     const fahrenheitDegreesTemps = point.data

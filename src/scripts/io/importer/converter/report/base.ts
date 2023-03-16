@@ -3,6 +3,7 @@ import { currentCategory, icons, indicatorsCategory } from '/src/scripts'
 import { convertPRJZObjectToFields } from '../shared'
 
 export const convertPRJZToBaseReport = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   jsonPV: any,
   reportIndex: number,
   parameters: {
@@ -109,6 +110,8 @@ export const convertPRJZToBaseReport = (
                         value.name === 'Stiffness' ||
                         value.name === 'Quality'
                     )
+
+                // No Default
               }
             })(),
           },
@@ -139,6 +142,8 @@ export const convertPRJZToBaseReport = (
                         value.name === 'Stiffness' ||
                         value.name === 'Quality'
                     )
+
+                // No Default
               }
             })(),
           },

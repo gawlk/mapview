@@ -1,3 +1,4 @@
+/* eslint-disable no-fallthrough */
 import { createHeavydynPointFromJSON } from '/src/scripts'
 
 import { createBaseZoneFromJSON } from '../base'
@@ -20,7 +21,7 @@ export const createHeavydynZoneFromJSON = (
       report: parameters.report,
     }),
     machine: 'Heavydyn',
-    toJSON: function (): JSONHeavydynZone {
+    toJSON(): JSONHeavydynZone {
       return {
         version: json.version,
         base: this.toBaseJSON(),

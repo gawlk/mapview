@@ -3,35 +3,38 @@ import { convertPRJZToBaseDrop } from './base'
 import { convertExportedUnitToJSONDataLabel } from '../shared'
 
 export const convertPRJZToMaxidynDrop = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   jsonDrop: any,
   index: number,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   json: any
 ): JSONMaxidynDrop => {
   const drop: JSONMaxidynDrop = {
     version: 1,
     base: convertPRJZToBaseDrop(jsonDrop, index, json),
-    distinct: convertPRJZToMaxidynDropDistinct(jsonDrop),
+    distinct: convertPRJZToMaxidynDropDistinct(),
   }
 
   return drop
 }
 
-export const convertPRJZToMaxidynDropDistinct = (
-  jsonDrop: any
-): JSONMaxidynDropDistinct => {
+export const convertPRJZToMaxidynDropDistinct = (): JSONMaxidynDropDistinct => {
   return {
     version: 1,
   }
 }
 
 export const convertPRJZToMaxidynDropChoices = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   json: any
 ): JSONDataLabel<MaxidynUnitsNames>[] =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   json.ExportedData.Drops.map((exportedUnit: any) =>
     convertExportedUnitToJSONDataLabel(exportedUnit)
   )
 
 export const convertPRJZToMaxidynDropIndexes = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   json: any
 ): JSONMaxidynDropIndex[] =>
   Array(json.ParamsPoint.NbTotal)

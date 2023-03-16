@@ -1,11 +1,7 @@
 import dayjs from 'dayjs'
 import dedent from 'dedent'
 
-import {
-  currentCategory,
-  findFieldInArray,
-  replaceAllLFToCRLF,
-} from '/src/scripts'
+import { findFieldInArray, replaceAllLFToCRLF } from '/src/scripts'
 
 export const heavydynPDXExporter: HeavydynExporter = {
   name: '.pdx',
@@ -31,16 +27,18 @@ export const heavydynPDXExporter: HeavydynExporter = {
 }
 
 const writeHeader = (project: HeavydynProject): string => {
-  if (!project.reports.selected) {
+  const selectedReport = project.reports.selected
+
+  if (!selectedReport) {
     throw new Error('cannot find selected report ')
   }
 
   const reportDate = dayjs(
-    findFieldInArray(project.reports.selected.information, 'Date')?.toString()
+    findFieldInArray(selectedReport.information, 'Date')?.toString()
   ).format('DD-MMM-YYYY')
 
   const infos = ['Operator', 'Climat'].map((label) =>
-    findFieldInArray(project.reports.selected!.information, label)?.toString()
+    findFieldInArray(selectedReport.information, label)?.toString()
   )
 
   return dedent`
@@ -212,15 +210,15 @@ const writePoints = (project: HeavydynProject) => {
 }
 
 const writeDrops = (point: BasePoint, dPlate: number) => {
-  const deflection = point.zone.report.project.units.deflection
+  // const deflection = point.zone.report.project.units.deflection
 
   return point.drops
     .map((drop, index) => {
       const values = drop.data
-        .filter((data) => {
-          data.label.unit === deflection &&
-            data.label.category === currentCategory
-        })
+        // .filter((data) =>
+        //   data.label.unit === deflection &&
+        //     data.label.category === currentCategory
+        // )
         .map((data) => {
           const value = data.value.getValueAs('um')
           return (value <= 0 ? 0.1 : value).toFixed(2)

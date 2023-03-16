@@ -1,4 +1,5 @@
-import { createFieldFromJSON, createMinidynDropFromJSON } from '/src/scripts'
+/* eslint-disable no-fallthrough */
+import { createMinidynDropFromJSON } from '/src/scripts'
 
 import { createBasePointFromJSON } from '../base'
 
@@ -20,7 +21,7 @@ export const createMinidynPointFromJSON = (
   const point: MinidynPoint = shallowReactive({
     ...basePoint,
     machine: 'Minidyn',
-    toJSON: function () {
+    toJSON() {
       return {
         version: json.version,
         base: this.toBaseJSON(),

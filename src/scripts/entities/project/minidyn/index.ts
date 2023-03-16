@@ -1,5 +1,5 @@
+/* eslint-disable no-fallthrough */
 import {
-  createFieldFromJSON,
   createMinidynMathUnitsFromJSON,
   createMinidynReportFromJSON,
 } from '/src/scripts'
@@ -25,7 +25,7 @@ export const createMinidynProjectFromJSON = (
     ...baseProject,
     machine: 'Minidyn',
     bearingParameters: shallowReactive(json.distinct.bearingParameters),
-    toJSON: function (): JSONMinidynProject {
+    toJSON(): JSONMinidynProject {
       return {
         version: json.version,
         machine: 'Minidyn',

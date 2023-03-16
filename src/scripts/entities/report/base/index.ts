@@ -1,3 +1,4 @@
+/* eslint-disable no-fallthrough */
 import {
   createFieldFromJSON,
   createLine,
@@ -30,6 +31,7 @@ export const createBaseReportFromJSON = <
 
   const watcherHandler = createWatcherHandler()
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const thresholds: Thresholds = {
     groups: parameters.thresholdsGroups,
@@ -63,12 +65,12 @@ export const createBaseReportFromJSON = <
       )
     ),
     project: parameters.project,
-    fitOnMap: function () {
+    fitOnMap() {
       const points = this.zones.map((zone) => zone.points).flat()
 
       flyToPoints(map, points)
     },
-    addToMap: function () {
+    addToMap() {
       this.isOnMap = true
 
       this.zones.forEach((zone) => {
@@ -177,7 +179,7 @@ export const createBaseReportFromJSON = <
         }
       )
     },
-    remove: function () {
+    remove() {
       this.isOnMap = false
 
       this.zones.forEach((zone) => {
@@ -188,7 +190,7 @@ export const createBaseReportFromJSON = <
 
       watcherHandler.clean()
     },
-    toBaseJSON: function (): JSONBaseReport {
+    toBaseJSON(): JSONBaseReport {
       return {
         version: 1,
         name: this.name.value as string,

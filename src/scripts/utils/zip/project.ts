@@ -44,12 +44,13 @@ export const createZipFromEntity = async (
     template && addFileToZip(zip, template),
   ])
 
-  json &&
-    (await addJSONToZip(
+  if (json) {
+    await addJSONToZip(
       zip,
       parameters.customJSON?.name || 'database.json',
       json
-    ))
+    )
+  }
 
   return zipSync(zip)
 }

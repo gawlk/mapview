@@ -1,3 +1,4 @@
+/* eslint-disable no-fallthrough */
 import {
   createMaxidynMathUnitsFromJSON,
   createMaxidynReportFromJSON,
@@ -24,7 +25,7 @@ export const createMaxidynProjectFromJSON = (
     ...baseProject,
     machine: 'Maxidyn',
     bearingParameters: shallowReactive(json.distinct.bearingParameters),
-    toJSON: function (): JSONMaxidynProject {
+    toJSON(): JSONMaxidynProject {
       return {
         version: json.version,
         machine: 'Maxidyn',

@@ -10,14 +10,14 @@ interface InteractivePropsOnly {
   center?: boolean
 
   icon?: IconProp
-  iconClass?: string
-  iconStyle?: string | Solid.JSX.CSSProperties
+  iconClass?: ClassProp
+  iconStyle?: StyleProp
 
   leftIcon?: IconProp
-  leftIconClass?: string
-  leftIconStyle?: string | Solid.JSX.CSSProperties
+  leftIconClass?: ClassProp
+  leftIconStyle?: StyleProp
 
   rightIcon?: IconProp
-  rightIconClass?: string
-  rightIconStyle?: string | Solid.JSX.CSSProperties
+  rightIconClass?: ClassProp
+  rightIconStyle?: StyleProp
 }

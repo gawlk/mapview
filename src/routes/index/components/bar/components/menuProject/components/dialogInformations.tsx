@@ -1,7 +1,5 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import { getBrowserLocale } from '/src/locales'
-
 import store from '/src/store'
 
 import { Dialog, Input, Label } from '/src/components'

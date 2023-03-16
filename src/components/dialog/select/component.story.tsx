@@ -11,9 +11,9 @@ export default () => {
         button={{
           label: 'Value',
         }}
-        list={{
+        options={{
           selected: state.value1,
-          values: ['1', '2', '3'],
+          list: ['1', '2', '3'],
         }}
         onClose={(value) => {
           console.log(value)
@@ -29,9 +29,9 @@ export default () => {
         search={{
           placeholder: 'Value',
         }}
-        list={{
+        options={{
           selected: state.value1,
-          values: ['1', '2', '3'],
+          list: ['1', '2', '3'],
         }}
         onClose={(value) => {
           console.log(value)

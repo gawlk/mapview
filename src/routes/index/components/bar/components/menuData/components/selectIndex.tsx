@@ -34,13 +34,13 @@ export default () => {
               full: true,
             }}
             size="small"
-            list={{
+            options={{
               selected: (dropTableParams?.index?.displayedIndex || 1) - 1,
-              values:
+              list:
                 (dropGroup.indexes?.list as MachineDropIndex[]).map(
                   (dropIndex, index) => ({
                     value: String(index),
-                    label: dropIndexToString(dropIndex),
+                    text: dropIndexToString(dropIndex),
                   })
                 ) || [],
             }}

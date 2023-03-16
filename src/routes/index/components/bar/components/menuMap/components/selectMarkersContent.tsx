@@ -48,9 +48,9 @@ export default () => {
         leftIcon: DotIcon,
       }}
       size="small"
-      list={{
+      options={{
         selected: state.pointStateValues[state.pointStateSelected],
-        values: state.pointStateValues,
+        list: state.pointStateValues,
       }}
       onClose={(value) => value && setPointsState(value)}
     />

@@ -16,6 +16,8 @@ const packageJSON = JSON.parse(packageJSONRaw)
 export default () => {
   const [t] = useI18n()
 
+  store.init()
+
   const state = createMutable({
     version: packageJSON.version,
   })

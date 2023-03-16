@@ -43,9 +43,11 @@ export default (props: Props) => {
 
         // Border width
         (() => {
-          switch (props.size) {
-            default:
-              return 'border-2'
+          if (props.border !== false) {
+            switch (props.size) {
+              default:
+                return 'border-2'
+            }
           }
         })(),
 
@@ -98,14 +100,6 @@ export default (props: Props) => {
               return
             default:
               return 'rounded-lg'
-          }
-        })(),
-
-        // Text color
-        (() => {
-          switch (props.color) {
-            default:
-              return 'text-black'
           }
         })(),
 

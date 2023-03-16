@@ -1,12 +1,4 @@
-import {
-  autoUpdate,
-  computePosition,
-  flip,
-  offset,
-  shift,
-} from '@floating-ui/dom'
-import { makeEventListener } from '@solid-primitives/event-listener'
-import { useWindowSize } from '@solid-primitives/resize-observer'
+import { createPositionEffect, makeClickOutsideEventListener } from './scripts'
 
 import {
   Button,
@@ -70,77 +62,24 @@ export default (props: Props) => {
   )
 
   onMount(() => {
-    const windowSize = useWindowSize()
-
-    let cleanup: (() => void) | undefined
     createEffect(() => {
-      cleanup?.()
-      if (
-        props.size === 'small' &&
-        buttonOpen &&
-        dialog &&
-        windowSize.width &&
-        window.getComputedStyle(dialog).position === 'absolute'
-      ) {
-        cleanup = autoUpdate(
-          buttonOpen,
-          dialog,
-          () =>
-            buttonOpen &&
-            dialog &&
-            computePosition(buttonOpen, dialog, {
-              middleware: [
-                offset(4),
-                flip(),
-                shift({
-                  padding: 5,
-                }),
-              ],
-            }).then(({ x, y }) => {
-              if (dialog) {
-                Object.assign(dialog.style, {
-                  left: `${x}px`,
-                  top: `${y}px`,
-                  width: `${buttonOpen?.clientWidth}px`,
-                })
-              }
-            })
-        )
+      if (props.size === 'small' && dialog && buttonOpen) {
+        createPositionEffect(dialog, buttonOpen)
       }
     })
 
-    let click: (() => void) | undefined
+    let clearClickEvent: (() => void) | undefined
+
     createEffect(() => {
-      if (state.open) {
-        click?.()
+      if (state.open && dialog) {
+        clearClickEvent?.()
 
-        click = makeEventListener(
-          window,
-          'click',
-          (event) => {
-            if (dialog) {
-              const { pageX, pageY } = event
-              const { top, right, bottom, left } =
-                dialog.getBoundingClientRect()
-
-              if (
-                pageX < left ||
-                pageY < top ||
-                pageX > right ||
-                pageY > bottom
-              ) {
-                close()
-              }
-            }
-          },
-          { passive: true }
-        )
+        clearClickEvent = makeClickOutsideEventListener(dialog, close)
       }
     })
 
     onCleanup(() => {
-      cleanup?.()
-      click?.()
+      clearClickEvent?.()
     })
   })
 
@@ -148,28 +87,33 @@ export default (props: Props) => {
     <div class={classPropToString([props.button?.full && 'w-full'])}>
       <Button
         {...buttonProps}
-        onClick={() => {
+        onClick={(event) => {
+          // @ts-ignore
+          props.button?.onClick?.(event)
+
           if (!state.open) {
             props.size === 'small' ? dialog?.show() : dialog?.showModal()
 
-            setTimeout(() => {
-              setState('open', true)
-            }, 1)
+            setTimeout(() => setState('open', true), 1)
           }
         }}
         title={props.title}
         ref={buttonOpen}
-        class={props.size === 'small' ? 'md:relative' : ''}
+        class={[
+          props.size === 'small' ? 'md:relative' : '',
+          buttonProps().class,
+        ]}
       >
         <span
           class={classPropToString([
-            props.button?.center ? ' text-center' : ' text-left',
+            !props.button?.center && 'text-left',
             'flex-1 truncate',
           ])}
         >
           {props.button?.text}
         </span>
       </Button>
+      {/* TODO: Use `Container` component here */}
       <dialog
         {...dialogProps}
         onTransitionEnd={(event) => {
@@ -180,15 +124,36 @@ export default (props: Props) => {
         ref={dialog}
         class={classPropToString([
           props.full && 'h-full',
+
           state.open && 'open:translate-y-0 open:opacity-100',
-          props.size === 'small'
-            ? 'md:absolute md:z-10 md:m-0 md:rounded-xl md:p-2'
-            : 'peer top-auto bottom-0 mt-[5vh] max-h-[95vh] w-full max-w-full translate-y-4 flex-col space-y-4 rounded-t-2xl border-t-2 p-6 pb-0  backdrop:bg-black/25 backdrop:backdrop-blur-sm open:flex  md:top-[10vh] md:mt-0 md:h-fit md:max-h-[32rem] md:max-w-2xl md:rounded-b-2xl md:border-2',
-          'border-2 border-neutral-200 bg-white text-black opacity-0 transition duration-200 motion-reduce:transform-none motion-reduce:transition-none',
+
+          (() => {
+            switch (props.size) {
+              case 'small':
+                return 'min-w-[12rem] border-2 md:absolute md:z-10 md:m-0 md:rounded-xl md:p-2'
+              default:
+                return `${
+                  props.size === 'fullscreen'
+                    ? 'h-full max-h-full'
+                    : 'top-auto bottom-0 mt-[5vh] max-h-[95vh] translate-y-4 rounded-t-2xl border-t-2 md:top-[10vh] md:mt-0 md:h-fit md:max-h-[32rem] md:max-w-2xl md:rounded-b-2xl md:border-2'
+                } peer w-full max-w-full flex-col space-y-4 backdrop:bg-black/25  backdrop:backdrop-blur-sm open:flex`
+            }
+          })(),
+
+          (() => {
+            switch (props.color) {
+              case 'transparent':
+                return 'bg-transparent'
+              default:
+                return `bg-white`
+            }
+          })(),
+
+          'border-neutral-200 p-0 text-black opacity-0 transition duration-200 motion-reduce:transform-none motion-reduce:transition-none',
         ])}
       >
         <Show when={props.size !== 'small'}>
-          <div class="flex items-center">
+          <div class="flex items-center px-6 pt-6">
             <Button
               ref={buttonClose}
               icon={IconTablerX}
@@ -206,7 +171,9 @@ export default (props: Props) => {
             />
           </div>
 
-          <DialogDivider />
+          <Show when={props.color !== 'transparent'}>
+            <DialogDivider />
+          </Show>
         </Show>
 
         {props.sticky}
@@ -217,27 +184,33 @@ export default (props: Props) => {
 
         <div
           class={classPropToString([
-            props.size !== 'small' ? '!my-0 -mx-4 p-4 pb-6' : '',
+            props.size !== 'small' &&
+              props.color !== 'transparent' &&
+              '!my-0 px-6 pt-4 pb-6',
             'flex-1 overflow-y-auto',
           ])}
         >
           {props.children}
-          <form
-            method="dialog"
-            onSubmit={(event) => {
-              event.preventDefault()
 
-              setState({
-                value:
-                  'value' in event.submitter
-                    ? (event.submitter.value as string)
-                    : '',
-                open: false,
-              })
-            }}
-          >
-            {props.form}
-          </form>
+          <Show when={props.form}>
+            <form
+              class="h-full"
+              method="dialog"
+              onSubmit={(event) => {
+                event.preventDefault()
+
+                setState({
+                  value:
+                    'value' in event.submitter
+                      ? (event.submitter.value as string)
+                      : '',
+                  open: false,
+                })
+              }}
+            >
+              {props.form}
+            </form>
+          </Show>
         </div>
       </dialog>
     </div>

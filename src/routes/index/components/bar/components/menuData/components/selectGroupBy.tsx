@@ -18,11 +18,11 @@ export default () => {
         full: true,
       }}
       size="small"
-      list={{
+      options={{
         selected: t(store.selectedReport?.settings.groupBy || ''),
-        values: groupBys.map((s) => ({
+        list: groupBys.map((s) => ({
           value: s,
-          label: t(s),
+          text: t(s),
         })),
       }}
       onClose={(value) => {

@@ -8,17 +8,15 @@ export interface Props
     Solid.JSX.DialogHTMLAttributes
   > {}
 
-const listValueToString = (
-  value: DialogSelectProps['list']['values'][number]
-) =>
-  typeof value === 'string'
+const optionToObject = (option: DialogSelectProps['options']['list'][number]) =>
+  typeof option === 'string'
     ? {
-        value,
+        value: option,
       }
-    : value
+    : option
 
-const valueObjectToString = (value: DialogSelectValueObject) =>
-  value.label || value.value
+const optionToString = (option: DialogSelectOptionProps) =>
+  option.text ?? option.value
 
 export default (props: Props) => {
   const [state, setState] = createStore({
@@ -46,14 +44,14 @@ export default (props: Props) => {
           role: 'listbox' as const,
           rightIcon: IconTablerSelector,
           text:
-            typeof props.list.selected === 'number'
-              ? valueObjectToString(
-                  listValueToString(props.list.values[props.list.selected])
+            typeof props.options.selected === 'number'
+              ? optionToString(
+                  optionToObject(props.options.list[props.options.selected])
                 )
-              : props.list.values
-                  .map((v) => listValueToString(v))
-                  .find((obj) => obj.value === props.list.selected)?.label ||
-                props.list.selected,
+              : props.options.list
+                  .map(optionToObject)
+                  .find((option) => option.value === props.options.selected)
+                  ?.label || props.options.selected,
         } as ButtonPropsWithHTMLAttributes,
         props.button
       )}
@@ -82,18 +80,18 @@ export default (props: Props) => {
         <div class="space-y-2">
           {() => {
             const list = createMemo(() =>
-              (props.list.values || []).map(listValueToString).filter(
-                (obj) =>
+              (props.options.list || []).map(optionToObject).filter(
+                (option) =>
                   !state.input ||
-                  (obj.label
-                    ? typeof obj.label === 'string'
-                      ? obj.label
-                      : typeof obj.label === 'function'
+                  (option.label
+                    ? typeof option.label === 'string'
+                      ? option.label
+                      : typeof option.label === 'function'
                       ? // @ts-ignore
-                        obj.label()?.textContent
+                        option.label()?.textContent
                       : // @ts-ignore
-                        obj.label.textContent
-                    : obj.value
+                        option.label.textContent
+                    : option.value
                   )
                     .toLowerCase()
                     .includes(state.input.toLowerCase())
@@ -103,24 +101,23 @@ export default (props: Props) => {
             return (
               <Show when={list().length} fallback="The list is empty.">
                 <For each={list()}>
-                  {(obj, index) => {
+                  {(option, index) => {
                     const isSelected = createMemo(
                       () =>
-                        (typeof props.list.selected === 'number' &&
-                          index() === props.list.selected) ||
-                        props.list.selected === obj.value ||
-                        props.list.selected === obj.label
+                        (typeof props.options.selected === 'number' &&
+                          index() === props.options.selected) ||
+                        props.options.selected === option.value ||
+                        props.options.selected === option.label
                     )
 
                     return (
                       <Button
                         full
-                        leftIcon={obj.icon}
                         rightIcon={isSelected() ? IconTablerCheck : true}
-                        value={obj.value}
+                        {...option}
                       >
                         <span class="w-full truncate text-left">
-                          {valueObjectToString(obj)}
+                          {optionToString(option)}
                         </span>
                       </Button>
                     )

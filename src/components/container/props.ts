@@ -7,4 +7,6 @@ export const containerBooleanPropsKeysObject: BooleanPropsKeysObject<ContainerPr
     rounded: true,
 
     orientation: true,
+
+    border: true,
   }

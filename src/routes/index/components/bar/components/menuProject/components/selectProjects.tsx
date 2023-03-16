@@ -23,25 +23,30 @@ export default () => {
           ? convertProjectToName(store.selectedProject)
           : '',
       }}
-      list={{
+      options={{
         selected: store.selectedProject
           ? convertProjectToName(store.selectedProject)
           : '',
-        values: store.projects.list.map((project, index) => ({
-          value: String(index),
-          label: convertProjectToName(project),
-          icon: IconTablerZoomIn,
+        list: store.projects.list.map((project) => ({
+          value: convertProjectToName(project),
+          leftIcon:
+            project === store.selectedProject
+              ? IconTablerFocusCentered
+              : IconTablerPlaneDeparture,
         })),
       }}
       onClose={(value) => {
         if (value) {
-          const index = Number(value)
+          const project = store.projects.list.find(
+            (project) => convertProjectToName(project) === value
+          )
 
-          const project = store.projects.list[index]
-          if (store.projects.selected === project) {
-            project.fitOnMap()
-          } else {
-            store.projects.selected = project
+          if (project) {
+            if (store.projects.selected === project) {
+              project.fitOnMap()
+            } else {
+              store.projects.selected = project
+            }
           }
         }
       }}

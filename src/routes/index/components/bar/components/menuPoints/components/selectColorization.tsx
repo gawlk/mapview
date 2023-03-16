@@ -13,15 +13,16 @@ export default () => {
     <DialogSelect
       title="Select a colorization"
       button={{
+        leftIcon: IconTablerColorSwatch,
         label: t('Colorization by'),
         full: true,
       }}
       size="small"
-      list={{
+      options={{
         selected: t(store.selectedReport?.settings.colorization || ''),
-        values: possibilities.map((possibility) => ({
+        list: possibilities.map((possibility) => ({
           value: possibility,
-          label: t(possibility),
+          text: t(possibility),
         })),
       }}
       onClose={(value) =>

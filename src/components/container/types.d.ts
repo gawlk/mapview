@@ -8,4 +8,6 @@ interface ContainerPropsOnly extends Solid.ParentProps {
   rounded?: 'full' | 'none'
 
   orientation?: 'horizontal' | 'vertical' | 'none'
+
+  border?: boolean
 }

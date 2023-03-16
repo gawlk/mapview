@@ -8,7 +8,7 @@ export default (props: Props) => {
   return (
     <hr
       class={classPropToString([
-        '-mx-6 my-4 flex-none border-t-2 border-neutral-100',
+        'my-4 flex-none border-t-2 border-black/5',
 
         props.class,
       ])}

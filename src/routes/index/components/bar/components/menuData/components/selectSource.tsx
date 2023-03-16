@@ -20,14 +20,14 @@ export default () => {
         leftIcon: IconTablerList,
         full: true,
       }}
-      list={{
+      options={{
         selected: tableDataLabels()?.selected?.group.from || '',
-        values:
+        list:
           tableDataLabels()
             ?.list.filter((parameters) => parameters.group.choices.list.length)
             .map((parameters, index) => ({
               value: String(index),
-              label: t(parameters.group.from),
+              text: t(parameters.group.from),
             })) || [],
       }}
       onClose={(value) =>

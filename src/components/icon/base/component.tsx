@@ -19,10 +19,13 @@ export default (props: Props) => {
   ])
 
   const isSpan = createMemo(
-    () => !props.icon || typeof props.icon === 'boolean'
+    () =>
+      !props.icon ||
+      typeof props.icon === 'boolean' ||
+      (typeof props.icon === 'string' && props.icon.startsWith('<'))
   )
 
-  const isImage = createMemo(() => typeof props.icon === 'string')
+  const isImage = createMemo(() => !isSpan() && typeof props.icon === 'string')
 
   return (
     <Dynamic
@@ -31,7 +34,11 @@ export default (props: Props) => {
       component={
         isSpan() ? 'span' : isImage() ? 'img' : (props.icon as Solid.Component)
       }
-      {...(isImage() ? { src: props.icon, loading: 'lazy' } : {})}
+      {...(isImage()
+        ? { src: props.icon, loading: 'lazy' }
+        : isSpan() && props.icon !== true
+        ? { innerHTML: props.icon }
+        : {})}
       class={classPropToString([
         (() => {
           switch (props.size) {

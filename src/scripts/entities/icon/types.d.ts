@@ -14,6 +14,5 @@ type IconName =
   | 'Flare'
   | 'Pentagon'
   | 'Hexagon'
-  | 'HexagonAlt'
   | 'Heptagon'
   | 'Octagon'

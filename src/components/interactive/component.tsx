@@ -27,14 +27,6 @@ export default (props: Props) => {
         // Width
         props.full && 'w-full min-w-0',
 
-        // Background color
-        (() => {
-          switch (props.color) {
-            default:
-              return 'bg-neutral-100'
-          }
-        })(),
-
         // Center
         props.center && 'justify-center',
 
@@ -60,12 +52,15 @@ export default (props: Props) => {
       <Show
         when={!props.icon}
         fallback={
-          <IconInteractive
-            {...iconProps}
-            icon={props.icon}
-            class={props.iconClass}
-            style={props.iconStyle}
-          />
+          <>
+            <IconInteractive
+              {...iconProps}
+              icon={props.icon}
+              class={props.iconClass}
+              style={props.iconStyle}
+            />
+            {props.children}
+          </>
         }
       >
         <Show when={props.leftIcon}>

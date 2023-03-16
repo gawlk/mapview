@@ -13,30 +13,29 @@ const store: Store = createMutable({
     // @ts-ignore
     store[key] = value
   },
-})
+  init: () => {
+    createEffect(
+      on(
+        () => store.projects.selected,
+        (project, oldProject) => {
+          store.selectedProject = project
 
-createRoot(() => {
-  createEffect(
-    on(
-      () => store.projects.selected,
-      (project, oldProject) => {
-        store.selectedProject = project
-
-        oldProject?.remove()
-        project?.addToMap()
-      }
+          oldProject?.remove()
+          project?.addToMap()
+        }
+      )
     )
-  )
 
-  createEffect(
-    on(
-      () => store.projects.selected?.reports.selected,
-      (report) => {
-        // @ts-ignore
-        store.selectedReport = report
-      }
+    createEffect(
+      on(
+        () => store.projects.selected?.reports.selected,
+        (report) => {
+          // @ts-ignore
+          store.selectedReport = report
+        }
+      )
     )
-  )
+  },
 })
 
 export default store

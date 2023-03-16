@@ -1,16 +1,15 @@
 type DialogSelectProps = DialogSelectPropsOnly & DialogProps
 
-interface DialogSelectValueObject {
+interface DialogSelectOptionProps extends ButtonPropsWithHTMLAttributes {
+  text?: string | Solid.JSX.Element
   value: string
-  label?: string | Solid.JSX.Element
-  icon?: IconProp
 }
 
 interface DialogSelectPropsOnly extends SaveableProps {
   search?: Omit<InputPropsWithHTMLAttributes, 'onInput'>
 
-  list: {
+  options: {
     selected: string | number | null
-    values: string[] | DialogSelectValueObject[]
+    list: string[] | DialogSelectOptionProps[]
   }
 }

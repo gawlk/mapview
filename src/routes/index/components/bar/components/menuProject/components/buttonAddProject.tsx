@@ -2,7 +2,7 @@ import store from '/src/store'
 
 import { acceptedExtensions, importFile } from '/src/scripts'
 
-import { Button } from '/src/components'
+import { Button, ButtonFile } from '/src/components'
 
 export default () => {
   let inputFile: HTMLInputElement | undefined
@@ -22,21 +22,10 @@ export default () => {
   }
 
   return (
-    <>
-      <Button
-        class="hidden sm:block"
-        onClick={() => inputFile?.click()}
-        icon={IconTablerPlus}
-      />
-      <input
-        class="hidden"
-        onChange={(event) =>
-          addProject((event.target as HTMLInputElement).files?.[0])
-        }
-        accept={acceptedExtensions.join(', ')}
-        type="file"
-        ref={inputFile}
-      />
-    </>
+    <ButtonFile
+      onFiles={(files) => {
+        addProject(files?.[0])
+      }}
+    />
   )
 }

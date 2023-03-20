@@ -76,6 +76,16 @@ export const convertPRJZToMinidynReportDistinct = (
           valueHigh: 0,
         },
       },
+      distance: {
+        version: 1,
+        selectedIndex: 0,
+        custom: {
+          version: 1,
+          type: 'Bicolor',
+          value: 0,
+          valueHigh: 0,
+        },
+      },
       time: {
         version: 1,
         selectedIndex: 0,

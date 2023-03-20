@@ -62,6 +62,7 @@ interface BaseDataLabelsGroup<From extends DataLabelsFrom>
   extends BaseObject<JSONBaseDataLabelsGroup<From, string>> {
   readonly from: From
   readonly choices: SelectableList<DataLabel<string>>
+  readonly saveableChoices: DataLabel<string>[]
 }
 
 interface BaseDropDataLabelsGroup<Drop extends BaseDropIndex>

@@ -46,7 +46,7 @@ export const createFieldFromJSON = (json: JSONFieldVAny): Field => {
             possibleValues: [
               'Sub base',
               'Base',
-              'Plateform',
+              'Platform',
               'Form background',
               'Seat layer',
               'Form layer',

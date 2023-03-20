@@ -6,49 +6,50 @@ import { addOverlaysToZip } from './overlays'
 import { addRawDataToZip } from './rawdata'
 import { addScreenshotsToZip } from './screenshots'
 
-export const createZipFromProject = async (
-  project: MachineProject,
+export const createZipFromEntity = async (
+  entity: MachineProject | MachineReport,
   parameters: {
-    project?: boolean
     overlays?: boolean
     screenshots?: boolean
     rawData?: boolean
     customJSON?: { name: string; json: AnyJSON }
-    additionalFile?: File
+    template?: File
   }
 ) => {
+  const { overlays, screenshots, rawData, template } = parameters
   const zip: Fflate.Zippable = {}
 
-  const json = project.toJSON()
+  let json: JSONMapview | AnyJSON | undefined
+  let projectJson
 
-  await Promise.all([
-    parameters.overlays && addOverlaysToZip(zip, project),
-    parameters.screenshots && addScreenshotsToZip(zip, project, json),
-    parameters.rawData && addRawDataToZip(zip, project),
+  if (entity.kind === 'Project') {
+    projectJson = entity.toJSON()
 
-    parameters.additionalFile && addFileToZip(zip, parameters.additionalFile),
-  ])
-
-  parameters.customJSON
-    ? await addJSONToZip(
-        zip,
-        parameters.customJSON.name,
-        parameters.customJSON.json
-      )
-    : await addProjectToZip(zip, json)
-
-  return zipSync(zip)
-}
-
-const addProjectToZip = async (
-  zip: Fflate.Zippable,
-  jsonProject: JSONMachineProject
-) => {
-  const json: JSONMapview = {
-    version: 1,
-    jsonFileFormat: 'Database from Mapview',
-    project: jsonProject,
+    json = {
+      version: 1,
+      jsonFileFormat: 'Database from Mapview',
+      project: projectJson,
+    } as JSONMapview
+  } else if (parameters.customJSON) {
+    json = parameters.customJSON.json
   }
 
-  return addJSONToZip(zip, 'database.json', json)
+  await Promise.all([
+    overlays && entity.kind === 'Project' && addOverlaysToZip(zip, entity),
+
+    screenshots && addScreenshotsToZip(zip, entity, projectJson),
+
+    rawData && addRawDataToZip(zip, entity),
+
+    template && addFileToZip(zip, template),
+  ])
+
+  json &&
+    (await addJSONToZip(
+      zip,
+      parameters.customJSON?.name || 'database.json',
+      json
+    ))
+
+  return zipSync(zip)
 }

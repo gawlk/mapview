@@ -131,7 +131,7 @@ export const createHeavydynZoneDataLabelsGroupFromJSON = (
 export const selectHeavydynGroupChoiceFromJSON = (
   report: HeavydynReport,
   json: JSONHeavydynReport
-) => {
+) =>
   report.dataLabels.groups.list.forEach((group, index) => {
     const indexD0 = group.choices.list.findIndex(
       (dataLabel) =>
@@ -140,9 +140,6 @@ export const selectHeavydynGroupChoiceFromJSON = (
 
     group.choices.selectIndex(
       json.distinct.dataLabels.list[index].base.choices.selectedIndex ??
-        indexD0 === -1
-        ? 0
-        : indexD0
+        (indexD0 === -1 ? 0 : indexD0)
     )
   })
-}

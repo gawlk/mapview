@@ -1,19 +1,25 @@
 import dayjs from 'dayjs'
 import dedent from 'dedent'
 
-import { currentCategory, findFieldInArray } from '/src/scripts'
+import {
+  currentCategory,
+  findFieldInArray,
+  replaceAllLFToCRLF,
+} from '/src/scripts'
 
 export const heavydynDynatestExporter: HeavydynExporter = {
   name: '.fwd (Dynatest)',
   export: async (project: HeavydynProject) => {
     return new File(
       [
-        `${writeHeader(project)}\n${writeEndHeader()}\n${writePoints(project)
-          ?.map((pointData) => pointData.join('\n'))
-          .join('\n')}`
-          .split('\n')
-          .map((line) => line.padEnd(80, ' '))
-          .join('\n'),
+        replaceAllLFToCRLF(
+          `${writeHeader(project)}\n${writeEndHeader()}\n${writePoints(project)
+            ?.map((pointData) => pointData.join('\n'))
+            .join('\n')}`
+            .split('\n')
+            .map((line) => line.padEnd(80, ' '))
+            .join('\n')
+        ),
       ],
       `${project.reports.selected?.name.toString()}-dynatest.fwd`,
       { type: 'text/plain' }

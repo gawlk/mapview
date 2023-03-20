@@ -36,18 +36,18 @@ export const convertPRJZToHeavydynProjectDistinct = (
     correctionParameters: {
       version: 1,
       load: {
-        version: 1,
+        version: 2,
         active: false,
-        loadReferenceSource: 'Sequence',
+        source: 'Sequence',
         customValue: 65000,
       },
       temperature: {
-        version: 1,
+        version: 2,
         active: false,
-        temperatureFromSource: 'Tair',
+        source: 'Tair',
         average: 'Zone',
         customValue: 0,
-        temperatureTo: 15,
+        reference: 15,
         structureType: 0,
       },
     },
@@ -183,6 +183,12 @@ export const convertPRJZToHeavydynUnits = (json: any) => {
       currentUnit: 'MPa',
       currentPrecision: 0,
       max: 100000000000,
+    },
+    cumSum: {
+      version: 1,
+      currentUnit: '',
+      currentPrecision: 0,
+      max: 100,
     },
   }
 

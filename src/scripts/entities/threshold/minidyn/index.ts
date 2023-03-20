@@ -48,6 +48,15 @@ export const createMinidynThresholdsGroupsFromJSON = (
         }
       ),
     },
+    distance: {
+      unit: units.distance,
+      choices: createSelectableList(
+        [createCustomThreshold(json.distance.custom)] as ThresoldsList,
+        {
+          selectedIndex: json.distance.selectedIndex,
+        }
+      ),
+    },
     time: {
       unit: units.time,
       choices: createSelectableList(

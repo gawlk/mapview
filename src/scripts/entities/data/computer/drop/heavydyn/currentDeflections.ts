@@ -4,6 +4,7 @@ import {
   createDataLabel,
   createDataValue,
   currentCategory,
+  rawCategory,
 } from '/src/scripts'
 
 export const createHeavydynCurrentDeflectionDropDataComputers = (
@@ -22,7 +23,6 @@ export const createHeavydynCurrentDeflectionDropDataComputers = (
               createDataLabel({
                 name: rawLabel.name,
                 unit: rawLabel.unit,
-                unitKey: 'deflection' as HeavydynUnitsNames,
                 category: currentCategory,
               })
             ) - 1
@@ -38,8 +38,7 @@ export const createHeavydynCurrentDeflectionDropDataComputers = (
                 point.data.find(
                   (data) =>
                     data.label.name ===
-                    correctionParameters.temperature.temperatureFromSource
-                      .selected
+                    correctionParameters.temperature.source.selected
                 )?.value.value
             )
           )
@@ -68,24 +67,24 @@ export const createHeavydynCurrentDeflectionDropDataComputers = (
 
                   let value = rawData.value.value
 
-                  const loadData = drop.data.find(
-                    (data) => data.label.name === 'Load'
+                  const currentLoad = drop.data.find(
+                    (data) =>
+                      data.label.name === 'Load' &&
+                      data.label.category === currentCategory
                   )
 
-                  if (loadData && correctionParameters.load.active) {
-                    const loadRef =
-                      correctionParameters.load.loadReferenceSource.selected ===
-                        'Sequence' &&
-                      dropIndexValue &&
-                      dropIndexValue.unit === loadData.label.unit
-                        ? dropIndexValue.value
-                        : correctionParameters.load.customValue.value
+                  const rawLoad = drop.data.find(
+                    (data) =>
+                      data.label.name === 'Load' &&
+                      data.label.category === rawCategory
+                  )
 
-                    value *= loadRef / loadData.value.value
+                  if (currentLoad && rawLoad) {
+                    value *= currentLoad.value.value / rawLoad.value.value
                   }
 
-                  const tempData =
-                    correctionParameters.temperature.average.selected ===
+                  const sourceTemperature =
+                    correctionParameters.temperature.source.selected ===
                     'Custom'
                       ? correctionParameters.temperature.customValue.value
                       : correctionParameters.temperature.average.selected ===
@@ -96,15 +95,19 @@ export const createHeavydynCurrentDeflectionDropDataComputers = (
                       ? zoneSourceTempAverage
                       : reportSourceTempAverage
 
-                  if (tempData && correctionParameters.temperature.active) {
+                  if (
+                    sourceTemperature &&
+                    correctionParameters.temperature.active
+                  ) {
                     const k =
                       correctionParameters.temperature.structureType.selected
                         ?.k || 0
 
-                    const tempTo =
-                      correctionParameters.temperature.temperatureTo.value
+                    const siRefTemp =
+                      correctionParameters.temperature.reference.value
 
-                    value *= 1 - (k * tempData) / tempTo
+                    value /=
+                      1 + (k * (sourceTemperature - siRefTemp)) / siRefTemp
                   }
 
                   currentData.value.updateValue(value)

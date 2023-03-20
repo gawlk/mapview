@@ -5,86 +5,81 @@ import {
   createDataValue,
   currentCategory,
   indicatorsCategory,
-  rawCategory,
 } from '/src/scripts'
 
 export const createCumSumDataComputer = (report: HeavydynReport) => {
-  const d0DataLabel = report.dataLabels.findIn('Drop', 'D0', currentCategory)
+  const currentD0DataLabel = report.dataLabels.findIn(
+    'Drop',
+    'D0',
+    currentCategory
+  )
 
-  const loadDataLabel = report.dataLabels.findIn('Drop', 'Load', rawCategory)
+  const currentLoadDataLabel = report.dataLabels.findIn(
+    'Drop',
+    'Load',
+    currentCategory
+  )
+
+  const numberOfDrops = report.dataLabels.groups.list[0].indexes.list.length
 
   return createDataComputer({
     label:
-      d0DataLabel &&
-      loadDataLabel &&
+      currentD0DataLabel &&
+      currentLoadDataLabel &&
       report.dataLabels.pushTo(
         'Drop',
         createDataLabel({
           name: 'Cumulative sum',
           category: indicatorsCategory,
+          unit: report.project.units.cumSum,
         })
       ),
     compute: (label) => {
-      report.zones.forEach((zone) =>
-        zone.points.forEach((point) => {
-          const d0s = point.drops
-            .map((drop) => {
-              const d0 = drop.data.find((data) => data.label === d0DataLabel)
+      const groupedDropsByDropIndex = (
+        report.line.sortedPoints as HeavydynPoint[]
+      ).reduce((grouped, point) => {
+        point.drops.forEach((drop, dropIndex) => grouped[dropIndex].push(drop))
 
-              const load = drop.data.find(
-                (data) => data.label === loadDataLabel
-              )
+        return grouped
+      }, new Array(numberOfDrops).fill(null).map(() => []) as HeavydynDrop[][])
 
-              return d0 && load ? d0.value.value : undefined
-            })
-            .flat(Infinity)
-            .filter((v) => typeof v === 'number') as number[]
+      groupedDropsByDropIndex.forEach((drops) => {
+        const d0OnLoadList = drops.map((drop) => {
+          const d0 = drop.data.find((data) => data.label === currentD0DataLabel)
 
-          const averageD0 = average(d0s)
+          const load = drop.data.find(
+            (data) => data.label === currentLoadDataLabel
+          )
 
-          let lastCumSum = 0
-
-          point.drops.forEach((drop, index) => {
-            const data =
-              drop.data.find((data) => data.label === label) ||
-              drop.data[drop.data.push(createDataValue(0, label)) - 1]
-
-            if (index > 0) {
-              const value = (lastCumSum + d0s[index] - averageD0) / averageD0
-
-              lastCumSum = value
-
-              data.value.updateValue(value)
-            }
-          })
+          return d0 && load
+            ? (d0.value.value / load.value.value) * 100000000
+            : undefined
         })
-      )
+
+        const averageD0OnLoad = average(
+          d0OnLoadList.flat().filter((v) => typeof v === 'number') as number[]
+        )
+
+        let lastCumSum = 0
+
+        drops.forEach((drop, index) => {
+          const data =
+            drop.data.find((data) => data.label === label) ||
+            drop.data[drop.data.push(createDataValue(0, label)) - 1]
+
+          const d0OnLoad = d0OnLoadList[index]
+
+          if (typeof d0OnLoad === 'number') {
+            const value = index
+              ? d0OnLoad + lastCumSum - averageD0OnLoad
+              : lastCumSum
+
+            lastCumSum = value
+
+            data.value.updateValue(Math.round(value * 10) / 10)
+          }
+        })
+      })
     },
   })
-
-  // Sans unité
-  //
-  //
-  //
-  // const unitName: HeavydynUnitsNames = 'deflection'
-  // const labels = report.dataLabels.groups.list[0].choices.list
-  // return {
-  //   label: createDataLabel(
-  //     'Cumulative Sum',
-  //     units[unitName],
-  //     unitName,
-  //     indicatorsCategory
-  //   ),
-  //   createDataValueTuple: function () {
-  //     if (this.label) {
-  //       const dataValue = createDataValue(0, this.label)
-  //       const update = () => dataValue.value.updateValue(0)
-  //       // Cumsum ZH = cumsum
-  //       // check excel pour la formule
-  //       return [dataValue, update]
-  //     } else {
-  //       return []
-  //     }
-  //   },
-  // }
 }

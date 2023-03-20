@@ -129,7 +129,7 @@ export const createMinidynZoneDataLabelsGroupFromJSON = (
 export const selectMinidynGroupChoiceFromJSON = (
   report: MinidynReport,
   json: JSONMinidynReport
-) => {
+) =>
   report.dataLabels.groups.list.forEach((group, index) => {
     const indexModulus = group.choices.list.findIndex(
       (dataLabel) => dataLabel.name === 'Modulus'
@@ -137,9 +137,6 @@ export const selectMinidynGroupChoiceFromJSON = (
 
     group.choices.selectIndex(
       json.distinct.dataLabels.list[index].base.choices.selectedIndex ??
-        indexModulus === -1
-        ? 0
-        : indexModulus
+        (indexModulus === -1 ? 0 : indexModulus)
     )
   })
-}

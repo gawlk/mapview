@@ -1,4 +1,9 @@
-import mapboxgl, { Map, Marker, NavigationControl } from 'mapbox-gl'
+import mapboxgl, {
+  LngLatBounds,
+  Map,
+  Marker,
+  NavigationControl,
+} from 'mapbox-gl'
 
 import store from '/src/store'
 
@@ -179,4 +184,36 @@ const addBuildingsToMap = (map: mapboxgl.Map) => {
     },
     labelLayerId
   )
+}
+
+export const flyToPoints = (
+  map: mapboxgl.Map | null | undefined,
+  points: BasePoint[]
+): void => {
+  const bounds = new LngLatBounds()
+
+  points.forEach((point) => {
+    if (point.settings.isVisible && point.marker) {
+      bounds.extend(point.marker.getLngLat())
+    }
+  })
+
+  const generatePadding = (higher: number, lower: number) =>
+    Math.max((higher - lower) / 4, 0.0001)
+
+  const horizontalPadding = generatePadding(bounds.getEast(), bounds.getWest())
+
+  const verticalPadding = generatePadding(bounds.getNorth(), bounds.getSouth())
+
+  const sw = {
+    lat: bounds.getSouth() - verticalPadding,
+    lng: bounds.getWest() + horizontalPadding,
+  }
+
+  const ne = {
+    lat: bounds.getNorth() + verticalPadding,
+    lng: bounds.getEast() - horizontalPadding,
+  }
+
+  map?.fitBounds(new LngLatBounds(sw, ne))
 }

@@ -1,3 +1,5 @@
+import { Unzipped } from 'fflate'
+
 export const reservedFileNameWords = (() => {
   const words = ['CON', 'PRN', 'AUX', 'NUL']
 
@@ -15,6 +17,12 @@ export const convertFileToDataURL = (file: File) =>
     reader.onload = () => resolve(reader.result as string)
     reader.onerror = (error) => reject(error)
   })
+
+export const convertUint8arrayToXML = (array: Uint8Array) => {
+  const stringified = new TextDecoder().decode(array)
+  const parser = new DOMParser()
+  return parser.parseFromString(stringified, 'text/xml')
+}
 
 export const convertJSONToFile = (json: AnyJSON, name: string) =>
   new File([JSON.stringify(json, null, 2)], name, {

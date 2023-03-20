@@ -39,25 +39,28 @@
       .getElementsByClassName('mapboxgl-control-container')[0]
       .classList.add('hidden')
 
-    Array.from(map.getElementsByClassName('mapview-icon')).forEach((icon) => {
-      ;(icon as HTMLSpanElement).style.marginBottom = '1rem'
-    })
+    Array.from(map.getElementsByClassName('mapview-icon')).forEach(
+      (icon) => ((icon as HTMLSpanElement).style.marginBottom = '1rem')
+    )
 
-    const canvasFrom = await html2canvas(map, {
+    const canvas = await html2canvas(map, {
       logging: false,
     })
 
-    state.image = canvasFrom.toDataURL()
-
-    Array.from(map.getElementsByClassName('mapview-icon')).forEach((icon) => {
-      ;(icon as HTMLSpanElement).style.marginBottom = ''
-    })
+    Array.from(map.getElementsByClassName('mapview-icon')).forEach(
+      (icon) => ((icon as HTMLSpanElement).style.marginBottom = '')
+    )
 
     map
       .getElementsByClassName('mapboxgl-control-container')[0]
       .classList.remove('hidden')
 
     state.screenshooting = false
+
+    state.image = canvas.toDataURL(
+      'image/jpeg',
+      map?.clientWidth > 1000 ? 0.75 : 1
+    )
   }
 
   const save = () => {
@@ -78,7 +81,7 @@
 </script>
 
 <template>
-  <div class="flex space-x-2">
+  <div class="flex space-x-2" id="div">
     <div
       class="flex w-full space-x-2"
       v-if="
@@ -111,7 +114,7 @@
       :rightIcon="IconArrowSmRight"
       @click="screenshot"
     >
-      {{ t('Photograph the map') }}
+      {{ t('Take a screenshot') }}
     </Button>
     <Button :icon="IconPlus" @click="file.click()">
       {{ t('Import an image') }}
@@ -138,6 +141,6 @@
 
 <i18n lang="yaml">
 fr:
-  'Photograph the map': 'Photographier la carte'
+  'Take a screenshot': "Prendre une capture d'écran"
   'View the album': "Voir l'album"
 </i18n>

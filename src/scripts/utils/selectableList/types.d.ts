@@ -4,7 +4,8 @@ interface SelectableList<T, L extends T[] = T[]> {
   readonly selectIndex: (index: number | null) => void
   readonly getSelectedIndex: () => number | null
   readonly toJSON: <TJSON, LJSON extends TJSON[] = TJSON[]>(
-    transform: (value: T) => LJSON[number]
+    transform: (value: T) => LJSON[number],
+    filter?: (value: T) => boolean
   ) => JSONSelectableList<TJSON, LJSON>
 }
 

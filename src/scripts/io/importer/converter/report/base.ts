@@ -1,4 +1,4 @@
-import { currentCategory, icons } from '/src/scripts'
+import { currentCategory, icons, indicatorsCategory } from '/src/scripts'
 
 import { convertPRJZObjectToFields } from '../shared'
 
@@ -77,21 +77,21 @@ export const convertPRJZToBaseReport = (
                       category: currentCategory.name,
                       version: 1,
                     },
-                    ...(() => {
-                      const indexD0 = parameters.dropChoices.findIndex(
-                        (choice) => choice.name === 'D0'
-                      )
-
-                      return parameters.dropChoices
-                        .slice(indexD0, indexD0 + 3)
-                        .map(
-                          (choice): JSONTableDataLabelsValues => ({
-                            version: 1,
-                            name: choice.name,
-                            category: currentCategory.name,
-                          })
-                        )
-                    })(),
+                    {
+                      name: 'D0',
+                      category: currentCategory.name,
+                      version: 1,
+                    },
+                    {
+                      name: 'Curvature radius (Front)',
+                      category: indicatorsCategory.name,
+                      version: 1,
+                    },
+                    {
+                      name: 'BLI (Base layer index)',
+                      category: indicatorsCategory.name,
+                      version: 1,
+                    },
                   ]
                 case 'Maxidyn':
                 case 'Minidyn':
@@ -145,7 +145,13 @@ export const convertPRJZToBaseReport = (
           {
             version: 1,
             from: 'Zone',
-            dataLabels: [],
+            dataLabels: [
+              {
+                name: 'Characteristic deflection',
+                version: 1,
+                category: indicatorsCategory.name,
+              },
+            ],
           },
         ],
       },

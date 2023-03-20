@@ -1,18 +1,17 @@
-import { createZipFromProject } from '/src/scripts'
+import { createZipFromEntity } from '/src/scripts'
 
 export const mpvzExporter: MachineExporter = {
   name: 'MPVZ',
   export: async (project: MachineProject) =>
     new File(
       [
-        await createZipFromProject(project, {
-          project: true,
+        await createZipFromEntity(project, {
           overlays: true,
           rawData: true,
           screenshots: true,
         }),
       ],
-      `${project.name.toString().replaceAll(' ', '_')}.mpvz`,
+      `${project.name.toString()}.mpvz`,
       { type: 'blob' }
     ),
 }

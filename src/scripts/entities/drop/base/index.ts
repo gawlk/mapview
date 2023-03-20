@@ -29,7 +29,13 @@ export const createBaseDropFromJSON = <
     toBaseJSON: function () {
       return {
         version: json.version,
-        data: this.data.map((data) => data.toJSON()),
+        data: this.data
+          .filter((data) =>
+            this.point.zone.report.dataLabels.groups.list[0].saveableChoices.includes(
+              data.label
+            )
+          )
+          .map((data) => data.toJSON()),
         index: json.index,
       }
     },

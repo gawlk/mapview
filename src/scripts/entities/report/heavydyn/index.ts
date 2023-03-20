@@ -99,6 +99,7 @@ export const createHeavydynReportFromJSON = (
             modulus: convertThresholdsConfigurationToJSON(
               thresholdGroup.modulus
             ),
+            cumSum: convertThresholdsConfigurationToJSON(thresholdGroup.cumSum),
           },
         },
       }
@@ -142,7 +143,7 @@ export const createHeavydynReportFromJSON = (
     createBLIDataComputer(report),
     createMLIDataComputer(report),
     createLLIDataComputer(report),
-    ...createHeavydynSurfaceModulusDataComputers(report),
+    createHeavydynSurfaceModulusDataComputers(report),
     createCharacteristicDeflectionComputer(report),
     ...createCurvatureRadiusDataComputers(report),
     createCumSumDataComputer(report),

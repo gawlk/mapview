@@ -65,13 +65,13 @@
 <template>
   <div>
     <progress
-      class="bg-orange w-full rounded-full bg-gray-100 [&::-webkit-progress-bar]:rounded-full [&::-webkit-progress-bar]:bg-gray-100 [&::-webkit-progress-value]:rounded-full [&::-moz-progress-bar]:rounded-full"
+      class="bg-orange w-full rounded-full bg-gray-100 [&::-moz-progress-bar]:rounded-full [&::-webkit-progress-bar]:rounded-full [&::-webkit-progress-bar]:bg-gray-100 [&::-webkit-progress-value]:rounded-full"
       :class="[
         state.state === 'loading'
           ? '[&::-moz-progress-bar]:bg-yellow-600'
           : state.state === 'error'
-          ? '[&::-webkit-progress-value]:bg-red-600 [&::-moz-progress-bar]:bg-red-600'
-          : '[&::-webkit-progress-value]:bg-green-600 [&::-moz-progress-bar]:bg-green-600',
+          ? '[&::-moz-progress-bar]:bg-red-600 [&::-webkit-progress-value]:bg-red-600'
+          : '[&::-moz-progress-bar]:bg-green-600 [&::-webkit-progress-value]:bg-green-600',
       ]"
       :value="state.progress"
       max="100"

@@ -1,29 +1,56 @@
 import { getBrowserLocale, translate } from '/src/locales'
 
 import {
+  convertUint8arrayToXML,
   convertValueFromUnitAToUnitB,
   createMathNumber,
-  createZipFromProject,
+  createZipFromEntity,
+  unzipFile,
 } from '/src/scripts'
 
 export const mrvzExporter = {
   name: '.mvrz (Excel)',
-  export: async (project: MachineProject, template?: File) =>
-    new File(
-      [
-        await createZipFromProject(project, {
-          rawData: true,
-          screenshots: true,
-          customJSON: {
-            name: 'database.json',
-            json: createMVRZJson(project),
-          },
-          additionalFile: template,
-        }),
-      ],
+  export: async (project: MachineProject, template?: File) => {
+    let needsRawData = true
+
+    if (template) {
+      const UnzippedTemplate = await unzipFile(template)
+
+      const xml = convertUint8arrayToXML(
+        UnzippedTemplate['xl/worksheets/sheet1.xml']
+      )
+
+      const rows = Array.from(
+        xml.getElementsByTagName('sheetData')[0].getElementsByTagName('row')
+      )
+
+      const currentRow = rows.find((row) => row.getAttribute('r') === '3')
+
+      const cell = Array.from(currentRow?.getElementsByTagName('c') || []).find(
+        (cell) => cell.getAttribute('r') === 'B3'
+      )
+
+      needsRawData = cell?.firstChild?.firstChild?.nodeValue !== '0' // not sending raw data only if the value we get is false
+    }
+
+    return new File(
+      project.reports.selected
+        ? [
+            await createZipFromEntity(project.reports.selected, {
+              rawData: needsRawData,
+              screenshots: true,
+              customJSON: {
+                name: 'database.json',
+                json: createMVRZJson(project),
+              },
+              template: template,
+            }),
+          ]
+        : [],
       `${project.name.toString()}_${project.reports.selected?.name.toString()}.mvrz`,
       { type: 'blob' }
-    ),
+    )
+  },
 }
 
 const generateInformationFromFields = (
@@ -147,6 +174,10 @@ const generateDropData = (
 
 const generateZoneData = (zones: MachineZone[]): ExcelJson =>
   zones.reduce<ExcelJson>((a, zone, index) => {
+    const { points } = zone as BaseZone
+
+    const visiblePoints = points.filter((point) => point.checkVisibility)
+
     const Z = 'Z' + (index + 1)
 
     return {
@@ -155,13 +186,15 @@ const generateZoneData = (zones: MachineZone[]): ExcelJson =>
       ...zone.data.reduce<ExcelJson>(
         (prev, data) => ({
           ...prev,
-          [Z + '_' + toPascalCase(data.label.name)]: data.value.value,
+          [Z + '_' + toPascalCase(data.label.name)]: data.value.unit
+            ? data.value.getValueAs(data.value.unit.currentUnit)
+            : data.value.value,
         }),
         {}
       ),
-      ...generatePointInformation(zone.points, Z + '_Pi_'),
-      ...generatePointData(zone.points, Z + '_Pi_'),
-      ...generateDropData(zone.points, Z + '_Pi_D'),
+      ...generatePointInformation(visiblePoints, Z + '_Pi_'),
+      ...generatePointData(visiblePoints, Z + '_Pi_'),
+      ...generateDropData(visiblePoints, Z + '_Pi_D'),
     }
   }, {})
 
@@ -323,19 +356,21 @@ const generateHeavydynData = (project: HeavydynProject): ExcelJson => {
     ...generateCalibrations(project.calibrations),
     ...{
       [`CorrectionParameters_Load_Active`]: load.active,
-      [`CorrectionParameters_Load_CustomValue`]: load.customValue.value,
+      [`CorrectionParameters_Load_CustomValue`]: load.customValue.unit
+        ? load.customValue.getValueAs(load.customValue.unit.currentUnit)
+        : load.customValue.value,
       [`CorrectionParameters_Load_LoadReferenceSource`]:
-        load.loadReferenceSource.selected || '',
+        load.source.selected || '',
 
       [`CorrectionParameters_Temperature_Active`]: temperature.active,
       [`CorrectionParameters_Temperature_TemperatureFromSource`]:
-        temperature.temperatureFromSource.selected || '',
+        temperature.source.selected || '',
       [`CorrectionParameters_Temperature_Average`]:
         temperature.average.selected || '',
       [`CorrectionParameters_Temperature_CustomValue`]:
         temperature.customValue.value,
-      [`CorrectionParameters_Temperature_TemperatureTo`]:
-        temperature.temperatureTo.value,
+      [`CorrectionParameters_Temperature_ReferenceTemperature`]:
+        temperature.reference.value,
       [`CorrectionParameters_Temperature_StructureType_Name`]:
         temperature.structureType.selected?.name || '',
       [`CorrectionParameters_Temperature_StructureType_K`]:
@@ -396,14 +431,16 @@ const createBaseJson = (project: MachineProject): ExcelJson => {
 
 const createMVRZJson = (project: MachineProject): ExcelJson => {
   if (!project.reports.selected) return {}
+
+  const { sortedPoints } = project.reports.selected.line
+
+  const visiblePoints = sortedPoints.filter((point) => point.checkVisibility)
+
   return {
     ...createBaseJson(project),
-    ...generatePointInformation(
-      project.reports.selected.line.sortedPoints,
-      'Pi_'
-    ),
-    ...generatePointData(project.reports.selected.line.sortedPoints, 'Pi_'),
-    ...generateDropData(project.reports.selected.line.sortedPoints, 'Pi_D'),
+    ...generatePointInformation(visiblePoints, 'Pi_'),
+    ...generatePointData(visiblePoints, 'Pi_'),
+    ...generateDropData(visiblePoints, 'Pi_D'),
     ...generateZoneData(project.reports.selected.zones),
     ...generateSpecificMachineData(project),
   }

@@ -74,10 +74,10 @@ export const createMaxidynReportFromJSON = (
             deflection: convertThresholdsConfigurationToJSON(
               thresholdGroup.deflection
             ),
+            force: convertThresholdsConfigurationToJSON(thresholdGroup.force),
             distance: convertThresholdsConfigurationToJSON(
               thresholdGroup.distance
             ),
-            force: convertThresholdsConfigurationToJSON(thresholdGroup.force),
             modulus: convertThresholdsConfigurationToJSON(
               thresholdGroup.modulus
             ),

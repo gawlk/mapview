@@ -47,7 +47,6 @@ export const createBLIDataComputer = (report: HeavydynReport) => {
           name: 'BLI (Base layer index)',
           shortName: 'BLI',
           unit: d0DataLabel.unit,
-          unitKey: 'deflection' as HeavydynUnitsNames,
           category: indicatorsCategory,
         })
       ),
@@ -78,7 +77,6 @@ export const createMLIDataComputer = (report: HeavydynReport) => {
           name: 'MLI (Middle layer index)',
           shortName: 'MLI',
           unit: d300DataLabel.unit,
-          unitKey: 'deflection' as HeavydynUnitsNames,
           category: indicatorsCategory,
         })
       ),
@@ -109,7 +107,6 @@ export const createLLIDataComputer = (report: HeavydynReport) => {
           name: 'LLI (Lower layer index)',
           shortName: 'LLI',
           unit: d600DataLabel.unit,
-          unitKey: 'deflection' as HeavydynUnitsNames,
           category: indicatorsCategory,
         })
       ),

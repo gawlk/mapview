@@ -261,7 +261,13 @@ export const createBasePointFromJSON = <
         number: this.number,
         date: this.date.toJSON(),
         coordinates: this.marker?.getLngLat() || json.coordinates,
-        data: this.data.map((data) => data.toJSON()),
+        data: this.data
+          .filter((data) =>
+            this.zone.report.dataLabels.groups.list[1].saveableChoices.includes(
+              data.label
+            )
+          )
+          .map((data) => data.toJSON()),
         information: this.information.map((field) => field.toJSON()),
         drops: this.drops.map((drop) => drop.toJSON()),
       }

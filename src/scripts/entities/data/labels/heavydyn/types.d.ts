@@ -78,9 +78,3 @@ interface HeavydynTestDataLabelsGroup extends BaseTestDataLabelsGroup {
 interface HeavydynZoneDataLabelsGroup extends BaseZoneDataLabelsGroup {
   toJSON: () => JSONHeavydynZoneDataLabelsGroup
 }
-
-// interface HeavydynTableDataLabelsParameters
-//   extends BaseTableDataLabelsParameters {
-//   readonly group: HeavydynDataLabelsGroup
-//   index?: HeavydynDropIndex
-// }

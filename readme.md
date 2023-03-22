@@ -68,3 +68,11 @@ You can have a preview of what you will get in prod by doing this command:
 ```
 pnpm prod
 ```
+
+
+## test
+
+### add an extendMatcher
+
+1. Create your matcher on folder `src/extendMatchers`
+2. add the new file in [vite config file](./vite.config.js) in test/setupFiles array

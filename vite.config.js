@@ -137,5 +137,6 @@ export default defineConfig({
   test: {
     environment: 'edge-runtime',
     exclude: [...configDefaults.exclude, '**/e2e-tests/**'],
+    setupFiles: ['./src/extendMatchers/toBeSameLineOrder.ts'],
   },
 })

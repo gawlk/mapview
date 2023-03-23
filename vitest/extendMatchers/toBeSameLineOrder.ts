@@ -24,12 +24,12 @@ export const toBeSameLineOrder = async (
   }
 
   const actualLignes = actualText
-    .replace('\r', '')
-    .split('\t')
+    .replaceAll('\r', '')
+    .split('\n')
     .filter((ligne) => ligne.length > 0)
   const expectedLignes = expectedText
-    .replace('\r', '')
-    .split('\t')
+    .replaceAll('\r', '')
+    .split('\n')
     .filter((ligne) => ligne.length > 0)
 
   if (actualLignes.length !== expectedLignes.length) {

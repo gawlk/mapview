@@ -1,7 +1,7 @@
 import { readFileSync, readdirSync, statSync } from 'fs'
 import { describe, expect, test } from 'vitest'
 
-import { importFile } from '/src/scripts'
+import { importFile, sleep } from '/src/scripts'
 
 import { heavydynPDXExporter } from '../report/heavydyn/pdx'
 
@@ -47,10 +47,11 @@ const exportFile = async (dirPath: string, folderName?: string) => {
 
       switch (extension) {
         case 'mpvz':
-          const prjt = await importFile(file)
+          const project = await importFile(file)
+          project?.addToMap()
           filesGroup.mpvz = {
             file: file,
-            project: prjt,
+            project,
           }
           break
         case 'fwd':
@@ -80,14 +81,16 @@ describe('Test exports', async () => {
   const path = `${__dirname}/files`
   const files = readdirSync(path)
 
-  for (const file of files) {
-    const subPath = `${path}/${file}`
-    const stats = statSync(subPath)
+  await Promise.all(
+    files.map(async (file) => {
+      const subPath = `${path}/${file}`
+      const stats = statSync(subPath)
 
-    if (stats.isDirectory()) {
-      testData.push(...(await exportFile(subPath, file)))
-    }
-  }
+      if (stats.isDirectory()) {
+        testData.push(...(await exportFile(subPath, file)))
+      }
+    })
+  )
 
   test.each(
     testData.map((data) => [data.directoryName, data.mpvz.project, data.pdx])

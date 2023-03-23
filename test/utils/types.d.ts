@@ -1,0 +1,3 @@
+interface FileTransformerOpt {
+  removeBlankLine?: boolean
+}

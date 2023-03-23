@@ -1,3 +1,4 @@
+import { fileToStringArray, getKey } from 'test/utils/'
 import { expect } from 'vitest'
 
 interface CustomMatchers<R = unknown> {
@@ -8,29 +9,8 @@ export const toBeSameLineOrder = async (
   actual: File | string,
   expected: File | string
 ) => {
-  let actualText
-  let expectedText
-
-  if (typeof actual === 'string') {
-    actualText = actual
-  } else {
-    actualText = await actual.text()
-  }
-
-  if (typeof expected === 'string') {
-    expectedText = expected
-  } else {
-    expectedText = await expected.text()
-  }
-
-  const actualLignes = actualText
-    .replaceAll('\r', '')
-    .split('\n')
-    .filter((ligne) => ligne.length > 0)
-  const expectedLignes = expectedText
-    .replaceAll('\r', '')
-    .split('\n')
-    .filter((ligne) => ligne.length > 0)
+  const actualLignes = await fileToStringArray(actual)
+  const expectedLignes = await fileToStringArray(expected)
 
   if (actualLignes.length !== expectedLignes.length) {
     return {
@@ -43,13 +23,11 @@ export const toBeSameLineOrder = async (
 
   for (let i = 0; i < actualLignes.length && sameOrder; i++) {
     sameOrder =
-      sameOrder &&
-      actualLignes[i].split('=')[0].trim() ===
-        expectedLignes[i].split('=')[0].trim()
+      sameOrder && getKey(actualLignes[i]) === getKey(expectedLignes[i])
   }
 
   return {
-    message: () => `Received Files is `,
+    message: () => `Received Files ${sameOrder ? 'is' : "isn't"} in same order`,
     pass: sameOrder,
   }
 }

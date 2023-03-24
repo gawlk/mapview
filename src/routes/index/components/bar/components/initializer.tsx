@@ -68,7 +68,7 @@ export default (props: Props) => {
       >
         {t('Drop a file here or click here to choose one')}
       </DragAndDrop>
-      <Button onClick={openDemo} full leftIcon={IconTablerCarrot}>
+      <Button onClick={openDemo} full leftIcon={IconTablerPlayerPlay}>
         {t('Try demo')}
       </Button>
     </div>

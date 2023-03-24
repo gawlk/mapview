@@ -33,7 +33,7 @@ export default () => {
               leftIcon: IconTablerList,
               full: true,
             }}
-            size="small"
+            position="relative"
             options={{
               selected: (dropTableParams?.index?.displayedIndex || 1) - 1,
               list:

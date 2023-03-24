@@ -1,16 +1,10 @@
 import { saveableBooleanPropsKeysObject } from '/src/components'
 
-export const inputBooleanPropsKeysObject: BooleanPropsKeysObject<InputPropsOnly> =
+export const dialogDateBooleanPropsKeysObject: BooleanPropsKeysObject<DialogDatePropsOnly> =
   {
     ...saveableBooleanPropsKeysObject,
-
     value: true,
-
     max: true,
     min: true,
-
-    debounce: true,
-    onInput: true,
-
-    long: true,
+    reset: true,
   }

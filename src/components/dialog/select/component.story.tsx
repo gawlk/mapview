@@ -7,7 +7,7 @@ export default () => {
   return (
     <Label label="Select (Dialog)">
       <DialogSelect
-        title="title"
+        title="select fixed"
         button={{
           label: 'Value',
         }}
@@ -22,7 +22,42 @@ export default () => {
         }}
       />
       <DialogSelect
-        title="title"
+        title="select relative"
+        button={{
+          label: 'Value',
+        }}
+        position="relative"
+        options={{
+          selected: state.value1,
+          list: ['1', '2', '3'],
+        }}
+        onClose={(value) => {
+          console.log(value)
+
+          value && setState('value1', value)
+        }}
+      />
+      <DialogSelect
+        title="select search fixed"
+        button={{
+          label: 'Value',
+        }}
+        search={{
+          placeholder: 'Value',
+        }}
+        options={{
+          selected: state.value1,
+          list: ['1', '2', '3'],
+        }}
+        onClose={(value) => {
+          console.log(value)
+
+          value && setState('value1', value)
+        }}
+      />
+      <DialogSelect
+        title="select search relative"
+        position="relative"
         button={{
           label: 'Value',
         }}

@@ -77,6 +77,7 @@ export default (props: Props) => {
     <div class="flex flex-1 space-x-2">
       <Interactive
         kind="focusable"
+        rightIcon={props.readOnly ? IconTablerLock : undefined}
         {...interactiveProps}
         class={[
           'relative cursor-text',
@@ -85,9 +86,11 @@ export default (props: Props) => {
         ]}
         onClick={() => input?.focus()}
       >
-        <input
+        <Dynamic
+          component={props.long ? 'textarea' : 'input'}
           class={classPropToString([
             needsFixing() && 'text-red-600',
+            props.long && 'min-h-[50px]',
             'flex-1 bg-transparent text-left placeholder:text-stone-400 focus:outline-none',
           ])}
           id={id}

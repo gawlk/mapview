@@ -2,7 +2,9 @@ import { useI18n } from '@solid-primitives/i18n'
 
 import store from '/src/store'
 
-import { Dialog, Input, Label } from '/src/components'
+import { dateToString } from '/src/scripts'
+
+import { Button, Dialog, Input, Label } from '/src/components'
 
 export default () => {
   const [t] = useI18n()
@@ -28,6 +30,11 @@ export default () => {
         text: t('View information'),
         full: true,
       }}
+      footer={
+        <div class="flex justify-end">
+          <Button rightIcon={IconTablerDoorExit}>{t('Save and close')}</Button>
+        </div>
+      }
     >
       <div class="space-y-8">
         <For each={bulks()}>
@@ -42,12 +49,7 @@ export default () => {
                     case 'object':
                       switch (field.value.kind) {
                         case 'dateValue':
-                          value = new Date(
-                            field.value.value
-                          ).toLocaleDateString()
-
-                          console.log(value)
-
+                          value = field.value.value.split('T')[0]
                           type = 'date'
                           break
                         default:
@@ -64,7 +66,8 @@ export default () => {
 
                   const isInput =
                     typeof field.value === 'object'
-                      ? field.value.kind === 'dateValue'
+                      ? field.value.kind === 'dateValue' ||
+                        field.value.kind === 'longString'
                       : typeof value === 'string' || typeof value === 'number'
 
                   return (
@@ -73,7 +76,11 @@ export default () => {
                         <Input
                           full
                           label={t(field.label)}
-                          readOnly={field.settings.readOnly}
+                          readOnly={type === 'date' || field.settings.readOnly}
+                          long={
+                            typeof field.value === 'object' &&
+                            field.value.kind === 'longString'
+                          }
                           value={value as string | number}
                           type={type}
                         />

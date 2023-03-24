@@ -1,6 +1,6 @@
 import { addLocationToID, localStorageSetItem } from '/src/scripts'
 
-import { Button, Dialog, Input } from '/src/components'
+import { Button, Dialog, Input, classPropToString } from '/src/components'
 
 export interface Props
   extends MergePropsWithHTMLProps<
@@ -35,8 +35,11 @@ export default (props: Props) => {
     }
   }
 
+  const isRelative = createMemo(() => props.position === 'relative')
+
   return (
     <Dialog
+      // TODO: Clean props before spreading
       {...props}
       button={mergeProps(
         {
@@ -65,19 +68,27 @@ export default (props: Props) => {
       sticky={
         props.search
           ? () => (
-              <Input
-                {...props.search}
-                leftIcon={IconTablerListSearch}
-                label="Name"
-                full
-                class={['flex-none', props.search?.class]}
-                onInput={(value?: string) => setState('input', value)}
-              />
+              <div
+                class={classPropToString([isRelative() ? 'px-2 pt-2' : 'px-4'])}
+              >
+                <Input
+                  {...props.search}
+                  leftIcon={IconTablerListSearch}
+                  label="Name"
+                  full
+                  class={['flex-none', props.search?.class]}
+                  onInput={(value?: string) => setState('input', value)}
+                />
+              </div>
             )
           : undefined
       }
       form={
-        <div class="space-y-2">
+        <div
+          class={classPropToString([
+            isRelative() ? 'space-y-1.5' : 'space-y-2',
+          ])}
+        >
           {() => {
             const list = createMemo(() =>
               (props.options.list || []).map(optionToObject).filter(

@@ -14,5 +14,7 @@ interface InputPropsOnly extends SaveableProps {
 
   debounce?: number
 
+  long?: boolean
+
   onInput?: (value?: string, event?: InputEvent) => void
 }

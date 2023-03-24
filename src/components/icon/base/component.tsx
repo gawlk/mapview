@@ -64,6 +64,8 @@ export default (props: Props) => {
                 return 'text-stone-500'
               case 'red':
                 return 'text-red-500'
+              case 'green':
+                return 'text-green-500'
               default:
                 return 'text-stone-400'
             }

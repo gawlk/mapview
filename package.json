@@ -12,34 +12,35 @@
   "license": "MIT",
   "devDependencies": {
     "@iconify-json/heroicons-solid": "^1.1.7",
-    "@iconify-json/tabler": "^1.1.67",
+    "@iconify-json/tabler": "^1.1.68",
     "@trivago/prettier-plugin-sort-imports": "^4.1.1",
     "@types/dedent": "^0.7.0",
     "@types/mapbox-gl": "^2.7.10",
-    "@types/node": "^18.15.3",
+    "@types/node": "^18.15.5",
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.21",
-    "prettier": "^2.8.4",
-    "prettier-plugin-tailwindcss": "^0.2.4",
+    "prettier": "^2.8.6",
+    "prettier-plugin-tailwindcss": "^0.2.5",
     "tailwindcss": "^3.2.7",
-    "typescript": "^4.9.5",
+    "typescript": "^5.0.2",
     "unplugin-auto-import": "^0.15.1",
     "unplugin-icons": "^0.15.3",
-    "vite": "^4.1.4",
+    "vite": "^4.2.1",
     "vite-plugin-pages": "^0.29.0",
     "vite-plugin-solid": "^2.6.1",
     "vite-plugin-solid-svg": "^0.6.1",
-    "vitest": "^0.29.3"
+    "vitest": "^0.29.7"
   },
   "dependencies": {
-    "@floating-ui/dom": "^1.2.4",
+    "@floating-ui/dom": "^1.2.5",
     "@shopify/draggable": "1.0.0-beta.8",
     "@solid-primitives/event-listener": "^2.2.8",
     "@solid-primitives/i18n": "^1.2.2",
     "@solid-primitives/intersection-observer": "^2.0.8",
+    "@solid-primitives/mouse": "^2.0.9",
     "@solid-primitives/resize-observer": "^2.0.12",
     "@solidjs/meta": "^0.28.2",
-    "@solidjs/router": "^0.8.0",
+    "@solidjs/router": "^0.8.1",
     "@types/pica": "^9.0.1",
     "dayjs": "^1.11.7",
     "dedent": "^0.7.0",
@@ -51,6 +52,6 @@
     "mapbox-gl": "^2.13.0",
     "mathjs": "^11.7.0",
     "pica": "^9.0.1",
-    "solid-js": "^1.6.14"
+    "solid-js": "^1.6.15"
   }
 }

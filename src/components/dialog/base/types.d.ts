@@ -4,7 +4,7 @@ type DialogProps = DialogPropsOnly &
 interface DialogPropsOnly {
   button?: DialogButtonProps
 
-  size?: 'small' | 'normal' | 'fullscreen'
+  position?: 'relative' | 'fixed' | 'full'
 
   title?: string
 
@@ -14,6 +14,12 @@ interface DialogPropsOnly {
 
   full?: true
 
+  footer?: Solid.JSX.Element
+
+  moveable?: boolean
+
+  resizable?: boolean
+
   onClose?: (value?: string) => void
 }
 
@@ -21,4 +27,16 @@ type DialogButtonProps = DialogButtonPropsOnly & ButtonPropsWithHTMLAttributes
 
 interface DialogButtonPropsOnly {
   text?: string | Solid.JSX.Element
+}
+
+type DialogResizeDirection = 'w' | 'sw' | 's' | 'se' | 'e'
+
+interface DialogTransform {
+  x: number
+  y: number
+}
+
+interface DialogDimensions {
+  width?: number
+  height?: number
 }

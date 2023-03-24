@@ -12,12 +12,12 @@ import {
 export default () => {
   return (
     <div class="space-y-8 p-8">
-      <StoryContainer />
+      {/* <StoryContainer />
       <StoryIcon />
       <StoryIconInteractive />
       <StoryInteractive />
       <StoryButton />
-      <StoryInput />
+      <StoryInput /> */}
       <StoryDialog />
       <StoryDialogSelect />
     </div>

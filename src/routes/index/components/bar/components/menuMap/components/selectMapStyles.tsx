@@ -29,7 +29,7 @@ export default () => {
         style: { 'background-image': `url('${background()}')` },
         full: true,
       }}
-      size="small"
+      position="relative"
       options={{
         selected: 0,
         list: stylesImages.map((style, index) => ({

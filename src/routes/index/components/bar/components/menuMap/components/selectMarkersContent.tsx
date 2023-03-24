@@ -47,7 +47,7 @@ export default () => {
         full: true,
         leftIcon: DotIcon,
       }}
-      size="small"
+      position="relative"
       options={{
         selected: state.pointStateValues[state.pointStateSelected],
         list: state.pointStateValues,

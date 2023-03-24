@@ -4,20 +4,30 @@ import store from '/src/store'
 
 import { DialogSelect } from '/src/components'
 
+const getMachineIcon = (machine: MachineName) =>
+  machine === 'Heavydyn'
+    ? IconTablerCaravan
+    : machine === 'Maxidyn'
+    ? IconTablerCarCrane
+    : IconTablerChess
+
 export default () => {
   const [t] = useI18n()
 
   const convertProjectToName = (project: MachineProject) =>
-    `${project.name.value} - ${project.machine}`
+    `${project.name.value}`
+  // `${project.name.value} - ${project.machine}`
 
   return (
     <DialogSelect
       title="Select a project"
-      size="small"
+      position="relative"
       button={{
         class: 'flex-1 min-w-0',
         label: t('Selected'),
-        leftIcon: IconTablerList,
+        leftIcon: store.selectedProject
+          ? getMachineIcon(store.selectedProject.machine)
+          : undefined,
         full: true,
         text: store.selectedProject
           ? convertProjectToName(store.selectedProject)
@@ -29,7 +39,8 @@ export default () => {
           : '',
         list: store.projects.list.map((project) => ({
           value: convertProjectToName(project),
-          leftIcon:
+          leftIcon: getMachineIcon(project.machine),
+          rightIcon:
             project === store.selectedProject
               ? IconTablerFocusCentered
               : IconTablerPlaneDeparture,

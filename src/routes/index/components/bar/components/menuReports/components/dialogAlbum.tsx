@@ -13,7 +13,7 @@ export default () => {
 
   return (
     <Dialog
-      size="fullscreen"
+      position="full"
       color="transparent"
       button={{
         leftIcon: IconTablerSlideshow,

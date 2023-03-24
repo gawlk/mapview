@@ -2,7 +2,7 @@ export const dialogBooleanPropsKeysObject: BooleanPropsKeysObject<DialogPropsOnl
   {
     button: true,
 
-    size: true,
+    position: true,
 
     title: true,
 
@@ -10,7 +10,13 @@ export const dialogBooleanPropsKeysObject: BooleanPropsKeysObject<DialogPropsOnl
 
     form: true,
 
+    footer: true,
+
     full: true,
+
+    moveable: true,
+
+    resizable: true,
 
     onClose: true,
   }

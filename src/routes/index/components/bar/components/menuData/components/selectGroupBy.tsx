@@ -17,7 +17,7 @@ export default () => {
         leftIcon: IconTablerList,
         full: true,
       }}
-      size="small"
+      position="relative"
       options={{
         selected: t(store.selectedReport?.settings.groupBy || ''),
         list: groupBys.map((s) => ({

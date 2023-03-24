@@ -51,7 +51,7 @@ export default () => {
 
   return (
     <Dialog
-      size="fullscreen"
+      position="full"
       color="transparent"
       button={{
         ...(store.selectedReport?.screenshots.length
@@ -74,18 +74,18 @@ export default () => {
                 <div class="flex justify-center space-x-2">
                   <div class="inline-block space-x-2">
                     <Button
+                      leftIcon={IconTablerCameraDown}
+                      onClick={() => downloadImage(image)}
+                    >
+                      {t('Download picture')}
+                    </Button>
+                    <Button
                       leftIcon={IconTablerCameraCheck}
                       onClick={() =>
                         store.selectedReport?.screenshots.push(image)
                       }
                     >
                       {t('Add to album')}
-                    </Button>
-                    <Button
-                      leftIcon={IconTablerCameraDown}
-                      onClick={() => downloadImage(image)}
-                    >
-                      {t('Download picture')}
                     </Button>
                   </div>
                 </div>

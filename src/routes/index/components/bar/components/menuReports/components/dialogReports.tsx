@@ -19,7 +19,7 @@ export default () => {
   return (
     <Dialog
       title="Select a report"
-      size="small"
+      position="relative"
       button={{
         label: t('Selected'),
         full: true,

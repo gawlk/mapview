@@ -24,6 +24,10 @@ export default (props: Props) => {
           switch (props.color) {
             case 'primary':
               return 'text-black'
+            case 'red':
+              return 'text-red-800'
+            case 'green':
+              return 'text-green-800'
             default:
               return 'text-black'
           }
@@ -33,7 +37,13 @@ export default (props: Props) => {
         (() => {
           switch (props.color) {
             case 'primary':
-              return 'bg-white'
+              return 'bg-orange-700'
+            case 'secondary':
+              return 'bg-neutral-100'
+            case 'red':
+              return 'bg-red-200'
+            case 'green':
+              return 'bg-green-200'
             case 'transparent':
               return 'bg-transparent'
             default:
@@ -55,17 +65,31 @@ export default (props: Props) => {
         (() => {
           switch (props.color) {
             case 'primary':
-              return 'border-white'
+            case 'secondary':
+            case 'red':
+            case 'green':
+              return 'border-transparent'
             case 'tertiary':
-              return 'border-black'
+              return 'border-transparent hover:border-neutral-600'
             default:
-              return 'border-neutral-100'
+              return 'border-black border-opacity-5'
           }
         })(),
 
         // Padding
         (() => {
           switch (props.size) {
+            case 'xs':
+              return (() => {
+                switch (props.orientation) {
+                  case 'horizontal':
+                    return 'px-2 py-1'
+                  case 'vertical':
+                    return 'px-1 py-2'
+                  default:
+                    return 'p-1'
+                }
+              })()
             case 'sm':
               return (() => {
                 switch (props.orientation) {

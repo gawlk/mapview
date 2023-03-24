@@ -13,7 +13,7 @@ export default () => {
 
   return (
     <Dialog
-      size="small"
+      position="relative"
       button={{
         leftIcon: IconTablerLayoutList,
         text: t('Open image list'),

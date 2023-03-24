@@ -8,7 +8,14 @@ import {
 
 interface Props extends MergePropsWithHTMLProps<InteractiveProps> {}
 
-export default (props: Props) => {
+export default (passedProps: Props) => {
+  const props = mergeProps(
+    {
+      color: 'secondary',
+    },
+    passedProps
+  )
+
   const containerProps = removeProps(props, interactiveBooleanPropsKeysObject)
 
   const iconProps = removeProps(containerProps, {
@@ -31,7 +38,13 @@ export default (props: Props) => {
         props.center && 'justify-center',
 
         // Hover & Active
-        !props.disabled && 'hover:brightness-[0.975] active:brightness-90',
+        !props.disabled &&
+          (() => {
+            switch (props.color) {
+              default:
+                return 'hover:brightness-[0.95] active:brightness-90'
+            }
+          })(),
 
         // State
         (() => {
@@ -77,16 +90,7 @@ export default (props: Props) => {
           <label
             for={props.id}
             class={classPropToString([
-              (() => {
-                switch (props.color) {
-                  case 'primary':
-                    return 'text-neutral-400'
-                  default:
-                    return 'text-neutral-500'
-                }
-              })(),
-
-              'pointer-events-none select-none whitespace-pre-wrap',
+              'pointer-events-none select-none self-start whitespace-pre-wrap text-black/50',
             ])}
           >
             {`${props.label}: `}

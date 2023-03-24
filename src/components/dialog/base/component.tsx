@@ -303,7 +303,7 @@ export default (props: Props) => {
 
             state.maximized && 'top-0',
 
-            'border-black/5 p-0 text-black opacity-0 transition motion-reduce:transform-none motion-reduce:transition-none',
+            'fixed border-black/5 p-0 text-black opacity-0 transition motion-reduce:transform-none motion-reduce:transition-none',
           ])}
         >
           <Show when={!isRelative()}>

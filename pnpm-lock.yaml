@@ -76,8 +76,8 @@ devDependencies:
     specifier: ^0.8.2
     version: 0.8.2(vue-i18n@9.2.2)
   '@mermaid-js/mermaid-cli':
-    specifier: ^10.0.2
-    version: 10.0.2(typescript@4.9.5)
+    specifier: ^9.4.0
+    version: 9.4.0(typescript@4.9.5)
   '@tailwindcss/container-queries':
     specifier: ^0.1.0
     version: 0.1.0(tailwindcss@3.2.7)
@@ -152,7 +152,7 @@ devDependencies:
     version: 3.2.7(postcss@8.4.21)
   ts2mermaid:
     specifier: ^0.2.3
-    version: 0.2.3(@mermaid-js/mermaid-cli@10.0.2)
+    version: 0.2.3(@mermaid-js/mermaid-cli@9.4.0)
   typescript:
     specifier: ^4.9.5
     version: 4.9.5
@@ -1922,8 +1922,8 @@ packages:
     engines: {node: '>=6.0.0'}
     dev: false
 
-  /@mermaid-js/mermaid-cli@10.0.2(typescript@4.9.5):
-    resolution: {integrity: sha512-dz5ye9wWJjL3jtWtL6pYeKwo74CeCbn8SpvxKEH4Wuc0esDvSpxC+J/Wlsbd6BKvMzLN2J+5voy03kto0J7mOg==}
+  /@mermaid-js/mermaid-cli@9.4.0(typescript@4.9.5):
+    resolution: {integrity: sha512-/Nqs8Xtasw5wvop1PPiqmSx5SUxq/yARH+0EhEHAx8MVdbZXtUnzuK+Yv6NgpD2/Fb84/N3jF08zmIiJSyT5Lg==}
     engines: {node: ^14.13 || >=16.0}
     hasBin: true
     dependencies:
@@ -5829,12 +5829,12 @@ packages:
       typescript: 4.9.5
     dev: true
 
-  /ts2mermaid@0.2.3(@mermaid-js/mermaid-cli@10.0.2):
+  /ts2mermaid@0.2.3(@mermaid-js/mermaid-cli@9.4.0):
     resolution: {integrity: sha512-yt42VRddlF4c0/tRinIVsa06f4Lo6c9uNEyo12XYFnEE5GpscWLkt44WDp4DyCFhILWjXPGMC4AYQMPwfcBeAg==}
     peerDependencies:
       '@mermaid-js/mermaid-cli': ^9.0.0
     dependencies:
-      '@mermaid-js/mermaid-cli': 10.0.2(typescript@4.9.5)
+      '@mermaid-js/mermaid-cli': 9.4.0(typescript@4.9.5)
       typescript: 4.9.5
     dev: true
 

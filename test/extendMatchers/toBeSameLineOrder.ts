@@ -1,4 +1,5 @@
-import { fileToStringArray, getKey } from 'test/utils/'
+import { getKey } from 'test/utils/'
+import { filesToStringArray } from 'test/utils/text'
 import { expect } from 'vitest'
 
 interface CustomMatchers<R = unknown> {
@@ -9,8 +10,10 @@ export const toBeSameLineOrder = async (
   actual: File | string,
   expected: File | string
 ) => {
-  const actualLignes = await fileToStringArray(actual)
-  const expectedLignes = await fileToStringArray(expected)
+  const [actualLignes, expectedLignes] = (await filesToStringArray(
+    [actual, expected],
+    { removeBlankLine: true }
+  )) as string[][]
 
   if (actualLignes.length !== expectedLignes.length) {
     return {
@@ -37,7 +40,7 @@ expect.extend({
 })
 
 declare global {
-  namespace Chai {
+  namespace Vi {
     interface Assertion extends CustomMatchers {}
     interface AsymmetricMatchersContaining extends CustomMatchers {}
   }

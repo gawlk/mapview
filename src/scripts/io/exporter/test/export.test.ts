@@ -41,7 +41,7 @@ const exportFile = async (dirPath: string, folderName?: string) => {
     const subPath = `${dirPath}/${fileName}`
     const stats = statSync(subPath)
 
-    if (stats.isFile()) {
+    if (stats.isFile() && fileName != '.DS_Store') {
       onlyFolder = false
       const file = await getFileFromPath(subPath)
 
@@ -92,11 +92,14 @@ describe('Test exports', async () => {
     })
   )
 
+  console.log(testData)
+
   test.each(
     testData.map((data) => [data.directoryName, data.mpvz.project, data.pdx])
   )('test pdx: %s', async (_, project, expected) => {
     const pdxFile = await heavydynPDXExporter.export(project as HeavydynProject)
     expect(pdxFile).toBeDefined()
     await expect(pdxFile).toBeSameLineOrder(expected)
+    await expect(pdxFile).toBeSameValue(expected)
   })
 })

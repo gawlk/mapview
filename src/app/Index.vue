@@ -21,7 +21,9 @@
   const { t } = useI18n()
 
   const state = reactive({
-    build: packageJSON.build,
+    version: packageJSON.version,
+    context: import.meta.env.CONTEXT === 'production',
+    sha: import.meta.env.COMMIT_REF,
   })
 
   const fixMapHeight = () => {
@@ -123,9 +125,22 @@
     </div>
     <span
       class="absolute top-0 right-0 m-2 rounded-full bg-white px-1.5 py-0.5 text-xs font-extrabold tracking-tight text-black opacity-50"
+      v-if="state.context"
     >
-      B.{{ state.build }}
+      V.{{ state.version }}
     </span>
+    <a
+      :href="
+        'https://gitlab.com/isaan/mapview-dev/mapview2/-/commit/' + state.sha
+      "
+    >
+      <span
+        class="absolute top-0 right-0 m-2 rounded-full bg-white px-1.5 py-0.5 text-xs font-extrabold tracking-tight text-black opacity-50"
+        v-if="!state.context"
+      >
+        Beta V.{{ state.version }} ({{ state.sha }})
+      </span></a
+    >
   </div>
 </template>
 

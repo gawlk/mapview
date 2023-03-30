@@ -22,7 +22,8 @@
 
   const state = reactive({
     version: packageJSON.version,
-    context: import.meta.env.CONTEXT === 'production',
+    context: import.meta.env.CONTEXT,
+    isProd: import.meta.env.CONTEXT === 'production',
     sha: import.meta.env.COMMIT_REF,
   })
 
@@ -125,7 +126,7 @@
     </div>
     <span
       class="absolute top-0 right-0 m-2 rounded-full bg-white px-1.5 py-0.5 text-xs font-extrabold tracking-tight text-black opacity-50"
-      v-if="state.context"
+      v-if="state.isProd"
     >
       V.{{ state.version }}
     </span>
@@ -136,10 +137,9 @@
     >
       <span
         class="absolute top-0 right-0 m-2 rounded-full bg-white px-1.5 py-0.5 text-xs font-extrabold tracking-tight text-black opacity-50"
-        v-if="!state.context"
+        v-if="!state.isProd"
       >
         Beta V.{{ state.version }} ({{ state.sha }})
-        {{ import.meta.env.CONTEXT }}
       </span></a
     >
   </div>

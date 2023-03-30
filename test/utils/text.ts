@@ -58,7 +58,7 @@ export const parseData = (data: string) => {
     return undefined
   }
 
-  if (!isNaN(parseFloat(trimedData)) && isFinite(parseFloat(trimedData))) {
+  if (!isNaN(Number(trimedData)) && isFinite(parseFloat(trimedData))) {
     return Number(trimedData)
   }
 

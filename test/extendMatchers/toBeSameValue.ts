@@ -94,8 +94,6 @@ export const toBeSameValue = async (
     }
   }
 
-  console.log(actual, expected)
-
   return {
     message: () =>
       `Values ${allValueIsIdentical ? 'is' : 'is not'} equal (${lastValues.join(

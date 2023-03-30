@@ -139,6 +139,7 @@
         v-if="!state.context"
       >
         Beta V.{{ state.version }} ({{ state.sha }})
+        {{ import.meta.env.CONTEXT }}
       </span></a
     >
   </div>

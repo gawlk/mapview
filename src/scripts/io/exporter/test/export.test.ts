@@ -92,8 +92,6 @@ describe('Test exports', async () => {
     })
   )
 
-  console.log(testData)
-
   test.each(
     testData.map((data) => [data.directoryName, data.mpvz.project, data.pdx])
   )('test pdx: %s', async (_, project, expected) => {

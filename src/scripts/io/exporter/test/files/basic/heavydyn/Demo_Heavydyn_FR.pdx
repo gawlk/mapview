@@ -158,20 +158,6 @@ DropData_1 = 954.71
 DropData_2 = 953.27
 
 [Test Location 7]
-TestLocation = 2140.9,0,0 
-GPSLocation = 48.88001569,2.59533122,0
-TestLane = undefined  
-TestType = 0
-DropHistoryType = load and deflections
-TestTemperatures = 11.8,7.3,0.0 
-TestTime = 15:28:26 
-TestComment = undefined 
-NumberOfDrops = 3 
-DropData_0 = 841.93
-DropData_1 = 962.99
-DropData_2 = 965.67
-
-[Test Location 8]
 TestLocation = 452.1,0,0 
 GPSLocation = 48.89485731,2.57711435,0
 TestLane = undefined  
@@ -185,7 +171,7 @@ DropData_0 = 781.77
 DropData_1 = 904.79
 DropData_2 = 908.76
 
-[Test Location 9]
+[Test Location 8]
 TestLocation = 497.7,0,0 
 GPSLocation = 48.89397582,2.57787769,0
 TestLane = undefined  
@@ -199,7 +185,7 @@ DropData_0 = 751.64
 DropData_1 = 884.51
 DropData_2 = 887.26
 
-[Test Location 10]
+[Test Location 9]
 TestLocation = 531.9,0,0 
 GPSLocation = 48.89333925,2.57852286,0
 TestLane = undefined  
@@ -213,7 +199,7 @@ DropData_0 = 846.57
 DropData_1 = 974.76
 DropData_2 = 971.46
 
-[Test Location 11]
+[Test Location 10]
 TestLocation = 699.7,0,0 
 GPSLocation = 48.89240458,2.57945875,0
 TestLane = undefined  
@@ -227,7 +213,7 @@ DropData_0 = 838.67
 DropData_1 = 968.80
 DropData_2 = 969.62
 
-[Test Location 12]
+[Test Location 11]
 TestLocation = 815.7,0,0 
 GPSLocation = 48.89139026,2.58051007,0
 TestLane = undefined  
@@ -241,7 +227,7 @@ DropData_0 = 835.54
 DropData_1 = 963.70
 DropData_2 = 966.04
 
-[Test Location 13]
+[Test Location 12]
 TestLocation = 916.5,0,0 
 GPSLocation = 48.89068585,2.58115620,0
 TestLane = undefined  
@@ -255,7 +241,7 @@ DropData_0 = 869.27
 DropData_1 = 990.29
 DropData_2 = 991.28
 
-[Test Location 14]
+[Test Location 13]
 TestLocation = 1006,0,0 
 GPSLocation = 48.88973295,2.58216214,0
 TestLane = undefined  
@@ -269,7 +255,7 @@ DropData_0 = 819.43
 DropData_1 = 946.46
 DropData_2 = 953.54
 
-[Test Location 15]
+[Test Location 14]
 TestLocation = 1087.2,0,0 
 GPSLocation = 48.88904923,2.58291223,0
 TestLane = undefined  
@@ -283,7 +269,7 @@ DropData_0 = 821.79
 DropData_1 = 951.81
 DropData_2 = 956.49
 
-[Test Location 16]
+[Test Location 15]
 TestLocation = 1316.2,0,0 
 GPSLocation = 48.88832284,2.58366164,0
 TestLane = undefined  
@@ -297,7 +283,7 @@ DropData_0 = 836.48
 DropData_1 = 958.02
 DropData_2 = 956.60
 
-[Test Location 17]
+[Test Location 16]
 TestLocation = 1402.7,0,0 
 GPSLocation = 48.88760046,2.58444911,0
 TestLane = undefined  
@@ -311,7 +297,7 @@ DropData_0 = 825.12
 DropData_1 = 956.68
 DropData_2 = 953.75
 
-[Test Location 18]
+[Test Location 17]
 TestLocation = 1530.7,0,0 
 GPSLocation = 48.88677569,2.58535142,0
 TestLane = undefined  
@@ -325,7 +311,7 @@ DropData_0 = 857.82
 DropData_1 = 986.58
 DropData_2 = 982.19
 
-[Test Location 19]
+[Test Location 18]
 TestLocation = 1629.4,0,0 
 GPSLocation = 48.88571937,2.58640462,0
 TestLane = undefined  
@@ -339,7 +325,7 @@ DropData_0 = 856.22
 DropData_1 = 983.06
 DropData_2 = 987.22
 
-[Test Location 20]
+[Test Location 19]
 TestLocation = 1706,0,0 
 GPSLocation = 48.88506110,2.58770805,0
 TestLane = undefined  
@@ -353,7 +339,7 @@ DropData_0 = 849.42
 DropData_1 = 976.71
 DropData_2 = 980.36
 
-[Test Location 21]
+[Test Location 20]
 TestLocation = 1813.6,0,0 
 GPSLocation = 48.88410863,2.58926016,0
 TestLane = undefined  
@@ -367,7 +353,7 @@ DropData_0 = 849.15
 DropData_1 = 981.95
 DropData_2 = 989.53
 
-[Test Location 22]
+[Test Location 21]
 TestLocation = 1866.9,0,0 
 GPSLocation = 48.88291364,2.58996700,0
 TestLane = undefined  
@@ -381,7 +367,7 @@ DropData_0 = 848.73
 DropData_1 = 980.87
 DropData_2 = 978.80
 
-[Test Location 23]
+[Test Location 22]
 TestLocation = 1969.9,0,0 
 GPSLocation = 48.88162607,2.59158896,0
 TestLane = undefined  
@@ -395,7 +381,7 @@ DropData_0 = 832.49
 DropData_1 = 951.32
 DropData_2 = 959.76
 
-[Test Location 24]
+[Test Location 23]
 TestLocation = 2058.9,0,0 
 GPSLocation = 48.88080229,2.59312757,0
 TestLane = undefined  
@@ -408,6 +394,20 @@ NumberOfDrops = 3
 DropData_0 = 814.30
 DropData_1 = 941.48
 DropData_2 = 946.06
+
+[Test Location 24]
+TestLocation = 2140.9,0,0 
+GPSLocation = 48.88001569,2.59533122,0
+TestLane = undefined  
+TestType = 0
+DropHistoryType = load and deflections
+TestTemperatures = 11.8,7.3,0.0 
+TestTime = 15:28:26 
+TestComment = undefined 
+NumberOfDrops = 3 
+DropData_0 = 841.93
+DropData_1 = 962.99
+DropData_2 = 965.67
 
 [Test Location 25]
 TestLocation = 2251.2,0,0 

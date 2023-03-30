@@ -1,5 +1,6 @@
 import dayjs from 'dayjs'
 import dedent from 'dedent'
+import mapboxgl from 'mapbox-gl'
 
 import {
   currentCategory,
@@ -186,10 +187,7 @@ const writePoints = (project: HeavydynProject) => {
       const comment = point.data.find((data) => data.label.name === 'Comment')
         ?.value.value
 
-      let [lat, lng] = [1, 1]
-      if (point.marker) {
-        ;({ lng, lat } = point.marker.getLngLat())
-      }
+      const { lat, lng } = point.toBaseJSON().coordinates as mapboxgl.LngLat
 
       return dedent`
         [Test Location ${point.index}]

@@ -1,6 +1,6 @@
 [build]
   publish = "dist"
-  command = "VITE_CONTEXT=$CONTEXT && VITE_COMMIT_REF=$COMMIT_REF && echo $VITE_COMMIT_REF && npx pnpm i --store=node_modules/.pnpm-store && npx pnpm run build"
+  command = "npx pnpm i --store=node_modules/.pnpm-store && VITE_CONTEXT=$CONTEXT VITE_COMMIT_REF=$COMMIT_REF npx pnpm run build"
 
 [[redirects]]
   from = "/*"

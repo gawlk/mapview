@@ -140,7 +140,7 @@
       <span
         class="absolute top-0 right-0 m-2 rounded-full bg-white px-1.5 py-0.5 text-xs font-extrabold tracking-tight text-black opacity-50"
       >
-        Beta V.{{ state.version }} ({{ state.sha.substr(0, 8) }})
+        Beta V.{{ state.version }} ({{ state.sha?.substr(0, 8) }})
       </span></a
     >
   </div>

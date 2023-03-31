@@ -131,15 +131,16 @@
       V.{{ state.version }}
     </span>
     <a
+      v-else
       :href="
         'https://gitlab.com/isaan/mapview-dev/mapview2/-/commit/' + state.sha
       "
+      target="_blank"
     >
       <span
         class="absolute top-0 right-0 m-2 rounded-full bg-white px-1.5 py-0.5 text-xs font-extrabold tracking-tight text-black opacity-50"
-        v-if="!state.isProd"
       >
-        Beta V.{{ state.version }} ({{ state.sha }})
+        Beta V.{{ state.version }} ({{ state.sha.substr(0, 8) }})
       </span></a
     >
   </div>

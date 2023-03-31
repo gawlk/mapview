@@ -56,3 +56,5 @@ visualizer
 
 coverage
 __snapshots__
+# Local Netlify folder
+.netlify

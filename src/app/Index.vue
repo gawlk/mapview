@@ -22,9 +22,9 @@
 
   const state = reactive({
     version: packageJSON.version,
-    context: process.env.CONTEXT,
-    isProd: process.env.CONTEXT === 'production',
-    sha: process.env.COMMIT_REF,
+    context: process.env.VITE_CONTEXT,
+    isProd: process.env.VITE_CONTEXT === 'production',
+    sha: process.env.VITE_COMMIT_REF,
   })
 
   const fixMapHeight = () => {

@@ -6,12 +6,12 @@ export default () => {
   return (
     <Button
       onClick={() =>
-        store.projects.selected &&
-        (store.projects.selected.settings.arePointsLocked =
-          !store.projects.selected.settings.arePointsLocked)
+        store.selectedProject &&
+        (store.selectedProject.settings.arePointsLocked =
+          !store.selectedProject.settings.arePointsLocked)
       }
       icon={
-        store.projects.selected?.settings.arePointsLocked
+        store.selectedProject?.settings.arePointsLocked
           ? IconTablerLock
           : IconTablerLockOpen
       }

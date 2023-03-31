@@ -53,10 +53,10 @@ export default () => {
           )
 
           if (project) {
-            if (store.projects.selected === project) {
+            if (store.selectedProject === project) {
               project.fitOnMap()
             } else {
-              store.projects.selected = project
+              store.selectedProject = project
             }
           }
         }

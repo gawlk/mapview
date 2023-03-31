@@ -31,16 +31,16 @@ export default (props: Props) => {
     data={[
       {
         title: t('Informations'),
-        fields: store.projects.selected
+        fields: store.selectedProject
           ? [
-              store.projects.selected.name,
-              ...store.projects.selected.information,
+              store.selectedProject.name,
+              ...store.selectedProject.information,
             ]
           : [],
       },
       {
         title: t('Hardware'),
-        fields: store.projects.selected ? store.projects.selected.hardware : [],
+        fields: store.selectedProject ? store.selectedProject.hardware : [],
       },
     ]}
   />

@@ -23,7 +23,7 @@ export default () => {
       button={{
         label: t('Selected'),
         full: true,
-        text: `${store.projects.selected?.reports.selected?.name.value}`,
+        text: `${store.selectedReport?.name.value}`,
       }}
     >
       <div class="space-y-2">
@@ -32,7 +32,7 @@ export default () => {
           rightIcon={state.hideAll ? IconTablerEyeOff : IconTablerEye}
           full
           onClick={() => {
-            store.projects.selected?.reports.list.forEach(
+            store.selectedProject?.reports.list.forEach(
               (report) => (report.settings.isVisible = !state.hideAll)
             )
             setState('hideAll', !state.hideAll)
@@ -42,14 +42,14 @@ export default () => {
             {t(state.hideAll ? 'Hide all' : 'Show all')}
           </span>
         </Button>
-        <For each={store.projects.selected?.reports.list}>
+        <For each={store.selectedProject?.reports.list}>
           {(report) => (
             <div class="flex space-x-1">
               <SelectReportMarkerIcon report={report} />
               <Button
                 onClick={() => {
-                  if (store.projects.selected) {
-                    store.projects.selected.reports.selected = report
+                  if (store.selectedProject) {
+                    store.selectedReport = report
                     report.fitOnMap()
                   }
                 }}

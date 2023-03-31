@@ -2,11 +2,14 @@ import { getDisclosureOpenState, setDisclosureOpenState } from '/src/scripts'
 
 import { Details } from '/src/components'
 
-interface Props extends Solid.ParentProps {
+interface Props {
+  id: string
   icon: IconProp
   name: string
   menuProps: MenuProps
 }
+
+export const baseID = 'desktop-menu-'
 
 export default (props: Props) => {
   const key = createMemo(() => `isDesktopMenu${props.name}Open`)
@@ -18,7 +21,7 @@ export default (props: Props) => {
       defaultOpen={getDisclosureOpenState(key())}
       onClick={(open) => setDisclosureOpenState(key(), open)}
     >
-      {props.children}
+      <div id={`${baseID}${props.id}`} />
     </Details>
   )
 }

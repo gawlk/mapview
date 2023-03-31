@@ -8,15 +8,34 @@ export interface Props
     Solid.JSX.DialogHTMLAttributes
   > {}
 
-const optionToObject = (option: DialogSelectProps['options']['list'][number]) =>
-  typeof option === 'string'
-    ? {
-        value: option,
-      }
-    : option
+const optionToJSXElement = (
+  option: DialogSelectOptionProps
+): (() => Solid.JSX.Element) =>
+  typeof option.text === 'function'
+    ? option.text
+    : () => String(option.text ?? option.value ?? '')
 
-const optionToString = (option: DialogSelectOptionProps) =>
-  option.text ?? option.value
+const convertListToOptions = (
+  list: DialogSelectProps['options']['list']
+): DialogSelectOptionProps[] => {
+  const first = list.at(0)
+
+  if (first) {
+    if (typeof first !== 'string') {
+      if ('list' in first) {
+        return (list as (typeof first)[]).map((group) => group.list).flat()
+      } else {
+        return list as (typeof first)[]
+      }
+    } else {
+      return list.map((value) => ({
+        value: value as typeof first,
+      }))
+    }
+  } else {
+    return []
+  }
+}
 
 export default (props: Props) => {
   const [state, setState] = createStore({
@@ -37,6 +56,19 @@ export default (props: Props) => {
 
   const isRelative = createMemo(() => props.position === 'relative')
 
+  const getDialogButtonText = () => {
+    const option =
+      typeof props.options.selected === 'number'
+        ? convertListToOptions(props.options.list).at(props.options.selected)
+        : convertListToOptions(props.options.list).find(
+            (option) =>
+              option.value === props.options.selected ||
+              option.text === props.options.selected
+          )
+
+    return option ? optionToJSXElement(option) : undefined
+  }
+
   return (
     <Dialog
       // TODO: Clean props before spreading
@@ -46,16 +78,8 @@ export default (props: Props) => {
           id,
           role: 'listbox' as const,
           rightIcon: IconTablerSelector,
-          text:
-            typeof props.options.selected === 'number'
-              ? optionToString(
-                  optionToObject(props.options.list[props.options.selected])
-                )
-              : props.options.list
-                  .map(optionToObject)
-                  .find((option) => option.value === props.options.selected)
-                  ?.label || props.options.selected,
-        } as ButtonPropsWithHTMLAttributes,
+          text: getDialogButtonText(),
+        } as DialogButtonProps,
         props.button
       )}
       onClose={(value?: string) => {
@@ -66,22 +90,18 @@ export default (props: Props) => {
         props.onClose?.(value)
       }}
       sticky={
-        props.search
-          ? () => (
-              <div
-                class={classPropToString([isRelative() ? 'px-2 pt-2' : 'px-4'])}
-              >
-                <Input
-                  {...props.search}
-                  leftIcon={IconTablerListSearch}
-                  label="Name"
-                  full
-                  class={['flex-none', props.search?.class]}
-                  onInput={(value?: string) => setState('input', value)}
-                />
-              </div>
-            )
-          : undefined
+        props.search ? (
+          <div class={classPropToString([isRelative() ? 'px-2 pt-2' : 'px-4'])}>
+            <Input
+              {...props.search}
+              leftIcon={IconTablerListSearch}
+              label="Name"
+              full
+              class={['flex-none', props.search?.class]}
+              onInput={(value?: string) => setState('input', value)}
+            />
+          </div>
+        ) : undefined
       }
       form={
         <div
@@ -89,19 +109,16 @@ export default (props: Props) => {
             isRelative() ? 'space-y-1.5' : 'space-y-2',
           ])}
         >
-          {() => {
+          {(() => {
             const list = createMemo(() =>
-              (props.options.list || []).map(optionToObject).filter(
+              convertListToOptions(props.options.list).filter(
                 (option) =>
                   !state.input ||
-                  (option.label
-                    ? typeof option.label === 'string'
-                      ? option.label
-                      : typeof option.label === 'function'
+                  (option.text
+                    ? typeof option.text === 'function'
                       ? // @ts-ignore
-                        option.label()?.textContent
-                      : // @ts-ignore
-                        option.label.textContent
+                        option.text()?.textContent
+                      : option.text
                     : option.value
                   )
                     .toLowerCase()
@@ -118,7 +135,7 @@ export default (props: Props) => {
                         (typeof props.options.selected === 'number' &&
                           index() === props.options.selected) ||
                         props.options.selected === option.value ||
-                        props.options.selected === option.label
+                        props.options.selected === option.text
                     )
 
                     return (
@@ -128,7 +145,7 @@ export default (props: Props) => {
                         {...option}
                       >
                         <span class="w-full truncate text-left">
-                          {optionToString(option)}
+                          {optionToJSXElement(option)()}
                         </span>
                       </Button>
                     )
@@ -136,7 +153,7 @@ export default (props: Props) => {
                 </For>
               </Show>
             )
-          }}
+          })()}
         </div>
       }
     />

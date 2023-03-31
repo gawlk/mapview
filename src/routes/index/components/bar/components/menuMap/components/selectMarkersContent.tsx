@@ -14,9 +14,11 @@ export default () => {
     pointStateValues: [t('Number'), t('Value'), t('Empty')],
   })
 
+  createEffect(() => console.log(store.selectedProject?.settings.pointsState))
+
   createEffect(() => {
-    if (store.projects.selected) {
-      const pointsState = store.projects.selected.settings.pointsState
+    if (store.selectedProject) {
+      const pointsState = store.selectedProject.settings.pointsState
 
       state.pointStateSelected =
         pointsState === 'number' ? 0 : pointsState === 'value' ? 1 : 2
@@ -26,16 +28,16 @@ export default () => {
   const setPointsState = (value: string) => {
     const n = state.pointStateValues.indexOf(value)
 
-    if (store.projects.selected) {
+    if (store.selectedProject) {
       switch (n) {
         case 0:
-          store.projects.selected.settings.pointsState = 'number'
+          store.selectedProject.settings.pointsState = 'number'
           break
         case 1:
-          store.projects.selected.settings.pointsState = 'value'
+          store.selectedProject.settings.pointsState = 'value'
           break
         case 2:
-          store.projects.selected.settings.pointsState = 'nothing'
+          store.selectedProject.settings.pointsState = 'nothing'
           break
       }
     }

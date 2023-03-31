@@ -45,7 +45,7 @@ import CorrectionHeavydynVue from './CorrectionHeavydyn.vue'
           <div
             class="space-y-1"
             v-for="unit in (Object.values(
-              store.projects.selected?.units || {}
+              store.selectedProject?.units || {}
             ).filter((unit) => !unit.readOnly) as MathUnit<string>[])"
             :key="unit.name"
           >
@@ -110,13 +110,13 @@ import CorrectionHeavydynVue from './CorrectionHeavydyn.vue'
         </div>
         <h4
           class="pl-4 text-lg font-medium leading-6"
-          v-if="store.projects.selected?.machine === 'Heavydyn'"
+          v-if="store.selectedProject?.machine === 'Heavydyn'"
         >
           {{ t('Corrected data') }}
         </h4>
         <div class="space-y-4">
           <CorrectionHeavydynVue
-            v-if="store.projects.selected?.machine === 'Heavydyn'"
+            v-if="store.selectedProject?.machine === 'Heavydyn'"
           />
           <!-- TODO: 
             <CorrectionMdynVue v-else /> -->

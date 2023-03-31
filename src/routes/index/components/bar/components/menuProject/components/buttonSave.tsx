@@ -10,14 +10,14 @@ export default () => {
   const [t] = useI18n()
 
   const save = async () =>
-    store.projects.selected &&
-    downloadFile(await mpvzExporter.export(store.projects.selected))
+    store.selectedProject &&
+    downloadFile(await mpvzExporter.export(store.selectedProject))
 
   return (
     <Button
       full
       leftIcon={IconTablerFileDownload}
-      disabled={!store.projects.selected}
+      disabled={!store.selectedProject}
       onClick={save}
     >
       {t('Save project')}

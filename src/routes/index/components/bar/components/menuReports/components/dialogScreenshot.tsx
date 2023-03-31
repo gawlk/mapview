@@ -67,22 +67,22 @@ export default () => {
       title={t('Screenshot')}
       form={
         <div class="flex h-full items-center justify-center">
-          <Show when={state.image} keyed>
+          <Show when={state.image}>
             {(image) => (
               <div class="space-y-2">
-                <Image image={image} />
+                <Image image={image()} />
                 <div class="flex justify-center space-x-2">
                   <div class="inline-block space-x-2">
                     <Button
                       leftIcon={IconTablerCameraDown}
-                      onClick={() => downloadImage(image)}
+                      onClick={() => downloadImage(image())}
                     >
                       {t('Download picture')}
                     </Button>
                     <Button
                       leftIcon={IconTablerCameraCheck}
                       onClick={() =>
-                        store.selectedReport?.screenshots.push(image)
+                        store.selectedReport?.screenshots.push(image())
                       }
                     >
                       {t('Add to album')}

@@ -28,7 +28,7 @@ export const createMap = (container: string): mapboxgl.Map => {
   const map = new Map({
     container,
     style: navigator?.onLine
-      ? mapStyles[store.projects.selected?.settings.map?.styleIndex || 0]
+      ? mapStyles[store.selectedProject?.settings.map?.styleIndex || 0]
       : { version: 8, sources: {}, layers: [] },
     center: [2.419263, 48.621551], // [lng, lat]
     zoom: 2,
@@ -42,7 +42,7 @@ export const createMap = (container: string): mapboxgl.Map => {
       'online',
       () => {
         map.setStyle(
-          mapStyles[store.projects.selected?.settings.map.styleIndex || 0]
+          mapStyles[store.selectedProject?.settings.map.styleIndex || 0]
         )
       },
       {
@@ -66,26 +66,26 @@ export const createMap = (container: string): mapboxgl.Map => {
   }
 
   map.on('moveend', () => {
-    if (store.projects.selected) {
-      store.projects.selected.settings.map.coordinates = map.getCenter()
+    if (store.selectedProject) {
+      store.selectedProject.settings.map.coordinates = map.getCenter()
     }
   })
 
   map.on('zoomend', () => {
-    if (store.projects.selected) {
-      store.projects.selected.settings.map.zoom = map.getZoom()
+    if (store.selectedProject) {
+      store.selectedProject.settings.map.zoom = map.getZoom()
     }
   })
 
   map.on('pitchend', () => {
-    if (store.projects.selected) {
-      store.projects.selected.settings.map.pitch = map.getPitch()
+    if (store.selectedProject) {
+      store.selectedProject.settings.map.pitch = map.getPitch()
     }
   })
 
   map.on('rotateend', () => {
-    if (store.projects.selected) {
-      store.projects.selected.settings.map.rotation = map.getBearing()
+    if (store.selectedProject) {
+      store.selectedProject.settings.map.rotation = map.getBearing()
     }
   })
 
@@ -96,7 +96,7 @@ export const createMap = (container: string): mapboxgl.Map => {
 
     addBuildingsToMap(map)
 
-    store.projects.selected?.refreshLinesAndOverlays()
+    store.selectedProject?.refreshLinesAndOverlays()
   })
 
   return map

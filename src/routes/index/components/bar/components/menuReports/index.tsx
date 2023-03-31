@@ -13,12 +13,12 @@ import SelectReportMarkerIcon from './components/selectReportMarkerIcon'
 export default () => {
   return (
     <>
-      <Show when={store.selectedReport} keyed>
+      <Show when={store.selectedReport}>
         {(report) => (
           <div class="flex space-x-2">
-            <SelectReportMarkerIcon report={report} />
+            <SelectReportMarkerIcon report={report()} />
             <DialogReports />
-            <ButtonReportVisibility report={report} />
+            <ButtonReportVisibility report={report()} />
           </div>
         )}
       </Show>

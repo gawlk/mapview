@@ -34,7 +34,9 @@ export default (props: Props) => {
             'flex-1 truncate',
           ])}
         >
-          {props.text ?? props.title}
+          {typeof props.text === 'function'
+            ? props.text()
+            : props.text ?? props.title}
         </span>
       </Show>
     </Button>

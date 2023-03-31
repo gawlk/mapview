@@ -39,7 +39,7 @@ export default () => {
         })),
       }}
       onClose={(index) => {
-        if (store.selectedProject) {
+        if (index && store.selectedProject) {
           store.selectedProject.settings.map.styleIndex = Number(index)
         }
       }}

@@ -1,6 +1,7 @@
 import { classPropToString, stylePropToCSSProperties } from '/src/components'
 
-interface Props extends Solid.ParentProps {
+interface Props {
+  id: string
   disabled: boolean
   icon: any
   name: string
@@ -9,6 +10,8 @@ interface Props extends Solid.ParentProps {
   class?: string
   onClick: () => void
 }
+
+export const baseID = 'mobile-menu-'
 
 export default (props: Props) => {
   return (
@@ -33,21 +36,13 @@ export default (props: Props) => {
         ])}
       >
         <div
+          id={`${baseID}${props.id}`}
           style={stylePropToCSSProperties(props.style)}
           class={classPropToString([
             'space-y-2 rounded-lg bg-white p-2',
             props.class || '',
           ])}
-        >
-          <div class="select-none p-1">
-            <hr
-              class="mx-auto w-1/6 cursor-pointer rounded-full border-2 border-gray-200"
-              onClick={props.onClick}
-            />
-          </div>
-
-          {props.children}
-        </div>
+        />
       </div>
     </>
   )

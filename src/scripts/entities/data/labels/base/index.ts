@@ -84,18 +84,18 @@ export const createBaseDataLabelsGroupFromJSON = <
   units: MachineMathUnits,
   categorySelector?: CategorySelector
 ): BaseDataLabelsGroup<From> => {
+  const dataLabels = json.choices.list.map((jsonChoice) =>
+    createDataLabelFromJSON(
+      jsonChoice,
+      units,
+      categorySelector?.(jsonChoice.unit as MachineUnitsNames) ||
+        currentCategory
+    )
+  )
+
   return {
     from: json.from,
-    choices: createSelectableList(
-      json.choices.list.map((jsonChoice) =>
-        createDataLabelFromJSON(
-          jsonChoice,
-          units,
-          categorySelector?.(jsonChoice.unit as MachineUnitsNames) ||
-            currentCategory
-        )
-      )
-    ),
+    choices: createSelectableList(dataLabels),
     toBaseJSON: function () {
       return {
         version: 1,

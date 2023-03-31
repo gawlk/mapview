@@ -6,12 +6,12 @@ export default () => {
   return (
     <Button
       onClick={() =>
-        store.projects.selected &&
-        (store.projects.selected.settings.arePointsVisible =
-          !store.projects.selected.settings.arePointsVisible)
+        store.selectedProject &&
+        (store.selectedProject.settings.arePointsVisible =
+          !store.selectedProject.settings.arePointsVisible)
       }
       icon={
-        store.projects.selected?.settings.arePointsVisible
+        store.selectedProject?.settings.arePointsVisible
           ? IconTablerEye
           : IconTablerEyeOff
       }

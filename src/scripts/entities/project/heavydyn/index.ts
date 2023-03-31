@@ -3,7 +3,6 @@ import {
   createHeavydynReportFromJSON,
   createMathNumber,
   createSelectableList,
-  createWatcherHandler,
 } from '/src/scripts'
 
 import { createBaseProjectFromJSON } from '../base'
@@ -141,8 +140,8 @@ export const createHeavydynProjectFromJSON = (
               temperatureTo:
                 this.correctionParameters.temperature.temperatureTo.value,
               structureType:
-                this.correctionParameters.temperature.structureType.getSelectedIndex() ||
-                0,
+                this.correctionParameters.temperature.structureType
+                  .selectedIndex || 0,
             },
           },
         },

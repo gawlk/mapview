@@ -6,7 +6,6 @@ interface Store {
   updateAvailable: boolean
   importingFile: boolean
   readonly save: (key: StoreKeys, value: StoreSaveableTypes) => void
-  readonly init: () => void
 }
 
 type StoreKeys = Exclude<keyof Store, 'save' | 'updateAvailable'>

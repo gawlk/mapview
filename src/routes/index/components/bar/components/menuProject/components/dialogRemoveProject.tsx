@@ -18,13 +18,13 @@ export default () => {
         onClose={(value) => {
           if (value === 'delete') {
             const index = store.projects.list.findIndex(
-              (project) => project === store.projects.selected
+              (project) => project === store.selectedProject
             )
 
             const project = store.projects.list.splice(index, 1)?.[0]
 
-            if (project === store.projects.selected) {
-              store.projects.selected =
+            if (project === store.selectedProject) {
+              store.selectedProject =
                 store.projects.list.length - 1 >= index
                   ? store.projects.list[index]
                   : store.projects.list.slice(-1).pop() || null

@@ -7,6 +7,7 @@ import {
   StoryIconInteractive,
   StoryInput,
   StoryInteractive,
+  StoryNavigator,
 } from '/src/components'
 
 export default () => {
@@ -20,6 +21,7 @@ export default () => {
       <StoryInput />
       <StoryDialogSelect />
       <StoryDialog />
+      <StoryNavigator />
     </div>
   )
 }

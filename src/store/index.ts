@@ -1,10 +1,28 @@
 import { createSelectableList } from '/src/scripts/utils/selectableList'
 
-const store: Store = createMutable({
+const store = createMutable<Store>({
   // example: read('example') || defaultExample,
   projects: createSelectableList([]),
-  selectedProject: null,
-  selectedReport: null,
+  get selectedProject() {
+    return this.projects.selected
+  },
+  set selectedProject(project: MachineProject | null) {
+    const oldProject = this.projects.selected
+
+    if (oldProject !== project) {
+      oldProject?.remove()
+      this.projects.select(project)
+      this.projects.selected?.addToMap()
+    }
+  },
+  get selectedReport() {
+    return this.selectedProject?.reports?.selected || null
+  },
+  set selectedReport(report: MachineReport | null) {
+    if (this.selectedProject) {
+      this.selectedProject.reports.select<BaseReport>(report)
+    }
+  },
   updateAvailable: false,
   importingFile: false,
   map: null,
@@ -12,29 +30,6 @@ const store: Store = createMutable({
     localStorage.setItem(key, JSON.stringify(value))
     // @ts-ignore
     store[key] = value
-  },
-  init: () => {
-    createEffect(
-      on(
-        () => store.projects.selected,
-        (project, oldProject) => {
-          store.selectedProject = project
-
-          oldProject?.remove()
-          project?.addToMap()
-        }
-      )
-    )
-
-    createEffect(
-      on(
-        () => store.projects.selected?.reports.selected,
-        (report) => {
-          // @ts-ignore
-          store.selectedReport = report
-        }
-      )
-    )
   },
 })
 

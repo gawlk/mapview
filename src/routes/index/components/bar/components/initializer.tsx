@@ -19,7 +19,7 @@ export default (props: Props) => {
     if (file) {
       store.importingFile = true
 
-      store.projects.selected = await importFile(file)
+      store.selectedProject = await importFile(file)
 
       store.importingFile = false
     }
@@ -54,7 +54,7 @@ export default (props: Props) => {
       (a, b) => projects.indexOf(a) - projects.indexOf(b)
     )
 
-    store.projects.selected = projects[0]
+    store.selectedProject = projects[0]
 
     store.importingFile = false
   }

@@ -16,8 +16,6 @@ const packageJSON = JSON.parse(packageJSONRaw)
 export default () => {
   const [t] = useI18n()
 
-  store.init()
-
   const state = createMutable({
     version: packageJSON.version,
   })
@@ -112,7 +110,7 @@ export default () => {
         <Map />
         <Bar />
       </div>
-      <span class="absolute top-0 right-0 m-2 rounded-full bg-white px-1.5 py-0.5 text-xs font-extrabold tracking-tight text-black opacity-50">
+      <span class="absolute right-0 top-0 m-2 rounded-full bg-white px-1.5 py-0.5 text-xs font-extrabold tracking-tight text-black opacity-50">
         v. {state.version}
       </span>
     </div>

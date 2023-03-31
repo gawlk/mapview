@@ -26,7 +26,7 @@ interface DialogPropsOnly {
 type DialogButtonProps = DialogButtonPropsOnly & ButtonPropsWithHTMLAttributes
 
 interface DialogButtonPropsOnly {
-  text?: string | Solid.JSX.Element
+  text?: string | (() => Solid.JSX.Element)
 }
 
 type DialogResizeDirection = 'w' | 'sw' | 's' | 'se' | 'e'

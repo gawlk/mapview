@@ -16,7 +16,7 @@ export default () => {
       store.importingFile = false
 
       if (project) {
-        store.projects.selected = project
+        store.selectedProject = project
       }
     }
   }

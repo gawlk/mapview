@@ -1,8 +1,13 @@
 type DialogSelectProps = DialogSelectPropsOnly & DialogProps
 
 interface DialogSelectOptionProps extends ButtonPropsWithHTMLAttributes {
-  text?: string | Solid.JSX.Element
+  text?: string | (() => Solid.JSX.Element)
   value: string
+}
+
+interface GroupedDialogSelectOptionProps {
+  name: string
+  list: DialogSelectOptionProps[]
 }
 
 interface DialogSelectPropsOnly extends SaveableProps {
@@ -10,6 +15,9 @@ interface DialogSelectPropsOnly extends SaveableProps {
 
   options: {
     selected: string | number | null
-    list: string[] | DialogSelectOptionProps[]
+    list:
+      | string[]
+      | DialogSelectOptionProps[]
+      | GroupedDialogSelectOptionProps[]
   }
 }

@@ -1,5 +1,5 @@
 /* @refresh reload */
-import { I18nContext, createI18nContext, useI18n } from '@solid-primitives/i18n'
+import { I18nContext, createI18nContext } from '@solid-primitives/i18n'
 import { MetaProvider } from '@solidjs/meta'
 import { render } from 'solid-js/web'
 import routes from '~solid-pages'
@@ -9,17 +9,15 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 
 import { dictionaries } from './locales'
 
-console.log('routes', routes)
-
 const root = document.getElementById('root')
 
 if (root) {
-  const Routes = useRoutes(routes)
+  render(() => {
+    const Routes = useRoutes(routes)
 
-  const dictionary = createI18nContext(dictionaries)
+    const dictionary = createI18nContext(dictionaries)
 
-  render(
-    () => (
+    return (
       <I18nContext.Provider value={dictionary}>
         <MetaProvider>
           <Router>
@@ -27,7 +25,6 @@ if (root) {
           </Router>
         </MetaProvider>
       </I18nContext.Provider>
-    ),
-    root
-  )
+    )
+  }, root)
 }

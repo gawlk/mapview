@@ -1,6 +1,8 @@
 import { Button, Container } from '/src/components'
 
-interface Props extends Solid.ParentProps {
+interface Props
+  extends Solid.ParentProps,
+    Omit<Solid.JSX.DetailsHTMLAttributes, 'onClick'> {
   text: string
   defaultOpen: boolean
   icon?: IconProp

@@ -55,40 +55,44 @@ export const createRelativePositionEffect = (
 
   let cleanup: (() => void) | undefined
 
+  const [isIntersecting, setIsIntersecting] = createSignal(false)
+
+  createEffect(
+    on(
+      [isIntersecting, () => [windowSize.height, windowSize.width]],
+      ([isIntersecting]) => {
+        cleanup?.()
+
+        if (
+          isIntersecting &&
+          window.getComputedStyle(dialog).position === 'absolute'
+        ) {
+          cleanup = autoUpdate(buttonOpen, dialog, async () => {
+            const { x, y } = await computePosition(buttonOpen, dialog, {
+              middleware: [
+                offset(4),
+                flip(),
+                shift({
+                  padding: 5,
+                }),
+              ],
+            })
+
+            Object.assign(dialog.style, {
+              left: `${x}px`,
+              top: `${y}px`,
+              width: `${buttonOpen?.clientWidth}px`,
+            })
+          })
+        }
+      }
+    )
+  )
+
   createIntersectionObserver(
     [buttonOpen] as unknown as Solid.Accessor<Element[]>,
-    ([buttonOpenEntry]) => {
-      if (buttonOpenEntry?.isIntersecting) {
-        createEffect(
-          on(
-            () => [windowSize.height, windowSize.width],
-            () => {
-              cleanup?.()
-
-              if (window.getComputedStyle(dialog).position === 'absolute') {
-                cleanup = autoUpdate(buttonOpen, dialog, () =>
-                  computePosition(buttonOpen, dialog, {
-                    middleware: [
-                      offset(4),
-                      flip(),
-                      shift({
-                        padding: 5,
-                      }),
-                    ],
-                  }).then(({ x, y }) => {
-                    Object.assign(dialog.style, {
-                      left: `${x}px`,
-                      top: `${y}px`,
-                      width: `${buttonOpen?.clientWidth}px`,
-                    })
-                  })
-                )
-              }
-            }
-          )
-        )
-      }
-    }
+    ([buttonOpenEntry]) =>
+      setIsIntersecting(buttonOpenEntry?.isIntersecting ?? false)
   )
 
   onCleanup(() => {

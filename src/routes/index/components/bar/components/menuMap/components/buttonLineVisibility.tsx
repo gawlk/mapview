@@ -8,12 +8,12 @@ export default () => {
   return (
     <Button
       onClick={() =>
-        store.projects.selected &&
-        (store.projects.selected.settings.arePointsLinked =
-          !store.projects.selected.settings.arePointsLinked)
+        store.selectedProject &&
+        (store.selectedProject.settings.arePointsLinked =
+          !store.selectedProject.settings.arePointsLinked)
       }
       icon={
-        store.projects.selected?.settings.arePointsLinked
+        store.selectedProject?.settings.arePointsLinked
           ? IconTablerShare
           : DotsIcon
       }

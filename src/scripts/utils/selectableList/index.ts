@@ -1,27 +1,36 @@
 export const createSelectableList = <T, L extends T[] = T[]>(
   list: L,
-  parameters: {
+  parameters?: {
     selected?: L[number]
     selectedIndex?: number | null
-  } = {}
-): SelectableList<L[number], L> => {
-  const selected = parameters?.selected
+  }
+) => {
+  const selectableList = createMutable<SelectableList<L[number], L>>({
+    selected: null,
+    select(s) {
+      if (this.selected !== s) {
+        // @ts-ignore
+        this.selected = s
 
-  return createMutable({
-    selected:
-      typeof parameters.selected === 'number' &&
-      list.includes(selected as L[number])
-        ? (selected as L[number])
-        : getValueFromIndexInList(parameters.selectedIndex || 0, list),
+        this.selectIndex(this.list.indexOf(this.selected as L[number]))
+      }
+    },
+    selectedIndex: null,
+    selectIndex(i) {
+      i = i === -1 ? null : i
+
+      if (i && (i < 0 || i >= this.list.length)) {
+        throw new Error(`SelectableList: selectIndex: ${i} is incorrect !`)
+      }
+
+      if (i !== this.selectedIndex) {
+        // @ts-ignore
+        this.selectedIndex = i
+
+        this.select(getValueFromIndexInList<L[number]>(i, this.list))
+      }
+    },
     list,
-    selectIndex: function (index: number | null) {
-      this.selected = getValueFromIndexInList(index, this.list)
-    },
-    getSelectedIndex: function () {
-      const index = this.list.indexOf(this.selected as L[number])
-
-      return index === -1 ? null : index
-    },
     toJSON: function <TJSON, LJSON extends TJSON[] = TJSON[]>(
       transform: (value: T) => TJSON
     ): JSONSelectableList<TJSON, LJSON> {
@@ -35,10 +44,20 @@ export const createSelectableList = <T, L extends T[] = T[]>(
       }
     },
   })
+
+  const { selected, selectedIndex } = parameters || {}
+
+  if (selected !== undefined) {
+    selectableList.select(selected)
+  } else if (selectedIndex !== undefined) {
+    selectableList.selectIndex(selectedIndex)
+  }
+
+  return selectableList
 }
 
 export const getIndexOfSelectedInSelectableList = <T, L extends T[] = T[]>(
-  sl: SelectableList<T, L>
+  sl: SelectableList<L[number], L>
 ) => (sl.selected ? sl.list.indexOf(sl.selected) : null)
 
 const getValueFromIndexInList = <T, L extends T[] = T[]>(

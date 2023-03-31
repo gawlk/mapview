@@ -1,4 +1,4 @@
-import { classPropToString } from '../props'
+import { classPropToString } from '/src/components'
 
 interface Props {
   value: boolean

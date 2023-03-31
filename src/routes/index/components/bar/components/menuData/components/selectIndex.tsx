@@ -2,7 +2,7 @@ import { useI18n } from '@solid-primitives/i18n'
 
 import store from '/src/store'
 
-import { DialogSelect } from '/src/components'
+import { DialogSelect, SpanDropIndex } from '/src/components'
 
 export default () => {
   const [t] = useI18n()
@@ -11,16 +11,9 @@ export default () => {
     () => store.selectedReport?.dataLabels.table.selected
   )
 
-  const dropIndexToString = (dropIndex: MachineDropIndex) =>
-    `${dropIndex.displayedIndex} - ${t(dropIndex.type)}${
-      dropIndex.machine === 'Heavydyn' && dropIndex.value
-        ? ` (${dropIndex.value.displayedStringWithUnit})`
-        : ''
-    }`
-
   return (
     <Show when={selectedTableParams()?.group.from === 'Drop'}>
-      {() => {
+      {(() => {
         const dropTableParams = selectedTableParams()
         const dropGroup =
           dropTableParams?.group as BaseDropDataLabelsGroup<BaseDropIndex>
@@ -40,7 +33,7 @@ export default () => {
                 (dropGroup.indexes?.list as MachineDropIndex[]).map(
                   (dropIndex, index) => ({
                     value: String(index),
-                    text: dropIndexToString(dropIndex),
+                    text: () => <SpanDropIndex dropIndex={dropIndex} />,
                   })
                 ) || [],
             }}
@@ -51,7 +44,7 @@ export default () => {
             }}
           />
         )
-      }}
+      })()}
     </Show>
   )
 }

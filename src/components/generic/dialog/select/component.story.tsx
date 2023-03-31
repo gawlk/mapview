@@ -16,8 +16,6 @@ export default () => {
           list: ['1', '2', '3'],
         }}
         onClose={(value) => {
-          console.log(value)
-
           value && setState('value1', value)
         }}
       />
@@ -32,8 +30,6 @@ export default () => {
           list: ['1', '2', '3'],
         }}
         onClose={(value) => {
-          console.log(value)
-
           value && setState('value1', value)
         }}
       />
@@ -50,8 +46,6 @@ export default () => {
           list: ['1', '2', '3'],
         }}
         onClose={(value) => {
-          console.log(value)
-
           value && setState('value1', value)
         }}
       />
@@ -69,8 +63,6 @@ export default () => {
           list: ['1', '2', '3'],
         }}
         onClose={(value) => {
-          console.log(value)
-
           value && setState('value1', value)
         }}
       />

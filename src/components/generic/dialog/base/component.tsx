@@ -23,6 +23,7 @@ import {
   removeProps,
 } from '/src/components'
 
+import Backdrop from './components/backdrop'
 import Resizers from './components/resizers'
 
 export interface Props
@@ -35,13 +36,9 @@ const md = 768 // Number of pixel for the tailwind's "md" media query to trigger
 const top = '10vh'
 const minWidth = '20rem'
 
-const [openDialogsOrder, setOpenDialogsOrder] = createSignal([] as Props[])
-
-const moveDialogToFront = (props: Props) =>
-  setOpenDialogsOrder((arr) => [...arr.filter((p) => p !== props), props])
-
 export default (props: Props) => {
   const [state, setState] = createStore({
+    show: false,
     open: false,
     maximized: false,
     action: null as 'moving' | 'resizing' | null,
@@ -54,6 +51,7 @@ export default (props: Props) => {
       width: undefined,
       height: undefined,
     } as DialogDimensions,
+    zIndex: 0,
   })
 
   const dialogProps = removeProps(props, dialogBooleanPropsKeysObject)
@@ -64,14 +62,29 @@ export default (props: Props) => {
   const isAble = createMemo(() => props.moveable || props.resizable)
   const isRelative = createMemo(() => props.position === 'relative')
   const isModal = createMemo(
-    () => !isRelative() && !(isWindowLarge() && isAble())
+    () => isWindowLarge() && !(isRelative() || isAble())
   )
-  const zIndex = createMemo(() => 100 + openDialogsOrder().indexOf(props))
 
   let dialog: HTMLDialogElement | undefined
   let buttonOpen: HTMLButtonElement | undefined
 
   let resizeDirection: DialogResizeDirection = 's'
+
+  const [dialogs, setDialogs] = createSignal<HTMLElement | undefined>(undefined)
+
+  const moveToFront = () => {
+    const baseZIndex = 100
+
+    const list = dialogs()?.getElementsByTagName('dialog')
+
+    const zIndexes = Array.from(list || [])
+      .filter((dialog) => dialog.open)
+      .map((dialog) => (Number(dialog.style.zIndex) || baseZIndex) - baseZIndex)
+
+    const maxZIndex = zIndexes.length ? Math.max(...zIndexes) : 0
+
+    setState('zIndex', baseZIndex + maxZIndex + 1)
+  }
 
   const close = (element?: HTMLElement) => {
     const value = String(
@@ -100,18 +113,7 @@ export default (props: Props) => {
   }
 
   onMount(() => {
-    createEffect(
-      on(isWindowLarge, (isWindowLarge) => {
-        if (state.open && dialog && isAble()) {
-          dialog.close()
-          if (isWindowLarge) {
-            dialog.show()
-          } else {
-            dialog.showModal()
-          }
-        }
-      })
-    )
+    setDialogs(document.getElementById('dialogs') || undefined)
 
     createEffect(
       on(
@@ -197,26 +199,31 @@ export default (props: Props) => {
           props.button?.onClick?.(event)
 
           if (!state.open) {
-            console.log('to front')
+            moveToFront()
 
-            moveDialogToFront(props)
+            dialog?.show()
 
-            isModal() ? dialog?.showModal() : dialog?.show()
-
-            setTimeout(() => setState('open', true), 1)
+            setState('show', true)
+            setTimeout(() => setState('open', true), 50)
           } else {
             close()
           }
         }}
       />
 
-      <Portal>
+      <Portal mount={dialogs()}>
+        <Backdrop
+          show={state.show && isModal()}
+          open={state.open}
+          zIndex={state.zIndex}
+        />
+
         <DialogLinesDefaultPosition
           isMoving={state.action === 'moving'}
           top={top}
           minWidth={minWidth}
           width={state.dimensions.width}
-          zIndex={zIndex()}
+          zIndex={state.zIndex}
         />
 
         {/* TODO: Use `Container` component here */}
@@ -225,66 +232,60 @@ export default (props: Props) => {
           // TODO: Change to something else, won't trigger if animations are disabled by a user
           onTransitionEnd={(event) => {
             if (event.target === dialog && !state.open) {
+              setState('show', false)
               dialog.close()
             }
           }}
           ref={dialog}
           onMouseDown={(event) => {
             event.stopPropagation()
-            moveDialogToFront(props)
+
+            moveToFront()
           }}
-          style={
-            isWindowLarge()
+          style={{
+            ...(isWindowLarge() && !isRelative() && !state.maximized
               ? {
-                  ...(!isRelative() && !state.maximized
+                  ...(state.dimensions.width
                     ? {
-                        ...(state.dimensions.width
-                          ? {
-                              'max-width': `${state.dimensions.width}px`,
-                              'min-width': minWidth,
-                            }
-                          : {}),
-
-                        ...(state.dimensions.height
-                          ? {
-                              height: '100%',
-                              'max-height': `${state.dimensions.height}px`,
-                            }
-                          : {}),
-
-                        // TODO: Changes to 16 to 1rem
-                        transform: `translate(${state.transform.x}px, ${
-                          state.transform.y + (!state.open ? 16 : 0)
-                        }px)`,
-
-                        top,
+                        'max-width': `${state.dimensions.width}px`,
+                        'min-width': minWidth,
                       }
                     : {}),
 
-                  'z-index': zIndex(),
+                  ...(state.dimensions.height
+                    ? {
+                        height: '100%',
+                        'max-height': `${state.dimensions.height}px`,
+                      }
+                    : {}),
+
+                  // TODO: Changes to 16 to 1rem
+                  transform: `translate(${state.transform.x}px, ${
+                    state.transform.y + (!state.open ? 16 : 0)
+                  }px)`,
+
+                  top,
                 }
-              : {}
-          }
+              : {}),
+            'z-index': state.zIndex,
+          }}
           class={classPropToString([
             props.full && 'h-full',
 
             state.open && 'open:translate-x-0 open:opacity-100',
 
-            'backdrop:bg-black/25  backdrop:backdrop-blur-sm',
-
-            props.moveable &&
-              'md:shadow-xl md:backdrop:bg-transparent md:backdrop:backdrop-blur-none',
+            props.moveable && 'md:shadow-xl',
 
             (() => {
               switch (props.position) {
                 case 'relative':
-                  return 'min-w-[12rem] space-y-1.5 border-2 md:absolute md:z-10 md:m-0 md:rounded-xl'
+                  return 'absolute m-0 max-h-[40vh] min-w-[12rem] space-y-1.5 rounded-xl border-2' // TODO: Check how floating-ui does max-height
                 default:
                   return `${
                     state.maximized || props.position === 'full'
                       ? 'h-full max-h-full'
-                      : 'top-auto bottom-0 mt-[5vh] max-h-[95vh] rounded-t-2xl border-t-2 md:mt-0 md:h-fit md:max-h-[32rem] md:max-w-2xl md:rounded-b-2xl md:border-2'
-                  } peer w-full max-w-full flex-col space-y-3 open:flex`
+                      : 'bottom-0 top-auto mt-[5vh] max-h-[95vh] rounded-t-2xl border-t-2 md:mt-0 md:h-fit md:max-h-[32rem] md:max-w-2xl md:rounded-b-2xl md:border-2'
+                  } peer fixed w-full max-w-full space-y-3`
               }
             })(),
 
@@ -297,13 +298,13 @@ export default (props: Props) => {
               }
             })(),
 
-            state.action || state.maximized ? 'duration-[0ms]' : 'duration-200',
+            state.action || state.maximized ? 'duration-[0ms]' : 'duration-150',
 
             !!state.action && 'select-none',
 
             state.maximized && 'top-0',
 
-            'fixed border-black/5 p-0 text-black opacity-0 transition motion-reduce:transform-none motion-reduce:transition-none',
+            'flex-col space-y-3 border-black/5 p-0 text-black opacity-0 transition backdrop:bg-transparent open:flex motion-reduce:transform-none motion-reduce:transition-none',
           ])}
         >
           <Show when={!isRelative()}>
@@ -323,7 +324,7 @@ export default (props: Props) => {
               }}
               class={classPropToString([
                 props.moveable && 'md:cursor-move',
-                'flex items-center px-4 pt-4 pb-3',
+                'flex items-center px-4 pb-3 pt-4',
               ])}
             >
               <DialogButtonClose close={close} />
@@ -339,7 +340,8 @@ export default (props: Props) => {
               <DialogButtonMaximize
                 maximized={state.maximized}
                 onClick={() => {
-                  moveDialogToFront(props)
+                  moveToFront()
+
                   setState('maximized', (maximized) => !maximized)
                 }}
               />

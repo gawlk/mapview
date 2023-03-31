@@ -1,8 +1,9 @@
 import { useI18n } from '@solid-primitives/i18n'
 
+import store from '/src/store'
+
 import BarDesktop from './components/barDesktop'
 import BarMobile from './components/barMobile'
-// import BarMobile from './components/BarMobile/Index.vue'
 import MenuData from './components/menuData'
 import MenuMap from './components/menuMap'
 import MenuPoints from './components/menuPoints'
@@ -16,6 +17,7 @@ export default () => {
 
   const menus: Menu[] = [
     {
+      id: 'project',
       name: t('Project'),
       icon: IconTablerFolders,
       component: MenuProject,
@@ -24,6 +26,7 @@ export default () => {
       }),
     },
     {
+      id: 'map',
       name: t('Map'),
       icon: IconTablerMap,
       component: MenuMap,
@@ -32,6 +35,7 @@ export default () => {
       }),
     },
     {
+      id: 'reports',
       name: t('Reports'),
       icon: IconTablerFiles,
       component: MenuReports,
@@ -41,6 +45,7 @@ export default () => {
       }),
     },
     {
+      id: 'points',
       name: t('Points'),
       icon: DotsIcon,
       component: MenuPoints,
@@ -50,6 +55,7 @@ export default () => {
       }),
     },
     {
+      id: 'data',
       name: t('Data'),
       icon: IconTablerTable,
       component: MenuData,
@@ -62,10 +68,32 @@ export default () => {
     },
   ].map((menu) => createMutable(menu))
 
+  const [id, setID] = createSignal<string | undefined>(undefined)
+
   return (
     <>
-      <BarDesktop menus={menus} />
-      <BarMobile menus={menus} />
+      <BarDesktop menus={menus} setID={(id) => setID(id)} />
+      <BarMobile menus={menus} setID={(id) => setID(id)} />
+      <Show when={store.selectedProject}>
+        <For each={menus}>
+          {(menu) => {
+            const element = createMemo(
+              () =>
+                (document.getElementById(
+                  `${id() || ''}${menu.id}`
+                ) as HTMLElement | null) || undefined
+            )
+
+            return (
+              <Portal mount={element()}>
+                <div class="space-y-1.5">
+                  <Dynamic component={menu.component} menu={menu.props} />
+                </div>
+              </Portal>
+            )
+          }}
+        </For>
+      </Show>
     </>
   )
 }

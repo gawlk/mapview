@@ -2,8 +2,6 @@ import { useI18n } from '@solid-primitives/i18n'
 
 import store from '/src/store'
 
-import { dateToString } from '/src/scripts'
-
 import { Button, Dialog, Input, Label } from '/src/components'
 
 export default () => {
@@ -12,13 +10,13 @@ export default () => {
   const bulks = createMemo(() => [
     {
       title: t('Informations'),
-      fields: store.projects.selected
-        ? [store.projects.selected.name, ...store.projects.selected.information]
+      fields: store.selectedProject
+        ? [store.selectedProject.name, ...store.selectedProject.information]
         : [],
     },
     {
       title: t('Hardware'),
-      fields: store.projects.selected ? store.projects.selected.hardware : [],
+      fields: store.selectedProject ? store.selectedProject.hardware : [],
     },
   ])
 

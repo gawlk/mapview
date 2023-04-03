@@ -1,11 +1,12 @@
 import { readFileSync, readdirSync, statSync } from 'fs'
+import { heavydynDynatestExporter } from 'src/scripts/io/exporter/report/heavydyn/dynatest/index'
+import { heavydynF25Exporter } from 'src/scripts/io/exporter/report/heavydyn/f25/index'
+import { heavydynPDXExporter } from 'src/scripts/io/exporter/report/heavydyn/pdx'
 import { heavydynSwecoExporter } from 'src/scripts/io/exporter/report/heavydyn/sweco/index'
-import { filesToStringArray } from 'test/utils'
+import { filesToString } from 'test/utils/text'
 import { describe, expect, test } from 'vitest'
 
 import { importFile } from '/src/scripts'
-
-import { heavydynPDXExporter } from '../report/heavydyn/pdx'
 
 export const getFileFromPath = async (path: string) => {
   const buffer = readFileSync(path)
@@ -24,7 +25,7 @@ interface filesGroup {
   mvrz: File
   fwdd: File
   fwds: File
-  f25: File
+  F25: File
   mpvz: MPVZTestData
   [key: string]: MPVZTestData | File | string
 }
@@ -105,16 +106,52 @@ describe('Test exports', async () => {
 
   test.each(
     testData.map((data) => [data.directoryName, data.mpvz.project, data.fwds])
-  )('test FWD (Sweco)', async (_, project, expected) => {
+  )('test FWD (Sweco): %s', async (_, project, expected) => {
     const swecoFile = await heavydynSwecoExporter.export(
       project as HeavydynProject
     )
 
-    const [actualLignes, expectedLignes] = (await filesToStringArray(
-      [swecoFile, expected],
-      { removeBlankLine: true }
-    )) as string[][]
     expect(swecoFile).toBeDefined()
+
+    const [actualLignes, expectedLignes] = await filesToString([
+      swecoFile,
+      expected,
+    ])
+
+    expect(actualLignes).toEqual(expectedLignes)
+  })
+
+  test.each(
+    testData.map((data) => [data.directoryName, data.mpvz.project, data.fwdd])
+  )('test FWD (Dynatest): %s', async (_, project, expected) => {
+    const dynatestFile = await heavydynDynatestExporter.export(
+      project as HeavydynProject
+    )
+
+    expect(dynatestFile).toBeDefined()
+
+    const [actualLignes, expectedLignes] = await filesToString([
+      dynatestFile,
+      expected,
+    ])
+
+    expect(actualLignes).toEqual(expectedLignes)
+  })
+
+  console.log(testData)
+
+  test.each(
+    testData.map((data) => [data.directoryName, data.mpvz.project, data.F25])
+  )('test F25: %s', async (_, project, expected) => {
+    const f25File = await heavydynF25Exporter.export(project as HeavydynProject)
+
+    expect(f25File).toBeDefined()
+
+    const [actualLignes, expectedLignes] = await filesToString([
+      f25File,
+      expected,
+    ])
+
     expect(actualLignes).toEqual(expectedLignes)
   })
 })

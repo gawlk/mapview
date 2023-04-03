@@ -2,6 +2,10 @@ const defaultOptions: FileTransformerOpt = {
   dataType: 'noTransformation',
 }
 
+export const filesToString = (files: File[]) => {
+  return Promise.all(files.map(async (file) => await file.text()))
+}
+
 export const fileToStringArray = async (
   file: File | string,
   opt: FileTransformerOpt = defaultOptions

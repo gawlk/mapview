@@ -1,5 +1,6 @@
 import dayjs from 'dayjs'
 import dedent from 'dedent'
+import mapboxgl from 'mapbox-gl'
 
 import {
   currentCategory,
@@ -141,10 +142,7 @@ const writeEndHeader = () => {
 }
 
 const writePointGPS = (point: BasePoint) => {
-  let [lat, lng] = [1, 1]
-  if (point.marker) {
-    ;({ lng, lat } = point.marker.getLngLat())
-  }
+  const { lng, lat } = point.toBaseJSON().coordinates as mapboxgl.LngLat
 
   return `G0000001+${lat}+${lng}999.9`
 }

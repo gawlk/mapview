@@ -1,5 +1,6 @@
 import dayjs from 'dayjs'
 import dedent from 'dedent'
+import mapboxgl from 'mapbox-gl'
 import { format } from 'mathjs'
 
 import {
@@ -16,13 +17,6 @@ import {
 export const heavydynF25Exporter: HeavydynExporter = {
   name: '.F25',
   export: async (project: HeavydynProject) => {
-    console.log(`
-    ${writeHeader(project)}
-    ${writeSensors(project)}
-    ${writeEndHeader(project)}
-    ${writePoints(project)}
-  `)
-
     return new File(
       [
         replaceAllLFToCRLF(
@@ -207,16 +201,14 @@ const writePoints = (project: HeavydynProject): string => {
 }
 
 const writePointGps = (point: BasePoint) => {
+  const lngLat = point.toBaseJSON().coordinates as mapboxgl.LngLat
+
+  const lat = lngLat.lat.toFixed(8).padStart(12, ' ')
+  const lng = lngLat.lng.toFixed(8).padStart(12, ' ')
+  const one = Number('1').toFixed(2).padStart(8, ' ')
+
   return dedent`
-    5280,0,140418.0,${point.marker
-      ?.getLngLat()
-      .lat.toFixed(8)
-      .padStart(12, ' ')},${point.marker
-    ?.getLngLat()
-    .lng.toFixed(8)
-    .padStart(12, ' ')},${Number('1')
-    .toFixed(2)
-    .padStart(8, ' ')}, 2,18,   0,  0 
+    5280,0,140418.0,${lat},${lng},${one}, 2,18,   0,  0 
     `
 }
 

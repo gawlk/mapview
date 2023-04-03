@@ -138,8 +138,6 @@ describe('Test exports', async () => {
     expect(actualLignes).toEqual(expectedLignes)
   })
 
-  console.log(testData)
-
   test.each(
     testData.map((data) => [data.directoryName, data.mpvz.project, data.F25])
   )('test F25: %s', async (_, project, expected) => {

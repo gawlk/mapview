@@ -108,9 +108,7 @@ const writePoints = (project: HeavydynProject): string => {
             .value || 0
         )
 
-        if (point.marker) {
-          coordinates = ddToDms(point.marker?.getLngLat())
-        }
+        coordinates = ddToDms(point.toBaseJSON().coordinates as mapboxgl.LngLat)
 
         const dropPosition = [
           'Position of Drop:',

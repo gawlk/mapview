@@ -1,7 +1,9 @@
 import { readFileSync, readdirSync, statSync } from 'fs'
+import { heavydynSwecoExporter } from 'src/scripts/io/exporter/report/heavydyn/sweco/index'
+import { filesToStringArray } from 'test/utils'
 import { describe, expect, test } from 'vitest'
 
-import { importFile, sleep } from '/src/scripts'
+import { importFile } from '/src/scripts'
 
 import { heavydynPDXExporter } from '../report/heavydyn/pdx'
 
@@ -94,10 +96,25 @@ describe('Test exports', async () => {
 
   test.each(
     testData.map((data) => [data.directoryName, data.mpvz.project, data.pdx])
-  )('test pdx: %s', async (_, project, expected) => {
+  )('test PDX: %s', async (_, project, expected) => {
     const pdxFile = await heavydynPDXExporter.export(project as HeavydynProject)
     expect(pdxFile).toBeDefined()
     await expect(pdxFile).toBeSameLineOrder(expected)
     await expect(pdxFile).toBeSameValue(expected)
+  })
+
+  test.each(
+    testData.map((data) => [data.directoryName, data.mpvz.project, data.fwds])
+  )('test FWD (Sweco)', async (_, project, expected) => {
+    const swecoFile = await heavydynSwecoExporter.export(
+      project as HeavydynProject
+    )
+
+    const [actualLignes, expectedLignes] = (await filesToStringArray(
+      [swecoFile, expected],
+      { removeBlankLine: true }
+    )) as string[][]
+    expect(swecoFile).toBeDefined()
+    expect(actualLignes).toEqual(expectedLignes)
   })
 })

@@ -176,9 +176,11 @@ const generateZoneData = (zones: MachineZone[]): ExcelJson =>
   zones.reduce<ExcelJson>((a, zone, index) => {
     const { points } = zone as BaseZone
 
-    const visiblePoints = points.filter((point) => point.checkVisibility)
+    const visiblePoints = points.filter((point) => point.settings.isVisible)
 
     const Z = 'Z' + (index + 1)
+
+    console.log(Z, visiblePoints)
 
     return {
       ...a,

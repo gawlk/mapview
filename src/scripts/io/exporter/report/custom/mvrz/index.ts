@@ -180,8 +180,6 @@ const generateZoneData = (zones: MachineZone[]): ExcelJson =>
 
     const Z = 'Z' + (index + 1)
 
-    console.log(Z, visiblePoints)
-
     return {
       ...a,
       [Z + '_Name']: zone.name,

@@ -289,3 +289,12 @@ const upgradeJSON = (json: JSONBasePointVAny): JSONBasePoint => {
 
   return json
 }
+
+export const hasRawData = (source: BaseProject | BaseReport) => {
+  const origin = source.kind === 'Project' ? source.reports.list : [source]
+
+  return origin
+    .map((report) => report.zones.map((zone) => zone.points).flat())
+    .flat()
+    .some((point) => point.rawDataFile)
+}

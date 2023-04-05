@@ -2,9 +2,11 @@
   import store from '/src/store'
 
   import { icons } from '/src/scripts'
+  import { hasRawData } from '/src/scripts/entities'
 
   import IconEye from '~icons/heroicons-solid/eye'
   import IconEyeOff from '~icons/heroicons-solid/eye-off'
+  import IconData from '~icons/heroicons-solid/folder-open'
   import IconTrash from '~icons/heroicons-solid/trash'
   import IconViewGrid from '~icons/heroicons-solid/view-grid'
   import IconViewList from '~icons/heroicons-solid/view-list'
@@ -101,6 +103,9 @@
       >
         <Button
           :leftHTMLIcon="icons[report.settings.iconName]"
+          :right-icon="
+            !store.isProd && hasRawData(report) ? IconData : undefined
+          "
           @click="selectReport(report)"
           truncate
           full

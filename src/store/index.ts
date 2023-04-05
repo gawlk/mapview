@@ -1,13 +1,17 @@
 import { createSelectableList } from '/src/scripts/utils/selectableList'
 
+console.log('context', import.meta.env.VITE_CONTEXT)
+
 const store: Store = shallowReactive({
-  // example: read('example') || defaultExample,
   projects: createSelectableList([]),
   selectedProject: null,
   selectedReport: null,
   updateAvailable: false,
   importingFile: false,
   map: null,
+  isDev: import.meta.env.DEV,
+  isProd: import.meta.env.VITE_CONTEXT === 'production',
+  context: import.meta.env.VITE_CONTEXT,
   save: (key: StoreKeys, value: StoreSaveableTypes): void => {
     localStorage.setItem(key, JSON.stringify(value))
     // @ts-ignore

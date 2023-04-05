@@ -2,8 +2,10 @@
   import store from '/src/store'
 
   import { acceptedExtensions, importFile } from '/src/scripts'
+  import { hasRawData } from '/src/scripts/entities'
 
   import IconArchive from '~icons/heroicons-solid/archive'
+  import IconData from '~icons/heroicons-solid/folder-open'
   import IconPlus from '~icons/heroicons-solid/plus'
   import IconTrash from '~icons/heroicons-solid/trash'
   import IconViewList from '~icons/heroicons-solid/view-list'
@@ -60,6 +62,9 @@
           : store.projects.list.slice(-1).pop() || null
     }
   }
+
+  const hasRawdataFromIndex = (index: number) =>
+    hasRawData(store.projects.list[index])
 </script>
 
 <template>
@@ -81,6 +86,9 @@
       >
         <Button
           :leftIcon="IconZoomIn"
+          :right-icon="
+            !store.isProd && hasRawdataFromIndex(index) ? IconData : undefined
+          "
           @click="selectProject(index)"
           truncate
           full

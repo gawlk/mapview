@@ -98,7 +98,9 @@ describe('Test exports', async () => {
   )
 
   test.each(
-    testData.map((data) => [data.directoryName, data.mpvz.project, data.pdx])
+    testData
+      .filter((data) => data.pdx)
+      .map((data) => [data.directoryName, data.mpvz.project, data.pdx])
   )('test PDX: %s', async (_, project, expected) => {
     const pdxFile = await heavydynPDXExporter.export(project as HeavydynProject)
     expect(pdxFile).toBeDefined()
@@ -107,7 +109,9 @@ describe('Test exports', async () => {
   })
 
   test.each(
-    testData.map((data) => [data.directoryName, data.mpvz.project, data.fwds])
+    testData
+      .filter((data) => data.fwds)
+      .map((data) => [data.directoryName, data.mpvz.project, data.fwds])
   )('test FWD (Sweco): %s', async (_, project, expected) => {
     const swecoFile = await heavydynSwecoExporter.export(
       project as HeavydynProject
@@ -124,7 +128,9 @@ describe('Test exports', async () => {
   })
 
   test.each(
-    testData.map((data) => [data.directoryName, data.mpvz.project, data.fwdd])
+    testData
+      .filter((data) => data.fwdd)
+      .map((data) => [data.directoryName, data.mpvz.project, data.fwdd])
   )('test FWD (Dynatest): %s', async (_, project, expected) => {
     const dynatestFile = await heavydynDynatestExporter.export(
       project as HeavydynProject
@@ -141,7 +147,9 @@ describe('Test exports', async () => {
   })
 
   test.each(
-    testData.map((data) => [data.directoryName, data.mpvz.project, data.F25])
+    testData
+      .filter((data) => data.F25)
+      .map((data) => [data.directoryName, data.mpvz.project, data.F25])
   )('test F25: %s', async (_, project, expected) => {
     const f25File = await heavydynF25Exporter.export(project as HeavydynProject)
 
@@ -156,7 +164,9 @@ describe('Test exports', async () => {
   })
 
   test.each(
-    testData.map((data) => [data.directoryName, data.mpvz.project, data.mvrz])
+    testData
+      .filter((data) => data.mvrz)
+      .map((data) => [data.directoryName, data.mpvz.project, data.mvrz])
   )('test mvrz: %s', async (_, project, expected) => {
     const mpvzFile = await mrvzExporter.export(project as HeavydynProject)
 

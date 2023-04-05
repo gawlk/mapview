@@ -9,9 +9,6 @@ const store: Store = shallowReactive({
   updateAvailable: false,
   importingFile: false,
   map: null,
-  isDev: import.meta.env.DEV,
-  isProd: import.meta.env.VITE_CONTEXT === 'production',
-  context: import.meta.env.VITE_CONTEXT,
   save: (key: StoreKeys, value: StoreSaveableTypes): void => {
     localStorage.setItem(key, JSON.stringify(value))
     // @ts-ignore

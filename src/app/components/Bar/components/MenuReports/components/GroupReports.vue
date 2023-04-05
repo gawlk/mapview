@@ -16,6 +16,8 @@
   import Listbox from '/src/components/Listbox.vue'
   import Popover from '/src/components/Popover.vue'
 
+  import env from '/src/env'
+
   const { t } = useI18n()
 
   const state = reactive({
@@ -103,9 +105,7 @@
       >
         <Button
           :leftHTMLIcon="icons[report.settings.iconName]"
-          :right-icon="
-            !store.isProd && hasRawData(report) ? IconData : undefined
-          "
+          :right-icon="!env.isProd && hasRawData(report) ? IconData : undefined"
           @click="selectReport(report)"
           truncate
           full

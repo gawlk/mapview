@@ -7,6 +7,7 @@
   import Map from './components/Map.vue'
 
   import packageJSON from '/src/../package.json'
+  import env from '/src/env'
 
   useHead({
     title: 'Mapview',
@@ -124,7 +125,7 @@
     </div>
     <span
       class="absolute top-0 right-0 m-2 rounded-full bg-white px-1.5 py-0.5 text-xs font-extrabold tracking-tight text-black opacity-50"
-      v-if="store.isProd"
+      v-if="env.isProd"
     >
       V.{{ state.version }}
     </span>

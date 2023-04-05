@@ -14,6 +14,8 @@
   import Dialog from '/src/components/Dialog.vue'
   import Popover from '/src/components/Popover.vue'
 
+  import env from '/src/env'
+
   const { t } = useI18n()
 
   const inputFile = ref()
@@ -81,7 +83,7 @@
         <Button
           :leftIcon="IconZoomIn"
           :right-icon="
-            !store.isProd && hasRawData(project) ? IconData : undefined
+            !env.isProd && hasRawData(project) ? IconData : undefined
           "
           @click="selectProject(index)"
           truncate

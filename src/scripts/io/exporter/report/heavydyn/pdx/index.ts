@@ -176,6 +176,7 @@ const writeDeviceCalibration = (project: HeavydynProject) => {
 
 const writePoints = (project: HeavydynProject) => {
   return project.reports.selected?.line.sortedPoints
+    .filter((point) => point.settings.isVisible)
     .map((point) => {
       const temps = point.data
         .slice(0, 3)

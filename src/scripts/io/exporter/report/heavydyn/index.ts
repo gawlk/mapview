@@ -7,5 +7,5 @@ export const heavydynReportExports = [
   heavydynF25Exporter,
   heavydynDynatestExporter,
   heavydynSwecoExporter,
-  heavydynPDXExporter,
+  // heavydynPDXExporter,
 ]

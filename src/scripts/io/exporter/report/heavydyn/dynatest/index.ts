@@ -148,43 +148,45 @@ const writePointGPS = (point: BasePoint) => {
 }
 
 const writePoints = (project: HeavydynProject) => {
-  return project.reports.selected?.line.sortedPoints.map((point) => {
-    const celsiusDegreesTemps = point.data
-      .filter((data) => data.label.unit === project.units.temperature)
-      .map((data, index) => {
-        const precision = index === 0 ? 1 : 0
-        const value = data.value.value.toFixed(precision)
-        if (index === 0) {
-          return value.padStart(4, ' ')
-        } else {
-          return value.padStart(2, ' ')
-        }
-      })
+  return project.reports.selected?.line.sortedPoints
+    .filter((point) => point.settings.isVisible)
+    .map((point) => {
+      const celsiusDegreesTemps = point.data
+        .filter((data) => data.label.unit === project.units.temperature)
+        .map((data, index) => {
+          const precision = index === 0 ? 1 : 0
+          const value = data.value.value.toFixed(precision)
+          if (index === 0) {
+            return value.padStart(4, ' ')
+          } else {
+            return value.padStart(2, ' ')
+          }
+        })
 
-    const fahrenheitDegreesTemps = point.data
-      .slice(0, 3)
-      .map((data) => {
-        return data.value
-          .getLocaleString({ unit: 'degF', locale: 'en-US' })
-          .padStart(4, ' ')
-      })
-      .join(' ')
+      const fahrenheitDegreesTemps = point.data
+        .slice(0, 3)
+        .map((data) => {
+          return data.value
+            .getLocaleString({ unit: 'degF', locale: 'en-US' })
+            .padStart(4, ' ')
+        })
+        .join(' ')
 
-    const chainage = Number(
-      point.data.find((pointData) => pointData.label.name === 'Chainage')?.value
-        .value
-    )
-      .toFixed(2)
-      .padStart(8, ' ')
+      const chainage = Number(
+        point.data.find((pointData) => pointData.label.name === 'Chainage')
+          ?.value.value
+      )
+        .toFixed(2)
+        .padStart(8, ' ')
 
-    return [
-      `${writePointGPS(point)}`,
-      `S ${chainage} ${celsiusDegreesTemps[0]}00 ${celsiusDegreesTemps[1]} ${
-        celsiusDegreesTemps[2]
-      }I2${dayjs(point.date).format('HHmm')} ${fahrenheitDegreesTemps}`,
-      `${writeDrops(point, project.calibrations.dPlate)}`,
-    ]
-  })
+      return [
+        `${writePointGPS(point)}`,
+        `S ${chainage} ${celsiusDegreesTemps[0]}00 ${celsiusDegreesTemps[1]} ${
+          celsiusDegreesTemps[2]
+        }I2${dayjs(point.date).format('HHmm')} ${fahrenheitDegreesTemps}`,
+        `${writeDrops(point, project.calibrations.dPlate)}`,
+      ]
+    })
 }
 
 const writeDrops = (point: BasePoint, dPlate: number) => {

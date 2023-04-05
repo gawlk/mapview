@@ -157,7 +157,7 @@ export const convertPRJZToBaseReport = (
       },
     },
     information: convertPRJZObjectToFields(jsonPV.PV),
-    platform: convertPRJZObjectToFields(jsonPV.Plateform),
+    platform: convertPRJZObjectToFields(jsonPV.Plateform || jsonPV.Platform),
     screenshots: [],
   }
 }

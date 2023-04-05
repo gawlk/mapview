@@ -72,8 +72,7 @@ export const createBaseZoneFromJSON = <
 
             this.report.line.sortedPoints = Array.prototype.concat(
               ...this.report.zones.map((zone) => zone.points)
-            ) as MachinePoint[]
-
+            )
             this.report.line.update()
           },
           {

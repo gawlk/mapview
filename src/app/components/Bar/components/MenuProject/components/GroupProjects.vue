@@ -1,8 +1,7 @@
 <script setup lang="ts">
   import store from '/src/store'
 
-  import { acceptedExtensions, importFile } from '/src/scripts'
-  import { hasRawData } from '/src/scripts/entities'
+  import { acceptedExtensions, hasRawData, importFile } from '/src/scripts'
 
   import IconArchive from '~icons/heroicons-solid/archive'
   import IconData from '~icons/heroicons-solid/folder-open'
@@ -62,9 +61,6 @@
           : store.projects.list.slice(-1).pop() || null
     }
   }
-
-  const hasRawdataFromIndex = (index: number) =>
-    hasRawData(store.projects.list[index])
 </script>
 
 <template>
@@ -79,21 +75,19 @@
     >
       <div
         class="flex space-x-1 truncate"
-        v-for="(name, index) of store.projects.list.map(
-          (project) => `${project.name.value} - ${project.machine}`
-        )"
-        :key="name"
+        v-for="(project, index) of store.projects.list"
+        :key="project.name.value.toString()"
       >
         <Button
           :leftIcon="IconZoomIn"
           :right-icon="
-            !store.isProd && hasRawdataFromIndex(index) ? IconData : undefined
+            !store.isProd && hasRawData(project) ? IconData : undefined
           "
           @click="selectProject(index)"
           truncate
           full
         >
-          {{ name }}
+          {{ `${project.name.value} - ${project.machine}` }}
         </Button>
       </div>
     </Popover>

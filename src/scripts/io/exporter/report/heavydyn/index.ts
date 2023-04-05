@@ -5,12 +5,9 @@ import { heavydynF25Exporter } from './f25'
 import { heavydynPDXExporter } from './pdx'
 import { heavydynSwecoExporter } from './sweco'
 
-const exporter = [
+export const heavydynReportExports = [
   heavydynF25Exporter,
   heavydynDynatestExporter,
   heavydynSwecoExporter,
+  ...(store.isProd ? [] : [heavydynPDXExporter]),
 ]
-
-export const heavydynReportExports = store.isProd
-  ? exporter
-  : [...exporter, heavydynPDXExporter]

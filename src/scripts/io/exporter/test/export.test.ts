@@ -1,4 +1,6 @@
+import { unzip, unzipSync, zip } from 'fflate'
 import { readFileSync, readdirSync, statSync } from 'fs'
+import { mrvzExporter } from 'src/scripts/io/exporter/report/custom/mvrz/index'
 import { heavydynDynatestExporter } from 'src/scripts/io/exporter/report/heavydyn/dynatest/index'
 import { heavydynF25Exporter } from 'src/scripts/io/exporter/report/heavydyn/f25/index'
 import { heavydynPDXExporter } from 'src/scripts/io/exporter/report/heavydyn/pdx'
@@ -151,5 +153,15 @@ describe('Test exports', async () => {
     ])
 
     expect(actualLignes).toEqual(expectedLignes)
+  })
+
+  test.each(
+    testData.map((data) => [data.directoryName, data.mpvz.project, data.mvrz])
+  )('test mvrz: %s', async (_, project, expected) => {
+    const mpvzFile = await mrvzExporter.export(project as HeavydynProject)
+
+    const data = await new Uint8Array(await mpvzFile.arrayBuffer())
+
+    expect(() => unzipSync(data)).not.toThrowError('invalid zip data')
   })
 })

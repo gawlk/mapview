@@ -1,5 +1,3 @@
-import store from '/src/store'
-
 import {
   convertJSONFromPRJZToMPVZ,
   importOverlaysFromZIP,

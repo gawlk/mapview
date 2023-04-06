@@ -1,7 +1,6 @@
 export * from './mercator'
 export * from './selectableList'
 export * from './zip'
-export * from './rawData'
 
 export * from './blender'
 export * from './browser'
@@ -11,4 +10,5 @@ export * from './file'
 export * from './formatting'
 export * from './localStorage'
 export * from './math'
+export * from './rawData'
 export * from './sleep'

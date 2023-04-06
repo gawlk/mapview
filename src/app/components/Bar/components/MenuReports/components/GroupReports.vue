@@ -1,8 +1,7 @@
 <script setup lang="ts">
   import store from '/src/store'
 
-  import { icons } from '/src/scripts'
-  import { hasRawData } from '/src/scripts/entities'
+  import { hasRawData, icons } from '/src/scripts'
 
   import IconEye from '~icons/heroicons-solid/eye'
   import IconEyeOff from '~icons/heroicons-solid/eye-off'

@@ -1,8 +1,7 @@
 import { createSelectableList } from '/src/scripts/utils/selectableList'
 
-console.log('context', import.meta.env.VITE_CONTEXT)
-
 const store: Store = shallowReactive({
+  // example: read('example') || defaultExample,
   projects: createSelectableList([]),
   selectedProject: null,
   selectedReport: null,

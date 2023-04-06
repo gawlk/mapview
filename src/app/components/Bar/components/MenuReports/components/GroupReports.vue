@@ -1,10 +1,11 @@
 <script setup lang="ts">
   import store from '/src/store'
 
-  import { icons } from '/src/scripts'
+  import { hasRawData, icons } from '/src/scripts'
 
   import IconEye from '~icons/heroicons-solid/eye'
   import IconEyeOff from '~icons/heroicons-solid/eye-off'
+  import IconData from '~icons/heroicons-solid/folder-open'
   import IconTrash from '~icons/heroicons-solid/trash'
   import IconViewGrid from '~icons/heroicons-solid/view-grid'
   import IconViewList from '~icons/heroicons-solid/view-list'
@@ -13,6 +14,8 @@
   import Dialog from '/src/components/Dialog.vue'
   import Listbox from '/src/components/Listbox.vue'
   import Popover from '/src/components/Popover.vue'
+
+  import env from '/src/env'
 
   const { t } = useI18n()
 
@@ -101,6 +104,7 @@
       >
         <Button
           :leftHTMLIcon="icons[report.settings.iconName]"
+          :right-icon="!env.isProd && hasRawData(report) ? IconData : undefined"
           @click="selectReport(report)"
           truncate
           full

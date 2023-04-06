@@ -86,7 +86,7 @@
   >
     <component
       class="h-5 w-5 transition-colors duration-200"
-      v-if="props.icon || props.leftIcon || props.rightIcon"
+      v-if="props.icon || props.leftIcon"
       :is="props.icon || props.leftIcon || 'span'"
       :class="iconsClasses || iconsColors"
     />

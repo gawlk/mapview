@@ -3,9 +3,11 @@ import { heavydynF25Exporter } from './f25'
 import { heavydynPDXExporter } from './pdx'
 import { heavydynSwecoExporter } from './sweco'
 
+import env from '/src/env'
+
 export const heavydynReportExports = [
   heavydynF25Exporter,
   heavydynDynatestExporter,
   heavydynSwecoExporter,
-  // heavydynPDXExporter,
+  ...(env.isProd ? [] : [heavydynPDXExporter]),
 ]

@@ -1,8 +1,10 @@
 import { createMathUnit } from '/src/scripts'
 
 export const createHeavydynMathUnitsFromJSON = (
-  json: JSONHeavydynUnits
+  json: JSONHeavydynUnitsVAny
 ): HeavydynMathUnits => {
+  json = upgradeJSON(json)
+
   return {
     deflection: createMathUnit('Deflection', json.deflection, 'm', [
       ['mm', 0],
@@ -54,5 +56,34 @@ export const createHeavydynMathUnitsFromJSON = (
         readOnly: true,
       }
     ),
+    radius: createMathUnit('Radius', json.radius, 'm', [
+      ['m', 0],
+      ['km', 0],
+      ['mi', 0],
+    ]),
   }
+}
+
+const upgradeJSON = (json: JSONHeavydynUnitsVAny): JSONHeavydynUnits => {
+  switch (json.version) {
+    case undefined:
+    case 1: {
+      const radius: JSONMathUnit<PossibleHeavydynRadiusUnits> = {
+        version: 1,
+        currentUnit: 'm',
+        currentPrecision: 0,
+        max: 2000,
+      }
+
+      const jsonV2: JSONHeavydynUnits = {
+        ...json,
+        version: 2,
+        radius,
+      }
+
+      json = jsonV2
+    }
+  }
+
+  return json
 }

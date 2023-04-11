@@ -1,8 +1,10 @@
 import { createMathUnit } from '/src/scripts'
 
 export const createMaxidynMathUnitsFromJSON = (
-  json: JSONMaxidynUnits
+  json: JSONMaxidynUnitsVAny
 ): MaxidynMathUnits => {
+  json = upgradeJSON(json)
+
   return {
     modulus: createMathUnit('Modulus', json.modulus, 'Pa', [['MPa', 0]], {
       averageFunction: 'capOutliers',
@@ -50,4 +52,16 @@ export const createMaxidynMathUnitsFromJSON = (
       }
     ),
   }
+}
+
+const upgradeJSON = (json: JSONMaxidynUnitsVAny): JSONMaxidynUnits => {
+  switch (json.version) {
+    case undefined:
+    case 1:
+    // upgrade
+    default:
+      json = json as JSONMaxidynUnits
+  }
+
+  return json
 }

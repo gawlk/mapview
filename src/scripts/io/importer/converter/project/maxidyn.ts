@@ -59,6 +59,7 @@ export const convertPRJZToMaxidynUnits = (json: any): JSONMaxidynUnits => {
   )
 
   return {
+    version: 1,
     modulus: {
       version: 1,
       currentUnit: 'MPa',

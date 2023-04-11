@@ -1,8 +1,10 @@
 import { createMathUnit } from '/src/scripts'
 
 export const createMinidynMathUnitsFromJSON = (
-  json: JSONMinidynUnits
+  json: JSONMinidynUnitsVAny
 ): MinidynMathUnits => {
+  json = upgradeJSON(json)
+
   return {
     modulus: createMathUnit('Modulus', json.modulus, 'Pa', [['MPa', 0]], {
       averageFunction: 'capOutliers',
@@ -50,4 +52,16 @@ export const createMinidynMathUnitsFromJSON = (
       }
     ),
   }
+}
+
+const upgradeJSON = (json: JSONMinidynUnitsVAny): JSONMinidynUnits => {
+  switch (json.version) {
+    case undefined:
+    case 1:
+    // upgrade
+    default:
+      json = json as JSONMinidynUnits
+  }
+
+  return json
 }

@@ -25,7 +25,22 @@ interface MathUnit<PossibleUnits> {
   currentUnit: PossibleUnits
   currentPrecision: number
   readonly getAverage: (values: number[]) => number
-  readonly toJSON: () => JSONMathUnit<PossibleUnits>
   readonly currentToBase: (value: number) => number
   readonly baseToCurrent: (value: number) => number
+  readonly isValueValid: (value: number) => boolean
+  readonly valueToString: (
+    value: number,
+    options?: MathUnitGetLocaleStringOptions
+  ) => string
+  readonly toJSON: () => JSONMathUnit<PossibleUnits>
+}
+
+interface MathUnitGetLocaleStringOptions {
+  readonly appendUnitToString?: true
+  readonly locale?: string
+  readonly precision?: number
+  readonly disablePreString?: true
+  readonly unit?: string
+  readonly removeSpaces?: true
+  readonly disableMinAndMax?: true
 }

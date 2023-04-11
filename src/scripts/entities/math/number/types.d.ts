@@ -6,17 +6,8 @@ interface MathNumber {
   readonly updateValue: (value: number) => void
   readonly updateDisplayedStrings: () => void
   readonly getLocaleString: (
-    options: MathNumberGetLocaleStringOptions
+    options?: MathNumberGetLocaleStringOptions
   ) => string
   readonly getValueAs: (unit: string) => number
-}
-
-interface MathNumberGetLocaleStringOptions {
-  readonly appendUnitToString?: true
-  readonly locale?: string
-  readonly precision?: number
-  readonly disablePreString?: true
-  readonly unit?: string
-  readonly removeSpaces?: true
-  readonly disableMinAndMax?: true
+  readonly toJSON: () => number | null
 }

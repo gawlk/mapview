@@ -112,7 +112,7 @@ export const createMathUnit = <PossibleUnits extends string>(
       )
     },
     isValueValid: (value) =>
-      (options?.isValueValid?.(value) ?? true) && !isNaN(value),
+      !isNaN(value) && (options?.isValueValid?.(value) ?? true),
     valueToString: function (value, options = {}) {
       let valueString
 

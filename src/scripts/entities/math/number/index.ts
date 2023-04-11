@@ -4,7 +4,7 @@ export const createMathNumber = (
   value: number | 'NaN',
   unit: MathUnit<string>
 ): MathNumber => {
-  const mathNumber = shallowReactive({
+  const mathNumber: MathNumber = shallowReactive({
     value: Number(value),
     unit,
     displayedString: '',
@@ -24,7 +24,7 @@ export const createMathNumber = (
     getValueAs: function (unit: string) {
       return convertValueFromUnitAToUnitB(this.value, this.unit.baseUnit, unit)
     },
-    getLocaleString: function (options?: MathUnitGetLocaleStringOptions) {
+    getLocaleString: function (options?) {
       return this.unit.valueToString(this.value, options)
     },
     toJSON: function () {

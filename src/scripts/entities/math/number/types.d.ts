@@ -5,9 +5,7 @@ interface MathNumber {
   displayedStringWithUnit: string
   readonly updateValue: (value: number) => void
   readonly updateDisplayedStrings: () => void
-  readonly getLocaleString: (
-    options?: MathNumberGetLocaleStringOptions
-  ) => string
+  readonly getLocaleString: (options?: MathUnitGetLocaleStringOptions) => string
   readonly getValueAs: (unit: string) => number
   readonly toJSON: () => number | null
 }

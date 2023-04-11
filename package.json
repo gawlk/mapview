@@ -45,7 +45,6 @@
     "@intlify/unplugin-vue-i18n": "^0.10.0",
     "@mermaid-js/mermaid-cli": "^10.0.2",
     "@tailwindcss/container-queries": "^0.1.1",
-    "@tailwindcss/line-clamp": "^0.4.4",
     "@trivago/prettier-plugin-sort-imports": "^4.1.1",
     "@types/dedent": "^0.7.0",
     "@types/file-saver": "^2.0.5",

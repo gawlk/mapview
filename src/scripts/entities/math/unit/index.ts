@@ -80,8 +80,6 @@ export const createMathUnit = <PossibleUnits extends string>(
             : true)
       )
 
-      console.log(this.name, filteredValues)
-
       return filteredValues.length > 0
         ? filteredValues.reduce(
             (total, currentValue) =>

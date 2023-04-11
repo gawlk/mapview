@@ -10,8 +10,6 @@ export const createHeavydynThresholdsGroupsFromJSON = (
 ) => {
   json = upgradeJSON(json)
 
-  console.log(json)
-
   const thresholdsGroups: HeavydynThresholdsGroups = {
     deflection: {
       unit: units.deflection,

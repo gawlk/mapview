@@ -24,8 +24,6 @@ export const createHeavydynProjectFromJSON = (
     json.distinct.units
   )
 
-  console.log('units', units)
-
   const baseProject = createBaseProjectFromJSON(json.base, map, {
     reports: [] as HeavydynReport[],
     information: json.base.information,

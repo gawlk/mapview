@@ -4,7 +4,6 @@ import vue from '@vitejs/plugin-vue'
 import autoprefixer from 'autoprefixer'
 import { visualizer } from 'rollup-plugin-visualizer'
 import tailwindcss from 'tailwindcss'
-import { viteTS2Mermaid } from 'ts2mermaid'
 import unpluginAutoImport from 'unplugin-auto-import/vite'
 import unpluginIconsResolver from 'unplugin-icons/resolver'
 import unpluginIcons from 'unplugin-icons/vite'
@@ -91,26 +90,6 @@ export default defineConfig({
       workbox: {
         skipWaiting: true,
       },
-    }),
-
-    viteTS2Mermaid({
-      global: {
-        pathToSave: 'docs/mermaid',
-      },
-      list: [
-        {
-          name: 'Heavydyn',
-          include: [/Heavydyn/, /Base/, 'Line'],
-        },
-        {
-          name: 'Maxidyn',
-          include: [/Maxidyn/, /Base/, 'Line'],
-        },
-        {
-          name: 'Minidyn',
-          include: [/Minidyn/, /Base/, 'Line'],
-        },
-      ],
     }),
 
     visualizer({

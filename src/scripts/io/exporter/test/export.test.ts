@@ -1,4 +1,4 @@
-import { unzip, unzipSync, zip } from 'fflate'
+import { unzipSync } from 'fflate'
 import { readFileSync, readdirSync, statSync } from 'fs'
 import { mrvzExporter } from 'src/scripts/io/exporter/report/custom/mvrz/index'
 import { heavydynDynatestExporter } from 'src/scripts/io/exporter/report/heavydyn/dynatest/index'
@@ -51,7 +51,7 @@ const exportFile = async (dirPath: string, folderName?: string) => {
       const file = await getFileFromPath(subPath)
 
       switch (extension) {
-        case 'mpvz':
+        case 'mpvz': {
           const project = await importFile(file)
           project?.addToMap()
           filesGroup.mpvz = {
@@ -59,6 +59,7 @@ const exportFile = async (dirPath: string, folderName?: string) => {
             project,
           }
           break
+        }
         case 'fwd':
           fileName.toLowerCase().includes('sweco')
             ? (filesGroup.fwds = file)
@@ -168,10 +169,17 @@ describe('Test exports', async () => {
       .filter((data) => data.mvrz)
       .map((data) => [data.directoryName, data.mpvz.project, data.mvrz])
   )('test mvrz: %s', async (_, project, expected) => {
-    const mpvzFile = await mrvzExporter.export(project as HeavydynProject)
+    const mpvzFile = await mrvzExporter.export(project as MachineProject)
 
-    const data = await new Uint8Array(await mpvzFile.arrayBuffer())
+    const data = new Uint8Array(await mpvzFile.arrayBuffer())
 
     expect(() => unzipSync(data)).not.toThrowError('invalid zip data')
+
+    const expectedData = new Uint8Array(await expected.arrayBuffer())
+
+    const unzippedContent = unzipSync(data)
+    const unzippedExpected = unzipSync(expectedData)
+
+    expect(unzippedContent).toHaveSameRawData(unzippedExpected)
   })
 })

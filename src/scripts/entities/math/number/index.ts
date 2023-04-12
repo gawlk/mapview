@@ -24,8 +24,8 @@ export const createMathNumber = (
     getValueAs: function (unit: string) {
       return convertValueFromUnitAToUnitB(this.value, this.unit.baseUnit, unit)
     },
-    isValid: function () {
-      return this.unit.isValid(this.value)
+    checkValidity: function () {
+      return this.unit.checkValidity(this.value)
     },
     getLocaleString: function (options?) {
       return this.unit.valueToString(this.value, options)

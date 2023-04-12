@@ -27,7 +27,7 @@ export const createMaxidynMathUnitsFromJSON = (
         ['um', 0],
       ],
       {
-        isValid: (value) => value >= 0,
+        checkValidity: (value) => value >= 0,
       }
     ),
     force: createMathUnit(
@@ -39,7 +39,7 @@ export const createMaxidynMathUnitsFromJSON = (
         ['kN', 0],
       ],
       {
-        isValid: (value) => value >= 0,
+        checkValidity: (value) => value >= 0,
       }
     ),
     distance: createMathUnit('Distance', json.distance, 'm', [
@@ -57,7 +57,7 @@ export const createMaxidynMathUnitsFromJSON = (
         ['us', 0],
       ],
       {
-        isValid: (value) => value >= 0,
+        checkValidity: (value) => value >= 0,
       }
     ),
     percentage: createMathUnit(

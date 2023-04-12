@@ -27,7 +27,7 @@ interface MathUnit<PossibleUnits> {
   readonly getAverage: (values: number[]) => number
   readonly currentToBase: (value: number) => number
   readonly baseToCurrent: (value: number) => number
-  readonly isValid: (value: number) => boolean
+  readonly checkValidity: (value: number) => boolean
   readonly valueToString: (
     value: number,
     options?: MathUnitGetLocaleStringOptions

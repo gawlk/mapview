@@ -3,7 +3,7 @@ interface MathNumber {
   readonly unit: MathUnit<string>
   displayedString: string
   displayedStringWithUnit: string
-  readonly isValid: () => boolean
+  readonly checkValidity: () => boolean
   readonly updateValue: (value: number) => void
   readonly updateDisplayedStrings: () => void
   readonly getLocaleString: (options?: MathUnitGetLocaleStringOptions) => string

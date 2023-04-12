@@ -47,7 +47,7 @@ export const createMathUnit = <PossibleUnits extends string>(
     averageFunction?: 'allEqual' | 'capOutliers' | 'ignoreOutliers'
     readOnly?: true
     invalidReplacement?: string
-    isValid?: (value: number) => boolean
+    checkValidity?: (value: number) => boolean
   }
 ): MathUnit<PossibleUnits> => {
   const currentUnit = json.currentUnit || possibleSettings[0][0]
@@ -74,7 +74,7 @@ export const createMathUnit = <PossibleUnits extends string>(
 
       const filteredValues: number[] = values.filter(
         (value) =>
-          this.isValid(value) &&
+          this.checkValidity(value) &&
           (options?.averageFunction === 'ignoreOutliers'
             ? value <= max && value >= min
             : true)
@@ -109,11 +109,12 @@ export const createMathUnit = <PossibleUnits extends string>(
         this.currentUnit
       )
     },
-    isValid: (value) => !isNaN(value) && (options?.isValid?.(value) ?? true),
+    checkValidity: (value) =>
+      !isNaN(value) && (options?.checkValidity?.(value) ?? true),
     valueToString: function (value, options = {}) {
       let valueString
 
-      if (this.isValid(value)) {
+      if (this.checkValidity(value)) {
         const numberToLocaleOptions = {
           locale: options.locale,
           precision: options.precision,

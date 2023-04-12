@@ -30,6 +30,16 @@ export const createMathNumber = (
     getLocaleString: function (options?) {
       return this.unit.valueToString(this.value, options)
     },
+    toCurrent: function () {
+      return this.unit.baseToCurrent(this.value)
+    },
+    toExcel: function (asCurrent = false) {
+      return this.checkValidity()
+        ? asCurrent
+          ? this.toCurrent()
+          : this.value
+        : null
+    },
     toJSON: function () {
       return isNaN(this.value) ? 'NaN' : this.value
     },

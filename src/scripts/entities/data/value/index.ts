@@ -17,6 +17,9 @@ export const createDataValue = (
         value: this.getRawValue(),
       }
     },
+    toExcel: function () {
+      return this.value.toExcel(true)
+    },
   }
 }
 

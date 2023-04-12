@@ -19,6 +19,7 @@ interface DataValue<T extends string> {
   readonly value: MathNumber
   readonly getRawValue(): number
   readonly toJSON: () => JSONDataValue
+  readonly toExcel: () => number | null
 }
 
 type DataValueTuple = [DataValue<string>, DataValueUpdater]

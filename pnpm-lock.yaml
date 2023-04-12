@@ -35,8 +35,8 @@ dependencies:
     specifier: ^4.17.21
     version: 4.17.21
   mapbox-gl:
-    specifier: ^2.13.0
-    version: 2.14.0
+    specifier: 2.13.0
+    version: 2.13.0
   mathjs:
     specifier: ^11.8.0
     version: 11.8.0
@@ -4255,8 +4255,8 @@ packages:
       semver: 6.3.0
     dev: true
 
-  /mapbox-gl@2.14.0:
-    resolution: {integrity: sha512-vbIx7i7BWw7s8jZiOINOlJJfiXH2fuD/p8YxHNQa0Gi57n03fAtQh4z54R0ddQJERg1ObmPxOmsow1OlB+yuXA==}
+  /mapbox-gl@2.13.0:
+    resolution: {integrity: sha512-G8pU1/I9HC7xNbhKPKFtRkdUDkWJBNbYPMeRjBig3lPaYtvHPIaFmXMR6BDyZ/gnwodElrwMZGdGsoH8kecX8w==}
     dependencies:
       '@mapbox/geojson-rewind': 0.5.2
       '@mapbox/jsonlint-lines-primitives': 2.0.2

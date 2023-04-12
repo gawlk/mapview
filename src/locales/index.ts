@@ -42,10 +42,7 @@ export const getBrowserLocales = (languageCodeOnly = false) => {
 
 export const numberToLocaleString = (
   value: number,
-  options: {
-    locale?: string
-    precision?: number
-  } = {}
+  options: NumberToLocaleOptions = {}
 ) =>
   value.toLocaleString(
     options.locale ||

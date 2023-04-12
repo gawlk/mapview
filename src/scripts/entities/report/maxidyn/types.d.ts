@@ -19,9 +19,6 @@ interface JSONMaxidynReportDistinct {
   readonly thresholds: JSONMaxidynThresholdsConfigurations
 }
 
-type JSONMaxidynThresholdsConfigurations =
-  MaxidynUnitsSkeleton<JSONDistinctThresholdsConfiguration>
-
 // ---
 // Object
 // ---

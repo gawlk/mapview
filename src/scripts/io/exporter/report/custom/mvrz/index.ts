@@ -85,7 +85,7 @@ const generatePointData = (
         const label = labelPrefix + toPascalCase(data.label.getSerializedName())
         const value = data.label.unit
           ? data.value.getValueAs(data.label.unit.currentUnit)
-          : data.value.value
+          : data.getRawValue()
 
         const values = [...((b[label] || []) as number[]), value]
 
@@ -158,7 +158,7 @@ const generateDropData = (
 
           const value = data.label.unit
             ? data.value.getValueAs(data.label.unit.currentUnit)
-            : data.value.value
+            : data.getRawValue()
 
           values.push(value)
 
@@ -188,7 +188,7 @@ const generateZoneData = (zones: MachineZone[]): ExcelJson =>
           ...prev,
           [Z + '_' + toPascalCase(data.label.name)]: data.value.unit
             ? data.value.getValueAs(data.value.unit.currentUnit)
-            : data.value.value,
+            : data.getRawValue(),
         }),
         {}
       ),

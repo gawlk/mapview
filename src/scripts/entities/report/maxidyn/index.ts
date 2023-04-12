@@ -71,6 +71,7 @@ export const createMaxidynReportFromJSON = (
             group.toJSON()
           ),
           thresholds: {
+            version: 1,
             deflection: convertThresholdsConfigurationToJSON(
               thresholdGroup.deflection
             ),

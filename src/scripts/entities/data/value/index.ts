@@ -7,11 +7,14 @@ export const createDataValue = (
   return {
     label,
     value: createMathNumber(value, label.unit),
+    getRawValue: function () {
+      return this.value.value
+    },
     toJSON: function () {
       return {
         version: 1,
         label: this.label.name,
-        value: this.value.value,
+        value: this.getRawValue(),
       }
     },
   }

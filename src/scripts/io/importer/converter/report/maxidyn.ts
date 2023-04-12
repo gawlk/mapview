@@ -52,6 +52,7 @@ export const convertPRJZToMaxidynReportDistinct = (
   return {
     version: 1,
     thresholds: {
+      version: 1,
       modulus: {
         version: 1,
         selectedIndex: modulusThresholdIndex,

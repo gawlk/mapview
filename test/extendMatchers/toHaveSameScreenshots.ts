@@ -1,14 +1,13 @@
-import { Unzipped } from 'fflate'
 import { compareFiles } from 'test/utils'
 import { expect } from 'vitest'
 
 interface CustomMatchers<R = unknown> {
-  toHaveSameScreenshots(expected: Unzipped): R
+  toHaveSameScreenshots(expected: Fflate.Unzipped): R
 }
 
 export const toHaveSameScreenshots = async (
-  actual: Unzipped,
-  expected: Unzipped
+  actual: Fflate.Unzipped,
+  expected: Fflate.Unzipped
 ) => {
   const compareResult = compareFiles(actual, expected, {
     filter: 'screenshots/',

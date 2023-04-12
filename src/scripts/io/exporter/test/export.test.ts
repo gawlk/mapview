@@ -8,7 +8,7 @@ import { heavydynSwecoExporter } from 'src/scripts/io/exporter/report/heavydyn/s
 import { filesToString } from 'test/utils/text'
 import { describe, expect, test } from 'vitest'
 
-import { importFile } from '/src/scripts'
+import { importFile, unzippedToObject } from '/src/scripts'
 
 export const getFileFromPath = async (path: string) => {
   const buffer = readFileSync(path)

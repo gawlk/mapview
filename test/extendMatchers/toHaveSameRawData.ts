@@ -1,12 +1,14 @@
-import { Unzipped } from 'fflate'
 import { compareFiles } from 'test/utils'
 import { expect } from 'vitest'
 
 interface CustomMatchers<R = unknown> {
-  toHaveSameRawData(expected: Unzipped): R
+  toHaveSameRawData(expected: Fflate.Unzipped): R
 }
 
-export const toHaveSameRawData = (actual: Unzipped, expected: Unzipped) => {
+export const toHaveSameRawData = (
+  actual: Fflate.Unzipped,
+  expected: Fflate.Unzipped
+) => {
   const compareResult = compareFiles(actual, expected, { filter: 'rawdata/' })
   const { lastKey, haveSameContent } = compareResult
 

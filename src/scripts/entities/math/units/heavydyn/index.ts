@@ -16,7 +16,7 @@ export const createHeavydynMathUnitsFromJSON = (
         ['um', 0],
       ],
       {
-        isValueValid: (value) => value >= 0,
+        isValid: (value) => value >= 0,
       }
     ),
     modulus: createMathUnit('Modulus', json.modulus, 'Pa', [['MPa', 2]]),
@@ -30,7 +30,7 @@ export const createHeavydynMathUnitsFromJSON = (
         ['lbs', 0],
       ],
       {
-        isValueValid: (value) => value >= 0,
+        isValid: (value) => value >= 0,
       }
     ),
     temperature: createMathUnit('Temperature', json.temperature, '°C', [
@@ -54,7 +54,7 @@ export const createHeavydynMathUnitsFromJSON = (
       ],
       {
         step: 0.1,
-        isValueValid: (value) => value >= 0,
+        isValid: (value) => value >= 0,
       }
     ),
     cumSum: createMathUnit(
@@ -83,7 +83,7 @@ export const createHeavydynMathUnitsFromJSON = (
         ['mi', 0],
       ],
       {
-        isValueValid: (value) => value >= 0,
+        isValid: (value) => value >= 0,
       }
     ),
   }

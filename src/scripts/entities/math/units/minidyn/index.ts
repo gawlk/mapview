@@ -27,7 +27,7 @@ export const createMinidynMathUnitsFromJSON = (
         ['um', 0],
       ],
       {
-        isValueValid: (value) => value >= 0,
+        isValid: (value) => value >= 0,
       }
     ),
     force: createMathUnit(
@@ -39,7 +39,7 @@ export const createMinidynMathUnitsFromJSON = (
         ['kN', 0],
       ],
       {
-        isValueValid: (value) => value >= 0,
+        isValid: (value) => value >= 0,
       }
     ),
     distance: createMathUnit('Distance', json.distance, 'm', [
@@ -57,7 +57,7 @@ export const createMinidynMathUnitsFromJSON = (
         ['us', 0],
       ],
       {
-        isValueValid: (value) => value >= 0,
+        isValid: (value) => value >= 0,
       }
     ),
     percentage: createMathUnit(

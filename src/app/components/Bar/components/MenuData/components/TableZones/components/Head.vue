@@ -13,9 +13,8 @@
 
   const getValuesFromZones = (dataLabel: DataLabel<string>) =>
     props.zones
-      .map(
-        (zone) =>
-          zone.data.find((data) => data.label === dataLabel)?.value.value
+      .map((zone) =>
+        zone.data.find((data) => data.label === dataLabel)?.getRawValue()
       )
       .filter((value) => typeof value === 'number') as number[]
 </script>

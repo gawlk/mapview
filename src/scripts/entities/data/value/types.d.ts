@@ -17,6 +17,7 @@ interface JSONDataValue {
 interface DataValue<T extends string> {
   readonly label: DataLabel<T>
   readonly value: MathNumber
+  readonly getRawValue(): number
   readonly toJSON: () => JSONDataValue
 }
 

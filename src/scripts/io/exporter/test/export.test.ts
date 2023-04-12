@@ -171,6 +171,8 @@ describe('Test exports', async () => {
   )('test mvrz: %s', async (_, project, expected) => {
     const mpvzFile = await mrvzExporter.export(project as MachineProject)
 
+    console.log(mpvzFile.name)
+
     const data = new Uint8Array(await mpvzFile.arrayBuffer())
 
     expect(() => unzipSync(data)).not.toThrowError('invalid zip data')
@@ -181,5 +183,6 @@ describe('Test exports', async () => {
     const unzippedExpected = unzipSync(expectedData)
 
     expect(unzippedContent).toHaveSameRawData(unzippedExpected)
+    expect(unzippedContent).toHaveSameScreenshots(unzippedExpected)
   })
 })

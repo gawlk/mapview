@@ -3,16 +3,21 @@ import { compareFiles } from 'test/utils'
 import { expect } from 'vitest'
 
 interface CustomMatchers<R = unknown> {
-  toHaveSameRawData(expected: Unzipped): R
+  toHaveSameScreenshots(expected: Unzipped): R
 }
 
-export const toHaveSameRawData = (actual: Unzipped, expected: Unzipped) => {
-  const compareResult = compareFiles(actual, expected, { filter: 'rawdata/' })
+export const toHaveSameScreenshots = async (
+  actual: Unzipped,
+  expected: Unzipped
+) => {
+  const compareResult = compareFiles(actual, expected, {
+    filter: 'screenshots/',
+  })
   const { lastKey, haveSameContent } = compareResult
 
   if (!compareResult.isSameLength) {
     return {
-      message: () => "number of rawData aren't the same",
+      message: () => "number os screenshots aren't the same",
       pass: false,
     }
   }
@@ -20,7 +25,7 @@ export const toHaveSameRawData = (actual: Unzipped, expected: Unzipped) => {
   if (!compareResult.haveSameFile) {
     return {
       message: () =>
-        `rawData files are different ${lastKey} isn't present in expected`,
+        `screenshots files are different ${lastKey} isn't present in expected`,
       pass: false,
     }
   }
@@ -35,7 +40,7 @@ export const toHaveSameRawData = (actual: Unzipped, expected: Unzipped) => {
 }
 
 expect.extend({
-  toHaveSameRawData,
+  toHaveSameScreenshots,
 })
 
 declare global {

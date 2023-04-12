@@ -1,4 +1,5 @@
 import { isValidDate } from './date'
+import { compareFiles } from './files'
 import { toFiveDecimal } from './number'
 import {
   fileToStringArray,
@@ -16,4 +17,5 @@ export {
   filesToStringArray,
   getValue,
   parseData,
+  compareFiles,
 }

@@ -8,6 +8,8 @@ interface MathNumber {
   readonly updateDisplayedStrings: () => void
   readonly getLocaleString: (options?: MathUnitGetLocaleStringOptions) => string
   readonly getValueAs: (unit: string) => number
+  readonly toCurrent: () => number
+  readonly toExcel: (asCurrent: boolean) => number | null
   readonly toJSON: () => JSONMathNumberValue
 }
 

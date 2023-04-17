@@ -27,37 +27,64 @@ const maxDaysInMonth: { [key: number]: number } = {
   12: 31,
 }
 
-export const isValidDate = (dateData: ParsedDate) => {
-  const dateString = dateData.origin
-  const dateFormat =
+export const isValidDateFormat = (dateData: ParsedDate | string) => {
+  let dateFormat =
     /(([1-9])|([0][1-9])|([1-2][0-9])|([3][0-1]))\-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\-\d{4}/
+  let dateString = ''
 
-  // Vérifier si la date respecte le format "dd-mmm-YYYY"
-  if (!dateFormat.test(dateString)) {
-    return false
+  if (typeof dateData === 'string') {
+    dateFormat =
+      /^20\d{2}-([0][1-9]|[1][0-2])-([0-2][1-9]|[3][0-1])T([01][0-9]|[2][0-3]):([0-5][0-9]):([0-5][0-9])(.\d{3})?Z?$/
+    dateString = dateData
+  } else {
+    dateString = dateData.origin
   }
 
-  // Vérifier si la date est valide
-  const dateParts = dateString.split('-')
-  const day = parseInt(dateParts[0], 10)
-  const month = dateParts[1].toUpperCase()
-  const year = parseInt(dateParts[2], 10)
+  return dateFormat.test(dateString)
+}
 
-  // Vérifier si l'année est bissextile
+export const isValidDateValue = (dateData: ParsedDate | string) => {
+  let dateString = ''
+  let dateParts = []
+  let day = 0
+  let month: string = '0'
+  let year = 0
+
+  if (typeof dateData === 'string') {
+    dateString = dateData
+    dateParts = dateString.split('T')[0].split('-')
+  } else {
+    dateString = dateData.origin
+    dateParts = dateString.split('-')
+  }
+
+  if (typeof dateData === 'string') {
+    day = parseInt(dateParts[2], 10)
+    month = dateParts[1].toUpperCase()
+    year = parseInt(dateParts[0], 10)
+  } else {
+    day = parseInt(dateParts[0], 10)
+    month = dateParts[1].toUpperCase()
+    year = parseInt(dateParts[2], 10)
+  }
+
   if ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) {
     maxDaysInMonth[2] = 29
   }
 
-  // Vérifier si le mois est valide
-  if (!monthsMap.hasOwnProperty(month)) {
-    return false
-  }
-  const monthNumber = monthsMap[month]
-
-  // Vérifier si le jour est valide
-  if (day < 1 || day > maxDaysInMonth[monthNumber]) {
+  if (
+    (month.length === 3 && !monthsMap.hasOwnProperty(month)) ||
+    Number(month) < 0 ||
+    Number(month) > 12
+  ) {
     return false
   }
 
-  return true
+  const monthIndex = month.length === 3 ? monthsMap[month] : Number(month)
+
+  return day > 0 && day <= maxDaysInMonth[monthIndex]
+}
+
+export const isValidDate = (dateData: ParsedDate | string) => {
+  return isValidDateFormat(dateData) && isValidDateValue(dateData)
 }

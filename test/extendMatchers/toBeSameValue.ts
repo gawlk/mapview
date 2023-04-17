@@ -1,17 +1,9 @@
-import { index } from 'mathjs'
 import { filesToStringArray, isValidDate, parseData } from 'test/utils'
-import { toFiveDecimal } from 'test/utils/number'
+import { checkNumericValue } from 'test/utils/data'
 import { expect } from 'vitest'
 
 interface CustomMatchers<R = unknown> {
   toBeSameValue(expected: File): R
-}
-
-const checkNumericValue = (actual: number, expected: number) => {
-  const preciseActual = toFiveDecimal(actual)
-  const preciseExpected = toFiveDecimal(expected)
-
-  return preciseActual === preciseExpected
 }
 
 export const toBeSameValue = async (
@@ -64,9 +56,8 @@ export const toBeSameValue = async (
       const parsed = expectedValue as ParsedDate
 
       if (!isValidDate(parsed)) {
-        console.log(parsed)
         return {
-          message: () => `Date isn't valid`,
+          message: () => `Date isn't valid: (${parsed.origin})`,
           pass: false,
         }
       }

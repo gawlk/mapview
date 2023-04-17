@@ -1,9 +1,3 @@
-type transformerDataType =
-  | 'onlyValue'
-  | 'onlyKey'
-  | 'noTransformation'
-  | 'combos'
-
 interface combosData {
   key: string
   value: string

@@ -124,11 +124,11 @@ const generatePointInformation = (points: BasePoint[], labelPrefix: string) =>
       ],
       [labelPrefix + 'Longitude']: [
         ...((a[labelPrefix + 'Longitude'] || []) as number[]),
-        point.marker?.getLngLat().lng || 0,
+        (point.toBaseJSON().coordinates as LngLat).lng || 0,
       ],
       [labelPrefix + 'Latitude']: [
         ...((a[labelPrefix + 'Latitude'] || []) as number[]),
-        point.marker?.getLngLat().lat || 0,
+        (point.toBaseJSON().coordinates as LngLat).lat || 0,
       ],
     }),
     {}

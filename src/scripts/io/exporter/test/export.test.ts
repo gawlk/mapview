@@ -6,9 +6,9 @@ import { heavydynF25Exporter } from 'src/scripts/io/exporter/report/heavydyn/f25
 import { heavydynPDXExporter } from 'src/scripts/io/exporter/report/heavydyn/pdx'
 import { heavydynSwecoExporter } from 'src/scripts/io/exporter/report/heavydyn/sweco/index'
 import { filesToString } from 'test/utils/text'
-import { describe, expect, test } from 'vitest'
+import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest'
 
-import { importFile, unzippedToObject } from '/src/scripts'
+import { importFile } from '/src/scripts'
 
 export const getFileFromPath = async (path: string) => {
   const buffer = readFileSync(path)
@@ -98,6 +98,14 @@ describe('Test exports', async () => {
     })
   )
 
+  beforeAll(() => {
+    vi.stubGlobal('navigator', { language: 'fr-FR' })
+  })
+
+  afterAll(() => {
+    vi.restoreAllMocks()
+  })
+
   test.each(
     testData
       .filter((data) => data.pdx)
@@ -171,7 +179,9 @@ describe('Test exports', async () => {
   )('test mvrz: %s', async (_, project, expected) => {
     const mpvzFile = await mrvzExporter.export(project as MachineProject)
 
-    console.log(mpvzFile.name)
+    expect(mpvzFile.name).toSatisfy(
+      (val: string) => val.substring(val.length - 4) === 'mvrz'
+    )
 
     const data = new Uint8Array(await mpvzFile.arrayBuffer())
 
@@ -184,5 +194,6 @@ describe('Test exports', async () => {
 
     expect(unzippedContent).toHaveSameRawData(unzippedExpected)
     expect(unzippedContent).toHaveSameScreenshots(unzippedExpected)
+    expect(unzippedContent).toHaveSameJson(unzippedExpected)
   })
 })

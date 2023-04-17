@@ -83,11 +83,8 @@ const generatePointData = (
     (a, point) =>
       point.data.reduce<FlatDataJson>((b, data) => {
         const label = labelPrefix + toPascalCase(data.label.getSerializedName())
-        const value = data.label.unit
-          ? data.value.getValueAs(data.label.unit.currentUnit)
-          : data.value.value
 
-        const values = [...((b[label] || []) as number[]), value]
+        const values = [...((b[label] || []) as number[]), data.toExcel()]
 
         return {
           ...b,
@@ -154,13 +151,9 @@ const generateDropData = (
             '_' +
             toPascalCase(data.label.getSerializedName())
 
-          const values = (c[label] || []) as number[]
+          const values = (c[label] || []) as (number | null)[]
 
-          const value = data.label.unit
-            ? data.value.getValueAs(data.label.unit.currentUnit)
-            : data.value.value
-
-          values.push(value)
+          values.push(data.toExcel())
 
           return {
             ...c,
@@ -186,9 +179,7 @@ const generateZoneData = (zones: MachineZone[]): ExcelJson =>
       ...zone.data.reduce<ExcelJson>(
         (prev, data) => ({
           ...prev,
-          [Z + '_' + toPascalCase(data.label.name)]: data.value.unit
-            ? data.value.getValueAs(data.value.unit.currentUnit)
-            : data.value.value,
+          [Z + '_' + toPascalCase(data.label.name)]: data.toExcel(),
         }),
         {}
       ),

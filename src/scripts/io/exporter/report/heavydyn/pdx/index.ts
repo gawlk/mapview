@@ -185,16 +185,17 @@ const writePoints = (project: HeavydynProject) => {
         })
         .join(',')
 
-      const comment = point.data.find((data) => data.label.name === 'Comment')
-        ?.value.value
+      const comment = point.data
+        .find((data) => data.label.name === 'Comment')
+        ?.getRawValue()
 
       const { lat, lng } = point.toBaseJSON().coordinates as mapboxgl.LngLat
 
       return dedent`
         [Test Location ${point.index}]
-        TestLocation = ${
-          point.data.find((data) => data.label.name === 'Chainage')?.value.value
-        },0,0 
+        TestLocation = ${point.data
+          .find((data) => data.label.name === 'Chainage')
+          ?.getRawValue()},0,0 
         GPSLocation = ${lat.toFixed(8)},${lng.toFixed(8)},0
         TestLane = ${comment}  
         TestType = 0
@@ -226,7 +227,7 @@ const writeDrops = (point: BasePoint, dPlate: number) => {
         })
 
       const power =
-        ((drop.data[1].value.value * 1e-3) / Math.PI / dPlate / dPlate) * 4
+        ((drop.data[1].getRawValue() * 1e-3) / Math.PI / dPlate / dPlate) * 4
 
       values.unshift(power.toFixed(2).toString())
 

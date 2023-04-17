@@ -5,9 +5,11 @@ import {
 } from '/src/scripts'
 
 export const createHeavydynThresholdsGroupsFromJSON = (
-  json: JSONHeavydynThresholdsConfigurations,
+  json: JSONHeavydynThresholdsConfigurationsVAny,
   units: HeavydynMathUnits
 ) => {
+  json = upgradeJSON(json)
+
   const thresholdsGroups: HeavydynThresholdsGroups = {
     deflection: {
       unit: units.deflection,
@@ -75,7 +77,46 @@ export const createHeavydynThresholdsGroupsFromJSON = (
         }
       ),
     },
+    radius: {
+      unit: units.radius,
+      choices: createSelectableList(
+        [createCustomThreshold(json.radius.custom)] as ThresoldsList,
+        {
+          selectedIndex: json.radius.selectedIndex,
+        }
+      ),
+    },
   }
 
   return thresholdsGroups
+}
+
+const upgradeJSON = (
+  json: JSONHeavydynThresholdsConfigurationsVAny
+): JSONHeavydynThresholdsConfigurations => {
+  switch (json.version) {
+    case undefined:
+    case 1: {
+      const radius: JSONDistinctThresholdsConfiguration = {
+        version: 1,
+        selectedIndex: 0,
+        custom: {
+          version: 1,
+          type: 'Bicolor',
+          value: 0,
+          valueHigh: 0,
+        },
+      }
+
+      const jsonV2: JSONHeavydynThresholdsConfigurations = {
+        ...json,
+        version: 2,
+        radius,
+      }
+
+      json = jsonV2
+    }
+  }
+
+  return json
 }

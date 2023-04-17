@@ -155,7 +155,7 @@ const writePoints = (project: HeavydynProject) => {
         .filter((data) => data.label.unit === project.units.temperature)
         .map((data, index) => {
           const precision = index === 0 ? 1 : 0
-          const value = data.value.value.toFixed(precision)
+          const value = data.getRawValue().toFixed(precision)
           if (index === 0) {
             return value.padStart(4, ' ')
           } else {
@@ -173,8 +173,9 @@ const writePoints = (project: HeavydynProject) => {
         .join(' ')
 
       const chainage = Number(
-        point.data.find((pointData) => pointData.label.name === 'Chainage')
-          ?.value.value
+        point.data
+          .find((pointData) => pointData.label.name === 'Chainage')
+          ?.getRawValue()
       )
         .toFixed(2)
         .padStart(8, ' ')
@@ -206,11 +207,13 @@ const writeDrops = (point: BasePoint, dPlate: number) => {
         })
 
       const power =
-        (((drop.data.find(
-          (data) =>
-            data.label.unit === point.zone.report.project.units.force &&
-            data.label.category === currentCategory
-        )?.value.value || 0) *
+        (((drop.data
+          .find(
+            (data) =>
+              data.label.unit === point.zone.report.project.units.force &&
+              data.label.category === currentCategory
+          )
+          ?.getRawValue() || 0) *
           1e-3) /
           Math.PI /
           dPlate /

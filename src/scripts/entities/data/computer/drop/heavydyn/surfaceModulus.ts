@@ -52,7 +52,7 @@ export const createHeavydynSurfaceModulusDataComputers = (
                 drop.data[drop.data.push(createDataValue(0, label)) - 1]
 
               if (load) {
-                const pressure = load.value.value / (Math.PI * radius ** 2)
+                const pressure = load.getRawValue() / (Math.PI * radius ** 2)
 
                 const value = 2 * pressure * (1 - poisson) * radius
 

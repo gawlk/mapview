@@ -3,3 +3,10 @@ interface MaxidynThresholds extends BaseThresholds {
 }
 
 type MaxidynThresholdsGroups = MaxidynUnitsSkeleton<ThresholdsGroup<string>>
+
+type JSONMaxidynThresholdsConfigurationsVAny =
+  JSONMaxidynThresholdsConfigurations
+
+type JSONMaxidynThresholdsConfigurations = {
+  version: 1
+} & MaxidynUnitsSkeleton<JSONDistinctThresholdsConfiguration>

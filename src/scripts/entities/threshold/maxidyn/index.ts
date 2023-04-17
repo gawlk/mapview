@@ -5,9 +5,11 @@ import {
 } from '/src/scripts'
 
 export const createMaxidynThresholdsGroupsFromJSON = (
-  json: JSONMaxidynThresholdsConfigurations,
+  json: JSONMaxidynThresholdsConfigurationsVAny,
   units: MaxidynMathUnits
 ) => {
+  json = upgradeJSON(json)
+
   const thresholdsGroups: MaxidynThresholdsGroups = {
     modulus: {
       unit: units.modulus,
@@ -78,4 +80,18 @@ export const createMaxidynThresholdsGroupsFromJSON = (
   }
 
   return thresholdsGroups
+}
+
+const upgradeJSON = (
+  json: JSONMaxidynThresholdsConfigurationsVAny
+): JSONMaxidynThresholdsConfigurations => {
+  switch (json.version) {
+    case undefined:
+    case 1:
+    // upgrade
+    default:
+      json = json as JSONMaxidynThresholdsConfigurations
+  }
+
+  return json
 }

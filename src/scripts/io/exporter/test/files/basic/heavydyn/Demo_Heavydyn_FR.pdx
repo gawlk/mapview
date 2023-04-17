@@ -57,7 +57,7 @@ DMIDeviceCalibrationFactor = 178.5
 SiteName = 23-2469 
 FacilityName = D224 
 SectionName = Gauche
-PavementType = [object Object]
+PavementType = Béton bitumineux
 
 [Test Location 0]
 TestLocation = 124.5,0,0 

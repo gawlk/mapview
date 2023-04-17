@@ -141,9 +141,9 @@ const writeDeviceCalibration = (project: HeavydynProject) => {
     (info) => info.label === 'Lane'
   )?.value
 
-  const materialPlatform = project.reports.selected?.platform.find(
-    (info) => info.label === 'Material'
-  )?.value
+  const materialPlatform = project.reports.selected?.platform
+    .find((info) => info.label === 'Material')
+    ?.toString()
 
   const sensorReferenceCalibrationFactor =
     '1, '.repeat(project.calibrations.channels.length - 2) + '1'

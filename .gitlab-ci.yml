@@ -42,7 +42,7 @@ version-2:
   after_script:
     - *git_tag
 
-test-code:
+test-vitest:
   stage: test
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
@@ -52,7 +52,7 @@ test-code:
     - npx pnpm check
     - npx pnpm test
 
-test-e2e:
+test-playwright:
   stage: test
   image: mcr.microsoft.com/playwright:v1.31.0-focal
   rules:
@@ -61,6 +61,7 @@ test-e2e:
   script:
     - npx pnpm i --store=node_modules/.pnpm-store
     - npx pnpm check
+    - npx playwright install
     - npx playwright test
 
 test-ts:

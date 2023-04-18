@@ -5,7 +5,7 @@ export const createMathNumber = (
   unit: MathUnit<string>
 ): MathNumber => {
   const mathNumber: MathNumber = shallowReactive({
-    value: Number(value),
+    value: Number(value ?? 'NaN'),
     unit,
     displayedString: '',
     displayedStringWithUnit: '',

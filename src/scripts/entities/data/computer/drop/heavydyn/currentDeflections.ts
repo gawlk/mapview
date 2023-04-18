@@ -33,13 +33,14 @@ export const createHeavydynCurrentDeflectionDropDataComputers = (
           const dropIndexValue = dropGroupDataLabels.indexes.selected?.value
 
           const sourceTempMatrix = report.zones.map((zone) =>
-            zone.points.map(
-              (point) =>
-                point.data.find(
+            zone.points.map((point) =>
+              point.data
+                .find(
                   (data) =>
                     data.label.name ===
                     correctionParameters.temperature.source.selected
-                )?.value.value
+                )
+                ?.getRawValue()
             )
           )
 
@@ -65,7 +66,7 @@ export const createHeavydynCurrentDeflectionDropDataComputers = (
                       drop.data.push(createDataValue(0, currentLabel)) - 1
                     ]
 
-                  let value = rawData.value.value
+                  let value = rawData.getRawValue()
 
                   const currentLoad = drop.data.find(
                     (data) =>
@@ -80,7 +81,7 @@ export const createHeavydynCurrentDeflectionDropDataComputers = (
                   )
 
                   if (currentLoad && rawLoad) {
-                    value *= currentLoad.value.value / rawLoad.value.value
+                    value *= currentLoad.getRawValue() / rawLoad.getRawValue()
                   }
 
                   const sourceTemperature =

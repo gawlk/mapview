@@ -1,8 +1,7 @@
-type ExcelData = string | number | boolean
-type ExcelFlatData = string[] | number[] | boolean[]
+type ExcelData = string | number | boolean | null
 
 interface ExcelJson extends AnyJSON {
-  [key: string]: ExcelData | ExcelFlatData
+  [key: string]: ExcelData | ExcelData[]
 }
 
 interface FlatDataJson {

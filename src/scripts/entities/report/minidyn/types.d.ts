@@ -19,9 +19,6 @@ interface JSONMinidynReportDistinct {
   readonly thresholds: JSONMinidynThresholdsConfigurations
 }
 
-type JSONMinidynThresholdsConfigurations =
-  MinidynUnitsSkeleton<JSONDistinctThresholdsConfiguration>
-
 // ---
 // Object
 // ---

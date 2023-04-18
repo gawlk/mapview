@@ -19,9 +19,6 @@ interface JSONHeavydynReportDistinct {
   readonly thresholds: JSONHeavydynThresholdsConfigurations
 }
 
-type JSONHeavydynThresholdsConfigurations =
-  HeavydynUnitsSkeleton<JSONDistinctThresholdsConfiguration>
-
 // ---
 // Object
 // ---

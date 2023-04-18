@@ -43,6 +43,7 @@ export const convertPRJZToHeavydynReportDistinct = (
   return {
     version: 1,
     thresholds: {
+      version: 2,
       deflection: {
         version: 1,
         selectedIndex: 0,
@@ -104,6 +105,16 @@ export const convertPRJZToHeavydynReportDistinct = (
         },
       },
       cumSum: {
+        version: 1,
+        selectedIndex: 0,
+        custom: {
+          version: 1,
+          type: 'Bicolor',
+          value: 0,
+          valueHigh: 0,
+        },
+      },
+      radius: {
         version: 1,
         selectedIndex: 0,
         custom: {

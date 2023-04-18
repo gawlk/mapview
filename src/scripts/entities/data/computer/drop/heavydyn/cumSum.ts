@@ -52,7 +52,7 @@ export const createCumSumDataComputer = (report: HeavydynReport) => {
           )
 
           return d0 && load
-            ? (d0.value.value / load.value.value) * 100000000
+            ? (d0.getRawValue() / load.getRawValue()) * 100000000
             : undefined
         })
 

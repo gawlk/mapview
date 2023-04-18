@@ -14,7 +14,7 @@ export const toHaveSameJson = (
   const actualJson = unzippedToObject(actual)
   const expectedJson = unzippedToObject(expected)
 
-  const { message, key, actualData, expectedData } = browseCheckData(
+  const { message, key, actualData, expectedData, diff } = browseCheckData(
     actualJson,
     expectedJson
   )
@@ -38,7 +38,9 @@ export const toHaveSameJson = (
       matcherMessage = `for "${key}" value differ (${actualData}, ${expectedData})`
       break
     case "json key's differ":
-      matcherMessage = `number of key's differ ${key ? '(key)' : ''}`
+      matcherMessage = `number of key's differ${
+        key ? ` (${key})` : ''
+      }, diff of: ${diff} lignes`
       break
     case 'no data':
       matcherMessage = "JSON doesn't have data"
@@ -69,6 +71,7 @@ interface browseCheckDataResult {
   key?: string
   actualData?: any
   expectedData?: any
+  diff?: number
 }
 
 const browseCheckData = (
@@ -79,7 +82,10 @@ const browseCheckData = (
   const expectedKeys = Object.keys(expectedData)
 
   if (actualKeys.length !== expectedKeys.length) {
-    return { message: "json key's differ" }
+    return {
+      message: "json key's differ",
+      diff: Math.abs(actualKeys.length - expectedKeys.length),
+    }
   }
 
   let isIdentical = true

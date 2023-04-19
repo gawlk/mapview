@@ -23,7 +23,7 @@ export const toHaveSameJson = (
 
   switch (message) {
     case 'dataType differ':
-      matcherMessage = `for ${key}, data type differ (${actualData}, ${expectedData})`
+      matcherMessage = `for ${key}, data type differ (${actualData}: ${typeof actualData}, ${expectedData}: ${typeof expectedData})`
       break
     case 'invalid Date':
       matcherMessage = `Date differ for "${key}" (${actualData}, ${expectedData})`

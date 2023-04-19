@@ -190,6 +190,8 @@ export const flyToPoints = (
   map: mapboxgl.Map | null | undefined,
   points: BasePoint[]
 ): void => {
+  if (!map) return
+
   const bounds = new LngLatBounds()
 
   points.forEach((point) => {

@@ -14,7 +14,8 @@ export const toHaveSameRawData = (
 
   if (!compareResult.isSameLength) {
     return {
-      message: () => "number of rawData aren't the same",
+      message: () =>
+        `number of rawData aren't the same: (${compareResult.actualLength}, ${compareResult.expectedLength})`,
       pass: false,
     }
   }

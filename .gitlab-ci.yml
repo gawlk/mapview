@@ -50,7 +50,7 @@ test-vitest:
   script:
     - npx pnpm i --store=node_modules/.pnpm-store
     - npx pnpm check
-    - npx pnpm test
+    - TZ=EUROPE/Paris npx pnpm test
 
 test-playwright:
   stage: test

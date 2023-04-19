@@ -24,6 +24,8 @@ export const compareFiles = (
   if (actualKeys.length != expectedKeys.length) {
     return {
       isSameLength: false,
+      actualLength: actualKeys.length,
+      expectedLength: expectedKeys.length,
     }
   }
 

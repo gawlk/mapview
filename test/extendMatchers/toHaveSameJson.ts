@@ -90,8 +90,8 @@ const browseCheckData = (
   if (actualLength !== expectedLength) {
     const condition =
       actualLength > expectedLength
-        ? (key: string) => !expectedKeys.includes(key)
-        : (key: string) => !actualKeys.includes(key)
+        ? (key: string) => !actualKeys.includes(key)
+        : (key: string) => !expectedKeys.includes(key)
 
     return {
       message: "json key's differ",

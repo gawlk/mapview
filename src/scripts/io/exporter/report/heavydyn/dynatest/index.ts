@@ -1,4 +1,3 @@
-import dayjs from 'dayjs'
 import dedent from 'dedent'
 import mapboxgl from 'mapbox-gl'
 
@@ -7,6 +6,8 @@ import {
   findFieldInArray,
   replaceAllLFToCRLF,
 } from '/src/scripts'
+
+import { dayjsUtc } from '/src/utils/date/dayjs'
 
 export const heavydynDynatestExporter: HeavydynExporter = {
   name: '.fwd (Dynatest)',
@@ -184,7 +185,7 @@ const writePoints = (project: HeavydynProject) => {
         `${writePointGPS(point)}`,
         `S ${chainage} ${celsiusDegreesTemps[0]}00 ${celsiusDegreesTemps[1]} ${
           celsiusDegreesTemps[2]
-        }I2${dayjs(point.date).format('HHmm')} ${fahrenheitDegreesTemps}`,
+        }I2${dayjsUtc(point.date).format('HHmm')} ${fahrenheitDegreesTemps}`,
         `${writeDrops(point, project.calibrations.dPlate)}`,
       ]
     })

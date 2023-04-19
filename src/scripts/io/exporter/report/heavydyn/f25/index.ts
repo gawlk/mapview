@@ -1,4 +1,3 @@
-import dayjs from 'dayjs'
 import dedent from 'dedent'
 import mapboxgl from 'mapbox-gl'
 import { format } from 'mathjs'
@@ -9,6 +8,8 @@ import {
   replaceAllLFToCRLF,
   trimAllLines,
 } from '/src/scripts'
+
+import { dayjsUtc } from '/src/utils/date/dayjs'
 
 // TODO:
 // Everything is always in the same order, with same precision, spaces, etc
@@ -48,7 +49,7 @@ const writeHeader = (project: HeavydynProject): string => {
   const sequenceName =
     project.reports.selected?.dataLabels.groups.list[0].sequenceName
 
-  const date = dayjs(
+  const date = dayjsUtc(
     (
       project.information.find(
         (machineField: Field) => machineField.label === 'Date'
@@ -218,7 +219,7 @@ const writePointHeader = (
   point: HeavydynPoint,
   report: HeavydynReport
 ): string => {
-  const date = dayjs(point.date).format('YYYY, MM, DD, HH, mm')
+  const date = dayjsUtc(point.date).format('YYYY, MM, DD, HH, mm')
 
   let chainage = point.data
     .find((pointData) => pointData.label.name === 'Chainage')

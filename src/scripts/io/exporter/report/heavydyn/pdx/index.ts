@@ -1,4 +1,3 @@
-import dayjs from 'dayjs'
 import dedent from 'dedent'
 import mapboxgl from 'mapbox-gl'
 
@@ -7,6 +6,8 @@ import {
   findFieldInArray,
   replaceAllLFToCRLF,
 } from '/src/scripts'
+
+import { dayjsUtc } from '/src/utils/date/dayjs'
 
 export const heavydynPDXExporter: HeavydynExporter = {
   name: '.pdx',
@@ -36,7 +37,7 @@ const writeHeader = (project: HeavydynProject): string => {
     throw new Error('cannot find selected report ')
   }
 
-  const reportDate = dayjs(
+  const reportDate = dayjsUtc(
     findFieldInArray(project.reports.selected.information, 'Date')?.toString()
   ).format('DD-MMM-YYYY')
 
@@ -114,7 +115,9 @@ const writeDeviceConfiguration = (project: HeavydynProject): string => {
 }
 
 const writeDeviceCalibration = (project: HeavydynProject) => {
-  const calibrationDate = dayjs(project.calibrations.date).format('DD-MMM-YYYY')
+  const calibrationDate = dayjsUtc(project.calibrations.date).format(
+    'DD-MMM-YYYY'
+  )
 
   let sensorStaticCalibrationFactor = ''
   for (let i = 1; i < project.calibrations.channels.length; i++) {
@@ -201,7 +204,7 @@ const writePoints = (project: HeavydynProject) => {
         TestType = 0
         DropHistoryType = load and deflections
         TestTemperatures = ${temps} 
-        TestTime = ${dayjs(point.date).format('HH:mm:ss')} 
+        TestTime = ${dayjsUtc(point.date).format('HH:mm:ss')} 
         TestComment = ${comment} 
         NumberOfDrops = ${point.drops.length} 
         ${writeDrops(point, project.calibrations.dPlate)}

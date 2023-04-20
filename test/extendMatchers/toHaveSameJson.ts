@@ -40,7 +40,9 @@ export const toHaveSameJson = (
     case "json key's differ":
       matcherMessage = `number of key's differ${
         key ? ` (${key})` : ''
-      }, diff of: ${diff?.number} lignes (${diff?.keys.join(', ')})`
+      }, diff of: ${diff?.number} from ${
+        diff?.bigger
+      } lignes (${diff?.keys.join(', ')})`
       break
     case 'no data':
       matcherMessage = "JSON doesn't have data"
@@ -74,6 +76,7 @@ interface browseCheckDataResult {
   diff?: {
     number: number
     keys: string[]
+    bigger: string
   }
 }
 
@@ -98,6 +101,7 @@ const browseCheckData = (
       diff: {
         number: Math.abs(actualKeys.length - expectedKeys.length),
         keys: keys,
+        bigger: actualLength > expectedLength ? 'actual' : 'expected',
       },
     }
   }

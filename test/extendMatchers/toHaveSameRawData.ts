@@ -13,7 +13,6 @@ export const toHaveSameRawData = (
   const { lastKey, haveSameContent } = compareResult
 
   if (!compareResult.isSameLength) {
-    console.log('actual unzipped', actual)
     return {
       message: () =>
         `number of rawData aren't the same: (${compareResult.actualLength}, ${compareResult.expectedLength})`,

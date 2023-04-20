@@ -8,7 +8,7 @@ import { heavydynSwecoExporter } from 'src/scripts/io/exporter/report/heavydyn/s
 import { filesToString } from 'test/utils/text'
 import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest'
 
-import { importFile } from '/src/scripts'
+import { importFile, sleep } from '/src/scripts'
 
 export const getFileFromPath = async (path: string) => {
   const buffer = readFileSync(path)
@@ -90,16 +90,18 @@ describe('Test exports', async () => {
   const path = `${__dirname}/files`
   const files = readdirSync(path)
 
-  await Promise.all(
-    files.map(async (file) => {
+  await Promise.all([
+    ...files.map(async (file) => {
       const subPath = `${path}/${file}`
       const stats = statSync(subPath)
 
       if (stats.isDirectory()) {
         testData.push(...(await exportFile(subPath, file)))
       }
-    })
-  )
+    }),
+
+    sleep(200),
+  ])
 
   beforeAll(() => {
     vi.stubGlobal('navigator', { language: 'fr-FR' })

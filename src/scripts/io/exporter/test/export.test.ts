@@ -100,7 +100,7 @@ describe('Test exports', async () => {
       }
     }),
 
-    sleep(200),
+    sleep(1000),
   ])
 
   beforeAll(() => {

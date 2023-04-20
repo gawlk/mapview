@@ -6,9 +6,15 @@ import { heavydynF25Exporter } from 'src/scripts/io/exporter/report/heavydyn/f25
 import { heavydynPDXExporter } from 'src/scripts/io/exporter/report/heavydyn/pdx'
 import { heavydynSwecoExporter } from 'src/scripts/io/exporter/report/heavydyn/sweco/index'
 import { filesToString } from 'test/utils/text'
-import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest'
+import { afterAll, beforeAll, describe, expect, it, test, vi } from 'vitest'
 
-import { importFile, sleep } from '/src/scripts'
+import {
+  getAllPointsFromProject,
+  importFile,
+  removeLeading0s,
+  sleep,
+  unzipFile,
+} from '/src/scripts'
 
 export const getFileFromPath = async (path: string) => {
   const buffer = readFileSync(path)
@@ -39,6 +45,8 @@ const exportFile = async (dirPath: string, folderName?: string) => {
 
   let onlyFolder = true
 
+  const promises: Promise<unknown>[] = []
+
   for (const fileName of files) {
     const part = fileName.split('.')
     const extension = part[part.length - 1]
@@ -50,12 +58,47 @@ const exportFile = async (dirPath: string, folderName?: string) => {
       onlyFolder = false
       const file = await getFileFromPath(subPath)
 
-      console.log('file', file)
-
       switch (extension) {
         case 'mpvz': {
           const project = await importFile(file)
           project?.addToMap()
+
+          promises.push(
+            new Promise(async (resolve) => {
+              const unzipped = await unzipFile(file)
+
+              const raws = Object.keys(unzipped).filter((key) =>
+                key.match(/rawdata\/\w+/)
+              )
+
+              console.log('raws', raws.length)
+
+              if (raws.length < 1) {
+                resolve(true)
+              }
+
+              let needInit = true
+
+              while (needInit) {
+                const points = getAllPointsFromProject(
+                  project as MachineProject
+                )
+                raws.forEach((key) => {
+                  const id = key.split('/')[1]
+                  const point = points.find(
+                    (p) => removeLeading0s(p.id) === removeLeading0s(id)
+                  )
+
+                  needInit =
+                    needInit && point?.rawDataFile?.byteLength !== undefined
+                })
+
+                await sleep(250)
+              }
+
+              resolve(true)
+            })
+          )
 
           filesGroup.mpvz = {
             file: file,
@@ -81,6 +124,8 @@ const exportFile = async (dirPath: string, folderName?: string) => {
     }
   }
 
+  await Promise.all(promises)
+
   return onlyFolder ? filesGroups : [filesGroup as filesGroup, ...filesGroups]
 }
 
@@ -99,8 +144,6 @@ describe('Test exports', async () => {
         testData.push(...(await exportFile(subPath, file)))
       }
     }),
-
-    sleep(10000),
   ])
 
   beforeAll(() => {
@@ -182,6 +225,7 @@ describe('Test exports', async () => {
       .filter((data) => data.mvrz)
       .map((data) => [data.directoryName, data.mpvz.project, data.mvrz])
   )('test mvrz: %s', async (_, project, expected) => {
+    console.log('projet', project)
     const mpvzFile = await mrvzExporter.export(project as MachineProject)
 
     expect(mpvzFile.name).toSatisfy(
@@ -197,7 +241,6 @@ describe('Test exports', async () => {
     const unzippedContent = unzipSync(data)
     const unzippedExpected = unzipSync(expectedData)
 
-    console.log('test rawdata')
     expect(unzippedContent).toHaveSameRawData(unzippedExpected)
     expect(unzippedContent).toHaveSameScreenshots(unzippedExpected)
     expect(unzippedContent).toHaveSameJson(unzippedExpected)

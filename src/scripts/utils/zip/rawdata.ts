@@ -19,7 +19,6 @@ export const addRawDataToZip = async (
 
   await Promise.all([
     ...points.map((point) => {
-      console.log('point data', point.id, point.rawDataFile)
       if (point.rawDataFile) {
         rawdata[point.id] = new Uint8Array(point.rawDataFile)
       }

@@ -427,8 +427,6 @@ const createMVRZJson = (project: MachineProject): ExcelJson => {
 
   const visiblePoints = sortedPoints.filter((point) => point.checkVisibility)
 
-  console.log('base', createBaseJson(project))
-
   return {
     ...createBaseJson(project),
     ...generatePointInformation(visiblePoints, 'Pi_'),

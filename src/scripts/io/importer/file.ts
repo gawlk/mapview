@@ -37,6 +37,8 @@ export const importFile = async (file: File) => {
 
     const unzipped = await unzipFile(file)
 
+    console.log('unzip import file', unzipped)
+
     console.time('import: zip to json')
     const jsonProject = getProjectJSONFromZip(unzipped, extension || '')
     console.timeEnd('import: zip to json')

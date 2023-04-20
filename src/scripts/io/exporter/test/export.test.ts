@@ -50,10 +50,13 @@ const exportFile = async (dirPath: string, folderName?: string) => {
       onlyFolder = false
       const file = await getFileFromPath(subPath)
 
+      console.log('file', file)
+
       switch (extension) {
         case 'mpvz': {
           const project = await importFile(file)
           project?.addToMap()
+
           filesGroup.mpvz = {
             file: file,
             project,

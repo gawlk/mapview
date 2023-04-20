@@ -197,6 +197,7 @@ describe('Test exports', async () => {
     const unzippedContent = unzipSync(data)
     const unzippedExpected = unzipSync(expectedData)
 
+    console.log('test rawdata')
     expect(unzippedContent).toHaveSameRawData(unzippedExpected)
     expect(unzippedContent).toHaveSameScreenshots(unzippedExpected)
     expect(unzippedContent).toHaveSameJson(unzippedExpected)

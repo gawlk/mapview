@@ -1,10 +1,11 @@
 import { unzipSync } from 'fflate'
-import { readFileSync, readdirSync, statSync } from 'fs'
-import { mrvzExporter } from 'src/scripts/io/exporter/report/custom/mvrz/index'
+import { readdirSync, statSync } from 'fs'
+import { mvrzExporter } from 'src/scripts/io/exporter/report/custom/mvrz/index'
 import { heavydynDynatestExporter } from 'src/scripts/io/exporter/report/heavydyn/dynatest/index'
 import { heavydynF25Exporter } from 'src/scripts/io/exporter/report/heavydyn/f25/index'
 import { heavydynPDXExporter } from 'src/scripts/io/exporter/report/heavydyn/pdx'
 import { heavydynSwecoExporter } from 'src/scripts/io/exporter/report/heavydyn/sweco/index'
+import { getFileFromPath } from 'test/utils/files'
 import { filesToString } from 'test/utils/text'
 import { afterAll, beforeAll, describe, expect, it, test, vi } from 'vitest'
 
@@ -15,12 +16,6 @@ import {
   sleep,
   unzipFile,
 } from '/src/scripts'
-
-export const getFileFromPath = async (path: string) => {
-  const buffer = readFileSync(path)
-
-  return new File([buffer], path.split('/').pop() as string)
-}
 
 interface MPVZTestData {
   file: File
@@ -71,8 +66,6 @@ const exportFile = async (dirPath: string, folderName?: string) => {
                 key.match(/rawdata\/\w+/)
               )
 
-              console.log('raws', raws.length)
-
               if (raws.length < 1) {
                 resolve(true)
               }
@@ -83,6 +76,7 @@ const exportFile = async (dirPath: string, folderName?: string) => {
                 const points = getAllPointsFromProject(
                   project as MachineProject
                 )
+
                 raws.forEach((key) => {
                   const id = key.split('/')[1]
                   const point = points.find(
@@ -226,7 +220,7 @@ describe('Test exports', async () => {
       .map((data) => [data.directoryName, data.mpvz.project, data.mvrz])
   )('test mvrz: %s', async (_, project, expected) => {
     console.log('projet', project)
-    const mpvzFile = await mrvzExporter.export(project as MachineProject)
+    const mpvzFile = await mvrzExporter.export(project as MachineProject)
 
     expect(mpvzFile.name).toSatisfy(
       (val: string) => val.substring(val.length - 4) === 'mvrz'

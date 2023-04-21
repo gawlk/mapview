@@ -1,7 +1,14 @@
 import { Unzipped } from 'fflate'
+import { readFileSync } from 'fs'
 
 interface compareFilesOptions {
   filter?: string
+}
+
+export const getFileFromPath = async (path: string) => {
+  const buffer = readFileSync(path)
+
+  return new File([buffer], path.split('/').pop() as string)
 }
 
 export const compareFiles = (

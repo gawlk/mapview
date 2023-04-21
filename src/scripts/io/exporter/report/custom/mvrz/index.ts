@@ -8,7 +8,7 @@ import {
   unzipFile,
 } from '/src/scripts'
 
-export const mrvzExporter = {
+export const mvrzExporter = {
   name: '.mvrz (Excel)',
   export: async (project: MachineProject, template?: File) => {
     let needsRawData = true

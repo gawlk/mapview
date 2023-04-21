@@ -69,8 +69,13 @@ You can have a preview of what you will get in prod by doing this command:
 pnpm prod
 ```
 
-
 ## test
+
+### add reference files
+
+The current test motor for export, read all files in the folder `files/`  
+create a subfolder, and put all the export to test in.  
+a `.mpvz` files is required for the test to work.
 
 ### add an extendMatcher
 

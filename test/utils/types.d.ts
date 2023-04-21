@@ -1,4 +1,4 @@
-interface combosData {
+interface KeyValueData {
   key: string
   value: string
 }

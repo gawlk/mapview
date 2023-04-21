@@ -1,7 +1,7 @@
 import { Unzipped } from 'fflate'
 import { readFileSync } from 'fs'
 
-interface compareFilesOptions {
+interface CompareFilesOptions {
   filter?: string
 }
 
@@ -14,7 +14,7 @@ export const getFileFromPath = async (path: string) => {
 export const compareFiles = (
   actual: Unzipped,
   expected: Unzipped,
-  options?: compareFilesOptions
+  options?: CompareFilesOptions
 ) => {
   let actualKeys = Object.keys(actual)
   let expectedKeys = Object.keys(expected)

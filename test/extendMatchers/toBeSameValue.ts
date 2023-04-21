@@ -13,7 +13,7 @@ export const toBeSameValue = async (
   const [actualLignes, expectedLignes] = (await filesToStringArray(
     [actual, expected],
     { removeBlankLine: true, dataType: 'combos' }
-  )) as combosData[][]
+  )) as KeyValueData[][]
 
   if (actualLignes.length !== expectedLignes.length) {
     return {
@@ -38,7 +38,7 @@ export const toBeSameValue = async (
 
     if (typeof actualValue !== typeof expectedValue) {
       return {
-        message: () => `Values isn't same type`,
+        message: () => `Values aren't of the same type`,
         pass: false,
       }
     }
@@ -87,9 +87,9 @@ export const toBeSameValue = async (
 
   return {
     message: () =>
-      `Values ${allValueIsIdentical ? 'is' : 'is not'} equal (${lastValues.join(
-        ','
-      )})`,
+      `Values ${
+        allValueIsIdentical ? 'are' : 'are not'
+      } equal (${lastValues.join(',')})`,
     pass: allValueIsIdentical,
   }
 }

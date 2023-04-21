@@ -50,15 +50,17 @@ export const checkDataConformity = (
       return 'invalid date format'
     }
 
-    const actualTime =
+    const actualTime = (
       typeof actualData === 'string'
-        ? new Date(actualData).getTime()
-        : (actualData as ParsedDate).date.getTime()
+        ? new Date(actualData)
+        : (actualData as ParsedDate).date
+    ).getTime()
 
-    const expectedTime =
+    const expectedTime = (
       typeof expectedData === 'string'
-        ? new Date(expectedData).getTime()
-        : (expectedData as ParsedDate).date.getTime()
+        ? new Date(expectedData)
+        : (expectedData as ParsedDate).date
+    ).getTime()
 
     if (actualTime !== expectedTime) {
       return 'invalid Date'

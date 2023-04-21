@@ -33,7 +33,7 @@ export const fileToStringArray = async (
       return lignes.map((ligne) => ({
         key: getKey(ligne),
         value: getValue(ligne),
-      })) as combosData[]
+      })) as KeyValueData[]
   }
 
   return lignes

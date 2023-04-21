@@ -1,13 +1,15 @@
+import { file } from '@babel/types'
 import { unzipSync } from 'fflate'
 import { readdirSync, statSync } from 'fs'
-import { mvrzExporter } from 'src/scripts/io/exporter/report/custom/mvrz/index'
-import { heavydynDynatestExporter } from 'src/scripts/io/exporter/report/heavydyn/dynatest/index'
-import { heavydynF25Exporter } from 'src/scripts/io/exporter/report/heavydyn/f25/index'
-import { heavydynPDXExporter } from 'src/scripts/io/exporter/report/heavydyn/pdx'
-import { heavydynSwecoExporter } from 'src/scripts/io/exporter/report/heavydyn/sweco/index'
-import { getFileFromPath } from 'test/utils/files'
-import { filesToString } from 'test/utils/text'
-import { afterAll, beforeAll, describe, expect, it, test, vi } from 'vitest'
+import {
+  heavydynDynatestExporter,
+  heavydynF25Exporter,
+  heavydynPDXExporter,
+  heavydynSwecoExporter,
+  mvrzExporter,
+} from 'src/scripts/io/exporter/report'
+import { filesToString, getFileFromPath } from 'test/utils'
+import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest'
 
 import {
   getAllPointsFromProject,
@@ -26,12 +28,14 @@ interface filesGroup {
   directoryName: string
   pdx: File
   mvrz: File
-  fwdd: File
-  fwds: File
+  fwdDynatest: File
+  fwdSweco: File
   F25: File
   mpvz: MPVZTestData
   [key: string]: MPVZTestData | File | string
 }
+
+const ignoredFiles = ['.DS_Store']
 
 const exportFile = async (dirPath: string, folderName?: string) => {
   const files = readdirSync(dirPath)
@@ -49,7 +53,7 @@ const exportFile = async (dirPath: string, folderName?: string) => {
     const subPath = `${dirPath}/${fileName}`
     const stats = statSync(subPath)
 
-    if (stats.isFile() && fileName != '.DS_Store') {
+    if (stats.isFile() && !ignoredFiles.includes(fileName)) {
       onlyFolder = false
       const file = await getFileFromPath(subPath)
 
@@ -72,6 +76,7 @@ const exportFile = async (dirPath: string, folderName?: string) => {
 
               let needInit = true
 
+              // rawdata and screenshoot are load in async so we wetting for the data to be init
               while (needInit) {
                 const points = getAllPointsFromProject(
                   project as MachineProject
@@ -102,8 +107,8 @@ const exportFile = async (dirPath: string, folderName?: string) => {
         }
         case 'fwd':
           fileName.toLowerCase().includes('sweco')
-            ? (filesGroup.fwds = file)
-            : (filesGroup.fwdd = file)
+            ? (filesGroup.fwdSweco = file)
+            : (filesGroup.fwdDynatest = file)
           break
         default:
           filesGroup[extension] = file
@@ -161,8 +166,8 @@ describe('Test exports', async () => {
 
   test.each(
     testData
-      .filter((data) => data.fwds)
-      .map((data) => [data.directoryName, data.mpvz.project, data.fwds])
+      .filter((data) => data.fwdSweco)
+      .map((data) => [data.directoryName, data.mpvz.project, data.fwdSweco])
   )('test FWD (Sweco): %s', async (_, project, expected) => {
     const swecoFile = await heavydynSwecoExporter.export(
       project as HeavydynProject
@@ -180,8 +185,8 @@ describe('Test exports', async () => {
 
   test.each(
     testData
-      .filter((data) => data.fwdd)
-      .map((data) => [data.directoryName, data.mpvz.project, data.fwdd])
+      .filter((data) => data.fwdDynatest)
+      .map((data) => [data.directoryName, data.mpvz.project, data.fwdDynatest])
   )('test FWD (Dynatest): %s', async (_, project, expected) => {
     const dynatestFile = await heavydynDynatestExporter.export(
       project as HeavydynProject
@@ -219,7 +224,6 @@ describe('Test exports', async () => {
       .filter((data) => data.mvrz)
       .map((data) => [data.directoryName, data.mpvz.project, data.mvrz])
   )('test mvrz: %s', async (_, project, expected) => {
-    console.log('projet', project)
     const mpvzFile = await mvrzExporter.export(project as MachineProject)
 
     expect(mpvzFile.name).toSatisfy(

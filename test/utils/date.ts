@@ -12,6 +12,7 @@ const monthsMap: { [key: string]: number } = {
   NOV: 11,
   DEC: 12,
 }
+
 const maxDaysInMonth: { [key: number]: number } = {
   1: 31,
   2: 28,

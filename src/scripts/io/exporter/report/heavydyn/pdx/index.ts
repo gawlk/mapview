@@ -1,5 +1,4 @@
 import dedent from 'dedent'
-import mapboxgl from 'mapbox-gl'
 
 import {
   currentCategory,
@@ -115,6 +114,7 @@ const writeDeviceConfiguration = (project: HeavydynProject): string => {
 }
 
 const writeDeviceCalibration = (project: HeavydynProject) => {
+  const { information } = project
   const calibrationDate = dayjsUtc(project.calibrations.date).format(
     'DD-MMM-YYYY'
   )
@@ -132,16 +132,13 @@ const writeDeviceCalibration = (project: HeavydynProject) => {
     (sensor) => sensor.name === 'DMI'
   )?.gain
 
-  const projectProject = project.information.find(
-    (info) => info.label === 'Project'
-  )?.value
+  const projectProject = findFieldInArray(information, 'Project')?.value
 
-  const siteProject = project.information.find(
-    (info) => info.label === 'Site'
-  )?.value
+  const siteProject = findFieldInArray(information, 'Site')?.value
 
-  const reportLane = project.reports.selected?.information.find(
-    (info) => info.label === 'Lane'
+  const reportLane = findFieldInArray(
+    project.reports.selected?.information || [],
+    'Lane'
   )?.value
 
   const materialPlatform = project.reports.selected?.platform
@@ -192,7 +189,7 @@ const writePoints = (project: HeavydynProject) => {
         .find((data) => data.label.name === 'Comment')
         ?.getRawValue()
 
-      const { lat, lng } = point.toBaseJSON().coordinates as mapboxgl.LngLat
+      const { lat, lng } = point.toBaseJSON().coordinates as LngLat
 
       return dedent`
         [Test Location ${point.index}]

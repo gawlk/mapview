@@ -20,7 +20,8 @@ export const createOverlay = async (
   let width = 0
   let height = 0
 
-  if (Image) { // Image isn't implemented in the test runtime
+  if (Image) {
+    // Image isn't implemented in the test runtime
     const imageElement = await getImageFromData64(data64)
 
     width = 500
@@ -115,7 +116,7 @@ export const createOverlay = async (
 
       watcherHandler.clean()
     },
-    toJSON: function(): JSONOverlay {
+    toJSON: function (): JSONOverlay {
       return {
         version: 1,
         name: parameters.name,
@@ -180,11 +181,13 @@ const getImageFromData64 = async (data64: string): Promise<HTMLImageElement> =>
   })
 
 const createMarker = (map: mapboxgl.Map | null, coordinates: LngLat) =>
-  map ? new Marker({
-    element: createSVGElement(SVGRotate),
-  })
-    .setLngLat(coordinates)
-    .setDraggable(true) : null
+  map
+    ? new Marker({
+        element: createSVGElement(SVGRotate),
+      })
+        .setLngLat(coordinates)
+        .setDraggable(true)
+    : null
 
 const setImageCoordinates = (
   markerNW: mapboxgl.Marker,

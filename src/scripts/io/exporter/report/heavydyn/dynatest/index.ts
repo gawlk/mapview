@@ -1,5 +1,4 @@
 import dedent from 'dedent'
-import mapboxgl from 'mapbox-gl'
 
 import {
   currentCategory,
@@ -143,8 +142,7 @@ const writeEndHeader = () => {
 }
 
 const writePointGPS = (point: BasePoint) => {
-  const { lng, lat } = point.toBaseJSON().coordinates as mapboxgl.LngLat
-
+  const { lng, lat } = point.toBaseJSON().coordinates as LngLat
   return `G0000001+${lat}+${lng}999.9`
 }
 

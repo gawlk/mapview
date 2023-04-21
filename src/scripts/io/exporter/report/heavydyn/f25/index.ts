@@ -1,5 +1,4 @@
 import dedent from 'dedent'
-import mapboxgl from 'mapbox-gl'
 import { format } from 'mathjs'
 
 import {
@@ -204,7 +203,7 @@ const writePoints = (project: HeavydynProject): string => {
 }
 
 const writePointGps = (point: BasePoint) => {
-  const lngLat = point.toBaseJSON().coordinates as mapboxgl.LngLat
+  const lngLat = point.toBaseJSON().coordinates as LngLat
 
   const lat = lngLat.lat.toFixed(8).padStart(12, ' ')
   const lng = lngLat.lng.toFixed(8).padStart(12, ' ')

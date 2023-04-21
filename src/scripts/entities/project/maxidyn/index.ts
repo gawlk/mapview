@@ -33,6 +33,7 @@ export const createMaxidynProjectFromJSON = (
           version: json.distinct.version,
           bearingParameters: json.distinct.bearingParameters,
           units: {
+            version: 1,
             deflection: this.units.deflection.toJSON(),
             distance: this.units.distance.toJSON(),
             force: this.units.force.toJSON(),

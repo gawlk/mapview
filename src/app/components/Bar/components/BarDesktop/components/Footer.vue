@@ -1,11 +1,5 @@
 <script setup lang="ts">
-  import packageJSON from '/src/../package.json'
-
   const { t } = useI18n()
-
-  const state = reactive({
-    version: packageJSON.version,
-  })
 </script>
 
 <template>
@@ -31,7 +25,6 @@
       <span class="font-bold">Mapview</span>,
       {{ t('All rights reserved.') }}
     </p>
-    <p class="text-center text-sm">V.{{ state.version }}</p>
   </div>
 </template>
 

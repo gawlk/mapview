@@ -80,8 +80,9 @@ const writeEndHeader = (project: MachineProject): string => {
   const d = project.reports.selected?.line.sortedPoints
     .map((point) =>
       Number(
-        point.data.find((pointData) => pointData.label.name === 'Chainage')
-          ?.value.value
+        point.data
+          .find((pointData) => pointData.label.name === 'Chainage')
+          ?.getRawValue()
       )
     )
     .sort((a, b) => a - b)
@@ -190,6 +191,7 @@ const writeSensors = (project: HeavydynProject): string => {
 const writePoints = (project: HeavydynProject): string => {
   if (project.reports.selected) {
     return project.reports.selected?.line.sortedPoints
+      .filter((point) => point.settings.isVisible)
       .map((point) => {
         const header = dedent`
           ${writePointGps(point)}
@@ -226,22 +228,25 @@ const writePointHeader = (
 ): string => {
   const date = dayjs(point.date).format('YYYY, MM, DD, HH, mm')
 
-  let chainage = point.data.find(
-    (pointData) => pointData.label.name === 'Chainage'
-  )?.value.value
+  let chainage = point.data
+    .find((pointData) => pointData.label.name === 'Chainage')
+    ?.getRawValue()
   if (typeof chainage === 'undefined') throw new Error()
   chainage = Math.round(chainage)
 
   const comment = findFieldInArray(report.information, 'Comment')?.toString()
 
-  const tair = point.data.find((pointData) => pointData.label.name === 'Tair')
-    ?.value.value
+  const tair = point.data
+    .find((pointData) => pointData.label.name === 'Tair')
+    ?.getRawValue()
 
-  const tsurf = point.data.find((pointData) => pointData.label.name === 'Tsurf')
-    ?.value.value
+  const tsurf = point.data
+    .find((pointData) => pointData.label.name === 'Tsurf')
+    ?.getRawValue()
 
-  const tman = point.data.find((pointData) => pointData.label.name === 'Tman')
-    ?.value.value
+  const tman = point.data
+    .find((pointData) => pointData.label.name === 'Tman')
+    ?.getRawValue()
 
   if (
     typeof tair === 'undefined' ||
@@ -270,11 +275,13 @@ const writeDrops = (point: BasePoint, dPlate: number): string => {
       const nbr = drop.index.displayedIndex.toString().padStart(3, ' ')
 
       const force =
-        (((drop.data.find(
-          (data) =>
-            data.label.unit === point.zone.report.project.units.force &&
-            data.label.category === currentCategory
-        )?.value.value || 0) *
+        (((drop.data
+          .find(
+            (data) =>
+              data.label.unit === point.zone.report.project.units.force &&
+              data.label.category === currentCategory
+          )
+          ?.getRawValue() || 0) *
           1e-3) /
           Math.PI /
           dPlate /

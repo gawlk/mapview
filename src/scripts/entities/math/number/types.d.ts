@@ -3,20 +3,14 @@ interface MathNumber {
   readonly unit: MathUnit<string>
   displayedString: string
   displayedStringWithUnit: string
+  readonly checkValidity: () => boolean
   readonly updateValue: (value: number) => void
   readonly updateDisplayedStrings: () => void
-  readonly getLocaleString: (
-    options: MathNumberGetLocaleStringOptions
-  ) => string
+  readonly getLocaleString: (options?: MathUnitGetLocaleStringOptions) => string
   readonly getValueAs: (unit: string) => number
+  readonly toCurrent: () => number
+  readonly toExcel: (asCurrent: boolean) => number | null
+  readonly toJSON: () => JSONMathNumberValue
 }
 
-interface MathNumberGetLocaleStringOptions {
-  readonly appendUnitToString?: true
-  readonly locale?: string
-  readonly precision?: number
-  readonly disablePreString?: true
-  readonly unit?: string
-  readonly removeSpaces?: true
-  readonly disableMinAndMax?: true
-}
+type JSONMathNumberValue = number | 'NaN' | null

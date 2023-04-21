@@ -83,6 +83,7 @@ export const convertPRJZToHeavydynProjectDistinct = (
 
 export const convertPRJZToHeavydynUnits = (json: any) => {
   const units: JSONHeavydynUnits = {
+    version: 2,
     deflection: {
       version: 1,
       currentUnit: ((): PossibleHeavydynDeflectionUnits => {
@@ -189,6 +190,12 @@ export const convertPRJZToHeavydynUnits = (json: any) => {
       currentUnit: '',
       currentPrecision: 0,
       max: 100,
+    },
+    radius: {
+      version: 1,
+      currentUnit: 'm',
+      currentPrecision: 0,
+      max: 2000,
     },
   }
 

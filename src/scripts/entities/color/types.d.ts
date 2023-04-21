@@ -4,10 +4,9 @@ interface Color {
   readonly hexColor: string
 }
 
+type ColorNameVAny = ColorName | ColorNameV1
+
 type ColorName =
-  // | 'black'
-  // | 'white'
-  | 'gray'
   | 'red'
   | 'orange'
   | 'amber'
@@ -25,3 +24,5 @@ type ColorName =
   | 'fuchsia'
   | 'pink'
   | 'rose'
+
+type ColorNameV1 = ColorName | 'gray'

@@ -1,9 +1,10 @@
 <script setup lang="ts">
   import store from '/src/store'
 
-  import { acceptedExtensions, importFile } from '/src/scripts'
+  import { acceptedExtensions, hasRawData, importFile } from '/src/scripts'
 
   import IconArchive from '~icons/heroicons-solid/archive'
+  import IconData from '~icons/heroicons-solid/folder-open'
   import IconPlus from '~icons/heroicons-solid/plus'
   import IconTrash from '~icons/heroicons-solid/trash'
   import IconViewList from '~icons/heroicons-solid/view-list'
@@ -12,6 +13,8 @@
   import Button from '/src/components/Button.vue'
   import Dialog from '/src/components/Dialog.vue'
   import Popover from '/src/components/Popover.vue'
+
+  import env from '/src/env'
 
   const { t } = useI18n()
 
@@ -74,18 +77,19 @@
     >
       <div
         class="flex space-x-1 truncate"
-        v-for="(name, index) of store.projects.list.map(
-          (project) => `${project.name.value} - ${project.machine}`
-        )"
-        :key="name"
+        v-for="(project, index) of store.projects.list"
+        :key="project.name.value.toString()"
       >
         <Button
           :leftIcon="IconZoomIn"
+          :right-icon="
+            !env.isProd && hasRawData(project) ? IconData : undefined
+          "
           @click="selectProject(index)"
           truncate
           full
         >
-          {{ name }}
+          {{ `${project.name.value} - ${project.machine}` }}
         </Button>
       </div>
     </Popover>

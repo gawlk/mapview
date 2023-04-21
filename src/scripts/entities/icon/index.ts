@@ -9,7 +9,7 @@ import RhombusIcon from 'iconoir/icons/rhombus.svg?raw'
 import SquareIcon from 'iconoir/icons/square.svg?raw'
 import TriangleIcon from 'iconoir/icons/triangle.svg?raw'
 
-import { baseHexColor, blend } from '/src/scripts'
+import { blend, gray } from '/src/scripts'
 
 export const icons: Record<IconName, string> = {
   Circle: CircleIcon,
@@ -64,10 +64,10 @@ export const createIcon = (iconName: IconName) => {
 
   const icon = shallowReactive({
     element: div,
-    color: baseHexColor,
+    color: gray,
     setColor: function (color?: string) {
       const svg = subDiv.firstElementChild as HTMLElement
-      this.color = color || baseHexColor
+      this.color = color || gray
       svg.setAttribute('fill', this.color)
       svg.setAttribute('color', blend(this.color, '#000000'))
     },

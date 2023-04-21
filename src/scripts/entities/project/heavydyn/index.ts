@@ -58,6 +58,7 @@ export const createHeavydynProjectFromJSON = (
           version: json.distinct.version,
           calibrations: json.distinct.calibrations,
           units: {
+            version: 2,
             deflection: this.units.deflection.toJSON(),
             distance: this.units.distance.toJSON(),
             force: this.units.force.toJSON(),
@@ -65,6 +66,7 @@ export const createHeavydynProjectFromJSON = (
             time: this.units.time.toJSON(),
             modulus: this.units.modulus.toJSON(),
             cumSum: this.units.cumSum.toJSON(),
+            radius: this.units.radius.toJSON(),
           },
           correctionParameters: {
             version: 1,

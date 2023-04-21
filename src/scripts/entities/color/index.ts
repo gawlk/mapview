@@ -1,3 +1,14 @@
+export const gray = '#9da3ae'
+
+export const upgradeColorNameFromV1ToV2 = (colorName: ColorNameV1): ColorName =>
+  colorName === 'gray' ? 'orange' : colorName
+
+export const getRandomColorName = () => {
+  const colorNames = Object.keys(colorsClasses)
+
+  return colorNames[Math.floor(Math.random() * colorNames.length)] as ColorName
+}
+
 export const colorsClasses: {
   [color: string]: Color
 } = {
@@ -5,11 +16,6 @@ export const colorsClasses: {
     buttonColors: 'bg-white hover:bg-gray-100 text-black',
     iconsClasses: 'text-gray-500 group-hover:text-gray-600',
     hexColor: '#ffffff',
-  },
-  gray: {
-    buttonColors: 'bg-gray-300 hover:bg-gray-400 text-gray-900',
-    iconsClasses: 'text-gray-600 group-hover:text-gray-700',
-    hexColor: '#9da3ae',
   },
   red: {
     buttonColors: 'bg-red-300 hover:bg-red-400 text-red-900',
@@ -97,5 +103,3 @@ export const colorsClasses: {
     hexColor: '#e67a8b',
   },
 }
-
-export const baseHexColor = colorsClasses.gray.hexColor

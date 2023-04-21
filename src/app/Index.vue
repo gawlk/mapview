@@ -7,6 +7,7 @@
   import Map from './components/Map.vue'
 
   import packageJSON from '/src/../package.json'
+  import env from '/src/env'
 
   useHead({
     title: 'Mapview',
@@ -21,7 +22,8 @@
   const { t } = useI18n()
 
   const state = reactive({
-    build: packageJSON.build,
+    version: packageJSON.version,
+    sha: import.meta.env.VITE_COMMIT_REF,
   })
 
   const fixMapHeight = () => {
@@ -124,9 +126,23 @@
     </div>
     <span
       class="absolute top-0 right-0 m-2 rounded-full bg-white px-1.5 py-0.5 text-xs font-extrabold tracking-tight text-black opacity-50"
+      v-if="env.isProd"
     >
-      B.{{ state.build }}
+      V.{{ state.version }}
     </span>
+    <a
+      v-else
+      :href="
+        'https://gitlab.com/isaan/mapview-dev/mapview2/-/commit/' + state.sha
+      "
+      target="_blank"
+    >
+      <span
+        class="absolute top-0 right-0 m-2 rounded-full bg-white px-1.5 py-0.5 text-xs font-extrabold tracking-tight text-black opacity-50"
+      >
+        Beta V.{{ state.version }} ({{ state.sha?.substr(0, 8) }})
+      </span></a
+    >
   </div>
 </template>
 

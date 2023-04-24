@@ -129,7 +129,7 @@ export const convertPRJZToMinidynReportDistinct = (
             from: 'Drop',
             choices: {
               version: 1,
-              selectedIndex: 0,
+              selectedIndex: null,
               list: dropChoices,
             },
           },
@@ -149,11 +149,7 @@ export const convertPRJZToMinidynReportDistinct = (
             from: 'Point',
             choices: {
               version: 1,
-              selectedIndex:
-                testChoices.findIndex(
-                  (choice) =>
-                    choice.unit === 'modulus' || choice.unit === 'stiffness'
-                ) || 0,
+              selectedIndex: null,
               list: testChoices as JSONDataLabel<MinidynUnitsNames>[],
             },
           },

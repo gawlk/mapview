@@ -157,7 +157,7 @@ export const convertPRJZToHeavydynReportDistinct = (
             from: 'Point',
             choices: {
               version: 1,
-              selectedIndex: 0,
+              selectedIndex: null,
               list: testChoices as JSONDataLabel<HeavydynUnitsNames>[],
             },
           },

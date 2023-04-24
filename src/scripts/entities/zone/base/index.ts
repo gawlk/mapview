@@ -1,16 +1,17 @@
-import { colorsClasses, createWatcherHandler, sortPoints } from '/src/scripts'
+import {
+  createWatcherHandler,
+  getRandomColorName,
+  sortPoints,
+  upgradeColorNameFromV1ToV2,
+} from '/src/scripts'
 
 export const createJSONBaseZone = (length: number) => {
-  const colorNames = Object.keys(colorsClasses)
-
   const json: JSONBaseZone = {
     version: 1,
     name: `Zone ${length + 1}`,
     settings: {
       version: 1,
-      color: colorNames[
-        Math.floor(Math.random() * colorNames.length)
-      ] as ColorName,
+      color: getRandomColorName(),
       isVisible: true,
     },
     points: [],
@@ -35,7 +36,7 @@ export const createBaseZoneFromJSON = <
   const zone: BaseZone<Point, Report> = {
     name: json.name,
     points: shallowReactive([]),
-    settings: shallowReactive(json.settings),
+    settings: shallowReactive(upgradeSettingsJSON(json.settings)),
     report: parameters.report,
     data: shallowReactive([]),
     init: function () {
@@ -94,7 +95,7 @@ export const createBaseZoneFromJSON = <
         name: this.name,
         points: this.points.map((point) => point.toJSON()),
         settings: {
-          version: json.settings.version,
+          version: 2,
           color: this.settings.color,
           isVisible: this.settings.isVisible,
         },
@@ -111,6 +112,19 @@ const upgradeJSON = (json: JSONBaseZoneVAny): JSONBaseZone => {
     // upgrade
     default:
       json = json as JSONBaseZone
+  }
+
+  return json
+}
+
+const upgradeSettingsJSON = (json: JSONZoneSettingsVAny): JSONZoneSettings => {
+  switch (json.version) {
+    case 1:
+      json = {
+        ...json,
+        version: 2,
+        color: upgradeColorNameFromV1ToV2(json.color),
+      }
   }
 
   return json

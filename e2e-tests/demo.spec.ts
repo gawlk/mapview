@@ -10,14 +10,14 @@ test('demo launch', async ({ page, baseURL }) => {
 
   await demoButton.click()
 
-  await expect(page.getByTestId('loader')).toBeVisible()
+  await expect(page.locator('#loader')).toBeVisible()
 
   await page.waitForLoadState('networkidle')
 
-  await expect(page.getByTestId('loader')).not.toBeVisible()
-  await expect(page.getByTestId('Project')).toBeVisible({ visible: true })
-  await expect(page.getByTestId('Map')).toBeVisible({ visible: true })
-  await expect(page.getByTestId('Reports')).toBeVisible({ visible: true })
-  await expect(page.getByTestId('Points')).toBeVisible({ visible: true })
-  await expect(page.getByTestId('Data')).toBeVisible({ visible: true })
+  await expect(page.locator('#loader')).not.toBeVisible()
+  await expect(page.locator('#Project')).toBeVisible({ visible: true })
+  await expect(page.locator('#Map')).toBeVisible({ visible: true })
+  await expect(page.locator('#Reports')).toBeVisible({ visible: true })
+  await expect(page.locator('#Points')).toBeVisible({ visible: true })
+  await expect(page.locator('#Data')).toBeVisible({ visible: true })
 })

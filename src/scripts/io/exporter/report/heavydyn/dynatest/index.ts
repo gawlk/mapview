@@ -1,4 +1,3 @@
-import dayjs from 'dayjs'
 import dedent from 'dedent'
 
 import {
@@ -6,6 +5,8 @@ import {
   findFieldInArray,
   replaceAllLFToCRLF,
 } from '/src/scripts'
+
+import { dayjsUtc } from '/src/utils/date/dayjs'
 
 export const heavydynDynatestExporter: HeavydynExporter = {
   name: '.fwd (Dynatest)',
@@ -141,11 +142,7 @@ const writeEndHeader = () => {
 }
 
 const writePointGPS = (point: BasePoint) => {
-  let [lat, lng] = [1, 1]
-  if (point.marker) {
-    ;({ lng, lat } = point.marker.getLngLat())
-  }
-
+  const { lng, lat } = point.toBaseJSON().coordinates as LngLat
   return `G0000001+${lat}+${lng}999.9`
 }
 
@@ -186,7 +183,7 @@ const writePoints = (project: HeavydynProject) => {
         `${writePointGPS(point)}`,
         `S ${chainage} ${celsiusDegreesTemps[0]}00 ${celsiusDegreesTemps[1]} ${
           celsiusDegreesTemps[2]
-        }I2${dayjs(point.date).format('HHmm')} ${fahrenheitDegreesTemps}`,
+        }I2${dayjsUtc(point.date).format('HHmm')} ${fahrenheitDegreesTemps}`,
         `${writeDrops(point, project.calibrations.dPlate)}`,
       ]
     })

@@ -17,16 +17,22 @@ export const createOverlay = async (
 ): Promise<Overlay> => {
   const id = `overlay-${parameters.name}-${+new Date() + Math.random()}`
 
-  const imageElement = await getImageFromData64(data64)
+  let width = 0
+  let height = 0
 
-  const width = 500
-  const height = (width * imageElement.height) / imageElement.width
+  if (Image) {
+    // Image isn't implemented in the test runtime
+    const imageElement = await getImageFromData64(data64)
 
-  const canvasTo = document.createElement('canvas')
-  canvasTo.width = width
-  canvasTo.height = height
+    width = 500
+    height = (width * imageElement.height) / imageElement.width
 
-  data64 = (await pica().resize(imageElement, canvasTo)).toDataURL()
+    const canvasTo = document.createElement('canvas')
+    canvasTo.width = width
+    canvasTo.height = height
+
+    data64 = (await pica().resize(imageElement, canvasTo)).toDataURL()
+  }
 
   const { nw, se } =
     parameters.coordinates || (await initialiseNWAndSECoords(map))
@@ -42,9 +48,9 @@ export const createOverlay = async (
     ],
   }
 
-  const markerNW = createMarker(nw)
+  const markerNW = createMarker(map, nw)
 
-  const markerSE = createMarker(se)
+  const markerSE = createMarker(map, se)
 
   const watcherHandler = createWatcherHandler()
 
@@ -55,14 +61,16 @@ export const createOverlay = async (
     markerSE,
     opacity: parameters.opacity || 0.5,
     addToMap(areOverlaysVisible: boolean): void {
-      if (areOverlaysVisible && map) {
-        markerNW.addTo(map)
-        markerSE.addTo(map)
+      if (!map) return
+
+      if (areOverlaysVisible) {
+        markerNW?.addTo(map)
+        markerSE?.addTo(map)
       }
 
-      map?.addSource(id, sourceData)
+      map.addSource(id, sourceData)
 
-      map?.addLayer(
+      map.addLayer(
         {
           id,
           source: id,
@@ -77,14 +85,16 @@ export const createOverlay = async (
 
       const source = map?.getSource(id) as mapboxgl.ImageSource | undefined
 
-      setImageCoordinates(markerNW, markerSE, source, width, height)
-
-      const onMarkerDrag = () => {
+      if (markerNW && markerSE) {
         setImageCoordinates(markerNW, markerSE, source, width, height)
-      }
 
-      markerNW.on('drag', onMarkerDrag)
-      markerSE.on('drag', onMarkerDrag)
+        const onMarkerDrag = () => {
+          setImageCoordinates(markerNW, markerSE, source, width, height)
+        }
+
+        markerNW.on('drag', onMarkerDrag)
+        markerSE.on('drag', onMarkerDrag)
+      }
 
       watcherHandler.add(
         watch(
@@ -101,8 +111,8 @@ export const createOverlay = async (
         map.getSource(id) && map.removeSource(id)
       }
 
-      markerNW.remove()
-      markerSE.remove()
+      markerNW?.remove()
+      markerSE?.remove()
 
       watcherHandler.clean()
     },
@@ -112,8 +122,8 @@ export const createOverlay = async (
         name: parameters.name,
         opacity: this.opacity,
         coordinates: {
-          nw: this.markerNW.getLngLat(),
-          se: this.markerSE.getLngLat(),
+          nw: this.markerNW?.getLngLat() || nw,
+          se: this.markerSE?.getLngLat() || se,
         },
       }
     },
@@ -170,12 +180,14 @@ const getImageFromData64 = async (data64: string): Promise<HTMLImageElement> =>
     }
   })
 
-const createMarker = (coordinates: LngLat) =>
-  new Marker({
-    element: createSVGElement(SVGRotate),
-  })
-    .setLngLat(coordinates)
-    .setDraggable(true)
+const createMarker = (map: mapboxgl.Map | null, coordinates: LngLat) =>
+  map
+    ? new Marker({
+        element: createSVGElement(SVGRotate),
+      })
+        .setLngLat(coordinates)
+        .setDraggable(true)
+    : null
 
 const setImageCoordinates = (
   markerNW: mapboxgl.Marker,

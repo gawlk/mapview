@@ -6,7 +6,7 @@
   import {
     downloadFile,
     getSimpleReportExports,
-    mrvzExporter,
+    mvrzExporter,
   } from '/src/scripts'
 
   import IconDownload from '~icons/heroicons-solid/download'
@@ -45,7 +45,7 @@
 <template>
   <div class="space-y-2">
     <Button :leftIcon="IconDownload" @click="emit('component', Templates)" full>
-      {{ mrvzExporter.name }}
+      {{ mvrzExporter.name }}
     </Button>
     <Button
       v-for="exporter in exporters"

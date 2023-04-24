@@ -123,7 +123,7 @@ export const createFieldFromJSON = (json: JSONFieldVAny): Field => {
       return {
         version: json.version,
         label: json.label,
-        value: this.toString(),
+        value: this.getValue(),
         settings: this.settings,
       }
     },

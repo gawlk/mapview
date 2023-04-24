@@ -11,3 +11,10 @@ export const heavydynReportExports = [
   heavydynSwecoExporter,
   ...(env.isProd ? [] : [heavydynPDXExporter]),
 ]
+
+export {
+  heavydynDynatestExporter,
+  heavydynF25Exporter,
+  heavydynPDXExporter,
+  heavydynSwecoExporter,
+}

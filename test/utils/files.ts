@@ -20,12 +20,9 @@ export const compareFiles = (
   let expectedKeys = Object.keys(expected)
 
   if (options?.filter) {
-    actualKeys = actualKeys.filter((key) =>
-      key.includes(options.filter as string)
-    )
-    expectedKeys = expectedKeys.filter((key) =>
-      key.includes(options.filter as string)
-    )
+    const optionsFilter = options.filter
+    actualKeys = actualKeys.filter((key) => key.includes(optionsFilter))
+    expectedKeys = expectedKeys.filter((key) => key.includes(optionsFilter))
   }
 
   if (actualKeys.length != expectedKeys.length) {
@@ -45,17 +42,15 @@ export const compareFiles = (
 
     lastKey = key
 
-    haveSameFile = haveSameFile && expectedKeys.includes(key)
+    haveSameFile = expectedKeys.includes(key)
 
     haveSameContent =
-      haveSameContent &&
-      haveSameFile &&
-      actual[key].toString() === expected[key].toString()
+      haveSameFile && actual[key].toString() === expected[key].toString()
   }
 
   return {
     haveSameFile,
-    haveSameContent: haveSameContent,
+    haveSameContent,
     lastKey,
     isSameLength: true,
   }

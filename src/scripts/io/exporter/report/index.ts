@@ -1,6 +1,12 @@
 import { heavydynReportExports } from './heavydyn'
 
-export * from './heavydyn'
+export {
+  heavydynDynatestExporter,
+  heavydynF25Exporter,
+  heavydynPDXExporter,
+  heavydynSwecoExporter,
+} from './heavydyn'
+
 export * from './custom'
 
 // TODO: Fix return type

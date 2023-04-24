@@ -62,7 +62,7 @@ test-playwright:
     - npx pnpm i --store=node_modules/.pnpm-store
     - npx pnpm check
     - npx playwright install
-    - npx playwright test
+    - npx pnpm test-browser
 
 test-ts:
   stage: test

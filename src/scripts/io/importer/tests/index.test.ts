@@ -18,38 +18,6 @@ const getFileFromPath = async (path: string) => {
   return new File([buffer], path.split('/').pop() as string)
 }
 
-// describe('suite name', async () => {
-//   const project = await getProject()
-
-//   if (project) {
-//     const context = new Context(new F25ExportStrategy())
-//     context.doExport(project)
-//     const goodFileContent = fs.readFileSync(__dirname + '/mr.F25').toString()
-
-//     const linesGoodFile = goodFileContent.replaceAll('\r', '').split('\n')
-//     context.fileContent.split('\n').forEach((line, i) => {
-//       if (i === 41) return
-//       it('test line ' + i, () => {
-//         expect(line).toEqual(linesGoodFile[i])
-//       })
-//     })
-//   }
-// })
-
-// describe('test pdx', async () => {
-//   const project = await getProject()
-
-//   if (project) {
-//     const context = new Context(new PDXExportStrategy())
-//     context.doExport(project)
-
-//     console.log(context.fileContent)
-//   }
-//   it('test', () => {
-//     expect(1 + 1).toEqual(2)
-//   })
-// })
-
 export const testIfFileIsReturnedFromPath = async (path: string) => {
   const file = await getFileFromPath(path)
 
@@ -117,6 +85,4 @@ describe('Test importFile()', async () => {
 
   //   console.log('paths', screenshotsFileNames)
   // })
-
-  // console.log(project)
 })

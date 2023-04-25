@@ -8,12 +8,18 @@ export const createDataValue = (
   return {
     label,
     value: createMathNumber(value, label.unit),
+    getRawValue() {
+      return this.value.value
+    },
     toJSON() {
       return {
         version: 1,
         label: this.label.name,
-        value: this.value.value,
+        value: this.getRawValue(),
       }
+    },
+    toExcel() {
+      return this.value.toExcel(true)
     },
   }
 }

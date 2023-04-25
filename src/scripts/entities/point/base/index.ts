@@ -113,11 +113,13 @@ export const createBasePointFromJSON = <
           const unit = mathNumber?.unit
 
           if (unit) {
-            const threshold = Object.values(
-              this.zone.report.thresholds.groups
-            ).find((_group) => _group.unit === unit)?.choices.selected
+            const threshold = (
+              Object.values(this.zone.report.thresholds.groups).find(
+                (_group) => _group.unit === unit
+              ) as ThresholdsGroup<string>
+            )?.choices.selected
 
-            const color = threshold.getColor(
+            const color = threshold?.getColor(
               mathNumber,
               this.zone.report.thresholds.colors
             )

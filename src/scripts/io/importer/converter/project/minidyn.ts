@@ -64,6 +64,7 @@ export const convertPRJZToMinidynUnits = (json: any): JSONMinidynUnits => {
   )
 
   return {
+    version: 1,
     modulus: {
       version: 1,
       currentUnit: 'MPa',

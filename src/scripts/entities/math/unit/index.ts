@@ -1,6 +1,7 @@
 import { unit as Unit, createUnit } from 'mathjs'
 
-// eslint-disable-next-line no-shadow
+import { numberToLocaleString } from '/src/locales'
+
 export enum ConvertType {
   BaseToCurrent = 'BaseToCurrent',
   CurrentToBase = 'CurrentToBase',
@@ -11,6 +12,8 @@ createUnit({
   dmm: '100 um',
   nlbs: '4.448221628250858 N',
 })
+
+export const defaultInvalidValueReplacement = '--'
 
 function convertMapviewUnitToMathJSUnit(unit: undefined): undefined
 function convertMapviewUnitToMathJSUnit(unit: string): string
@@ -63,30 +66,43 @@ export const createMathUnit = <PossibleUnits extends string>(
   json: JSONMathUnit<PossibleUnits>,
   baseUnit: string,
   possibleSettings: [PossibleUnits, number][],
-  options?: MathUnitOptions
+  options?: {
+    possiblePrecisions?: number[]
+    step?: number
+    averageFunction?: 'allEqual' | 'capOutliers' | 'ignoreOutliers'
+    readOnly?: true
+    invalidReplacement?: string
+    checkValidity?: (value: number) => boolean
+  }
 ): MathUnit<PossibleUnits> => {
   const currentUnit = json.currentUnit || possibleSettings[0][0]
   const possiblePrecisions = options?.possiblePrecisions || [0, 1, 2]
   const currentPrecision = json.currentPrecision || possibleSettings[0][1]
-  const max = json.max
-  const min = json.min || 0
+  const jsonMax = json.max
+  const jsonMin = json.min || 0
   const readOnly = options?.readOnly || false
+  const invalidReplacement =
+    options?.invalidReplacement || defaultInvalidValueReplacement
 
-  return shallowReactive({
+  const mathUnit: MathUnit<PossibleUnits> = shallowReactive({
     name,
     baseUnit,
     possibleSettings,
     currentUnit,
     possiblePrecisions,
     currentPrecision,
-    min,
-    max,
+    min: jsonMin,
+    max: jsonMax,
     readOnly,
-    getAverage(values: number[]) {
-      const filteredValues: number[] = values.filter((value) =>
-        options?.averageFunction === 'ignoreOutliers'
-          ? value <= this.max && value >= this.min
-          : true
+    getAverage(values) {
+      const { min, max } = this
+
+      const filteredValues: number[] = values.filter(
+        (value) =>
+          this.checkValidity(value) &&
+          (options?.averageFunction === 'ignoreOutliers'
+            ? value <= max && value >= min
+            : true)
       )
 
       return filteredValues.length > 0
@@ -98,6 +114,69 @@ export const createMathUnit = <PossibleUnits extends string>(
           ) / filteredValues.length
         : 0
     },
+    currentToBase(value) {
+      return convertValueFromUnitAToUnitB(
+        value,
+        this.currentUnit,
+        this.baseUnit
+      )
+    },
+    baseToCurrent(value) {
+      return convertValueFromUnitAToUnitB(
+        value,
+        this.baseUnit,
+        this.currentUnit
+      )
+    },
+    checkValidity(value) {
+      return !Number.isNaN(value) && (options?.checkValidity?.(value) ?? true)
+    },
+    // two function with same param name
+    // eslint-disable-next-line no-shadow
+    valueToString(value, options = {}) {
+      let valueString
+
+      if (this.checkValidity(value)) {
+        const numberToLocaleOptions = {
+          locale: options.locale,
+          precision: options.precision,
+        }
+
+        let preString = ''
+
+        numberToLocaleOptions.precision ??= this.currentPrecision
+
+        if (!options.disableMinAndMax) {
+          if (value < this.min) {
+            value = this.min
+            preString = '<'
+          } else if (this.max && value > this.max) {
+            value = this.max
+            preString = '>'
+          }
+        }
+
+        value = convertValueFromUnitAToUnitB(
+          value,
+          this.baseUnit,
+          options.unit ?? this.currentUnit
+        )
+
+        valueString = `${
+          options.disablePreString ? '' : preString
+        } ${numberToLocaleString(value, numberToLocaleOptions)}`.trim()
+      } else {
+        valueString = invalidReplacement
+      }
+
+      const localeString: string = `${valueString} ${
+        options.appendUnitToString ? this.currentUnit : ''
+      }`.trim()
+
+      return options.removeSpaces
+        ? localeString.replaceAll(' ', '')
+        : localeString
+    },
     toJSON(): JSONMathUnit<PossibleUnits> {
       return {
         version: 1,
@@ -107,21 +186,9 @@ export const createMathUnit = <PossibleUnits extends string>(
         min: this.min,
       }
     },
-    currentToBase(value: number) {
-      return convertValueFromUnitAToUnitB(
-        value,
-        this.currentUnit,
-        this.baseUnit
-      )
-    },
-    baseToCurrent(value: number) {
-      return convertValueFromUnitAToUnitB(
-        value,
-        this.baseUnit,
-        this.currentUnit
-      )
-    },
   })
+
+  return mathUnit
 }
 
 export const convertValueFromUnitAToUnitB = (

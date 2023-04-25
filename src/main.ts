@@ -10,6 +10,7 @@ import { getBrowserLocale } from './locales'
 
 import App from './App.vue'
 
+console.log(import.meta.env.VITE_CONTEXT)
 createApp(App)
   .use(createHead())
   .use(

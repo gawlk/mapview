@@ -49,7 +49,7 @@ export const createCharacteristicDeflectionComputer = (
             )
           )
           .flat()
-          .map((d0) => d0.value.value)
+          .map((d0) => d0.getRawValue())
 
         const d0sAverage = average(d0s)
 

@@ -47,6 +47,7 @@ export const convertPRJZToHeavydynReportDistinct = (
   return {
     version: 1,
     thresholds: {
+      version: 2,
       deflection: {
         version: 1,
         selectedIndex: 0,
@@ -117,6 +118,16 @@ export const convertPRJZToHeavydynReportDistinct = (
           valueHigh: 0,
         },
       },
+      radius: {
+        version: 1,
+        selectedIndex: 0,
+        custom: {
+          version: 1,
+          type: 'Bicolor',
+          value: 0,
+          valueHigh: 0,
+        },
+      },
     },
     dataLabels: {
       version: 1,
@@ -150,7 +161,7 @@ export const convertPRJZToHeavydynReportDistinct = (
             from: 'Point',
             choices: {
               version: 1,
-              selectedIndex: 0,
+              selectedIndex: null,
               list: testChoices as JSONDataLabel<HeavydynUnitsNames>[],
             },
           },

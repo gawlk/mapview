@@ -16,7 +16,9 @@ type PossibleMinidynDistanceUnits = 'm' | 'km' | 'mi'
 type PossibleMinidynTimeUnits = 's' | 'ms' | 'us'
 type PossibleMinidynPercentageUnits = '%'
 
-type JSONMinidynUnits = MinidynUnitsSkeleton<
+type JSONMinidynUnitsVAny = JSONMinidynUnits
+
+type JSONMinidynUnits = { version: 1 } & MinidynUnitsSkeleton<
   JSONMathUnit<PossibleMinidynModulusUnits>,
   JSONMathUnit<PossibleMinidynStiffnessUnits>,
   JSONMathUnit<PossibleMinidynDeflectionUnits>,

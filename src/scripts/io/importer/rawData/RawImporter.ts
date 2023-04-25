@@ -46,7 +46,9 @@ export function importRawDataFromZIP(
 ) {
   const folderName = 'rawdata'
 
-  const points = project.reports.list.flatMap((a) => a.line.sortedPoints)
+  const points = project.reports.list
+    .flatMap((a) => a.zones.map((zone) => zone.points))
+    .flat()
 
   Object.keys(zip)
     .filter((key) => key.toLowerCase().startsWith(folderName))

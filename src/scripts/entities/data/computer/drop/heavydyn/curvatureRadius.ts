@@ -31,7 +31,7 @@ export const createCurvatureRadiusDataComputers = (report: HeavydynReport) => {
           'Drop',
           createDataLabel({
             name: `Curvature radius (${obj.side})`,
-            unit: report.project.units.distance,
+            unit: report.project.units.radius,
             category: indicatorsCategory,
           })
         ),

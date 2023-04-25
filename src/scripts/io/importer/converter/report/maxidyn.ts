@@ -57,6 +57,7 @@ export const convertPRJZToMaxidynReportDistinct = (
   return {
     version: 1,
     thresholds: {
+      version: 1,
       modulus: {
         version: 1,
         selectedIndex: modulusThresholdIndex,
@@ -140,7 +141,7 @@ export const convertPRJZToMaxidynReportDistinct = (
             from: 'Drop',
             choices: {
               version: 1,
-              selectedIndex: 0,
+              selectedIndex: null,
               list: dropChoices,
             },
           },
@@ -160,11 +161,7 @@ export const convertPRJZToMaxidynReportDistinct = (
             from: 'Point',
             choices: {
               version: 1,
-              selectedIndex:
-                testChoices.findIndex(
-                  (choice) =>
-                    choice.unit === 'modulus' || choice.unit === 'stiffness'
-                ) || 0,
+              selectedIndex: null,
               list: testChoices as JSONDataLabel<MaxidynUnitsNames>[],
             },
           },

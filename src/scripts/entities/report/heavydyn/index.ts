@@ -90,6 +90,7 @@ export const createHeavydynReportFromJSON = (
             group.toJSON()
           ),
           thresholds: {
+            version: 2,
             deflection: convertThresholdsConfigurationToJSON(
               thresholdGroup.deflection
             ),
@@ -105,6 +106,7 @@ export const createHeavydynReportFromJSON = (
               thresholdGroup.modulus
             ),
             cumSum: convertThresholdsConfigurationToJSON(thresholdGroup.cumSum),
+            radius: convertThresholdsConfigurationToJSON(thresholdGroup.radius),
           },
         },
       }

@@ -29,7 +29,7 @@ export const convertPRJZToBaseReport = (
       version: 1,
       colors: (() => {
         return {
-          version: 1,
+          version: 2,
           low: parameters.machine === 'Heavydyn' ? 'green' : 'red',
           middle: 'yellow',
           high: parameters.machine === 'Heavydyn' ? 'red' : 'green',
@@ -49,7 +49,7 @@ export const convertPRJZToBaseReport = (
           name: 'Zone 1',
           settings: {
             version: 1,
-            color: 'gray',
+            color: 'orange',
             isVisible: true,
           },
           points: [] as JSONMachinePoint[],
@@ -162,7 +162,7 @@ export const convertPRJZToBaseReport = (
       },
     },
     information: convertPRJZObjectToFields(jsonPV.PV),
-    platform: convertPRJZObjectToFields(jsonPV.Plateform),
+    platform: convertPRJZObjectToFields(jsonPV.Plateform || jsonPV.Platform),
     screenshots: [],
   }
 }

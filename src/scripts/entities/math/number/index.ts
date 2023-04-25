@@ -1,13 +1,11 @@
-import { numberToLocaleString } from '/src/locales'
-
 import { convertValueFromUnitAToUnitB } from '/src/scripts'
 
 export const createMathNumber = (
-  value: number,
+  value: JSONMathNumberValue,
   unit: MathUnit<string>
 ): MathNumber => {
-  const mathNumber = shallowReactive({
-    value,
+  const mathNumber: MathNumber = shallowReactive({
+    value: Number(value ?? 'NaN'),
     unit,
     displayedString: '',
     displayedStringWithUnit: '',
@@ -30,44 +28,24 @@ export const createMathNumber = (
         unitAs
       )
     },
-    getLocaleString(options: MathNumberGetLocaleStringOptions = {}) {
-      const numberToLocaleOptions = {
-        locale: options.locale,
-        precision: options.precision,
+    checkValidity() {
+      return this.unit.checkValidity(this.value)
+    },
+    getLocaleString(options?) {
+      return this.unit.valueToString(this.value, options)
+    },
+    toCurrent() {
+      return this.unit.baseToCurrent(this.value)
+    },
+    toExcel(asCurrent = false) {
+      if (!this.checkValidity) {
+        return null
       }
 
-      let currentValue = this.value
-      let preString = ''
-
-      if (this.unit) {
-        numberToLocaleOptions.precision ??= this.unit.currentPrecision
-
-        if (!options.disableMinAndMax) {
-          if (this.value < this.unit.min) {
-            currentValue = this.unit.min
-            preString = '<'
-          } else if (this.unit.max && this.value > this.unit.max) {
-            currentValue = this.unit.max
-            preString = '>'
-          }
-        }
-
-        currentValue = convertValueFromUnitAToUnitB(
-          currentValue,
-          this.unit.baseUnit,
-          options.unit ?? this.unit.currentUnit
-        )
-      }
-
-      const localeString = `${
-        options.disablePreString ? '' : preString
-      } ${numberToLocaleString(currentValue, numberToLocaleOptions)} ${
-        options.appendUnitToString ? this.unit.currentUnit : ''
-      }`.trim()
-
-      return options.removeSpaces
-        ? localeString.replaceAll(' ', '')
-        : localeString
+      return asCurrent ? this.toCurrent() : this.value
+    },
+    toJSON() {
+      return Number.isNaN(this.value) ? 'NaN' : this.value
     },
   })
 

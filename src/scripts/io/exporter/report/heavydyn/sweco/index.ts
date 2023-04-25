@@ -96,6 +96,7 @@ const writeHeader = (project: HeavydynProject): string => {
 const writePoints = (project: HeavydynProject): string => {
   return (
     project.reports.selected?.line.sortedPoints
+      .filter((point) => point.settings.isVisible)
       .map((point) => {
         let coordinates = { lng: '', lat: '' }
 

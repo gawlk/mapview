@@ -1,4 +1,4 @@
-import { blend, colorsClasses } from '/src/scripts'
+import { blend, colorsClasses, gray } from '/src/scripts'
 
 export const createCustomThreshold = (parameters: {
   type: CustomThresholdType
@@ -15,6 +15,10 @@ export const createCustomThreshold = (parameters: {
       const hexColorLow = colorsClasses[colors.low].hexColor
       const hexColorMiddle = colorsClasses[colors.middle].hexColor
       const hexColorHigh = colorsClasses[colors.high].hexColor
+
+      if (!mathNumber.checkValidity()) {
+        return gray
+      }
 
       const value = Math.max(
         this.value,

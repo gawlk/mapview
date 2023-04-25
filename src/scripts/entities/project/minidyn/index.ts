@@ -34,6 +34,7 @@ export const createMinidynProjectFromJSON = (
           version: json.distinct.version,
           bearingParameters: json.distinct.bearingParameters,
           units: {
+            version: 1,
             deflection: this.units.deflection.toJSON(),
             force: this.units.force.toJSON(),
             distance: this.units.distance.toJSON(),

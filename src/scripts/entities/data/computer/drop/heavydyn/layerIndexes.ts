@@ -21,7 +21,7 @@ const layerIndexCompute =
           const d2 = drop.data.find((_data) => _data.label === dataLabel2)
 
           if (d1 && d2) {
-            data.value.updateValue(d1.value.value - d2.value.value)
+            data.value.updateValue(d1.getRawValue() - d2.getRawValue())
           }
         })
       )

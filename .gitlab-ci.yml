@@ -11,9 +11,8 @@ image: node:latest
   - git remote add ssh_origin "git@$CI_SERVER_HOST:$CI_PROJECT_PATH.git"
 
 .git_tag: &git_tag
-  - build=$(npx pnpm json -f package.json build)
   - version=$(npx pnpm json -f package.json version)
-  - git tag "$version($build)"
+  - git tag "$version"
   - git push --tags ssh_origin
 
 stages:
@@ -24,21 +23,6 @@ stages:
 cache:
   paths:
     - node_modules/
-
-version-1:
-  stage: version
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-      when: on_success
-  before_script: *git_config
-  script:
-    - npx pnpm install json --save-dev --store=node_modules/.pnpm-store
-    - npx pnpm json -I -f "package.json" -e "this.build=Number(this.build)+1"
-    - git add package.json
-    - git commit -m "update build number [ci skip]"
-    - git push ssh_origin HEAD:$CI_COMMIT_REF_NAME
-  after_script:
-    - *git_tag
 
 version-2:
   stage: version

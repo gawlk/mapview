@@ -7,6 +7,7 @@ import {
   debounce,
   flyToPoints,
   getIndexOfSelectedInSelectableList,
+  upgradeColorNameFromV1ToV2,
 } from '/src/scripts'
 
 export const createBaseReportFromJSON = <
@@ -35,7 +36,9 @@ export const createBaseReportFromJSON = <
   // @ts-ignore
   const thresholds: Thresholds = {
     groups: parameters.thresholdsGroups,
-    colors: shallowReactive(json.thresholds.colors),
+    colors: shallowReactive(
+      upgradeThresholdsColorsJSON(json.thresholds.colors)
+    ),
     inputs: shallowReactive(json.thresholds.inputs),
   }
 
@@ -218,6 +221,23 @@ const upgradeJSON = (json: JSONBaseReportVAny): JSONBaseReport => {
     // upgrade
     default:
       json = json as JSONBaseReport
+  }
+
+  return json
+}
+
+const upgradeThresholdsColorsJSON = (
+  json: JSONThresholdColorsVAny
+): JSONThresholdColors => {
+  switch (json.version) {
+    case 1:
+      json = {
+        ...json,
+        version: 2,
+        high: upgradeColorNameFromV1ToV2(json.high),
+        middle: upgradeColorNameFromV1ToV2(json.middle),
+        low: upgradeColorNameFromV1ToV2(json.low),
+      }
   }
 
   return json

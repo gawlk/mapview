@@ -9,6 +9,7 @@
     "plugin:vue/vue3-essential",
     "plugin:@typescript-eslint/recommended",
     "plugin:sonarjs/recommended",
+    "plugin:tailwindcss/recommended",
     "prettier"
   ],
   "parser": "@typescript-eslint/parser",

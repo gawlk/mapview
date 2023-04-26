@@ -21,7 +21,7 @@ export const mapStyles = [
 
 export const waitForMap = () =>
   new Promise<boolean>((resolve) => {
-    const interval = setInterval(async () => {
+    const interval = setInterval(() => {
       if (!store.map || store.map?.isStyleLoaded()) {
         clearInterval(interval)
         resolve(true)
@@ -38,7 +38,7 @@ export const createMap = (container: string): mapboxgl.Map => {
     center: [2.419263, 48.621551], // [lng, lat]
     zoom: 2,
     preserveDrawingBuffer: true,
-    accessToken: import.meta.env.VITE_MAPBOXGL_ACCESS_TOKEN,
+    accessToken: import.meta.env.VITE_MAPBOXGL_ACCESS_TOKEN as string,
     antialias: true,
   }).addControl(new NavigationControl(), 'top-left')
 

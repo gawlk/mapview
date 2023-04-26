@@ -22,7 +22,7 @@ export const convertUint8arrayToXML = (array: Uint8Array) => {
   return parser.parseFromString(stringified, 'text/xml')
 }
 
-export const convertJSONToFile = (json: AnyJSON, name: string) =>
+export const convertJSONToFile = (json: RecordAny, name: string) =>
   new File([JSON.stringify(json, null, 2)], name, {
     type: 'json',
   })
@@ -78,7 +78,7 @@ export function convertFileNameToValidName(name: string, hasExtension = true) {
     .replaceAll(/[\\|/*<>:"?\x00-\x1F]/g, '_')}${extension}`
 }
 
-export const downloadFile = async (file: File) => {
+export const downloadFile = (file: File) => {
   const a = document.createElement('a')
 
   a.href = URL.createObjectURL(file)

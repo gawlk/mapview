@@ -33,7 +33,7 @@ export const createMinidynZoneFromJSON = (
   zone.points.push(
     ...json.base.points.map((jsonPoint) =>
       createMinidynPointFromJSON(jsonPoint, map, {
-        zone: zone as MinidynZone,
+        zone: zone,
       })
     )
   )
@@ -46,7 +46,9 @@ const upgradeJSON = (json: JSONMinidynZoneVAny): JSONMinidynZone => {
     case 1:
     // upgrade
     default:
-      json = json as JSONMinidynZone
+      // disable until we create new version
+      // eslint-disable-next-line no-self-assign
+      json = json
   }
 
   return json

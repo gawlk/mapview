@@ -49,8 +49,6 @@ const upgradeJSONDrop = (json: JSONBaseDropVAny): JSONBaseDrop => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONBaseDrop
   }
 
   return json
@@ -74,12 +72,12 @@ export const createBaseDropIndexFromJSON = (
 
 const upgradeJSONDropIndex = (
   json: JSONBaseDropIndexVAny
+  // disable until other version is manage
+  // eslint-disable-next-line sonarjs/no-identical-functions
 ): JSONBaseDropIndex => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONBaseDropIndex
   }
 
   return json

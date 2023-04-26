@@ -12,14 +12,14 @@ export const createZipFromEntity = async (
     overlays?: boolean
     screenshots?: boolean
     rawData?: boolean
-    customJSON?: { name: string; json: AnyJSON }
+    customJSON?: { name: string; json: RecordAny }
     template?: File
   }
 ) => {
   const { overlays, screenshots, rawData, template } = parameters
   const zip: Fflate.Zippable = {}
 
-  let json: JSONMapview | AnyJSON | undefined
+  let json: JSONMapview | RecordAny | undefined
   let projectJson
 
   if (entity.kind === 'Project') {

@@ -45,8 +45,6 @@ const upgradeJSON = (json: JSONMaxidynPointVAny): JSONMaxidynPoint => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONMaxidynPoint
   }
 
   return json

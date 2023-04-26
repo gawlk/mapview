@@ -1,3 +1,4 @@
+/* eslint-disable no-fallthrough */
 import {
   createWatcherHandler,
   getRandomColorName,
@@ -110,10 +111,7 @@ const upgradeJSON = (json: JSONBaseZoneVAny): JSONBaseZone => {
   switch (json.version) {
     case 1:
     // upgrade
-    // for update want to have no break
-    // eslint-disable-next-line no-fallthrough
     default:
-      json = json as JSONBaseZone
   }
 
   return json
@@ -127,10 +125,6 @@ const upgradeSettingsJSON = (json: JSONZoneSettingsVAny): JSONZoneSettings => {
         version: 2,
         color: upgradeColorNameFromV1ToV2(json.color),
       }
-    // for update want to have no break
-    // eslint-disable-next-line no-fallthrough
-    default:
-      json = json as JSONZoneSettings
   }
 
   return json

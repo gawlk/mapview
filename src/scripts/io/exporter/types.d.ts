@@ -15,7 +15,7 @@ interface MachineExporter extends Exporter {
 }
 
 interface HeavydynExporter extends Exporter {
-  export: (project: HeavydynProject) => Promise<File>
+  export: (project: HeavydynProject) => File
 }
 
 interface MaxidynExporter extends Exporter {

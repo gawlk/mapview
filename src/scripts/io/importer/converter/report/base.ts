@@ -1,10 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { currentCategory, icons, indicatorsCategory } from '/src/scripts'
 
 import { convertPRJZObjectToFields } from '../shared'
 
 export const convertPRJZToBaseReport = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  jsonPV: any,
+  jsonPV: RecordAny,
   reportIndex: number,
   parameters: {
     machine: MachineName
@@ -17,7 +17,7 @@ export const convertPRJZToBaseReport = (
 
   return {
     version: 1,
-    name: jsonPV.PV.Name,
+    name: jsonPV.PV.Name as string,
     settings: {
       version: 1,
       iconName: iconsNames[reportIndex % iconsNames.length],

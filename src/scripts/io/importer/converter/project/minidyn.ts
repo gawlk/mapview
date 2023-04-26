@@ -1,8 +1,7 @@
 import { convertPRJZToMinidynReport } from '../report'
 
 export const convertPRJZToMinidynProject = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  json: any,
+  json: RecordAny,
   baseProject: JSONBaseProject
 ): JSONMinidynProject => {
   const project: JSONMinidynProject = {
@@ -13,8 +12,7 @@ export const convertPRJZToMinidynProject = (
   }
 
   project.base.reports.list.push(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ...json.PVs.map((jsonPV: any, index: number) =>
+    ...json.PVs.map((jsonPV: RecordAny, index: number) =>
       convertPRJZToMinidynReport(jsonPV, index, json)
     )
   )
@@ -27,17 +25,18 @@ export const convertPRJZToMinidynProject = (
 }
 
 export const convertPRJZToMinidynProjectDistinct = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  json: any
+  json: JSONObject<JSONObject<JSONObject>>
 ): JSONMinidynProjectDistinct => {
   const units = convertPRJZToMinidynUnits(json)
+
+  Object.hasOwn(json, 'ParamsBearing')
 
   return {
     version: 1,
     units,
     bearingParameters: {
       version: 1,
-      name: json.ParamsBearing.Name,
+      name: String(json.ParamsBearing.Name),
       algoBearing: json.ParamsBearing.AlgoBearing,
       hasQuality: json.ParamsBearing.HasQuality,
       algoProcessing1: json.ParamsBearing.AlgoProcessing1,
@@ -51,16 +50,15 @@ export const convertPRJZToMinidynProjectDistinct = (
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const convertPRJZToMinidynUnits = (json: any): JSONMinidynUnits => {
+export const convertPRJZToMinidynUnits = (
+  json: JSONObject
+): JSONMinidynUnits => {
   const exportedModulus = json.ExportedData.Points.find(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (exportedUnit: any) => exportedUnit.Type === 'Modulus'
+    (exportedUnit: RecordAny) => exportedUnit.Type === 'Modulus'
   )
 
   const exportedStiffness = json.ExportedData.Points.find(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (exportedUnit: any) => exportedUnit.Type === 'Stiffness'
+    (exportedUnit: RecordAny) => exportedUnit.Type === 'Stiffness'
   )
 
   return {
@@ -69,15 +67,19 @@ export const convertPRJZToMinidynUnits = (json: any): JSONMinidynUnits => {
       version: 1,
       currentUnit: 'MPa',
       currentPrecision: 0,
-      min: exportedModulus ? json.ParamsBearing.MinBearing : 10000000,
-      max: exportedModulus ? json.ParamsBearing.MaxBearing : 150000000,
+      min: (exportedModulus
+        ? json.ParamsBearing.MinBearing
+        : 10000000) as number,
+      max: (exportedModulus
+        ? json.ParamsBearing.MaxBearing
+        : 150000000) as number,
     },
     stiffness: {
       version: 1,
       currentUnit: 'MN / m',
       currentPrecision: 0,
-      min: exportedStiffness ? json.ParamsBearing.MinBearing : 0,
-      max: exportedStiffness ? json.ParamsBearing.MaxBearing : 1000,
+      min: (exportedStiffness ? json.ParamsBearing.MinBearing : 0) as number,
+      max: (exportedStiffness ? json.ParamsBearing.MaxBearing : 1000) as number,
     },
     deflection: {
       version: 1,
@@ -119,8 +121,7 @@ export const convertPRJZToMinidynUnits = (json: any): JSONMinidynUnits => {
       version: 1,
       currentUnit: ((): PossibleMinidynDistanceUnits => {
         switch (
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (json.ExportedData.Points as any[]).find(
+          (json.ExportedData.Points as RecordAny[]).find(
             (exportedUnit) => exportedUnit.Type === 'Distance'
           )?.Unit
         ) {
@@ -139,8 +140,7 @@ export const convertPRJZToMinidynUnits = (json: any): JSONMinidynUnits => {
       version: 1,
       currentUnit: ((): PossibleMinidynTimeUnits => {
         switch (
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (json.ExportedData.Drops as any[]).find(
+          (json.ExportedData.Drops as RecordAny[]).find(
             (exportedUnit) => exportedUnit.Type === 'Time'
           )?.Unit
         ) {

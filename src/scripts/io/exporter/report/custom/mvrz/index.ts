@@ -47,7 +47,9 @@ export const mrvzExporter = {
             }),
           ]
         : [],
-      `${project.name.toString()}_${project.reports.selected?.name.toString()}.mvrz`,
+      `${project.name.toString()}_${
+        project.reports.selected?.name.toString() || ''
+      }.mvrz`,
       { type: 'blob' }
     )
   },
@@ -145,11 +147,9 @@ const generateDropData = (
           points.length
         ).fill(drop.index.displayedIndex),
         ...drop.data.reduce<FlatDataJson>((c, data) => {
-          const label =
-            labelPrefix +
-            drop.index.displayedIndex +
-            '_' +
-            toPascalCase(data.label.getSerializedName())
+          const label = `${labelPrefix}${
+            drop.index.displayedIndex
+          }_${toPascalCase(data.label.getSerializedName())}`
 
           const values = (c[label] || []) as (number | null)[]
 
@@ -171,21 +171,21 @@ const generateZoneData = (zones: MachineZone[]): ExcelJson =>
 
     const visiblePoints = points.filter((point) => point.settings.isVisible)
 
-    const Z = 'Z' + (index + 1)
+    const Z = `Z${index + 1}`
 
     return {
       ...a,
-      [Z + '_Name']: zone.name,
+      [`${Z}_Name`]: zone.name,
       ...zone.data.reduce<ExcelJson>(
         (prev, data) => ({
           ...prev,
-          [Z + '_' + toPascalCase(data.label.name)]: data.toExcel(),
+          [`${Z}_${toPascalCase(data.label.name)}`]: data.toExcel(),
         }),
         {}
       ),
-      ...generatePointInformation(visiblePoints, Z + '_Pi_'),
-      ...generatePointData(visiblePoints, Z + '_Pi_'),
-      ...generateDropData(visiblePoints, Z + '_Pi_D'),
+      ...generatePointInformation(visiblePoints, `${Z}_Pi_`),
+      ...generatePointData(visiblePoints, `${Z}_Pi_`),
+      ...generateDropData(visiblePoints, `${Z}_Pi_D`),
     }
   }, {})
 
@@ -215,22 +215,19 @@ const generateThresholds = (thresholds: MachineThresholds): ExcelJson =>
       if (group.choices.selected) {
         return {
           ...a,
-          ['Thresholds_' + group.unit.name + '_Kind']:
-            group.choices.selected.kind,
-          ['Thresholds_' + group.unit.name + '_Name']:
-            group.choices.selected.name,
-          ['Thresholds_' + group.unit.name + '_Value']: createMathNumber(
+          [`Thresholds_${group.unit.name}_Kind`]: group.choices.selected.kind,
+          [`Thresholds_${group.unit.name}_Name`]: group.choices.selected.name,
+          [`Thresholds_${group.unit.name}_Value`]: createMathNumber(
             group.choices.selected.value,
             group.unit
           ).getValueAs(group.unit.currentUnit),
           ...(group.choices.selected.kind === 'custom' &&
           group.choices.selected.type !== 'Bicolor'
             ? {
-                ['Thresholds_' + group.unit.name + '_ValueHigh']:
-                  createMathNumber(
-                    group.choices.selected.valueHigh,
-                    group.unit
-                  ).getValueAs(group.unit.currentUnit),
+                [`Thresholds_${group.unit.name}_ValueHigh`]: createMathNumber(
+                  group.choices.selected.valueHigh,
+                  group.unit
+                ).getValueAs(group.unit.currentUnit),
               }
             : {}),
         }
@@ -298,25 +295,24 @@ const generateCalibrations = (
   ...calibrations.channels.reduce<ExcelJson>(
     (a, channel, index) => ({
       ...a,
-      ['Calibration_Channel' + (index + 1) + '_Name']: channel.name,
-      ['Calibration_Channel' + (index + 1) + '_Version']: channel.version,
-      ['Calibration_Channel' + (index + 1) + '_Position']: channel.position,
-      ['Calibration_Channel' + (index + 1) + '_Gain']: channel.gain,
-      ['Calibration_Channel' + (index + 1) + '_Acquisition']:
-        channel.acquisition,
-      ['Calibration_Channel' + (index + 1) + '_Type']: channel.type,
-      ['Calibration_Channel' + (index + 1) + '_V0']: channel.v0,
+      [`Calibration_Channel${index + 1}_Name`]: channel.name,
+      [`Calibration_Channel${index + 1}_Version`]: channel.version,
+      [`Calibration_Channel${index + 1}_Position`]: channel.position,
+      [`Calibration_Channel${index + 1}_Gain`]: channel.gain,
+      [`Calibration_Channel${index + 1}_Acquisition`]: channel.acquisition,
+      [`Calibration_Channel${index + 1}_Type`]: channel.type,
+      [`Calibration_Channel${index + 1}_V0`]: channel.v0,
     }),
     {}
   ),
   ...calibrations.sensors.reduce<ExcelJson>(
     (a, sensor, index) => ({
       ...a,
-      ['Calibration_Sensor' + (index + 1) + '_Name']: sensor.name,
-      ['Calibration_Sensor' + (index + 1) + '_Version']: sensor.version,
-      ['Calibration_Sensor' + (index + 1) + '_Gain']: sensor.gain,
-      ['Calibration_Sensor' + (index + 1) + '_Type']: sensor.type,
-      ['Calibration_Sensor' + (index + 1) + '_V0']: sensor.v0,
+      [`Calibration_Sensor${index + 1}_Name`]: sensor.name,
+      [`Calibration_Sensor${index + 1}_Version`]: sensor.version,
+      [`Calibration_Sensor${index + 1}_Gain`]: sensor.gain,
+      [`Calibration_Sensor${index + 1}_Type`]: sensor.type,
+      [`Calibration_Sensor${index + 1}_V0`]: sensor.v0,
     }),
     {}
   ),
@@ -381,11 +377,11 @@ const generateMinidynData = (project: MinidynProject): ExcelJson => ({
 const generateSpecificMachineData = (project: MachineProject): ExcelJson => {
   switch (project.machine) {
     case 'Heavydyn':
-      return generateHeavydynData(project as HeavydynProject)
+      return generateHeavydynData(project)
     case 'Maxidyn':
-      return generateMaxidynData(project as MaxidynProject)
+      return generateMaxidynData(project)
     case 'Minidyn':
-      return generateMinidynData(project as MinidynProject)
+      return generateMinidynData(project)
 
     // No Default
   }

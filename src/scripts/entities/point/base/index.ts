@@ -97,9 +97,7 @@ export const createBasePointFromJSON = <
     },
     updateColor() {
       if (this.zone.report.settings.colorization === 'Zone') {
-        this.icon?.setColor(
-          colorsClasses[this.zone.settings.color as ColorName].hexColor
-        )
+        this.icon?.setColor(colorsClasses[this.zone.settings.color].hexColor)
       } else {
         const group = this.zone.report.dataLabels.groups.selected
 
@@ -289,8 +287,6 @@ const upgradeJSON = (json: JSONBasePointVAny): JSONBasePoint => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONBasePoint
   }
 
   return json

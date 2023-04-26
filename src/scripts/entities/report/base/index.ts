@@ -219,8 +219,6 @@ const upgradeJSON = (json: JSONBaseReportVAny): JSONBaseReport => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONBaseReport
   }
 
   return json

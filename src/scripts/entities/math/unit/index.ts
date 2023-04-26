@@ -33,6 +33,7 @@ function convertMapviewUnitToMathJSUnit(unit: any): any {
     case '%':
       return 'm'
     default:
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return unit
   }
 }
@@ -66,7 +67,7 @@ export const createMathUnit = <PossibleUnits extends string>(
   json: JSONMathUnit<PossibleUnits>,
   baseUnit: string,
   possibleSettings: [PossibleUnits, number][],
-  options?: {
+  mathUnitOptions?: {
     possiblePrecisions?: number[]
     step?: number
     averageFunction?: 'allEqual' | 'capOutliers' | 'ignoreOutliers'
@@ -76,13 +77,13 @@ export const createMathUnit = <PossibleUnits extends string>(
   }
 ): MathUnit<PossibleUnits> => {
   const currentUnit = json.currentUnit || possibleSettings[0][0]
-  const possiblePrecisions = options?.possiblePrecisions || [0, 1, 2]
+  const possiblePrecisions = mathUnitOptions?.possiblePrecisions || [0, 1, 2]
   const currentPrecision = json.currentPrecision || possibleSettings[0][1]
   const jsonMax = json.max
   const jsonMin = json.min || 0
-  const readOnly = options?.readOnly || false
+  const readOnly = mathUnitOptions?.readOnly || false
   const invalidReplacement =
-    options?.invalidReplacement || defaultInvalidValueReplacement
+    mathUnitOptions?.invalidReplacement || defaultInvalidValueReplacement
 
   const mathUnit: MathUnit<PossibleUnits> = shallowReactive({
     name,
@@ -100,7 +101,7 @@ export const createMathUnit = <PossibleUnits extends string>(
       const filteredValues: number[] = values.filter(
         (value) =>
           this.checkValidity(value) &&
-          (options?.averageFunction === 'ignoreOutliers'
+          (mathUnitOptions?.averageFunction === 'ignoreOutliers'
             ? value <= max && value >= min
             : true)
       )
@@ -109,7 +110,12 @@ export const createMathUnit = <PossibleUnits extends string>(
         ? filteredValues.reduce(
             (total, currentValue) =>
               total +
-              reduceForAverage(this.min, this.max, currentValue, options),
+              reduceForAverage(
+                this.min,
+                this.max,
+                currentValue,
+                mathUnitOptions
+              ),
             0
           ) / filteredValues.length
         : 0
@@ -129,7 +135,10 @@ export const createMathUnit = <PossibleUnits extends string>(
       )
     },
     checkValidity(value) {
-      return !Number.isNaN(value) && (options?.checkValidity?.(value) ?? true)
+      return (
+        !Number.isNaN(value) &&
+        (mathUnitOptions?.checkValidity?.(value) ?? true)
+      )
     },
     // two function with same param name
     // eslint-disable-next-line no-shadow

@@ -15,7 +15,7 @@ import {
 
 export const heavydynF25Exporter: HeavydynExporter = {
   name: '.F25',
-  export: async (project: HeavydynProject) => {
+  export: (project: HeavydynProject) => {
     // eslint-disable-next-line no-console
     console.log(`
     ${writeHeader(project)}
@@ -35,7 +35,7 @@ export const heavydynF25Exporter: HeavydynExporter = {
           `)
         ),
       ],
-      `${project.reports.selected?.name.toString()}.F25`,
+      `${project.reports.selected?.name.toString() || ''}.F25`,
       { type: 'text/plain' }
     )
   },

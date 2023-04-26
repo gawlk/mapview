@@ -41,8 +41,6 @@ const upgradeJSON = (json: JSONDataValueVAny): JSONDataValue => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONDataValue
   }
 
   return json

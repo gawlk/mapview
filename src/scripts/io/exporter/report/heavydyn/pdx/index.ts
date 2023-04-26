@@ -5,7 +5,7 @@ import { findFieldInArray, replaceAllLFToCRLF } from '/src/scripts'
 
 export const heavydynPDXExporter: HeavydynExporter = {
   name: '.pdx',
-  export: async (project: HeavydynProject) => {
+  export: (project: HeavydynProject) => {
     return new File(
       [
         replaceAllLFToCRLF(dedent`
@@ -20,7 +20,7 @@ export const heavydynPDXExporter: HeavydynExporter = {
             ${writePoints(project)}
           `),
       ],
-      `${project.reports.selected?.name.toString()}.pdx`,
+      `${project.reports.selected?.name.toString() || ''}.pdx`,
       { type: 'text/plain' }
     )
   },

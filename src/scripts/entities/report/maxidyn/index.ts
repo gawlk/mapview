@@ -108,15 +108,13 @@ export const createMaxidynReportFromJSON = (
 
   selectTableDataLabelsFromJSON(report, json.base)
 
-  return report as MaxidynReport
+  return report
 }
 
 const upgradeJSON = (json: JSONMaxidynReportVAny): JSONMaxidynReport => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONMaxidynReport
   }
 
   return json

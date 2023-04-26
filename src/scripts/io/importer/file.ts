@@ -17,8 +17,9 @@ export const getProjectJSONFromZip = (
 ) => {
   const jsonUint = unzipped['database.json']
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const importedJSON: any = JSON.parse(new TextDecoder().decode(jsonUint))
+  const importedJSON = JSON.parse(
+    new TextDecoder().decode(jsonUint)
+  ) as RecordAny
 
   return extension === 'mpvz'
     ? (importedJSON as JSONMapview).project

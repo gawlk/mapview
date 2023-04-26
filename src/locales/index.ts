@@ -1,7 +1,7 @@
 import translationsFR from '/src/locales/fr.json?raw'
 
 const translations = {
-  fr: JSON.parse(translationsFR),
+  fr: JSON.parse(translationsFR) as LocalesStringContent,
 }
 
 export const translate = (value: string) => {

@@ -11,14 +11,14 @@ import { ddToDms } from './coordinates'
 
 export const heavydynSwecoExporter: HeavydynExporter = {
   name: '.fwd (Sweco)',
-  export: async (project: HeavydynProject) => {
+  export: (project: HeavydynProject) => {
     return new File(
       [
         replaceAllLFToCRLF(
           '\n' + writeHeader(project) + writePoints(project) + '\n'
         ),
       ],
-      `${project.reports.selected?.name.toString()}-sweco.fwd`,
+      `${project.reports.selected?.name.toString() || ''}-sweco.fwd`,
       { type: 'text/plain' }
     )
   },
@@ -65,16 +65,16 @@ const writeHeader = (project: HeavydynProject): string => {
     (c) ROAD SYSTEM 2016, Metric
     ${writeSeparator()}
     $1
-    ${padDotString('Filename:', 23) + project.name.value}
+    ${padDotString('Filename:', 23) + project.name.value.toString()}
     ${padDotString('Client Code:', 23)}
-    ${padDotString('Road number:', 23) + lane}
-    ${padDotString('Name of Client:', 23) + client}
+    ${padDotString('Road number:', 23) + (lane?.toString() || '')}
+    ${padDotString('Name of Client:', 23) + (client?.toString() || '')}
     ${padDotString('Districtnumber:', 23)}
-    ${padDotString('Road reference:', 23) + roadReference}
+    ${padDotString('Road reference:', 23) + (roadReference?.toString() || '')}
     ${padDotString('Start reference:', 23)}
     ${padDotString('Date [dd/mm/yy]:', 23) + date}
-    ${padDotString('FWD Number:', 23) + fwdNumber}
-    ${padDotString('Load plate radius [mm]', 23) + rPlate}
+    ${padDotString('FWD Number:', 23) + (fwdNumber?.toString() || '')}
+    ${padDotString('Load plate radius [mm]', 23) + rPlate.toString()}
     ${
       ' '.repeat(23) +
       '\t' +
@@ -119,7 +119,7 @@ const writePoints = (project: HeavydynProject): string => {
         return dedent`
           \n${writeSeparator()}
           $2
-          ${padDotString('Chainage [m]', 23) + chainage}
+          ${padDotString('Chainage [m]', 23) + chainage.toString()}
           ${padDotString('Lane', 23)}
           ${padDotString('Pavement description', 23)}
           ${padDotString('Remarks', 23)}

@@ -40,8 +40,6 @@ const upgradeJSONDrop = (json: JSONMaxidynDropVAny): JSONMaxidynDrop => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONMaxidynDrop
   }
 
   return json
@@ -71,12 +69,12 @@ export const createMaxidynDropIndexFromJSON = (json: JSONMaxidynDropIndex) => {
 
 const upgradeJSONDropIndex = (
   json: JSONMaxidynDropIndexVAny
+  // disable until new version
+  // eslint-disable-next-line sonarjs/no-identical-functions
 ): JSONMaxidynDropIndex => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONMinidynDropIndex
   }
 
   return json

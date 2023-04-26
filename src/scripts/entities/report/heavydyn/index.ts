@@ -136,7 +136,7 @@ export const createHeavydynReportFromJSON = (
   report.zones.push(
     ...json.base.zones.map((jsonZone) =>
       createHeavydynZoneFromJSON(jsonZone, map, {
-        report: report as HeavydynReport,
+        report: report,
       })
     )
   )
@@ -171,8 +171,6 @@ const upgradeJSON = (json: JSONHeavydynReportVAny): JSONHeavydynReport => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONHeavydynReport
   }
 
   return json

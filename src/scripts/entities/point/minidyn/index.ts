@@ -47,8 +47,6 @@ const upgradeJSON = (json: JSONMinidynPointVAny): JSONMinidynPoint => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONMinidynPoint
   }
 
   return json

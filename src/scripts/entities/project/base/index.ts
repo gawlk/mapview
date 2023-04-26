@@ -279,8 +279,6 @@ const upgradeJSON = (json: JSONBaseProjectVAny): JSONBaseProject => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONBaseProject
   }
 
   return json

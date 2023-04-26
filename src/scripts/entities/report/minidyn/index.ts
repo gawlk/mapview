@@ -106,15 +106,13 @@ export const createMinidynReportFromJSON = (
 
   selectTableDataLabelsFromJSON(report, json.base)
 
-  return report as MinidynReport
+  return report
 }
 
 const upgradeJSON = (json: JSONMinidynReportVAny): JSONMinidynReport => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONMinidynReport
   }
 
   return json

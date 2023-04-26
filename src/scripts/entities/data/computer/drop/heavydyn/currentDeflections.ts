@@ -32,8 +32,6 @@ export const createHeavydynCurrentDeflectionDropDataComputers = (
           compute: (currentLabel) => {
             const correctionParameters = report.project.correctionParameters
 
-            const dropIndexValue = dropGroupDataLabels.indexes.selected?.value
-
             const sourceTempMatrix = report.zones.map((zone) =>
               zone.points.map((point) =>
                 point.data

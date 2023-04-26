@@ -4,7 +4,7 @@ import { describe, expect, test } from 'vitest'
 
 import { getScreenshotFileNamesFromZIP, importFile, sleep } from '/src/scripts'
 
-const getFileFromPath = async (path: string) => {
+const getFileFromPath = (path: string) => {
   const url = `${__dirname}${path}`
 
   const buffer = readFileSync(url)
@@ -12,8 +12,8 @@ const getFileFromPath = async (path: string) => {
   return new File([buffer], path.split('/').pop() as string)
 }
 
-export const testIfFileIsReturnedFromPath = async (path: string) => {
-  const file = await getFileFromPath(path)
+export const testIfFileIsReturnedFromPath = (path: string) => {
+  const file = getFileFromPath(path)
 
   test('File is returned from path', () => {
     expect(file).toBeDefined()
@@ -27,7 +27,7 @@ export const testIfFileIsReturnedFromPath = async (path: string) => {
 describe('Test importFile()', async () => {
   const path = '/files/heavydyn/demo.prjz'
 
-  const heavydynPRJZ = await testIfFileIsReturnedFromPath(path)
+  const heavydynPRJZ = testIfFileIsReturnedFromPath(path)
 
   const project = await importFile(heavydynPRJZ)
 

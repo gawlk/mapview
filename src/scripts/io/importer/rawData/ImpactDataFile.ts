@@ -2,7 +2,6 @@
 import { ExtendedBinaryReader } from './ExtendedBinaryStream'
 import ImpactSetData from './ImpactSetData'
 
-// eslint-disable-next-line no-shadow
 enum IsaanSimpleFileType {
   ImpactDataFile = 0x8d937355,
 }
@@ -127,7 +126,9 @@ export default class ImpactDataFile {
 
     this.impactDataHeader.fromStream(br)
 
-    this.impactDatas = new Array(this.impactDataHeader.nbOfImpact)
+    this.impactDatas = new Array(
+      this.impactDataHeader.nbOfImpact
+    ) as ImpactData[]
 
     for (let i = 0; i < this.impactDataHeader.nbOfImpact; i++) {
       const load = br.readArrayDouble()

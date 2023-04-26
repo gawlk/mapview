@@ -27,9 +27,6 @@ const upgradeJSON = (
   switch (json.version) {
     case 1:
     // upgrade
-    // eslint-disable-next-line no-fallthrough
-    default:
-      json = json as JSONHeavydynCorrectionParameters
   }
 
   return json

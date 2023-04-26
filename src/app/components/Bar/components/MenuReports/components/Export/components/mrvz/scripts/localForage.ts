@@ -44,11 +44,15 @@ export const initDemoTemplates = () => {
         }))
     )
 
+    const promises = []
+
     for (let i = 1; i <= files.length && i < 3; i++) {
       if (i === 1 || i === 2 || i === 3) {
-        setFileToLocalForage(files, i, obj.machine)
+        promises.push(setFileToLocalForage(files, i, obj.machine))
       }
     }
+
+    await Promise.all(promises)
   })
 }
 
@@ -66,8 +70,8 @@ const setFileToLocalForage = async (
   const current = await localForage.getItem(key)
 
   !current &&
-    localForage.setItem(key, {
+    (await localForage.setItem(key, {
       name: fileInfo.fileName,
       data64: await convertFileToDataURL(file),
-    })
+    }))
 }

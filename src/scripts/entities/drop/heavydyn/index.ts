@@ -42,8 +42,6 @@ const upgradeJSONDrop = (json: JSONHeavydynDropVAny): JSONHeavydynDrop => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONHeavydynDrop
   }
 
   return json
@@ -86,12 +84,12 @@ export const createHeavydynDropIndexFromJSON = (
 
 const upgradeJSONDropIndex = (
   json: JSONHeavydynDropIndexVAny
+  // disable until we manage other case
+  // eslint-disable-next-line sonarjs/no-identical-functions
 ): JSONHeavydynDropIndex => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONHeavydynDropIndex
   }
 
   return json

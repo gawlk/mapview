@@ -1,6 +1,6 @@
 type ExcelData = string | number | boolean | null
 
-interface ExcelJson extends AnyJSON {
+interface ExcelJson extends RecordAny {
   [key: string]: ExcelData | ExcelData[]
 }
 

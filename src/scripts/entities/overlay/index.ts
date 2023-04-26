@@ -28,8 +28,7 @@ export const createOverlay = async (
 
   data64 = (await pica().resize(imageElement, canvasTo)).toDataURL()
 
-  const { nw, se } =
-    parameters.coordinates || (await initialiseNWAndSECoords(map))
+  const { nw, se } = parameters.coordinates || initialiseNWAndSECoords(map)
 
   const sourceData: mapboxgl.ImageSourceRaw = {
     type: 'image',
@@ -122,12 +121,12 @@ export const createOverlay = async (
   return overlay
 }
 
-const initialiseNWAndSECoords = async (
+const initialiseNWAndSECoords = (
   map: mapboxgl.Map | null
-): Promise<{
+): {
   nw: LngLat
   se: LngLat
-}> => {
+} => {
   if (!map) {
     return {
       nw: {

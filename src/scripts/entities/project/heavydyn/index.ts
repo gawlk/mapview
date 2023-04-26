@@ -113,15 +113,13 @@ export const createHeavydynProjectFromJSON = (
 
   project.reports.selectIndex(json.base.reports.selectedIndex)
 
-  return project as HeavydynProject
+  return project
 }
 
 const upgradeJSON = (json: JSONHeavydynProjectVAny): JSONHeavydynProject => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONHeavydynProject
   }
 
   return json

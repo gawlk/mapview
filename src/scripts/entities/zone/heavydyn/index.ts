@@ -35,7 +35,7 @@ export const createHeavydynZoneFromJSON = (
   zone.points.push(
     ...json.base.points.map((jsonPoint) =>
       createHeavydynPointFromJSON(jsonPoint, map, {
-        zone: zone as HeavydynZone,
+        zone: zone,
       })
     )
   )
@@ -47,8 +47,6 @@ const upgradeJSON = (json: JSONHeavydynZoneVAny): JSONHeavydynZone => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONHeavydynZone
   }
 
   return json

@@ -51,7 +51,7 @@ export const createMinidynProjectFromJSON = (
   project.reports.list.push(
     ...json.base.reports.list.map((report) =>
       createMinidynReportFromJSON(report as JSONMinidynReport, map, {
-        project: project as MinidynProject,
+        project: project,
       })
     )
   )
@@ -65,8 +65,6 @@ const upgradeJSON = (json: JSONMinidynProjectVAny): JSONMinidynProject => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONMinidynProject
   }
 
   return json

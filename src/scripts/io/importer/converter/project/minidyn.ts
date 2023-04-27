@@ -25,7 +25,7 @@ export const convertPRJZToMinidynProject = (
 }
 
 export const convertPRJZToMinidynProjectDistinct = (
-  json: JSONObject<JSONObject<JSONObject>>
+  json: RecordAny
 ): JSONMinidynProjectDistinct => {
   const units = convertPRJZToMinidynUnits(json)
 
@@ -51,7 +51,7 @@ export const convertPRJZToMinidynProjectDistinct = (
 }
 
 export const convertPRJZToMinidynUnits = (
-  json: JSONObject
+  json: RecordAny
 ): JSONMinidynUnits => {
   const exportedModulus = json.ExportedData.Points.find(
     (exportedUnit: RecordAny) => exportedUnit.Type === 'Modulus'

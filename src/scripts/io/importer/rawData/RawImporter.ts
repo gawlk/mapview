@@ -1,7 +1,7 @@
 import { ExtendedBinaryReader } from './ExtendedBinaryStream'
 import ImpactDataFile from './ImpactDataFile'
 
-const removeLeading0s = (str: string) => str.replace(/^0+/, '')
+export const removeLeading0s = (str: string) => str.replace(/^0+/, '')
 
 const saveRawData = (
   file: ArrayBufferLike,
@@ -46,9 +46,7 @@ export function importRawDataFromZIP(
 ) {
   const folderName = 'rawdata'
 
-  const points = project.reports.list
-    .flatMap((a) => a.zones.map((zone) => zone.points))
-    .flat()
+  const points = getAllPointsFromProject(project)
 
   Object.keys(zip)
     .filter((key) => key.toLowerCase().startsWith(folderName))
@@ -63,4 +61,10 @@ export function importRawDataFromZIP(
         )
       }
     })
+}
+
+export function getAllPointsFromProject(project: MachineProject) {
+  return project.reports.list
+    .flatMap((a) => a.zones.map((zone) => zone.points))
+    .flat()
 }

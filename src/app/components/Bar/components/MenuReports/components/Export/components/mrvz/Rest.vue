@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { getBrowserLocale } from '/src/locales'
 
-  import { mrvzExporter } from '/src/scripts'
+  import { mvrzExporter } from '/src/scripts'
   import { downloadFile } from '/src/scripts'
 
   const { t } = useI18n()
@@ -29,7 +29,7 @@
           'x-functions-key':
             'v7IwtPEOA8etaIi-CnqPsWE749uRZRKL31iuTTi6n8tIAzFuE_220w==',
         },
-        body: await mrvzExporter.export(props.project, props.template),
+        body: await mvrzExporter.export(props.project, props.template),
       }
     )
 

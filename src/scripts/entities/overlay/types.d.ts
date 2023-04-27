@@ -19,8 +19,8 @@ interface JSONOverlay {
 interface Overlay {
   readonly id: string
   readonly sourceData: mapboxgl.ImageSourceRaw
-  readonly markerNW: mapboxgl.Marker
-  readonly markerSE: mapboxgl.Marker
+  readonly markerNW: mapboxgl.Marker | null
+  readonly markerSE: mapboxgl.Marker | null
   opacity: number
   readonly addToMap: (isVisible: boolean) => void
   readonly remove: () => void

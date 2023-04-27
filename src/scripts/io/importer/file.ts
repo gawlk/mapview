@@ -11,15 +11,17 @@ import {
   waitForMap,
 } from '/src/scripts'
 
+export const unzippedToObject = (unzipped: Fflate.Unzipped) => {
+  const jsonUint = unzipped['database.json']
+
+  return JSON.parse(new TextDecoder().decode(jsonUint))
+}
+
 export const getProjectJSONFromZip = (
   unzipped: Fflate.Unzipped,
   extension: string
 ) => {
-  const jsonUint = unzipped['database.json']
-
-  const importedJSON = JSON.parse(
-    new TextDecoder().decode(jsonUint)
-  ) as RecordAny
+  const importedJSON = unzippedToObject(unzipped)
 
   return extension === 'mpvz'
     ? (importedJSON as JSONMapview).project

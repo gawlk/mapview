@@ -1,4 +1,3 @@
-import dayjs from 'dayjs'
 import dedent from 'dedent'
 
 import {
@@ -8,6 +7,8 @@ import {
 } from '/src/scripts'
 
 import { ddToDms } from './coordinates'
+
+import { dayjsUtc } from '/src/utils/date/dayjs'
 
 export const heavydynSwecoExporter: HeavydynExporter = {
   name: '.fwd (Sweco)',
@@ -38,7 +39,7 @@ const writeHeader = (project: HeavydynProject): string => {
     throw new Error('cannot find selected report ')
   }
 
-  const date = dayjs(
+  const date = dayjsUtc(
     findFieldInArray(project.reports.selected.information, 'Date')?.toString()
   ).format('DD/MM/YYYY')
 
@@ -105,9 +106,7 @@ const writePoints = (project: HeavydynProject): string => {
             .value || 0
         )
 
-        if (point.marker) {
-          coordinates = ddToDms(point.marker?.getLngLat())
-        }
+        coordinates = ddToDms(point.toBaseJSON().coordinates as mapboxgl.LngLat)
 
         const dropPosition = [
           'Position of Drop:',
@@ -136,7 +135,7 @@ const writeDrops = (point: BasePoint, channels: JSONChannel[]): string => {
     'Sequence: 1/1',
     'No. of drops: ' + point.drops.length.toString(),
     'Fallheight: 0', // TODO
-    'Time: ' + dayjs(point.date).format('HH:mm'),
+    'Time: ' + dayjsUtc(point.date).format('HH:mm'),
   ]
   const dropHeader = [
     'Drop',

@@ -1,4 +1,3 @@
-import dayjs from 'dayjs'
 import dedent from 'dedent'
 import { format } from 'mathjs'
 
@@ -9,6 +8,8 @@ import {
   trimAllLines,
 } from '/src/scripts'
 
+import { dayjsUtc } from '/src/utils/date/dayjs'
+
 // TODO:
 // Everything is always in the same order, with same precision, spaces, etc
 // Test: Compare if strings are a match
@@ -16,14 +17,6 @@ import {
 export const heavydynF25Exporter: HeavydynExporter = {
   name: '.F25',
   export: (project: HeavydynProject) => {
-    // eslint-disable-next-line no-console
-    console.log(`
-    ${writeHeader(project)}
-    ${writeSensors(project)}
-    ${writeEndHeader(project)}
-    ${writePoints(project)}
-  `)
-
     return new File(
       [
         replaceAllLFToCRLF(
@@ -55,7 +48,7 @@ const writeHeader = (project: HeavydynProject): string => {
   const sequenceName =
     project.reports.selected?.dataLabels.groups.list[0].sequenceName
 
-  const date = dayjs(
+  const date = dayjsUtc(
     (
       project.information.find(
         (machineField: Field) => machineField.label === 'Date'
@@ -209,16 +202,14 @@ const writePoints = (project: HeavydynProject): string => {
 }
 
 const writePointGps = (point: BasePoint) => {
+  const lngLat = point.toBaseJSON().coordinates as LngLat
+
+  const lat = lngLat.lat.toFixed(8).padStart(12, ' ')
+  const lng = lngLat.lng.toFixed(8).padStart(12, ' ')
+  const one = Number('1').toFixed(2).padStart(8, ' ')
+
   return dedent`
-    5280,0,140418.0,${point.marker
-      ?.getLngLat()
-      .lat.toFixed(8)
-      .padStart(12, ' ')},${point.marker
-    ?.getLngLat()
-    .lng.toFixed(8)
-    .padStart(12, ' ')},${Number('1')
-    .toFixed(2)
-    .padStart(8, ' ')}, 2,18,   0,  0 
+    5280,0,140418.0,${lat},${lng},${one}, 2,18,   0,  0 
     `
 }
 
@@ -226,7 +217,7 @@ const writePointHeader = (
   point: HeavydynPoint,
   report: HeavydynReport
 ): string => {
-  const date = dayjs(point.date).format('YYYY, MM, DD, HH, mm')
+  const date = dayjsUtc(point.date).format('YYYY, MM, DD, HH, mm')
 
   let chainage = point.data
     .find((pointData) => pointData.label.name === 'Chainage')

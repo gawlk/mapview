@@ -83,16 +83,20 @@ export const createBaseProjectFromJSON = <
     },
     // eslint-disable-next-line sonarjs/cognitive-complexity
     addToMap() {
-      if (this.settings.map.coordinates) {
-        map?.flyTo({
-          center: this.settings.map.coordinates,
-          zoom: this.settings.map.zoom,
-          pitch: this.settings.map.pitch || 0,
-          bearing: this.settings.map.rotation || 0,
-        })
-      } else {
-        this.reports.selected?.fitOnMap()
+      const flyTo = () => {
+        if (this.settings.map.coordinates) {
+          map?.flyTo({
+            center: this.settings.map.coordinates,
+            zoom: this.settings.map.zoom,
+            pitch: this.settings.map.pitch || 0,
+            bearing: this.settings.map.rotation || 0,
+          })
+        } else {
+          this.reports.selected?.fitOnMap()
+        }
       }
+
+      flyTo()
 
       this.setMapStyle(this.settings.map.styleIndex)
 
@@ -158,12 +162,12 @@ export const createBaseProjectFromJSON = <
 
               if (areOverlaysVisible) {
                 if (map) {
-                  overlay.markerNW.addTo(map)
-                  overlay.markerSE.addTo(map)
+                  overlay.markerNW?.addTo(map)
+                  overlay.markerSE?.addTo(map)
                 }
               } else {
-                overlay.markerNW.remove()
-                overlay.markerSE.remove()
+                overlay.markerNW?.remove()
+                overlay.markerSE?.remove()
               }
             })
           }

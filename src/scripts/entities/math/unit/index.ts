@@ -17,8 +17,7 @@ export const defaultInvalidValueReplacement = '--'
 
 function convertMapviewUnitToMathJSUnit(unit: undefined): undefined
 function convertMapviewUnitToMathJSUnit(unit: string): string
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function convertMapviewUnitToMathJSUnit(unit: any): any {
+function convertMapviewUnitToMathJSUnit(unit: AnyUnit): AnyUnit {
   switch (unit) {
     case '°C':
       return 'degC'
@@ -33,7 +32,6 @@ function convertMapviewUnitToMathJSUnit(unit: any): any {
     case '%':
       return 'm'
     default:
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return unit
   }
 }
@@ -140,8 +138,6 @@ export const createMathUnit = <PossibleUnits extends string>(
         (mathUnitOptions?.checkValidity?.(value) ?? true)
       )
     },
-    // two function with same param name
-    // eslint-disable-next-line no-shadow
     valueToString(value, options = {}) {
       let valueString
 
@@ -204,9 +200,10 @@ export const convertValueFromUnitAToUnitB = (
   value: number,
   unitA: string,
   unitB: string
-) =>
-  unitA !== unitB
+) => {
+  return unitA !== unitB
     ? Unit(value, convertMapviewUnitToMathJSUnit(unitA)).toNumber(
         convertMapviewUnitToMathJSUnit(unitB)
       )
     : value
+}

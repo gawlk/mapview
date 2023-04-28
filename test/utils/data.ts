@@ -35,15 +35,15 @@ export const checkDataConformity = (
   if (
     (actualData &&
       expectedData &&
-      typeof actualData == 'object' &&
+      typeof actualData === 'object' &&
       Object.hasOwn(actualData, 'date') &&
       Object.hasOwn(actualData, 'origin') &&
       typeof expectedData === 'object' &&
       Object.hasOwn(expectedData, 'date')) ||
     (typeof expectedData === 'string' &&
-      !isNaN(Date.parse(expectedData)) &&
+      !Number.isNaN(Date.parse(expectedData)) &&
       typeof actualData === 'string' &&
-      !isNaN(Date.parse(actualData)) &&
+      !Number.isNaN(Date.parse(actualData)) &&
       isValidDateFormat(expectedData))
   ) {
     if (!isValidDate(actualData as ParsedDate | string)) {

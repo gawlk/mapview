@@ -44,8 +44,7 @@ export const createDataLabelFromJSON = <
 
   return createDataLabel({
     name: json.name,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    unit: (units as any)[json.unit],
+    unit: (units as AnyUnit)[json.unit],
     unitKey: json.unit,
     category,
   })

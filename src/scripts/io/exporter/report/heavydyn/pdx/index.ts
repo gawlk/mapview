@@ -1,6 +1,10 @@
 import dedent from 'dedent'
 
-import { findFieldInArray, replaceAllLFToCRLF } from '/src/scripts'
+import {
+  currentCategory,
+  findFieldInArray,
+  replaceAllLFToCRLF,
+} from '/src/scripts'
 
 import { dayjsUtc } from '/src/utils/date/dayjs'
 
@@ -213,15 +217,16 @@ const writePoints = (project: HeavydynProject) => {
 }
 
 const writeDrops = (point: BasePoint, dPlate: number) => {
-  // const deflection = point.zone.report.project.units.deflection
+  const deflection = point.zone.report.project.units.deflection
 
   return point.drops
     .map((drop, index) => {
       const values = drop.data
-        // .filter((data) =>
-        //   data.label.unit === deflection &&
-        //     data.label.category === currentCategory
-        // )
+        .filter(
+          (data) =>
+            data.label.unit === deflection &&
+            data.label.category === currentCategory
+        )
         .map((data) => {
           const value = data.value.getValueAs('um')
           return (value <= 0 ? 0.1 : value).toFixed(2)

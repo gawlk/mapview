@@ -69,7 +69,7 @@ const writeHeader = (project: HeavydynProject): string => {
     ${padDotString('Filename:', 23) + project.name.value.toString()}
     ${padDotString('Client Code:', 23)}
     ${padDotString('Road number:', 23) + (lane?.toString() || '')}
-    ${padDotString('Name of Client:', 23) + (client?.toString() || '')}
+    ${padDotString('Name of Client:', 23) + String(client?.toString())}
     ${padDotString('Districtnumber:', 23)}
     ${padDotString('Road reference:', 23) + (roadReference?.toString() || '')}
     ${padDotString('Start reference:', 23)}

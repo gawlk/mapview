@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-namespace */
 import { filesToStringArray, isValidDate, parseData } from 'test/utils'
 import { checkNumericValue } from 'test/utils/data'
 import { expect } from 'vitest'
@@ -9,6 +10,7 @@ interface CustomMatchers<R = unknown> {
 export const toBeSameValue = async (
   actual: File | string,
   expected: File | string
+  // eslint-disable-next-line sonarjs/cognitive-complexity
 ) => {
   const [actualLignes, expectedLignes] = (await filesToStringArray(
     [actual, expected],
@@ -38,7 +40,12 @@ export const toBeSameValue = async (
 
     if (typeof actualValue !== typeof expectedValue) {
       return {
-        message: () => `Values aren't of the same type`,
+        message: () =>
+          `Values aren't of the same type: ${actualLigne.key}, ${
+            expectedLigne.key
+          }: (${actualValue?.toString() || 'undefined'}; ${
+            expectedValue?.toString() || 'undefined'
+          })`,
         pass: false,
       }
     }
@@ -47,7 +54,7 @@ export const toBeSameValue = async (
       allValueIsIdentical =
         allValueIsIdentical && checkNumericValue(actualValue, expectedValue)
     } else if (
-      typeof actualValue == 'object' &&
+      typeof actualValue === 'object' &&
       Object.hasOwn(actualValue, 'date') &&
       Object.hasOwn(actualValue, 'origin') &&
       typeof expectedValue === 'object' &&

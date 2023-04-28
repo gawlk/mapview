@@ -3,7 +3,7 @@ const defaultOptions: FileTransformerOpt = {
 }
 
 export const filesToString = (files: File[]) => {
-  return Promise.all(files.map(async (file) => await file.text()))
+  return Promise.all(files.map(async (file) => file.text()))
 }
 
 export const fileToStringArray = async (
@@ -13,7 +13,7 @@ export const fileToStringArray = async (
   let text: string
 
   if (typeof file === 'string') {
-    text = await file
+    text = file
   } else {
     text = await file.text()
   }
@@ -43,7 +43,7 @@ export const filesToStringArray = async (
   files: (File | string)[],
   opt: FileTransformerOpt = defaultOptions
 ) => {
-  return await Promise.all(files.map((file) => fileToStringArray(file, opt)))
+  return Promise.all(files.map((file) => fileToStringArray(file, opt)))
 }
 
 export const getKey = (ligne: string) => {
@@ -62,13 +62,16 @@ export const parseData = (data: string) => {
     return undefined
   }
 
-  if (!isNaN(Number(trimedData)) && isFinite(parseFloat(trimedData))) {
+  if (
+    !Number.isNaN(Number(trimedData)) &&
+    Number.isFinite(parseFloat(trimedData))
+  ) {
     return Number(trimedData)
   }
 
   const timestamp = Date.parse(trimedData)
 
-  if (!isNaN(timestamp)) {
+  if (!Number.isNaN(timestamp)) {
     return { date: new Date(timestamp), origin: trimedData } as ParsedDate
   }
 
@@ -76,7 +79,7 @@ export const parseData = (data: string) => {
     return trimedData.split(',').map((splittedData) => {
       const value = Number(splittedData)
 
-      return isNaN(value) ? splittedData : value
+      return Number.isNaN(value) ? splittedData : value
     })
   }
 

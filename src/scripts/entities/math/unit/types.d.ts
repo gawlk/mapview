@@ -14,6 +14,9 @@ interface JSONMathUnit<PossibleUnits> {
 // Object
 // ---
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type AnyUnit = any
+
 interface MathUnit<PossibleUnits> {
   readonly name: string
   readonly baseUnit: string

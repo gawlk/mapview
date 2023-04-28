@@ -7,7 +7,7 @@ import {
   heavydynSwecoExporter,
   mvrzExporter,
 } from 'src/scripts'
-import { filesToString, getFileFromPath } from 'test/utils'
+import { filesToString } from 'test/utils'
 import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest'
 
 import { exportFile } from './scripts'

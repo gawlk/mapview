@@ -153,6 +153,8 @@ const generateDropData = (
 
           const values = (c[label] || []) as (number | null)[]
 
+          console.log('toExcell', data.getRawValue(), data.toExcel())
+
           values.push(data.toExcel())
 
           return {

@@ -38,7 +38,7 @@ export const createMathNumber = (
       return this.unit.baseToCurrent(this.value)
     },
     toExcel(asCurrent = false) {
-      if (!this.checkValidity) {
+      if (!this.checkValidity()) {
         return null
       }
 

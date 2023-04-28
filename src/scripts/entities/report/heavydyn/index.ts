@@ -77,16 +77,16 @@ export const createHeavydynReportFromJSON = (
       this.zones.push(zone)
     },
     toJSON(): JSONHeavydynReport {
-      const HeavydynReport = this as HeavydynReport
+      const heavydynReport = this as HeavydynReport
 
-      const thresholdGroup = HeavydynReport.thresholds.groups
+      const thresholdGroup = heavydynReport.thresholds.groups
 
       return {
         version: json.version,
-        base: HeavydynReport.toBaseJSON(),
+        base: heavydynReport.toBaseJSON(),
         distinct: {
           version: json.version,
-          dataLabels: HeavydynReport.dataLabels.groups.toJSON((group) =>
+          dataLabels: heavydynReport.dataLabels.groups.toJSON((group) =>
             group.toJSON()
           ),
           thresholds: {

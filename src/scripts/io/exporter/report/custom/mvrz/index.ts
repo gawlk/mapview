@@ -14,10 +14,10 @@ export const mvrzExporter = {
     let needsRawData = true
 
     if (template) {
-      const UnzippedTemplate = await unzipFile(template)
+      const unzippedTemplate = await unzipFile(template)
 
       const xml = convertUint8arrayToXML(
-        UnzippedTemplate['xl/worksheets/sheet1.xml']
+        unzippedTemplate['xl/worksheets/sheet1.xml']
       )
 
       const rows = Array.from(
@@ -152,8 +152,6 @@ const generateDropData = (
           }_${toPascalCase(data.label.getSerializedName())}`
 
           const values = (c[label] || []) as (number | null)[]
-
-          console.log('toExcell', data.getRawValue(), data.toExcel())
 
           values.push(data.toExcel())
 

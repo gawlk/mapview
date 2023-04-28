@@ -33,9 +33,6 @@ describe('Test importFile()', async () => {
 
   await sleep(2500)
 
-  // eslint-disable-next-line no-console
-  console.log(project)
-
   test('importFile() returns a project', () => {
     expect(project).toBeTypeOf('object')
     expect(project).toHaveProperty('machine')

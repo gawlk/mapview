@@ -51,6 +51,27 @@
     "@typescript-eslint/no-unsafe-call": "off",
     "@typescript-eslint/no-unsafe-assignment": "off",
     "@typescript-eslint/no-unsafe-argument": "off",
-    "@typescript-eslint/no-unsafe-return": "off"
+    "@typescript-eslint/no-unsafe-return": "off",
+    "@typescript-eslint/naming-convention": [
+      "error",
+      {
+        "selector": ["variable"],
+        "format": ["camelCase", "UPPER_CASE"]
+      },
+      {
+        "selector": ["parameter"],
+        "format": ["camelCase"],
+        "leadingUnderscore": "allow"
+      },
+      {
+        "selector": ["function"],
+        "format": ["camelCase"]
+      },
+      {
+        "selector": ["interface", "typeAlias", "enum"],
+        "format": ["PascalCase"]
+      }
+    ],
+    "no-loop-func": "off"
   }
 }

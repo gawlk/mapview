@@ -3,8 +3,8 @@ import utc from 'dayjs/plugin/utc'
 
 dayjs.extend(utc)
 
-type paramType = Parameters<typeof dayjs>
+type ParamType = Parameters<typeof dayjs>
 
-export const dayjsUtc = (date: paramType[0]) => {
+export const dayjsUtc = (date: ParamType[0]) => {
   return dayjs(date).utc()
 }

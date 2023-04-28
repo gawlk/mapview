@@ -14,6 +14,7 @@ export const createOverlay = async (
   data64: string,
   map: Map | null,
   parameters: JSONOverlay
+  // eslint-disable-next-line sonarjs/cognitive-complexity
 ): Promise<Overlay> => {
   const id = `overlay-${parameters.name}-${+new Date() + Math.random()}`
 
@@ -262,8 +263,8 @@ const cartesianDistance = (pt1: XYCoord, pt2: XYCoord): number =>
     (pt1.x - pt2.x) * (pt1.x - pt2.x) + (pt1.y - pt2.y) * (pt1.y - pt2.y)
   )
 
-const getAngle = (A: XYCoord, B: XYCoord): number =>
-  Math.atan2(B.y - A.y, B.x - A.x)
+const getAngle = (a: XYCoord, b: XYCoord): number =>
+  Math.atan2(b.y - a.y, b.x - a.x)
 
 const angleBetweenOrFin = (
   orTL: XYCoord,

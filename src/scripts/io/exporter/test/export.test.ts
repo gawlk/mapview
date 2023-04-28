@@ -42,7 +42,7 @@ describe('Test exports', async () => {
       .filter((data) => data.pdx)
       .map((data) => [data.directoryName, data.mpvz.project, data.pdx])
   )('test PDX: %s', async (_, project, expected) => {
-    const pdxFile = await heavydynPDXExporter.export(project as HeavydynProject)
+    const pdxFile = heavydynPDXExporter.export(project as HeavydynProject)
     expect(pdxFile).toBeDefined()
     await expect(pdxFile).toBeSameLineOrder(expected)
     await expect(pdxFile).toBeSameValue(expected)
@@ -53,9 +53,7 @@ describe('Test exports', async () => {
       .filter((data) => data.fwdSweco)
       .map((data) => [data.directoryName, data.mpvz.project, data.fwdSweco])
   )('test FWD (Sweco): %s', async (_, project, expected) => {
-    const swecoFile = await heavydynSwecoExporter.export(
-      project as HeavydynProject
-    )
+    const swecoFile = heavydynSwecoExporter.export(project as HeavydynProject)
 
     expect(swecoFile).toBeDefined()
 
@@ -72,7 +70,7 @@ describe('Test exports', async () => {
       .filter((data) => data.fwdDynatest)
       .map((data) => [data.directoryName, data.mpvz.project, data.fwdDynatest])
   )('test FWD (Dynatest): %s', async (_, project, expected) => {
-    const dynatestFile = await heavydynDynatestExporter.export(
+    const dynatestFile = heavydynDynatestExporter.export(
       project as HeavydynProject
     )
 
@@ -91,7 +89,7 @@ describe('Test exports', async () => {
       .filter((data) => data.f25)
       .map((data) => [data.directoryName, data.mpvz.project, data.f25])
   )('test F25: %s', async (_, project, expected) => {
-    const f25File = await heavydynF25Exporter.export(project as HeavydynProject)
+    const f25File = heavydynF25Exporter.export(project as HeavydynProject)
 
     expect(f25File).toBeDefined()
 

@@ -15,14 +15,15 @@ export const convertPRJZToHeavydynDrop = (
   const drop: JSONHeavydynDrop = {
     version: 1,
     base: convertPRJZToBaseDrop(jsonDrop, index, json),
-    distinct: convertPRJZToHeavydynDropDistinct(),
+    distinct: convertPRJZToHeavydynDropDistinct(jsonDrop),
   }
 
   return drop
 }
 
 export const convertPRJZToHeavydynDropDistinct =
-  (): JSONHeavydynDropDistinct => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (jsonDrop: any): JSONHeavydynDropDistinct => {
     return {
       version: 1,
     }

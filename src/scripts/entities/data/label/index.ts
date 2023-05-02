@@ -1,4 +1,3 @@
-/* eslint-disable no-fallthrough */
 import { translate } from '/src/locales'
 
 export const createDataLabel = <T extends string, Unit extends string>(args: {
@@ -56,8 +55,6 @@ const upgradeJSON = <T extends string>(
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONDataLabel<T>
   }
 
   return json

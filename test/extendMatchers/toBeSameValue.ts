@@ -43,9 +43,7 @@ export const toBeSameValue = async (
         message: () =>
           `Values aren't of the same type: ${actualLigne.key}, ${
             expectedLigne.key
-          }: (${actualValue?.toString() || 'undefined'}; ${
-            expectedValue?.toString() || 'undefined'
-          })`,
+          }: (${String(actualValue)}; ${String(expectedValue)})`,
         pass: false,
       }
     }

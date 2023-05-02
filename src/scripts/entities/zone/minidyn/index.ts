@@ -1,4 +1,3 @@
-/* eslint-disable no-fallthrough */
 import { createMinidynPointFromJSON } from '/src/scripts'
 
 import { createBaseZoneFromJSON } from '../base'
@@ -45,10 +44,6 @@ const upgradeJSON = (json: JSONMinidynZoneVAny): JSONMinidynZone => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      // disable until we create new version
-      // eslint-disable-next-line no-self-assign
-      json = json
   }
 
   return json

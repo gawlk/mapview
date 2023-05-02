@@ -1,8 +1,4 @@
-/* eslint-disable no-fallthrough */
-
 /* eslint-disable no-console */
-
-/* eslint-disable sonarjs/no-duplicate-string */
 import {
   createBLIDataComputer,
   createCharacteristicDeflectionComputer,
@@ -27,6 +23,8 @@ import {
   createBaseReportFromJSON,
 } from '../base'
 
+const CONSOLE_REPORT_STATEMENT = 'import: report'
+
 export const createHeavydynReportFromJSON = (
   json: JSONHeavydynReport,
   map: mapboxgl.Map | null,
@@ -34,7 +32,7 @@ export const createHeavydynReportFromJSON = (
     project: HeavydynProject
   }
 ) => {
-  console.time('import: report')
+  console.time(CONSOLE_REPORT_STATEMENT)
 
   json = upgradeJSON(json)
 
@@ -130,7 +128,7 @@ export const createHeavydynReportFromJSON = (
       watcherHandler.clean()
     },
   })
-  console.timeLog('import: report')
+  console.timeLog(CONSOLE_REPORT_STATEMENT)
 
   console.time('import: zones')
   report.zones.push(
@@ -162,7 +160,7 @@ export const createHeavydynReportFromJSON = (
 
   console.timeEnd('import: computers')
 
-  console.timeEnd('import: report')
+  console.timeEnd(CONSOLE_REPORT_STATEMENT)
 
   return report
 }

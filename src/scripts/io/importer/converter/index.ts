@@ -27,7 +27,5 @@ export const convertJSONFromPRJZToMPVZ = (json: any) => {
     case 'Minidyn': {
       return convertPRJZToMinidynProject(json, baseProject)
     }
-
-    // No Default
   }
 }

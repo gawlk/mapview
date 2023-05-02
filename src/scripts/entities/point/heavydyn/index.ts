@@ -1,4 +1,3 @@
-/* eslint-disable no-fallthrough */
 import { createHeavydynDropFromJSON } from '/src/scripts'
 
 import { createBasePointFromJSON } from '../base'

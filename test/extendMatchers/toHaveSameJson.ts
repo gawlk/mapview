@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/no-namespace */
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
+/* eslint-disable @typescript-eslint/no-namespace */
 
 /* eslint-disable sonarjs/no-duplicate-string */
 import { checkDataConformity } from 'test/utils/data'
@@ -82,13 +82,13 @@ export const toHaveSameJson = (
   }
 }
 
-type browseCheckDataMessage =
+type BrowseCheckDataMessage =
   | ReturnType<typeof checkDataConformity>
   | "json key's differ"
   | 'no data'
 
-interface browseCheckDataResult {
-  message: browseCheckDataMessage
+interface BrowseCheckDataResult {
+  message: BrowseCheckDataMessage
   key?: string
   actualData?: any
   expectedData?: any
@@ -102,7 +102,7 @@ interface browseCheckDataResult {
 const browseCheckData = (
   actualData: any,
   expectedData: any
-): browseCheckDataResult => {
+): BrowseCheckDataResult => {
   const actualKeys = Object.keys(actualData)
   const expectedKeys = Object.keys(expectedData)
 
@@ -126,8 +126,8 @@ const browseCheckData = (
   }
 
   let isIdentical = true
-  let resultMessage: browseCheckDataMessage = 'no data'
-  let lastData: browseCheckDataResult = {
+  let resultMessage: BrowseCheckDataMessage = 'no data'
+  let lastData: BrowseCheckDataResult = {
     message: resultMessage,
   }
 

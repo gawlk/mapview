@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { currentCategory, icons, indicatorsCategory } from '/src/scripts'
 
 import { convertPRJZObjectToFields } from '../shared'
@@ -110,8 +109,6 @@ export const convertPRJZToBaseReport = (
                         value.name === 'Stiffness' ||
                         value.name === 'Quality'
                     )
-
-                // No Default
               }
             })(),
           },
@@ -142,8 +139,6 @@ export const convertPRJZToBaseReport = (
                         value.name === 'Stiffness' ||
                         value.name === 'Quality'
                     )
-
-                // No Default
               }
             })(),
           },

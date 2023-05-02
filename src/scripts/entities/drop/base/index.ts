@@ -1,4 +1,3 @@
-/* eslint-disable no-fallthrough */
 import { createDataValueFromJSON } from '/src/scripts'
 
 export const createBaseDropFromJSON = <

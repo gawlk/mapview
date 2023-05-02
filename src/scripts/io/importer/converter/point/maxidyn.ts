@@ -12,7 +12,7 @@ export const convertPRJZToMaxidynPoint = (
   const point: JSONMaxidynPoint = {
     version: 1,
     base: convertPRJZToBasePoint(jsonPoint, index, json),
-    distinct: convertPRJZToMaxidynPointDistinct(),
+    distinct: convertPRJZToMaxidynPointDistinct(jsonPoint),
   }
 
   point.base.drops.push(
@@ -26,9 +26,11 @@ export const convertPRJZToMaxidynPoint = (
   return point
 }
 
-export const convertPRJZToMaxidynPointDistinct =
-  (): JSONMaxidynPointDistinct => {
-    return {
-      version: 1,
-    }
+export const convertPRJZToMaxidynPointDistinct = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  jsonPoint: any
+): JSONMaxidynPointDistinct => {
+  return {
+    version: 1,
   }
+}

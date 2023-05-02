@@ -12,13 +12,16 @@ export const convertPRJZToMinidynDrop = (
   const drop: JSONMinidynDrop = {
     version: 1,
     base: convertPRJZToBaseDrop(jsonDrop, index, json),
-    distinct: convertPRJZToMinidynDropDistinct(),
+    distinct: convertPRJZToMinidynDropDistinct(jsonDrop),
   }
 
   return drop
 }
 
-export const convertPRJZToMinidynDropDistinct = (): JSONMinidynDropDistinct => {
+export const convertPRJZToMinidynDropDistinct = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  jsonDrop: any
+): JSONMinidynDropDistinct => {
   return {
     version: 1,
   }

@@ -1,4 +1,3 @@
-/* eslint-disable no-fallthrough */
 import {
   createFieldFromJSON,
   createLine,
@@ -32,6 +31,7 @@ export const createBaseReportFromJSON = <
 
   const watcherHandler = createWatcherHandler()
 
+  // must be rework to remove the ts error
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const thresholds: Thresholds = {

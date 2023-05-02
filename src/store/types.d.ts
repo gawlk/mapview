@@ -1,4 +1,3 @@
-/* eslint-disable no-use-before-define */
 interface Store {
   readonly projects: SelectableList<MachineProject>
   selectedProject: MachineProject | null

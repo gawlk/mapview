@@ -1,5 +1,3 @@
-/* eslint-disable no-fallthrough */
-
 /* eslint-disable no-console */
 import {
   createHeavydynMathUnitsFromJSON,

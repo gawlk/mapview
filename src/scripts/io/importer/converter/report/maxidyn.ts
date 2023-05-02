@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { defaultThresholds } from '/src/scripts/entities'
 
 import { convertPRJZToBaseReport } from './base'

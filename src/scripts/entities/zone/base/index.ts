@@ -1,4 +1,3 @@
-/* eslint-disable no-fallthrough */
 import {
   createWatcherHandler,
   getRandomColorName,
@@ -111,7 +110,6 @@ const upgradeJSON = (json: JSONBaseZoneVAny): JSONBaseZone => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
   }
 
   return json

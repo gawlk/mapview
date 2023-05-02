@@ -1,4 +1,3 @@
-/* eslint-disable no-fallthrough */
 import { createMathNumber } from '/src/scripts'
 
 export const createDataValue = (

@@ -12,7 +12,7 @@ export const convertPRJZToHeavydynPoint = (
   const point: JSONHeavydynPoint = {
     version: 1,
     base: convertPRJZToBasePoint(jsonPoint, index, json),
-    distinct: convertPRJZToHeavydynPointDistinct(),
+    distinct: convertPRJZToHeavydynPointDistinct(jsonPoint),
   }
 
   point.base.drops.push(
@@ -26,9 +26,11 @@ export const convertPRJZToHeavydynPoint = (
   return point
 }
 
-export const convertPRJZToHeavydynPointDistinct =
-  (): JSONHeavydynPointDistinct => {
-    return {
-      version: 1,
-    }
+export const convertPRJZToHeavydynPointDistinct = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  jsonPoint: any
+): JSONHeavydynPointDistinct => {
+  return {
+    version: 1,
   }
+}

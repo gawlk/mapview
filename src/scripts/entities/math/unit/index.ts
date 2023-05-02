@@ -41,9 +41,11 @@ interface MathUnitOptions {
   step?: number
   averageFunction?: 'allEqual' | 'capOutliers' | 'ignoreOutliers'
   readOnly?: true
+  invalidReplacement?: string
+  checkValidity?: (value: number) => boolean
 }
 
-const reduceForAverage = (
+const getValueForAverage = (
   min: number,
   max: number,
   value: number,
@@ -65,14 +67,7 @@ export const createMathUnit = <PossibleUnits extends string>(
   json: JSONMathUnit<PossibleUnits>,
   baseUnit: string,
   possibleSettings: [PossibleUnits, number][],
-  mathUnitOptions?: {
-    possiblePrecisions?: number[]
-    step?: number
-    averageFunction?: 'allEqual' | 'capOutliers' | 'ignoreOutliers'
-    readOnly?: true
-    invalidReplacement?: string
-    checkValidity?: (value: number) => boolean
-  }
+  mathUnitOptions?: MathUnitOptions
 ): MathUnit<PossibleUnits> => {
   const currentUnit = json.currentUnit || possibleSettings[0][0]
   const possiblePrecisions = mathUnitOptions?.possiblePrecisions || [0, 1, 2]
@@ -108,7 +103,7 @@ export const createMathUnit = <PossibleUnits extends string>(
         ? filteredValues.reduce(
             (total, currentValue) =>
               total +
-              reduceForAverage(
+              getValueForAverage(
                 this.min,
                 this.max,
                 currentValue,

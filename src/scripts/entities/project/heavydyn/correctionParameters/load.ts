@@ -28,8 +28,6 @@ const upgradeJSON = (
         version: 2,
         source: json.loadReferenceSource,
       }
-
-    // No Default
   }
 
   return json

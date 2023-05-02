@@ -1,5 +1,3 @@
-/* eslint-disable sonarjs/no-duplicate-string */
-
 /* eslint-disable no-console */
 import {
   convertJSONFromPRJZToMPVZ,
@@ -10,6 +8,8 @@ import {
   unzipFile,
   waitForMap,
 } from '/src/scripts'
+
+const CONSOLE_FILE_STATEMENT = 'import: file'
 
 export const unzippedToObject = (unzipped: Fflate.Unzipped) => {
   const jsonUint = unzipped['database.json']
@@ -34,7 +34,7 @@ export const importFile = async (file: File) => {
   try {
     await waitForMap()
 
-    console.time('import: file')
+    console.time(CONSOLE_FILE_STATEMENT)
 
     const extension = file.name.split('.').pop()
 
@@ -47,7 +47,7 @@ export const importFile = async (file: File) => {
     console.log(jsonProject)
 
     if (jsonProject) {
-      console.timeLog('import: file')
+      console.timeLog(CONSOLE_FILE_STATEMENT)
 
       console.time('import: project')
       project = importProjectFromJSON(jsonProject)
@@ -55,7 +55,7 @@ export const importFile = async (file: File) => {
 
       setTimeout(async () => {
         if (project) {
-          console.timeLog('import: file')
+          console.timeLog(CONSOLE_FILE_STATEMENT)
 
           console.time('import: screenshots')
           importScreenshotsFromZIP(unzipped, jsonProject, project)
@@ -71,7 +71,7 @@ export const importFile = async (file: File) => {
           importOverlaysFromZIP(unzipped, jsonProject, project)
           console.timeEnd('import: overlays')
 
-          console.timeEnd('import: file')
+          console.timeEnd(CONSOLE_FILE_STATEMENT)
         }
       }, 100)
       return project

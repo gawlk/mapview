@@ -15,8 +15,6 @@ export const addRawDataToZip = (
     case 'Report':
       points = entity.line.sortedPoints.filter((point) => point.checkVisibility)
       break
-
-    // No Default
   }
 
   points.forEach((point) => {

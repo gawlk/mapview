@@ -1,4 +1,3 @@
-/* eslint-disable no-fallthrough */
 import { createHeavydynPointFromJSON } from '/src/scripts'
 
 import { createBaseZoneFromJSON } from '../base'

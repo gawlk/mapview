@@ -1,4 +1,3 @@
-/* eslint-disable no-fallthrough */
 import {
   createFieldFromJSON,
   createSelectableList,

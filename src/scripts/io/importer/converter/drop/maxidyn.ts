@@ -12,13 +12,16 @@ export const convertPRJZToMaxidynDrop = (
   const drop: JSONMaxidynDrop = {
     version: 1,
     base: convertPRJZToBaseDrop(jsonDrop, index, json),
-    distinct: convertPRJZToMaxidynDropDistinct(),
+    distinct: convertPRJZToMaxidynDropDistinct(jsonDrop),
   }
 
   return drop
 }
 
-export const convertPRJZToMaxidynDropDistinct = (): JSONMaxidynDropDistinct => {
+export const convertPRJZToMaxidynDropDistinct = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  jsonDrop: any
+): JSONMaxidynDropDistinct => {
   return {
     version: 1,
   }

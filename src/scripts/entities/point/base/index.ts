@@ -1,6 +1,4 @@
 /* eslint-disable sonarjs/cognitive-complexity */
-
-/* eslint-disable no-fallthrough */
 import { Marker, Popup } from 'mapbox-gl'
 
 import { translate } from '/src/locales'

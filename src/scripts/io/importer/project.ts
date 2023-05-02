@@ -25,8 +25,6 @@ export const importProjectFromJSON = (
     case 'Minidyn':
       project = createMinidynProjectFromJSON(json, map)
       break
-
-    // No Default
   }
 
   if (project) {

@@ -1,4 +1,3 @@
-/* eslint-disable no-fallthrough */
 import { createMinidynDropFromJSON } from '/src/scripts'
 
 import { createBasePointFromJSON } from '../base'

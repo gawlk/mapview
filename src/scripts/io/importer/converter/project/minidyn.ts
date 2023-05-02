@@ -29,8 +29,6 @@ export const convertPRJZToMinidynProjectDistinct = (
 ): JSONMinidynProjectDistinct => {
   const units = convertPRJZToMinidynUnits(json)
 
-  Object.hasOwn(json, 'ParamsBearing')
-
   return {
     version: 1,
     units,

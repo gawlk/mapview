@@ -1,4 +1,3 @@
-/* eslint-disable no-fallthrough */
 import { createBaseDropFromJSON, createBaseDropIndexFromJSON } from '../base'
 
 export const createMaxidynDropFromJSON = (

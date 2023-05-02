@@ -1,4 +1,3 @@
-/* eslint-disable no-fallthrough */
 import { createMaxidynPointFromJSON } from '/src/scripts'
 
 import { createBaseZoneFromJSON } from '../base'

@@ -2,4 +2,4 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 pnpm check
-pnpm eslint --fix $(git diff --name-only HEAD | xargs)
+pnpm eslint ./src

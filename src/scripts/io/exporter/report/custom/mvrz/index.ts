@@ -80,10 +80,10 @@ const toPascalCase = (str: string): string =>
 const generatePointData = (
   points: BasePoint[],
   labelPrefix: string
-): ExcelJSON =>
-  points.reduce<ExcelJSON>(
+): ExcelDataListJSON =>
+  points.reduce<ExcelDataListJSON>(
     (a, point) =>
-      point.data.reduce<ExcelJSON>((b, data) => {
+      point.data.reduce<ExcelDataListJSON>((b, data) => {
         const label = labelPrefix + toPascalCase(data.label.getSerializedName())
 
         const values = [...((b[label] || []) as number[]), data.toExcel()]
@@ -97,9 +97,9 @@ const generatePointData = (
   )
 
 const generatePointInformation = (points: BasePoint[], labelPrefix: string) =>
-  points.reduce<FlatDataJson>(
+  points.reduce<ExcelDataListJSON>(
     (a, point) => ({
-      ...point.information.reduce<FlatDataJson>((b, information) => {
+      ...point.information.reduce<ExcelDataListJSON>((b, information) => {
         const label = labelPrefix + toPascalCase(information.label)
         const value = information.getValue()
         const values = [...(b[label] || []), value]
@@ -136,22 +136,22 @@ const generatePointInformation = (points: BasePoint[], labelPrefix: string) =>
 const generateDropData = (
   points: BasePoint[],
   labelPrefix: string
-): ExcelJSON =>
-  points.reduce<FlatDataJson>((a, point) => {
+): ExcelDataListJSON =>
+  points.reduce<ExcelDataListJSON>((a, point) => {
     const drops: MachineDrop[] = point.drops
 
-    return drops.reduce<FlatDataJson>(
+    return drops.reduce<ExcelDataListJSON>(
       (b, drop) => ({
         ...b,
         [`${labelPrefix}${drop.index.displayedIndex}_Number`]: new Array(
           points.length
         ).fill(drop.index.displayedIndex),
-        ...drop.data.reduce<FlatDataJson>((c, data) => {
+        ...drop.data.reduce<ExcelDataListJSON>((c, data) => {
           const label = `${labelPrefix}${
             drop.index.displayedIndex
           }_${toPascalCase(data.label.getSerializedName())}`
 
-          const values = (c[label] || []) as (number | null)[]
+          const values = c[label] || []
 
           values.push(data.toExcel())
 

@@ -1,7 +1,7 @@
 type ExcelData = string | number | boolean | null
 
-type ExcelJSON = Record<string, ExcelData | ExcelData[]>
+type ExcelDataList = ExcelData[]
 
-type ExcelFlatData = string[] | number[] | boolean[]
+type ExcelJSON = Record<string, ExcelData | ExcelDataList>
 
-type FlatDataJson = Record<string, ExcelFlatData>
+type ExcelDataListJSON = Record<string, ExcelDataList>

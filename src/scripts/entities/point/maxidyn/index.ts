@@ -32,7 +32,7 @@ export const createMaxidynPointFromJSON = (
   point.drops.push(
     ...json.base.drops.map((jsonDrop) =>
       createMaxidynDropFromJSON(jsonDrop, {
-        point: point,
+        point,
       })
     )
   )

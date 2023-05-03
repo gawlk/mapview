@@ -36,22 +36,15 @@ function convertMapviewUnitToMathJSUnit(unit: AnyUnit): AnyUnit {
   }
 }
 
-interface MathUnitOptions {
-  possiblePrecisions?: number[]
-  step?: number
-  averageFunction?: 'allEqual' | 'capOutliers' | 'ignoreOutliers'
-  readOnly?: true
-  invalidReplacement?: string
-  checkValidity?: (value: number) => boolean
-}
+type AverageFunction = 'allEqual' | 'capOutliers' | 'ignoreOutliers'
 
 const getValueForAverage = (
   min: number,
   max: number,
   value: number,
-  options?: MathUnitOptions
+  averageFunction?: AverageFunction
 ) => {
-  if (options?.averageFunction === 'capOutliers') {
+  if (averageFunction === 'capOutliers') {
     if (max && value > max) {
       return max
     }
@@ -67,16 +60,23 @@ export const createMathUnit = <PossibleUnits extends string>(
   json: JSONMathUnit<PossibleUnits>,
   baseUnit: string,
   possibleSettings: [PossibleUnits, number][],
-  mathUnitOptions?: MathUnitOptions
+  options?: {
+    possiblePrecisions?: number[]
+    step?: number
+    averageFunction?: AverageFunction
+    readOnly?: true
+    invalidReplacement?: string
+    checkValidity?: (value: number) => boolean
+  }
 ): MathUnit<PossibleUnits> => {
   const currentUnit = json.currentUnit || possibleSettings[0][0]
-  const possiblePrecisions = mathUnitOptions?.possiblePrecisions || [0, 1, 2]
+  const possiblePrecisions = options?.possiblePrecisions || [0, 1, 2]
   const currentPrecision = json.currentPrecision || possibleSettings[0][1]
   const jsonMax = json.max
   const jsonMin = json.min || 0
-  const readOnly = mathUnitOptions?.readOnly || false
+  const readOnly = options?.readOnly || false
   const invalidReplacement =
-    mathUnitOptions?.invalidReplacement || defaultInvalidValueReplacement
+    options?.invalidReplacement || defaultInvalidValueReplacement
 
   const mathUnit: MathUnit<PossibleUnits> = shallowReactive({
     name,
@@ -94,7 +94,7 @@ export const createMathUnit = <PossibleUnits extends string>(
       const filteredValues: number[] = values.filter(
         (value) =>
           this.checkValidity(value) &&
-          (mathUnitOptions?.averageFunction === 'ignoreOutliers'
+          (options?.averageFunction === 'ignoreOutliers'
             ? value <= max && value >= min
             : true)
       )
@@ -107,7 +107,7 @@ export const createMathUnit = <PossibleUnits extends string>(
                 this.min,
                 this.max,
                 currentValue,
-                mathUnitOptions
+                options?.averageFunction
               ),
             0
           ) / filteredValues.length
@@ -128,25 +128,22 @@ export const createMathUnit = <PossibleUnits extends string>(
       )
     },
     checkValidity(value) {
-      return (
-        !Number.isNaN(value) &&
-        (mathUnitOptions?.checkValidity?.(value) ?? true)
-      )
+      return !Number.isNaN(value) && (options?.checkValidity?.(value) ?? true)
     },
-    valueToString(value, options = {}) {
+    valueToString(value, parseOptions = {}) {
       let valueString
 
       if (this.checkValidity(value)) {
         const numberToLocaleOptions = {
-          locale: options.locale,
-          precision: options.precision,
+          locale: parseOptions.locale,
+          precision: parseOptions.precision,
         }
 
         let preString = ''
 
         numberToLocaleOptions.precision ??= this.currentPrecision
 
-        if (!options.disableMinAndMax) {
+        if (!parseOptions.disableMinAndMax) {
           if (value < this.min) {
             value = this.min
             preString = '<'
@@ -159,21 +156,21 @@ export const createMathUnit = <PossibleUnits extends string>(
         value = convertValueFromUnitAToUnitB(
           value,
           this.baseUnit,
-          options.unit ?? this.currentUnit
+          parseOptions.unit ?? this.currentUnit
         )
 
         valueString = `${
-          options.disablePreString ? '' : preString
+          parseOptions.disablePreString ? '' : preString
         } ${numberToLocaleString(value, numberToLocaleOptions)}`.trim()
       } else {
         valueString = invalidReplacement
       }
 
       const localeString: string = `${valueString} ${
-        options.appendUnitToString ? this.currentUnit : ''
+        parseOptions.appendUnitToString ? this.currentUnit : ''
       }`.trim()
 
-      return options.removeSpaces
+      return parseOptions.removeSpaces
         ? localeString.replaceAll(' ', '')
         : localeString
     },

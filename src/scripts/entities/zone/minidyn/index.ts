@@ -32,7 +32,7 @@ export const createMinidynZoneFromJSON = (
   zone.points.push(
     ...json.base.points.map((jsonPoint) =>
       createMinidynPointFromJSON(jsonPoint, map, {
-        zone: zone,
+        zone,
       })
     )
   )

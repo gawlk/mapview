@@ -1,7 +1,7 @@
 interface Exporter {
   name: string
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  export: (...args: any[]) => Promise<File> // TODO: Change any
+  export: (...args: any[]) => Promise<File>
 }
 
 type AnyExporter =

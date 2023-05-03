@@ -1,8 +1,7 @@
 import { convertPRJZToHeavydynReport } from '../report'
 
 export const convertPRJZToHeavydynProject = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  json: any,
+  json: RecordAny,
   baseProject: JSONBaseProject
 ): JSONHeavydynProject => {
   const project: JSONHeavydynProject = {
@@ -14,8 +13,7 @@ export const convertPRJZToHeavydynProject = (
 
   project.base.reports.list.push(
     ...json.PVs.map(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (jsonPV: any, index: number): JSONHeavydynReport =>
+      (jsonPV: RecordAny, index: number): JSONHeavydynReport =>
         convertPRJZToHeavydynReport(jsonPV, index, json)
     )
   )
@@ -28,8 +26,7 @@ export const convertPRJZToHeavydynProject = (
 }
 
 export const convertPRJZToHeavydynProjectDistinct = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  json: any
+  json: RecordAny
 ): JSONHeavydynProjectDistinct => {
   const units = convertPRJZToHeavydynUnits(json)
 
@@ -59,8 +56,7 @@ export const convertPRJZToHeavydynProjectDistinct = (
       date: json.Calibrations.Date,
       dPlate: json.Calibrations.Dplate,
       channels:
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        json.Calibrations.Channels.map((channel: any): JSONChannel => {
+        json.Calibrations.Channels.map((channel: RecordAny): JSONChannel => {
           return {
             version: 1,
             name: channel.Name,
@@ -72,8 +68,7 @@ export const convertPRJZToHeavydynProjectDistinct = (
           }
         }) || [],
       sensors:
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        json.Calibrations.Sensors.map((sensor: any): JSONSensor => {
+        json.Calibrations.Sensors.map((sensor: RecordAny): JSONSensor => {
           return {
             version: 1,
             name: sensor.Name,
@@ -86,16 +81,14 @@ export const convertPRJZToHeavydynProjectDistinct = (
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const convertPRJZToHeavydynUnits = (json: any) => {
+export const convertPRJZToHeavydynUnits = (json: RecordAny) => {
   const units: JSONHeavydynUnits = {
     version: 2,
     deflection: {
       version: 1,
       currentUnit: ((): PossibleHeavydynDeflectionUnits => {
         switch (
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (json.ExportedData.Drops as any[]).find(
+          (json.ExportedData.Drops as RecordAny[]).find(
             (exportedUnit) => exportedUnit.Type === 'Deflection'
           )?.Unit
         ) {
@@ -114,8 +107,7 @@ export const convertPRJZToHeavydynUnits = (json: any) => {
       version: 1,
       currentUnit: ((): PossibleHeavydynForceUnits => {
         switch (
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (json.ExportedData.Drops as any[]).find(
+          (json.ExportedData.Drops as RecordAny[]).find(
             (exportedUnit) => exportedUnit.Type === 'Load'
           )?.Unit
         ) {
@@ -132,8 +124,7 @@ export const convertPRJZToHeavydynUnits = (json: any) => {
       version: 1,
       currentUnit: ((): PossibleHeavydynDistanceUnits => {
         switch (
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (json.ExportedData.Points as any[]).find(
+          (json.ExportedData.Points as RecordAny[]).find(
             (exportedUnit) => exportedUnit.Type === 'Distance'
           )?.Unit
         ) {
@@ -152,8 +143,7 @@ export const convertPRJZToHeavydynUnits = (json: any) => {
       version: 1,
       currentUnit: ((): PossibleHeavydynTimeUnits => {
         switch (
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (json.ExportedData.Drops as any[]).find(
+          (json.ExportedData.Drops as RecordAny[]).find(
             (exportedUnit) => exportedUnit.Type === 'Time'
           )?.Unit
         ) {
@@ -172,8 +162,7 @@ export const convertPRJZToHeavydynUnits = (json: any) => {
       version: 1,
       currentUnit: ((): PossibleHeavydynTemperatureUnits => {
         switch (
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (json.ExportedData.Points as any[]).find(
+          (json.ExportedData.Points as RecordAny[]).find(
             (exportedUnit) => exportedUnit.Type === 'Temperature'
           )?.Unit
         ) {

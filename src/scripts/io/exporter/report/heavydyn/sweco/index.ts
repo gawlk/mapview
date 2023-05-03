@@ -134,7 +134,7 @@ const writeDrops = (point: BasePoint, channels: JSONChannel[]): string => {
   const pointInfos = [
     'Sequence: 1/1',
     'No. of drops: ' + point.drops.length.toString(),
-    'Fallheight: 0', // TODO
+    'Fallheight: 0',
     'Time: ' + dayjsUtc(point.date).format('HH:mm'),
   ]
   const dropHeader = [

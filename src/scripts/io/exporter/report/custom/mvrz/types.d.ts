@@ -1,9 +1,5 @@
 type ExcelData = string | number | boolean | null
 
-interface ExcelJson extends RecordAny {
-  [key: string]: ExcelData | ExcelData[]
-}
+type ExcelJSON = Record<string, ExcelData | ExcelData[]>
 
-interface FlatDataJson {
-  [key: string]: ExcelFlatData
-}
+type FlatDataJson = Record<string, ExcelFlatData>

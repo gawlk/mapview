@@ -43,7 +43,7 @@ export const mvrzExporter = {
                 name: 'database.json',
                 json: createMVRZJson(project),
               },
-              template: template,
+              template,
             }),
           ]
         : [],
@@ -58,8 +58,8 @@ export const mvrzExporter = {
 const generateInformationFromFields = (
   fields: Field[],
   tag: string
-): ExcelJson =>
-  fields.reduce<ExcelJson>((a, v) => {
+): ExcelJSON =>
+  fields.reduce<ExcelJSON>((a, v) => {
     const label = tag + toPascalCase(v.label)
     const value = v.getValue()
 
@@ -80,10 +80,10 @@ const toPascalCase = (str: string): string =>
 const generatePointData = (
   points: BasePoint[],
   labelPrefix: string
-): ExcelJson =>
-  points.reduce<FlatDataJson>(
+): ExcelJSON =>
+  points.reduce<ExcelJSON>(
     (a, point) =>
-      point.data.reduce<FlatDataJson>((b, data) => {
+      point.data.reduce<ExcelJSON>((b, data) => {
         const label = labelPrefix + toPascalCase(data.label.getSerializedName())
 
         const values = [...((b[label] || []) as number[]), data.toExcel()]
@@ -136,7 +136,7 @@ const generatePointInformation = (points: BasePoint[], labelPrefix: string) =>
 const generateDropData = (
   points: BasePoint[],
   labelPrefix: string
-): ExcelJson =>
+): ExcelJSON =>
   points.reduce<FlatDataJson>((a, point) => {
     const drops: MachineDrop[] = point.drops
 
@@ -165,8 +165,8 @@ const generateDropData = (
     )
   }, {})
 
-const generateZoneData = (zones: MachineZone[]): ExcelJson =>
-  zones.reduce<ExcelJson>((a, zone, index) => {
+const generateZoneData = (zones: MachineZone[]): ExcelJSON =>
+  zones.reduce<ExcelJSON>((a, zone, index) => {
     const { points } = zone as BaseZone
 
     const visiblePoints = points.filter((point) => point.settings.isVisible)
@@ -176,7 +176,7 @@ const generateZoneData = (zones: MachineZone[]): ExcelJson =>
     return {
       ...a,
       [`${Z}_Name`]: zone.name,
-      ...zone.data.reduce<ExcelJson>(
+      ...zone.data.reduce<ExcelJSON>(
         (prev, data) => ({
           ...prev,
           [`${Z}_${toPascalCase(data.label.name)}`]: data.toExcel(),
@@ -189,8 +189,8 @@ const generateZoneData = (zones: MachineZone[]): ExcelJson =>
     }
   }, {})
 
-const generateUnits = (units: MachineMathUnits): ExcelJson =>
-  Object.values(units).reduce<ExcelJson>(
+const generateUnits = (units: MachineMathUnits): ExcelJSON =>
+  Object.values(units).reduce<ExcelJSON>(
     (a, unit: MathUnit<string>) => ({
       ...a,
       [`Unit_${unit.name}_Name`]: translate(unit.name),
@@ -209,8 +209,8 @@ const generateUnits = (units: MachineMathUnits): ExcelJson =>
     {}
   )
 
-const generateThresholds = (thresholds: MachineThresholds): ExcelJson =>
-  Object.values(thresholds.groups).reduce<ExcelJson>(
+const generateThresholds = (thresholds: MachineThresholds): ExcelJSON =>
+  Object.values(thresholds.groups).reduce<ExcelJSON>(
     (a, group: ThresholdsGroup<string>) => {
       if (group.choices.selected) {
         return {
@@ -249,11 +249,11 @@ const generateAcquisitionParameters = (project: MachineProject) => ({
     : {}),
 })
 
-const generateSequence = (report: MachineReport): ExcelJson => {
+const generateSequence = (report: MachineReport): ExcelJSON => {
   if (report.machine === 'Heavydyn') {
     const dropDataLabels = report.dataLabels.groups.list[0]
 
-    const dropSequence: ExcelJson = {
+    const dropSequence: ExcelJSON = {
       DropSequence_Name: dropDataLabels.sequenceName,
       DropSequence_Total: dropDataLabels.indexes.list.length || 0,
     }
@@ -289,10 +289,10 @@ const generateSequence = (report: MachineReport): ExcelJson => {
 
 const generateCalibrations = (
   calibrations: HeavydynCalibrations
-): ExcelJson => ({
+): ExcelJSON => ({
   Calibration_Date: calibrations.date.toISOString(),
   Calibration_Dplate: calibrations.dPlate,
-  ...calibrations.channels.reduce<ExcelJson>(
+  ...calibrations.channels.reduce<ExcelJSON>(
     (a, channel, index) => ({
       ...a,
       [`Calibration_Channel${index + 1}_Name`]: channel.name,
@@ -305,7 +305,7 @@ const generateCalibrations = (
     }),
     {}
   ),
-  ...calibrations.sensors.reduce<ExcelJson>(
+  ...calibrations.sensors.reduce<ExcelJSON>(
     (a, sensor, index) => ({
       ...a,
       [`Calibration_Sensor${index + 1}_Name`]: sensor.name,
@@ -320,7 +320,7 @@ const generateCalibrations = (
 
 const generateBearingParameters = (
   parameters: JSONBearingParameters
-): ExcelJson => ({
+): ExcelJSON => ({
   ['BearingParameters_Version']: parameters.version,
   ['BearingParameters_Name']: parameters.name,
   ['BearingParameters_AlgoBearing']: parameters.algoBearing,
@@ -334,7 +334,7 @@ const generateBearingParameters = (
   ['BearingParameters_Alpha']: parameters.alpha,
 })
 
-const generateHeavydynData = (project: HeavydynProject): ExcelJson => {
+const generateHeavydynData = (project: HeavydynProject): ExcelJSON => {
   const {
     correctionParameters: { load, temperature },
   } = project
@@ -366,15 +366,15 @@ const generateHeavydynData = (project: HeavydynProject): ExcelJson => {
   }
 }
 
-const generateMaxidynData = (project: MaxidynProject): ExcelJson => ({
+const generateMaxidynData = (project: MaxidynProject): ExcelJSON => ({
   ...generateBearingParameters(project.bearingParameters),
 })
 
-const generateMinidynData = (project: MinidynProject): ExcelJson => ({
+const generateMinidynData = (project: MinidynProject): ExcelJSON => ({
   ...generateBearingParameters(project.bearingParameters),
 })
 
-const generateSpecificMachineData = (project: MachineProject): ExcelJson => {
+const generateSpecificMachineData = (project: MachineProject): ExcelJSON => {
   switch (project.machine) {
     case 'Heavydyn':
       return generateHeavydynData(project)
@@ -387,7 +387,7 @@ const generateSpecificMachineData = (project: MachineProject): ExcelJson => {
   }
 }
 
-const createBaseJson = (project: MachineProject): ExcelJson => {
+const createBaseJson = (project: MachineProject): ExcelJSON => {
   if (!project.reports.selected) return {}
   return {
     JsonFileFormat: 'Report database from Mapview',
@@ -418,7 +418,7 @@ const createBaseJson = (project: MachineProject): ExcelJson => {
   }
 }
 
-const createMVRZJson = (project: MachineProject): ExcelJson => {
+const createMVRZJson = (project: MachineProject): ExcelJSON => {
   if (!project.reports.selected) return {}
 
   const { sortedPoints } = project.reports.selected.line

@@ -16,7 +16,7 @@ export const convertPRJZToBaseReport = (
 
   return {
     version: 1,
-    name: jsonPV.PV.Name as string,
+    name: String(jsonPV.PV.Name),
     settings: {
       version: 1,
       iconName: iconsNames[reportIndex % iconsNames.length],

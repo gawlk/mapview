@@ -80,7 +80,7 @@ export const exportFile = async (dirPath: string, folderName?: string) => {
           )
 
           filesGroup.mpvz = {
-            file: file,
+            file,
             project,
           }
           break

@@ -175,7 +175,6 @@ export const createBasePointFromJSON = <
         case 'nothing':
           this.icon?.setText('')
           break
-        // No Default
       }
     },
     updateVisibility() {

@@ -34,7 +34,7 @@ export const createHeavydynZoneFromJSON = (
   zone.points.push(
     ...json.base.points.map((jsonPoint) =>
       createHeavydynPointFromJSON(jsonPoint, map, {
-        zone: zone,
+        zone,
       })
     )
   )

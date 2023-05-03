@@ -6,11 +6,9 @@ import {
 } from '../shared'
 
 export const convertPRJZToHeavydynDrop = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  jsonDrop: any,
+  jsonDrop: RecordAny,
   index: number,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  json: any
+  json: RecordAny
 ): JSONHeavydynDrop => {
   const drop: JSONHeavydynDrop = {
     version: 1,
@@ -21,20 +19,18 @@ export const convertPRJZToHeavydynDrop = (
   return drop
 }
 
-export const convertPRJZToHeavydynDropDistinct =
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (jsonDrop: any): JSONHeavydynDropDistinct => {
-    return {
-      version: 1,
-    }
+export const convertPRJZToHeavydynDropDistinct = (
+  jsonDrop: RecordAny
+): JSONHeavydynDropDistinct => {
+  return {
+    version: 1,
   }
+}
 
 export const convertPRJZToHeavydynDropChoices = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  json: any
+  json: RecordAny
 ): JSONDataLabel<HeavydynUnitsNames>[] => [
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ...json.ExportedData.Drops.map((exportedUnit: any) =>
+  ...json.ExportedData.Drops.map((exportedUnit: RecordAny) =>
     convertExportedUnitToJSONDataLabel(exportedUnit)
   ).filter((choice: JSONDataLabel<string>) => choice.name !== 'Deflections'),
   ...json.Calibrations.SensorsPosition.map(
@@ -49,11 +45,9 @@ export const convertPRJZToHeavydynDropChoices = (
 ]
 
 export const convertPRJZToHeavydynDropIndexes = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  json: any
+  json: RecordAny
 ): JSONHeavydynDropIndex[] => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return json.Sequences.Steps.map((step: any): JSONHeavydynDropIndex => {
+  return json.Sequences.Steps.map((step: RecordAny): JSONHeavydynDropIndex => {
     return {
       version: 1,
       base: {

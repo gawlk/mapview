@@ -65,26 +65,21 @@ export const convertPRJZToMinidynUnits = (
       version: 1,
       currentUnit: 'MPa',
       currentPrecision: 0,
-      min: (exportedModulus
-        ? json.ParamsBearing.MinBearing
-        : 10000000) as number,
-      max: (exportedModulus
-        ? json.ParamsBearing.MaxBearing
-        : 150000000) as number,
+      min: exportedModulus ? Number(json.ParamsBearing.MinBearing) : 10000000,
+      max: exportedModulus ? Number(json.ParamsBearing.MaxBearing) : 150000000,
     },
     stiffness: {
       version: 1,
       currentUnit: 'MN / m',
       currentPrecision: 0,
-      min: (exportedStiffness ? json.ParamsBearing.MinBearing : 0) as number,
-      max: (exportedStiffness ? json.ParamsBearing.MaxBearing : 1000) as number,
+      min: exportedStiffness ? Number(json.ParamsBearing.MinBearing) : 0,
+      max: exportedStiffness ? Number(json.ParamsBearing.MaxBearing) : 1000,
     },
     deflection: {
       version: 1,
       currentUnit: ((): PossibleMinidynDeflectionUnits => {
         switch (
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (json.ExportedData.Drops as any[]).find(
+          (json.ExportedData.Drops as RecordAny[]).find(
             (exportedUnit) => exportedUnit.Type === 'Deflection'
           )?.Unit
         ) {
@@ -101,8 +96,7 @@ export const convertPRJZToMinidynUnits = (
       version: 1,
       currentUnit: ((): PossibleMinidynForceUnits => {
         switch (
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (json.ExportedData.Drops as any[]).find(
+          (json.ExportedData.Drops as RecordAny[]).find(
             (exportedUnit) => exportedUnit.Type === 'Load'
           )?.Unit
         ) {

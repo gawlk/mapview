@@ -3,11 +3,9 @@ import { convertPRJZToBasePoint } from './base'
 import { convertPRJZToMaxidynDrop } from '../drop'
 
 export const convertPRJZToMaxidynPoint = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  jsonPoint: any,
+  jsonPoint: RecordAny,
   index: number,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  json: any
+  json: RecordAny
 ): JSONMaxidynPoint => {
   const point: JSONMaxidynPoint = {
     version: 1,
@@ -17,8 +15,7 @@ export const convertPRJZToMaxidynPoint = (
 
   point.base.drops.push(
     ...jsonPoint.Drops.map(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (jsonDrop: any, dropIndex: number): JSONMaxidynDrop =>
+      (jsonDrop: RecordAny, dropIndex: number): JSONMaxidynDrop =>
         convertPRJZToMaxidynDrop(jsonDrop, dropIndex, json)
     )
   )
@@ -27,8 +24,7 @@ export const convertPRJZToMaxidynPoint = (
 }
 
 export const convertPRJZToMaxidynPointDistinct = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  jsonPoint: any
+  jsonPoint: RecordAny
 ): JSONMaxidynPointDistinct => {
   return {
     version: 1,

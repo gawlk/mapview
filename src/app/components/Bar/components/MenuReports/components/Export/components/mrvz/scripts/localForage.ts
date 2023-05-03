@@ -39,9 +39,7 @@ export const initDemoTemplates = () => {
         .filter(([key]) => key.endsWith(extension))
         .map(async ([key, value]) => ({
           fileName: key.split('/').pop() || `file${extension}`,
-          // any is require because result of value is unknown
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          path: String(((await value()) as any).default),
+          path: String(((await value()) as RecordAny).default),
         }))
     )
 

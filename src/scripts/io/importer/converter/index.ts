@@ -5,8 +5,7 @@ import {
   convertPRJZToMinidynProject,
 } from './project'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const convertJSONFromPRJZToMPVZ = (json: any) => {
+export const convertJSONFromPRJZToMPVZ = (json: RecordAny) => {
   let machine: MachineName = 'Minidyn'
 
   if (json.Database.Software === 'Fwddyn') {

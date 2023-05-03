@@ -16,7 +16,7 @@ import { dayjsUtc } from '/src/utils/date/dayjs'
 
 export const heavydynF25Exporter: HeavydynExporter = {
   name: '.F25',
-  export: (project: HeavydynProject) => {
+  export: (project) => {
     return new File(
       [
         replaceAllLFToCRLF(

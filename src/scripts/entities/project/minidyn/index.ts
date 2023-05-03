@@ -50,7 +50,7 @@ export const createMinidynProjectFromJSON = (
   project.reports.list.push(
     ...json.base.reports.list.map((report) =>
       createMinidynReportFromJSON(report as JSONMinidynReport, map, {
-        project: project,
+        project,
       })
     )
   )

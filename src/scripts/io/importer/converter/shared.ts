@@ -49,7 +49,7 @@ export const convertExportedUnitToJSONDataLabel = (
 
   return {
     version: 1,
-    name: jsonExportedUnit.Name as string,
+    name: String(jsonExportedUnit.Name),
     unit,
   }
 }

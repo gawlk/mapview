@@ -1,14 +1,11 @@
 import { convertSensorPositionToName } from '../shared'
 
 export const convertPRJZToBaseDrop = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  jsonDrop: any,
+  jsonDrop: RecordAny,
   index: number,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  json: any
+  json: RecordAny
 ): JSONBaseDrop => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const exportedDeflections = (json.ExportedData.Drops as any[]).find(
+  const exportedDeflections = (json.ExportedData.Drops as RecordAny[]).find(
     (exportedData) => exportedData.Name === 'Deflections'
   )
 
@@ -16,11 +13,9 @@ export const convertPRJZToBaseDrop = (
     version: 1,
     index,
     data: [
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      ...(json.ExportedData.Drops as any[])
+      ...(json.ExportedData.Drops as RecordAny[])
         .filter((exportedData) => exportedData !== exportedDeflections)
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        .map((exportedData: any): JSONDataValue => {
+        .map((exportedData: RecordAny): JSONDataValue => {
           return {
             version: 1,
             label: exportedData.Name,

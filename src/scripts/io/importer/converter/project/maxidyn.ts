@@ -1,8 +1,7 @@
 import { convertPRJZToMaxidynReport } from '../report'
 
 export const convertPRJZToMaxidynProject = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  json: any,
+  json: RecordAny,
   baseProject: JSONBaseProject
 ): JSONMaxidynProject => {
   const project: JSONMaxidynProject = {
@@ -14,8 +13,7 @@ export const convertPRJZToMaxidynProject = (
 
   project.base.reports.list.push(
     ...json.PVs.map(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (jsonPV: any, index: number): JSONMaxidynReport =>
+      (jsonPV: RecordAny, index: number): JSONMaxidynReport =>
         convertPRJZToMaxidynReport(jsonPV, index, json)
     )
   )
@@ -28,8 +26,7 @@ export const convertPRJZToMaxidynProject = (
 }
 
 export const convertPRJZToMaxidynProjectDistinct = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  json: any
+  json: RecordAny
 ): JSONMaxidynProjectDistinct => {
   const units = convertPRJZToMaxidynUnits(json)
 
@@ -52,16 +49,15 @@ export const convertPRJZToMaxidynProjectDistinct = (
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const convertPRJZToMaxidynUnits = (json: any): JSONMaxidynUnits => {
+export const convertPRJZToMaxidynUnits = (
+  json: RecordAny
+): JSONMaxidynUnits => {
   const exportedModulus = json.ExportedData.Points.find(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (exportedUnit: any) => exportedUnit.Type === 'Modulus'
+    (exportedUnit: RecordAny) => exportedUnit.Type === 'Modulus'
   )
 
   const exportedStiffness = json.ExportedData.Points.find(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (exportedUnit: any) => exportedUnit.Type === 'Stiffness'
+    (exportedUnit: RecordAny) => exportedUnit.Type === 'Stiffness'
   )
 
   return {
@@ -84,8 +80,7 @@ export const convertPRJZToMaxidynUnits = (json: any): JSONMaxidynUnits => {
       version: 1,
       currentUnit: ((): PossibleMaxidynDeflectionUnits => {
         switch (
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (json.ExportedData.Drops as any[]).find(
+          (json.ExportedData.Drops as RecordAny[]).find(
             (exportedUnit) => exportedUnit.Type === 'Deflection'
           )?.Unit
         ) {
@@ -102,8 +97,7 @@ export const convertPRJZToMaxidynUnits = (json: any): JSONMaxidynUnits => {
       version: 1,
       currentUnit: ((): PossibleMaxidynForceUnits => {
         switch (
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (json.ExportedData.Drops as any[]).find(
+          (json.ExportedData.Drops as RecordAny[]).find(
             (exportedUnit) => exportedUnit.Type === 'Load'
           )?.Unit
         ) {
@@ -120,8 +114,7 @@ export const convertPRJZToMaxidynUnits = (json: any): JSONMaxidynUnits => {
       version: 1,
       currentUnit: ((): PossibleMaxidynDistanceUnits => {
         switch (
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (json.ExportedData.Points as any[]).find(
+          (json.ExportedData.Points as RecordAny[]).find(
             (exportedUnit) => exportedUnit.Type === 'Distance'
           )?.Unit
         ) {
@@ -140,8 +133,7 @@ export const convertPRJZToMaxidynUnits = (json: any): JSONMaxidynUnits => {
       version: 1,
       currentUnit: ((): PossibleMaxidynTimeUnits => {
         switch (
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (json.ExportedData.Drops as any[]).find(
+          (json.ExportedData.Drops as RecordAny[]).find(
             (exportedUnit) => exportedUnit.Type === 'Time'
           )?.Unit
         ) {

@@ -3,11 +3,9 @@ import { convertPRJZToBaseDrop } from './base'
 import { convertExportedUnitToJSONDataLabel } from '../shared'
 
 export const convertPRJZToMaxidynDrop = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  jsonDrop: any,
+  jsonDrop: RecordAny,
   index: number,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  json: any
+  json: RecordAny
 ): JSONMaxidynDrop => {
   const drop: JSONMaxidynDrop = {
     version: 1,
@@ -19,8 +17,7 @@ export const convertPRJZToMaxidynDrop = (
 }
 
 export const convertPRJZToMaxidynDropDistinct = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  jsonDrop: any
+  jsonDrop: RecordAny
 ): JSONMaxidynDropDistinct => {
   return {
     version: 1,
@@ -28,17 +25,14 @@ export const convertPRJZToMaxidynDropDistinct = (
 }
 
 export const convertPRJZToMaxidynDropChoices = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  json: any
+  json: RecordAny
 ): JSONDataLabel<MaxidynUnitsNames>[] =>
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  json.ExportedData.Drops.map((exportedUnit: any) =>
+  json.ExportedData.Drops.map((exportedUnit: RecordAny) =>
     convertExportedUnitToJSONDataLabel(exportedUnit)
   )
 
 export const convertPRJZToMaxidynDropIndexes = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  json: any
+  json: RecordAny
 ): JSONMaxidynDropIndex[] =>
   Array(json.ParamsPoint.NbTotal)
     .fill(0)

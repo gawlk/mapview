@@ -23,6 +23,9 @@
   "plugins": ["vue", "@typescript-eslint", "sonarjs"],
   "ignorePatterns": ["/src/shims-vue.d.ts"],
   "rules": {
+    "no-duplicate-imports": "error",
+    "no-useless-rename": "error",
+    "object-shorthand": "error",
     "no-param-reassign": "off",
     "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
     "default-case": "off",

@@ -23,8 +23,6 @@ import {
   createBaseReportFromJSON,
 } from '../base'
 
-const CONSOLE_REPORT_STATEMENT = 'import: report'
-
 export const createHeavydynReportFromJSON = (
   json: JSONHeavydynReport,
   map: mapboxgl.Map | null,
@@ -32,8 +30,6 @@ export const createHeavydynReportFromJSON = (
     project: HeavydynProject
   }
 ) => {
-  console.time(CONSOLE_REPORT_STATEMENT)
-
   json = upgradeJSON(json)
 
   const watcherHandler = createWatcherHandler()
@@ -75,16 +71,14 @@ export const createHeavydynReportFromJSON = (
       this.zones.push(zone)
     },
     toJSON(): JSONHeavydynReport {
-      const heavydynReport = this as HeavydynReport
-
-      const thresholdGroup = heavydynReport.thresholds.groups
+      const thresholdGroup = report.thresholds.groups
 
       return {
         version: json.version,
-        base: heavydynReport.toBaseJSON(),
+        base: report.toBaseJSON(),
         distinct: {
           version: json.version,
-          dataLabels: heavydynReport.dataLabels.groups.toJSON((group) =>
+          dataLabels: report.dataLabels.groups.toJSON((group) =>
             group.toJSON()
           ),
           thresholds: {
@@ -128,19 +122,15 @@ export const createHeavydynReportFromJSON = (
       watcherHandler.clean()
     },
   })
-  console.timeLog(CONSOLE_REPORT_STATEMENT)
 
-  console.time('import: zones')
   report.zones.push(
     ...json.base.zones.map((jsonZone) =>
       createHeavydynZoneFromJSON(jsonZone, map, {
-        report: report,
+        report,
       })
     )
   )
-  console.timeEnd('import: zones')
 
-  console.time('import: computers')
   // Warning: Order matters
   ;[
     createHeavydynCurrentLoadDataComputer(report),
@@ -157,10 +147,6 @@ export const createHeavydynReportFromJSON = (
   selectHeavydynGroupChoiceFromJSON(report, json)
 
   selectTableDataLabelsFromJSON(report, json.base)
-
-  console.timeEnd('import: computers')
-
-  console.timeEnd(CONSOLE_REPORT_STATEMENT)
 
   return report
 }

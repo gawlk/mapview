@@ -3,11 +3,9 @@ import { convertPRJZToBasePoint } from './base'
 import { convertPRJZToMinidynDrop } from '../drop'
 
 export const convertPRJZToMinidynPoint = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  jsonPoint: any,
+  jsonPoint: RecordAny,
   index: number,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  json: any
+  json: RecordAny
 ): JSONMinidynPoint => {
   const point: JSONMinidynPoint = {
     version: 1,
@@ -17,8 +15,7 @@ export const convertPRJZToMinidynPoint = (
 
   point.base.drops.push(
     ...jsonPoint.Drops.map(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (jsonDrop: any, dropIndex: number): JSONMinidynDrop =>
+      (jsonDrop: RecordAny, dropIndex: number): JSONMinidynDrop =>
         convertPRJZToMinidynDrop(jsonDrop, dropIndex, json)
     )
   )
@@ -27,8 +24,7 @@ export const convertPRJZToMinidynPoint = (
 }
 
 export const convertPRJZToMinidynPointDistinct = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  jsonPoint: any
+  jsonPoint: RecordAny
 ): JSONMinidynPointDistinct => {
   return {
     version: 1,

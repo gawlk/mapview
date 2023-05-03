@@ -148,7 +148,7 @@ export const convertPRJZToHeavydynReportDistinct = (
               selectedIndex: dropIndexes.length - 1,
               list: dropIndexes,
             },
-            sequenceName: json.Sequences.Name as string,
+            sequenceName: String(json.Sequences.Name),
           },
         },
         {

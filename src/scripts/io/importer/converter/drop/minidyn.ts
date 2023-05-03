@@ -3,11 +3,9 @@ import { convertPRJZToBaseDrop } from './base'
 import { convertExportedUnitToJSONDataLabel } from '../shared'
 
 export const convertPRJZToMinidynDrop = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  jsonDrop: any,
+  jsonDrop: RecordAny,
   index: number,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  json: any
+  json: RecordAny
 ): JSONMinidynDrop => {
   const drop: JSONMinidynDrop = {
     version: 1,
@@ -19,8 +17,7 @@ export const convertPRJZToMinidynDrop = (
 }
 
 export const convertPRJZToMinidynDropDistinct = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  jsonDrop: any
+  jsonDrop: RecordAny
 ): JSONMinidynDropDistinct => {
   return {
     version: 1,
@@ -28,17 +25,14 @@ export const convertPRJZToMinidynDropDistinct = (
 }
 
 export const convertPRJZToMinidynDropChoices = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  json: any
+  json: RecordAny
 ): JSONDataLabel<MinidynUnitsNames>[] =>
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  json.ExportedData.Drops.map((exportedUnit: any) =>
+  json.ExportedData.Drops.map((exportedUnit: RecordAny) =>
     convertExportedUnitToJSONDataLabel(exportedUnit)
   )
 
 export const convertPRJZToMinidynDropIndexes = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  json: any
+  json: RecordAny
 ): JSONMinidynDropIndex[] =>
   Array(json.ParamsPoint.NbTotal)
     .fill(0)

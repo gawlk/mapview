@@ -32,7 +32,7 @@ export const createMaxidynZoneFromJSON = (
   zone.points.push(
     ...json.base.points.map((jsonPoint) =>
       createMaxidynPointFromJSON(jsonPoint, map, {
-        zone: zone,
+        zone,
       })
     )
   )

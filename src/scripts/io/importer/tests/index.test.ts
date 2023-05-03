@@ -1,16 +1,10 @@
 import { unzipSync } from 'fflate'
 import { readFileSync } from 'fs'
-import { assert, describe, expect, test, vi } from 'vitest'
+import { describe, expect, test } from 'vitest'
 
-import {
-  getProjectJSONFromZip,
-  getScreenshotFileNamesFromZIP,
-  importFile,
-  sleep,
-  unzipFile,
-} from '/src/scripts'
+import { getScreenshotFileNamesFromZIP, importFile, sleep } from '/src/scripts'
 
-const getFileFromPath = async (path: string) => {
+const getFileFromPath = (path: string) => {
   const url = `${__dirname}${path}`
 
   const buffer = readFileSync(url)
@@ -18,8 +12,8 @@ const getFileFromPath = async (path: string) => {
   return new File([buffer], path.split('/').pop() as string)
 }
 
-export const testIfFileIsReturnedFromPath = async (path: string) => {
-  const file = await getFileFromPath(path)
+export const testIfFileIsReturnedFromPath = (path: string) => {
+  const file = getFileFromPath(path)
 
   test('File is returned from path', () => {
     expect(file).toBeDefined()
@@ -33,17 +27,11 @@ export const testIfFileIsReturnedFromPath = async (path: string) => {
 describe('Test importFile()', async () => {
   const path = '/files/heavydyn/demo.prjz'
 
-  const heavydynPRJZ = await testIfFileIsReturnedFromPath(path)
-
-  const unzipped = await unzipFile(heavydynPRJZ)
-
-  const json = getProjectJSONFromZip(unzipped, path.split('.').pop() || '')
+  const heavydynPRJZ = testIfFileIsReturnedFromPath(path)
 
   const project = await importFile(heavydynPRJZ)
 
   await sleep(2500)
-
-  console.log(project)
 
   test('importFile() returns a project', () => {
     expect(project).toBeTypeOf('object')
@@ -62,27 +50,4 @@ describe('Test importFile()', async () => {
       )
     )
   })
-
-  // test('Screenshots are correctly imported', () => {
-  //   project?.reports.list.forEach((report, index) => {
-  //     report.screenshots.forEach((screenshot) => {
-  //       const screenshotFileName = screenshots.find(
-  //         (screenshot) => Number(screenshot.split('.')[0]) === screenshotIndex
-  //       )
-
-  //       if (screenshotFileName) {
-  //         const array = zip[`${screenshotFolderPathInZip}${screenshotFileName}`]
-
-  //         const data64 = convertUint8ArrayToData64Image(
-  //           array,
-  //           screenshotFileName.split('.').pop() as string
-  //         )
-
-  //         project.reports.list[index]?.screenshots.push(data64)
-  //       }
-  //     })
-  //   })
-
-  //   console.log('paths', screenshotsFileNames)
-  // })
 })

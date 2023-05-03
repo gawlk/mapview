@@ -1,6 +1,4 @@
 <script setup lang="ts">
-  import { isMobile } from '/src/scripts'
-
   import IconSelector from '~icons/heroicons-solid/selector'
 
   import Button from '/src/components/Button.vue'
@@ -61,7 +59,7 @@
 <template>
   <div
     class="group relative flex h-full w-full items-center justify-between truncate bg-gray-100 text-sm font-medium leading-6 transition-colors duration-200 hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300"
-    v-if="!(!isMobile() && props.multiple)"
+    v-if="!props.multiple"
     :class="[
       props.full && 'w-full',
       props.sm

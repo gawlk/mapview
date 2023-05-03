@@ -1,7 +1,13 @@
-import { checkDataConformity } from 'test/utils/data'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+/* eslint-disable @typescript-eslint/no-namespace */
+
+/* eslint-disable sonarjs/no-duplicate-string */
 import { expect } from 'vitest'
 
 import { unzippedToObject } from '/src/scripts'
+
+import { checkDataConformity } from '/src/test/utils/data'
 
 interface CustomMatchers<R = unknown> {
   toHaveSameJson(expected: Fflate.Unzipped): R
@@ -23,26 +29,38 @@ export const toHaveSameJson = (
 
   switch (message) {
     case 'dataType differ':
-      matcherMessage = `for ${key}, data type differ (${actualData}: ${typeof actualData}, ${expectedData}: ${typeof expectedData})`
+      matcherMessage = `for ${String(key)}, data type differ (${String(
+        actualData
+      )}: ${typeof actualData}, ${String(
+        expectedData
+      )}: ${typeof expectedData})`
       break
     case 'invalid Date':
-      matcherMessage = `Date differ for "${key}" (${actualData}, ${expectedData})`
+      matcherMessage = `Date differ for "${String(key)}" (${String(
+        actualData
+      )}, ${String(expectedData)})`
       break
     case 'invalid Number':
-      matcherMessage = `number differ for "${key}" (${actualData}, ${expectedData})`
+      matcherMessage = `number differ for "${String(key)}" (${String(
+        actualData
+      )}, ${String(expectedData)})`
       break
     case 'invalid date format':
-      matcherMessage = `Date format of "${key}" is invalid ${actualData}`
+      matcherMessage = `Date format of "${String(key)}" is invalid ${String(
+        actualData
+      )}`
       break
     case 'invalid data':
-      matcherMessage = `for "${key}" value differ (${actualData}, ${expectedData})`
+      matcherMessage = `for "${String(key)}" value differ (${String(
+        actualData
+      )}, ${String(expectedData)})`
       break
     case "json key's differ":
       matcherMessage = `number of key's differ${
         key ? ` (${key})` : ''
-      }, diff of: ${diff?.number} from ${
+      }, diff of: ${String(diff?.number)} from ${String(
         diff?.bigger
-      } lignes (${diff?.keys.join(', ')})`
+      )} lignes (${String(diff?.keys.join(', '))})`
       break
     case 'no data':
       matcherMessage = "JSON doesn't have data"
@@ -51,7 +69,9 @@ export const toHaveSameJson = (
       matcherMessage = 'Every thing is ok'
       break
     case 'array data invalid':
-      matcherMessage = `array isn't similar for "${key}": ([${actualData}]; [${expectedData}])`
+      matcherMessage = `array isn't similar for "${String(key)}": ([${String(
+        actualData
+      )}];\n [${String(expectedData)}])`
       break
     default:
       matcherMessage = 'something unexpected occurred'
@@ -63,13 +83,13 @@ export const toHaveSameJson = (
   }
 }
 
-type browseCheckDataMessage =
+type BrowseCheckDataMessage =
   | ReturnType<typeof checkDataConformity>
   | "json key's differ"
   | 'no data'
 
-interface browseCheckDataResult {
-  message: browseCheckDataMessage
+interface BrowseCheckDataResult {
+  message: BrowseCheckDataMessage
   key?: string
   actualData?: any
   expectedData?: any
@@ -83,7 +103,7 @@ interface browseCheckDataResult {
 const browseCheckData = (
   actualData: any,
   expectedData: any
-): browseCheckDataResult => {
+): BrowseCheckDataResult => {
   const actualKeys = Object.keys(actualData)
   const expectedKeys = Object.keys(expectedData)
 
@@ -100,15 +120,15 @@ const browseCheckData = (
       message: "json key's differ",
       diff: {
         number: Math.abs(actualKeys.length - expectedKeys.length),
-        keys: keys,
+        keys,
         bigger: actualLength > expectedLength ? 'actual' : 'expected',
       },
     }
   }
 
   let isIdentical = true
-  let resultMessage: browseCheckDataMessage = 'no data'
-  let lastData: browseCheckDataResult = {
+  let resultMessage: BrowseCheckDataMessage = 'no data'
+  let lastData: BrowseCheckDataResult = {
     message: resultMessage,
   }
 

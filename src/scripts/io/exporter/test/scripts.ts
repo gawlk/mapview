@@ -1,5 +1,5 @@
+/* eslint-disable no-await-in-loop */
 import { readdirSync, statSync } from 'fs'
-import { getFileFromPath } from 'test/utils'
 
 import {
   getAllPointsFromProject,
@@ -9,8 +9,11 @@ import {
   unzipFile,
 } from '/src/scripts'
 
+import { getFileFromPath } from '/src/test/utils'
+
 const acceptedExtension = ['pdx', 'F25', 'fwd', 'mpvz', 'mvrz']
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export const exportFile = async (dirPath: string, folderName?: string) => {
   const files = readdirSync(dirPath)
   const filesGroup: Partial<ReportTestExportData> = {
@@ -22,6 +25,7 @@ export const exportFile = async (dirPath: string, folderName?: string) => {
 
   const promises: Promise<unknown>[] = []
 
+  // eslint-disable-next-line no-restricted-syntax
   for (const fileName of files) {
     const part = fileName.split('.')
     const extension = part[part.length - 1]
@@ -31,7 +35,7 @@ export const exportFile = async (dirPath: string, folderName?: string) => {
 
     if (stats.isFile() && acceptedExtension.includes(extension)) {
       onlyFolder = false
-      const file = await getFileFromPath(subPath)
+      const file = getFileFromPath(subPath)
 
       switch (extension) {
         case 'mpvz': {
@@ -39,6 +43,7 @@ export const exportFile = async (dirPath: string, folderName?: string) => {
           project?.addToMap()
 
           promises.push(
+            // eslint-disable-next-line no-async-promise-executor
             new Promise(async (resolve) => {
               const unzipped = await unzipFile(file)
 
@@ -76,7 +81,7 @@ export const exportFile = async (dirPath: string, folderName?: string) => {
           )
 
           filesGroup.mpvz = {
-            file: file,
+            file,
             project,
           }
           break

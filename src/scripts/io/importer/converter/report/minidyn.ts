@@ -8,9 +8,9 @@ import { convertPRJZToMinidynPoint } from '../point'
 import { convertPRJZToTestChoices } from '../shared'
 
 export const convertPRJZToMinidynReport = (
-  jsonPV: any,
+  jsonPV: RecordAny,
   index: number,
-  json: any
+  json: RecordAny
 ): JSONMinidynReport => {
   const report: JSONMinidynReport = {
     version: 1,
@@ -20,22 +20,23 @@ export const convertPRJZToMinidynReport = (
       dropIndexes: convertPRJZToMinidynDropIndexes(json),
       testChoices: convertPRJZToTestChoices(json),
     }),
-    distinct: convertPRJZToMinidynReportDistinct(jsonPV, json),
+    distinct: convertPRJZToMinidynReportDistinct(json),
   }
 
   report.base.zones[0].base.points.push(
-    ...jsonPV.Points.map(
-      (jsonPoint: any, index: number): JSONMinidynPoint =>
-        convertPRJZToMinidynPoint(jsonPoint, index, json)
-    )
+    // must use that to the any structure
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+    ...(jsonPV.Points.map(
+      (jsonPoint: RecordAny, pointIndex: number): JSONMinidynPoint =>
+        convertPRJZToMinidynPoint(jsonPoint, pointIndex, json)
+    ) as JSONMinidynPoint[])
   )
 
   return report
 }
 
 export const convertPRJZToMinidynReportDistinct = (
-  jsonPV: any,
-  json: any
+  json: RecordAny
 ): JSONMinidynReportDistinct => {
   const dropChoices = convertPRJZToMinidynDropChoices(json)
   const dropIndexes = convertPRJZToMinidynDropIndexes(json)

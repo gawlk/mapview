@@ -16,7 +16,7 @@ export const importScreenshotsFromZIP = (
   const screenshots = getScreenshotFileNamesFromZIP(zip)
 
   json.base.reports.list.forEach((jsonReport, index) => {
-    jsonReport.base.screenshots.forEach(async (screenshotIndex) => {
+    jsonReport.base.screenshots.forEach((screenshotIndex) => {
       const screenshotFileName = screenshots.find(
         (screenshot) => Number(screenshot.split('.')[0]) === screenshotIndex
       )

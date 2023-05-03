@@ -10,7 +10,7 @@ export const createLine = (map: mapboxgl.Map | null): Line => {
 
   const line: Line = shallowReactive({
     sortedPoints: shallowReactive([] as BasePoint[]),
-    addToMap: function () {
+    addToMap() {
       map?.addLayer(
         {
           id,
@@ -52,7 +52,7 @@ export const createLine = (map: mapboxgl.Map | null): Line => {
         )
       )
     },
-    remove: function (): void {
+    remove(): void {
       if (map) {
         map.getLayer(id) && map.removeLayer(id)
         map.getSource(id) && map.removeSource(id)
@@ -60,7 +60,7 @@ export const createLine = (map: mapboxgl.Map | null): Line => {
 
       watcherHandler.clean()
     },
-    update: function (): void {
+    update(): void {
       sortPoints(this.sortedPoints)
 
       const visiblePoints = this.sortedPoints.filter((point) => {

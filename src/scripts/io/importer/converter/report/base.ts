@@ -3,7 +3,7 @@ import { currentCategory, icons, indicatorsCategory } from '/src/scripts'
 import { convertPRJZObjectToFields } from '../shared'
 
 export const convertPRJZToBaseReport = (
-  jsonPV: any,
+  jsonPV: RecordAny,
   reportIndex: number,
   parameters: {
     machine: MachineName
@@ -16,7 +16,7 @@ export const convertPRJZToBaseReport = (
 
   return {
     version: 1,
-    name: jsonPV.PV.Name,
+    name: String(jsonPV.PV.Name),
     settings: {
       version: 1,
       iconName: iconsNames[reportIndex % iconsNames.length],

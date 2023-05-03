@@ -1,5 +1,5 @@
 export const convertPRJZObjectToFields = (
-  object: any,
+  object: RecordAny,
   settings: JSONFieldSettings = {
     version: 1,
   }
@@ -35,25 +35,31 @@ export const convertPRJZObjectToFields = (
     })
 
 export const convertExportedUnitToJSONDataLabel = (
-  exportedUnit: any
+  jsonExportedUnit: RecordAny
 ): JSONDataLabel<string> => {
-  const mathUnitName = String(exportedUnit.Type).toLowerCase()
+  const mathUnitName = String(jsonExportedUnit.Type).toLowerCase()
+
+  let unit = mathUnitName
+
+  if (jsonExportedUnit.Unit === '%') {
+    unit = 'percentage'
+  } else if (mathUnitName === 'number') {
+    unit = jsonExportedUnit.unit as string
+  }
 
   return {
     version: 1,
-    name: exportedUnit.Name,
-    unit:
-      exportedUnit.Unit === '%'
-        ? 'percentage'
-        : mathUnitName === 'number'
-        ? exportedUnit.Unit
-        : mathUnitName,
+    name: String(jsonExportedUnit.Name),
+    unit,
   }
 }
 
-export const convertPRJZToTestChoices = (json: any): JSONDataLabel<string>[] =>
-  json.ExportedData.Points.map((exportedUnit: any) =>
-    convertExportedUnitToJSONDataLabel(exportedUnit)
+export const convertPRJZToTestChoices = (
+  json: RecordAny
+): JSONDataLabel<string>[] =>
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+  json.ExportedData.Points.map((jsonExportedUnit: RecordAny) =>
+    convertExportedUnitToJSONDataLabel(jsonExportedUnit)
   )
 
 export const convertSensorPositionToName = (position: number) =>

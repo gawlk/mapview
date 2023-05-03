@@ -9,39 +9,43 @@ export const createMathNumber = (
     unit,
     displayedString: '',
     displayedStringWithUnit: '',
-    updateDisplayedStrings: function () {
+    updateDisplayedStrings() {
       this.displayedString = this.getLocaleString()
 
       this.displayedStringWithUnit = this.getLocaleString({
         appendUnitToString: true,
       })
     },
-    updateValue: function (value: number) {
-      this.value = value
+    updateValue(newValue: number) {
+      this.value = newValue
 
       this.updateDisplayedStrings()
     },
-    getValueAs: function (unit: string) {
-      return convertValueFromUnitAToUnitB(this.value, this.unit.baseUnit, unit)
+    getValueAs(unitAs: string) {
+      return convertValueFromUnitAToUnitB(
+        this.value,
+        this.unit.baseUnit,
+        unitAs
+      )
     },
-    checkValidity: function () {
+    checkValidity() {
       return this.unit.checkValidity(this.value)
     },
-    getLocaleString: function (options?) {
+    getLocaleString(options?) {
       return this.unit.valueToString(this.value, options)
     },
-    toCurrent: function () {
+    toCurrent() {
       return this.unit.baseToCurrent(this.value)
     },
-    toExcel: function (asCurrent = false) {
-      return this.checkValidity()
-        ? asCurrent
-          ? this.toCurrent()
-          : this.value
-        : null
+    toExcel(asCurrent = false) {
+      if (!this.checkValidity()) {
+        return null
+      }
+
+      return asCurrent ? this.toCurrent() : this.value
     },
-    toJSON: function () {
-      return isNaN(this.value) ? 'NaN' : this.value
+    toJSON() {
+      return Number.isNaN(this.value) ? 'NaN' : this.value
     },
   })
 

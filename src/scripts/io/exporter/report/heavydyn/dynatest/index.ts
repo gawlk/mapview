@@ -10,19 +10,21 @@ import { dayjsUtc } from '/src/utils/date/dayjs'
 
 export const heavydynDynatestExporter: HeavydynExporter = {
   name: '.fwd (Dynatest)',
-  export: async (project: HeavydynProject) => {
+  export: (project: HeavydynProject) => {
     return new File(
       [
         replaceAllLFToCRLF(
-          `${writeHeader(project)}\n${writeEndHeader()}\n${writePoints(project)
-            ?.map((pointData) => pointData.join('\n'))
-            .join('\n')}`
+          `${writeHeader(project)}\n${writeEndHeader()}\n${
+            writePoints(project)
+              ?.map((pointData) => pointData.join('\n'))
+              .join('\n') || ''
+          }`
             .split('\n')
             .map((line) => line.padEnd(80, ' '))
             .join('\n')
         ),
       ],
-      `${project.reports.selected?.name.toString()}-dynatest.fwd`,
+      `${project.reports.selected?.name.toString() || ''}-dynatest.fwd`,
       { type: 'text/plain' }
     )
   },
@@ -60,7 +62,7 @@ const writeSensors = (project: HeavydynProject): string[] => {
   sections.push(
     firstsSensors
       .map((sensor, index) => {
-        const name = index === 0 ? 'Ld' : 'D' + index
+        const name = index === 0 ? 'Ld' : `D${index}`
         return dedent`
           ${name} ${sensor.name.slice(
           sensor.name.length - 3,
@@ -97,7 +99,7 @@ const writeHeader = (project: HeavydynProject) => {
     '   R  D1  D2  D3  D4  D5  D6  D7     R    D1    D2    D3    D4    D5    D6    D7'
   )
 
-  stringArray.push('C:\\' + project.reports.selected.name.value)
+  stringArray.push(`C:\\${project.reports.selected.name.value.toString()}`)
 
   const points = writePoints(project)
   if (!points) throw new Error("can't access first and last point")
@@ -157,9 +159,9 @@ const writePoints = (project: HeavydynProject) => {
           const value = data.getRawValue().toFixed(precision)
           if (index === 0) {
             return value.padStart(4, ' ')
-          } else {
-            return value.padStart(2, ' ')
           }
+
+          return value.padStart(2, ' ')
         })
 
       const fahrenheitDegreesTemps = point.data

@@ -1,7 +1,7 @@
 export const convertPRJZToBasePoint = (
-  jsonPoint: any,
+  jsonPoint: RecordAny,
   index: number,
-  json: any
+  json: RecordAny
 ): JSONBasePoint => {
   return {
     version: 1,
@@ -28,13 +28,15 @@ export const convertPRJZToBasePoint = (
         },
       },
     ],
-    data: json.ExportedData.Points.map((exportedData: any): JSONDataValue => {
-      return {
-        version: 1,
-        label: exportedData.Name,
-        value: jsonPoint.Point[exportedData.Name],
+    data: json.ExportedData.Points.map(
+      (exportedData: RecordAny): JSONDataValue => {
+        return {
+          version: 1,
+          label: exportedData.Name,
+          value: jsonPoint.Point[exportedData.Name],
+        }
       }
-    }),
+    ),
     drops: [],
   }
 }

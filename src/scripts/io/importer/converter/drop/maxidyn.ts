@@ -3,9 +3,9 @@ import { convertPRJZToBaseDrop } from './base'
 import { convertExportedUnitToJSONDataLabel } from '../shared'
 
 export const convertPRJZToMaxidynDrop = (
-  jsonDrop: any,
+  jsonDrop: RecordAny,
   index: number,
-  json: any
+  json: RecordAny
 ): JSONMaxidynDrop => {
   const drop: JSONMaxidynDrop = {
     version: 1,
@@ -17,7 +17,7 @@ export const convertPRJZToMaxidynDrop = (
 }
 
 export const convertPRJZToMaxidynDropDistinct = (
-  jsonDrop: any
+  jsonDrop: RecordAny
 ): JSONMaxidynDropDistinct => {
   return {
     version: 1,
@@ -25,14 +25,14 @@ export const convertPRJZToMaxidynDropDistinct = (
 }
 
 export const convertPRJZToMaxidynDropChoices = (
-  json: any
+  json: RecordAny
 ): JSONDataLabel<MaxidynUnitsNames>[] =>
-  json.ExportedData.Drops.map((exportedUnit: any) =>
+  json.ExportedData.Drops.map((exportedUnit: RecordAny) =>
     convertExportedUnitToJSONDataLabel(exportedUnit)
   )
 
 export const convertPRJZToMaxidynDropIndexes = (
-  json: any
+  json: RecordAny
 ): JSONMaxidynDropIndex[] =>
   Array(json.ParamsPoint.NbTotal)
     .fill(0)

@@ -83,9 +83,6 @@ const upgradeJSON = (json: JSONMinidynUnitsVAny): JSONMinidynUnits => {
   switch (json.version) {
     case undefined:
     case 1:
-    // upgrade
-    default:
-      json = json as JSONMinidynUnits
   }
 
   return json

@@ -30,7 +30,7 @@ const maxDaysInMonth: { [key: number]: number } = {
 
 export const isValidDateFormat = (dateData: ParsedDate | string) => {
   let dateFormat =
-    /(([1-9])|([0][1-9])|([1-2][0-9])|([3][0-1]))\-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\-\d{4}/
+    /(([1-9])|([0][1-9])|([1-2][0-9])|([3][0-1]))-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)-\d{4}/
   let dateString = ''
 
   if (typeof dateData === 'string') {
@@ -48,7 +48,7 @@ export const isValidDateValue = (dateData: ParsedDate | string) => {
   let dateString = ''
   let dateParts = []
   let day = 0
-  let month: string = '0'
+  let month = '0'
   let year = 0
 
   if (typeof dateData === 'string') {
@@ -74,7 +74,8 @@ export const isValidDateValue = (dateData: ParsedDate | string) => {
   }
 
   if (
-    (month.length === 3 && !monthsMap.hasOwnProperty(month)) ||
+    (month.length === 3 &&
+      !Object.prototype.hasOwnProperty.call(monthsMap, month)) ||
     Number(month) < 0 ||
     Number(month) > 12
   ) {

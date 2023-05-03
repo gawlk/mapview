@@ -16,7 +16,7 @@ import { dayjsUtc } from '/src/utils/date/dayjs'
 
 export const heavydynF25Exporter: HeavydynExporter = {
   name: '.F25',
-  export: async (project: HeavydynProject) => {
+  export: (project) => {
     return new File(
       [
         replaceAllLFToCRLF(
@@ -28,7 +28,7 @@ export const heavydynF25Exporter: HeavydynExporter = {
           `)
         ),
       ],
-      `${project.reports.selected?.name.toString()}.F25`,
+      `${project.reports.selected?.name.toString() || ''}.F25`,
       { type: 'text/plain' }
     )
   },
@@ -41,7 +41,7 @@ const writeHeader = (project: HeavydynProject): string => {
   )?.toString()
 
   const operator = findFieldInArray(
-    project.reports.selected!.information,
+    project.reports.selected?.information || [],
     'Operator'
   )?.toString()
 
@@ -85,8 +85,9 @@ const writeEndHeader = (project: MachineProject): string => {
     throw new Error()
   }
 
-  let dmin = 0,
-    dmax = 0
+  let dmin = 0
+  let dmax = 0
+
   if (d.length > 2) {
     dmin = Number(d[0]) * 1e-3
     dmax = Number(d[d.length - 1]) * 1e-3
@@ -143,8 +144,7 @@ const writeSensors = (project: HeavydynProject): string => {
 
   let sensorsString = dedent`
     5200,"${firstSensor.name.padEnd(8, ' ')}",2,1.000, ${formatExponential(
-    firstSensor.gain,
-    3
+    firstSensor.gain
   )}, 0.00,  1.000\n
     `
   const nbrSensors = project.calibrations.channels.length - 1
@@ -153,10 +153,7 @@ const writeSensors = (project: HeavydynProject): string => {
       ${5200 + i},"${project.calibrations.channels[i + 1].name.padEnd(
       8,
       ' '
-    )}",1.000,${formatExponential(
-      project.calibrations.channels[i + 1].gain,
-      3
-    )}\n 
+    )}",1.000,${formatExponential(project.calibrations.channels[i + 1].gain)}\n 
       `
   }
 
@@ -199,7 +196,9 @@ const writePoints = (project: HeavydynProject): string => {
         return `${header}${values}\n`
       })
       .join('')
-  } else throw new Error()
+  }
+
+  throw new Error()
 }
 
 const writePointGps = (point: BasePoint) => {
@@ -304,13 +303,13 @@ const writeDrops = (point: BasePoint, dPlate: number): string => {
     .join('')
 }
 
-const formatExponential = (n: number, pad: number): string => {
+const formatExponential = (n: number): string => {
   const splitedNumber = format(n, {
     precision: 4,
     notation: 'exponential',
   }).split('e')
 
-  let exponential = splitedNumber[1].split('')
+  const exponential = splitedNumber[1].split('')
   exponential[1] = exponential[1].toString().padStart(3, '0')
   return `${splitedNumber[0]}e${exponential.join('')}`.toUpperCase()
 }

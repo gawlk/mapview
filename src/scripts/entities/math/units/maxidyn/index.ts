@@ -84,8 +84,6 @@ const upgradeJSON = (json: JSONMaxidynUnitsVAny): JSONMaxidynUnits => {
     case undefined:
     case 1:
     // upgrade
-    default:
-      json = json as JSONMaxidynUnits
   }
 
   return json

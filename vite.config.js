@@ -116,6 +116,6 @@ export default defineConfig({
   test: {
     environment: 'edge-runtime',
     exclude: [...configDefaults.exclude, '**/e2e-tests/**', '**/importer/**'],
-    setupFiles: ['./test/extendMatchers/index.ts'],
+    setupFiles: ['./src/test/extendMatchers/index.ts'],
   },
 })

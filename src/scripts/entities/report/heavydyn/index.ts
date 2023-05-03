@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import {
   createBLIDataComputer,
   createCharacteristicDeflectionComputer,
@@ -29,8 +30,6 @@ export const createHeavydynReportFromJSON = (
     project: HeavydynProject
   }
 ) => {
-  console.time('import: report')
-
   json = upgradeJSON(json)
 
   const watcherHandler = createWatcherHandler()
@@ -54,8 +53,8 @@ export const createHeavydynReportFromJSON = (
   const report: HeavydynReport = shallowReactive({
     ...baseReport,
     machine: 'Heavydyn',
-    addZone: function () {
-      const json: JSONHeavydynZone = {
+    addZone() {
+      const jsonZone: JSONHeavydynZone = {
         version: 1,
         base: createJSONBaseZone(this.zones.length),
         distinct: {
@@ -63,7 +62,7 @@ export const createHeavydynReportFromJSON = (
         },
       }
 
-      const zone = createHeavydynZoneFromJSON(json, map, {
+      const zone = createHeavydynZoneFromJSON(jsonZone, map, {
         report: this,
       })
 
@@ -71,9 +70,7 @@ export const createHeavydynReportFromJSON = (
 
       this.zones.push(zone)
     },
-    toJSON: function (): JSONHeavydynReport {
-      const report = this as HeavydynReport
-
+    toJSON(): JSONHeavydynReport {
       const thresholdGroup = report.thresholds.groups
 
       return {
@@ -106,7 +103,7 @@ export const createHeavydynReportFromJSON = (
         },
       }
     },
-    addToMap: function () {
+    addToMap() {
       baseReport.addToMap.call(report)
 
       report.dataLabels.groups.list[0].indexes.list.forEach((dropIndex) => {
@@ -119,25 +116,21 @@ export const createHeavydynReportFromJSON = (
         }
       })
     },
-    remove: function () {
+    remove() {
       baseReport.remove.call(report)
 
       watcherHandler.clean()
     },
   })
-  console.timeLog('import: report')
 
-  console.time('import: zones')
   report.zones.push(
     ...json.base.zones.map((jsonZone) =>
       createHeavydynZoneFromJSON(jsonZone, map, {
-        report: report as HeavydynReport,
+        report,
       })
     )
   )
-  console.timeEnd('import: zones')
 
-  console.time('import: computers')
   // Warning: Order matters
   ;[
     createHeavydynCurrentLoadDataComputer(report),
@@ -155,10 +148,6 @@ export const createHeavydynReportFromJSON = (
 
   selectTableDataLabelsFromJSON(report, json.base)
 
-  console.timeEnd('import: computers')
-
-  console.timeEnd('import: report')
-
   return report
 }
 
@@ -166,8 +155,6 @@ const upgradeJSON = (json: JSONHeavydynReportVAny): JSONHeavydynReport => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONHeavydynReport
   }
 
   return json

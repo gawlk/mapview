@@ -8,11 +8,6 @@ const store: Store = shallowReactive({
   updateAvailable: false,
   importingFile: false,
   map: null,
-  save: (key: StoreKeys, value: StoreSaveableTypes): void => {
-    localStorage.setItem(key, JSON.stringify(value))
-    // @ts-ignore
-    store[key] = value
-  },
 })
 
 watch(
@@ -28,8 +23,7 @@ watch(
 watch(
   () => store.projects.selected?.reports.selected,
   (report) => {
-    // @ts-ignore
-    store.selectedReport = report
+    store.selectedReport = report || null
   }
 )
 

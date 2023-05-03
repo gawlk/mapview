@@ -10,7 +10,7 @@ import { dayjsUtc } from '/src/utils/date/dayjs'
 
 export const heavydynPDXExporter: HeavydynExporter = {
   name: '.pdx',
-  export: async (project: HeavydynProject) => {
+  export: (project: HeavydynProject) => {
     return new File(
       [
         replaceAllLFToCRLF(dedent`
@@ -25,23 +25,28 @@ export const heavydynPDXExporter: HeavydynExporter = {
             ${writePoints(project)}
           `),
       ],
-      `${project.reports.selected?.name.toString()}.pdx`,
+      `${project.reports.selected?.name.toString() || ''}.pdx`,
       { type: 'text/plain' }
     )
   },
 }
 
 const writeHeader = (project: HeavydynProject): string => {
-  if (!project.reports.selected) {
+  const selectedReport = project.reports.selected
+
+  if (!selectedReport) {
     throw new Error('cannot find selected report ')
   }
 
   const reportDate = dayjsUtc(
-    findFieldInArray(project.reports.selected.information, 'Date')?.toString()
+    findFieldInArray(
+      project.reports.selected?.information || [],
+      'Date'
+    )?.toString()
   ).format('DD-MMM-YYYY')
 
   const infos = ['Operator', 'Climat'].map((label) =>
-    findFieldInArray(project.reports.selected!.information, label)?.toString()
+    findFieldInArray(selectedReport.information, label)?.toString()
   )
 
   return dedent`
@@ -217,10 +222,11 @@ const writeDrops = (point: BasePoint, dPlate: number) => {
   return point.drops
     .map((drop, index) => {
       const values = drop.data
-        .filter((data) => {
-          data.label.unit === deflection &&
+        .filter(
+          (data) =>
+            data.label.unit === deflection &&
             data.label.category === currentCategory
-        })
+        )
         .map((data) => {
           const value = data.value.getValueAs('um')
           return (value <= 0 ? 0.1 : value).toFixed(2)

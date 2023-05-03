@@ -1,7 +1,7 @@
 import { convertPRJZObjectToFields } from '../shared'
 
 export const convertPRJZToBaseProject = (
-  json: any,
+  json: RecordAny,
   machine: MachineName
 ): JSONBaseProject => {
   return {

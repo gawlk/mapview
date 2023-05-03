@@ -1,4 +1,4 @@
-import { createFieldFromJSON, createMinidynDropFromJSON } from '/src/scripts'
+import { createMinidynDropFromJSON } from '/src/scripts'
 
 import { createBasePointFromJSON } from '../base'
 
@@ -20,7 +20,7 @@ export const createMinidynPointFromJSON = (
   const point: MinidynPoint = shallowReactive({
     ...basePoint,
     machine: 'Minidyn',
-    toJSON: function () {
+    toJSON() {
       return {
         version: json.version,
         base: this.toBaseJSON(),
@@ -46,8 +46,6 @@ const upgradeJSON = (json: JSONMinidynPointVAny): JSONMinidynPoint => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONMinidynPoint
   }
 
   return json

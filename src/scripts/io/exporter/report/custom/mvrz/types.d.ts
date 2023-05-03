@@ -1,6 +1,6 @@
 type ExcelData = string | number | boolean | null
 
-type ExcelDataList = ExcelData[]
+type ExcelDataList = any
 
 type ExcelJSON = Record<string, ExcelData | ExcelDataList>
 

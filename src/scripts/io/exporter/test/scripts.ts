@@ -1,6 +1,5 @@
 /* eslint-disable no-await-in-loop */
 import { readdirSync, statSync } from 'fs'
-import { getFileFromPath } from 'test/utils'
 
 import {
   getAllPointsFromProject,
@@ -9,6 +8,8 @@ import {
   sleep,
   unzipFile,
 } from '/src/scripts'
+
+import { getFileFromPath } from '/src/test/utils'
 
 const acceptedExtension = ['pdx', 'F25', 'fwd', 'mpvz', 'mvrz']
 
@@ -34,7 +35,7 @@ export const exportFile = async (dirPath: string, folderName?: string) => {
 
     if (stats.isFile() && acceptedExtension.includes(extension)) {
       onlyFolder = false
-      const file = await getFileFromPath(subPath)
+      const file = getFileFromPath(subPath)
 
       switch (extension) {
         case 'mpvz': {

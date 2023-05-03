@@ -1,9 +1,10 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 import { isValidDate, isValidDateFormat } from './date'
-import { toXDecimal } from './number'
+import { roundToMicroValue } from './number'
 
 export const checkNumericValue = (actual: number, expected: number) => {
-  const preciseActual = toXDecimal(actual)
-  const preciseExpected = toXDecimal(expected)
+  const preciseActual = roundToMicroValue(actual)
+  const preciseExpected = roundToMicroValue(expected)
 
   return preciseActual === preciseExpected
 }
@@ -11,6 +12,7 @@ export const checkNumericValue = (actual: number, expected: number) => {
 export const checkDataConformity = (
   actualData: unknown,
   expectedData: unknown
+  // eslint-disable-next-line sonarjs/cognitive-complexity
 ) => {
   if (typeof actualData !== typeof expectedData) {
     return 'dataType differ'

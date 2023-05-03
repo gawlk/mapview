@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-namespace */
-import { filesToStringArray, isValidDate, parseData } from 'test/utils'
-import { checkNumericValue } from 'test/utils/data'
 import { expect } from 'vitest'
+
+import { filesToStringArray, isValidDate, parseData } from '/src/test/utils'
+import { checkNumericValue } from '/src/test/utils/data'
 
 interface CustomMatchers<R = unknown> {
   toBeSameValue(expected: File): R

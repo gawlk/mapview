@@ -1,6 +1,7 @@
-import { getKey } from 'test/utils/'
-import { filesToStringArray } from 'test/utils/text'
 import { expect } from 'vitest'
+
+import { getKey } from '/src/test/utils'
+import { filesToStringArray } from '/src/test/utils/text'
 
 interface CustomMatchers<R = unknown> {
   toBeSameLineOrder(expected: File | string): R
@@ -40,6 +41,7 @@ expect.extend({
 })
 
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Vi {
     interface Assertion extends CustomMatchers {}
     interface AsymmetricMatchersContaining extends CustomMatchers {}

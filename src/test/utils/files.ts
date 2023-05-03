@@ -5,7 +5,7 @@ interface CompareFilesOptions {
   filter?: string
 }
 
-export const getFileFromPath = async (path: string) => {
+export const getFileFromPath = (path: string) => {
   const buffer = readFileSync(path)
 
   return new File([buffer], path.split('/').pop() as string)
@@ -25,7 +25,7 @@ export const compareFiles = (
     expectedKeys = expectedKeys.filter((key) => key.includes(optionsFilter))
   }
 
-  if (actualKeys.length != expectedKeys.length) {
+  if (actualKeys.length !== expectedKeys.length) {
     return {
       isSameLength: false,
       actualLength: actualKeys.length,
@@ -35,7 +35,7 @@ export const compareFiles = (
 
   let haveSameFile = true
   let haveSameContent = true
-  let lastKey: string = ''
+  let lastKey = ''
 
   for (let i = 0; i < actualKeys.length && haveSameContent; i++) {
     const key = actualKeys[i]

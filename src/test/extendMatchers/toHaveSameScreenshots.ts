@@ -1,21 +1,23 @@
-import { compareFiles } from 'test/utils'
 import { expect } from 'vitest'
 
+import { compareFiles } from '/src/test/utils'
+
 interface CustomMatchers<R = unknown> {
-  toHaveSameRawData(expected: Fflate.Unzipped): R
+  toHaveSameScreenshots(expected: Fflate.Unzipped): R
 }
 
-export const toHaveSameRawData = (
+export const toHaveSameScreenshots = (
   actual: Fflate.Unzipped,
   expected: Fflate.Unzipped
 ) => {
-  const compareResult = compareFiles(actual, expected, { filter: 'rawdata/' })
+  const compareResult = compareFiles(actual, expected, {
+    filter: 'screenshots/',
+  })
   const { lastKey, haveSameContent } = compareResult
 
   if (!compareResult.isSameLength) {
     return {
-      message: () =>
-        `number of rawData aren't the same: (${compareResult.actualLength}, ${compareResult.expectedLength})`,
+      message: () => "number os screenshots aren't the same",
       pass: false,
     }
   }
@@ -23,7 +25,9 @@ export const toHaveSameRawData = (
   if (!compareResult.haveSameFile) {
     return {
       message: () =>
-        `rawData files are different ${lastKey} isn't present in expected`,
+        `screenshots files are different ${String(
+          lastKey
+        )} isn't present in expected`,
       pass: false,
     }
   }
@@ -31,17 +35,18 @@ export const toHaveSameRawData = (
   return {
     message: () =>
       `${haveSameContent ? 'have' : "haven't"} same data ${
-        haveSameContent ? '' : `: ${lastKey}`
+        haveSameContent ? '' : `: ${String(lastKey)}`
       }`,
     pass: !!haveSameContent,
   }
 }
 
 expect.extend({
-  toHaveSameRawData,
+  toHaveSameScreenshots,
 })
 
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Vi {
     interface Assertion extends CustomMatchers {}
     interface AsymmetricMatchersContaining extends CustomMatchers {}

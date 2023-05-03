@@ -7,10 +7,11 @@ import {
   heavydynSwecoExporter,
   mvrzExporter,
 } from 'src/scripts'
-import { filesToString } from 'test/utils'
 import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest'
 
 import { exportFile } from './scripts'
+
+import { filesToString } from '/src/test/utils'
 
 describe('Test exports', async () => {
   const testData: ReportTestExportData[] = []

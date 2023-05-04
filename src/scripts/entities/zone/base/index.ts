@@ -39,7 +39,7 @@ export const createBaseZoneFromJSON = <
     settings: shallowReactive(upgradeSettingsJSON(json.settings)),
     report: parameters.report,
     data: shallowReactive([]),
-    init: function () {
+    init() {
       this.points.forEach((point) => point.addToMap())
 
       watcherHandler.add(
@@ -72,7 +72,7 @@ export const createBaseZoneFromJSON = <
             sortPoints(this.points)
 
             this.report.line.sortedPoints = Array.prototype.concat(
-              ...this.report.zones.map((zone) => zone.points)
+              ...this.report.zones.map((_zone) => _zone.points)
             )
             this.report.line.update()
           },
@@ -82,14 +82,14 @@ export const createBaseZoneFromJSON = <
         )
       )
     },
-    clean: function () {
+    clean() {
       watcherHandler.clean()
 
       this.points.forEach((point) => {
         point.remove()
       })
     },
-    toBaseJSON: function (): JSONBaseZone {
+    toBaseJSON(): JSONBaseZone {
       return {
         version: json.version,
         name: this.name,
@@ -110,8 +110,6 @@ const upgradeJSON = (json: JSONBaseZoneVAny): JSONBaseZone => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONBaseZone
   }
 
   return json

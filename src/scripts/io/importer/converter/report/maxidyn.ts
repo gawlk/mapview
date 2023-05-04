@@ -10,9 +10,9 @@ import { convertPRJZToMaxidynPoint } from '../point'
 import { convertPRJZToTestChoices } from '../shared'
 
 export const convertPRJZToMaxidynReport = (
-  jsonPV: any,
+  jsonPV: RecordAny,
   index: number,
-  json: any
+  json: RecordAny
 ): JSONMaxidynReport => {
   const report: JSONMaxidynReport = {
     version: 1,
@@ -26,9 +26,11 @@ export const convertPRJZToMaxidynReport = (
   }
 
   report.base.zones[0].base.points.push(
+    // disable for the ay structure
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call
     ...jsonPV.Points.map(
-      (jsonPoint: any, index: number): JSONMaxidynPoint =>
-        convertPRJZToMaxidynPoint(jsonPoint, index, json)
+      (jsonPoint: RecordAny, pointIndex: number): JSONMaxidynPoint =>
+        convertPRJZToMaxidynPoint(jsonPoint, pointIndex, json)
     )
   )
 
@@ -36,8 +38,8 @@ export const convertPRJZToMaxidynReport = (
 }
 
 export const convertPRJZToMaxidynReportDistinct = (
-  jsonPV: any,
-  json: any
+  jsonPV: RecordAny,
+  json: RecordAny
 ): JSONMaxidynReportDistinct => {
   const dropChoices = convertPRJZToMaxidynDropChoices(json)
   const dropIndexes = convertPRJZToMaxidynDropIndexes(json)
@@ -59,9 +61,12 @@ export const convertPRJZToMaxidynReportDistinct = (
         custom: {
           version: 1,
           type: 'Bicolor',
-          value: modulusThresholdIndex == -1 ? jsonPV.Threshold.Threshold : 0,
-          valueHigh:
-            modulusThresholdIndex == -1 ? jsonPV.Threshold.Threshold : 0,
+          value: (modulusThresholdIndex === -1
+            ? jsonPV.Threshold.Threshold
+            : 0) as number,
+          valueHigh: (modulusThresholdIndex === -1
+            ? jsonPV.Threshold.Threshold
+            : 0) as number,
         },
       },
       deflection: {

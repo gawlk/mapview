@@ -3,9 +3,9 @@ import { convertPRJZToBasePoint } from './base'
 import { convertPRJZToMinidynDrop } from '../drop'
 
 export const convertPRJZToMinidynPoint = (
-  jsonPoint: any,
+  jsonPoint: RecordAny,
   index: number,
-  json: any
+  json: RecordAny
 ): JSONMinidynPoint => {
   const point: JSONMinidynPoint = {
     version: 1,
@@ -15,8 +15,8 @@ export const convertPRJZToMinidynPoint = (
 
   point.base.drops.push(
     ...jsonPoint.Drops.map(
-      (jsonDrop: any, index: number): JSONMinidynDrop =>
-        convertPRJZToMinidynDrop(jsonDrop, index, json)
+      (jsonDrop: RecordAny, dropIndex: number): JSONMinidynDrop =>
+        convertPRJZToMinidynDrop(jsonDrop, dropIndex, json)
     )
   )
 
@@ -24,7 +24,7 @@ export const convertPRJZToMinidynPoint = (
 }
 
 export const convertPRJZToMinidynPointDistinct = (
-  jsonPoint: any
+  jsonPoint: RecordAny
 ): JSONMinidynPointDistinct => {
   return {
     version: 1,

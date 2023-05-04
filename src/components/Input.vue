@@ -83,7 +83,10 @@
         :class="classes"
       />
       <datalist :id="`${props.id}-datalist`">
-        <option v-for="value of props.list" :value="t(value)" />
+        <option
+          v-for="value of props.list"
+          :value="t(value as string | number)"
+        />
       </datalist>
     </div>
     <Listbox

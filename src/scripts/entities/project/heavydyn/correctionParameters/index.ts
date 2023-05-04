@@ -27,8 +27,6 @@ const upgradeJSON = (
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONHeavydynCorrectionParameters
   }
 
   return json

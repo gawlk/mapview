@@ -53,7 +53,7 @@ export const createHeavydynCurrentLoadDataComputer = (
             }
 
             const data =
-              drop.data.find((data) => data.label === currentLoadDataLabel) ||
+              drop.data.find((_data) => _data.label === currentLoadDataLabel) ||
               drop.data[
                 drop.data.push(createDataValue(0, currentLoadDataLabel)) - 1
               ]

@@ -40,6 +40,8 @@
   }
 
   const goToOverlay = (overlay: Overlay) => {
+    if (!overlay.markerNW || !overlay.markerSE) return
+
     const nw = overlay.markerNW.getLngLat()
     const se = overlay.markerSE.getLngLat()
 

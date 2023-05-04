@@ -21,7 +21,7 @@ export const createMinidynDropFromJSON = (
   const drop: MinidynDrop = shallowReactive({
     ...baseDrop,
     machine: 'Minidyn',
-    toJSON: function () {
+    toJSON() {
       return {
         version: json.version,
         base: this.toBaseJSON(),
@@ -39,8 +39,6 @@ const upgradeJSONDrop = (json: JSONMinidynDropVAny): JSONMinidynDrop => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONMinidynDrop
   }
 
   return json
@@ -55,7 +53,7 @@ export const createMinidynDropIndexFromJSON = (
     ...createBaseDropIndexFromJSON(json.base),
     machine: 'Minidyn',
     type: json.distinct.type,
-    toJSON: function () {
+    toJSON() {
       return {
         version: json.version,
         base: this.toBaseJSON(),
@@ -72,12 +70,12 @@ export const createMinidynDropIndexFromJSON = (
 
 const upgradeJSONDropIndex = (
   json: JSONMinidynDropIndexVAny
+  // disable until we manage some case
+  // eslint-disable-next-line sonarjs/no-identical-functions
 ): JSONMinidynDropIndex => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONMinidynDropIndex
   }
 
   return json

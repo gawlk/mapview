@@ -1,5 +1,3 @@
-import { Unzipped } from 'fflate'
-
 export const reservedFileNameWords = (() => {
   const words = ['CON', 'PRN', 'AUX', 'NUL']
 
@@ -24,7 +22,7 @@ export const convertUint8arrayToXML = (array: Uint8Array) => {
   return parser.parseFromString(stringified, 'text/xml')
 }
 
-export const convertJSONToFile = (json: AnyJSON, name: string) =>
+export const convertJSONToFile = (json: RecordAny, name: string) =>
   new File([JSON.stringify(json, null, 2)], name, {
     type: 'json',
   })
@@ -44,7 +42,7 @@ export const convertData64ImageToFile = async (data64: string) => {
   const res = await fetch(data64)
   const blob = await res.blob()
 
-  return await new File([blob], 'screenshot.png', {
+  return new File([blob], 'screenshot.png', {
     type: 'image/png',
   })
 }
@@ -58,10 +56,7 @@ export const convertData64ImageToUint8Array = async (data64: string) => {
 export const downloadImage = async (screenshot: string) =>
   downloadFile(await convertData64ImageToFile(screenshot))
 
-export function convertFileNameToValidName(
-  name: string,
-  hasExtension: boolean = true
-) {
+export function convertFileNameToValidName(name: string, hasExtension = true) {
   let toCheck = name
   let extension = ''
 
@@ -80,10 +75,10 @@ export function convertFileNameToValidName(
 
   return `${toCheck
     .trim()
-    .replaceAll(/[\\\|\/*<>:"?\x00-\x1F]/g, '_')}${extension}`
+    .replaceAll(/[\\|/*<>:"?\x00-\x1F]/g, '_')}${extension}`
 }
 
-export const downloadFile = async (file: File) => {
+export const downloadFile = (file: File) => {
   const a = document.createElement('a')
 
   a.href = URL.createObjectURL(file)

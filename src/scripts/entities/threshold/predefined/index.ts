@@ -8,15 +8,15 @@ export const createPredefinedThreshold = (
     kind: 'predefined',
     name,
     value,
-    getColor: function (mathNumber: MathNumber, colors: JSONThresholdColors) {
+    getColor(mathNumber: MathNumber, colors: JSONThresholdColors) {
+      if (!mathNumber.checkValidity()) {
+        return gray
+      }
+
       const hexColorLow = colorsClasses[colors.low].hexColor
       const hexColorHigh = colorsClasses[colors.high].hexColor
 
-      return mathNumber.checkValidity()
-        ? mathNumber.value < this.value
-          ? hexColorLow
-          : hexColorHigh
-        : gray
+      return mathNumber.value < this.value ? hexColorLow : hexColorHigh
     },
   }
 }

@@ -1,6 +1,7 @@
 interface Exporter {
   name: string
-  export: (...args: any[]) => Promise<File> // TODO: Change any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  export: (...args: any[]) => Promise<File>
 }
 
 type AnyExporter =
@@ -14,7 +15,7 @@ interface MachineExporter extends Exporter {
 }
 
 interface HeavydynExporter extends Exporter {
-  export: (project: HeavydynProject) => Promise<File>
+  export: (project: HeavydynProject) => File
 }
 
 interface MaxidynExporter extends Exporter {

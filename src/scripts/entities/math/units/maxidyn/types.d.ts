@@ -38,4 +38,5 @@ type MaxidynMathUnits = MaxidynUnitsSkeleton<
   MathUnit<PossibleMaxidynPercentageUnits>
 >
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type MaxidynUnitsNames = keyof MaxidynUnitsSkeleton<any>

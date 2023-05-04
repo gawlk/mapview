@@ -38,4 +38,5 @@ type MinidynMathUnits = MinidynUnitsSkeleton<
   MathUnit<PossibleMinidynPercentageUnits>
 >
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type MinidynUnitsNames = keyof MinidynUnitsSkeleton<any>

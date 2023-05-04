@@ -76,6 +76,7 @@
   <div class="relative h-full">
     <div
       class="absolute inset-0 z-10 h-screen w-screen backdrop-blur"
+      id="loader"
       v-if="store.importingFile"
     >
       <div class="flex h-full flex-col items-center justify-center space-y-2">
@@ -124,7 +125,7 @@
       <Bar />
     </div>
     <span
-      class="absolute top-0 right-0 m-2 rounded-full bg-white px-1.5 py-0.5 text-xs font-extrabold tracking-tight text-black opacity-50"
+      class="absolute right-0 top-0 m-2 rounded-full bg-white px-1.5 py-0.5 text-xs font-extrabold tracking-tight text-black opacity-50"
       v-if="env.isProd"
     >
       V.{{ state.version }}
@@ -137,7 +138,7 @@
       target="_blank"
     >
       <span
-        class="absolute top-0 right-0 m-2 rounded-full bg-white px-1.5 py-0.5 text-xs font-extrabold tracking-tight text-black opacity-50"
+        class="absolute right-0 top-0 m-2 rounded-full bg-white px-1.5 py-0.5 text-xs font-extrabold tracking-tight text-black opacity-50"
       >
         Beta V.{{ state.version }} ({{ state.sha?.substr(0, 8) }})
       </span></a

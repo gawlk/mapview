@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/cognitive-complexity */
 import { Marker, Popup } from 'mapbox-gl'
 
 import { translate } from '/src/locales'
@@ -35,7 +36,7 @@ export const createBasePointFromJSON = <
 
   const watcherHandler = createWatcherHandler()
 
-  let watcherMarkersString: any
+  let watcherMarkersString: (() => void) | void
 
   const point: BasePoint<Drop, Zone> = {
     id: json.id,
@@ -60,7 +61,7 @@ export const createBasePointFromJSON = <
     ),
     drops: [],
     rawDataFile: null,
-    getSelectedMathNumber: function (
+    getSelectedMathNumber(
       groupFrom: DataLabelsFrom,
       dataLabel: DataLabel<string>,
       index?: BaseDropIndex | null
@@ -72,6 +73,7 @@ export const createBasePointFromJSON = <
           source = this.drops.find((drop) => drop.index === index)
           break
         case 'Point':
+          // eslint-disable-next-line @typescript-eslint/no-this-alias
           source = this
           break
 
@@ -79,13 +81,10 @@ export const createBasePointFromJSON = <
           break
       }
 
-      const value = source?.data.find(
-        (dataValue) => dataValue.label === dataLabel
-      )?.value
-
-      return value
+      return source?.data.find((dataValue) => dataValue.label === dataLabel)
+        ?.value
     },
-    getDisplayedString: function (
+    getDisplayedString(
       groupFrom: DataLabelsFrom,
       dataLabel: DataLabel<string>,
       index?: BaseDropIndex | null
@@ -94,11 +93,9 @@ export const createBasePointFromJSON = <
 
       return value ? value.displayedString : ''
     },
-    updateColor: function () {
+    updateColor() {
       if (this.zone.report.settings.colorization === 'Zone') {
-        this.icon?.setColor(
-          colorsClasses[this.zone.settings.color as ColorName].hexColor
-        )
+        this.icon?.setColor(colorsClasses[this.zone.settings.color].hexColor)
       } else {
         const group = this.zone.report.dataLabels.groups.selected
 
@@ -114,7 +111,7 @@ export const createBasePointFromJSON = <
           if (unit) {
             const threshold = (
               Object.values(this.zone.report.thresholds.groups).find(
-                (group) => group.unit === unit
+                (_group) => _group.unit === unit
               ) as ThresholdsGroup<string>
             )?.choices.selected
 
@@ -130,7 +127,7 @@ export const createBasePointFromJSON = <
         }
       }
     },
-    updateText: function () {
+    updateText() {
       if (watcherMarkersString) {
         watcherMarkersString = watcherHandler.remove(watcherMarkersString)
       }
@@ -150,7 +147,7 @@ export const createBasePointFromJSON = <
           )
 
           break
-        case 'value':
+        case 'value': {
           const group = this.zone.report.dataLabels.groups.selected
 
           if (group && group.choices.selected) {
@@ -174,23 +171,25 @@ export const createBasePointFromJSON = <
           }
 
           break
+        }
         case 'nothing':
           this.icon?.setText('')
           break
       }
     },
-    updateVisibility: function () {
+    updateVisibility() {
       if (this.checkVisibility()) {
         map && this.marker?.addTo(map)
       } else {
         this.marker?.remove()
       }
     },
-    updatePopup: function () {
-      let html: string = ``
+    updatePopup() {
+      let html = ``
 
-      const appendToPopup = (label: string, value: string) =>
-        (html += `<p><strong>${label}:</strong> ${value}</p>`)
+      const appendToPopup = (label: string, value: string) => {
+        html += `<p><strong>${label}:</strong> ${value}</p>`
+      }
 
       appendToPopup(translate('Date'), this.date.toLocaleString())
       appendToPopup(
@@ -215,7 +214,7 @@ export const createBasePointFromJSON = <
 
       this.marker?.setPopup(new Popup().setHTML(html))
     },
-    addToMap: function () {
+    addToMap() {
       this.updateVisibility()
       this.updateText()
       this.updateColor()
@@ -242,7 +241,7 @@ export const createBasePointFromJSON = <
         )
       )
     },
-    checkVisibility: function () {
+    checkVisibility() {
       return (
         this.settings.isVisible &&
         this.zone.settings.isVisible &&
@@ -250,11 +249,11 @@ export const createBasePointFromJSON = <
         this.zone.report.project.settings.arePointsVisible
       )
     },
-    remove: function () {
+    remove() {
       this.marker?.remove()
       watcherHandler.clean()
     },
-    toBaseJSON: function () {
+    toBaseJSON() {
       return {
         version: json.version,
         id: this.id,
@@ -285,8 +284,6 @@ const upgradeJSON = (json: JSONBasePointVAny): JSONBasePoint => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONBasePoint
   }
 
   return json

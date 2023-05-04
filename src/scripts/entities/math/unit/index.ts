@@ -17,7 +17,7 @@ export const defaultInvalidValueReplacement = '--'
 
 function convertMapviewUnitToMathJSUnit(unit: undefined): undefined
 function convertMapviewUnitToMathJSUnit(unit: string): string
-function convertMapviewUnitToMathJSUnit(unit: any): any {
+function convertMapviewUnitToMathJSUnit(unit: AnyUnit): AnyUnit {
   switch (unit) {
     case '°C':
       return 'degC'
@@ -36,6 +36,25 @@ function convertMapviewUnitToMathJSUnit(unit: any): any {
   }
 }
 
+type AverageFunction = 'allEqual' | 'capOutliers' | 'ignoreOutliers'
+
+const getValueForAverage = (
+  min: number,
+  max: number,
+  value: number,
+  averageFunction?: AverageFunction
+) => {
+  if (averageFunction === 'capOutliers') {
+    if (max && value > max) {
+      return max
+    }
+    if (value < min) {
+      return min
+    }
+  }
+  return value
+}
+
 export const createMathUnit = <PossibleUnits extends string>(
   name: string,
   json: JSONMathUnit<PossibleUnits>,
@@ -44,7 +63,7 @@ export const createMathUnit = <PossibleUnits extends string>(
   options?: {
     possiblePrecisions?: number[]
     step?: number
-    averageFunction?: 'allEqual' | 'capOutliers' | 'ignoreOutliers'
+    averageFunction?: AverageFunction
     readOnly?: true
     invalidReplacement?: string
     checkValidity?: (value: number) => boolean
@@ -53,8 +72,8 @@ export const createMathUnit = <PossibleUnits extends string>(
   const currentUnit = json.currentUnit || possibleSettings[0][0]
   const possiblePrecisions = options?.possiblePrecisions || [0, 1, 2]
   const currentPrecision = json.currentPrecision || possibleSettings[0][1]
-  const max = json.max
-  const min = json.min || 0
+  const jsonMax = json.max
+  const jsonMin = json.min || 0
   const readOnly = options?.readOnly || false
   const invalidReplacement =
     options?.invalidReplacement || defaultInvalidValueReplacement
@@ -66,10 +85,10 @@ export const createMathUnit = <PossibleUnits extends string>(
     currentUnit,
     possiblePrecisions,
     currentPrecision,
-    min,
-    max,
+    min: jsonMin,
+    max: jsonMax,
     readOnly,
-    getAverage: function (values) {
+    getAverage(values) {
       const { min, max } = this
 
       const filteredValues: number[] = values.filter(
@@ -84,47 +103,47 @@ export const createMathUnit = <PossibleUnits extends string>(
         ? filteredValues.reduce(
             (total, currentValue) =>
               total +
-              (options?.averageFunction === 'capOutliers'
-                ? max && currentValue > max
-                  ? max
-                  : currentValue < min
-                  ? min
-                  : currentValue
-                : currentValue),
+              getValueForAverage(
+                this.min,
+                this.max,
+                currentValue,
+                options?.averageFunction
+              ),
             0
           ) / filteredValues.length
         : 0
     },
-    currentToBase: function (value) {
+    currentToBase(value) {
       return convertValueFromUnitAToUnitB(
         value,
         this.currentUnit,
         this.baseUnit
       )
     },
-    baseToCurrent: function (value) {
+    baseToCurrent(value) {
       return convertValueFromUnitAToUnitB(
         value,
         this.baseUnit,
         this.currentUnit
       )
     },
-    checkValidity: (value) =>
-      !isNaN(value) && (options?.checkValidity?.(value) ?? true),
-    valueToString: function (value, options = {}) {
+    checkValidity(value) {
+      return !Number.isNaN(value) && (options?.checkValidity?.(value) ?? true)
+    },
+    valueToString(value, parseOptions = {}) {
       let valueString
 
       if (this.checkValidity(value)) {
         const numberToLocaleOptions = {
-          locale: options.locale,
-          precision: options.precision,
+          locale: parseOptions.locale,
+          precision: parseOptions.precision,
         }
 
         let preString = ''
 
         numberToLocaleOptions.precision ??= this.currentPrecision
 
-        if (!options.disableMinAndMax) {
+        if (!parseOptions.disableMinAndMax) {
           if (value < this.min) {
             value = this.min
             preString = '<'
@@ -137,25 +156,25 @@ export const createMathUnit = <PossibleUnits extends string>(
         value = convertValueFromUnitAToUnitB(
           value,
           this.baseUnit,
-          options.unit ?? this.currentUnit
+          parseOptions.unit ?? this.currentUnit
         )
 
         valueString = `${
-          options.disablePreString ? '' : preString
+          parseOptions.disablePreString ? '' : preString
         } ${numberToLocaleString(value, numberToLocaleOptions)}`.trim()
       } else {
         valueString = invalidReplacement
       }
 
       const localeString: string = `${valueString} ${
-        options.appendUnitToString ? this.currentUnit : ''
+        parseOptions.appendUnitToString ? this.currentUnit : ''
       }`.trim()
 
-      return options.removeSpaces
+      return parseOptions.removeSpaces
         ? localeString.replaceAll(' ', '')
         : localeString
     },
-    toJSON: function (): JSONMathUnit<PossibleUnits> {
+    toJSON(): JSONMathUnit<PossibleUnits> {
       return {
         version: 1,
         currentUnit: this.currentUnit,
@@ -173,9 +192,15 @@ export const convertValueFromUnitAToUnitB = (
   value: number,
   unitA: string,
   unitB: string
-) =>
-  unitA !== unitB
+) => {
+  return unitA !== unitB
     ? Unit(value, convertMapviewUnitToMathJSUnit(unitA)).toNumber(
         convertMapviewUnitToMathJSUnit(unitB)
       )
     : value
+}
+
+export const roundValue = (value: number, decimals = 5) => {
+  const tenPowerX = 10 ** decimals
+  return Math.round(value * tenPowerX) / tenPowerX
+}

@@ -3,9 +3,9 @@ import { convertPRJZToBasePoint } from './base'
 import { convertPRJZToHeavydynDrop } from '../drop'
 
 export const convertPRJZToHeavydynPoint = (
-  jsonPoint: any,
+  jsonPoint: RecordAny,
   index: number,
-  json: any
+  json: RecordAny
 ): JSONHeavydynPoint => {
   const point: JSONHeavydynPoint = {
     version: 1,
@@ -15,8 +15,8 @@ export const convertPRJZToHeavydynPoint = (
 
   point.base.drops.push(
     ...jsonPoint.Drops.map(
-      (jsonDrop: any, index: number): JSONHeavydynDrop =>
-        convertPRJZToHeavydynDrop(jsonDrop, index, json)
+      (jsonDrop: RecordAny, dropIndex: number): JSONHeavydynDrop =>
+        convertPRJZToHeavydynDrop(jsonDrop, dropIndex, json)
     )
   )
 
@@ -24,7 +24,7 @@ export const convertPRJZToHeavydynPoint = (
 }
 
 export const convertPRJZToHeavydynPointDistinct = (
-  jsonPoint: any
+  jsonPoint: RecordAny
 ): JSONHeavydynPointDistinct => {
   return {
     version: 1,

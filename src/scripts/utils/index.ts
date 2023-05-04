@@ -3,7 +3,6 @@ export * from './selectableList'
 export * from './zip'
 
 export * from './blender'
-export * from './browser'
 export * from './debounce'
 export * from './fetch'
 export * from './file'

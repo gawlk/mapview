@@ -5,13 +5,14 @@ import {
   convertPRJZToMinidynProject,
 } from './project'
 
-export const convertJSONFromPRJZToMPVZ = (json: any) => {
-  const machine =
-    json.Database.Software === 'Fwddyn'
-      ? 'Heavydyn'
-      : json.Hardware.Serial.split('-')[0] === 'MAX'
-      ? 'Maxidyn'
-      : 'Minidyn'
+export const convertJSONFromPRJZToMPVZ = (json: RecordAny) => {
+  let machine: MachineName = 'Minidyn'
+
+  if (json.Database.Software === 'Fwddyn') {
+    machine = 'Heavydyn'
+  } else if (json.Hardware.Serial.split('-')[0] === 'MAX') {
+    machine = 'Maxidyn'
+  }
 
   const baseProject = convertPRJZToBaseProject(json, machine)
 

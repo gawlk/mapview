@@ -7,17 +7,17 @@ export const createDataValue = (
   return {
     label,
     value: createMathNumber(value, label.unit),
-    getRawValue: function () {
+    getRawValue() {
       return this.value.value
     },
-    toJSON: function () {
+    toJSON() {
       return {
         version: 1,
         label: this.label.name,
         value: this.getRawValue(),
       }
     },
-    toExcel: function () {
+    toExcel() {
       return this.value.toExcel(true)
     },
   }
@@ -40,8 +40,6 @@ const upgradeJSON = (json: JSONDataValueVAny): JSONDataValue => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONDataValue
   }
 
   return json

@@ -1,8 +1,7 @@
+/* eslint-disable no-console */
 import {
   createHeavydynMathUnitsFromJSON,
   createHeavydynReportFromJSON,
-  createMathNumber,
-  createSelectableList,
   createWatcherHandler,
 } from '/src/scripts'
 
@@ -14,8 +13,6 @@ export const createHeavydynProjectFromJSON = (
   json: JSONHeavydynProjectVAny,
   map: mapboxgl.Map | null
 ) => {
-  console.time('create: project')
-
   json = upgradeJSON(json)
 
   const watcherHandler = createWatcherHandler()
@@ -31,7 +28,7 @@ export const createHeavydynProjectFromJSON = (
     units,
   })
 
-  const project: HeavydynProject = shallowReactive({
+  const project = shallowReactive({
     ...baseProject,
     machine: 'Heavydyn',
     calibrations: {
@@ -44,12 +41,12 @@ export const createHeavydynProjectFromJSON = (
       json.distinct.correctionParameters,
       units
     ),
-    remove: function () {
+    remove() {
       baseProject.remove.call(project)
 
       watcherHandler.clean()
     },
-    toJSON: function (): JSONHeavydynProject {
+    toJSON() {
       return {
         version: json.version,
         machine: 'Heavydyn',
@@ -96,31 +93,25 @@ export const createHeavydynProjectFromJSON = (
         },
       }
     },
-  })
+  } as HeavydynProject)
 
-  console.timeEnd('create: project')
-
-  console.time('import: reports')
   project.reports.list.push(
     ...json.base.reports.list.map((report) =>
       createHeavydynReportFromJSON(report as JSONHeavydynReport, map, {
-        project: project,
+        project,
       })
     )
   )
-  console.timeEnd('import: reports')
 
   project.reports.selectIndex(json.base.reports.selectedIndex)
 
-  return project as HeavydynProject
+  return project
 }
 
 const upgradeJSON = (json: JSONHeavydynProjectVAny): JSONHeavydynProject => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONHeavydynProject
   }
 
   return json

@@ -5,6 +5,7 @@ import {
 } from '/src/scripts'
 
 const convertFromToIndex = (from: DataLabelsFrom) =>
+  // eslint-disable-next-line no-nested-ternary
   from === 'Drop' ? 0 : from === 'Point' ? 1 : 2
 
 export const createBaseDataLabelsFromJSON = (
@@ -32,7 +33,7 @@ export const createBaseDataLabelsFromJSON = (
       groups.list[convertFromToIndex(from)].choices.list.push(label)
         ? label
         : undefined,
-    toBaseJSON: function () {
+    toBaseJSON() {
       return {
         version: 1,
         table: table.toJSON((params) => ({
@@ -57,9 +58,9 @@ export const createTableDataLabelsFromJSON = (
   json: JSONSelectableList<JSONTableDataLabelsParameters>,
   groups: BaseDataLabelsGroups
 ): BaseTableDataLabelsParameters[] => {
-  const tableDataLabelsList = groups.map((group) => {
+  return groups.map((group) => {
     const tableDataLabels = json.list?.find(
-      (tableDataLabels) => tableDataLabels.from === group.from
+      (_tableDataLabels) => _tableDataLabels.from === group.from
     )
 
     return shallowReactive({
@@ -71,8 +72,6 @@ export const createTableDataLabelsFromJSON = (
       dataLabels: shallowReactive([]),
     })
   })
-
-  return tableDataLabelsList
 }
 
 export const createBaseDataLabelsGroupFromJSON = <
@@ -96,7 +95,7 @@ export const createBaseDataLabelsGroupFromJSON = <
     from: json.from,
     choices: createSelectableList(choices),
     saveableChoices: [...choices],
-    toBaseJSON: function () {
+    toBaseJSON() {
       return {
         version: 1,
         from: json.from,
@@ -138,6 +137,7 @@ export const createBaseZoneDataLabelsGroupFromJSON = <T extends string>(
   json: JSONBaseDataLabelsGroup<'Zone', T>,
   units: MachineMathUnits,
   categorySelector?: CategorySelector
+  // eslint-disable-next-line sonarjs/no-identical-functions
 ): BaseZoneDataLabelsGroup => {
   return {
     ...createBaseDataLabelsGroupFromJSON(json, units, categorySelector),
@@ -152,7 +152,7 @@ export const selectTableDataLabelsFromJSON = (
     const { group } = parameters
 
     const tableDataLabels = json.dataLabels.table.list.find(
-      (tableDataLabels) => tableDataLabels.from === group.from
+      (_tableDataLabels) => _tableDataLabels.from === group.from
     )
 
     parameters.dataLabels.push(

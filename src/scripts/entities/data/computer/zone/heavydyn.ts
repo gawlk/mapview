@@ -11,7 +11,7 @@ const getStandardDeviation = (values: number[]) => {
   const n = values.length
   const mean = values.reduce((a, b) => a + b) / n
   return Math.sqrt(
-    values.map((x) => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n
+    values.map((x) => (x - mean) ** 2).reduce((a, b) => a + b) / n
   )
 }
 
@@ -39,13 +39,13 @@ export const createCharacteristicDeflectionComputer = (
     compute: (label) => {
       report.zones.forEach((zone) => {
         const data =
-          zone.data.find((data) => data.label === label) ||
+          zone.data.find((_data) => _data.label === label) ||
           zone.data[zone.data.push(createDataValue(0, label)) - 1]
 
         const d0s = zone.points
           .map((point) =>
             (point.drops.at(-1) as HeavydynDrop).data.filter(
-              (data) => data.label === d0DataLabel
+              (_data) => _data.label === d0DataLabel
             )
           )
           .flat()

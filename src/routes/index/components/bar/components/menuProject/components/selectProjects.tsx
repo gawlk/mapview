@@ -42,8 +42,8 @@ export default () => {
           leftIcon: getMachineIcon(project.machine),
           rightIcon:
             project === store.selectedProject
-              ? IconTablerFocusCentered
-              : IconTablerPlaneDeparture,
+              ? IconTablerZoomIn
+              : IconTablerArrowNarrowRight,
         })),
       }}
       onClose={(value) => {

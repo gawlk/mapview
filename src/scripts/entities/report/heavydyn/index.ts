@@ -142,9 +142,10 @@ export const createHeavydynReportFromJSON = (
     createCumSumDataComputer(report),
   ].forEach((computer) => computer?.init())
 
-  selectHeavydynGroupChoiceFromJSON(report, json)
-
-  selectTableDataLabelsFromJSON(report, json.base)
+  setTimeout(() => {
+    selectHeavydynGroupChoiceFromJSON(report, json)
+    selectTableDataLabelsFromJSON(report, json.base)
+  }, 100)
 
   return report
 }

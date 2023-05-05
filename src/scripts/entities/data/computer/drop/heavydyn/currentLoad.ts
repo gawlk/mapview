@@ -32,7 +32,7 @@ export const createHeavydynCurrentLoadDataComputer = (
       } = report
 
       const correctedLoad =
-        correctionParameters.load.loadReferenceSource.selected === 'Sequence' &&
+        correctionParameters.load.source.selected === 'Sequence' &&
         indexDataValue &&
         indexDataValue.unit === rawLoadDataLabel?.unit
           ? indexDataValue

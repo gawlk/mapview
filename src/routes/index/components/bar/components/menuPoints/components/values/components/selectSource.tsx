@@ -17,7 +17,6 @@ export default () => {
       position="relative"
       button={{
         label: t('Source'),
-        leftIcon: IconTablerList,
         full: true,
       }}
       options={{

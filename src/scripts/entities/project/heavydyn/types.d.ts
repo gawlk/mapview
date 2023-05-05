@@ -49,16 +49,16 @@ interface JSONHeavydynCorrectionParameters {
   readonly load: {
     readonly version: 1
     readonly active: boolean
-    readonly loadReferenceSource: LoadReferenceSourceValue
+    readonly source: LoadReferenceSourceValue
     readonly customValue: number
   }
   readonly temperature: {
     readonly version: 1
     readonly active: boolean
-    readonly temperatureFromSource: TemperatureFromSourceValue
+    readonly source: TemperatureFromSourceValue
     readonly average: TemperatureAverageValue
     readonly customValue: number
-    readonly temperatureTo: number
+    readonly reference: number
     readonly structureType: number
   }
 }
@@ -72,21 +72,20 @@ type TemperatureAverageValue = TemperatureAverageList[number]
 type TemperatureAverageList = ['Point', 'Zone', 'Report']
 type TemperatureStructureTypeValue = TemperatureStructureTypeList[number]
 type TemperatureStructureTypeList = [
-  // TODO: Translate
   {
-    name: 'Souple'
+    name: 'Flexible'
     k: 0.15
   },
   {
-    name: 'Bitumineux épais'
+    name: 'Thick flexible'
     k: 0.2
   },
   {
-    name: 'Mixte'
+    name: 'Mixed'
     k: 0.08
   },
   {
-    name: 'Semi-rigide'
+    name: 'Semi-flexible'
     k: 0.04
   }
 ]
@@ -112,21 +111,18 @@ interface HeavydynCalibrations {
 interface HeavydynCorrectionParameters {
   readonly load: {
     active: boolean
-    loadReferenceSource: SelectableList<
-      LoadReferenceSourceValue,
-      LoadReferenceSourceList
-    >
+    source: SelectableList<LoadReferenceSourceValue, LoadReferenceSourceList>
     customValue: MathNumber
   }
   readonly temperature: {
     active: boolean
-    temperatureFromSource: SelectableList<
+    source: SelectableList<
       TemperatureFromSourceValue,
       TemperatureFromSourceList
     >
     average: SelectableList<TemperatureAverageValue, TemperatureAverageList>
     customValue: MathNumber
-    temperatureTo: MathNumber
+    reference: MathNumber
     structureType: SelectableList<
       TemperatureStructureTypeValue,
       TemperatureStructureTypeList

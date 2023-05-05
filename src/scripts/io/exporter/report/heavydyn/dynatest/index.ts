@@ -1,7 +1,11 @@
 import dayjs from 'dayjs'
 import dedent from 'dedent'
 
-import { currentCategory, findFieldInArray } from '/src/scripts'
+import {
+  currentCategory,
+  findFieldInArray,
+  isCurrentCategory,
+} from '/src/scripts'
 
 export const heavydynDynatestExporter: HeavydynExporter = {
   name: '.fwd (Dynatest)',
@@ -190,7 +194,7 @@ const writeDrops = (point: BasePoint, dPlate: number) => {
         .filter(
           (data) =>
             data.label.unit === point.zone.report.project.units.deflection &&
-            data.label.category === currentCategory
+            isCurrentCategory(data.label.category)
         )
         .map((data) => {
           let value: string | number = data.value.getValueAs('um')
@@ -203,7 +207,7 @@ const writeDrops = (point: BasePoint, dPlate: number) => {
         (((drop.data.find(
           (data) =>
             data.label.unit === point.zone.report.project.units.force &&
-            data.label.category === currentCategory
+            isCurrentCategory(data.label.category)
         )?.value.value || 0) *
           1e-3) /
           Math.PI /

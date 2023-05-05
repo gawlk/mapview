@@ -4,7 +4,8 @@ import {
   createDataLabel,
   createDataValue,
   currentCategory,
-  rawCategory,
+  isCurrentCategory,
+  isRawCategory,
 } from '/src/scripts'
 
 export const createHeavydynCurrentDeflectionDropDataComputers = (
@@ -30,16 +31,13 @@ export const createHeavydynCurrentDeflectionDropDataComputers = (
         compute: (currentLabel) => {
           const correctionParameters = report.project.correctionParameters
 
-          const dropIndexValue = dropGroupDataLabels.indexes.selected?.value
-
           const sourceTempMatrix = report.zones.map((zone) =>
             zone.points.map(
               (point) =>
                 point.data.find(
                   (data) =>
                     data.label.name ===
-                    correctionParameters.temperature.temperatureFromSource
-                      .selected
+                    correctionParameters.temperature.source.selected
                 )?.value.value
             )
           )
@@ -71,13 +69,13 @@ export const createHeavydynCurrentDeflectionDropDataComputers = (
                   const currentLoad = drop.data.find(
                     (data) =>
                       data.label.name === 'Load' &&
-                      data.label.category === currentCategory
+                      isCurrentCategory(data.label.category)
                   )
 
                   const rawLoad = drop.data.find(
                     (data) =>
                       data.label.name === 'Load' &&
-                      data.label.category === rawCategory
+                      isRawCategory(data.label.category)
                   )
 
                   if (currentLoad && rawLoad) {
@@ -85,8 +83,8 @@ export const createHeavydynCurrentDeflectionDropDataComputers = (
                   }
 
                   const tempRef =
-                    correctionParameters.temperature.temperatureFromSource
-                      .selected === 'Custom'
+                    correctionParameters.temperature.source.selected ===
+                    'Custom'
                       ? correctionParameters.temperature.customValue.value
                       : correctionParameters.temperature.average.selected ===
                         'Point'
@@ -102,7 +100,7 @@ export const createHeavydynCurrentDeflectionDropDataComputers = (
                         ?.k || 0
 
                     const tempTo =
-                      correctionParameters.temperature.temperatureTo.value
+                      correctionParameters.temperature.reference.value
 
                     value /= 1 + (k * (tempRef - tempTo)) / tempTo
                   }

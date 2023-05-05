@@ -8,6 +8,8 @@ import {
 
 type Props = ContainerPropsWithHTMLAttributes
 
+// TODO: Make classes opt in
+
 export default (props: Props) => {
   const dynamicProps = removeProps(props, [
     baseBooleanPropsKeysObject,
@@ -23,13 +25,15 @@ export default (props: Props) => {
         (() => {
           switch (props.color) {
             case 'primary':
-              return 'text-black'
+              return 'text-black/90'
             case 'red':
-              return 'text-red-800'
+              return 'text-red-900'
             case 'green':
-              return 'text-green-800'
+              return 'text-green-900'
+            case 'orange':
+              return 'text-orange-900'
             default:
-              return 'text-black'
+              return 'text-black/90'
           }
         })(),
 
@@ -39,11 +43,15 @@ export default (props: Props) => {
             case 'primary':
               return 'bg-orange-700'
             case 'secondary':
+              return 'bg-black bg-opacity-5'
+            case 'gray':
               return 'bg-neutral-100'
             case 'red':
               return 'bg-red-200'
             case 'green':
               return 'bg-green-200'
+            case 'orange':
+              return 'bg-orange-200'
             case 'transparent':
               return 'bg-transparent'
             default:
@@ -68,6 +76,8 @@ export default (props: Props) => {
             case 'secondary':
             case 'red':
             case 'green':
+            case 'orange':
+            case 'transparent':
               return 'border-transparent'
             case 'tertiary':
               return 'border-transparent hover:border-neutral-600'
@@ -123,7 +133,9 @@ export default (props: Props) => {
             case 'none':
               return
             default:
-              return 'rounded-lg'
+              return props.size === 'xs' || props.size === 'sm'
+                ? 'rounded-md'
+                : 'rounded-lg'
           }
         })(),
 
@@ -132,6 +144,8 @@ export default (props: Props) => {
           switch (props.size) {
             case 'sm':
               return 'text-sm'
+            case 'xs':
+              return 'text-xs'
             default:
               return 'text-base'
           }

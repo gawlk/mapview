@@ -45,8 +45,8 @@ export const createIcon = (iconName: IconName) => {
     'justify-center',
     'h-full'
   )
-  subDiv2.style.left = '-100%'
-  subDiv2.style.right = '-100%'
+  subDiv2.style.left = '-50%'
+  subDiv2.style.right = '-50%'
 
   const span = document.createElement('span')
   subDiv2.appendChild(span)

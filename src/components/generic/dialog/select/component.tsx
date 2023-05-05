@@ -1,41 +1,19 @@
 import { addLocationToID, localStorageSetItem } from '/src/scripts'
 
-import { Button, Dialog, Input, classPropToString } from '/src/components'
+import {
+  Dialog,
+  DialogOptions,
+  Input,
+  classPropToString,
+} from '/src/components'
+
+import { convertListToOptions, optionToJSXElement } from '../options/scripts'
 
 export interface Props
   extends MergePropsWithHTMLProps<
     DialogSelectProps,
     Solid.JSX.DialogHTMLAttributes
   > {}
-
-const optionToJSXElement = (
-  option: DialogSelectOptionProps
-): (() => Solid.JSX.Element) =>
-  typeof option.text === 'function'
-    ? option.text
-    : () => String(option.text ?? option.value ?? '')
-
-const convertListToOptions = (
-  list: DialogSelectProps['options']['list']
-): DialogSelectOptionProps[] => {
-  const first = list.at(0)
-
-  if (first) {
-    if (typeof first !== 'string') {
-      if ('list' in first) {
-        return (list as (typeof first)[]).map((group) => group.list).flat()
-      } else {
-        return list as (typeof first)[]
-      }
-    } else {
-      return list.map((value) => ({
-        value: value as typeof first,
-      }))
-    }
-  } else {
-    return []
-  }
-}
 
 export default (props: Props) => {
   const [state, setState] = createStore({
@@ -69,6 +47,8 @@ export default (props: Props) => {
     return option ? optionToJSXElement(option) : undefined
   }
 
+  // TODO: Show option icon if none
+
   return (
     <Dialog
       // TODO: Clean props before spreading
@@ -77,9 +57,10 @@ export default (props: Props) => {
         {
           id,
           role: 'listbox' as const,
+          leftIcon: IconTablerList,
           rightIcon: IconTablerSelector,
           text: getDialogButtonText(),
-        } as DialogButtonProps,
+        } as InternalButtonProps,
         props.button
       )}
       onClose={(value?: string) => {
@@ -109,51 +90,7 @@ export default (props: Props) => {
             isRelative() ? 'space-y-1.5' : 'space-y-2',
           ])}
         >
-          {(() => {
-            const list = createMemo(() =>
-              convertListToOptions(props.options.list).filter(
-                (option) =>
-                  !state.input ||
-                  (option.text
-                    ? typeof option.text === 'function'
-                      ? // @ts-ignore
-                        option.text()?.textContent
-                      : option.text
-                    : option.value
-                  )
-                    .toLowerCase()
-                    .includes(state.input.toLowerCase())
-              )
-            )
-
-            return (
-              <Show when={list().length} fallback="The list is empty.">
-                <For each={list()}>
-                  {(option, index) => {
-                    const isSelected = createMemo(
-                      () =>
-                        (typeof props.options.selected === 'number' &&
-                          index() === props.options.selected) ||
-                        props.options.selected === option.value ||
-                        props.options.selected === option.text
-                    )
-
-                    return (
-                      <Button
-                        full
-                        rightIcon={isSelected() ? IconTablerCheck : true}
-                        {...option}
-                      >
-                        <span class="w-full truncate text-left">
-                          {optionToJSXElement(option)()}
-                        </span>
-                      </Button>
-                    )
-                  }}
-                </For>
-              </Show>
-            )
-          })()}
+          <DialogOptions input={state.input} options={props.options} />
         </div>
       }
     />

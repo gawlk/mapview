@@ -14,8 +14,6 @@ export default () => {
     pointStateValues: [t('Number'), t('Value'), t('Empty')],
   })
 
-  createEffect(() => console.log(store.selectedProject?.settings.pointsState))
-
   createEffect(() => {
     if (store.selectedProject) {
       const pointsState = store.selectedProject.settings.pointsState

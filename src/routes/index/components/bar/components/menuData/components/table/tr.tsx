@@ -1,0 +1,30 @@
+import { hexToRgb } from '/src/scripts'
+
+import { classPropToString } from '/src/components'
+
+interface Props extends Solid.ParentProps {
+  color?: string
+  class?: ClassProp
+}
+
+export default (props: Props) => {
+  return (
+    <tr
+      style={
+        props.color
+          ? {
+              'background-color': `rgb(${hexToRgb(props.color)?.join(
+                ' '
+              )} / var(--tw-bg-opacity))`,
+            }
+          : {}
+      }
+      class={classPropToString([
+        props.class,
+        'sortable border-b-2 border-black/10 bg-opacity-[0.2] px-1 py-1 text-black last:border-b-0',
+      ])}
+    >
+      {props.children}
+    </tr>
+  )
+}

@@ -4,6 +4,7 @@ import store from '/src/store'
 
 import { icons } from '/src/scripts'
 
+import ButtonFlyToReport from './buttonFlyToReport'
 import ButtonReportVisibility from './buttonReportVisibility'
 import SelectReportMarkerIcon from './selectReportMarkerIcon'
 
@@ -47,6 +48,7 @@ export default () => {
             <div class="flex space-x-1">
               <SelectReportMarkerIcon report={report} />
               <Button
+                rightIcon={IconTablerZoomIn}
                 onClick={() => {
                   if (store.selectedProject) {
                     store.selectedReport = report

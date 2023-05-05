@@ -2,7 +2,11 @@ import dayjs from 'dayjs'
 import dedent from 'dedent'
 import { format } from 'mathjs'
 
-import { currentCategory, findFieldInArray } from '/src/scripts'
+import {
+  currentCategory,
+  findFieldInArray,
+  isCurrentCategory,
+} from '/src/scripts'
 
 // TODO:
 // Everything is always in the same order, with same precision, spaces, etc
@@ -259,7 +263,7 @@ const writeDrops = (point: BasePoint, dPlate: number): string => {
         (((drop.data.find(
           (data) =>
             data.label.unit === point.zone.report.project.units.force &&
-            data.label.category === currentCategory
+            isCurrentCategory(data.label.category)
         )?.value.value || 0) *
           1e-3) /
           Math.PI /
@@ -273,7 +277,7 @@ const writeDrops = (point: BasePoint, dPlate: number): string => {
         .filter(
           (data) =>
             data.label.unit === point.zone.report.project.units.deflection &&
-            data.label.category === currentCategory
+            isCurrentCategory(data.label.category)
         )
         .forEach((data) => {
           let value: string | number = data.value.getValueAs('um')

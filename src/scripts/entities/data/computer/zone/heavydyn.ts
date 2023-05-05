@@ -3,8 +3,8 @@ import {
   createDataComputer,
   createDataLabel,
   createDataValue,
-  currentCategory,
   indicatorsCategory,
+  isCurrentCategory,
 } from '/src/scripts'
 
 export const createCharacteristicDeflectionComputer = (
@@ -13,7 +13,7 @@ export const createCharacteristicDeflectionComputer = (
   const unitName: HeavydynUnitsNames = 'deflection'
 
   const d0DataLabel = report.dataLabels.groups.list[0].choices.list.find(
-    (label) => label.name === 'D0' && label.category === currentCategory
+    (label) => label.name === 'D0' && isCurrentCategory(label.category)
   )
 
   return createDataComputer({

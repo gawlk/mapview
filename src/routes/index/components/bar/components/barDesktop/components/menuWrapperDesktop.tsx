@@ -1,12 +1,9 @@
-import { getDisclosureOpenState, setDisclosureOpenState } from '/src/scripts'
-
 import { Details } from '/src/components'
 
 interface Props {
   id: string
   icon: IconProp
   name: string
-  menuProps: MenuProps
 }
 
 export const baseID = 'desktop-menu-'
@@ -16,10 +13,12 @@ export default (props: Props) => {
 
   return (
     <Details
-      icon={props.icon}
-      text={props.name + props.menuProps.route}
-      defaultOpen={getDisclosureOpenState(key())}
-      onClick={(open) => setDisclosureOpenState(key(), open)}
+      button={{
+        leftIcon: props.icon,
+        text: props.name,
+      }}
+      defaultOpen
+      locked
     >
       <div id={`${baseID}${props.id}`} />
     </Details>

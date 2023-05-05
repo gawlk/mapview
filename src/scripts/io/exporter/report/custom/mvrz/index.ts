@@ -348,17 +348,17 @@ const generateHeavydynData = (project: HeavydynProject): ExcelJson => {
         ? load.customValue.getValueAs(load.customValue.unit.currentUnit)
         : load.customValue.value,
       [`CorrectionParameters_Load_LoadReferenceSource`]:
-        load.loadReferenceSource.selected || '',
+        load.source.selected || '',
 
       [`CorrectionParameters_Temperature_Active`]: temperature.active,
       [`CorrectionParameters_Temperature_TemperatureFromSource`]:
-        temperature.temperatureFromSource.selected || '',
+        temperature.source.selected || '',
       [`CorrectionParameters_Temperature_Average`]:
         temperature.average.selected || '',
       [`CorrectionParameters_Temperature_CustomValue`]:
         temperature.customValue.value,
       [`CorrectionParameters_Temperature_TemperatureTo`]:
-        temperature.temperatureTo.value,
+        temperature.reference.value,
       [`CorrectionParameters_Temperature_StructureType_Name`]:
         temperature.structureType.selected?.name || '',
       [`CorrectionParameters_Temperature_StructureType_K`]:

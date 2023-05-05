@@ -33,12 +33,14 @@ export default () => {
               <div class="flex justify-center space-x-2">
                 <div class="inline-block space-x-2">
                   <Button
+                    color="gray"
                     leftIcon={IconTablerCameraDown}
                     onClick={() => downloadImage(image)}
                   >
                     {t('Download picture')}
                   </Button>
                   <Button
+                    color="red"
                     leftIcon={IconTablerCameraCancel}
                     onClick={() =>
                       store.selectedReport?.screenshots.splice(index(), 1)

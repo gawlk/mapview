@@ -75,7 +75,7 @@ interface BaseZoneDataLabelsGroup extends BaseDataLabelsGroup<'Zone'> {}
 
 interface BaseTableDataLabelsParameters {
   readonly group: AnyBaseDataLabelsGroup
-  readonly dataLabels: DataLabel<string>[]
+  dataLabels: DataLabel<string>[]
   index?: BaseDropIndex
 }
 

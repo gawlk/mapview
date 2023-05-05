@@ -1,27 +1,17 @@
-import { Navigator } from '/src/components'
+import { useI18n } from '@solid-primitives/i18n'
 
-import Home from './components/home'
+import SelectColorization from './components/selectColorization'
 import Thresholds from './components/thresholds'
 import Values from './components/values'
 
 export default () => {
+  const [t] = useI18n()
+
   return (
-    <Navigator
-      default="/"
-      list={[
-        {
-          id: '/',
-          component: Home,
-        },
-        {
-          id: '/values',
-          component: Values,
-        },
-        {
-          id: '/thresholds',
-          component: Thresholds,
-        },
-      ]}
-    />
+    <>
+      <SelectColorization />
+      <Values />
+      <Thresholds />
+    </>
   )
 }

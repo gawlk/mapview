@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
 import dedent from 'dedent'
 
-import { currentCategory, findFieldInArray } from '/src/scripts'
+import { findFieldInArray, isCurrentCategory } from '/src/scripts'
 
 export const heavydynPDXExporter: HeavydynExporter = {
   name: '.pdx',
@@ -215,7 +215,7 @@ const writeDrops = (point: BasePoint, dPlate: number) => {
       const values = drop.data
         .filter((data) => {
           data.label.unit === deflection &&
-            data.label.category === currentCategory
+            isCurrentCategory(data.label.category)
         })
         .map((data) => {
           const value = data.value.getValueAs('um')

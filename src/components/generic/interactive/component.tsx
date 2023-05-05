@@ -18,12 +18,14 @@ export default (passedProps: Props) => {
 
   const containerProps = removeProps(props, interactiveBooleanPropsKeysObject)
 
+  // TODO: Instead of removing tell what we wanna keep
   const iconProps = removeProps(containerProps, {
     onClick: true,
     onclick: true,
     class: true,
     style: true,
     ref: true,
+    id: true,
   })
 
   return (
@@ -41,6 +43,8 @@ export default (passedProps: Props) => {
         !props.disabled &&
           (() => {
             switch (props.color) {
+              case 'secondary':
+                return 'hover:bg-opacity-10 active:bg-opacity-[0.15]'
               default:
                 return 'hover:brightness-[0.95] active:brightness-90'
             }

@@ -18,8 +18,8 @@ export const createMathNumber = (
         appendUnitToString: true,
       })
     },
-    updateValue: function (value: number) {
-      this.value = value
+    updateValue: function (value: number, asCurrent?: true) {
+      this.value = asCurrent ? this.unit.currentToBase(value) : value
 
       this.updateDisplayedStrings()
     },
@@ -64,6 +64,9 @@ export const createMathNumber = (
       return options.removeSpaces
         ? localeString.replaceAll(' ', '')
         : localeString
+    },
+    toCurrent: function () {
+      return this.unit.baseToCurrent(this.value)
     },
   })
 

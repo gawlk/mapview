@@ -226,20 +226,12 @@ export const createBaseProjectFromJSON = <
                     const selectedReportUnit =
                       report.dataLabels.groups.selected?.choices.selected?.unit
 
-                    let foundMatchingUnit = false
-
                     point.data.forEach((dataValue) => {
                       const areUnitsMatching = dataValue.label.unit === mathUnit
-
-                      if (!foundMatchingUnit) {
-                        foundMatchingUnit = areUnitsMatching
-                      }
 
                       areUnitsMatching &&
                         dataValue.value.updateDisplayedStrings()
                     })
-
-                    foundMatchingUnit && point.updatePopup()
 
                     point.drops.forEach((drop) =>
                       drop.data.forEach((dataValue) => {

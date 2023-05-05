@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
 import dedent from 'dedent'
 
-import { currentCategory, findFieldInArray } from '/src/scripts/entities'
+import { findFieldInArray, isCurrentCategory } from '/src/scripts/entities'
 
 import { ddToDms } from './coordinates'
 
@@ -139,7 +139,7 @@ const writeDrops = (point: BasePoint, channels: JSONChannel[]): string => {
       .filter(
         (data) =>
           data.label.unit === point.zone.report.project.units.deflection &&
-          data.label.category === currentCategory
+          isCurrentCategory(data.label.category)
       )
       .map((_, index) => `D(${index + 1})`),
     'kPa',
@@ -168,7 +168,7 @@ const writeDrop = (drop: MachineDrop, channels: JSONChannel[]): string => {
       .find(
         (data) =>
           data.label.unit === drop.point.zone.report.project.units.force &&
-          data.label.category === currentCategory
+          isCurrentCategory(data.label.category)
       )
       ?.value.getValueAs('kN')
       .toFixed(1) || 0
@@ -179,7 +179,7 @@ const writeDrop = (drop: MachineDrop, channels: JSONChannel[]): string => {
       .filter(
         (data) =>
           data.label.unit === drop.point.zone.report.project.units.deflection &&
-          data.label.category === currentCategory
+          isCurrentCategory(data.label.category)
       )
       .map((drop) => drop.value.getValueAs('um').toFixed(1)),
     0,

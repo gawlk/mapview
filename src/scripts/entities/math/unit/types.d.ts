@@ -15,7 +15,7 @@ interface JSONMathUnit<PossibleUnits> {
 // ---
 
 interface MathUnit<PossibleUnits> {
-  readonly name: string
+  readonly name: UnitName
   readonly baseUnit: string
   readonly possibleSettings: [PossibleUnits, number][]
   readonly possiblePrecisions: number[]
@@ -29,3 +29,14 @@ interface MathUnit<PossibleUnits> {
   readonly currentToBase: (value: number) => number
   readonly baseToCurrent: (value: number) => number
 }
+
+type UnitName =
+  | 'Deflection'
+  | 'Force'
+  | 'Modulus'
+  | 'Temperature'
+  | 'Distance'
+  | 'Time'
+  | 'CumSum'
+  | 'Stiffness'
+  | 'Percentage'

@@ -23,6 +23,7 @@ const store = createMutable<Store>({
       this.selectedProject.reports.select<BaseReport>(report)
     }
   },
+  dialogEntity: null,
   updateAvailable: false,
   importingFile: false,
   map: null,

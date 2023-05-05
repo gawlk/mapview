@@ -49,7 +49,7 @@ export default (props: Props) => {
 
   onMount(() => {
     // Init input's value without binding to improve performance
-    input && (input.value = String(state.value || ''))
+    input && (input.value = String(state.value ?? ''))
   })
 
   const needsFixing = createMemo(
@@ -91,7 +91,7 @@ export default (props: Props) => {
           class={classPropToString([
             needsFixing() && 'text-red-600',
             props.long && 'min-h-[50px]',
-            'flex-1 bg-transparent text-left placeholder:text-stone-400 focus:outline-none',
+            'w-full flex-1 bg-transparent text-left placeholder:text-stone-400 focus:outline-none',
           ])}
           id={id}
           ref={input}
@@ -115,7 +115,7 @@ export default (props: Props) => {
           icon={IconTablerHammer}
           onClick={() => {
             const value = String(
-              state.value === undefined ||
+              typeof state.value !== 'number' ||
                 (props.min !== undefined && state.value < props.min)
                 ? props.min
                 : props.max

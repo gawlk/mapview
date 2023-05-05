@@ -23,7 +23,6 @@ export default () => {
             title="Select a source"
             button={{
               label: t('Index'),
-              leftIcon: IconTablerList,
               full: true,
             }}
             position="relative"

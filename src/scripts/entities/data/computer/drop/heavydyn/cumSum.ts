@@ -5,7 +5,6 @@ import {
   createDataValue,
   currentCategory,
   indicatorsCategory,
-  rawCategory,
 } from '/src/scripts'
 
 export const createCumSumDataComputer = (report: HeavydynReport) => {

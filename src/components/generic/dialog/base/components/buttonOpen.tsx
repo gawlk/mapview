@@ -5,7 +5,7 @@ import {
   removeProps,
 } from '/src/components'
 
-interface Props extends DialogButtonProps {}
+interface Props extends InternalButtonProps {}
 
 export default (props: Props) => {
   const propsToSpread = createMemo(

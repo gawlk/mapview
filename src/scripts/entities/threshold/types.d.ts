@@ -28,5 +28,7 @@ type MachineThresholdsGroups =
 
 interface ThresholdsGroup<T> {
   readonly unit: MathUnit<T>
-  readonly choices: SelectableList<AnyThreshold, ThresoldsList>
+  readonly choices: ThresholdsGroupChoices
 }
+
+type ThresholdsGroupChoices = SelectableList<AnyThreshold, ThresoldsList>

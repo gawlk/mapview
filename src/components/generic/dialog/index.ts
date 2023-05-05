@@ -1,3 +1,5 @@
 export * from './base'
+export * from './color'
 export * from './date'
+export * from './options'
 export * from './select'

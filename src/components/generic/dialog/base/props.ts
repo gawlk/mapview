@@ -18,10 +18,13 @@ export const dialogBooleanPropsKeysObject: BooleanPropsKeysObject<DialogPropsOnl
 
     resizable: true,
 
+    maximizable: true,
+
     onClose: true,
+    onCloseEnd: true,
   }
 
-export const dialogButtonBooleanPropsKeysObject: BooleanPropsKeysObject<DialogButtonPropsOnly> =
+export const dialogButtonBooleanPropsKeysObject: BooleanPropsKeysObject<InternalButtonPropsOnly> =
   {
     text: true,
   }

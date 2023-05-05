@@ -5,7 +5,15 @@ interface BasePropsOnly {
 
   size?: '2xl' | 'xl' | 'lg' | 'base' | 'sm' | 'xs'
 
-  color?: 'primary' | 'secondary' | 'tertiary' | 'red' | 'green' | 'transparent'
+  color?:
+    | 'primary'
+    | 'secondary'
+    | 'tertiary'
+    | 'gray'
+    | 'red'
+    | 'green'
+    | 'orange'
+    | 'transparent'
 
   class?: ClassProp
 

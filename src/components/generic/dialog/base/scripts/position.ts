@@ -17,6 +17,8 @@ const fixTransformAxisValue = (value: number, min: number, max: number) => {
   return Math.abs(capedValue) <= snapRange ? 0 : capedValue
 }
 
+// TODO: Fix in Chrome
+
 export const createAbsolutePositionEffect = (
   dialog: HTMLDialogElement,
   transform: DialogTransform,
@@ -90,7 +92,7 @@ export const createRelativePositionEffect = (
   )
 
   createIntersectionObserver(
-    [buttonOpen] as unknown as Solid.Accessor<Element[]>,
+    () => [buttonOpen],
     ([buttonOpenEntry]) =>
       setIsIntersecting(buttonOpenEntry?.isIntersecting ?? false)
   )

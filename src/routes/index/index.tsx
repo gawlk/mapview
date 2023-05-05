@@ -62,9 +62,15 @@ export default () => {
     store.map?.stop()
   })
 
+  const title = createMemo(() => {
+    const currentProjectName = store.projects.selected?.name.toString()
+
+    return currentProjectName ? `${currentProjectName} - ` : ''
+  })
+
   return (
     <div class="relative h-full">
-      <Title>Mapview</Title>
+      <Title>{title()}Mapview</Title>
       <Meta name="description" content={packageJSON.description} />
       <Show when={store.importingFile}>
         <div class="absolute inset-0 z-10 h-screen w-screen backdrop-blur">

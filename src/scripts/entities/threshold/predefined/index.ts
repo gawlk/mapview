@@ -1,4 +1,4 @@
-import { colorsClasses, createCustomThreshold } from '/src/scripts'
+import { colors, createCustomThreshold } from '/src/scripts'
 
 export const createPredefinedThreshold = (
   name: string,
@@ -8,9 +8,12 @@ export const createPredefinedThreshold = (
     kind: 'predefined',
     name,
     value,
-    getColor: function (mathNumber: MathNumber, colors: JSONThresholdColors) {
-      const hexColorLow = colorsClasses[colors.low].hexColor
-      const hexColorHigh = colorsClasses[colors.high].hexColor
+    getColor: function (
+      mathNumber: MathNumber,
+      jsonColors: JSONThresholdColors
+    ) {
+      const hexColorLow = colors[jsonColors.low]
+      const hexColorHigh = colors[jsonColors.high]
 
       return mathNumber.value < this.value ? hexColorLow : hexColorHigh
     },

@@ -16,6 +16,13 @@ export const createSelectableList = <T, L extends T[] = T[]>(
       }
     },
     selectedIndex: null,
+    selectFind(search, callback) {
+      const element = this.list.find((element) => callback(element) === search)
+
+      if (element) {
+        this.select(element)
+      }
+    },
     selectIndex(i) {
       i = i === -1 ? null : i
 

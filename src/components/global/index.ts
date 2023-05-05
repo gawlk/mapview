@@ -1,4 +1,5 @@
 export { default as Details } from './details'
+export { default as DialogInformation } from './dialogInformation'
 export { default as DragAndDrop } from './dragAndDrop'
 export { default as Label } from './label'
 export { default as Section } from './section'

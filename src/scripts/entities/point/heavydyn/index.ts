@@ -1,3 +1,5 @@
+import store from '/src/store'
+
 import { createFieldFromJSON, createHeavydynDropFromJSON } from '/src/scripts'
 
 import { createBasePointFromJSON } from '../base'

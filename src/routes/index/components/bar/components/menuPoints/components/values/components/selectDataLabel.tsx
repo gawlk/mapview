@@ -2,6 +2,8 @@ import { useI18n } from '@solid-primitives/i18n'
 
 import store from '/src/store'
 
+import { groupDataLabelsByCategory } from '/src/scripts'
+
 import { DialogSelect } from '/src/components'
 import SpanDataLabel from '/src/components/global/spanDataLabel'
 
@@ -12,28 +14,39 @@ export default () => {
     () => store.selectedReport?.dataLabels.groups.selected?.choices
   )
 
-  console.log(selectedDataLabelGroupChoices()?.selectedIndex)
-
   return (
     <DialogSelect
       title="Select a label"
-      position="relative"
       button={{
         label: t('Label'),
-        leftIcon: IconTablerList,
+        text: () => (
+          <Show when={selectedDataLabelGroupChoices()?.selected}>
+            {(dataLabel) => (
+              <SpanDataLabel dataLabel={dataLabel()} includeCategory />
+            )}
+          </Show>
+        ),
         full: true,
       }}
       search={{}}
       options={{
-        selected: selectedDataLabelGroupChoices()?.selectedIndex ?? null,
+        selected: selectedDataLabelGroupChoices()?.selected?.toString() ?? null,
         list:
-          selectedDataLabelGroupChoices()?.list.map((dataLabel, index) => ({
-            value: String(index),
-            text: () => <SpanDataLabel dataLabel={dataLabel} />,
+          groupDataLabelsByCategory(
+            selectedDataLabelGroupChoices()?.list || []
+          ).map(([category, dataLabels]) => ({
+            name: t(category.name),
+            list: dataLabels.map((dataLabel) => ({
+              value: dataLabel.toString(),
+              text: () => <SpanDataLabel dataLabel={dataLabel} />,
+            })),
           })) || [],
       }}
       onClose={(value) =>
-        value && selectedDataLabelGroupChoices()?.selectIndex(Number(value))
+        value &&
+        selectedDataLabelGroupChoices()?.selectFind(value, (dataLabel) =>
+          dataLabel.toString()
+        )
       }
     />
   )

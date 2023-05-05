@@ -3,7 +3,7 @@ import { Marker, Popup } from 'mapbox-gl'
 import { translate } from '/src/locales'
 
 import {
-  colorsClasses,
+  colors,
   createDataValueFromJSON,
   createFieldFromJSON,
   createIcon,
@@ -96,9 +96,7 @@ export const createBasePointFromJSON = <
     },
     updateColor: function () {
       if (this.zone.report.settings.colorization === 'Zone') {
-        this.icon?.setColor(
-          colorsClasses[this.zone.settings.color as ColorName].hexColor
-        )
+        this.icon?.setColor(colors[this.zone.settings.color as ColorName])
       } else {
         const group = this.zone.report.dataLabels.groups.selected
 
@@ -112,11 +110,13 @@ export const createBasePointFromJSON = <
           const unit = mathNumber?.unit
 
           if (unit) {
-            const threshold = Object.values(
-              this.zone.report.thresholds.groups
-            ).find((group) => group.unit === unit)?.choices.selected
+            const threshold = (
+              Object.values(this.zone.report.thresholds.groups).find(
+                (group) => group.unit === unit
+              ) as ThresholdsGroup<string>
+            )?.choices.selected
 
-            const color = threshold.getColor(
+            const color = threshold?.getColor(
               mathNumber,
               this.zone.report.thresholds.colors
             )

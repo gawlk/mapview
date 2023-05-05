@@ -1,7 +1,9 @@
-import { colorsClasses, createWatcherHandler, sortPoints } from '/src/scripts'
+import mapboxgl, { LngLatBounds } from 'mapbox-gl'
+
+import { colors, createWatcherHandler, sortPoints } from '/src/scripts'
 
 export const createJSONBaseZone = (length: number) => {
-  const colorNames = Object.keys(colorsClasses)
+  const colorNames = Object.keys(colors)
 
   const json: JSONBaseZone = {
     version: 1,
@@ -79,6 +81,19 @@ export const createBaseZoneFromJSON = <
           }
         )
       )
+    },
+    fitOnMap(map: mapboxgl.Map) {
+      const bounds = new LngLatBounds()
+
+      this.points.forEach((point) => {
+        if (point.settings.isVisible && point.marker) {
+          bounds.extend(point.marker.getLngLat())
+        }
+      })
+
+      if (bounds.getCenter()) {
+        map?.fitBounds(bounds, { padding: 100 })
+      }
     },
     clean: function () {
       watcherHandler.clean()

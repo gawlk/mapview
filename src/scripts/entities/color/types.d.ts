@@ -6,7 +6,7 @@ interface Color {
 
 type ColorName =
   // | 'black'
-  // | 'white'
+  | 'white'
   | 'gray'
   | 'red'
   | 'orange'

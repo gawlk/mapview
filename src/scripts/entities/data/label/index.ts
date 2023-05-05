@@ -21,6 +21,9 @@ export const createDataLabel = <T extends string, Unit extends string>(args: {
         this.category.neededInExcelName ? `_${this.category.name}` : ''
       }`
     },
+    toString: function () {
+      return `${this.category.name}_${this.name}`
+    },
     toJSON: function () {
       return {
         version: 1,

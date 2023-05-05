@@ -2,6 +2,7 @@ import {
   StoryButton,
   StoryContainer,
   StoryDialog,
+  StoryDialogColor,
   StoryDialogSelect,
   StoryIcon,
   StoryIconInteractive,
@@ -19,8 +20,9 @@ export default () => {
       <StoryInteractive />
       <StoryButton />
       <StoryInput />
-      <StoryDialogSelect />
       <StoryDialog />
+      <StoryDialogSelect />
+      <StoryDialogColor />
       <StoryNavigator />
     </div>
   )

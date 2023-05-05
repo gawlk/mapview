@@ -143,7 +143,12 @@ export const createBaseReportFromJSON = <
 
       watcherHandler.add(
         on(
-          [() => this.settings.colorization, () => this.thresholds.colors],
+          [
+            () => this.settings.colorization,
+            () => this.thresholds.colors.low,
+            () => this.thresholds.colors.middle,
+            () => this.thresholds.colors.high,
+          ],
           () => {
             this.zones.forEach((zone) => {
               zone.points.forEach((point) => {

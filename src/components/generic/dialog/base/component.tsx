@@ -65,6 +65,8 @@ export default (props: Props) => {
     () => isWindowLarge() && !(isRelative() || isAble())
   )
 
+  // TODO: On window resize hide dialog if open button isn't visible on screen (hidden by parent for example)
+
   let dialog: HTMLDialogElement | undefined
   let buttonOpen: HTMLButtonElement | undefined
 
@@ -232,6 +234,8 @@ export default (props: Props) => {
           // TODO: Change to something else, won't trigger if animations are disabled by a user
           onTransitionEnd={(event) => {
             if (event.target === dialog && !state.open) {
+              props.onCloseEnd?.()
+
               setState('show', false)
               dialog.close()
             }
@@ -243,7 +247,10 @@ export default (props: Props) => {
             moveToFront()
           }}
           style={{
-            ...(isWindowLarge() && !isRelative() && !state.maximized
+            ...(isWindowLarge() &&
+            !isRelative() &&
+            !state.maximized &&
+            props.position !== 'full'
               ? {
                   ...(state.dimensions.width
                     ? {
@@ -298,13 +305,14 @@ export default (props: Props) => {
               }
             })(),
 
-            state.action || state.maximized ? 'duration-[0ms]' : 'duration-150',
+            // TODO: Duration 1ms is a bit hacky, find a different way to fully close the dialog than onTransitionEnd
+            state.action || state.maximized ? 'duration-[1ms]' : 'duration-150',
 
             !!state.action && 'select-none',
 
-            state.maximized && 'top-0',
+            (state.maximized || props.position === 'full') && 'top-0',
 
-            'flex-col space-y-3 border-black/5 p-0 text-black opacity-0 transition backdrop:bg-transparent open:flex motion-reduce:transform-none motion-reduce:transition-none',
+            'flex-col space-y-3 overflow-hidden border-black/5 p-0 text-black opacity-0 transition backdrop:bg-transparent open:flex motion-reduce:transform-none motion-reduce:transition-none',
           ])}
         >
           <Show when={!isRelative()}>
@@ -323,21 +331,25 @@ export default (props: Props) => {
                 }
               }}
               class={classPropToString([
-                props.moveable && 'md:cursor-move',
+                !state.maximized && props.moveable && 'md:cursor-move',
                 'flex items-center px-4 pb-3 pt-4',
               ])}
             >
               <DialogButtonClose close={close} />
+
               <h2 class="flex-grow truncate text-center text-xl font-semibold">
                 {props.title}
               </h2>
+
               <span
                 class="min-w-0 flex-1 md:hidden"
                 style={{
                   'max-width': '2.75rem',
                 }}
               />
+
               <DialogButtonMaximize
+                show={props.maximizable || false}
                 maximized={state.maximized}
                 onClick={() => {
                   moveToFront()
@@ -386,17 +398,17 @@ export default (props: Props) => {
               'relative flex-1 overflow-y-auto',
             ])}
           >
-            <Resizers
-              show={props.resizable}
-              onMouseDown={(direction) => onResizing(direction)}
-              onDblClick={(dimensions) => setState('dimensions', dimensions)}
-            />
-
             {props.children}
 
             <Show when={props.form}>
               <DialogForm close={close}>{props.form}</DialogForm>
             </Show>
+
+            <Resizers
+              show={props.resizable}
+              onMouseDown={(direction) => onResizing(direction)}
+              onDblClick={(dimensions) => setState('dimensions', dimensions)}
+            />
           </div>
 
           <Show when={props.footer}>

@@ -21,28 +21,18 @@ export default () => {
       name: t('Project'),
       icon: IconTablerFolders,
       component: MenuProject,
-      props: createMutable({
-        route: '',
-      }),
     },
     {
       id: 'map',
       name: t('Map'),
       icon: IconTablerMap,
       component: MenuMap,
-      props: createMutable({
-        route: '',
-      }),
     },
     {
       id: 'reports',
       name: t('Reports'),
       icon: IconTablerFiles,
       component: MenuReports,
-      needsReport: true,
-      props: createMutable({
-        route: '',
-      }),
     },
     {
       id: 'points',
@@ -50,9 +40,6 @@ export default () => {
       icon: DotsIcon,
       component: MenuPoints,
       needsReport: true,
-      props: createMutable({
-        route: '',
-      }),
     },
     {
       id: 'data',
@@ -60,9 +47,6 @@ export default () => {
       icon: IconTablerTable,
       component: MenuData,
       needsReport: true,
-      props: createMutable({
-        route: '',
-      }),
       style: 'max-height: 75vh; max-height: 75dvh',
       class: 'overflow-y-auto',
     },
@@ -80,16 +64,30 @@ export default () => {
             const element = createMemo(
               () =>
                 (document.getElementById(
-                  `${id() || ''}${menu.id}`
+                  `${id() || 'none'}${menu.id}`
                 ) as HTMLElement | null) || undefined
             )
 
+            // const [mounted, setMounted] = createSignal(false)
+
+            // TODO: Only run on HMR, resizing breaks
+            // createEffect(() => {
+            //   setMounted(false)
+            //   const el = element()
+            //   if (el) {
+            //     el.innerHTML = ''
+            //     setMounted(true)
+            //   }
+            // })
+
             return (
+              // <Show when={mounted()}>
               <Portal mount={element()}>
                 <div class="space-y-1.5">
-                  <Dynamic component={menu.component} menu={menu.props} />
+                  <Dynamic component={menu.component} />
                 </div>
               </Portal>
+              // </Show>
             )
           }}
         </For>

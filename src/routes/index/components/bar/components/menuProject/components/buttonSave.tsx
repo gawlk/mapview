@@ -19,6 +19,7 @@ export default () => {
       leftIcon={IconTablerFileDownload}
       disabled={!store.selectedProject}
       onClick={save}
+      color="orange"
     >
       {t('Save project')}
     </Button>

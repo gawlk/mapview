@@ -4,10 +4,13 @@ import { convertFileToDataURL } from '/src/scripts'
 
 import { ButtonFile } from '/src/components'
 
-import ButtonReportVisibility from './components/buttonReportVisibility'
+import ButtonFlyToReport from './components/buttonFlyToReport'
 import DialogAlbum from './components/dialogAlbum'
+import DialogExport from './components/dialogExport'
+import DialogInformations from './components/dialogInformations'
 import DialogReports from './components/dialogReports'
 import DialogScreenshot from './components/dialogScreenshot'
+import DialogZoneSettings from './components/dialogZoneSettings'
 import SelectReportMarkerIcon from './components/selectReportMarkerIcon'
 
 export default () => {
@@ -18,7 +21,7 @@ export default () => {
           <div class="flex space-x-2">
             <SelectReportMarkerIcon report={report()} />
             <DialogReports />
-            <ButtonReportVisibility report={report()} />
+            <ButtonFlyToReport report={report()} />
           </div>
         )}
       </Show>
@@ -36,10 +39,10 @@ export default () => {
             )
           }
         />
-        {/* <SelectReportMarkerIcon report={store.selectedReport as BaseReport} />
-      <DialogReports />
-      <ButtonReportVisibility report={store.selectedReport as BaseReport} /> */}
       </div>
+      <DialogInformations />
+      <DialogZoneSettings />
+      <DialogExport />
     </>
   )
 }

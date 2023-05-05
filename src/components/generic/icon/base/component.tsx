@@ -48,7 +48,7 @@ export default (props: Props) => {
               return 'h-8 w-8'
             case 'lg':
               return 'h-6 w-6'
-            case 'sm':
+            case 'xs':
               return 'h-4 w-4'
             default:
               return 'h-5 w-5'
@@ -67,7 +67,7 @@ export default (props: Props) => {
               case 'green':
                 return 'text-green-500'
               default:
-                return 'text-stone-400'
+                return 'text-black opacity-30'
             }
           }
         })(),

@@ -32,4 +32,5 @@ interface BaseZone<
   data: DataValue<string>[]
   readonly init: () => void
   readonly clean: () => void
+  readonly fitOnMap: (map: mapboxgl.Map) => void
 }

@@ -1,15 +1,10 @@
 interface Menu {
   readonly id: string
   readonly name: string
-  readonly icon: any
-  readonly component: any
-  readonly props: MenuProps
+  readonly icon: IconProp
+  readonly component: Solid.Component
   readonly needsReport?: boolean
   readonly style?: string
   readonly class?: string
   openedOnMobile?: boolean
-}
-
-interface MenuProps {
-  route: string
 }

@@ -20,7 +20,7 @@ export default (props: Props) => {
                 case 'left':
                   return '-ml-0.5 mr-0.5'
                 case 'right':
-                  return 'ml-0.5 -mr-0.5'
+                  return '-mr-0.5 ml-0.5'
                 default:
                   return
               }
@@ -29,7 +29,7 @@ export default (props: Props) => {
                 case 'left':
                   return '-ml-1 mr-1'
                 case 'right':
-                  return 'ml-1 -mr-1'
+                  return '-mr-1 ml-1'
                 default:
                   return
               }
@@ -38,7 +38,7 @@ export default (props: Props) => {
                 case 'left':
                   return '-ml-1.5 mr-1.5'
                 case 'right':
-                  return 'ml-1.5 -mr-1.5'
+                  return '-mr-1.5 ml-1.5'
                 default:
                   return 'm-0.5'
               }

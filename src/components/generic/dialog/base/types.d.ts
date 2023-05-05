@@ -1,8 +1,10 @@
 type DialogProps = DialogPropsOnly &
   Omit<InteractiveProps, keyof DialogPropsOnly>
 
+// TODO: Add option to disable base close button
+
 interface DialogPropsOnly {
-  button?: DialogButtonProps
+  button?: InternalButtonProps
 
   position?: 'relative' | 'fixed' | 'full'
 
@@ -20,13 +22,11 @@ interface DialogPropsOnly {
 
   resizable?: boolean
 
+  maximizable?: boolean
+
   onClose?: (value?: string) => void
-}
 
-type DialogButtonProps = DialogButtonPropsOnly & ButtonPropsWithHTMLAttributes
-
-interface DialogButtonPropsOnly {
-  text?: string | (() => Solid.JSX.Element)
+  onCloseEnd?: () => void
 }
 
 type DialogResizeDirection = 'w' | 'sw' | 's' | 'se' | 'e'

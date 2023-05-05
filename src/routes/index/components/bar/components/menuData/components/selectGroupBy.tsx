@@ -14,7 +14,6 @@ export default () => {
       title="Select a group by"
       button={{
         label: t('Group by'),
-        leftIcon: IconTablerList,
         full: true,
       }}
       position="relative"

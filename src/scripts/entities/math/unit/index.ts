@@ -33,7 +33,7 @@ function convertMapviewUnitToMathJSUnit(unit: any): any {
 }
 
 export const createMathUnit = <PossibleUnits extends string>(
-  name: string,
+  name: UnitName,
   json: JSONMathUnit<PossibleUnits>,
   baseUnit: string,
   possibleSettings: [PossibleUnits, number][],
@@ -124,3 +124,8 @@ export const convertValueFromUnitAToUnitB = (
         convertMapviewUnitToMathJSUnit(unitB)
       )
     : value
+
+export const roundValue = (value: number, decimals: number = 5) => {
+  const tenPowerX = 10 ** decimals
+  return Math.round(value * tenPowerX) / tenPowerX
+}

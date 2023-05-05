@@ -2,6 +2,7 @@ interface Store {
   readonly projects: SelectableList<MachineProject>
   selectedProject: MachineProject | null
   selectedReport: MachineReport | null
+  dialogEntity: MachinePoint | null
   map: mapboxgl.Map | null
   updateAvailable: boolean
   importingFile: boolean

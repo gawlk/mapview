@@ -36,11 +36,10 @@ export const createHeavydynProjectFromJSON = (
     correctionParameters: createMutable({
       load: createMutable({
         active: false,
-        loadReferenceSource: createSelectableList(
+        source: createSelectableList(
           ['Sequence', 'Custom'] as LoadReferenceSourceList,
           {
-            selected:
-              json.distinct.correctionParameters.load.loadReferenceSource,
+            selected: json.distinct.correctionParameters.load.source,
           }
         ),
         customValue: createMathNumber(
@@ -51,12 +50,10 @@ export const createHeavydynProjectFromJSON = (
       temperature: createMutable({
         active: false,
         // Temperature from > Temperature to
-        temperatureFromSource: createSelectableList(
+        source: createSelectableList(
           ['Tair', 'Tsurf', 'Tman', 'Custom'] as TemperatureFromSourceList,
           {
-            selected:
-              json.distinct.correctionParameters.temperature
-                .temperatureFromSource,
+            selected: json.distinct.correctionParameters.temperature.source,
           }
         ),
         average: createSelectableList(
@@ -69,26 +66,26 @@ export const createHeavydynProjectFromJSON = (
           json.distinct.correctionParameters.temperature.customValue,
           units.temperature
         ),
-        temperatureTo: createMathNumber(
-          json.distinct.correctionParameters.temperature.temperatureTo,
+        reference: createMathNumber(
+          json.distinct.correctionParameters.temperature.reference,
           units.temperature
         ),
         structureType: createSelectableList(
           [
             {
-              name: 'Souple',
+              name: 'Flexible',
               k: 0.15,
             },
             {
-              name: 'Bitumineux épais',
+              name: 'Thick flexible',
               k: 0.2,
             },
             {
-              name: 'Mixte',
+              name: 'Mixed',
               k: 0.08,
             },
             {
-              name: 'Semi-rigide',
+              name: 'Semi-flexible',
               k: 0.04,
             },
           ] as TemperatureStructureTypeList,
@@ -121,24 +118,21 @@ export const createHeavydynProjectFromJSON = (
             load: {
               version: 1,
               active: this.correctionParameters.load.active,
-              loadReferenceSource:
-                this.correctionParameters.load.loadReferenceSource.selected ||
-                'Sequence',
+              source:
+                this.correctionParameters.load.source.selected || 'Sequence',
               customValue: this.correctionParameters.load.customValue.value,
             },
             temperature: {
               version: 1,
               active: this.correctionParameters.temperature.active,
-              temperatureFromSource:
-                this.correctionParameters.temperature.temperatureFromSource
-                  .selected || 'Tair',
+              source:
+                this.correctionParameters.temperature.source.selected || 'Tair',
               average:
                 this.correctionParameters.temperature.average.selected ||
                 'Zone',
               customValue:
                 this.correctionParameters.temperature.customValue.value,
-              temperatureTo:
-                this.correctionParameters.temperature.temperatureTo.value,
+              reference: this.correctionParameters.temperature.reference.value,
               structureType:
                 this.correctionParameters.temperature.structureType
                   .selectedIndex || 0,

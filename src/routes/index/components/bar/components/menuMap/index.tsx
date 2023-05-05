@@ -10,12 +10,6 @@ import DialogOverlays from './components/dialogOverlays'
 import SelectMapStyles from './components/selectMapStyles'
 import SelectMarkersContent from './components/selectMarkersContent'
 
-// import ListboxMapStyles from './components/listboxMapStyles'
-
-interface Props {
-  readonly menu: MenuProps
-}
-
 export default () => {
   return (
     <>

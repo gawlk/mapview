@@ -1,4 +1,4 @@
-import { useI18n } from '@solid-primitives/i18n'
+// import { useI18n } from '@solid-primitives/i18n'
 
 // import store from '/src/store'
 
@@ -8,7 +8,7 @@ import { useI18n } from '@solid-primitives/i18n'
 // import Units from './components/units'
 
 export default () => {
-  const [t] = useI18n()
+  // const [t] = useI18n()
 
   return <div></div>
 

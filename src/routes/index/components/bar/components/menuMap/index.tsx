@@ -12,8 +12,6 @@ import SelectMarkersContent from './components/selectMarkersContent'
 export default () => {
   return (
     <>
-      {/* <ListboxMapStyles /> */}
-      {/* <GroupImages /> */}
       <SelectMapStyles />
       <div class="flex space-x-2">
         <Show when={store.selectedProject?.overlays.length}>

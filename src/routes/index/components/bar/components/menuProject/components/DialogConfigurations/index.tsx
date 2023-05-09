@@ -4,7 +4,7 @@
 
 // import { Dialog } from '/src/components'
 
-// import CorrectionHeavydyn from './components/correction/heavydyn'
+// import CorrectionHeavydyn from './components/corrections/heavydyn'
 // import Units from './components/units'
 
 export default () => {

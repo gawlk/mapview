@@ -86,7 +86,7 @@ a `.mpvz` files is required for the test to work.
 
 ### Known problems
 
-#### RollupError: Could not resolve .\*Configurations.\*
+#### RollupError: Could not resolve `.*Configurations.*`
 
 The rollup version used in Netlify (as of 2023/05/09) will crash like so:
 

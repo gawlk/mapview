@@ -1,12 +1,10 @@
 import { useI18n } from '@solid-primitives/i18n'
 
 import ButtonAddProject from './components/buttonAddProject'
-// import DialogInformations from '/src/components/dialogInformations'
 import ButtonSave from './components/buttonSave'
-import DialogConfigurations from './components/dialogConfigurations/index'
+import DialogConfigurations from './components/dialogConfigurations'
 import DialogInformations from './components/dialogInformations'
 import DialogRemoveProject from './components/dialogRemoveProject'
-// import DialogConfigurations from './components/dialogConfigurations'
 import SelectProjects from './components/selectProjects'
 
 export default () => {

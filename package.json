@@ -18,7 +18,7 @@
     "@trivago/prettier-plugin-sort-imports": "^4.1.1",
     "@types/dedent": "^0.7.0",
     "@types/mapbox-gl": "^2.7.11",
-    "@types/node": "^18.16.3",
+    "@types/node": "^20.1.1",
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.23",
     "prettier": "^2.8.8",
@@ -27,7 +27,7 @@
     "typescript": "^5.0.4",
     "unplugin-auto-import": "^0.15.3",
     "unplugin-icons": "^0.16.1",
-    "vite": "^4.3.4",
+    "vite": "^4.3.5",
     "vite-plugin-pages": "^0.29.0",
     "vite-plugin-solid": "^2.7.0",
     "vite-plugin-solid-svg": "^0.6.1",
@@ -36,11 +36,11 @@
   "dependencies": {
     "@floating-ui/dom": "^1.2.7",
     "@shopify/draggable": "1.0.0-beta.8",
-    "@solid-primitives/event-listener": "^2.2.10",
+    "@solid-primitives/event-listener": "^2.2.11",
     "@solid-primitives/i18n": "^1.2.4",
-    "@solid-primitives/intersection-observer": "^2.1.0",
-    "@solid-primitives/mouse": "^2.0.11",
-    "@solid-primitives/resize-observer": "^2.0.15",
+    "@solid-primitives/intersection-observer": "^2.1.1",
+    "@solid-primitives/mouse": "^2.0.12",
+    "@solid-primitives/resize-observer": "^2.0.16",
     "@solidjs/meta": "^0.28.4",
     "@solidjs/router": "^0.8.2",
     "@types/pica": "^9.0.1",
@@ -49,11 +49,11 @@
     "fflate": "^0.7.4",
     "file-saver": "^2.0.5",
     "html2canvas": "^1.4.1",
-    "iconoir": "^6.7.0",
+    "iconoir": "^6.8.0",
     "localforage": "^1.10.0",
     "mapbox-gl": "2.14.1",
     "mathjs": "^11.8.0",
     "pica": "^9.0.1",
-    "solid-js": "^1.7.4"
+    "solid-js": "^1.7.5"
   }
 }

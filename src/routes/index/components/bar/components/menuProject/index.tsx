@@ -2,7 +2,7 @@ import { useI18n } from '@solid-primitives/i18n'
 
 import ButtonAddProject from './components/buttonAddProject'
 import ButtonSave from './components/buttonSave'
-// import DialogConfigurations from './components/dialogConfigurations/index.tsx'
+import DialogConfigurations from './components/dialogConfigurations'
 import DialogInformations from './components/dialogInformations'
 import DialogRemoveProject from './components/dialogRemoveProject'
 import SelectProjects from './components/selectProjects'
@@ -18,7 +18,7 @@ export default () => {
         <DialogRemoveProject />
       </div>
       <DialogInformations />
-      {/* <DialogConfigurations /> */}
+      <DialogConfigurations />
       <ButtonSave />
     </>
   )

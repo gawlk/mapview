@@ -1,4 +1,3 @@
-// import GroupImages from './components/groupImages'
 import store from '/src/store'
 
 import ButtonFileOverlay from './components/buttonFileOverlay'

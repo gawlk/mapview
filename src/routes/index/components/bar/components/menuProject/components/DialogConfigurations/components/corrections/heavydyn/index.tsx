@@ -1,9 +1,9 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import DetailsLoad from './detailsLoad'
-import DetailsTemperature from './detailsTemperature'
-
 import { Label } from '/src/components'
+
+import DetailsLoad from './components/detailsLoad'
+import DetailsTemperature from './components/detailsTemperature'
 
 interface Props {
   project: HeavydynProject

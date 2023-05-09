@@ -4,7 +4,7 @@
 
 [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) + [Tailwind CSS IntelliSense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
 
-## required
+## Required
 
 - a functional node environment ([Node.JS](https://nodejs.org/) 16 or higher)
 - [pnpm](https://pnpm.io/installation)
@@ -20,7 +20,7 @@ If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has a
    2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
 2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
 
-## first launch
+## First launch
 
 1. Clone it from the project repo (favorite passing by [ssh](https://gitlab.com/-/profile/keys))
 2. Install dependencies by running:
@@ -35,7 +35,7 @@ pnpm install
 pnpm dev
 ```
 
-## type check
+## Type check
 
 A command was created to check the quality of your TS:
 
@@ -71,13 +71,35 @@ pnpm prod
 
 ## test
 
-### add reference files
+### Add reference files
 
 The current test motor for export, read all files in the folder `files/`  
 create a subfolder, and put all the export to test in.  
 a `.mpvz` files is required for the test to work.
 
-### add an extendMatcher
+### Add an extendMatcher
 
 1. Create your matcher on folder `src/extendMatchers`
 2. add the new file in [vite config file](./vite.config.js) in test/setupFiles array
+
+## Netlify
+
+### Known problems
+
+#### RollupError: Could not resolve .\*Configurations.\*
+
+The rollup version used in Netlify (as of 2023/05/09) will crash like so:
+
+```
+Could not resolve "./components/dialogConfigurations" from "src/routes/index/components/bar/components/menuProject/index.tsx"
+file: /opt/build/repo/src/routes/index/components/bar/components/menuProject/index.tsx
+error during build:
+RollupError: Could not resolve "./components/dialogConfigurations" from "src/routes/index/components/bar/components/menuProject/index.tsx"
+    at error (file:///opt/build/repo/node_modules/.pnpm/rollup@3.21.5/node_modules/rollup/dist/es/shared/node-entry.js:2125:30)
+    at ModuleLoader.handleInvalidResolvedId (file:///opt/build/repo/node_modules/.pnpm/rollup@3.21.5/node_modules/rollup/dist/es/shared/node-entry.js:23938:24)
+    at file:///opt/build/repo/node_modules/.pnpm/rollup@3.21.5/node_modules/rollup/dist/es/shared/node-entry.js:23900:26
+```
+
+if there is `Configurations` in a path.
+
+You can fix this simply by changing `Configuration` to `Config` or anything else.

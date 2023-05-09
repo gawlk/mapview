@@ -1,40 +1,38 @@
-// import { useI18n } from '@solid-primitives/i18n'
+import { useI18n } from '@solid-primitives/i18n'
 
-// import store from '/src/store'
+import store from '/src/store'
 
-// import { Dialog } from '/src/components'
+import { Dialog } from '/src/components'
 
-// import CorrectionHeavydyn from './components/corrections/heavydyn'
-// import Units from './components/units'
+import HeavydynCorrections from './components/corrections/heavydyn'
+import Units from './components/units'
 
 export default () => {
-  // const [t] = useI18n()
+  const [t] = useI18n()
 
-  return <div></div>
-
-  // return (
-  //   <Dialog
-  //     moveable
-  //     title={t('Configurations')}
-  //     button={{
-  //       leftIcon: IconTablerSettings,
-  //       text: t('Configurations'),
-  //       full: true,
-  //     }}
-  //   >
-  //     <div class="space-y-6">
-  //       <Switch>
-  //         <Match
-  //           when={
-  //             store.selectedProject?.machine === 'Heavydyn' &&
-  //             store.selectedProject
-  //           }
-  //         >
-  //           {(project) => <CorrectionHeavydyn project={project()} />}
-  //         </Match>
-  //       </Switch>
-  //       <Units />
-  //     </div>
-  //   </Dialog>
-  // )
+  return (
+    <Dialog
+      moveable
+      title={t('Configurations')}
+      button={{
+        leftIcon: IconTablerSettings,
+        text: t('Configurations'),
+        full: true,
+      }}
+    >
+      <div class="space-y-6">
+        <Switch>
+          <Match
+            when={
+              store.selectedProject?.machine === 'Heavydyn' &&
+              store.selectedProject
+            }
+          >
+            {(project) => <HeavydynCorrections project={project()} />}
+          </Match>
+        </Switch>
+        <Units />
+      </div>
+    </Dialog>
+  )
 }

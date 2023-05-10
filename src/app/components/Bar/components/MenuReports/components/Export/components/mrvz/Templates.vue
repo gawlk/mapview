@@ -39,7 +39,7 @@
       "
       full
     >
-      Download MRVZ JSON
+      {{ t('Download MRVZ JSON') }}
     </Button>
   </div>
 </template>

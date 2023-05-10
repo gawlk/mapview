@@ -76,7 +76,7 @@
             : input?.click()
       "
     >
-      <span class="opacity-50">Template {{ props.n }}:</span>
+      <span class="opacity-50">{{ t('Template') }} {{ props.n }}:</span>
       {{ state.file ? state.file.name : 'No File' }}
     </button>
     <input

@@ -23,7 +23,7 @@ export const blend = (
 }
 
 const colorToArray = (color: string): number[] => {
-  const regexp = /^#?[0-9a-fA-F]{6}'/
+  const regexp = /^#?[0-9a-fA-F]{6}/
 
   if (!regexp.test(color)) {
     color = '#ffffff'

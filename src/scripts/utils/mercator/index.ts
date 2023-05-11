@@ -25,8 +25,8 @@ export const wcToWGS = (wc: XYCoord): LngLat => {
   const lng = wcToLong(wc.x)
   const lat = wcToLat(wc.y)
   const coord: LngLat = {
-    lng: lng,
-    lat: lat,
+    lng,
+    lat,
   }
   return coord
 }

@@ -24,7 +24,7 @@ export const createMaxidynProjectFromJSON = (
     ...baseProject,
     machine: 'Maxidyn',
     bearingParameters: shallowReactive(json.distinct.bearingParameters),
-    toJSON: function (): JSONMaxidynProject {
+    toJSON(): JSONMaxidynProject {
       return {
         version: json.version,
         machine: 'Maxidyn',
@@ -64,8 +64,6 @@ const upgradeJSON = (json: JSONMaxidynProjectVAny): JSONMaxidynProject => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONMaxidynProject
   }
 
   return json

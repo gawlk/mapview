@@ -13,4 +13,4 @@ interface MathNumber {
   readonly toJSON: () => JSONMathNumberValue
 }
 
-type JSONMathNumberValue = number | 'NaN'
+type JSONMathNumberValue = number | 'NaN' | null

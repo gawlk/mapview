@@ -89,8 +89,6 @@ const upgradeJSON = (
     case undefined:
     case 1:
     // upgrade
-    default:
-      json = json as JSONMaxidynThresholdsConfigurations
   }
 
   return json

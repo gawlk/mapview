@@ -1,7 +1,7 @@
 import translationsFR from '/src/locales/fr.json?raw'
 
 const translations = {
-  fr: JSON.parse(translationsFR),
+  fr: JSON.parse(translationsFR) as LocalesStringContent,
 }
 
 export const translate = (value: string) => {
@@ -12,7 +12,7 @@ export const translate = (value: string) => {
     : value
 }
 
-export const getBrowserLocale = (languageCodeOnly: boolean = false) => {
+export const getBrowserLocale = (languageCodeOnly = false) => {
   if (typeof navigator === 'undefined' || !navigator?.language) {
     return undefined
   }

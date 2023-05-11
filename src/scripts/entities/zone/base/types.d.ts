@@ -8,12 +8,20 @@ interface JSONBaseZone {
   readonly version: 1
   readonly name: string
   readonly points: JSONMachinePoint[]
-  readonly settings: JSONZoneSettings
+  readonly settings: JSONZoneSettingsVAny
 }
 
+type JSONZoneSettingsVAny = JSONZoneSettings | JSONZoneSettingsV1
+
 interface JSONZoneSettings {
-  readonly version: 1
+  readonly version: 2
   color: ColorName
+  isVisible: boolean
+}
+
+interface JSONZoneSettingsV1 {
+  readonly version: 1
+  color: ColorNameV1
   isVisible: boolean
 }
 

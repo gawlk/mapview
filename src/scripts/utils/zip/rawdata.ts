@@ -1,4 +1,4 @@
-export const addRawDataToZip = async (
+export const addRawDataToZip = (
   zip: Fflate.Zippable,
   entity: MachineProject | MachineReport
 ) => {
@@ -17,13 +17,11 @@ export const addRawDataToZip = async (
       break
   }
 
-  await Promise.all([
-    ...points.map((point) => {
-      if (point.rawDataFile) {
-        rawdata[point.id] = new Uint8Array(point.rawDataFile)
-      }
-    }),
-  ])
+  points.forEach((point) => {
+    if (point.rawDataFile) {
+      rawdata[point.id] = new Uint8Array(point.rawDataFile)
+    }
+  })
 
   zip.rawdata = rawdata
 }

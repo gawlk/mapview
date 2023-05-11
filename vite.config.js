@@ -12,6 +12,7 @@ import { URL, fileURLToPath } from 'url'
 import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa'
 import viteVueSvgLoader from 'vite-svg-loader'
+import { configDefaults } from 'vitest/config'
 
 import packageJSON from './package.json'
 
@@ -114,5 +115,7 @@ export default defineConfig({
   },
   test: {
     environment: 'edge-runtime',
+    exclude: [...configDefaults.exclude, '**/e2e-tests/**', '**/importer/**'],
+    setupFiles: ['./src/test/extendMatchers/index.ts'],
   },
 })

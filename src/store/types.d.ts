@@ -5,10 +5,9 @@ interface Store {
   map: mapboxgl.Map | null
   updateAvailable: boolean
   importingFile: boolean
-  readonly save: (key: StoreKeys, value: StoreSaveableTypes) => void
 }
 
-type StoreKeys = Exclude<keyof Store, 'save' | 'updateAvailable'>
+type StoreKeys = Exclude<keyof Store, 'save' | 'updateAvailable' | 'projects'>
 
 type StoreTypes = Store[keyof Store]
 

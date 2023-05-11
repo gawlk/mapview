@@ -3,7 +3,7 @@
 
   import store from '/src/store'
 
-  import { downloadFile, mrvzExporter } from '/src/scripts'
+  import { downloadFile, mvrzExporter } from '/src/scripts'
 
   import Button from '/src/components/Button.vue'
 
@@ -35,11 +35,11 @@
         () =>
           (async () =>
             store.projects.selected &&
-            downloadFile(await mrvzExporter.export(store.projects.selected)))()
+            downloadFile(await mvrzExporter.export(store.projects.selected)))()
       "
       full
     >
-      Download MRVZ JSON
+      {{ t('Download MRVZ JSON') }}
     </Button>
   </div>
 </template>

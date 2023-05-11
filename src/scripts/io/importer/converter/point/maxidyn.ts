@@ -3,9 +3,9 @@ import { convertPRJZToBasePoint } from './base'
 import { convertPRJZToMaxidynDrop } from '../drop'
 
 export const convertPRJZToMaxidynPoint = (
-  jsonPoint: any,
+  jsonPoint: RecordAny,
   index: number,
-  json: any
+  json: RecordAny
 ): JSONMaxidynPoint => {
   const point: JSONMaxidynPoint = {
     version: 1,
@@ -15,8 +15,8 @@ export const convertPRJZToMaxidynPoint = (
 
   point.base.drops.push(
     ...jsonPoint.Drops.map(
-      (jsonDrop: any, index: number): JSONMaxidynDrop =>
-        convertPRJZToMaxidynDrop(jsonDrop, index, json)
+      (jsonDrop: RecordAny, dropIndex: number): JSONMaxidynDrop =>
+        convertPRJZToMaxidynDrop(jsonDrop, dropIndex, json)
     )
   )
 
@@ -24,7 +24,7 @@ export const convertPRJZToMaxidynPoint = (
 }
 
 export const convertPRJZToMaxidynPointDistinct = (
-  jsonPoint: any
+  jsonPoint: RecordAny
 ): JSONMaxidynPointDistinct => {
   return {
     version: 1,

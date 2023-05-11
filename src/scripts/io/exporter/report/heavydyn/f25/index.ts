@@ -1,4 +1,3 @@
-import dayjs from 'dayjs'
 import dedent from 'dedent'
 import { format } from 'mathjs'
 
@@ -9,20 +8,15 @@ import {
   trimAllLines,
 } from '/src/scripts'
 
+import { dayjsUtc } from '/src/utils/date/dayjs'
+
 // TODO:
 // Everything is always in the same order, with same precision, spaces, etc
 // Test: Compare if strings are a match
 
 export const heavydynF25Exporter: HeavydynExporter = {
   name: '.F25',
-  export: async (project: HeavydynProject) => {
-    console.log(`
-    ${writeHeader(project)}
-    ${writeSensors(project)}
-    ${writeEndHeader(project)}
-    ${writePoints(project)}
-  `)
-
+  export: (project) => {
     return new File(
       [
         replaceAllLFToCRLF(
@@ -34,7 +28,7 @@ export const heavydynF25Exporter: HeavydynExporter = {
           `)
         ),
       ],
-      `${project.reports.selected?.name.toString()}.F25`,
+      `${project.reports.selected?.name.toString() || ''}.F25`,
       { type: 'text/plain' }
     )
   },
@@ -47,14 +41,14 @@ const writeHeader = (project: HeavydynProject): string => {
   )?.toString()
 
   const operator = findFieldInArray(
-    project.reports.selected!.information,
+    project.reports.selected?.information || [],
     'Operator'
   )?.toString()
 
   const sequenceName =
     project.reports.selected?.dataLabels.groups.list[0].sequenceName
 
-  const date = dayjs(
+  const date = dayjsUtc(
     (
       project.information.find(
         (machineField: Field) => machineField.label === 'Date'
@@ -91,8 +85,9 @@ const writeEndHeader = (project: MachineProject): string => {
     throw new Error()
   }
 
-  let dmin = 0,
-    dmax = 0
+  let dmin = 0
+  let dmax = 0
+
   if (d.length > 2) {
     dmin = Number(d[0]) * 1e-3
     dmax = Number(d[d.length - 1]) * 1e-3
@@ -149,8 +144,7 @@ const writeSensors = (project: HeavydynProject): string => {
 
   let sensorsString = dedent`
     5200,"${firstSensor.name.padEnd(8, ' ')}",2,1.000, ${formatExponential(
-    firstSensor.gain,
-    3
+    firstSensor.gain
   )}, 0.00,  1.000\n
     `
   const nbrSensors = project.calibrations.channels.length - 1
@@ -159,10 +153,7 @@ const writeSensors = (project: HeavydynProject): string => {
       ${5200 + i},"${project.calibrations.channels[i + 1].name.padEnd(
       8,
       ' '
-    )}",1.000,${formatExponential(
-      project.calibrations.channels[i + 1].gain,
-      3
-    )}\n 
+    )}",1.000,${formatExponential(project.calibrations.channels[i + 1].gain)}\n 
       `
   }
 
@@ -205,20 +196,20 @@ const writePoints = (project: HeavydynProject): string => {
         return `${header}${values}\n`
       })
       .join('')
-  } else throw new Error()
+  }
+
+  throw new Error()
 }
 
 const writePointGps = (point: BasePoint) => {
+  const lngLat = point.toBaseJSON().coordinates as LngLat
+
+  const lat = lngLat.lat.toFixed(8).padStart(12, ' ')
+  const lng = lngLat.lng.toFixed(8).padStart(12, ' ')
+  const one = Number('1').toFixed(2).padStart(8, ' ')
+
   return dedent`
-    5280,0,140418.0,${point.marker
-      ?.getLngLat()
-      .lat.toFixed(8)
-      .padStart(12, ' ')},${point.marker
-    ?.getLngLat()
-    .lng.toFixed(8)
-    .padStart(12, ' ')},${Number('1')
-    .toFixed(2)
-    .padStart(8, ' ')}, 2,18,   0,  0 
+    5280,0,140418.0,${lat},${lng},${one}, 2,18,   0,  0 
     `
 }
 
@@ -226,7 +217,7 @@ const writePointHeader = (
   point: HeavydynPoint,
   report: HeavydynReport
 ): string => {
-  const date = dayjs(point.date).format('YYYY, MM, DD, HH, mm')
+  const date = dayjsUtc(point.date).format('YYYY, MM, DD, HH, mm')
 
   let chainage = point.data
     .find((pointData) => pointData.label.name === 'Chainage')
@@ -312,13 +303,13 @@ const writeDrops = (point: BasePoint, dPlate: number): string => {
     .join('')
 }
 
-const formatExponential = (n: number, pad: number): string => {
+const formatExponential = (n: number): string => {
   const splitedNumber = format(n, {
     precision: 4,
     notation: 'exponential',
   }).split('e')
 
-  let exponential = splitedNumber[1].split('')
+  const exponential = splitedNumber[1].split('')
   exponential[1] = exponential[1].toString().padStart(3, '0')
   return `${splitedNumber[0]}e${exponential.join('')}`.toUpperCase()
 }

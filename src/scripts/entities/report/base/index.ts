@@ -6,6 +6,7 @@ import {
   debounce,
   flyToPoints,
   getIndexOfSelectedInSelectableList,
+  upgradeColorNameFromV1ToV2,
 } from '/src/scripts'
 
 export const createBaseReportFromJSON = <
@@ -30,10 +31,14 @@ export const createBaseReportFromJSON = <
 
   const watcherHandler = createWatcherHandler()
 
+  // must be rework to remove the ts error
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const thresholds: Thresholds = {
     groups: parameters.thresholdsGroups,
-    colors: shallowReactive(json.thresholds.colors),
+    colors: shallowReactive(
+      upgradeThresholdsColorsJSON(json.thresholds.colors)
+    ),
     inputs: shallowReactive(json.thresholds.inputs),
   }
 
@@ -63,12 +68,12 @@ export const createBaseReportFromJSON = <
       )
     ),
     project: parameters.project,
-    fitOnMap: function () {
+    fitOnMap() {
       const points = this.zones.map((zone) => zone.points).flat()
 
       flyToPoints(map, points)
     },
-    addToMap: function () {
+    addToMap() {
       this.isOnMap = true
 
       this.zones.forEach((zone) => {
@@ -177,7 +182,7 @@ export const createBaseReportFromJSON = <
         }
       )
     },
-    remove: function () {
+    remove() {
       this.isOnMap = false
 
       this.zones.forEach((zone) => {
@@ -188,7 +193,7 @@ export const createBaseReportFromJSON = <
 
       watcherHandler.clean()
     },
-    toBaseJSON: function (): JSONBaseReport {
+    toBaseJSON(): JSONBaseReport {
       return {
         version: 1,
         name: this.name.value as string,
@@ -214,8 +219,23 @@ const upgradeJSON = (json: JSONBaseReportVAny): JSONBaseReport => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONBaseReport
+  }
+
+  return json
+}
+
+const upgradeThresholdsColorsJSON = (
+  json: JSONThresholdColorsVAny
+): JSONThresholdColors => {
+  switch (json.version) {
+    case 1:
+      json = {
+        ...json,
+        version: 2,
+        high: upgradeColorNameFromV1ToV2(json.high),
+        middle: upgradeColorNameFromV1ToV2(json.middle),
+        low: upgradeColorNameFromV1ToV2(json.low),
+      }
   }
 
   return json

@@ -1,4 +1,3 @@
-import dayjs from 'dayjs'
 import dedent from 'dedent'
 
 import {
@@ -7,9 +6,11 @@ import {
   replaceAllLFToCRLF,
 } from '/src/scripts'
 
+import { dayjsUtc } from '/src/utils/date/dayjs'
+
 export const heavydynPDXExporter: HeavydynExporter = {
   name: '.pdx',
-  export: async (project: HeavydynProject) => {
+  export: (project: HeavydynProject) => {
     return new File(
       [
         replaceAllLFToCRLF(dedent`
@@ -24,23 +25,28 @@ export const heavydynPDXExporter: HeavydynExporter = {
             ${writePoints(project)}
           `),
       ],
-      `${project.reports.selected?.name.toString()}.pdx`,
+      `${project.reports.selected?.name.toString() || ''}.pdx`,
       { type: 'text/plain' }
     )
   },
 }
 
 const writeHeader = (project: HeavydynProject): string => {
-  if (!project.reports.selected) {
+  const selectedReport = project.reports.selected
+
+  if (!selectedReport) {
     throw new Error('cannot find selected report ')
   }
 
-  const reportDate = dayjs(
-    findFieldInArray(project.reports.selected.information, 'Date')?.toString()
+  const reportDate = dayjsUtc(
+    findFieldInArray(
+      project.reports.selected?.information || [],
+      'Date'
+    )?.toString()
   ).format('DD-MMM-YYYY')
 
   const infos = ['Operator', 'Climat'].map((label) =>
-    findFieldInArray(project.reports.selected!.information, label)?.toString()
+    findFieldInArray(selectedReport.information, label)?.toString()
   )
 
   return dedent`
@@ -113,7 +119,10 @@ const writeDeviceConfiguration = (project: HeavydynProject): string => {
 }
 
 const writeDeviceCalibration = (project: HeavydynProject) => {
-  const calibrationDate = dayjs(project.calibrations.date).format('DD-MMM-YYYY')
+  const { information } = project
+  const calibrationDate = dayjsUtc(project.calibrations.date).format(
+    'DD-MMM-YYYY'
+  )
 
   let sensorStaticCalibrationFactor = ''
   for (let i = 1; i < project.calibrations.channels.length; i++) {
@@ -128,21 +137,18 @@ const writeDeviceCalibration = (project: HeavydynProject) => {
     (sensor) => sensor.name === 'DMI'
   )?.gain
 
-  const projectProject = project.information.find(
-    (info) => info.label === 'Project'
+  const projectProject = findFieldInArray(information, 'Project')?.value
+
+  const siteProject = findFieldInArray(information, 'Site')?.value
+
+  const reportLane = findFieldInArray(
+    project.reports.selected?.information || [],
+    'Lane'
   )?.value
 
-  const siteProject = project.information.find(
-    (info) => info.label === 'Site'
-  )?.value
-
-  const reportLane = project.reports.selected?.information.find(
-    (info) => info.label === 'Lane'
-  )?.value
-
-  const materialPlatform = project.reports.selected?.platform.find(
-    (info) => info.label === 'Material'
-  )?.value
+  const materialPlatform = project.reports.selected?.platform
+    .find((info) => info.label === 'Material')
+    ?.toString()
 
   const sensorReferenceCalibrationFactor =
     '1, '.repeat(project.calibrations.channels.length - 2) + '1'
@@ -188,10 +194,7 @@ const writePoints = (project: HeavydynProject) => {
         .find((data) => data.label.name === 'Comment')
         ?.getRawValue()
 
-      let [lat, lng] = [1, 1]
-      if (point.marker) {
-        ;({ lng, lat } = point.marker.getLngLat())
-      }
+      const { lat, lng } = point.toBaseJSON().coordinates as LngLat
 
       return dedent`
         [Test Location ${point.index}]
@@ -203,7 +206,7 @@ const writePoints = (project: HeavydynProject) => {
         TestType = 0
         DropHistoryType = load and deflections
         TestTemperatures = ${temps} 
-        TestTime = ${dayjs(point.date).format('HH:mm:ss')} 
+        TestTime = ${dayjsUtc(point.date).format('HH:mm:ss')} 
         TestComment = ${comment} 
         NumberOfDrops = ${point.drops.length} 
         ${writeDrops(point, project.calibrations.dPlate)}
@@ -219,10 +222,11 @@ const writeDrops = (point: BasePoint, dPlate: number) => {
   return point.drops
     .map((drop, index) => {
       const values = drop.data
-        .filter((data) => {
-          data.label.unit === deflection &&
+        .filter(
+          (data) =>
+            data.label.unit === deflection &&
             data.label.category === currentCategory
-        })
+        )
         .map((data) => {
           const value = data.value.getValueAs('um')
           return (value <= 0 ? 0.1 : value).toFixed(2)

@@ -1,5 +1,6 @@
 export interface GenericContainerProps {
   // Element
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   element?: any
 
   // Sizes
@@ -50,8 +51,11 @@ export interface GenericContainerProps {
   disabled?: boolean
 
   // Illustrations
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   svg?: any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   leftSvg?: any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   rightSvg?: any
   src?: string
   leftSrc?: string

@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 import { ExtendedBinaryReader } from './ExtendedBinaryStream'
 import ImpactSetData from './ImpactSetData'
 
@@ -7,6 +8,7 @@ enum IsaanSimpleFileType {
 
 class SimpleFileStreamable {
   protected maxSupportedVersion!: number
+
   protected objectVersion!: number
 
   public fromStream(br: ExtendedBinaryReader): void {
@@ -26,8 +28,10 @@ class SimpleFileStreamable {
 }
 
 class IsaanSimpleFileHeader extends SimpleFileStreamable {
-  private FILE_MAGIC: string = 'ISAANSIMPLEFILE'
+  private FILE_MAGIC = 'ISAANSIMPLEFILE'
+
   public fileType!: IsaanSimpleFileType
+
   public fileVersion!: number
 
   constructor() {
@@ -41,7 +45,7 @@ class IsaanSimpleFileHeader extends SimpleFileStreamable {
 
     const magic: string = br.readString()
 
-    if (magic != this.FILE_MAGIC) throw new Error('Not a Isaan simple file')
+    if (magic !== this.FILE_MAGIC) throw new Error('Not a Isaan simple file')
 
     this.fileType = br.readUInt32() as IsaanSimpleFileType
     this.fileVersion = br.readInt32()
@@ -50,8 +54,11 @@ class IsaanSimpleFileHeader extends SimpleFileStreamable {
 
 class ImpactDataHeader extends SimpleFileStreamable {
   public pointId!: bigint
+
   public nbSamples!: number
+
   public nbOfImpact!: number
+
   public nbOfDisplacement!: number
   // public frequency!: number
 
@@ -72,9 +79,12 @@ class ImpactDataHeader extends SimpleFileStreamable {
 
 export default class ImpactDataFile {
   private fileHeader: IsaanSimpleFileHeader
+
   private impactDataHeader: ImpactDataHeader
+
   private impactDatas: ImpactData[]
-  private maxSupportedVersion: number = 1
+
+  private maxSupportedVersion = 1
 
   get ImpactDataHeader(): ImpactDataHeader {
     return this.impactDataHeader
@@ -116,7 +126,9 @@ export default class ImpactDataFile {
 
     this.impactDataHeader.fromStream(br)
 
-    this.impactDatas = new Array(this.impactDataHeader.nbOfImpact)
+    this.impactDatas = new Array(
+      this.impactDataHeader.nbOfImpact
+    ) as ImpactData[]
 
     for (let i = 0; i < this.impactDataHeader.nbOfImpact; i++) {
       const load = br.readArrayDouble()

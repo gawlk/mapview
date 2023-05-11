@@ -8,9 +8,9 @@ import { convertPRJZToHeavydynPoint } from '../point'
 import { convertPRJZToTestChoices } from '../shared'
 
 export const convertPRJZToHeavydynReport = (
-  jsonPV: any,
+  jsonPV: RecordAny,
   index: number,
-  json: any
+  json: RecordAny
 ): JSONHeavydynReport => {
   const report: JSONHeavydynReport = {
     version: 1,
@@ -24,9 +24,10 @@ export const convertPRJZToHeavydynReport = (
   }
 
   report.base.zones[0].base.points.push(
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-argument
     ...jsonPV.Points.map(
-      (jsonPoint: any, index: number): JSONHeavydynPoint =>
-        convertPRJZToHeavydynPoint(jsonPoint, index, json)
+      (jsonPoint: RecordAny, pointIndex: number): JSONHeavydynPoint =>
+        convertPRJZToHeavydynPoint(jsonPoint, pointIndex, json)
     )
   )
 
@@ -34,7 +35,7 @@ export const convertPRJZToHeavydynReport = (
 }
 
 export const convertPRJZToHeavydynReportDistinct = (
-  json: any
+  json: RecordAny
 ): JSONHeavydynReportDistinct => {
   const dropChoices = convertPRJZToHeavydynDropChoices(json)
   const dropIndexes = convertPRJZToHeavydynDropIndexes(json)
@@ -147,7 +148,7 @@ export const convertPRJZToHeavydynReportDistinct = (
               selectedIndex: dropIndexes.length - 1,
               list: dropIndexes,
             },
-            sequenceName: json.Sequences.Name,
+            sequenceName: String(json.Sequences.Name),
           },
         },
         {
@@ -157,7 +158,7 @@ export const convertPRJZToHeavydynReportDistinct = (
             from: 'Point',
             choices: {
               version: 1,
-              selectedIndex: 0,
+              selectedIndex: null,
               list: testChoices as JSONDataLabel<HeavydynUnitsNames>[],
             },
           },

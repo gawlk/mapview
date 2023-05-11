@@ -1,5 +1,6 @@
 export default class ImpactSetData {
-  public ID: bigint = BigInt(0)
+  public ID = BigInt(0)
+
   public ImpactDatas: ImpactData[] = []
 
   get numberOfDisplacement(): number {

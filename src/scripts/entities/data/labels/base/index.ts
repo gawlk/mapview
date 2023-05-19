@@ -27,7 +27,8 @@ export const createBaseDataLabelsFromJSON = (
     findIn: (from: DataLabelsFrom, name: string, category?: DataCategory) =>
       groups.list[convertFromToIndex(from)].choices.list.find(
         (label) =>
-          label.name === name && (category ? label.category === category : true)
+          label.name === name &&
+          (category ? label.category.name === category.name : true)
       ),
     pushTo: (from: DataLabelsFrom, label: DataLabel) =>
       groups.list[convertFromToIndex(from)].choices.list.push(label)

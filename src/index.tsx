@@ -7,7 +7,7 @@ import routes from '~solid-pages'
 import './styles/main.css'
 import 'mapbox-gl/dist/mapbox-gl.css'
 
-import { dictionaries } from './locales'
+import { dictionaries, getBrowserLocale } from './locales'
 
 const root = document.getElementById('root')
 
@@ -15,7 +15,7 @@ if (root) {
   render(() => {
     const Routes = useRoutes(routes)
 
-    const dictionary = createI18nContext(dictionaries)
+    const dictionary = createI18nContext(dictionaries, getBrowserLocale(true))
 
     return (
       <I18nContext.Provider value={dictionary}>

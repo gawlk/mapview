@@ -17,7 +17,7 @@ export default () => {
         full: true,
       }}
       position="relative"
-      options={{
+      values={{
         selected: t(store.selectedReport?.settings.groupBy || ''),
         list: groupBys.map((s) => ({
           value: s,

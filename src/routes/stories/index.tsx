@@ -7,6 +7,7 @@ import {
   StoryIcon,
   StoryIconInteractive,
   StoryInput,
+  StoryInputRadioHorizontal,
   StoryInteractive,
   StoryNavigator,
 } from '/src/components'
@@ -14,12 +15,13 @@ import {
 export default () => {
   return (
     <div class="space-y-8 p-8">
-      <StoryContainer />
+      {/* <StoryContainer />
       <StoryIcon />
       <StoryIconInteractive />
       <StoryInteractive />
       <StoryButton />
-      <StoryInput />
+      <StoryInput /> */}
+      <StoryInputRadioHorizontal />
       <StoryDialog />
       <StoryDialogSelect />
       <StoryDialogColor />

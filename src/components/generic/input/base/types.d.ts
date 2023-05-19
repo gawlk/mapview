@@ -16,5 +16,9 @@ interface InputPropsOnly extends SaveableProps {
 
   long?: boolean
 
+  override?: boolean
+
   onInput?: (value?: string, event?: InputEvent) => void
+
+  copyRef?: (ref?: HTMLInputElement) => void
 }

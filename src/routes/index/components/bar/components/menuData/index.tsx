@@ -3,11 +3,13 @@ import store from '/src/store'
 import DialogTableData from './components/dialogTableData'
 import SelectGroupBy from './components/selectGroupBy'
 import TablePointsGroupedBy from './components/tablePointsGroupedBy'
+import Values from './components/values'
 
 export default () => {
   return (
     <>
       <SelectGroupBy />
+      <Values />
       <DialogTableData />
 
       <div class="-mx-2 !-mb-2">

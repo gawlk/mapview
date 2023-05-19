@@ -88,7 +88,7 @@ export default (props: Props) => {
 
         // Padding
         (() => {
-          switch (props.size) {
+          switch (props.padding || props.size) {
             case 'xs':
               return (() => {
                 switch (props.orientation) {

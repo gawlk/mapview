@@ -10,7 +10,6 @@ import DialogExport from './components/dialogExport'
 import DialogInformations from './components/dialogInformations'
 import DialogReports from './components/dialogReports'
 import DialogScreenshot from './components/dialogScreenshot'
-import DialogZoneSettings from './components/dialogZoneSettings'
 import SelectReportMarkerIcon from './components/selectReportMarkerIcon'
 
 export default () => {
@@ -41,7 +40,6 @@ export default () => {
         />
       </div>
       <DialogInformations />
-      <DialogZoneSettings />
       <DialogExport />
     </>
   )

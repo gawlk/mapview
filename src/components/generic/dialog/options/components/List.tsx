@@ -1,13 +1,17 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import { Button } from '/src/components'
+import {
+  Button,
+  isValuePropSelected,
+  valueWithTextToJSXElement,
+} from '/src/components'
 
-import { convertListToOptions, optionToJSXElement } from '../scripts'
+import { convertDialogValuesPropsListToValuesWithTextProps } from '../scripts'
 
 interface Props {
   input: string | undefined
   selected: string | number | null
-  list: string[] | DialogSelectOptionProps[]
+  list: ValuesListProps
   onClick?: (value?: string) => void
 }
 
@@ -15,7 +19,7 @@ export default (props: Props) => {
   const [t] = useI18n()
 
   const list = createMemo(() =>
-    convertListToOptions(props.list).filter(
+    convertDialogValuesPropsListToValuesWithTextProps(props.list).filter(
       (option) =>
         !props.input ||
         (option.text
@@ -34,12 +38,8 @@ export default (props: Props) => {
     <Show when={list().length} fallback={<p>{t('The list is empty')}</p>}>
       <For each={list()}>
         {(option, index) => {
-          const isSelected = createMemo(
-            () =>
-              (typeof props.selected === 'number' &&
-                index() === props.selected) ||
-              props.selected === option.value ||
-              props.selected === option.text
+          const isSelected = createMemo(() =>
+            isValuePropSelected(props.selected, option, index())
           )
 
           return (
@@ -50,7 +50,7 @@ export default (props: Props) => {
               onClick={() => props.onClick?.(option.value)}
             >
               <span class="w-full truncate text-left">
-                {optionToJSXElement(option)()}
+                {valueWithTextToJSXElement(option)()}
               </span>
             </Button>
           )

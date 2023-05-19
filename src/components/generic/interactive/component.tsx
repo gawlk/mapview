@@ -45,8 +45,12 @@ export default (passedProps: Props) => {
             switch (props.color) {
               case 'secondary':
                 return 'hover:bg-opacity-10 active:bg-opacity-[0.15]'
+
               default:
-                return 'hover:brightness-[0.95] active:brightness-90'
+                return [
+                  props.color === 'transparent' && 'hover:bg-black/5',
+                  'hover:brightness-[0.95] active:brightness-90',
+                ]
             }
           })(),
 

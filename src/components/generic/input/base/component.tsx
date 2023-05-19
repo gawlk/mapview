@@ -47,11 +47,6 @@ export default (props: Props) => {
       (props.max || props.min || props.step ? 'number' : undefined)
   )
 
-  onMount(() => {
-    // Init input's value without binding to improve performance
-    input && (input.value = String(state.value ?? ''))
-  })
-
   const needsFixing = createMemo(
     () =>
       !props.disabled &&
@@ -72,6 +67,21 @@ export default (props: Props) => {
     },
     props.debounce || 50
   )
+
+  onMount(() => {
+    // Init input's value without binding to improve performance
+    input && (input.value = String(state.value ?? ''))
+
+    createEffect(() => {
+      props.copyRef?.(input)
+    })
+
+    // createEffect(() => {
+    //   if (props.override) {
+    //     state.value = props.value
+    //   }
+    // })
+  })
 
   return (
     <div class="flex flex-1 space-x-2">
@@ -94,10 +104,11 @@ export default (props: Props) => {
             'w-full flex-1 bg-transparent text-left placeholder:text-stone-400 focus:outline-none',
           ])}
           id={id}
-          ref={input}
           aria-invalid={needsFixing()}
           disabled={props.disabled}
           {...inputProps}
+          ref={input}
+          {...(props.long ? { rows: 5 } : {})}
           type={type()}
           onInput={(event: InputEvent) => {
             const element = event.target as HTMLInputElement

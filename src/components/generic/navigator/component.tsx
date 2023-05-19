@@ -12,6 +12,14 @@ export default (props: Props) => {
     history: [] as string[],
   })
 
+  createEffect(() => {
+    const values = props.list.map((value) => value.id)
+
+    if (!values.includes(state.id)) {
+      setState('id', values.at(0) ?? '')
+    }
+  })
+
   return (
     <Dynamic
       component={props.list.find((obj) => obj.id === state.id)?.component}

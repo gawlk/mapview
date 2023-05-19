@@ -58,3 +58,33 @@ export const stylePropToCSSProperties = (
 
   return styleObject
 }
+
+export const valueWithTextToJSXElement = (
+  prop: ValueWithTextProps
+): (() => Solid.JSX.Element) =>
+  typeof prop.text === 'function'
+    ? prop.text
+    : () => String(prop.text ?? prop.value ?? '')
+
+export const convertValuesPropsListToValuesWithTextProps = (
+  list: ValuesListProps
+): ValueWithTextProps[] => {
+  const first = list.at(0)
+
+  if (first && typeof first !== 'string') {
+    return list as (typeof first)[]
+  } else {
+    return list.map((value) => ({
+      value: value as string,
+    }))
+  }
+}
+
+export const isValuePropSelected = (
+  selected: string | number | null,
+  toCheck: ValueWithTextProps,
+  toCheckIndex: number
+) =>
+  (typeof selected === 'number' && selected === toCheckIndex) ||
+  selected === toCheck.value ||
+  selected === toCheck.text

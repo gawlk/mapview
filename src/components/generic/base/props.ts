@@ -6,6 +6,8 @@ export const baseBooleanPropsKeysObject: BooleanPropsKeysObject<BasePropsOnly> =
 
     size: true,
 
+    padding: true,
+
     class: true,
 
     style: true,

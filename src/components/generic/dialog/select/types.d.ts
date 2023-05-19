@@ -3,20 +3,14 @@ type DialogSelectProps = DialogSelectPropsOnly & DialogProps
 interface DialogSelectPropsOnly extends SaveableProps {
   search?: Omit<InputPropsWithHTMLAttributes, 'onInput'>
 
-  options: DialogSelectOptionsProps
+  values: DialogValuesProps
 }
 
-interface DialogSelectOptionsProps {
-  selected: string | number | null
-  list: string[] | DialogSelectOptionProps[] | GroupedDialogSelectOptionsProps[]
-}
-
-interface DialogSelectOptionProps extends ButtonPropsWithHTMLAttributes {
-  text?: string | (() => Solid.JSX.Element)
-  value: string
-}
+type DialogValuesProps = ValuesProps<
+  ValuesListProps | GroupedDialogSelectOptionsProps[]
+>
 
 interface GroupedDialogSelectOptionsProps {
   name: string
-  list: DialogSelectOptionProps[]
+  list: ValueWithTextProps[]
 }

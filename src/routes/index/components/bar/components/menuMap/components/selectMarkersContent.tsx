@@ -48,7 +48,7 @@ export default () => {
         leftIcon: DotIcon,
       }}
       position="relative"
-      options={{
+      values={{
         selected: state.pointStateValues[state.pointStateSelected],
         list: state.pointStateValues,
       }}

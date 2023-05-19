@@ -33,7 +33,7 @@ export default () => {
           ? convertProjectToName(store.selectedProject)
           : '',
       }}
-      options={{
+      values={{
         selected: store.selectedProject
           ? convertProjectToName(store.selectedProject)
           : '',

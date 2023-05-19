@@ -9,5 +9,6 @@ export * from './icon'
 export * from './input'
 export * from './interactive'
 export * from './navigator'
+export * from './table'
 
 export * from './props'

@@ -45,7 +45,8 @@ export default () => {
       >
         {(mathUnit) => (
           <Details
-            defaultOpen={true}
+            defaultOpen
+            locked
             button={{
               leftIcon: getMathUnitIcon(mathUnit),
               label: t('Unit'),
@@ -59,12 +60,12 @@ export default () => {
                   full: true,
                   label: t('Unit'),
                 }}
-                options={{
+                values={{
                   selected: mathUnit.currentUnit,
                   list: mathUnit.possibleSettings.map((setting) => setting[0]),
                 }}
+                onClose={(value) => value && (mathUnit.currentUnit = value)}
               />
-
               <DialogSelect
                 position="relative"
                 button={{
@@ -72,12 +73,15 @@ export default () => {
                   leftIcon: IconTablerDecimal,
                   label: t('Precision'),
                 }}
-                options={{
-                  selected: mathUnit.currentPrecision,
-                  list: mathUnit.possibleSettings.map((setting) =>
-                    String(setting[1])
+                values={{
+                  selected: String(mathUnit.currentPrecision),
+                  list: mathUnit.possiblePrecisions.map((precision) =>
+                    String(precision)
                   ),
                 }}
+                onClose={(value) =>
+                  value && (mathUnit.currentPrecision = Number(value))
+                }
               />
             </div>
             <div class="flex space-x-2">

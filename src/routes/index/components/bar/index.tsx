@@ -4,13 +4,11 @@ import store from '/src/store'
 
 import BarDesktop from './components/barDesktop'
 import BarMobile from './components/barMobile'
+import MenuColors from './components/menuColors'
 import MenuData from './components/menuData'
 import MenuMap from './components/menuMap'
-import MenuPoints from './components/menuPoints'
 import MenuProject from './components/menuProject'
 import MenuReports from './components/menuReports'
-
-import DotsIcon from '/src/assets/svg/custom/dots.svg'
 
 export default () => {
   const [t] = useI18n()
@@ -35,10 +33,10 @@ export default () => {
       component: MenuReports,
     },
     {
-      id: 'points',
-      name: t('Points'),
-      icon: DotsIcon,
-      component: MenuPoints,
+      id: 'colors',
+      name: t('Colors'),
+      icon: IconTablerRainbow,
+      component: MenuColors,
       needsReport: true,
     },
     {

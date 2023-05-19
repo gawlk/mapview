@@ -12,3 +12,15 @@ type MergePropsWithHTMLProps<
 type BooleanPropsKeysObject<Props> = {
   [T in keyof Required<Props>]: boolean
 }
+
+interface ValuesProps<T = ValuesListProps> {
+  selected: string | number | null
+  list: T
+}
+
+type ValuesListProps = string[] | ValueWithTextProps[]
+
+interface ValueWithTextProps extends ButtonPropsWithHTMLAttributes {
+  text?: string | (() => Solid.JSX.Element)
+  value: string
+}

@@ -11,6 +11,9 @@ export const inputBooleanPropsKeysObject: BooleanPropsKeysObject<InputPropsOnly>
 
     debounce: true,
     onInput: true,
+    copyRef: true,
+
+    override: true,
 
     long: true,
   }

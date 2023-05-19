@@ -1,9 +1,13 @@
 type BaseProps = BasePropsOnly
 
+type Size = '2xl' | 'xl' | 'lg' | 'base' | 'sm' | 'xs'
+
 interface BasePropsOnly {
   disabled?: boolean
 
-  size?: '2xl' | 'xl' | 'lg' | 'base' | 'sm' | 'xs'
+  size?: Size
+
+  padding?: Size
 
   color?:
     | 'primary'

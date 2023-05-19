@@ -4,5 +4,5 @@ export const dialogSelectBooleanPropsKeysObject: BooleanPropsKeysObject<DialogSe
   {
     ...saveableBooleanPropsKeysObject,
     search: true,
-    options: true,
+    values: true,
   }

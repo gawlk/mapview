@@ -65,6 +65,8 @@ export default (props: Props) => {
     () => isWindowLarge() && !(isRelative() || isAble())
   )
 
+  // TODO: Add optional closeable prop
+
   // TODO: On window resize hide dialog if open button isn't visible on screen (hidden by parent for example)
 
   let dialog: HTMLDialogElement | undefined
@@ -206,6 +208,9 @@ export default (props: Props) => {
             dialog?.show()
 
             setState('show', true)
+
+            props.onOpen?.()
+
             setTimeout(() => setState('open', true), 50)
           } else {
             close()
@@ -285,6 +290,7 @@ export default (props: Props) => {
 
             (() => {
               switch (props.position) {
+                case 'attached':
                 case 'relative':
                   return 'absolute m-0 max-h-[40vh] min-w-[12rem] space-y-1.5 rounded-xl border-2' // TODO: Check how floating-ui does max-height
                 default:

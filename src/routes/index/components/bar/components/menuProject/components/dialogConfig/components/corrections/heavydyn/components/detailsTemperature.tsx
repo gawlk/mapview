@@ -2,6 +2,8 @@ import { useI18n } from '@solid-primitives/i18n'
 
 import { roundValue } from '/src/scripts'
 
+import InputRadioAbled from './inputRadioAbled'
+
 import { Details, DialogSelect, Input } from '/src/components'
 
 interface Props {
@@ -17,16 +19,18 @@ export default (props: Props) => {
 
   return (
     <Details
-      defaultOpen={temperature().active}
-      onClick={(open) => (temperature().active = open)}
+      defaultOpen
+      locked
       button={{
         leftIcon: IconTablerTemperature,
-        rightIconOpen: IconTablerCheck,
-        rightIconClosed: IconTablerX,
         label: t('Temperature'),
         text: temperature().active ? t('Enabled') : t('Disabled'),
       }}
     >
+      <InputRadioAbled
+        active={temperature().active}
+        onChange={(value) => (temperature().active = value)}
+      />
       <DialogSelect
         position="relative"
         button={{
@@ -36,7 +40,7 @@ export default (props: Props) => {
         onClose={(value) =>
           value && temperature().source.selectIndex(Number(value))
         }
-        options={{
+        values={{
           selected: t(temperature().source.selected || ''),
           list: temperature().source.list.map((str, index) => ({
             value: String(index),
@@ -67,7 +71,7 @@ export default (props: Props) => {
           onClose={(value) =>
             value && temperature().average.selectIndex(Number(value))
           }
-          options={{
+          values={{
             selected: t(temperature().average.selected || ''),
             list: temperature().average.list.map((str, index) => ({
               value: String(index),
@@ -94,7 +98,7 @@ export default (props: Props) => {
         onClose={(value) =>
           value && temperature().structureType.selectIndex(Number(value))
         }
-        options={{
+        values={{
           selected: t(temperature().structureType.selected?.name || ''),
           list: temperature().structureType.list.map((structure, index) => ({
             value: String(index),

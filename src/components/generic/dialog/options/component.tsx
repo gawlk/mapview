@@ -5,7 +5,7 @@ import List from './components/List'
 
 interface Props {
   input?: string
-  options: DialogSelectOptionsProps
+  options: DialogValuesProps
   onClick?: (value?: string) => void
 }
 
@@ -17,7 +17,7 @@ export default (props: Props) => {
         <List
           input={props.input}
           selected={props.options.selected}
-          list={props.options.list as string[] | DialogSelectOptionProps[]}
+          list={props.options.list as ValuesListProps}
           onClick={props.onClick}
         />
       }

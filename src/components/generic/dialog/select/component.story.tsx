@@ -11,7 +11,7 @@ export default () => {
         button={{
           label: 'Value',
         }}
-        options={{
+        values={{
           selected: state.value1,
           list: ['1', '2', '3'],
         }}
@@ -25,7 +25,7 @@ export default () => {
           label: 'Value',
         }}
         position="relative"
-        options={{
+        values={{
           selected: state.value1,
           list: ['1', '2', '3'],
         }}
@@ -41,7 +41,7 @@ export default () => {
         search={{
           placeholder: 'Value',
         }}
-        options={{
+        values={{
           selected: state.value1,
           list: ['1', '2', '3'],
         }}
@@ -58,7 +58,7 @@ export default () => {
         search={{
           placeholder: 'Value',
         }}
-        options={{
+        values={{
           selected: state.value1,
           list: ['1', '2', '3'],
         }}

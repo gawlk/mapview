@@ -5,9 +5,10 @@ import {
   DialogOptions,
   Input,
   classPropToString,
+  valueWithTextToJSXElement,
 } from '/src/components'
 
-import { convertListToOptions, optionToJSXElement } from '../options/scripts'
+import { convertDialogValuesPropsListToValuesWithTextProps } from '../options/scripts'
 
 export interface Props
   extends MergePropsWithHTMLProps<
@@ -36,15 +37,19 @@ export default (props: Props) => {
 
   const getDialogButtonText = () => {
     const option =
-      typeof props.options.selected === 'number'
-        ? convertListToOptions(props.options.list).at(props.options.selected)
-        : convertListToOptions(props.options.list).find(
+      typeof props.values.selected === 'number'
+        ? convertDialogValuesPropsListToValuesWithTextProps(
+            props.values.list
+          ).at(props.values.selected)
+        : convertDialogValuesPropsListToValuesWithTextProps(
+            props.values.list
+          ).find(
             (option) =>
-              option.value === props.options.selected ||
-              option.text === props.options.selected
+              option.value === props.values.selected ||
+              option.text === props.values.selected
           )
 
-    return option ? optionToJSXElement(option) : undefined
+    return option ? valueWithTextToJSXElement(option) : undefined
   }
 
   // TODO: Show option icon if none
@@ -90,7 +95,7 @@ export default (props: Props) => {
             isRelative() ? 'space-y-1.5' : 'space-y-2',
           ])}
         >
-          <DialogOptions input={state.input} options={props.options} />
+          <DialogOptions input={state.input} options={props.values} />
         </div>
       }
     />

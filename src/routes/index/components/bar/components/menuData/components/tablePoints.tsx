@@ -6,12 +6,17 @@ import store from '/src/store'
 
 import { colors, moveIndexInCopiedArray } from '/src/scripts'
 
-import { THead, Table, Td, Tr } from './table'
+import { movePointToZoneIndex } from './scripts'
 
-import { Button, DialogSelect } from '/src/components'
-
-import { movePointToZoneIndex } from './table/scripts'
-import TdDataLabel from './table/tdDataLabel'
+import {
+  Button,
+  DialogSelect,
+  THead,
+  Table,
+  Td,
+  TdDataLabel,
+  Tr,
+} from '/src/components'
 
 interface Props {
   points: BasePoint[]
@@ -88,8 +93,8 @@ export default (props: Props) => {
     <Table>
       <THead>
         <Td />
-        <Td text="center">{t('Zone')}</Td>
-        <Td class="w-1/4" text="center">
+        <Td>{t('Zone')}</Td>
+        <Td text="right" class="w-1/4" wide>
           {t('Number')}
         </Td>
         <For each={props.dataLabels}>
@@ -138,7 +143,7 @@ export default (props: Props) => {
                     full: true,
                   }}
                   position="relative"
-                  options={{
+                  values={{
                     selected: point.zone.name,
                     list: (
                       store.selectedReport?.zones.map((zone) => zone.name) || []
@@ -152,7 +157,7 @@ export default (props: Props) => {
                   }
                 />
               </Td>
-              <Td wide text="center">
+              <Td wide text="right">
                 {point.number}
               </Td>
               <Show when={props.from}>
@@ -177,7 +182,7 @@ export default (props: Props) => {
                   onClick={() =>
                     store.map?.flyTo({
                       center: point.marker?.getLngLat(),
-                      zoom: 20,
+                      zoom: 18,
                     })
                   }
                 />

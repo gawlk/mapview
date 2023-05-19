@@ -141,9 +141,6 @@ export const createBasePointFromJSON = <
               (number) => {
                 this.icon?.setText(String(number))
               }
-              // {
-              //   immediate: true,
-              // }
             )
           )
 
@@ -164,9 +161,6 @@ export const createBasePointFromJSON = <
                 (displayedString) => {
                   this.icon?.setText(displayedString || '')
                 }
-                // {
-                //   immediate: true,
-                // }
               )
             )
           }

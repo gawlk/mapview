@@ -193,7 +193,7 @@ export default (props: Props) => {
           </table>
         }
       >
-        <div class="space-y-2 px-4 sm:flex sm:space-y-0 sm:space-x-16 sm:px-6">
+        <div class="space-y-2 px-4 sm:flex sm:space-x-16 sm:space-y-0 sm:px-6">
           <div class="flex w-full items-center space-x-2">
             <Button
               icon={IconTablerChevronLeft}
@@ -216,7 +216,7 @@ export default (props: Props) => {
                 center: true,
                 full: true,
               }}
-              options={{
+              values={{
                 selected: String(months[state.month]),
                 list: months,
               }}
@@ -253,7 +253,7 @@ export default (props: Props) => {
                 center: true,
                 full: true,
               }}
-              options={{
+              values={{
                 selected: String(state.year),
                 list: [],
               }}

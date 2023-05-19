@@ -12,7 +12,11 @@ interface Props {
 export default (props: Props) => {
   const [t] = useI18n()
 
-  // TODO: Donnée manquante
+  const [state, setState] = createStore({
+    open: false,
+  })
+
+  const pendingChanges = new Map<string, () => void>()
 
   return (
     <Dialog
@@ -25,9 +29,21 @@ export default (props: Props) => {
       footer={
         <div class="flex justify-between">
           <Button rightIcon={IconTablerArrowBack}>{t('Cancel')}</Button>
-          <Button rightIcon={IconTablerDoorExit}>{t('Save')}</Button>
+          <Button
+            rightIcon={IconTablerDoorExit}
+            onClick={() => {
+              ;[...pendingChanges.values()].forEach((setter) => setter())
+            }}
+          >
+            {t('Save')}
+          </Button>
         </div>
       }
+      onOpen={() => {
+        setState('open', true)
+        pendingChanges.clear()
+      }}
+      onClose={() => setState('open', false)}
     >
       <div class="space-y-8">
         <For each={props.bulks}>
@@ -35,8 +51,8 @@ export default (props: Props) => {
             <Label label={bulk.title}>
               <For each={bulk.fields}>
                 {(field) => {
-                  let value: string | number | boolean | Date
-                  // let setValue: (newValue: typeof value) => void
+                  let input = undefined as HTMLInputElement | undefined
+                  let value: string | number | boolean
                   let type: string | undefined
 
                   switch (typeof field.value) {
@@ -65,20 +81,44 @@ export default (props: Props) => {
                         field.value.kind === 'selectableString'
                       : typeof value === 'string' || typeof value === 'number'
 
+                  const id = createMemo(
+                    () => `input-${field.label.toLowerCase()}`
+                  )
+
+                  const readOnly = createMemo(
+                    () => type === 'date' || field.settings.readOnly
+                  )
+
+                  createEffect(() => {
+                    if (state.open && input && !readOnly()) {
+                      input.value = String(value)
+                    }
+                  })
+
                   return (
                     <Switch>
                       <Match when={isInput}>
                         <Input
+                          copyRef={(ref) => (input = ref)}
                           full
+                          // TODO: Set color to yellow when value is pending ?
+                          color={undefined}
                           label={t(field.label)}
-                          readOnly={type === 'date' || field.settings.readOnly}
+                          readOnly={readOnly()}
                           long={
                             typeof field.value === 'object' &&
                             field.value.kind === 'longString'
                           }
                           value={value as string | number}
                           type={type}
-                          id={`'input-${field.label.toLowerCase()}`}
+                          id={id()}
+                          onInput={(newValue) => {
+                            pendingChanges.set(id(), () => {
+                              // TODO: Keep one instead of both
+                              field.setValue(newValue || '')
+                              value = newValue || ''
+                            })
+                          }}
                         />
                       </Match>
                     </Switch>

@@ -2,6 +2,8 @@ import { useI18n } from '@solid-primitives/i18n'
 
 import { roundValue } from '/src/scripts'
 
+import InputRadioAbled from './inputRadioAbled'
+
 import { Details, DialogSelect, Input } from '/src/components'
 
 interface Props {
@@ -15,16 +17,18 @@ export default (props: Props) => {
 
   return (
     <Details
-      defaultOpen={load().active}
-      onClick={(open) => (load().active = open)}
+      defaultOpen
+      locked
       button={{
         leftIcon: IconTablerWeight,
-        rightIconOpen: IconTablerCheck,
-        rightIconClosed: IconTablerX,
         label: t('Load'),
         text: load().active ? t('Enabled') : t('Disabled'),
       }}
     >
+      <InputRadioAbled
+        active={load().active}
+        onChange={(value) => (load().active = value)}
+      />
       <DialogSelect
         position="relative"
         button={{
@@ -32,7 +36,7 @@ export default (props: Props) => {
           full: true,
         }}
         onClose={(value) => value && load().source.selectIndex(Number(value))}
-        options={{
+        values={{
           selected: t(load().source.selected || ''),
           list: load().source.list.map((str, index) => ({
             value: String(index),

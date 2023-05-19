@@ -30,7 +30,7 @@ export default () => {
         full: true,
       }}
       position="relative"
-      options={{
+      values={{
         selected: 0,
         list: stylesImages.map((style, index) => ({
           value: String(index),

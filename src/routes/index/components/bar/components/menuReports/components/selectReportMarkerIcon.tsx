@@ -18,7 +18,7 @@ export default (props: Props) => {
         icon: formatIconSVGForUI(icons[props.report.settings.iconName]),
       }}
       position="relative"
-      options={{
+      values={{
         selected: 0,
         list: (Object.keys(icons) as IconName[]).map((svgName) => {
           return {

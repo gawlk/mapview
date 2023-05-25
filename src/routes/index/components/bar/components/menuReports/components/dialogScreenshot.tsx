@@ -52,7 +52,6 @@ export default () => {
   return (
     <Dialog
       position="full"
-      color="transparent"
       button={{
         ...(store.selectedReport?.screenshots.length
           ? { icon: IconTablerCamera }
@@ -69,19 +68,17 @@ export default () => {
         <div class="flex h-full items-center justify-center">
           <Show when={state.image}>
             {(image) => (
-              <div class="space-y-2">
+              <div class="space-y-8">
                 <Image image={image()} />
                 <div class="flex justify-center space-x-2">
                   <div class="inline-block space-x-2">
                     <Button
-                      color="gray"
                       leftIcon={IconTablerCameraDown}
                       onClick={() => downloadImage(image())}
                     >
                       {t('Download picture')}
                     </Button>
                     <Button
-                      color="gray"
                       leftIcon={IconTablerCameraCheck}
                       onClick={() =>
                         store.selectedReport?.screenshots.push(image())

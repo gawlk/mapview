@@ -1,7 +1,7 @@
 type InteractiveProps = InteractivePropsOnly & ContainerProps
 
 interface InteractivePropsOnly {
-  kind?: 'clickable' | 'focusable'
+  kind?: 'clickable' | 'focusable' | 'static'
 
   label?: string
 

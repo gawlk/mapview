@@ -13,7 +13,7 @@ export const inputBooleanPropsKeysObject: BooleanPropsKeysObject<InputPropsOnly>
     onInput: true,
     copyRef: true,
 
-    override: true,
+    bind: true,
 
     long: true,
   }

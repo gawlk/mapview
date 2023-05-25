@@ -4,6 +4,8 @@ import store from '/src/store'
 
 import { colorNameToBackgroundColor } from '/src/scripts'
 
+import SpanThreshold from './spanThreshold'
+
 import { DialogColor } from '/src/components'
 
 interface Props {
@@ -21,20 +23,11 @@ export default (props: Props) => {
     () => store.selectedReport?.thresholds.colors
   )
 
-  const formatValue = (value?: number) =>
-    `${props.mathUnit?.baseToCurrent(value || 0).toLocaleString()} ${
-      props.mathUnit?.currentUnit
-    }`
-
   return (
     <DialogColor
       button={{
         full: true,
-        text: `${formatValue(props.from)} ≤ ${t(
-          props.name || '',
-          undefined,
-          props.name
-        )} < ${formatValue(props.to)}`,
+        text: () => <SpanThreshold {...props} />,
         style: {
           'background-color': `${colorNameToBackgroundColor(
             thresoldColors()?.[props.level]

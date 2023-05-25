@@ -17,6 +17,7 @@ interface BasePropsOnly {
     | 'red'
     | 'green'
     | 'orange'
+    | 'yellow'
     | 'transparent'
 
   class?: ClassProp

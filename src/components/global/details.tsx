@@ -45,6 +45,7 @@ export default (props: Props) => {
           full
           {...props.button}
           rightIcon={!props.locked ? buttonRightIcon() : undefined}
+          kind={props.locked ? 'static' : 'clickable'}
           onClick={() => !props.locked && setState('open', (open) => !open)}
           class={[state.open && 'rounded-b-none']}
         >

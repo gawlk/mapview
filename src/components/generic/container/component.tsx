@@ -32,6 +32,8 @@ export default (props: Props) => {
               return 'text-green-900'
             case 'orange':
               return 'text-orange-900'
+            case 'yellow':
+              return 'text-yellow-900'
             default:
               return 'text-black/90'
           }
@@ -52,6 +54,8 @@ export default (props: Props) => {
               return 'bg-green-200'
             case 'orange':
               return 'bg-orange-200'
+            case 'yellow':
+              return 'bg-yellow-200'
             case 'transparent':
               return 'bg-transparent'
             default:

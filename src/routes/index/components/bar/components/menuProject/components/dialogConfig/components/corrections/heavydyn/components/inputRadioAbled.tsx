@@ -18,7 +18,13 @@ export default (props: Props) => {
       full
       values={{
         selected: props.active ? enabledString : disabledString,
-        list: [enabledString, disabledString],
+        list: [
+          {
+            value: enabledString,
+            color: 'green',
+          },
+          { value: disabledString, color: 'red' },
+        ],
       }}
       onChange={(value) =>
         props.onChange(value === enabledString ? true : false)

@@ -14,7 +14,6 @@ export default () => {
   return (
     <Dialog
       position="full"
-      color="transparent"
       button={{
         leftIcon: IconTablerSlideshow,
         text: `${t('View the album')} - ${
@@ -28,12 +27,11 @@ export default () => {
         {/* TODO: Rename screenshots to album */}
         <For each={store.selectedReport?.screenshots}>
           {(image, index) => (
-            <div class="mx-auto flex-none space-y-2">
+            <div class="mx-auto flex-none space-y-8">
               <Image image={image} />
               <div class="flex justify-center space-x-2">
                 <div class="inline-block space-x-2">
                   <Button
-                    color="gray"
                     leftIcon={IconTablerCameraDown}
                     onClick={() => downloadImage(image)}
                   >

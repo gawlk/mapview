@@ -16,6 +16,18 @@ export default () => {
     () => store.selectedReport?.dataLabels.table.selected
   )
 
+  const tableSelectedDataLabels = createMemo(
+    () => tableDataLabels()?.dataLabels
+  )
+
+  const tableDataLabelsChoices = createMemo(
+    () => tableDataLabels()?.group.choices.list
+  )
+
+  const groupedTableDataLabelsChoices = createMemo(() =>
+    groupDataLabelsByCategory(tableDataLabelsChoices() || [])
+  )
+
   let sortable: Sortable | undefined
   let selectedDataLabels: HTMLDivElement | undefined
 
@@ -29,7 +41,7 @@ export default () => {
     }).on('sortable:stop', (event: any) => {
       const { oldIndex, newIndex } = event.data
 
-      const tableSelected = store.selectedReport?.dataLabels.table.selected
+      const tableSelected = tableDataLabels()
 
       if (tableSelected?.dataLabels) {
         tableSelected.dataLabels = moveIndexInCopiedArray(
@@ -45,14 +57,14 @@ export default () => {
     sortable?.destroy()
   })
 
+  console.log('wekofpwekfopwkfopwkfopwekfpwok')
+
   return (
     <div class="space-y-4">
       <div class="space-y-2">
         <Label label={t('Selected columns')}>
           <div class="space-y-2" ref={selectedDataLabels}>
-            <For
-              each={store.selectedReport?.dataLabels.table.selected?.dataLabels}
-            >
+            <For each={tableSelectedDataLabels()}>
               {(dataLabel, index) => (
                 <div class="sortable flex">
                   <Button
@@ -68,12 +80,12 @@ export default () => {
                     color="red"
                     class="rounded-l-none border-l-black/10"
                     onClick={() => {
-                      const index = tableDataLabels()?.dataLabels.findIndex(
+                      const index = tableSelectedDataLabels()?.findIndex(
                         (dataLabel2) => dataLabel === dataLabel2
                       )
 
                       if (typeof index === 'number' && index !== -1) {
-                        tableDataLabels()?.dataLabels.splice(index, 1)
+                        tableSelectedDataLabels()?.splice(index, 1)
                       }
                     }}
                   />
@@ -83,33 +95,42 @@ export default () => {
           </div>
         </Label>
       </div>
+
       <DialogDivider class="-mx-4 mt-3" />
+
       <DialogOptions
         onClick={(value) => {
-          const dataLabel = tableDataLabels()?.group.choices.list.find(
+          const dataLabel = tableDataLabelsChoices()?.find(
             (dataLabel) => dataLabel.toString() === value
           )
 
-          if (dataLabel) {
-            tableDataLabels()?.dataLabels.push(dataLabel)
+          if (dataLabel && !tableSelectedDataLabels()?.includes(dataLabel)) {
+            tableSelectedDataLabels()?.push(dataLabel)
           }
         }}
         options={{
           selected: null,
           list:
-            groupDataLabelsByCategory(
-              tableDataLabels()?.group.choices.list.filter(
-                (dataLabel) =>
-                  !tableDataLabels()?.dataLabels.includes(dataLabel)
-              ) || []
-            ).map(([category, dataLabels]) => ({
-              name: t(category.name),
-              list: dataLabels.map((dataLabel) => ({
-                value: dataLabel.toString(),
-                text: () => <SpanDataLabel dataLabel={dataLabel} />,
-                rightIcon: IconTablerPlus,
-              })),
-            })) || [],
+            groupedTableDataLabelsChoices().map(([category, dataLabels]) => {
+              console.log('groupedTableDataLabelsChoices map')
+
+              return {
+                name: t(category.name),
+                list: dataLabels.map((dataLabel) => {
+                  const selected = createMemo(() =>
+                    tableSelectedDataLabels()?.includes(dataLabel)
+                  )
+
+                  return {
+                    value: dataLabel.toString(),
+                    text: () => <SpanDataLabel dataLabel={dataLabel} />,
+                    // TODO: Check why it disappeared
+                    rightIcon: selected() ? IconTablerMinus : IconTablerPlus,
+                    hidden: !!selected(),
+                  }
+                }),
+              }
+            }) || [],
         }}
       />
     </div>

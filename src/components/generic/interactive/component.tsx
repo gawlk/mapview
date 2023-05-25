@@ -28,10 +28,13 @@ export default (passedProps: Props) => {
     id: true,
   })
 
+  const disabled = createMemo(() => props.disabled || props.kind === 'static')
+
   return (
     <Container
       {...containerProps}
       orientation={props.orientation || props.icon ? undefined : 'horizontal'}
+      disabled={disabled()}
       class={[
         // Width
         props.full && 'w-full min-w-0',
@@ -40,7 +43,7 @@ export default (passedProps: Props) => {
         props.center && 'justify-center',
 
         // Hover & Active
-        !props.disabled &&
+        !disabled() &&
           (() => {
             switch (props.color) {
               case 'secondary':
@@ -58,14 +61,15 @@ export default (passedProps: Props) => {
         (() => {
           if (props.disabled) {
             return 'opacity-60'
-          } else if (props.kind) {
+          } else if (props.kind !== 'static') {
             return `group appearance-none transition duration-200 will-change-transform focus:outline-none disabled:transform-none motion-reduce:transform-none ${
               props.kind === 'clickable' ? 'cursor-pointer select-none' : ''
             }`
           }
         })(),
 
-        'inline-flex items-center',
+        // Because 'inline-flex' has priority over hidden attribute
+        !props.hidden && 'inline-flex items-center',
 
         props.class,
       ]}

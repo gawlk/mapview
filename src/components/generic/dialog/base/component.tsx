@@ -96,7 +96,7 @@ export default (props: Props) => {
     )
 
     setState({
-      value: value,
+      value,
       open: false,
     })
   }
@@ -341,7 +341,9 @@ export default (props: Props) => {
                 'flex items-center px-4 pb-3 pt-4',
               ])}
             >
-              <DialogButtonClose close={close} />
+              <Show when={!props.hideCloseButton}>
+                <DialogButtonClose close={close} />
+              </Show>
 
               <h2 class="flex-grow truncate text-center text-xl font-semibold">
                 {props.title}

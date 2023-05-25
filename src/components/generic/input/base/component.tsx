@@ -76,11 +76,13 @@ export default (props: Props) => {
       props.copyRef?.(input)
     })
 
-    // createEffect(() => {
-    //   if (props.override) {
-    //     state.value = props.value
-    //   }
-    // })
+    createEffect(() => {
+      if (props.bind && input) {
+        setState('value', props.value)
+
+        input.value = String(props.value)
+      }
+    })
   })
 
   return (
@@ -119,6 +121,7 @@ export default (props: Props) => {
 
             debounceInputPropagation(value, event)
           }}
+          {...(type() === 'range' ? { min: props.min, max: props.max } : {})}
         />
       </Interactive>
       <Show when={needsFixing()}>

@@ -21,6 +21,7 @@ export default (props: Props) => {
   return (
     <Dialog
       title={t('Informations')}
+      hideCloseButton
       button={{
         leftIcon: IconTablerInfoCircle,
         text: t('View information'),
@@ -28,8 +29,11 @@ export default (props: Props) => {
       }}
       footer={
         <div class="flex justify-between">
-          <Button rightIcon={IconTablerArrowBack}>{t('Cancel')}</Button>
+          <Button color="red" leftIcon={IconTablerArrowBack}>
+            {t('Cancel')}
+          </Button>
           <Button
+            color="green"
             rightIcon={IconTablerDoorExit}
             onClick={() => {
               ;[...pendingChanges.values()].forEach((setter) => setter())

@@ -2,11 +2,19 @@ import { useI18n } from '@solid-primitives/i18n'
 
 import store from '/src/store'
 
-import { Details, Input, InputRadioHorizontal } from '/src/components'
+import { blend, colors, roundValue } from '/src/scripts'
+
+import {
+  Details,
+  Input,
+  InputRadioHorizontal,
+  Interactive,
+} from '/src/components'
 
 import DialogColorThreshold from './components/dialogColorThreshold'
 import InputCustomThreshold from './components/inputCustomThreshold'
 import SelectThreshold from './components/selectThreshold'
+import SpanThreshold from './components/spanThreshold'
 
 export default () => {
   const [t] = useI18n()
@@ -45,6 +53,13 @@ export default () => {
       : undefined
   )
 
+  const baseToCurrent = (value = 0) =>
+    roundValue(selectedMathUnit()?.baseToCurrent(value) || 0, 5)
+
+  const isBicolor = createMemo(() => isCustom()?.type === 'Bicolor')
+  const isGradient = createMemo(() => isCustom()?.type === 'Gradient')
+  const isTricolor = createMemo(() => isCustom()?.type === 'Tricolor')
+
   return (
     <Details
       button={{ leftIcon: IconTablerAdjustments, text: t('Thresholds') }}
@@ -52,8 +67,38 @@ export default () => {
     >
       <SelectThreshold thresholds={selectedThresholdsGroupChoices()} />
 
+      <Show when={isCustom()}>
+        {(customThreshold) => (
+          <InputRadioHorizontal
+            full
+            values={{
+              selected: customThreshold().type,
+              // TODO: Check CustomThresholdType type
+              list: [
+                {
+                  value: 'Bicolor',
+                  text: t('Bicolor'),
+                },
+                {
+                  value: 'Gradient',
+                  text: t('Gradient'),
+                },
+                {
+                  value: 'Tricolor',
+                  text: t('Tricolor'),
+                },
+              ],
+            }}
+            onChange={(value) =>
+              (customThreshold().type = value as CustomThresholdType)
+            }
+          />
+        )}
+      </Show>
+
       <Show
         when={
+          // Hide for N.S. threshold
           isCustom() || selectedMathUnit()?.min !== selectedThreshold()?.value
         }
       >
@@ -90,57 +135,108 @@ export default () => {
                 (store.selectedReport.thresholds.inputs.isRequiredARange =
                   value)
               }
-              value={selectedThreshold()?.value || 0}
+              value={baseToCurrent(customThreshold().value)}
               setValue={(value) => {
-                const threshold = selectedThresholdsGroupChoices()
-                  ?.selected as CustomThreshold
-
                 const mathUnit = selectedMathUnit()
 
-                if (threshold && mathUnit) {
+                if (mathUnit) {
                   const number = mathUnit.currentToBase(Number(value))
 
-                  threshold.value = number
+                  customThreshold().value = number
 
-                  threshold.valueHigh = Math.max(threshold.valueHigh, number)
+                  customThreshold().valueHigh = Math.max(
+                    customThreshold().valueHigh,
+                    number
+                  )
                 }
               }}
+              min={baseToCurrent(selectedMathUnit()?.min)}
+              max={baseToCurrent(selectedMathUnit()?.max)}
             />
-            <DialogColorThreshold
-              level="middle"
-              name={selectedDataLabelName()}
-              mathUnit={selectedMathUnit()}
-              from={customThreshold()?.value}
-              to={customThreshold()?.valueHigh}
-            />
-            <InputCustomThreshold
-              isRange={
-                store.selectedReport?.thresholds.inputs.isOptionalARange ||
-                false
-              }
-              setIsRange={(value) =>
-                store.selectedReport &&
-                (store.selectedReport.thresholds.inputs.isOptionalARange =
-                  value)
-              }
-              value={
-                (selectedThreshold() as CustomThreshold | undefined)
-                  ?.valueHigh || 0
-              }
-              setValue={(value) => {
-                const threshold = selectedThreshold() as CustomThreshold
 
-                const mathUnit = selectedMathUnit()
-
-                if (threshold && mathUnit) {
-                  const number = mathUnit.currentToBase(Number(value))
-
-                  threshold.valueHigh = number
-
-                  threshold.value = Math.min(threshold.value, number)
+            <Show when={!isBicolor()}>
+              <Show
+                when={isGradient()}
+                fallback={
+                  <DialogColorThreshold
+                    level="middle"
+                    name={selectedDataLabelName()}
+                    mathUnit={selectedMathUnit()}
+                    from={customThreshold()?.value}
+                    to={customThreshold()?.valueHigh}
+                  />
                 }
-              }}
-            />
+              >
+                {(() => {
+                  const thresoldColors = createMemo(
+                    () => store.selectedReport?.thresholds.colors
+                  )
+
+                  const colorLow = createMemo(
+                    () => colors[thresoldColors()?.low || 'gray']
+                  )
+
+                  const colorHigh = createMemo(
+                    () => colors[thresoldColors()?.high || 'gray']
+                  )
+
+                  return (
+                    <Interactive
+                      leftIcon={IconTablerColorSwatch}
+                      full
+                      kind="static"
+                      style={{
+                        color: blend(
+                          blend(colorLow(), colorHigh()),
+                          '#000000',
+                          0.75
+                        ),
+                        background: `linear-gradient(180deg,${colorLow()},${colorHigh()})`,
+                        'border-top-color': colorLow(),
+                        'border-bottom-color': colorHigh(),
+                      }}
+                    >
+                      <SpanThreshold
+                        name={selectedDataLabelName()}
+                        mathUnit={selectedMathUnit()}
+                        from={customThreshold().value}
+                        to={customThreshold().valueHigh}
+                      />
+                    </Interactive>
+                  )
+                })()}
+              </Show>
+
+              <InputCustomThreshold
+                isRange={
+                  store.selectedReport?.thresholds.inputs.isOptionalARange ||
+                  false
+                }
+                setIsRange={(value) =>
+                  store.selectedReport &&
+                  (store.selectedReport.thresholds.inputs.isOptionalARange =
+                    value)
+                }
+                value={baseToCurrent(customThreshold().valueHigh)}
+                setValue={(value) => {
+                  const mathUnit = selectedMathUnit()
+
+                  if (mathUnit) {
+                    const number = mathUnit.currentToBase(Number(value))
+
+                    customThreshold().valueHigh = number
+
+                    customThreshold().value = Math.min(
+                      customThreshold().value,
+                      number
+                    )
+                  }
+                }}
+                min={baseToCurrent(selectedMathUnit()?.min)}
+                max={baseToCurrent(selectedMathUnit()?.max)}
+              />
+            </Show>
+
             <DialogColorThreshold
               level="high"
               name={selectedDataLabelName()}

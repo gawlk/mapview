@@ -38,9 +38,9 @@ export default (props: Props) => {
               padding="xs"
               full
               center
-              color={!isSelected() ? 'transparent' : undefined}
               onClick={() => props.onChange(option.value)}
               {...option}
+              color={!isSelected() ? 'transparent' : props.color}
             >
               <input type="radio" class="sr-only" value={option.value} />
               {option.icon ? '' : valueWithTextToJSXElement(option)()}

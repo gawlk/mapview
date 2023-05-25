@@ -14,7 +14,7 @@ export default (props: Props) => {
             width: undefined,
           })
         }
-        class="absolute left-0 bottom-0 mb-4 hidden h-full w-2 cursor-ew-resize md:block"
+        class="absolute bottom-0 left-0 mb-4 hidden h-full w-2 cursor-ew-resize md:block"
       />
       <div
         onMouseDown={() => props.onMouseDown('sw')}
@@ -24,7 +24,7 @@ export default (props: Props) => {
             height: undefined,
           })
         }
-        class="absolute left-0 bottom-0 hidden h-4 w-4 cursor-nesw-resize md:block"
+        class="absolute bottom-0 left-0 hidden h-4 w-4 cursor-nesw-resize md:block"
       />
       <div
         onMouseDown={() => props.onMouseDown('s')}
@@ -39,13 +39,14 @@ export default (props: Props) => {
             height: undefined,
           })
         }
-        class="absolute right-0 bottom-0 hidden h-4 w-4 cursor-nwse-resize  md:block"
+        class="absolute bottom-0 right-0 hidden h-4 w-4 cursor-nwse-resize  md:block"
       />
       <div
         onMouseDown={() => props.onMouseDown('e')}
         onDblClick={() => props.onDblClick({ width: undefined })}
-        class="absolute right-0 bottom-0 mb-4 hidden h-full w-2 cursor-ew-resize md:block"
+        class="absolute bottom-0 right-0 mb-4 hidden h-full w-2 cursor-ew-resize md:block"
       />
+      {/* TODO: Add north */}
     </Show>
   )
 }

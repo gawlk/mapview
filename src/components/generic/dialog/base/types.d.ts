@@ -24,6 +24,8 @@ interface DialogPropsOnly {
 
   maximizable?: boolean
 
+  hideCloseButton?: boolean
+
   onOpen?: () => void
 
   onClose?: (value?: string) => void
@@ -31,7 +33,7 @@ interface DialogPropsOnly {
   onCloseEnd?: () => void
 }
 
-type DialogResizeDirection = 'w' | 'sw' | 's' | 'se' | 'e'
+type DialogResizeDirection = 'n' | 'nw' | 'w' | 'sw' | 's' | 'se' | 'e' | 'ne'
 
 interface DialogTransform {
   x: number

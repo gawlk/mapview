@@ -2,7 +2,7 @@ import store from '/src/store'
 
 import { Input, InputRadioHorizontal } from '/src/components'
 
-interface Props {
+interface Props extends InputProps {
   isRange: boolean
   setIsRange: (value: boolean) => void
   value: number
@@ -10,6 +10,8 @@ interface Props {
 }
 
 export default (props: Props) => {
+  let input: HTMLInputElement | undefined
+
   return (
     <div class="flex space-x-1">
       <InputRadioHorizontal
@@ -33,11 +35,13 @@ export default (props: Props) => {
       />
       <Input
         full
+        {...props}
         value={props.value}
         onInput={(value) => {
           props.setValue(Number(value))
         }}
         type={props.isRange ? 'range' : 'text'}
+        bind
       />
     </div>
   )

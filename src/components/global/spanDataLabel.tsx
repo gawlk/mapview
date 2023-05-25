@@ -9,7 +9,7 @@ export default (props: Props) => {
   const [t] = useI18n()
 
   return (
-    <span class="truncate">
+    <span class="flex-1 truncate text-left">
       {props.dataLabel.name}
       <Show when={props.includeCategory}>
         <span class="text-black/50">{` - ${t(

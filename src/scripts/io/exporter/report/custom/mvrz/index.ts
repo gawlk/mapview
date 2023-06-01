@@ -166,28 +166,30 @@ const generateDropData = (
   }, {})
 
 const generateZoneData = (zones: MachineZone[]): ExcelJSON =>
-  zones.reduce<ExcelJSON>((a, zone, index) => {
-    const { points } = zone as BaseZone
+  zones
+    .filter((zone) => zone.points.length)
+    .reduce<ExcelJSON>((a, zone, index) => {
+      const { points } = zone as BaseZone
 
-    const visiblePoints = points.filter((point) => point.settings.isVisible)
+      const visiblePoints = points.filter((point) => point.settings.isVisible)
 
-    const Z = `Z${index + 1}`
+      const Z = `Z${index + 1}`
 
-    return {
-      ...a,
-      [`${Z}_Name`]: zone.name,
-      ...zone.data.reduce<ExcelJSON>(
-        (prev, data) => ({
-          ...prev,
-          [`${Z}_${toPascalCase(data.label.name)}`]: data.toExcel(),
-        }),
-        {}
-      ),
-      ...generatePointInformation(visiblePoints, `${Z}_Pi_`),
-      ...generatePointData(visiblePoints, `${Z}_Pi_`),
-      ...generateDropData(visiblePoints, `${Z}_Pi_D`),
-    }
-  }, {})
+      return {
+        ...a,
+        [`${Z}_Name`]: zone.name,
+        ...zone.data.reduce<ExcelJSON>(
+          (prev, data) => ({
+            ...prev,
+            [`${Z}_${toPascalCase(data.label.name)}`]: data.toExcel(),
+          }),
+          {}
+        ),
+        ...generatePointInformation(visiblePoints, `${Z}_Pi_`),
+        ...generatePointData(visiblePoints, `${Z}_Pi_`),
+        ...generateDropData(visiblePoints, `${Z}_Pi_D`),
+      }
+    }, {})
 
 const generateUnits = (units: MachineMathUnits): ExcelJSON =>
   Object.values(units).reduce<ExcelJSON>(

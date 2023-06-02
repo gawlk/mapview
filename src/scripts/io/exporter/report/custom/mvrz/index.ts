@@ -1,3 +1,4 @@
+import { Point } from 'mapbox-gl'
 import 'module'
 
 import { getBrowserLocale, translate } from '/src/locales'
@@ -190,9 +191,7 @@ const generateZoneData = (zones: MachineZone[]): ExcelJSON =>
           }),
           {}
         ),
-        ...generatePointInformation(visiblePoints, `${Z}_Pi_`),
-        ...generatePointData(visiblePoints, `${Z}_Pi_`),
-        ...generateDropData(visiblePoints, `${Z}_Pi_D`),
+        ...generatePointAndDropData(visiblePoints, `${Z}_`),
       }
     }, {})
 
@@ -432,10 +431,16 @@ const createMVRZJson = (project: MachineProject): ExcelJSON => {
 
   return {
     ...createBaseJson(project),
-    ...generatePointInformation(visiblePoints, 'Pi_'),
-    ...generatePointData(visiblePoints, 'Pi_'),
-    ...generateDropData(visiblePoints, 'Pi_D'),
+    ...generatePointAndDropData(visiblePoints),
     ...generateZoneData(project.reports.selected.zones),
     ...generateSpecificMachineData(project),
+  }
+}
+
+const generatePointAndDropData = (points: BasePoint[], prefixe?: string) => {
+  return {
+    ...generatePointInformation(points, `${prefixe || ''}Pi_`),
+    ...generatePointData(points, `${prefixe || ''}Pi_`),
+    ...generateDropData(points, `${prefixe || ''}Pi_D`),
   }
 }

@@ -8,6 +8,7 @@ import {
   trimAllLines,
 } from '/src/scripts'
 
+import { getPointToExportFromReport } from '../../../utils'
 import { dayjsUtc } from '/src/utils/date/dayjs'
 
 // TODO:
@@ -181,8 +182,7 @@ const writeSensors = (project: HeavydynProject): string => {
 
 const writePoints = (project: HeavydynProject): string => {
   if (project.reports.selected) {
-    return project.reports.selected?.line.sortedPoints
-      .filter((point) => point.settings.isVisible)
+    return getPointToExportFromReport(project.reports.selected)
       .map((point) => {
         const header = dedent`
           ${writePointGps(point)}

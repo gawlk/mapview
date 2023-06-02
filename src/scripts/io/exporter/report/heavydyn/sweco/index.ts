@@ -8,6 +8,7 @@ import {
 
 import { ddToDms } from './coordinates'
 
+import { getPointToExportFromReport } from '../../../utils'
 import { dayjsUtc } from '/src/utils/date/dayjs'
 
 export const heavydynSwecoExporter: HeavydynExporter = {
@@ -95,9 +96,10 @@ const writeHeader = (project: HeavydynProject): string => {
 }
 
 const writePoints = (project: HeavydynProject): string => {
+  if (!project.reports.selected) return ''
+
   return (
-    project.reports.selected?.line.sortedPoints
-      .filter((point) => point.settings.isVisible)
+    getPointToExportFromReport(project.reports.selected)
       .map((point) => {
         let coordinates = { lng: '', lat: '' }
 

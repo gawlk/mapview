@@ -1,3 +1,5 @@
+import 'module'
+
 import { getBrowserLocale, translate } from '/src/locales'
 
 import {
@@ -7,6 +9,11 @@ import {
   createZipFromEntity,
   unzipFile,
 } from '/src/scripts'
+
+import {
+  getPointToExportFromReport,
+  getPointToExportFromZone,
+} from '../../../utils'
 
 export const mvrzExporter = {
   name: '.mvrz (Excel)',
@@ -169,9 +176,7 @@ const generateZoneData = (zones: MachineZone[]): ExcelJSON =>
   zones
     .filter((zone) => zone.points.length)
     .reduce<ExcelJSON>((a, zone, index) => {
-      const { points } = zone as BaseZone
-
-      const visiblePoints = points.filter((point) => point.settings.isVisible)
+      const visiblePoints = getPointToExportFromZone(zone)
 
       const Z = `Z${index + 1}`
 
@@ -423,9 +428,7 @@ const createBaseJson = (project: MachineProject): ExcelJSON => {
 const createMVRZJson = (project: MachineProject): ExcelJSON => {
   if (!project.reports.selected) return {}
 
-  const { sortedPoints } = project.reports.selected.line
-
-  const visiblePoints = sortedPoints.filter((point) => point.settings.isVisible)
+  const visiblePoints = getPointToExportFromReport(project.reports.selected)
 
   return {
     ...createBaseJson(project),

@@ -150,7 +150,7 @@ const writePointGPS = (point: BasePoint) => {
 }
 
 const writePoints = (project: HeavydynProject) => {
-  if (!project.reports.selected) return ''
+  if (!project.reports.selected) return []
 
   return getPointToExportFromReport(project.reports.selected).map((point) => {
     const celsiusDegreesTemps = point.data

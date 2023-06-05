@@ -1,5 +1,7 @@
-import { Point } from 'mapbox-gl'
-import 'module'
+import {
+  filterExportablePointsFromReport,
+  filterExportablePointsFromZone,
+} from 'src/scripts'
 
 import { getBrowserLocale, translate } from '/src/locales'
 
@@ -10,11 +12,6 @@ import {
   createZipFromEntity,
   unzipFile,
 } from '/src/scripts'
-
-import {
-  getPointToExportFromReport,
-  getPointToExportFromZone,
-} from '../../../utils'
 
 export const mvrzExporter = {
   name: '.mvrz (Excel)',
@@ -177,7 +174,7 @@ const generateZoneData = (zones: MachineZone[]): ExcelJSON =>
   zones
     .filter((zone) => zone.points.length)
     .reduce<ExcelJSON>((a, zone, index) => {
-      const visiblePoints = getPointToExportFromZone(zone)
+      const visiblePoints = filterExportablePointsFromZone(zone)
 
       const Z = `Z${index + 1}`
 
@@ -427,7 +424,9 @@ const createBaseJson = (project: MachineProject): ExcelJSON => {
 const createMVRZJson = (project: MachineProject): ExcelJSON => {
   if (!project.reports.selected) return {}
 
-  const visiblePoints = getPointToExportFromReport(project.reports.selected)
+  const visiblePoints = filterExportablePointsFromReport(
+    project.reports.selected
+  )
 
   return {
     ...createBaseJson(project),

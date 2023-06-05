@@ -1,5 +1,6 @@
 import dedent from 'dedent'
 import { format } from 'mathjs'
+import { filterExportablePointsFromReport } from 'src/scripts'
 
 import {
   currentCategory,
@@ -8,7 +9,6 @@ import {
   trimAllLines,
 } from '/src/scripts'
 
-import { getPointToExportFromReport } from '../../../utils'
 import { dayjsUtc } from '/src/utils/date/dayjs'
 
 // TODO:
@@ -182,7 +182,7 @@ const writeSensors = (project: HeavydynProject): string => {
 
 const writePoints = (project: HeavydynProject): string => {
   if (project.reports.selected) {
-    return getPointToExportFromReport(project.reports.selected)
+    return filterExportablePointsFromReport(project.reports.selected)
       .map((point) => {
         const header = dedent`
           ${writePointGps(point)}

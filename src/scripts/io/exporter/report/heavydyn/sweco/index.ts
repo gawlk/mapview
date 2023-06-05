@@ -1,4 +1,5 @@
 import dedent from 'dedent'
+import { filterExportablePointsFromReport } from 'src/scripts'
 
 import {
   currentCategory,
@@ -8,7 +9,6 @@ import {
 
 import { ddToDms } from './coordinates'
 
-import { getPointToExportFromReport } from '../../../utils'
 import { dayjsUtc } from '/src/utils/date/dayjs'
 
 export const heavydynSwecoExporter: HeavydynExporter = {
@@ -99,7 +99,7 @@ const writePoints = (project: HeavydynProject): string => {
   if (!project.reports.selected) return ''
 
   return (
-    getPointToExportFromReport(project.reports.selected)
+    filterExportablePointsFromReport(project.reports.selected)
       .map((point) => {
         let coordinates = { lng: '', lat: '' }
 

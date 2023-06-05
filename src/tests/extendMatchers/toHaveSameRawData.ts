@@ -1,23 +1,24 @@
 import { expect } from 'vitest'
 
-import { compareFiles } from '/src/test/utils'
+import { compareFiles } from '../utils'
 
 interface CustomMatchers<R = unknown> {
-  toHaveSameScreenshots(expected: Fflate.Unzipped): R
+  toHaveSameRawData(expected: Fflate.Unzipped): R
 }
 
-export const toHaveSameScreenshots = (
+export const toHaveSameRawData = (
   actual: Fflate.Unzipped,
   expected: Fflate.Unzipped
 ) => {
-  const compareResult = compareFiles(actual, expected, {
-    filter: 'screenshots/',
-  })
+  const compareResult = compareFiles(actual, expected, { filter: 'rawdata/' })
   const { lastKey, haveSameContent } = compareResult
 
   if (!compareResult.isSameLength) {
     return {
-      message: () => "number os screenshots aren't the same",
+      message: () =>
+        `number of rawData aren't the same: (${String(
+          compareResult.actualLength
+        )}, ${String(compareResult.expectedLength)})`,
       pass: false,
     }
   }
@@ -25,7 +26,7 @@ export const toHaveSameScreenshots = (
   if (!compareResult.haveSameFile) {
     return {
       message: () =>
-        `screenshots files are different ${String(
+        `rawData files are different ${String(
           lastKey
         )} isn't present in expected`,
       pass: false,
@@ -42,7 +43,7 @@ export const toHaveSameScreenshots = (
 }
 
 expect.extend({
-  toHaveSameScreenshots,
+  toHaveSameRawData,
 })
 
 declare global {

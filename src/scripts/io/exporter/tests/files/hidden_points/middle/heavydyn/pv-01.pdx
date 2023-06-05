@@ -1,0 +1,354 @@
+[Pavement Deflection Data Exchange File]
+PDDXVersionNumber = 1.0
+DelimiterSymbol = ,
+DecimalSymbol = .
+
+[Units]
+LoadPlateRadiusUnits = millimeter
+LoadUnits = kilo-Newton
+DeflectionUnits = micron
+TemperatureUnits = Celsius
+SensorLocationUnits = millimeter
+GPSUnits = degree,degree,meter
+TestLocationUnits = kilometer,meter,meter
+NominalTestSpacingUnits = meter
+LoadFrequencyUnits = Hertz
+DropHistoryDataFrequencyUnits = Hertz
+
+[Operations Information]
+FileName = Démo Heavydyn FR
+StartDate = 07-Feb-2022 
+EndDate = 07-Feb-2022 
+OperatorName = SP 
+WeatherCondition = undefined
+
+[Device Information]
+DeviceDesignationName = Rincent
+DeviceModelNumber =  HEAVYDYN
+DeviceSerialNumber = HVY-106-C 
+LoadCellSerialNumber = FELI  
+SensorSerialNumber = FG-122, FG-123, FG-159, FG-124, FG-125, FG-126, FG-127, FG-128, FG-129, FG-130, FG-131
+DeviceLoadType = Impulse
+
+[Device Configuration]
+LoadPlateRadius = 0.30000001192092896 
+NumberOfDeflectionSensors = 11 
+DeflectionSensorXAxisDistances = 0, -300, -200, 0, 200, 300, 600, 900, 1200, 1500, 1800, 2100
+DeflectionSensorYAxisDistances = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+NumberOfTemperatureSensors = 3
+TemperatureSensorUse = air,surface,manual
+
+[Device Calibration]
+LoadCellCalibrationDate = 20-Jun-2018
+LoadCellCalibrationFactor = 0 
+LoadCellCalibrationIntercept = 0
+SensorStaticCalibrationDate = 20-Jun-2018 
+SensorStaticCalibrationFactor = 28990, 29450, 29660, 29890, 29460, 29510, 29240, 29660, 29710, 29340, 29410
+SensorDynamicCalibrationDate = 20-Jun-2018 
+SensorDynamicCalibrationFactor = 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+SensorReferenceCalibrationDate = 20-Jun-2018 
+SensorReferenceCalibrationFactor = 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+SensorRelativeCalibrationDate = 20-Jun-2018 
+SensorRelativeCalibrationFactor = 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+DMIDeviceCalibrationDate = 20-Jun-2018 
+DMIDeviceCalibrationFactor = 178.5 
+
+[Location Identification]
+SiteName = 23-2469 
+FacilityName = D224 
+SectionName = Gauche
+PavementType = Béton bitumineux
+
+[Test Location 0]
+TestLocation = 124.5,0,0 
+GPSLocation = 48.90127098,2.57051240,0
+TestLane = undefined  
+TestType = 0
+DropHistoryType = load and deflections
+TestTemperatures = 11.4,12.9,0.0 
+TestTime = 14:05:08 
+TestComment = undefined 
+NumberOfDrops = 3 
+DropData_0 = 856.87,430.75,525.16,725.85,556.34,441.25,235.79,158.55,125.65,97.13,78.74,62.02
+DropData_1 = 995.61,460.19,552.34,950.03,596.16,480.84,268.41,183.42,138.29,112.31,89.94,70.20
+DropData_2 = 996.59,456.36,545.41,1099.76,595.19,479.44,266.91,185.26,133.85,112.41,89.30,70.84
+
+[Test Location 1]
+TestLocation = 164.8,0,0 
+GPSLocation = 48.90001311,2.57183435,0
+TestLane = undefined  
+TestType = 0
+DropHistoryType = load and deflections
+TestTemperatures = 11.1,12.7,0.0 
+TestTime = 14:05:55 
+TestComment = undefined 
+NumberOfDrops = 3 
+DropData_0 = 822.79,1046.31,1303.24,2527.91,1325.56,1000.35,468.17,295.18,218.05,164.45,120.10,48.90
+DropData_1 = 961.46,1171.43,1398.00,2542.76,1449.97,1112.36,533.98,355.33,262.28,193.33,133.78,53.42
+DropData_2 = 961.08,1218.00,1397.73,2535.63,1444.62,1113.74,522.98,356.70,262.86,194.42,137.85,40.54
+
+[Test Location 2]
+TestLocation = 198.5,0,0 
+GPSLocation = 48.89911638,2.57268795,0
+TestLane = undefined  
+TestType = 0
+DropHistoryType = load and deflections
+TestTemperatures = 10.9,10.9,0.0 
+TestTime = 14:06:44 
+TestComment = undefined 
+NumberOfDrops = 3 
+DropData_0 = 826.79,931.91,1199.51,2382.77,1291.54,966.09,465.02,289.64,232.50,179.91,147.21,98.62
+DropData_1 = 953.04,1011.77,1266.27,2529.85,1387.22,1068.38,544.93,335.95,263.41,201.68,153.74,98.67
+DropData_2 = 960.45,1020.65,1274.35,2452.37,1359.75,1065.99,550.68,340.44,271.26,208.21,157.17,89.37
+
+[Test Location 4]
+TestLocation = 280.9,0,0 
+GPSLocation = 48.89810599,2.57517961,0
+TestLane = undefined  
+TestType = 0
+DropHistoryType = load and deflections
+TestTemperatures = 11.1,9.6,0.0 
+TestTime = 14:08:24 
+TestComment = undefined 
+NumberOfDrops = 3 
+DropData_0 = 818.19,1100.23,1523.15,3080.86,1519.52,1105.87,471.71,237.82,180.46,153.15,141.79,117.67
+DropData_1 = 947.56,1232.06,1533.07,2747.10,1611.43,1223.40,552.38,278.53,208.68,175.18,163.13,135.36
+DropData_2 = 941.43,1235.67,1532.91,2731.65,1634.16,1230.10,551.62,281.50,208.86,175.97,159.84,133.69
+
+[Test Location 5]
+TestLocation = 314.4,0,0 
+GPSLocation = 48.89691022,2.57553541,0
+TestLane = undefined  
+TestType = 0
+DropHistoryType = load and deflections
+TestTemperatures = 11.2,1.4,0.0 
+TestTime = 14:09:11 
+TestComment = undefined 
+NumberOfDrops = 3 
+DropData_0 = 776.40,1382.83,1899.12,3170.25,2101.25,1419.99,374.97,240.28,227.40,203.94,176.89,53.74
+DropData_1 = 903.05,1563.17,2045.09,3310.62,2191.56,1605.60,433.07,298.12,270.12,233.53,205.06,126.88
+DropData_2 = 902.91,1577.87,2059.55,3392.38,2176.98,1624.42,436.82,305.35,275.63,237.80,202.33,145.40
+
+[Test Location 7]
+TestLocation = 452.1,0,0 
+GPSLocation = 48.89485731,2.57711435,0
+TestLane = undefined  
+TestType = 0
+DropHistoryType = load and deflections
+TestTemperatures = 11.5,0.4,0.0 
+TestTime = 14:11:56 
+TestComment = undefined 
+NumberOfDrops = 3 
+DropData_0 = 781.77,1289.37,1656.04,3320.50,1780.43,1325.77,467.55,261.83,230.44,234.46,149.24,83.50
+DropData_1 = 904.79,1469.56,1834.19,3371.95,1991.67,1522.99,557.21,342.78,271.27,221.08,142.58,56.24
+DropData_2 = 908.76,1499.86,1865.54,3383.17,1976.37,1543.08,562.56,349.06,330.71,244.24,145.77,19.58
+
+[Test Location 8]
+TestLocation = 497.7,0,0 
+GPSLocation = 48.89397582,2.57787769,0
+TestLane = undefined  
+TestType = 0
+DropHistoryType = load and deflections
+TestTemperatures = 10.9,0.3,0.0 
+TestTime = 14:12:46 
+TestComment = undefined 
+NumberOfDrops = 3 
+DropData_0 = 751.64,1444.00,1987.85,2967.82,2142.63,1519.08,469.19,264.00,193.46,153.09,97.59,44.98
+DropData_1 = 884.51,1630.04,2157.78,3128.92,2229.87,1673.78,530.84,301.22,225.13,163.99,101.85,64.67
+DropData_2 = 887.26,1684.49,2227.19,3090.04,2256.20,1682.15,527.07,298.58,232.38,165.23,103.82,71.21
+
+[Test Location 10]
+TestLocation = 699.7,0,0 
+GPSLocation = 48.89240458,2.57945875,0
+TestLane = undefined  
+TestType = 0
+DropHistoryType = load and deflections
+TestTemperatures = 11.1,6.8,0.0 
+TestTime = 14:14:38 
+TestComment = undefined 
+NumberOfDrops = 3 
+DropData_0 = 838.67,637.51,795.88,1727.78,867.57,654.61,286.48,161.81,115.84,92.92,84.13,70.95
+DropData_1 = 968.80,682.84,832.49,1769.85,886.67,697.53,329.02,188.69,138.22,106.20,98.65,80.02
+DropData_2 = 969.62,681.62,826.51,1771.08,881.23,694.01,332.09,187.60,139.03,118.81,100.73,80.24
+
+[Test Location 11]
+TestLocation = 815.7,0,0 
+GPSLocation = 48.89139026,2.58051007,0
+TestLane = undefined  
+TestType = 0
+DropHistoryType = load and deflections
+TestTemperatures = 11.4,10.4,0.0 
+TestTime = 14:15:35 
+TestComment = undefined 
+NumberOfDrops = 3 
+DropData_0 = 835.54,615.98,761.10,1565.35,824.15,644.55,321.60,188.85,139.47,109.13,88.19,100.78
+DropData_1 = 963.70,651.25,787.76,1616.89,846.44,679.40,365.24,226.84,165.41,129.16,95.26,74.25
+DropData_2 = 966.04,648.66,778.07,1616.50,810.47,673.52,371.28,227.11,167.60,129.21,99.96,74.99
+
+[Test Location 12]
+TestLocation = 916.5,0,0 
+GPSLocation = 48.89068585,2.58115620,0
+TestLane = undefined  
+TestType = 0
+DropHistoryType = load and deflections
+TestTemperatures = 12.0,7.0,0.0 
+TestTime = 14:16:39 
+TestComment = undefined 
+NumberOfDrops = 3 
+DropData_0 = 869.27,367.59,481.76,1130.92,509.11,364.75,147.25,89.34,73.49,60.71,49.98,43.79
+DropData_1 = 990.29,378.07,491.46,1162.95,508.29,381.22,166.34,100.68,82.89,67.69,56.46,50.49
+DropData_2 = 991.28,374.72,481.32,1094.87,509.70,374.92,165.74,105.51,86.32,69.16,59.35,52.68
+
+[Test Location 14]
+TestLocation = 1087.2,0,0 
+GPSLocation = 48.88904923,2.58291223,0
+TestLane = undefined  
+TestType = 0
+DropHistoryType = load and deflections
+TestTemperatures = 12.2,0.5,0.0 
+TestTime = 14:18:21 
+TestComment = undefined 
+NumberOfDrops = 3 
+DropData_0 = 821.79,514.50,782.72,1416.31,902.70,665.49,274.08,165.09,125.65,91.45,70.25,48.77
+DropData_1 = 951.81,541.65,791.24,1473.40,906.73,687.31,314.93,189.11,146.70,107.29,74.15,52.68
+DropData_2 = 956.49,535.27,789.49,1458.36,918.15,681.83,317.70,190.65,145.48,105.53,77.35,56.90
+
+[Test Location 15]
+TestLocation = 1316.2,0,0 
+GPSLocation = 48.88832284,2.58366164,0
+TestLane = undefined  
+TestType = 0
+DropHistoryType = load and deflections
+TestTemperatures = 12.1,5.6,0.0 
+TestTime = 14:19:48 
+TestComment = undefined 
+NumberOfDrops = 3 
+DropData_0 = 836.48,653.12,773.23,1636.11,807.93,676.24,366.46,218.83,149.74,108.72,84.73,57.21
+DropData_1 = 958.02,707.06,834.32,1646.72,891.84,735.16,407.14,254.49,177.62,126.19,97.63,66.89
+DropData_2 = 956.60,701.47,823.68,1648.44,855.04,721.34,407.22,249.55,170.73,123.99,94.30,58.36
+
+[Test Location 16]
+TestLocation = 1402.7,0,0 
+GPSLocation = 48.88760046,2.58444911,0
+TestLane = undefined  
+TestType = 0
+DropHistoryType = load and deflections
+TestTemperatures = 11.8,11.0,0.0 
+TestTime = 14:20:42 
+TestComment = undefined 
+NumberOfDrops = 3 
+DropData_0 = 825.12,1021.05,1229.19,2275.87,1305.91,1092.90,585.07,334.66,211.58,131.61,92.74,65.35
+DropData_1 = 956.68,1086.82,1279.63,2368.48,1357.34,1154.44,645.97,378.87,242.07,155.28,106.18,68.42
+DropData_2 = 953.75,1085.22,1275.42,2356.02,1365.97,1152.02,644.97,378.38,237.62,149.25,106.43,71.27
+
+[Test Location 17]
+TestLocation = 1530.7,0,0 
+GPSLocation = 48.88677569,2.58535142,0
+TestLane = undefined  
+TestType = 0
+DropHistoryType = load and deflections
+TestTemperatures = 12.2,9.4,0.0 
+TestTime = 14:21:44 
+TestComment = undefined 
+NumberOfDrops = 3 
+DropData_0 = 857.82,534.88,670.64,1373.66,715.19,556.69,270.51,163.89,119.49,90.34,71.56,57.50
+DropData_1 = 986.58,554.33,683.64,1405.18,730.14,577.81,301.76,190.17,135.70,104.61,82.86,69.44
+DropData_2 = 982.19,544.22,668.55,1383.41,716.69,567.82,296.29,189.17,133.20,104.37,81.35,68.20
+
+[Test Location 18]
+TestLocation = 1629.4,0,0 
+GPSLocation = 48.88571937,2.58640462,0
+TestLane = undefined  
+TestType = 0
+DropHistoryType = load and deflections
+TestTemperatures = 12.4,10.0,0.0 
+TestTime = 14:22:36 
+TestComment = undefined 
+NumberOfDrops = 3 
+DropData_0 = 856.22,679.13,819.41,1653.76,854.20,699.91,373.34,217.81,150.39,116.40,86.82,59.82
+DropData_1 = 983.06,719.87,853.17,1685.99,908.87,742.75,410.93,255.79,179.78,132.85,97.31,68.18
+DropData_2 = 987.22,719.52,850.21,1716.63,878.61,737.22,412.57,254.77,167.41,133.62,95.74,66.15
+
+[Test Location 19]
+TestLocation = 1706,0,0 
+GPSLocation = 48.88506110,2.58770805,0
+TestLane = undefined  
+TestType = 0
+DropHistoryType = load and deflections
+TestTemperatures = 12.5,5.6,0.0 
+TestTime = 14:23:34 
+TestComment = undefined 
+NumberOfDrops = 3 
+DropData_0 = 849.42,661.78,842.76,1761.47,872.18,672.57,315.75,180.90,129.61,101.84,85.07,66.57
+DropData_1 = 976.71,704.52,879.40,1825.47,910.48,715.96,361.45,212.58,149.04,115.24,94.73,73.52
+DropData_2 = 980.36,700.37,867.58,1787.98,898.50,713.81,362.60,216.09,151.36,116.11,94.56,74.64
+
+[Test Location 21]
+TestLocation = 1866.9,0,0 
+GPSLocation = 48.88291364,2.58996700,0
+TestLane = undefined  
+TestType = 0
+DropHistoryType = load and deflections
+TestTemperatures = 12.5,6.3,0.0 
+TestTime = 14:25:19 
+TestComment = undefined 
+NumberOfDrops = 3 
+DropData_0 = 848.73,556.37,663.24,1283.99,705.08,572.33,308.70,196.29,149.07,118.39,91.98,69.77
+DropData_1 = 980.87,595.50,700.51,1352.65,740.66,613.31,344.53,227.82,174.45,137.25,105.85,74.22
+DropData_2 = 978.80,597.58,701.35,1345.54,739.84,614.87,351.68,233.73,180.24,141.97,110.10,82.96
+
+[Test Location 22]
+TestLocation = 1969.9,0,0 
+GPSLocation = 48.88162607,2.59158896,0
+TestLane = undefined  
+TestType = 0
+DropHistoryType = load and deflections
+TestTemperatures = 12.0,4.9,0.0 
+TestTime = 14:26:41 
+TestComment = undefined 
+NumberOfDrops = 3 
+DropData_0 = 832.49,1083.08,1280.41,2471.13,1342.40,1122.41,632.83,401.49,285.81,177.86,98.02,32.93
+DropData_1 = 951.32,1104.09,1297.14,2517.29,1365.22,1142.87,663.58,423.63,303.34,182.29,94.18,24.75
+DropData_2 = 959.76,1107.73,1292.70,2478.51,1359.00,1141.96,671.69,431.64,307.34,187.77,99.95,28.34
+
+[Test Location 23]
+TestLocation = 2058.9,0,0 
+GPSLocation = 48.88080229,2.59312757,0
+TestLane = undefined  
+TestType = 0
+DropHistoryType = load and deflections
+TestTemperatures = 12.0,0.2,0.0 
+TestTime = 14:27:33 
+TestComment = undefined 
+NumberOfDrops = 3 
+DropData_0 = 814.30,1145.63,1360.16,2477.76,1485.73,1206.09,615.70,374.86,268.64,176.22,108.15,52.46
+DropData_1 = 941.48,1190.37,1402.91,2599.64,1513.65,1237.58,652.42,418.51,303.10,198.12,119.74,54.11
+DropData_2 = 946.06,1192.30,1400.88,2609.32,1501.18,1233.37,656.51,422.46,305.02,199.24,120.59,55.03
+
+[Test Location 24]
+TestLocation = 2140.9,0,0 
+GPSLocation = 48.88001569,2.59533122,0
+TestLane = undefined  
+TestType = 0
+DropHistoryType = load and deflections
+TestTemperatures = 11.8,7.3,0.0 
+TestTime = 14:28:26 
+TestComment = undefined 
+NumberOfDrops = 3 
+DropData_0 = 841.93,698.53,809.36,1521.76,846.26,708.91,428.02,298.90,237.52,179.73,121.72,70.00
+DropData_1 = 962.99,755.06,871.29,1648.89,912.25,772.98,477.51,335.95,270.72,200.30,135.82,76.94
+DropData_2 = 965.67,756.58,870.15,1641.11,904.95,772.99,478.80,336.53,269.75,199.67,135.78,77.53
+
+[Test Location 25]
+TestLocation = 2251.2,0,0 
+GPSLocation = 48.87938714,2.59758209,0
+TestLane = undefined  
+TestType = 0
+DropHistoryType = load and deflections
+TestTemperatures = 11.8,6.8,0.0 
+TestTime = 14:29:16 
+TestComment = undefined 
+NumberOfDrops = 3 
+DropData_0 = 769.77,1552.66,2009.29,3251.08,2225.12,1725.92,657.48,391.54,289.59,180.84,91.51,28.64
+DropData_1 = 894.66,1657.27,2072.69,3406.45,2220.50,1776.77,695.65,433.59,309.34,189.01,82.62,19.93
+DropData_2 = 895.42,1682.75,2089.72,3361.05,2259.71,1783.65,692.18,446.07,326.42,191.67,86.39,23.71

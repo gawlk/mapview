@@ -21,7 +21,12 @@
     "tsconfigRootDir": "src/"
   },
   "plugins": ["vue", "@typescript-eslint", "sonarjs"],
-  "ignorePatterns": ["/src/shims-vue.d.ts"],
+  "ignorePatterns": [
+    "/src/shims-vue.d.ts",
+    "vite.config.js",
+    "prettier.config.js",
+    "tailwind.config.js"
+  ],
   "rules": {
     "no-duplicate-imports": "error",
     "no-useless-rename": "error",

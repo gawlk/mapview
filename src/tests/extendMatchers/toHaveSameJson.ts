@@ -7,7 +7,7 @@ import { expect } from 'vitest'
 
 import { unzippedToObject } from '/src/scripts'
 
-import { checkDataConformity } from '/src/test/utils/data'
+import { checkDataConformity } from '../utils/data'
 
 interface CustomMatchers<R = unknown> {
   toHaveSameJson(expected: Fflate.Unzipped): R

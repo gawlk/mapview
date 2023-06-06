@@ -9,7 +9,7 @@ import {
   trimAllLines,
 } from '/src/scripts'
 
-import { dayjsUtc } from '/src/utils/date/dayjs'
+import { dayjsUtc } from '../../../../../utils/date/dayjs'
 
 // TODO:
 // Everything is always in the same order, with same precision, spaces, etc

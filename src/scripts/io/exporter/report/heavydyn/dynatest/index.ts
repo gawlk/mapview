@@ -7,7 +7,7 @@ import {
   replaceAllLFToCRLF,
 } from '/src/scripts'
 
-import { dayjsUtc } from '/src/utils/date/dayjs'
+import { dayjsUtc } from '../../../../../utils/date/dayjs'
 
 export const heavydynDynatestExporter: HeavydynExporter = {
   name: '.fwd (Dynatest)',

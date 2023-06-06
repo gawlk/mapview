@@ -9,7 +9,7 @@ import {
 
 import { ddToDms } from './coordinates'
 
-import { dayjsUtc } from '/src/utils/date/dayjs'
+import { dayjsUtc } from '../../../../../utils/date/dayjs'
 
 export const heavydynSwecoExporter: HeavydynExporter = {
   name: '.fwd (Sweco)',

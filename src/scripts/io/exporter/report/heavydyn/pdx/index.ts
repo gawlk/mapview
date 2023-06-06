@@ -2,11 +2,12 @@ import dedent from 'dedent'
 
 import {
   currentCategory,
+  filterExportablePointsFromReport,
   findFieldInArray,
   replaceAllLFToCRLF,
 } from '/src/scripts'
 
-import { dayjsUtc } from '/src/utils/date/dayjs'
+import { dayjsUtc } from '../../../../../utils/date/dayjs'
 
 export const heavydynPDXExporter: HeavydynExporter = {
   name: '.pdx',
@@ -180,8 +181,9 @@ const writeDeviceCalibration = (project: HeavydynProject) => {
 }
 
 const writePoints = (project: HeavydynProject) => {
-  return project.reports.selected?.line.sortedPoints
-    .filter((point) => point.settings.isVisible)
+  if (!project.reports.selected) return ''
+
+  return filterExportablePointsFromReport(project.reports.selected)
     .map((point) => {
       const temps = point.data
         .slice(0, 3)

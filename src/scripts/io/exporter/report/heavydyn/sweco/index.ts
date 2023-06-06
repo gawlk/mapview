@@ -2,13 +2,14 @@ import dedent from 'dedent'
 
 import {
   currentCategory,
+  filterExportablePointsFromReport,
   findFieldInArray,
   replaceAllLFToCRLF,
 } from '/src/scripts'
 
 import { ddToDms } from './coordinates'
 
-import { dayjsUtc } from '/src/utils/date/dayjs'
+import { dayjsUtc } from '../../../../../utils/date/dayjs'
 
 export const heavydynSwecoExporter: HeavydynExporter = {
   name: '.fwd (Sweco)',
@@ -95,9 +96,10 @@ const writeHeader = (project: HeavydynProject): string => {
 }
 
 const writePoints = (project: HeavydynProject): string => {
+  if (!project.reports.selected) return ''
+
   return (
-    project.reports.selected?.line.sortedPoints
-      .filter((point) => point.settings.isVisible)
+    filterExportablePointsFromReport(project.reports.selected)
       .map((point) => {
         let coordinates = { lng: '', lat: '' }
 

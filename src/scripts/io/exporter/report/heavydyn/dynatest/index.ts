@@ -2,11 +2,12 @@ import dedent from 'dedent'
 
 import {
   currentCategory,
+  filterExportablePointsFromReport,
   findFieldInArray,
   replaceAllLFToCRLF,
 } from '/src/scripts'
 
-import { dayjsUtc } from '/src/utils/date/dayjs'
+import { dayjsUtc } from '../../../../../utils/date/dayjs'
 
 export const heavydynDynatestExporter: HeavydynExporter = {
   name: '.fwd (Dynatest)',
@@ -149,9 +150,10 @@ const writePointGPS = (point: BasePoint) => {
 }
 
 const writePoints = (project: HeavydynProject) => {
-  return project.reports.selected?.line.sortedPoints
-    .filter((point) => point.settings.isVisible)
-    .map((point) => {
+  if (!project.reports.selected) return []
+
+  return filterExportablePointsFromReport(project.reports.selected).map(
+    (point) => {
       const celsiusDegreesTemps = point.data
         .filter((data) => data.label.unit === project.units.temperature)
         .map((data, index) => {
@@ -188,7 +190,8 @@ const writePoints = (project: HeavydynProject) => {
         }I2${dayjsUtc(point.date).format('HHmm')} ${fahrenheitDegreesTemps}`,
         `${writeDrops(point, project.calibrations.dPlate)}`,
       ]
-    })
+    }
+  )
 }
 
 const writeDrops = (point: BasePoint, dPlate: number) => {

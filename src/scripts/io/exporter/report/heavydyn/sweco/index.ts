@@ -1,8 +1,8 @@
 import dedent from 'dedent'
-import { filterExportablePointsFromReport } from 'src/scripts'
 
 import {
   currentCategory,
+  filterExportablePointsFromReport,
   findFieldInArray,
   replaceAllLFToCRLF,
 } from '/src/scripts'

@@ -1,8 +1,3 @@
-import {
-  filterExportablePointsFromReport,
-  filterExportablePointsFromZone,
-} from 'src/scripts'
-
 import { getBrowserLocale, translate } from '/src/locales'
 
 import {
@@ -10,6 +5,8 @@ import {
   convertValueFromUnitAToUnitB,
   createMathNumber,
   createZipFromEntity,
+  filterExportablePointsFromReport,
+  filterExportablePointsFromZone,
   unzipFile,
 } from '/src/scripts'
 

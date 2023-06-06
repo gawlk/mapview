@@ -1,9 +1,9 @@
 import dedent from 'dedent'
 import { format } from 'mathjs'
-import { filterExportablePointsFromReport } from 'src/scripts'
 
 import {
   currentCategory,
+  filterExportablePointsFromReport,
   findFieldInArray,
   replaceAllLFToCRLF,
   trimAllLines,

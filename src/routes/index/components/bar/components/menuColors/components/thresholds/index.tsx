@@ -63,7 +63,8 @@ export default () => {
   return (
     <Details
       button={{ leftIcon: IconTablerAdjustments, text: t('Thresholds') }}
-      defaultOpen={true}
+      defaultOpen
+      locked
     >
       <SelectThreshold thresholds={selectedThresholdsGroupChoices()} />
 

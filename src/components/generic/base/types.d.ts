@@ -1,24 +1,26 @@
 type BaseProps = BasePropsOnly
 
-type Size = '2xl' | 'xl' | 'lg' | 'base' | 'sm' | 'xs'
+type SizeProp = '2xl' | 'xl' | 'lg' | 'base' | 'sm' | 'xs'
+
+type ColorProp =
+  | 'primary'
+  | 'secondary'
+  | 'tertiary'
+  | 'gray'
+  | 'red'
+  | 'green'
+  | 'orange'
+  | 'yellow'
+  | 'transparent'
 
 interface BasePropsOnly {
   disabled?: boolean
 
-  size?: Size
+  size?: SizeProp
 
-  padding?: Size
+  padding?: SizeProp
 
-  color?:
-    | 'primary'
-    | 'secondary'
-    | 'tertiary'
-    | 'gray'
-    | 'red'
-    | 'green'
-    | 'orange'
-    | 'yellow'
-    | 'transparent'
+  color?: ColorProp
 
   class?: ClassProp
 

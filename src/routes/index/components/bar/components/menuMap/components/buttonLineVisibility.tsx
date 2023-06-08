@@ -7,6 +7,7 @@ import DotsIcon from '/src/assets/svg/custom/dots.svg'
 export default () => {
   return (
     <Button
+      size="sm"
       onClick={() =>
         store.selectedProject &&
         (store.selectedProject.settings.arePointsLinked =

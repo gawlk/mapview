@@ -21,6 +21,7 @@ export default () => {
       moveable
       resizable
       maximizable
+      closeable
       title="Table data"
       button={{
         full: true,
@@ -46,6 +47,7 @@ export default () => {
             <DialogDivider class="-mx-4 hidden @3xl:block" />
             <div class="block @3xl:hidden">
               <Dialog
+                closeable
                 button={{
                   leftIcon: IconTablerColumns3,
                   full: true,

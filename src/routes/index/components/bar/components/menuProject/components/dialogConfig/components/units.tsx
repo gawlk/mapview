@@ -55,7 +55,7 @@ export default () => {
           >
             <div class="flex space-x-2">
               <DialogSelect
-                position="relative"
+                position="absolute"
                 button={{
                   full: true,
                   label: t('Unit'),
@@ -67,7 +67,7 @@ export default () => {
                 onClose={(value) => value && (mathUnit.currentUnit = value)}
               />
               <DialogSelect
-                position="relative"
+                position="absolute"
                 button={{
                   full: true,
                   leftIcon: IconTablerDecimal,
@@ -90,6 +90,7 @@ export default () => {
                 label={t('Min')}
                 full
                 value={roundValue(mathUnit.baseToCurrent(mathUnit.min))}
+                bind
                 onInput={(value) =>
                   (mathUnit.min = mathUnit.currentToBase(Number(value || 0)))
                 }
@@ -98,6 +99,7 @@ export default () => {
                 leftIcon={IconTablerArrowBarToUp}
                 label={t('Max')}
                 full
+                bind
                 value={roundValue(mathUnit.baseToCurrent(mathUnit.max))}
                 onInput={(value) =>
                   (mathUnit.max = mathUnit.currentToBase(Number(value || 0)))

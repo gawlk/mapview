@@ -14,7 +14,7 @@ export default () => {
   return (
     <DialogSelect
       title="Select a source"
-      position="relative"
+      position="absolute"
       button={{
         label: t('Source'),
         leftIcon: IconTablerListDetails,

@@ -20,7 +20,7 @@ export const dialogBooleanPropsKeysObject: BooleanPropsKeysObject<DialogPropsOnl
 
     maximizable: true,
 
-    hideCloseButton: true,
+    closeable: true,
 
     onOpen: true,
     onClose: true,

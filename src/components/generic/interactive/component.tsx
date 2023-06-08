@@ -102,7 +102,7 @@ export default (passedProps: Props) => {
           <label
             for={props.id}
             class={classPropToString([
-              'pointer-events-none select-none self-start whitespace-pre-wrap text-black/50',
+              'pointer-events-none flex-none select-none whitespace-pre-wrap text-black/50',
             ])}
           >
             {`${props.label}: `}

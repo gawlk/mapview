@@ -5,6 +5,7 @@ import { Button } from '/src/components'
 export default () => {
   return (
     <Button
+      size="sm"
       onClick={() =>
         store.selectedProject &&
         (store.selectedProject.settings.arePointsLocked =

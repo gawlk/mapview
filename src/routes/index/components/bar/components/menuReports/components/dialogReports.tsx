@@ -19,8 +19,9 @@ export default () => {
 
   return (
     <Dialog
+      closeable
       title="Select a report"
-      position="relative"
+      position="absolute"
       button={{
         label: t('Selected'),
         full: true,
@@ -44,10 +45,11 @@ export default () => {
           </span>
         </Button>
         <For each={store.selectedProject?.reports.list}>
-          {(report) => (
+          {(report, index) => (
             <div class="flex space-x-1">
               <SelectReportMarkerIcon report={report} />
               <Button
+                label={String(index() + 1)}
                 rightIcon={IconTablerZoomIn}
                 onClick={() => {
                   if (store.selectedProject) {
@@ -57,7 +59,9 @@ export default () => {
                 }}
                 full
               >
-                {report.name.value.toString()}
+                <span class="flex-1 text-left">
+                  {report.name.value.toString()}
+                </span>
               </Button>
               <ButtonReportVisibility report={report} />
             </div>

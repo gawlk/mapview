@@ -13,6 +13,7 @@ export default () => {
   return (
     <Dialog
       moveable
+      closeable
       title={t('Configurations')}
       button={{
         leftIcon: IconTablerSettings,

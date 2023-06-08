@@ -6,7 +6,7 @@ type DialogProps = DialogPropsOnly &
 interface DialogPropsOnly {
   button?: InternalButtonProps
 
-  position?: 'attached' | 'relative' | 'fixed' | 'full'
+  position?: 'attached' | 'absolute' | 'fixed' | 'full'
 
   title?: string
 
@@ -24,7 +24,7 @@ interface DialogPropsOnly {
 
   maximizable?: boolean
 
-  hideCloseButton?: boolean
+  closeable?: boolean
 
   onOpen?: () => void
 

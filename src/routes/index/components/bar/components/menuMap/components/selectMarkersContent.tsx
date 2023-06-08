@@ -9,9 +9,26 @@ import DotIcon from '/src/assets/svg/custom/dot.svg'
 export default () => {
   const [t] = useI18n()
 
+  const markersPossibleStates = [
+    {
+      value: '0',
+      text: t('Number'),
+      leftIcon: IconTablerIdBadge2,
+    },
+    {
+      value: '1',
+      text: t('Value'),
+      leftIcon: IconTabler123,
+    },
+    {
+      value: '2',
+      text: t('Empty'),
+      leftIcon: IconTablerX,
+    },
+  ]
+
   const state = createMutable({
     pointStateSelected: 0,
-    pointStateValues: [t('Number'), t('Value'), t('Empty')],
   })
 
   createEffect(() => {
@@ -23,11 +40,9 @@ export default () => {
     }
   })
 
-  const setPointsState = (value: string) => {
-    const n = state.pointStateValues.indexOf(value)
-
+  const setPointsState = (index: number) => {
     if (store.selectedProject) {
-      switch (n) {
+      switch (index) {
         case 0:
           store.selectedProject.settings.pointsState = 'number'
           break
@@ -45,14 +60,15 @@ export default () => {
     <DialogSelect
       button={{
         full: true,
-        leftIcon: DotIcon,
+        size: 'sm',
+        leftIcon: markersPossibleStates[state.pointStateSelected].leftIcon,
       }}
-      position="relative"
+      position="absolute"
       values={{
-        selected: state.pointStateValues[state.pointStateSelected],
-        list: state.pointStateValues,
+        selected: state.pointStateSelected,
+        list: markersPossibleStates,
       }}
-      onClose={(value) => value && setPointsState(value)}
+      onClose={(value) => value && setPointsState(Number(value))}
     />
   )
 }

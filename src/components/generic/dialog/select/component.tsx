@@ -33,7 +33,7 @@ export default (props: Props) => {
     }
   }
 
-  const isRelative = createMemo(() => props.position === 'relative')
+  const isAbsolute = createMemo(() => props.position === 'absolute')
 
   const getDialogButtonText = () => {
     const option =
@@ -56,6 +56,7 @@ export default (props: Props) => {
 
   return (
     <Dialog
+      closeable
       // TODO: Clean props before spreading
       {...props}
       button={mergeProps(
@@ -77,7 +78,7 @@ export default (props: Props) => {
       }}
       sticky={
         props.search ? (
-          <div class={classPropToString([isRelative() ? 'px-2 pt-2' : 'px-4'])}>
+          <div class={classPropToString([isAbsolute() ? 'px-2 pt-2' : 'px-4'])}>
             <Input
               {...props.search}
               leftIcon={IconTablerListSearch}
@@ -92,7 +93,7 @@ export default (props: Props) => {
       form={
         <div
           class={classPropToString([
-            isRelative() ? 'space-y-1.5' : 'space-y-2',
+            isAbsolute() ? 'space-y-1.5' : 'space-y-2',
           ])}
         >
           <DialogOptions input={state.input} options={props.values} />

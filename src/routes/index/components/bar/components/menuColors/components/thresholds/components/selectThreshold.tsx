@@ -11,7 +11,7 @@ export default (props: Props) => {
 
   return (
     <DialogSelect
-      position="relative"
+      position="absolute"
       button={{
         full: true,
         label: t('Selected'),

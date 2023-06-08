@@ -16,16 +16,12 @@ interface Props {
 }
 
 export default (props: Props) => {
-  console.log('desktop')
-
   return (
     <div class="hidden w-[520px] flex-none space-y-8 overflow-scroll px-2 py-8 lg:block">
       <Logo />
 
       <Show when={store.selectedProject} fallback={<Initializer />}>
         {(() => {
-          console.log('desktop menus')
-
           let div = undefined as HTMLDivElement | undefined
 
           onMount(() => {

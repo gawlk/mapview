@@ -108,6 +108,7 @@ export default (props: Props) => {
   return (
     <div class="flex space-x-2">
       <Dialog
+        closeable
         {...removeProps(props, dialogDateBooleanPropsKeysObject)}
         button={mergeProps(
           {

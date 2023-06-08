@@ -20,11 +20,11 @@ export default () => {
         }}
       />
       <DialogSelect
-        title="select relative"
+        title="select absolute"
         button={{
           label: 'Value',
         }}
-        position="relative"
+        position="absolute"
         values={{
           selected: state.value1,
           list: ['1', '2', '3'],
@@ -50,8 +50,8 @@ export default () => {
         }}
       />
       <DialogSelect
-        title="select search relative"
-        position="relative"
+        title="select search absolute"
+        position="absolute"
         button={{
           label: 'Value',
         }}

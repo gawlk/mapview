@@ -12,6 +12,8 @@ declare namespace Solid {
     Next extends Prev = Prev
   > = import('solid-js').EffectFunction<Prev, Next>
 
+  export type Setter<T> = import('solid-js').Setter<T>
+
   namespace JSX {
     export type Element = import('solid-js').JSXElement
 

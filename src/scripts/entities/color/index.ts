@@ -1,5 +1,4 @@
 export const colors: Record<ColorName, string> = {
-  white: '#ffffff',
   gray: '#9da3ae',
   red: '#d97574',
   orange: '#e89856',

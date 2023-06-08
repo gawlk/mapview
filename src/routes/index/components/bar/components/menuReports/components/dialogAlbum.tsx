@@ -13,6 +13,7 @@ export default () => {
 
   return (
     <Dialog
+      closeable
       position="full"
       button={{
         leftIcon: IconTablerSlideshow,
@@ -23,7 +24,7 @@ export default () => {
       }}
       title={t('Album')}
     >
-      <div class="flex h-full items-center space-x-2 overflow-x-auto px-6">
+      <div class="flex h-full items-center space-x-4 overflow-x-auto px-6">
         {/* TODO: Rename screenshots to album */}
         <For each={store.selectedReport?.screenshots}>
           {(image, index) => (
@@ -35,7 +36,7 @@ export default () => {
                     leftIcon={IconTablerCameraDown}
                     onClick={() => downloadImage(image)}
                   >
-                    {t('Download picture')}
+                    {t('Download')}
                   </Button>
                   <Button
                     color="red"
@@ -44,7 +45,7 @@ export default () => {
                       store.selectedReport?.screenshots.splice(index(), 1)
                     }
                   >
-                    {t('Remove from album')}
+                    {t('Delete')}
                   </Button>
                 </div>
               </div>

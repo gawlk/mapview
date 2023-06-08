@@ -11,6 +11,7 @@ export default () => {
 
   return (
     <Dialog
+      closeable
       button={{ leftIcon: IconTablerCircleDotted, full: true }}
       moveable
       title={t('Zone settings')}

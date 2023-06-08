@@ -93,7 +93,7 @@ export default (props: Props) => {
     <Table>
       <THead>
         <Td />
-        <Td>{t('Zone')}</Td>
+        <Td text="center">{t('Zone')}</Td>
         <Td text="right" class="w-1/4" wide>
           {t('Number')}
         </Td>
@@ -142,7 +142,7 @@ export default (props: Props) => {
                     size,
                     full: true,
                   }}
-                  position="relative"
+                  position="absolute"
                   values={{
                     selected: point.zone.name,
                     list: (

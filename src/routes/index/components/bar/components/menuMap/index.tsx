@@ -1,4 +1,8 @@
+import { useI18n } from '@solid-primitives/i18n'
+
 import store from '/src/store'
+
+import { Interactive } from '/src/components'
 
 import ButtonFileOverlay from './components/buttonFileOverlay'
 import ButtonLineVisibility from './components/buttonLineVisibility'
@@ -10,6 +14,8 @@ import SelectMapStyles from './components/selectMapStyles'
 import SelectMarkersContent from './components/selectMarkersContent'
 
 export default () => {
+  const [t] = useI18n()
+
   return (
     <>
       <SelectMapStyles />
@@ -20,12 +26,20 @@ export default () => {
         </Show>
         <ButtonFileOverlay />
       </div>
-      <div class="flex space-x-2">
-        <SelectMarkersContent />
-        <ButtonMarkersVisibility />
-        <ButtonLineVisibility />
-        <ButtonMarkersMoveability />
-      </div>
+      <Interactive
+        full
+        label={t('Points')}
+        border={false}
+        kind="static"
+        leftIcon={IconTablerCircle}
+      >
+        <div class="-my-1 -mr-3 flex w-full space-x-1">
+          <SelectMarkersContent />
+          <ButtonMarkersVisibility />
+          <ButtonLineVisibility />
+          <ButtonMarkersMoveability />
+        </div>
+      </Interactive>
     </>
   )
 }

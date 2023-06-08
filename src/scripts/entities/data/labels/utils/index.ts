@@ -2,6 +2,8 @@ import { currentCategory, indicatorsCategory, rawCategory } from '/src/scripts'
 
 // TODO: Figure out why without PulseTime current goes after Raw, WTF
 
+const categoriesOrder = [currentCategory, rawCategory, indicatorsCategory]
+
 export const groupDataLabelsByCategory = (dataLabels: DataLabel[]) =>
   Array.from(
     dataLabels.reduce((map, dataLabel) => {
@@ -15,11 +17,7 @@ export const groupDataLabelsByCategory = (dataLabels: DataLabel[]) =>
 
       return map
     }, new Map<DataCategory, DataLabel[]>())
-  ).sort((a, b) => {
-    const categoryA = a[0]
-    const categoryB = b[0]
-
-    const order = [currentCategory, rawCategory, indicatorsCategory]
-
-    return order.indexOf(categoryA) - order.indexOf(categoryB)
-  })
+  ).sort(
+    ([categoryA], [categoryB]) =>
+      categoriesOrder.indexOf(categoryA) - categoriesOrder.indexOf(categoryB)
+  )

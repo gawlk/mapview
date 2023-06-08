@@ -32,7 +32,7 @@ export default (props: Props) => {
         onChange={(value) => (temperature().active = value)}
       />
       <DialogSelect
-        position="relative"
+        position="absolute"
         button={{
           label: t('Source'),
           full: true,
@@ -63,7 +63,7 @@ export default (props: Props) => {
         }
       >
         <DialogSelect
-          position="relative"
+          position="absolute"
           button={{
             label: t('Average'),
             full: true,
@@ -90,7 +90,7 @@ export default (props: Props) => {
         }
       />
       <DialogSelect
-        position="relative"
+        position="absolute"
         button={{
           label: t('Structure'),
           full: true,

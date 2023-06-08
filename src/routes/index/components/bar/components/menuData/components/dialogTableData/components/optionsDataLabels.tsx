@@ -57,7 +57,33 @@ export default () => {
     sortable?.destroy()
   })
 
-  console.log('wekofpwekfopwkfopwkfopwekfpwok')
+  const optionsList = createMemo(
+    () =>
+      groupedTableDataLabelsChoices().map(([category, dataLabels]) => ({
+        name: t(category.name),
+        list: dataLabels.map((dataLabel) => {
+          const [x, setX] = createSignal(1)
+
+          const index = createMemo(
+            () => tableSelectedDataLabels()?.indexOf(dataLabel) || -1
+          )
+
+          const selected = createMemo(() => index() !== -1)
+
+          return {
+            value: dataLabel.toString(),
+            get label() {
+              return selected() ? `${index() + 1}` : ''
+            },
+            text: () => <SpanDataLabel dataLabel={dataLabel} />,
+            // Magical next line
+            get rightIcon() {
+              return selected() ? IconTablerMinus : IconTablerPlus
+            },
+          }
+        }),
+      })) || []
+  )
 
   return (
     <div class="space-y-4">
@@ -100,37 +126,26 @@ export default () => {
 
       <DialogOptions
         onClick={(value) => {
-          const dataLabel = tableDataLabelsChoices()?.find(
-            (dataLabel) => dataLabel.toString() === value
-          )
+          const findFn = (dataLabel: DataLabel) =>
+            dataLabel.toString() === value
 
-          if (dataLabel && !tableSelectedDataLabels()?.includes(dataLabel)) {
-            tableSelectedDataLabels()?.push(dataLabel)
+          const dataLabel = tableDataLabelsChoices()?.find(findFn)
+
+          const _tableSelectedDataLabels = tableSelectedDataLabels()
+
+          if (!dataLabel || !_tableSelectedDataLabels) return
+
+          const index = _tableSelectedDataLabels.indexOf(dataLabel)
+
+          if (index === -1) {
+            _tableSelectedDataLabels.push(dataLabel)
+          } else {
+            _tableSelectedDataLabels.splice(index, 1)
           }
         }}
         options={{
           selected: null,
-          list:
-            groupedTableDataLabelsChoices().map(([category, dataLabels]) => {
-              console.log('groupedTableDataLabelsChoices map')
-
-              return {
-                name: t(category.name),
-                list: dataLabels.map((dataLabel) => {
-                  const selected = createMemo(() =>
-                    tableSelectedDataLabels()?.includes(dataLabel)
-                  )
-
-                  return {
-                    value: dataLabel.toString(),
-                    text: () => <SpanDataLabel dataLabel={dataLabel} />,
-                    // TODO: Check why it disappeared
-                    rightIcon: selected() ? IconTablerMinus : IconTablerPlus,
-                    hidden: !!selected(),
-                  }
-                }),
-              }
-            }) || [],
+          list: optionsList(),
         }}
       />
     </div>

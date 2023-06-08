@@ -5,7 +5,7 @@ interface Props {
 export default (props: Props) => {
   return (
     <img
-      class="max-h-[70vh] w-full rounded-lg border-4 border-white/50 bg-white shadow-lg"
+      class="mx-auto max-h-[70vh] w-auto rounded-lg border-4 border-white/50 bg-white object-cover shadow-lg"
       src={props.image}
     />
   )

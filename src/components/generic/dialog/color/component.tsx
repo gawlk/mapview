@@ -12,6 +12,7 @@ export default (props: Props) => {
   return (
     <Dialog
       title="Select a color"
+      closeable
       {...props}
       button={mergeProps(
         {

@@ -48,6 +48,7 @@ export default () => {
 
   return (
     <Dialog
+      closeable
       button={{
         leftIcon: IconTablerCloudDownload,
         full: true,

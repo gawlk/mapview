@@ -44,6 +44,7 @@ export default () => {
 
   return (
     <Dialog
+      closeable
       button={{
         class: 'hidden',
         id: dialogEntityButtonId,
@@ -61,7 +62,7 @@ export default () => {
                 ? IconTablerEye
                 : IconTablerEyeOff,
             }}
-            position="relative"
+            position="absolute"
             values={{
               selected: store.dialogEntity?.index ?? null,
               list:

@@ -10,6 +10,7 @@ export default () => {
   return (
     <Show when={store.projects.list.length > 1}>
       <Dialog
+        closeable
         title={t('Delete project')}
         button={{
           icon: IconTablerTrash,

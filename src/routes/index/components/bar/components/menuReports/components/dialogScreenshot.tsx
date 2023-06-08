@@ -51,6 +51,7 @@ export default () => {
 
   return (
     <Dialog
+      closeable
       position="full"
       button={{
         ...(store.selectedReport?.screenshots.length

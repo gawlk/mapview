@@ -14,7 +14,7 @@ export default () => {
   return (
     <Dialog
       closeable
-      position="absolute"
+      attached
       button={{
         leftIcon: IconTablerLayoutList,
         text: t('Open image list'),

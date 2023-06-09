@@ -14,7 +14,7 @@ export default () => {
   return (
     <DialogSelect
       title="Select a source"
-      position="absolute"
+      attached
       button={{
         label: t('Source'),
         full: true,

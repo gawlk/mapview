@@ -30,7 +30,7 @@ export default (props: Props) => {
         onChange={(value) => (load().active = value)}
       />
       <DialogSelect
-        position="absolute"
+        attached
         button={{
           label: t('Source'),
           full: true,

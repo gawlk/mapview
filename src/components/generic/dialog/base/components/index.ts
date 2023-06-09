@@ -1,8 +1,6 @@
 export { default as DialogBackdrop } from './backdrop'
 export { default as DialogBody } from './body'
-export { default as DialogButtonClose } from './buttonClose'
 export { default as DialogButtonOpen } from './buttonOpen'
-export { default as DialogButtonMaximize } from './buttonMaximize'
 export { default as DialogDivider } from './divider'
 export { default as DialogForm } from './form'
 export { default as DialogHeader } from './header'

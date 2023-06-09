@@ -4,9 +4,9 @@ import { DialogForm } from '.'
 import { HIDDEN_CLOSE_BUTTON_CLASS } from '../scripts'
 
 interface Props extends Solid.ParentProps {
-  isAbsolute: boolean
+  isAttached: boolean
   color?: ColorProp
-  footer?: Solid.JSX.Element
+  footer?: Solid.JSX.Element // TODO
   form?: Solid.JSX.Element
 }
 
@@ -19,7 +19,7 @@ export default (props: Props) => {
 
           let classes = '!mt-0 '
 
-          if (props.isAbsolute) {
+          if (props.isAttached) {
             classes += `px-2 `
             if (props.footer) {
               classes += 'py-1.5'

@@ -52,7 +52,7 @@ export default () => {
   return (
     <Dialog
       closeable
-      position="full"
+      maximized
       button={{
         ...(store.selectedReport?.screenshots.length
           ? { icon: IconTablerCamera }

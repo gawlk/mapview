@@ -21,7 +21,7 @@ export default () => {
     <Dialog
       closeable
       title="Select a report"
-      position="absolute"
+      attached
       button={{
         label: t('Selected'),
         full: true,

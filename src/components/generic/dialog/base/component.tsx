@@ -1,13 +1,10 @@
-import { useMousePosition } from '@solid-primitives/mouse'
 import { useWindowSize } from '@solid-primitives/resize-observer'
 
 import {
-  createAbsolutePositionEffect,
   createRelativePositionEffect,
   forceCloseChildDialogs,
   makeClickOutsideEventListener,
   openForcedClosedChildDialogs,
-  resize,
 } from './scripts'
 
 import {
@@ -42,7 +39,6 @@ export default (props: Props) => {
     show: false,
     open: false,
     maximized: false,
-    action: null as 'moving' | 'resizing' | null,
     value: '',
     transform: {
       x: 0,
@@ -53,19 +49,18 @@ export default (props: Props) => {
       height: undefined,
     } as DialogDimensions,
     zIndex: 0,
+    moving: false,
   })
 
   const dialogProps = removeProps(props, dialogBooleanPropsKeysObject)
 
-  const mousePosition = useMousePosition()
-
   const isWindowLarge = createMemo(() => useWindowSize().width >= md)
   const isAble = createMemo(() => props.moveable || props.resizable)
-  const isAbsolute = createMemo(() => props.position === 'absolute')
+  const isAttached = createMemo(() => !!props.attached)
+  const isMaximized = createMemo(() => props.maximized || state.maximized)
   const isModal = createMemo(
-    () => isWindowLarge() && !(isAbsolute() || isAble())
+    () => isWindowLarge() && !(isAttached() || isAble())
   )
-  const isResizing = createMemo(() => state.action === 'resizing')
   const id = createMemo(
     () =>
       `dialog-${(props.title || props.button?.text?.toString())
@@ -79,14 +74,14 @@ export default (props: Props) => {
   let buttonOpen: HTMLButtonElement | undefined
   const forcedClosedChildDialogsOpenButtons: HTMLButtonElement[] = []
 
-  let resizeDirection: DialogResizeDirection = 's'
-
-  const [dialogs, setDialogs] = createSignal<HTMLElement | undefined>(undefined)
+  const [dialogsDiv, setDialogsDiv] = createSignal<HTMLElement | undefined>(
+    undefined
+  )
 
   const moveToFront = () => {
     const baseZIndex = 100
 
-    const list = dialogs()?.getElementsByTagName('dialog')
+    const list = dialogsDiv()?.getElementsByTagName('dialog')
 
     const zIndexes = Array.from(list || [])
       .filter((dialog) => dialog.open)
@@ -110,68 +105,8 @@ export default (props: Props) => {
     })
   }
 
-  const resetTransform = () =>
-    setState('transform', {
-      x: 0,
-      y: 0,
-    })
-
-  const onMouseDown = (action: Exclude<typeof state.action, null>) => {
-    setState('action', action)
-
-    window.addEventListener('mouseup', () => setState('action', null), {
-      once: true,
-    })
-  }
-
-  const onResizing = (direction: DialogResizeDirection) => {
-    if (props.resizable) {
-      resizeDirection = direction
-      onMouseDown('resizing')
-    }
-  }
-
   onMount(() => {
-    setDialogs(document.getElementById('dialogs') || undefined)
-
-    createEffect(
-      on(
-        () => state.action === 'moving',
-        (moving) => {
-          if (moving && dialog) {
-            createAbsolutePositionEffect(
-              dialog,
-              state.transform,
-              mousePosition,
-              (x, y) => {
-                setState('transform', {
-                  x,
-                  y,
-                })
-              }
-            )
-          }
-        }
-      )
-    )
-
-    createEffect(
-      on(
-        () => isResizing(),
-        (resizing) => {
-          if (resizing && dialog) {
-            resize(
-              dialog,
-              mousePosition,
-              { ...state.transform },
-              resizeDirection,
-              (dimensions) => setState('dimensions', dimensions),
-              (transform) => setState('transform', transform)
-            )
-          }
-        }
-      )
-    )
+    setDialogsDiv(document.getElementById('dialogs') || undefined)
 
     createEffect(
       on(
@@ -185,17 +120,15 @@ export default (props: Props) => {
     )
 
     createEffect(() => {
-      if (isAbsolute() && dialog && buttonOpen) {
+      if (isAttached() && dialog && buttonOpen) {
         createRelativePositionEffect(dialog, buttonOpen)
       }
     })
 
     let clearClickEvent: (() => void) | undefined
-
     createEffect(() => {
-      if (isAbsolute() && state.open && dialog) {
-        clearClickEvent?.()
-
+      clearClickEvent?.()
+      if (isAttached() && state.open && dialog) {
         clearClickEvent = makeClickOutsideEventListener(dialog, close)
       }
     })
@@ -210,7 +143,7 @@ export default (props: Props) => {
       <DialogButtonOpen
         {...props.button}
         for={id()}
-        class={[isAbsolute() && 'md:relative', props.button?.class]}
+        class={[isAttached() && 'md:relative', props.button?.class]}
         title={props.title}
         ref={buttonOpen}
         onClick={(event) => {
@@ -219,6 +152,7 @@ export default (props: Props) => {
 
           if (!state.open) {
             const isUserEvent = event.isTrusted
+
             const noChildrenWerePreviouslyClosed =
               !forcedClosedChildDialogsOpenButtons.length
 
@@ -241,7 +175,7 @@ export default (props: Props) => {
         }}
       />
 
-      <Portal mount={dialogs()}>
+      <Portal mount={dialogsDiv()}>
         <DialogBackdrop
           show={state.show && isModal()}
           open={state.open}
@@ -249,7 +183,7 @@ export default (props: Props) => {
         />
 
         <DialogLinesDefaultPosition
-          isMoving={state.action === 'moving'}
+          isMoving={state.moving}
           top={top}
           minWidth={minWidth}
           width={state.dimensions.width}
@@ -277,10 +211,7 @@ export default (props: Props) => {
             moveToFront()
           }}
           style={{
-            ...(isWindowLarge() &&
-            !isAbsolute() &&
-            !state.maximized &&
-            props.position !== 'full'
+            ...(isWindowLarge() && !isAttached() && !isMaximized()
               ? {
                   ...(state.dimensions.width
                     ? {
@@ -314,19 +245,13 @@ export default (props: Props) => {
 
             props.moveable && 'md:shadow-xl',
 
-            (() => {
-              switch (props.position) {
-                case 'attached':
-                case 'absolute':
-                  return 'absolute m-0 max-h-[40vh] min-w-[12rem] space-y-1.5 rounded-xl border-2' // TODO: Check how floating-ui does max-height
-                default:
-                  return `${
-                    state.maximized || props.position === 'full'
-                      ? 'h-full max-h-full'
-                      : 'bottom-0 top-auto mt-[5vh] max-h-[95vh] rounded-t-2xl border-t-2 md:mt-0 md:h-fit md:max-h-[32rem] md:max-w-2xl md:rounded-b-2xl md:border-2'
-                  } peer fixed w-full max-w-full space-y-3`
-              }
-            })(),
+            props.attached
+              ? 'absolute m-0 max-h-[40vh] min-w-[12rem] space-y-1.5 rounded-xl border-2' // TODO: Check how floating-ui does max-height
+              : `${
+                  isMaximized()
+                    ? 'h-full max-h-full'
+                    : 'bottom-0 top-auto mt-[5vh] max-h-[95vh] rounded-t-2xl border-t-2 md:mt-0 md:h-fit md:max-h-[32rem] md:max-w-2xl md:rounded-b-2xl md:border-2'
+                } peer fixed w-full max-w-full space-y-3`,
 
             (() => {
               switch (props.color) {
@@ -338,36 +263,38 @@ export default (props: Props) => {
             })(),
 
             // TODO: Duration 1ms is a bit hacky, find a different way to fully close the dialog than onTransitionEnd
-            !isResizing()
-              ? state.action || state.maximized
-                ? 'duration-[1ms]'
-                : 'duration-150'
-              : 'duration-0',
+            // TODO: Should not be needed after changing to absolute
+            // !isResizing()
+            //   ? state.action || state.maximized
+            //     ? 'duration-[1ms]'
+            //     : 'duration-150'
+            //   : 'duration-0',
 
-            !!state.action && 'select-none',
+            // TODO: To enable on resize or move
+            // !!state.action && 'select-none',
 
-            (state.maximized || props.position === 'full') && 'top-0',
+            isMaximized() && 'top-0',
 
-            'overflow-hidden border-black/5 p-0 text-black opacity-0 transition  backdrop:bg-transparent open:flex motion-reduce:transform-none motion-reduce:transition-none',
+            'overflow-hidden border-black/5 p-0 text-black opacity-0 transition duration-150  backdrop:bg-transparent open:flex motion-reduce:transform-none motion-reduce:transition-none',
           ])}
         >
           <div class="relative flex w-full">
             <div class="flex flex-1 flex-col space-y-3">
-              <Show when={!isAbsolute()}>
+              <Show when={!isAttached()}>
                 <DialogHeader
-                  resetTransform={resetTransform}
-                  setMovingState={() => onMouseDown('moving')}
-                  close={close}
+                  dialog={dialog}
                   maximized={state.maximized}
                   maximizable={props.maximizable}
                   moveable={props.moveable}
                   closeable={props.closeable}
                   title={props.title}
-                  toggleMaximize={() => {
+                  transform={state.transform}
+                  close={close}
+                  toggleMaximized={() => {
                     moveToFront()
-
                     setState('maximized', (maximized) => !maximized)
                   }}
+                  setTransform={(transform) => setState('transform', transform)}
                 />
 
                 <DialogDivider class="!mt-0" color={props.color} />
@@ -380,7 +307,7 @@ export default (props: Props) => {
 
               <DialogBody
                 color={props.color}
-                isAbsolute={isAbsolute()}
+                isAttached={isAttached()}
                 footer={props.footer}
                 children={props.children}
                 form={props.form}
@@ -395,11 +322,17 @@ export default (props: Props) => {
               </Show>
             </div>
 
-            <DialogResizers
-              show={props.resizable}
-              onMouseDown={onResizing}
-              onDblClick={(dimensions) => setState('dimensions', dimensions)}
-            />
+            <Show when={props.resizable}>
+              <DialogResizers
+                dialog={dialog}
+                transform={state.transform}
+                setMoving={(moving) => setState('moving', moving)}
+                setDimensions={(dimensions) =>
+                  setState('dimensions', dimensions)
+                }
+                setTransform={(transform) => setState('transform', transform)}
+              />
+            </Show>
           </div>
         </dialog>
       </Portal>

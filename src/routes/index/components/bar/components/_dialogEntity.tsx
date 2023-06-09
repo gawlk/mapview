@@ -62,7 +62,7 @@ export default () => {
                 ? IconTablerEye
                 : IconTablerEyeOff,
             }}
-            position="absolute"
+            attached
             values={{
               selected: store.dialogEntity?.index ?? null,
               list:

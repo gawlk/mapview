@@ -55,7 +55,7 @@ export default () => {
           >
             <div class="flex space-x-2">
               <DialogSelect
-                position="absolute"
+                attached
                 button={{
                   full: true,
                   label: t('Unit'),
@@ -67,7 +67,7 @@ export default () => {
                 onClose={(value) => value && (mathUnit.currentUnit = value)}
               />
               <DialogSelect
-                position="absolute"
+                attached
                 button={{
                   full: true,
                   leftIcon: IconTablerDecimal,

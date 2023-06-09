@@ -25,7 +25,7 @@ export default () => {
               leftIcon: IconTablerListNumbers,
               full: true,
             }}
-            position="absolute"
+            attached
             values={{
               selected: (dropGroup.indexes.selected?.displayedIndex || 1) - 1,
               list:

@@ -6,13 +6,15 @@ type DialogProps = DialogPropsOnly &
 interface DialogPropsOnly {
   button?: InternalButtonProps
 
-  position?: 'attached' | 'absolute' | 'fixed' | 'full'
+  attached?: true
 
   title?: string
 
   sticky?: Solid.JSX.Element
 
   form?: Solid.JSX.Element
+
+  maximized?: true
 
   full?: true
 

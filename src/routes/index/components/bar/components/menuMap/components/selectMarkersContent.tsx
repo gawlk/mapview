@@ -63,7 +63,7 @@ export default () => {
         size: 'sm',
         leftIcon: markersPossibleStates[state.pointStateSelected].leftIcon,
       }}
-      position="absolute"
+      attached
       values={{
         selected: state.pointStateSelected,
         list: markersPossibleStates,

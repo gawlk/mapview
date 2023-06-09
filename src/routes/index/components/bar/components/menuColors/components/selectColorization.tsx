@@ -17,7 +17,7 @@ export default () => {
         label: t('Colorization by'),
         full: true,
       }}
-      position="absolute"
+      attached
       values={{
         selected: t(store.selectedReport?.settings.colorization || ''),
         list: possibilities.map((possibility) => ({

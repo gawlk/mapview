@@ -33,7 +33,7 @@ export default (props: Props) => {
     }
   }
 
-  const isAbsolute = createMemo(() => props.position === 'absolute')
+  const isAttached = createMemo(() => !!props.attached)
 
   const getDialogButtonText = () => {
     const option =
@@ -78,7 +78,7 @@ export default (props: Props) => {
       }}
       sticky={
         props.search ? (
-          <div class={classPropToString([isAbsolute() ? 'px-2 pt-2' : 'px-4'])}>
+          <div class={classPropToString([isAttached() ? 'px-2 pt-2' : 'px-4'])}>
             <Input
               {...props.search}
               leftIcon={IconTablerListSearch}
@@ -93,7 +93,7 @@ export default (props: Props) => {
       form={
         <div
           class={classPropToString([
-            isAbsolute() ? 'space-y-1.5' : 'space-y-2',
+            isAttached() ? 'space-y-1.5' : 'space-y-2',
           ])}
         >
           <DialogOptions input={state.input} options={props.values} />

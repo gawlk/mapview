@@ -16,7 +16,7 @@ export default () => {
         label: t('Group by'),
         full: true,
       }}
-      position="absolute"
+      attached
       values={{
         selected: t(store.selectedReport?.settings.groupBy || ''),
         list: groupBys.map((s) => ({

@@ -21,7 +21,7 @@ export default () => {
   return (
     <DialogSelect
       title="Select a project"
-      position="absolute"
+      attached
       button={{
         class: 'flex-1 min-w-0',
         label: t('Selected'),

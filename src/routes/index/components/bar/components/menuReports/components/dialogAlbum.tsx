@@ -14,7 +14,7 @@ export default () => {
   return (
     <Dialog
       closeable
-      position="full"
+      maximized
       button={{
         leftIcon: IconTablerSlideshow,
         text: `${t('View the album')} - ${

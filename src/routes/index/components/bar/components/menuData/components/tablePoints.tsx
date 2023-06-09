@@ -142,7 +142,7 @@ export default (props: Props) => {
                     size,
                     full: true,
                   }}
-                  position="absolute"
+                  attached
                   values={{
                     selected: point.zone.name,
                     list: (

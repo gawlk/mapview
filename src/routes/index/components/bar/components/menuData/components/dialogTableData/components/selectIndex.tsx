@@ -26,7 +26,7 @@ export default () => {
               leftIcon: IconTablerListNumbers,
               full: true,
             }}
-            position="absolute"
+            attached
             values={{
               selected: (dropTableParams?.index?.displayedIndex || 1) - 1,
               list:

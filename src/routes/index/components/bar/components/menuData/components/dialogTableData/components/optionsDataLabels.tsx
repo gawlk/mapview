@@ -57,15 +57,15 @@ export default () => {
     sortable?.destroy()
   })
 
+  createEffect(() => console.log(tableSelectedDataLabels()))
+
   const optionsList = createMemo(
     () =>
       groupedTableDataLabelsChoices().map(([category, dataLabels]) => ({
         name: t(category.name),
         list: dataLabels.map((dataLabel) => {
-          const [x, setX] = createSignal(1)
-
           const index = createMemo(
-            () => tableSelectedDataLabels()?.indexOf(dataLabel) || -1
+            () => tableSelectedDataLabels()?.indexOf(dataLabel) ?? -1
           )
 
           const selected = createMemo(() => index() !== -1)

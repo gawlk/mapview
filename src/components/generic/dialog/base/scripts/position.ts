@@ -9,9 +9,13 @@ import { createIntersectionObserver } from '@solid-primitives/intersection-obser
 import { useWindowSize } from '@solid-primitives/resize-observer'
 
 export const createRelativePositionEffect = (
-  dialog: HTMLDialogElement,
+  dialog: HTMLDialogElement | undefined,
   buttonOpen: HTMLButtonElement
 ) => {
+  if (!dialog) {
+    return
+  }
+
   const windowSize = useWindowSize()
 
   let cleanup: (() => void) | undefined

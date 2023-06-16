@@ -6,15 +6,41 @@ export default () => {
       <Dialog
         closeable
         maximizable
+        moveable
+        resizable
         button={{
           text: 'Base',
         }}
         title="Title"
       >
-        <Dialog closeable title="Open moveable child dialog" moveable>
+        {/* <Dialog closeable title="Open moveable child dialog" moveable>
           Moveable dialog
-        </Dialog>
+        </Dialog> */}
         <p>Normal dialog</p>
+        <table class="relative w-full table-auto ">
+          <thead class="bg-black text-white">
+            <tr>
+              <th class="sticky top-0 !m-0 bg-black" colspan="2">
+                The table header
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="border">The table body</td>
+              <td class="border">with two columns</td>
+            </tr>
+            <tr>
+              <td class="border">The table body</td>
+              <td class="border">with two columns</td>
+            </tr>
+            <tr>
+              <td class="border">The table body</td>
+              <td class="border">with two columns</td>
+            </tr>
+          </tbody>
+        </table>
+
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Proin
@@ -47,7 +73,7 @@ export default () => {
           ut.
         </p>
       </Dialog>
-      <Dialog closeable title="Moveable" moveable>
+      {/* <Dialog closeable title="Moveable" moveable>
         Moveable dialog
       </Dialog>
       <Dialog closeable title="Resizable" resizable>
@@ -104,7 +130,7 @@ export default () => {
           </Dialog>
         </Dialog>
         <StoryDialogSelect />
-      </Dialog>
+      </Dialog> */}
     </Label>
   )
 }

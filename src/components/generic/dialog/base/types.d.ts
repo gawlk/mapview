@@ -37,9 +37,9 @@ interface DialogPropsOnly {
 
 type DialogResizeDirection = 'n' | 'nw' | 'w' | 'sw' | 's' | 'se' | 'e' | 'ne'
 
-interface DialogTransform {
-  x: number
-  y: number
+interface DialogPosition {
+  left?: number
+  top?: number
 }
 
 interface DialogDimensions {

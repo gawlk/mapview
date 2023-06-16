@@ -39,7 +39,7 @@ export default (props: Props) => {
           return classes
         })(),
 
-        'flex-1 overflow-y-auto',
+        'flex-1 overflow-y-auto @container',
       ])}
     >
       <button

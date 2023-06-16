@@ -1,41 +1,46 @@
 import { type MousePositionInside } from '@solid-primitives/mouse'
 
-const fixTransformAxisValue = (value: number, min: number, max: number) => {
+import { clamp } from '/src/scripts'
+
+const snap = (value: number, defaultValue: number) => {
   const snapRange = 10
 
-  const capedValue = Math.min(Math.max(value, min), max)
-
-  return Math.abs(capedValue) <= snapRange ? 0 : capedValue
+  return Math.abs(value - defaultValue) <= snapRange ? undefined : value
 }
 
 export const moveDialog = (
   dialog: HTMLDialogElement | undefined,
-  transform: DialogTransform,
+  defaultLeft: number,
+  defaultTop: number,
   mousePosition: MousePositionInside,
-  callback: (transform: DialogTransform) => void
+  callback: (position: DialogPosition) => void
 ) => {
   if (!dialog) return
 
   const { x: originMouseX, y: originMouseY } = mousePosition
-  const { offsetTop, offsetHeight, offsetWidth } = dialog
-  const { innerHeight, innerWidth } = window
-  const { x: dialogX, y: dialogY } = transform
+  const {
+    offsetTop: dialogOffsetTop,
+    offsetLeft: dialogOffsetLeft,
+    offsetHeight: dialogHeight,
+    offsetWidth: dialogWidth,
+  } = dialog
+  const { innerHeight: windowHeight, innerWidth: windowWidth } = window
 
   createEffect(() => {
     const { x: currentMouseX, y: currentMouseY } = mousePosition
 
-    const x = dialogX + currentMouseX - originMouseX
-    const y = dialogY + currentMouseY - originMouseY
+    const left = dialogOffsetLeft + currentMouseX - originMouseX
+    const top = dialogOffsetTop + currentMouseY - originMouseY
 
-    const maxX = (innerWidth - offsetWidth) / 2
-    const minX = -maxX
+    const maxX = windowWidth - dialogWidth
+    const minX = 0
 
-    const minY = -offsetTop
-    const maxY = innerHeight - offsetHeight - offsetTop
+    const maxY = windowHeight - dialogHeight
+    const minY = 0
 
     callback({
-      x: fixTransformAxisValue(x, minX, maxX),
-      y: fixTransformAxisValue(y, minY, maxY),
+      left: snap(clamp(left, minX, maxX), defaultLeft),
+      top: snap(clamp(top, minY, maxY), defaultTop),
     })
   })
 }

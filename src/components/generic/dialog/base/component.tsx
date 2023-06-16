@@ -1,4 +1,9 @@
-import { useWindowSize } from '@solid-primitives/resize-observer'
+import { createMediaQuery } from '@solid-primitives/media'
+import {
+  createElementSize,
+  useWindowSize,
+} from '@solid-primitives/resize-observer'
+import defaultTailwindCSSTheme from 'tailwindcss/defaultTheme'
 
 import {
   createRelativePositionEffect,
@@ -30,20 +35,16 @@ export interface Props
     Solid.JSX.DialogHTMLAttributes
   > {}
 
-const md = 768 // Number of pixel for the tailwind's "md" media query to trigger
-const top = '10vh'
-const minWidth = '20rem'
-
 export default (props: Props) => {
   const [state, setState] = createStore({
     show: false,
     open: false,
     maximized: false,
     value: '',
-    transform: {
-      x: 0,
-      y: 0,
-    } as DialogTransform,
+    position: {
+      left: undefined,
+      top: undefined,
+    } as DialogPosition,
     dimensions: {
       width: undefined,
       height: undefined,
@@ -54,7 +55,14 @@ export default (props: Props) => {
 
   const dialogProps = removeProps(props, dialogBooleanPropsKeysObject)
 
-  const isWindowLarge = createMemo(() => useWindowSize().width >= md)
+  // TODO: On window resize hide dialog if open button isn't visible on screen (hidden by parent for example)
+
+  let buttonOpen: HTMLButtonElement | undefined
+  const forcedClosedChildDialogsOpenButtons: HTMLButtonElement[] = []
+
+  const isWindowLarge = createMediaQuery(
+    `(min-width: ${defaultTailwindCSSTheme.screens.md})`
+  )
   const isAble = createMemo(() => props.moveable || props.resizable)
   const isAttached = createMemo(() => !!props.attached)
   const isMaximized = createMemo(() => props.maximized || state.maximized)
@@ -67,15 +75,21 @@ export default (props: Props) => {
         ?.toLowerCase()
         .replaceAll(' ', '-')}-${Math.floor(Math.random() * 100000000)}`
   )
+  const defaultLeft = createMemo(() =>
+    state.show ? (useWindowSize().width - dialogWidth()) / 2 : 0
+  )
+  const defaultTop = createMemo(() => Math.round(useWindowSize().height / 10))
 
-  // TODO: On window resize hide dialog if open button isn't visible on screen (hidden by parent for example)
-
-  let dialog: HTMLDialogElement | undefined
-  let buttonOpen: HTMLButtonElement | undefined
-  const forcedClosedChildDialogsOpenButtons: HTMLButtonElement[] = []
-
+  const [dialog, setDialog] = createSignal<HTMLDialogElement | undefined>(
+    undefined
+  )
   const [dialogsDiv, setDialogsDiv] = createSignal<HTMLElement | undefined>(
     undefined
+  )
+
+  const dialogDimensions = createElementSize(dialog)
+  const dialogWidth = createMemo(
+    () => (dialogDimensions.width && dialog()?.offsetWidth) || 0
   )
 
   const moveToFront = () => {
@@ -93,7 +107,7 @@ export default (props: Props) => {
   }
 
   const close = (element?: HTMLElement) => {
-    forceCloseChildDialogs(dialog, forcedClosedChildDialogsOpenButtons)
+    forceCloseChildDialogs(dialog(), forcedClosedChildDialogsOpenButtons)
 
     const value = String(
       element && 'value' in element ? element.value ?? '' : ''
@@ -120,16 +134,16 @@ export default (props: Props) => {
     )
 
     createEffect(() => {
-      if (isAttached() && dialog && buttonOpen) {
-        createRelativePositionEffect(dialog, buttonOpen)
+      if (isAttached() && buttonOpen) {
+        createRelativePositionEffect(dialog(), buttonOpen)
       }
     })
 
     let clearClickEvent: (() => void) | undefined
     createEffect(() => {
       clearClickEvent?.()
-      if (isAttached() && state.open && dialog) {
-        clearClickEvent = makeClickOutsideEventListener(dialog, close)
+      if (isAttached() && state.open) {
+        clearClickEvent = makeClickOutsideEventListener(dialog(), close)
       }
     })
 
@@ -160,7 +174,7 @@ export default (props: Props) => {
               moveToFront()
             }
 
-            dialog?.show()
+            dialog()?.show()
 
             setState('show', true)
 
@@ -182,13 +196,13 @@ export default (props: Props) => {
           zIndex={state.zIndex}
         />
 
-        <DialogLinesDefaultPosition
-          isMoving={state.moving}
-          top={top}
-          minWidth={minWidth}
-          width={state.dimensions.width}
-          zIndex={state.zIndex}
-        />
+        <Show when={state.moving}>
+          <DialogLinesDefaultPosition
+            top={defaultTop()}
+            width={dialogWidth()}
+            zIndex={state.zIndex}
+          />
+        </Show>
 
         {/* TODO: Use `Container` component here */}
         <dialog
@@ -196,15 +210,15 @@ export default (props: Props) => {
           // TODO: Change to something else, won't trigger if animations are disabled by a user
           id={id()}
           onTransitionEnd={(event) => {
-            if (event.target === dialog && !state.open) {
+            if (event.target === dialog() && !state.open) {
               props.onCloseEnd?.()
 
               setState('show', false)
 
-              dialog.close()
+              dialog()?.close()
             }
           }}
-          ref={dialog}
+          ref={(element) => setDialog(element)}
           onMouseDown={(event) => {
             event.stopPropagation()
 
@@ -216,8 +230,6 @@ export default (props: Props) => {
                   ...(state.dimensions.width
                     ? {
                         'max-width': `${state.dimensions.width}px`,
-                        'min-width': minWidth,
-                        'min-height': '5rem',
                       }
                     : {}),
 
@@ -228,12 +240,12 @@ export default (props: Props) => {
                       }
                     : {}),
 
-                  // TODO: Changes to 16 to 1rem
-                  transform: `translate(${state.transform.x}px, ${
-                    state.transform.y + (!state.open ? 16 : 0)
-                  }px)`,
+                  left: `${Math.min(
+                    state.position.left ?? defaultLeft(),
+                    useWindowSize().width - dialogWidth()
+                  )}px`,
 
-                  top,
+                  top: `${state.position.top ?? defaultTop()}px`,
                 }
               : {}),
             'z-index': state.zIndex,
@@ -243,15 +255,15 @@ export default (props: Props) => {
 
             state.open && 'open:translate-x-0 open:opacity-100',
 
-            props.moveable && 'md:shadow-xl',
+            props.moveable && 'md:shadow-xl md:drop-shadow-lg',
 
             props.attached
-              ? 'absolute m-0 max-h-[40vh] min-w-[12rem] space-y-1.5 rounded-xl border-2' // TODO: Check how floating-ui does max-height
+              ? 'absolute max-h-[40vh] min-w-[12rem] space-y-1.5 rounded-xl border-2' // TODO: Check how floating-ui does max-height
               : `${
                   isMaximized()
                     ? 'h-full max-h-full'
                     : 'bottom-0 top-auto mt-[5vh] max-h-[95vh] rounded-t-2xl border-t-2 md:mt-0 md:h-fit md:max-h-[32rem] md:max-w-2xl md:rounded-b-2xl md:border-2'
-                } peer fixed w-full max-w-full space-y-3`,
+                } fixed w-full max-w-full space-y-3`,
 
             (() => {
               switch (props.color) {
@@ -263,38 +275,33 @@ export default (props: Props) => {
             })(),
 
             // TODO: Duration 1ms is a bit hacky, find a different way to fully close the dialog than onTransitionEnd
-            // TODO: Should not be needed after changing to absolute
-            // !isResizing()
-            //   ? state.action || state.maximized
-            //     ? 'duration-[1ms]'
-            //     : 'duration-150'
-            //   : 'duration-0',
-
-            // TODO: To enable on resize or move
-            // !!state.action && 'select-none',
 
             isMaximized() && 'top-0',
 
-            'overflow-hidden border-black/5 p-0 text-black opacity-0 transition duration-150  backdrop:bg-transparent open:flex motion-reduce:transform-none motion-reduce:transition-none',
+            // TODO: border-orange-300 around the focused dialog
+
+            'm-0 overflow-hidden border-black/5 p-0 text-black opacity-0 transition duration-150 backdrop:bg-transparent open:flex motion-reduce:transform-none motion-reduce:transition-none',
           ])}
         >
           <div class="relative flex w-full">
             <div class="flex flex-1 flex-col space-y-3">
               <Show when={!isAttached()}>
                 <DialogHeader
-                  dialog={dialog}
+                  dialog={dialog()}
                   maximized={state.maximized}
                   maximizable={props.maximizable}
                   moveable={props.moveable}
                   closeable={props.closeable}
                   title={props.title}
-                  transform={state.transform}
+                  defaultLeft={defaultLeft()}
+                  defaultTop={defaultTop()}
                   close={close}
                   toggleMaximized={() => {
                     moveToFront()
                     setState('maximized', (maximized) => !maximized)
                   }}
-                  setTransform={(transform) => setState('transform', transform)}
+                  setPosition={(position) => setState('position', position)}
+                  setMoving={(moving) => setState('moving', moving)}
                 />
 
                 <DialogDivider class="!mt-0" color={props.color} />
@@ -322,15 +329,13 @@ export default (props: Props) => {
               </Show>
             </div>
 
-            <Show when={props.resizable}>
+            <Show when={props.resizable && !state.maximized}>
               <DialogResizers
-                dialog={dialog}
-                transform={state.transform}
-                setMoving={(moving) => setState('moving', moving)}
+                dialog={dialog()}
                 setDimensions={(dimensions) =>
                   setState('dimensions', dimensions)
                 }
-                setTransform={(transform) => setState('transform', transform)}
+                setPosition={(position) => setState('position', position)}
               />
             </Show>
           </div>

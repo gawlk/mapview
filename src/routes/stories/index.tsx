@@ -23,9 +23,9 @@ export default () => {
       <StoryInput /> */}
       <StoryInputRadioHorizontal />
       <StoryDialog />
-      <StoryDialogSelect />
+      {/* <StoryDialogSelect />
       <StoryDialogColor />
-      <StoryNavigator />
+      <StoryNavigator /> */}
     </div>
   )
 }

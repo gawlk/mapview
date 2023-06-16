@@ -1,91 +1,88 @@
 import { type MousePositionInside } from '@solid-primitives/mouse'
 
+import { clamp } from '/src/scripts'
+
+// TODO: Snap
+
+const minWidth = 320
+const minHeight = 100
+
 export const resizeDialog = (
   dialog: HTMLDialogElement | undefined,
   mousePosition: MousePositionInside,
-  transform: DialogTransform,
   direction: DialogResizeDirection,
   setDimensions: (dimensions: Partial<DialogDimensions>) => void,
-  setTransform: (transform: Partial<DialogTransform>) => void
+  setPosition: (position: Partial<DialogPosition>) => void
 ) => {
   if (!dialog) return
 
-  const { height: dialogHeightWithBorder, width: dialogWidthWithBorder } =
-    dialog.getBoundingClientRect()
+  const { innerHeight: windowHeight, innerWidth: windowWidth } = window
 
   const {
     offsetTop: dialogOffsetTop,
-    clientWidth: dialogWidth,
-    clientHeight: dialogHeight,
+    offsetLeft: dialogOffsetLeft,
+    offsetWidth: dialogWidth,
+    offsetHeight: dialogHeight,
   } = dialog
 
-  const dialogBorderWidth = dialogWidthWithBorder - dialogWidth
-  const dialogBorderHeight = dialogHeightWithBorder - dialogHeight
+  const dialogOffsetRight = windowWidth - dialogOffsetLeft - dialogWidth
+  const dialogOffsetBottom = windowHeight - dialogOffsetTop - dialogHeight
 
-  const { innerHeight: windowHeight, innerWidth: windowWidth } = window
+  const isAnyNorth = direction.includes('n')
+  const isAnyWest = direction.includes('w')
+
+  const isHorizontalOnly = direction === 'w' || direction === 'e'
+  const isVerticalOnly = direction === 'n' || direction === 's'
+
+  const clampMouseX = (x: number) => clamp(x, 0, windowWidth)
+  const clampMouseY = (y: number) => clamp(y, 0, windowHeight)
+
+  const widthIncrementMultiplier = isAnyWest ? -1 : 1
+  const heightIncrementMultiplier = isAnyNorth ? -1 : 1
+
+  const dialogOffsetHorizontal = isAnyWest
+    ? dialogOffsetLeft
+    : dialogOffsetRight
+  const dialogOffsetVertical = isAnyNorth ? dialogOffsetTop : dialogOffsetBottom
+
+  const maxDialogOffsetTop = windowHeight - dialogOffsetBottom - minHeight
+  const maxDialogOffsetLeft = windowWidth - dialogOffsetRight - minWidth
 
   let { x: originalMouseX, y: originalMouseY } = mousePosition
-  originalMouseX = Math.max(Math.min(originalMouseX, windowWidth), 0)
-  originalMouseY = Math.max(Math.min(originalMouseY, windowHeight), 0)
-
-  let { x: originalTransformX, y: originalTransformY } = transform
-
-  console.log(originalTransformX)
+  originalMouseX = clampMouseX(originalMouseX)
+  originalMouseY = clampMouseY(originalMouseY)
 
   createEffect(() => {
-    const { offsetLeft: dialogOffsetLeft } = dialog
-
     let { x: currentMouseX, y: currentMouseY } = mousePosition
+    currentMouseX = clampMouseX(currentMouseX)
+    currentMouseY = clampMouseY(currentMouseY)
 
-    currentMouseX = Math.max(Math.min(currentMouseX, windowWidth), 0)
-    currentMouseY = Math.max(Math.min(currentMouseY, windowHeight), 0)
+    const widthIncrement = Math.min(
+      !isVerticalOnly
+        ? (currentMouseX - originalMouseX) * widthIncrementMultiplier
+        : 0,
+      dialogOffsetHorizontal
+    )
 
-    const isAnyNorth =
-      direction === 'n' || direction === 'ne' || direction === 'nw'
+    const heightIncrement = Math.min(
+      !isHorizontalOnly
+        ? (currentMouseY - originalMouseY) * heightIncrementMultiplier
+        : 0,
+      dialogOffsetVertical
+    )
 
-    const isAnyWest =
-      direction === 'w' || direction === 'sw' || direction === 'nw'
-
-    const isHorizontalOnly = direction === 'w' || direction === 'e'
-
-    const isVerticalOnly = direction === 'n' || direction === 's'
-
-    const widthIncrement = !isVerticalOnly
-      ? (currentMouseX - originalMouseX) * (isAnyWest ? -1 : 1)
-      : 0
-
-    const heightIncrement = !isHorizontalOnly
-      ? (currentMouseY - originalMouseY) * (isAnyNorth ? -1 : 1)
-      : 0
-
-    const transformX =
-      originalTransformX +
-      Math.floor((widthIncrement * (isAnyWest ? -1 : 1)) / 2)
-
-    // const transformY = originalTransformY - (isAnyNorth ? heightIncrement : 0)
-
-    // v1: const maxWidth = windowWidth - 2 * Math.abs(transformX)
-    // v2: const maxWidth = windowWidth - dialogOffsetLeft - transformX
-    // const maxHeight = windowHeight - dialogOffsetTop - transformY
-
-    // console.log(transformX)
-
-    // v1: const width = Math.min(dialogWidth + widthIncrement, maxWidth)
-    // v2: const width = dialogWidth + widthIncrement - dialogBorderWidth
-    const width = dialogWidthWithBorder + widthIncrement
-    // const height = Math.min(dialogHeight + heightIncrement, maxHeight)
-
-    // console.log('width', width)
-
-    setTransform({
-      // ...(width < maxWidth ? { x: transformX } : {}),
-      x: transformX,
-      // y: height !== maxHeight ? transformY : transform.y,
+    setPosition({
+      top: isAnyNorth
+        ? Math.min(dialogOffsetTop - heightIncrement, maxDialogOffsetTop)
+        : dialogOffsetTop,
+      left: isAnyWest
+        ? Math.min(dialogOffsetLeft - widthIncrement, maxDialogOffsetLeft)
+        : dialogOffsetLeft,
     })
 
     setDimensions({
-      width,
-      // height,
+      width: Math.max(dialogWidth + widthIncrement, minWidth),
+      height: Math.max(dialogHeight + heightIncrement, minHeight),
     })
   })
 }

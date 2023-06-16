@@ -8,6 +8,8 @@ import { classPropToString } from '/src/components'
 import DialogButtonClose from './components/buttonClose'
 import DialogButtonMaximize from './components/buttonMaximize'
 
+import { activateSelectNone, deactivateSelectNone } from '../scripts'
+
 interface Props {
   dialog?: HTMLDialogElement
   maximized: boolean
@@ -15,10 +17,12 @@ interface Props {
   maximizable?: boolean
   moveable?: boolean
   closeable?: boolean
-  transform: DialogTransform
+  defaultLeft: number
+  defaultTop: number
   close: (element?: HTMLElement) => void
   toggleMaximized: () => void
-  setTransform: (transform: DialogTransform) => void
+  setPosition: (position: DialogPosition) => void
+  setMoving: (moving: boolean) => void
 }
 
 export default (props: Props) => {
@@ -35,24 +39,32 @@ export default (props: Props) => {
   createEffect(
     on(
       () => state.moving,
-      (moving) =>
-        moving &&
-        moveDialog(
-          props.dialog,
-          props.transform,
-          mousePosition,
-          props.setTransform
-        )
+      (moving) => {
+        props.setMoving(moving)
+
+        if (moving) {
+          activateSelectNone()
+
+          moveDialog(
+            props.dialog,
+            props.defaultLeft,
+            props.defaultTop,
+            mousePosition,
+            props.setPosition
+          )
+        } else {
+          deactivateSelectNone()
+        }
+      }
     )
   )
 
   return (
     <div
-      onMouseDown={() => {
-        if (!props.maximized && props.moveable) {
-          setState('moving', true)
-        }
-      }}
+      onMouseDown={() =>
+        !props.maximized && props.moveable && setState('moving', true)
+      }
+      onDblClick={() => props.toggleMaximized()}
       class={classPropToString([
         !props.maximized && props.moveable && 'md:cursor-move',
         'flex items-center px-4 pb-3 pt-4',
@@ -76,7 +88,7 @@ export default (props: Props) => {
       <DialogButtonMaximize
         show={props.maximizable || false}
         maximized={props.maximized}
-        onClick={() => props.toggleMaximized()}
+        onClick={props.toggleMaximized}
       />
     </div>
   )

@@ -1,10 +1,14 @@
 import { makeEventListener } from '@solid-primitives/event-listener'
 
 export const makeClickOutsideEventListener = (
-  dialog: HTMLDialogElement,
+  dialog: HTMLDialogElement | undefined,
   close: () => void
-) =>
-  makeEventListener(
+) => {
+  if (!dialog) {
+    return
+  }
+
+  return makeEventListener(
     document.body,
     'click',
     (event) => {
@@ -25,3 +29,4 @@ export const makeClickOutsideEventListener = (
     },
     { passive: true }
   )
+}

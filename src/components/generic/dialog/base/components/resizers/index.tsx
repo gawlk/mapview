@@ -1,16 +1,16 @@
 import { makeEventListener } from '@solid-primitives/event-listener'
 import { useMousePosition } from '@solid-primitives/mouse'
 
-import { resizeDialog } from './scripts'
+import { expand, resizeDialog } from './scripts'
 
-import Resizer from './components/resizer'
+import { classPropToString } from '/src/components/generic/props'
+
+import { activateSelectNone, deactivateSelectNone } from '../scripts'
 
 interface Props {
   dialog?: HTMLDialogElement
-  transform: DialogTransform
   setDimensions: (dimensions: Partial<DialogDimensions>) => void
-  setTransform: (transform: Partial<DialogTransform>) => void
-  setMoving: (moving: boolean) => void
+  setPosition: (position: Partial<DialogPosition>) => void
 }
 
 export default (props: Props) => {
@@ -32,63 +32,81 @@ export default (props: Props) => {
   createEffect(
     on(
       () => state.resizeDirection,
-      (resizeDirection) =>
-        resizeDirection &&
-        resizeDialog(
-          props.dialog,
-          mousePosition,
-          { ...props.transform },
-          resizeDirection,
-          props.setDimensions,
-          props.setTransform
-        )
+      (resizeDirection) => {
+        if (resizeDirection) {
+          activateSelectNone()
+
+          resizeDialog(
+            props.dialog,
+            mousePosition,
+            resizeDirection,
+            props.setDimensions,
+            props.setPosition
+          )
+        } else {
+          deactivateSelectNone()
+        }
+      }
     )
   )
 
-  createEffect(() => props.setMoving(!!state.resizeDirection))
+  const runExpand = (resizeDirection: DialogResizeDirection) =>
+    expand(
+      props.dialog,
+      resizeDirection,
+      props.setDimensions,
+      props.setPosition
+    )
 
-  // TODO: Create Resizer, SideResizer and CornerResizer components
+  const Resizer = (props: {
+    direction: DialogResizeDirection
+    class: ClassProp
+  }) => (
+    <div
+      onMouseDown={() => setState('resizeDirection', props.direction)}
+      onDblClick={() => runExpand(props.direction)}
+      class={classPropToString(['absolute md:block', props.class])}
+    />
+  )
+
   return (
-    // TODO: On double click, expand to direction instead of resetting
-    // TODO: Set a snap window with default size similar to default position
     <>
       <Resizer
-        onMouseDown={() => setState('resizeDirection', 'n')}
+        direction="n"
         class={['inset-x-0 top-0 -my-1.5 hidden h-3 w-full cursor-ns-resize']}
       />
       <Resizer
-        onMouseDown={() => setState('resizeDirection', 'w')}
+        direction="w"
         class={[
           'bottom-0 left-0 top-0 -mx-1.5 hidden h-full w-3 cursor-ew-resize',
         ]}
       />
       <Resizer
-        onMouseDown={() => setState('resizeDirection', 's')}
+        direction="s"
         class={[
           'inset-x-0 bottom-0 -my-1.5 hidden h-3 w-full cursor-ns-resize',
         ]}
       />
       <Resizer
-        onMouseDown={() => setState('resizeDirection', 'e')}
+        direction="e"
         class={[
           'bottom-0 right-0 top-0 -mx-1.5 hidden h-full w-3 cursor-ew-resize',
         ]}
       />
-
       <Resizer
-        onMouseDown={() => setState('resizeDirection', 'nw')}
+        direction="nw"
         class={['left-0 top-0 -m-2 hidden h-6 w-6 cursor-nwse-resize']}
       />
       <Resizer
-        onMouseDown={() => setState('resizeDirection', 'sw')}
+        direction="sw"
         class={['bottom-0 left-0 -m-2 hidden h-6 w-6 cursor-nesw-resize ']}
       />
       <Resizer
-        onMouseDown={() => setState('resizeDirection', 'se')}
+        direction="se"
         class={['bottom-0 right-0 -m-2 hidden h-6 w-6 cursor-nwse-resize']}
       />
       <Resizer
-        onMouseDown={() => setState('resizeDirection', 'ne')}
+        direction="ne"
         class={['right-0 top-0 -m-2 hidden h-6 w-6 cursor-nesw-resize']}
       />
     </>

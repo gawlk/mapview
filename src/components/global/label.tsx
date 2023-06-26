@@ -1,3 +1,5 @@
+import { run } from '/src/scripts'
+
 import { classPropToString } from '/src/components'
 
 export interface Props extends Solid.ParentProps, BaseProps {
@@ -12,14 +14,14 @@ export default (props: Props) => {
       <label
         for={id}
         class={classPropToString([
-          (() => {
+          run(() => {
             switch (props.size) {
               case 'lg':
                 return 'text-xl'
               default:
                 return 'text-lg'
             }
-          })(),
+          }),
 
           'break-words font-semibold',
         ])}

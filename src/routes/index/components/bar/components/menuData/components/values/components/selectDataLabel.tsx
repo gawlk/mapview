@@ -4,8 +4,7 @@ import store from '/src/store'
 
 import { groupDataLabelsByCategory } from '/src/scripts'
 
-import { DialogSelect } from '/src/components'
-import SpanDataLabel from '/src/components/global/spanDataLabel'
+import { DialogSelect, SpanDataLabel } from '/src/components'
 
 export default () => {
   const [t] = useI18n()

@@ -84,6 +84,7 @@ declare global {
   const IconTablerPlayerPlay: typeof import('~icons/tabler/player-play.jsx')['default']
   const IconTablerPlus: typeof import('~icons/tabler/plus.jsx')['default']
   const IconTablerRainbow: typeof import('~icons/tabler/rainbow.jsx')['default']
+  const IconTablerReload: typeof import('~icons/tabler/reload.jsx')['default']
   const IconTablerRuler2: typeof import('~icons/tabler/ruler2.jsx')['default']
   const IconTablerSelector: typeof import('~icons/tabler/selector.jsx')['default']
   const IconTablerSettings: typeof import('~icons/tabler/settings.jsx')['default']

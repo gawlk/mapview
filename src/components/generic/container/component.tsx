@@ -1,3 +1,5 @@
+import { run } from '/src/scripts'
+
 import {
   baseBooleanPropsKeysObject,
   classPropToString,
@@ -22,7 +24,7 @@ export default (props: Props) => {
       {...(props.style ? { style: stylePropToCSSProperties(props.style) } : {})}
       class={classPropToString([
         // Text color
-        (() => {
+        run(() => {
           switch (props.color) {
             case 'primary':
               return 'text-black/90'
@@ -37,10 +39,10 @@ export default (props: Props) => {
             default:
               return 'text-black/90'
           }
-        })(),
+        }),
 
         // Background color
-        (() => {
+        run(() => {
           switch (props.color) {
             case 'primary':
               return 'bg-orange-700'
@@ -61,20 +63,20 @@ export default (props: Props) => {
             default:
               return 'bg-white'
           }
-        })(),
+        }),
 
         // Border width
-        (() => {
+        run(() => {
           if (props.border !== false) {
             switch (props.size) {
               default:
                 return 'border-2'
             }
           }
-        })(),
+        }),
 
         // Border color
-        (() => {
+        run(() => {
           switch (props.color) {
             case 'primary':
             case 'secondary':
@@ -88,49 +90,43 @@ export default (props: Props) => {
             default:
               return 'border-black border-opacity-5'
           }
-        })(),
+        }),
 
         // Padding
-        (() => {
+        run(() => {
           switch (props.padding || props.size) {
             case 'xs':
-              return (() => {
-                switch (props.orientation) {
-                  case 'horizontal':
-                    return 'px-2 py-1'
-                  case 'vertical':
-                    return 'px-1 py-2'
-                  default:
-                    return 'p-1'
-                }
-              })()
+              switch (props.orientation) {
+                case 'horizontal':
+                  return 'px-2 py-1'
+                case 'vertical':
+                  return 'px-1 py-2'
+                default:
+                  return 'p-1'
+              }
             case 'sm':
-              return (() => {
-                switch (props.orientation) {
-                  case 'horizontal':
-                    return 'px-3 py-1.5'
-                  case 'vertical':
-                    return 'px-1.5 py-3'
-                  default:
-                    return 'p-1.5'
-                }
-              })()
+              switch (props.orientation) {
+                case 'horizontal':
+                  return 'px-3 py-1.5'
+                case 'vertical':
+                  return 'px-1.5 py-3'
+                default:
+                  return 'p-1.5'
+              }
             default:
-              return (() => {
-                switch (props.orientation) {
-                  case 'horizontal':
-                    return 'px-4 py-2'
-                  case 'vertical':
-                    return 'px-2 py-4'
-                  default:
-                    return 'p-2'
-                }
-              })()
+              switch (props.orientation) {
+                case 'horizontal':
+                  return 'px-4 py-2'
+                case 'vertical':
+                  return 'px-2 py-4'
+                default:
+                  return 'p-2'
+              }
           }
-        })(),
+        }),
 
         // Roundness
-        (() => {
+        run(() => {
           switch (props.rounded) {
             case 'full':
               return 'rounded-full'
@@ -141,10 +137,10 @@ export default (props: Props) => {
                 ? 'rounded-md'
                 : 'rounded-lg'
           }
-        })(),
+        }),
 
         // Text size
-        (() => {
+        run(() => {
           switch (props.size) {
             case 'sm':
               return 'text-sm'
@@ -153,7 +149,7 @@ export default (props: Props) => {
             default:
               return 'text-base'
           }
-        })(),
+        }),
 
         'break-words',
 

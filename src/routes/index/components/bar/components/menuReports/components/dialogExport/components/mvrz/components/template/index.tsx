@@ -3,7 +3,11 @@ import localForage from 'localforage'
 
 import store from '/src/store'
 
-import { convertFileToDataURL, downloadFile } from '/src/scripts'
+import {
+  convertData64ToFile,
+  convertFileToDataURL,
+  downloadFile,
+} from '/src/scripts'
 
 import { getTemplateKey } from './scripts'
 
@@ -31,24 +35,17 @@ export default (props: Props) => {
   createEffect(async () => {
     const file: any = await localForage.getItem(key())
 
-    if (file) {
-      const res = await fetch(file.data64)
-      const blob = await res.blob()
-
-      setState('file', new File([blob], file.name))
-    } else {
-      setState('file', null)
-    }
+    setState(
+      'file',
+      file ? await convertData64ToFile(file.data64, file.name) : null
+    )
   })
 
   const updateFile = async (file: File | undefined) => {
     if (file) {
       setState('file', file)
 
-      await localForage.setItem(key(), {
-        name: file.name,
-        data64: await convertFileToDataURL(file),
-      })
+      await localForage.setItem(key(), file)
     }
   }
 

@@ -1,3 +1,5 @@
+import { run } from '/src/scripts'
+
 import {
   Container,
   IconInteractive,
@@ -44,7 +46,7 @@ export default (passedProps: Props) => {
 
         // Hover & Active
         !disabled() &&
-          (() => {
+          run(() => {
             switch (props.color) {
               case 'secondary':
                 return 'hover:bg-opacity-10 active:bg-opacity-[0.15]'
@@ -55,10 +57,10 @@ export default (passedProps: Props) => {
                   'hover:brightness-[0.95] active:brightness-90',
                 ]
             }
-          })(),
+          }),
 
         // State
-        (() => {
+        run(() => {
           if (props.disabled) {
             return 'opacity-60'
           } else if (props.kind !== 'static') {
@@ -66,7 +68,7 @@ export default (passedProps: Props) => {
               props.kind === 'clickable' ? 'cursor-pointer select-none' : ''
             }`
           }
-        })(),
+        }),
 
         // Because 'inline-flex' has priority over hidden attribute
         !props.hidden && 'inline-flex items-center',

@@ -51,6 +51,7 @@ interface BaseProject<
   MathUnits extends MachineMathUnits = MachineMathUnits
 > extends BaseObject<JSONBaseProject>,
     Entity<'Project'> {
+  state: 'Loading' | 'Loaded'
   readonly name: Field
   readonly information: Field[]
   readonly hardware: Field[]

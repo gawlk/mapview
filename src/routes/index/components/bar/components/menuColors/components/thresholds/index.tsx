@@ -2,7 +2,7 @@ import { useI18n } from '@solid-primitives/i18n'
 
 import store from '/src/store'
 
-import { blend, colors, roundValue } from '/src/scripts'
+import { blend, colors, roundValue, run } from '/src/scripts'
 
 import {
   Details,
@@ -168,7 +168,7 @@ export default () => {
                   />
                 }
               >
-                {(() => {
+                {run(() => {
                   const thresoldColors = createMemo(
                     () => store.selectedReport?.thresholds.colors
                   )
@@ -205,7 +205,7 @@ export default () => {
                       />
                     </Interactive>
                   )
-                })()}
+                })}
               </Show>
 
               <InputCustomThreshold

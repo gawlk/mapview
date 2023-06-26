@@ -13,9 +13,9 @@ export default () => {
         }}
         title="Title"
       >
-        {/* <Dialog closeable title="Open moveable child dialog" moveable>
+        <Dialog closeable title="Open moveable child dialog" moveable>
           Moveable dialog
-        </Dialog> */}
+        </Dialog>
         <p>Normal dialog</p>
         <table class="relative w-full table-auto ">
           <thead class="bg-black text-white">
@@ -73,7 +73,7 @@ export default () => {
           ut.
         </p>
       </Dialog>
-      {/* <Dialog closeable title="Moveable" moveable>
+      <Dialog closeable title="Moveable" moveable>
         Moveable dialog
       </Dialog>
       <Dialog closeable title="Resizable" resizable>
@@ -130,7 +130,7 @@ export default () => {
           </Dialog>
         </Dialog>
         <StoryDialogSelect />
-      </Dialog> */}
+      </Dialog>
     </Label>
   )
 }

@@ -1,5 +1,3 @@
-import store from '/src/store'
-
 import {
   convertJSONFromPRJZToMPVZ,
   importOverlaysFromZIP,
@@ -49,6 +47,12 @@ export const importFile = async (file: File) => {
           await waitForMap()
 
           importOverlaysFromZIP(unzipped, jsonProject, project)
+
+          setTimeout(() => {
+            if (project) {
+              project.state = 'Loaded'
+            }
+          }, 5000)
         }
       }, 100)
     }

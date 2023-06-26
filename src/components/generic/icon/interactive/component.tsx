@@ -1,3 +1,5 @@
+import { run } from '/src/scripts'
+
 import {
   Icon,
   iconInteractiveBooleanPropsKeysObject,
@@ -13,7 +15,7 @@ export default (props: Props) => {
     <Icon
       {...iconProps}
       class={[
-        (() => {
+        run(() => {
           switch (props.size) {
             case 'xs':
               switch (props.side) {
@@ -43,7 +45,7 @@ export default (props: Props) => {
                   return 'm-0.5'
               }
           }
-        })(),
+        }),
 
         props.class,
       ]}

@@ -1,3 +1,5 @@
+import { run } from '/src/scripts'
+
 import { convertPRJZToMinidynReport } from '../report'
 
 export const convertPRJZToMinidynProject = (
@@ -74,7 +76,7 @@ export const convertPRJZToMinidynUnits = (json: any): JSONMinidynUnits => {
     },
     deflection: {
       version: 1,
-      currentUnit: ((): PossibleMinidynDeflectionUnits => {
+      currentUnit: run((): PossibleMinidynDeflectionUnits => {
         switch (
           (json.ExportedData.Drops as any[]).find(
             (exportedUnit) => exportedUnit.Type === 'Deflection'
@@ -85,13 +87,13 @@ export const convertPRJZToMinidynUnits = (json: any): JSONMinidynUnits => {
           default:
             return 'um'
         }
-      })(),
+      }),
       currentPrecision: 0,
       max: 1000,
     },
     force: {
       version: 1,
-      currentUnit: ((): PossibleMinidynForceUnits => {
+      currentUnit: run((): PossibleMinidynForceUnits => {
         switch (
           (json.ExportedData.Drops as any[]).find(
             (exportedUnit) => exportedUnit.Type === 'Load'
@@ -102,13 +104,13 @@ export const convertPRJZToMinidynUnits = (json: any): JSONMinidynUnits => {
           default:
             return 'kN'
         }
-      })(),
+      }),
       currentPrecision: 0,
       max: 1000,
     },
     time: {
       version: 1,
-      currentUnit: ((): PossibleMinidynTimeUnits => {
+      currentUnit: run((): PossibleMinidynTimeUnits => {
         switch (
           (json.ExportedData.Drops as any[]).find(
             (exportedUnit) => exportedUnit.Type === 'Time'
@@ -121,7 +123,7 @@ export const convertPRJZToMinidynUnits = (json: any): JSONMinidynUnits => {
           default:
             return 'ms'
         }
-      })(),
+      }),
       currentPrecision: 0,
       max: 1000,
     },

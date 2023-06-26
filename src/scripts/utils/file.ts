@@ -1,6 +1,6 @@
-import { Unzipped } from 'fflate'
+import { run } from './run'
 
-export const reservedFileNameWords = (() => {
+export const reservedFileNameWords = run(() => {
   const words = ['CON', 'PRN', 'AUX', 'NUL']
 
   for (let i = 1; i < 9; i++) {
@@ -8,7 +8,7 @@ export const reservedFileNameWords = (() => {
   }
 
   return words
-})()
+})
 
 export const convertFileToDataURL = (file: File) =>
   new Promise<string>((resolve, reject) => {
@@ -40,13 +40,21 @@ export const convertUint8ArrayToData64Image = (
       .join('')
   )
 
-export const convertData64ImageToFile = async (data64: string) => {
-  const res = await fetch(data64)
-  const blob = await res.blob()
-
-  return await new File([blob], 'screenshot.png', {
+export const convertData64ImageToFile = async (data64: string) =>
+  convertData64ToFile(data64, 'screenshot.png', {
     type: 'image/png',
   })
+
+export const convertData64ToFile = async (
+  data64: string,
+  fileName?: string,
+  options?: FilePropertyBag | undefined
+) => {
+  const res = await fetch(data64)
+
+  const blob = await res.blob()
+
+  return await new File([blob], fileName || 'file', options)
 }
 
 export const convertData64ImageToUint8Array = async (data64: string) => {

@@ -1,3 +1,5 @@
+import { run } from '/src/scripts'
+
 import {
   Button,
   Container,
@@ -43,7 +45,7 @@ export default (props: Props) => {
               color={!isSelected() ? 'transparent' : props.color}
             >
               <input type="radio" class="sr-only" value={option.value} />
-              {option.icon ? '' : valueWithTextToJSXElement(option)()}
+              {option.icon ? '' : run(valueWithTextToJSXElement(option))}
             </Button>
           )
         }}

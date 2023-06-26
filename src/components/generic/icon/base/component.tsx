@@ -1,3 +1,5 @@
+import { run } from '/src/scripts'
+
 import {
   baseBooleanPropsKeysObject,
   classPropToString,
@@ -40,7 +42,7 @@ export default (props: Props) => {
         ? { innerHTML: props.icon }
         : {})}
       class={classPropToString([
-        (() => {
+        run(() => {
           switch (props.size) {
             case '2xl':
               return 'h-10 w-10'
@@ -53,9 +55,9 @@ export default (props: Props) => {
             default:
               return 'h-5 w-5'
           }
-        })(),
+        }),
 
-        (() => {
+        run(() => {
           if (isImage()) {
             return 'rounded-md object-contain'
           } else {
@@ -70,7 +72,7 @@ export default (props: Props) => {
                 return 'text-black opacity-30'
             }
           }
-        })(),
+        }),
 
         props.disabled ? 'transition-none' : 'transition duration-200',
 

@@ -1,13 +1,19 @@
-// @ts-ignore
-import { Sortable } from '@shopify/draggable'
 import { useI18n } from '@solid-primitives/i18n'
 
 import store from '/src/store'
 
 import { groupDataLabelsByCategory, moveIndexInCopiedArray } from '/src/scripts'
 
-import { Button, DialogDivider, DialogOptions, Label } from '/src/components'
-import SpanDataLabel from '/src/components/global/spanDataLabel'
+import SortableDataLabel from './sortableDataLabel'
+
+import {
+  Button,
+  DialogDivider,
+  DialogOptions,
+  Label,
+  SpanDataLabel,
+} from '/src/components'
+import SortableListDataLabels from './sortableListDataLabels'
 
 export default () => {
   const [t] = useI18n()
@@ -28,36 +34,19 @@ export default () => {
     groupDataLabelsByCategory(tableDataLabelsChoices() || [])
   )
 
-  let sortable: Sortable | undefined
   let selectedDataLabels: HTMLDivElement | undefined
 
-  onMount(() => {
-    sortable = new Sortable(selectedDataLabels, {
-      draggable: '.sortable',
-      handle: '.handle',
-      mirror: {
-        constrainDimensions: true,
-      },
-    }).on('sortable:stop', (event: any) => {
-      const { oldIndex, newIndex } = event.data
+  // const { oldIndex, newIndex } = event.data
 
-      const tableSelected = tableDataLabels()
+  // const tableSelected = tableDataLabels()
 
-      if (tableSelected?.dataLabels) {
-        tableSelected.dataLabels = moveIndexInCopiedArray(
-          tableSelected.dataLabels,
-          oldIndex,
-          newIndex
-        )
-      }
-    })
-  })
-
-  onCleanup(() => {
-    sortable?.destroy()
-  })
-
-  createEffect(() => console.log(tableSelectedDataLabels()))
+  // if (tableSelected?.dataLabels) {
+  //   tableSelected.dataLabels = moveIndexInCopiedArray(
+  //     tableSelected.dataLabels,
+  //     oldIndex,
+  //     newIndex
+  //   )
+  // }
 
   const optionsList = createMemo(
     () =>
@@ -89,36 +78,7 @@ export default () => {
     <div class="space-y-4">
       <div class="space-y-2">
         <Label label={t('Selected columns')}>
-          <div class="space-y-2" ref={selectedDataLabels}>
-            <For each={tableSelectedDataLabels()}>
-              {(dataLabel, index) => (
-                <div class="sortable flex">
-                  <Button
-                    full
-                    leftIcon={IconTablerHandStop}
-                    class="handle rounded-r-none"
-                    label={String(index() + 1)}
-                  >
-                    <SpanDataLabel dataLabel={dataLabel} includeCategory />
-                  </Button>
-                  <Button
-                    icon={IconTablerMinus}
-                    color="red"
-                    class="rounded-l-none border-l-black/10"
-                    onClick={() => {
-                      const index = tableSelectedDataLabels()?.findIndex(
-                        (dataLabel2) => dataLabel === dataLabel2
-                      )
-
-                      if (typeof index === 'number' && index !== -1) {
-                        tableSelectedDataLabels()?.splice(index, 1)
-                      }
-                    }}
-                  />
-                </div>
-              )}
-            </For>
-          </div>
+          <SortableListDataLabels />
         </Label>
       </div>
 

@@ -1,3 +1,5 @@
+import { run } from '/src/scripts'
+
 export const convertPRJZObjectToFields = (
   object: any,
   settings: JSONFieldSettings = {
@@ -11,7 +13,7 @@ export const convertPRJZObjectToFields = (
     .map(([key, value]) => {
       return {
         version: 1,
-        label: (() => {
+        label: run(() => {
           switch (key) {
             case 'Serial':
               return 'Serial number'
@@ -28,7 +30,7 @@ export const convertPRJZObjectToFields = (
             default:
               return key
           }
-        })(),
+        }),
         value: value as string | number,
         settings,
       }

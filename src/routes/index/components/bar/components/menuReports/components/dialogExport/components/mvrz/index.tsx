@@ -2,7 +2,7 @@ import { useI18n } from '@solid-primitives/i18n'
 
 import store from '/src/store'
 
-import { downloadFile, mrvzExporter as mvrzExporter } from '/src/scripts'
+import { downloadFile, mrvzExporter as mvrzExporter, run } from '/src/scripts'
 
 import { Button } from '/src/components'
 
@@ -24,9 +24,11 @@ export default (props: Props) => {
         leftIcon={IconTablerFileZip}
         rightIcon={IconTablerDownload}
         onClick={() =>
-          (async () =>
-            store.projects.selected &&
-            downloadFile(await mvrzExporter.export(store.projects.selected)))()
+          run(
+            async () =>
+              store.projects.selected &&
+              downloadFile(await mvrzExporter.export(store.projects.selected))
+          )
         }
         full
       >

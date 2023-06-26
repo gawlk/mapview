@@ -2,6 +2,8 @@ import { useI18n } from '@solid-primitives/i18n'
 
 import store from '/src/store'
 
+import { run } from '/src/scripts'
+
 import { DialogSelect, SpanDropIndex } from '/src/components'
 
 export default () => {
@@ -13,7 +15,7 @@ export default () => {
 
   return (
     <Show when={selectedDataLabelGroup()?.from === 'Drop'}>
-      {(() => {
+      {run(() => {
         const dropGroup =
           selectedDataLabelGroup() as BaseDropDataLabelsGroup<BaseDropIndex>
 
@@ -41,7 +43,7 @@ export default () => {
             }}
           />
         )
-      })()}
+      })}
     </Show>
   )
 }

@@ -1,7 +1,0 @@
-.draggable-mirror {
-  @apply z-[9999] bg-stone-50;
-}
-
-.draggable-source--is-dragging {
-  @apply opacity-60;
-}

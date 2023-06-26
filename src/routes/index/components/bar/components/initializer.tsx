@@ -1,8 +1,15 @@
 import { useI18n } from '@solid-primitives/i18n'
+import localforage from 'localforage'
 
 import store from '/src/store'
 
-import { acceptedExtensions, fetchFileFromURL, importFile } from '/src/scripts'
+import {
+  acceptedExtensions,
+  downloadFile,
+  fetchFileFromURL,
+  importFile,
+  snapshotKey,
+} from '/src/scripts'
 
 import { Button, DragAndDrop, classPropToString } from '/src/components'
 
@@ -12,6 +19,18 @@ interface Props {
 
 export default (props: Props) => {
   const [t] = useI18n()
+
+  const [state, setState] = createStore({
+    snapshot: null as File | null,
+  })
+
+  onMount(async () => {
+    const snapshot: File | null = await localforage.getItem(snapshotKey)
+
+    if (snapshot) {
+      setState('snapshot', snapshot)
+    }
+  })
 
   const openFiles = async (files: FileList | null) => {
     const file = files?.[0]
@@ -68,6 +87,25 @@ export default (props: Props) => {
       >
         {t('Drop a file here or click here to choose one')}
       </DragAndDrop>
+      <Show when={state.snapshot}>
+        {(snapshot) => (
+          <div class="flex space-x-2">
+            <Button
+              color="orange"
+              onClick={() => openFiles([snapshot()] as unknown as FileList)}
+              full
+              leftIcon={IconTablerReload}
+            >
+              {t('Resume previous session')}
+            </Button>
+            <Button
+              color="orange"
+              onClick={() => downloadFile(snapshot())}
+              icon={IconTablerFileDownload}
+            />
+          </div>
+        )}
+      </Show>
       <Button onClick={openDemo} full leftIcon={IconTablerPlayerPlay}>
         {t('Try demo')}
       </Button>

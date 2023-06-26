@@ -2,6 +2,8 @@ import { createResizeObserver } from '@solid-primitives/resize-observer'
 
 import store from '/src/store'
 
+import { run } from '/src/scripts'
+
 import { Button } from '/src/components'
 
 import Footer from './components/footer'
@@ -21,7 +23,7 @@ export default (props: Props) => {
       <Logo />
 
       <Show when={store.selectedProject} fallback={<Initializer />}>
-        {(() => {
+        {run(() => {
           let div = undefined as HTMLDivElement | undefined
 
           onMount(() => {
@@ -59,7 +61,7 @@ export default (props: Props) => {
               </For>
             </div>
           )
-        })()}
+        })}
       </Show>
 
       <Footer />

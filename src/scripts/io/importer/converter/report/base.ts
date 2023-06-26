@@ -1,4 +1,4 @@
-import { currentCategory, icons } from '/src/scripts'
+import { currentCategory, icons, run } from '/src/scripts'
 
 import { convertPRJZObjectToFields } from '../shared'
 
@@ -26,14 +26,14 @@ export const convertPRJZToBaseReport = (
     },
     thresholds: {
       version: 1,
-      colors: (() => {
+      colors: run(() => {
         return {
           version: 1,
           low: parameters.machine === 'Heavydyn' ? 'green' : 'red',
           middle: 'yellow',
           high: parameters.machine === 'Heavydyn' ? 'red' : 'green',
         }
-      })(),
+      }),
       inputs: {
         version: 1,
         isRequiredARange: true,
@@ -68,7 +68,7 @@ export const convertPRJZToBaseReport = (
             version: 1,
             from: 'Drop',
             index: parameters.dropIndexes.length - 1,
-            dataLabels: ((): JSONTableDataLabelsValues[] => {
+            dataLabels: run((): JSONTableDataLabelsValues[] => {
               switch (parameters.machine) {
                 case 'Heavydyn':
                   return [
@@ -77,7 +77,7 @@ export const convertPRJZToBaseReport = (
                       category: currentCategory.name,
                       version: 1,
                     },
-                    ...(() => {
+                    ...run(() => {
                       const indexD0 = parameters.dropChoices.findIndex(
                         (choice) => choice.name === 'D0'
                       )
@@ -91,7 +91,7 @@ export const convertPRJZToBaseReport = (
                             category: currentCategory.name,
                           })
                         )
-                    })(),
+                    }),
                   ]
                 case 'Maxidyn':
                 case 'Minidyn':
@@ -110,12 +110,12 @@ export const convertPRJZToBaseReport = (
                         value.name === 'Quality'
                     )
               }
-            })(),
+            }),
           },
           {
             version: 1,
             from: 'Point',
-            dataLabels: ((): JSONTableDataLabelsValues[] => {
+            dataLabels: run((): JSONTableDataLabelsValues[] => {
               switch (parameters.machine) {
                 case 'Heavydyn':
                   return parameters.testChoices.map((choice) => ({
@@ -140,7 +140,7 @@ export const convertPRJZToBaseReport = (
                         value.name === 'Quality'
                     )
               }
-            })(),
+            }),
           },
           {
             version: 1,

@@ -1,3 +1,5 @@
+import { run } from '/src/scripts'
+
 import { convertPRJZToMaxidynReport } from '../report'
 
 export const convertPRJZToMaxidynProject = (
@@ -75,7 +77,7 @@ export const convertPRJZToMaxidynUnits = (json: any): JSONMaxidynUnits => {
     },
     deflection: {
       version: 1,
-      currentUnit: ((): PossibleMaxidynDeflectionUnits => {
+      currentUnit: run((): PossibleMaxidynDeflectionUnits => {
         switch (
           (json.ExportedData.Drops as any[]).find(
             (exportedUnit) => exportedUnit.Type === 'Deflection'
@@ -86,13 +88,13 @@ export const convertPRJZToMaxidynUnits = (json: any): JSONMaxidynUnits => {
           default:
             return 'um'
         }
-      })(),
+      }),
       currentPrecision: 0,
       max: 1000,
     },
     force: {
       version: 1,
-      currentUnit: ((): PossibleMaxidynForceUnits => {
+      currentUnit: run((): PossibleMaxidynForceUnits => {
         switch (
           (json.ExportedData.Drops as any[]).find(
             (exportedUnit) => exportedUnit.Type === 'Load'
@@ -103,13 +105,13 @@ export const convertPRJZToMaxidynUnits = (json: any): JSONMaxidynUnits => {
           default:
             return 'kN'
         }
-      })(),
+      }),
       currentPrecision: 0,
       max: 1000,
     },
     distance: {
       version: 1,
-      currentUnit: ((): PossibleMaxidynDistanceUnits => {
+      currentUnit: run((): PossibleMaxidynDistanceUnits => {
         switch (
           (json.ExportedData.Points as any[]).find(
             (exportedUnit) => exportedUnit.Type === 'Distance'
@@ -122,13 +124,13 @@ export const convertPRJZToMaxidynUnits = (json: any): JSONMaxidynUnits => {
           default:
             return 'm'
         }
-      })(),
+      }),
       currentPrecision: 0,
       max: 1000,
     },
     time: {
       version: 1,
-      currentUnit: ((): PossibleMaxidynTimeUnits => {
+      currentUnit: run((): PossibleMaxidynTimeUnits => {
         switch (
           (json.ExportedData.Drops as any[]).find(
             (exportedUnit) => exportedUnit.Type === 'Time'
@@ -141,7 +143,7 @@ export const convertPRJZToMaxidynUnits = (json: any): JSONMaxidynUnits => {
           default:
             return 'ms'
         }
-      })(),
+      }),
       currentPrecision: 0,
       max: 1000,
     },

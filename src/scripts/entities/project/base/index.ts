@@ -1,4 +1,5 @@
 import { LngLatBounds } from 'mapbox-gl'
+import { $TRACK } from 'solid-js'
 
 import {
   createFieldFromJSON,
@@ -40,6 +41,7 @@ export const createBaseProjectFromJSON = <
         version: 1,
       },
     }),
+    state: 'Loading',
     reports: createSelectableList(parameters.reports),
     overlays: createMutable([] as Overlay[]),
     units: parameters.units,
@@ -204,7 +206,9 @@ export const createBaseProjectFromJSON = <
 
       watcherHandler.add(
         on(
-          () => this.overlays,
+          // @ts-ignore
+          // $TRACK is used here to watch pushes without watching the underlying children of the array
+          () => this.overlays[$TRACK] as Overlay[],
           (overlays, oldOverlays) => {
             overlays.forEach((overlay) => {
               if (!oldOverlays?.includes(overlay)) {

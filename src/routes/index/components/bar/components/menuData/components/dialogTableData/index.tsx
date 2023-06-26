@@ -2,8 +2,9 @@ import { useI18n } from '@solid-primitives/i18n'
 
 import store from '/src/store'
 
-import { Dialog, DialogDivider } from '/src/components'
-import SpanDataLabel from '/src/components/global/spanDataLabel'
+import { run } from '/src/scripts'
+
+import { Dialog, DialogDivider, SpanDataLabel } from '/src/components'
 
 import OptionsDataLabels from './components/optionsDataLabels'
 import SelectIndex from './components/selectIndex'
@@ -53,10 +54,11 @@ export default () => {
                 label: t('Columns'),
                 text: () => (
                   <div class="space-x-2">
-                    {(() =>
+                    {run(() =>
                       store.selectedReport?.dataLabels.table.selected?.dataLabels.map(
                         (dataLabel) => <SpanDataLabel dataLabel={dataLabel} />
-                      ))()}
+                      )
+                    )}
                   </div>
                 ),
               }}

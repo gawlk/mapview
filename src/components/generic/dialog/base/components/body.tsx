@@ -1,3 +1,5 @@
+import { run } from '/src/scripts'
+
 import { classPropToString } from '/src/components'
 
 import { DialogForm } from '.'
@@ -5,6 +7,7 @@ import { HIDDEN_CLOSE_BUTTON_CLASS } from '../scripts'
 
 interface Props extends Solid.ParentProps {
   isAttached: boolean
+  close: (element?: HTMLElement) => void
   color?: ColorProp
   footer?: Solid.JSX.Element // TODO
   form?: Solid.JSX.Element
@@ -14,7 +17,7 @@ export default (props: Props) => {
   return (
     <div
       class={classPropToString([
-        (() => {
+        run(() => {
           if (props.color === 'transparent') return ''
 
           let classes = '!mt-0 '
@@ -37,7 +40,7 @@ export default (props: Props) => {
           }
 
           return classes
-        })(),
+        }),
 
         'flex-1 overflow-y-auto @container',
       ])}
@@ -45,13 +48,13 @@ export default (props: Props) => {
       <button
         hidden
         class={HIDDEN_CLOSE_BUTTON_CLASS}
-        onClick={() => close()}
+        onClick={() => props.close()}
       />
 
       {props.children}
 
       <Show when={props.form}>
-        <DialogForm close={close} children={props.form} />
+        <DialogForm close={props.close} children={props.form} />
       </Show>
     </div>
   )

@@ -1,5 +1,7 @@
 import { useI18n } from '@solid-primitives/i18n'
 
+import { run } from '/src/scripts'
+
 import {
   Button,
   isValuePropSelected,
@@ -50,7 +52,7 @@ export default (props: Props) => {
               onClick={() => props.onClick?.(option.value)}
             >
               <span class="w-full truncate text-left">
-                {valueWithTextToJSXElement(option)()}
+                {run(valueWithTextToJSXElement(option))}
               </span>
             </Button>
           )

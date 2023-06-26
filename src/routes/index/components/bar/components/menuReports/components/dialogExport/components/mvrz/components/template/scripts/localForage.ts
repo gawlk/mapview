@@ -69,9 +69,5 @@ const setDemoFilesToLocalForage = async (
 
   const current = await localForage.getItem(key)
 
-  !current &&
-    (await localForage.setItem(key, {
-      name: fileInfo.fileName,
-      data64: await convertFileToDataURL(file),
-    }))
+  !current && (await localForage.setItem(key, file))
 }

@@ -1,3 +1,5 @@
+import { run } from '/src/scripts'
+
 import { convertPRJZObjectToFields } from '../shared'
 
 export const convertPRJZToBaseProject = (
@@ -9,14 +11,14 @@ export const convertPRJZToBaseProject = (
     name: json.Project.Name,
     settings: {
       version: 1,
-      arePointsLinked: (() => {
+      arePointsLinked: run(() => {
         switch (machine) {
           case 'Heavydyn':
             return true
           default:
             return false
         }
-      })(),
+      }),
       arePointsVisible: true,
       areOverlaysVisible: true,
       pointsState: 'number',

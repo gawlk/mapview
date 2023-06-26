@@ -5,6 +5,8 @@ import {
 } from '@solid-primitives/resize-observer'
 import defaultTailwindCSSTheme from 'tailwindcss/defaultTheme'
 
+import { run } from '/src/scripts'
+
 import {
   createRelativePositionEffect,
   forceCloseChildDialogs,
@@ -265,14 +267,14 @@ export default (props: Props) => {
                     : 'bottom-0 top-auto mt-[5vh] max-h-[95vh] rounded-t-2xl border-t-2 md:mt-0 md:h-fit md:max-h-[32rem] md:max-w-2xl md:rounded-b-2xl md:border-2'
                 } fixed w-full max-w-full space-y-3`,
 
-            (() => {
+            run(() => {
               switch (props.color) {
                 case 'transparent':
                   return 'bg-transparent'
                 default:
                   return `bg-white`
               }
-            })(),
+            }),
 
             // TODO: Duration 1ms is a bit hacky, find a different way to fully close the dialog than onTransitionEnd
 
@@ -315,6 +317,7 @@ export default (props: Props) => {
               <DialogBody
                 color={props.color}
                 isAttached={isAttached()}
+                close={close}
                 footer={props.footer}
                 children={props.children}
                 form={props.form}

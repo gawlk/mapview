@@ -54,15 +54,15 @@ export default <T,>(props: Props<T>) => {
   const sortables = new ReactiveMap<Id, HTMLElement>()
 
   const onDragStart: DragEventHandler = ({ draggable }) => {
-    if (!state.directParent || !state.scrollableParent) {
-      const element = sortables.get(draggable.id)
+    const element = sortables.get(draggable.id)
 
-      if (element) {
-        setState({
-          directParent: element.parentElement,
-          scrollableParent: getScrollableParent(element),
-        })
-      }
+    if (element) {
+      setState({
+        directParent: element.parentElement,
+        scrollableParent: getScrollableParent(element),
+      })
+
+      console.log(state.directParent, state.scrollableParent)
     }
 
     setState({

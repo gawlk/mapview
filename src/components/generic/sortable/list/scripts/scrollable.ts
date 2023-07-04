@@ -9,12 +9,13 @@ export const getScrollableParent = (
   let parent = element.parentElement
 
   while (parent) {
-    const { overflow } = window.getComputedStyle(parent)
+    const { overflowY } = window.getComputedStyle(parent)
 
     if (
-      overflow
+      overflowY
         .split(' ')
-        .every((value) => value === 'auto' || value === 'scroll')
+        .every((value) => value === 'auto' || value === 'scroll') &&
+      parent.offsetHeight !== parent.scrollHeight
     ) {
       return parent
     }

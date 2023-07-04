@@ -73,7 +73,7 @@ export default () => {
         </div>
         <Show when={store.selectedReport?.dataLabels.table.selected}>
           {(group) => (
-            <div class="-mx-4 !-mb-3 overflow-x-auto @3xl:!-mr-4 @3xl:!-mt-3 @3xl:ml-0 @3xl:w-full @3xl:overflow-y-auto @3xl:border-l-2 @3xl:border-black/5">
+            <div class="-mx-4 !-mb-3 overflow-x-auto overflow-y-visible @3xl:!-mr-4 @3xl:!-mt-3 @3xl:ml-0 @3xl:w-full @3xl:overflow-y-auto @3xl:border-l-2 @3xl:border-black/5">
               <Show
                 when={group().group.from !== 'Zone'}
                 fallback={<TableZones />}

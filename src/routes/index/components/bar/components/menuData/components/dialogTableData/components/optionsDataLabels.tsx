@@ -7,13 +7,12 @@ import { groupDataLabelsByCategory, moveIndexInCopiedArray } from '/src/scripts'
 import SortableDataLabel from './sortableDataLabel'
 
 import {
-  Button,
   DialogDivider,
   DialogOptions,
   Label,
+  SortableList,
   SpanDataLabel,
 } from '/src/components'
-import SortableListDataLabels from './sortableListDataLabels'
 
 export default () => {
   const [t] = useI18n()
@@ -23,7 +22,7 @@ export default () => {
   )
 
   const tableSelectedDataLabels = createMemo(
-    () => tableDataLabels()?.dataLabels
+    () => tableDataLabels()?.dataLabels || []
   )
 
   const tableDataLabelsChoices = createMemo(
@@ -33,20 +32,6 @@ export default () => {
   const groupedTableDataLabelsChoices = createMemo(() =>
     groupDataLabelsByCategory(tableDataLabelsChoices() || [])
   )
-
-  let selectedDataLabels: HTMLDivElement | undefined
-
-  // const { oldIndex, newIndex } = event.data
-
-  // const tableSelected = tableDataLabels()
-
-  // if (tableSelected?.dataLabels) {
-  //   tableSelected.dataLabels = moveIndexInCopiedArray(
-  //     tableSelected.dataLabels,
-  //     oldIndex,
-  //     newIndex
-  //   )
-  // }
 
   const optionsList = createMemo(
     () =>
@@ -78,7 +63,37 @@ export default () => {
     <div class="space-y-4">
       <div class="space-y-2">
         <Label label={t('Selected columns')}>
-          <SortableListDataLabels />
+          <SortableList
+            list={tableSelectedDataLabels()}
+            itemToId={(dataLabel) => dataLabel.getSerializedName()}
+            onChange={(oldIndex, newIndex) => {
+              const tableSelected = tableDataLabels()
+
+              if (tableSelected?.dataLabels) {
+                tableSelected.dataLabels = moveIndexInCopiedArray(
+                  tableSelected.dataLabels,
+                  oldIndex,
+                  newIndex
+                )
+              }
+            }}
+            component={(
+              ref,
+              dragActivators,
+              transformStyle,
+              dataLabel,
+              index
+            ) => (
+              <SortableDataLabel
+                ref={ref}
+                dragActivators={dragActivators}
+                transformStyle={transformStyle}
+                dataLabel={dataLabel}
+                index={index}
+                tableSelectedDataLabels={tableSelectedDataLabels()}
+              />
+            )}
+          />
         </Label>
       </div>
 

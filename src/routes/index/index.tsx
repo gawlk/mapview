@@ -6,7 +6,12 @@ import store from '/src/store'
 
 import { checkUpdate, snapshotMPVZ } from './scripts'
 
-import { Button, SortableList, Sticky } from '/src/components'
+import {
+  Button,
+  SortableList,
+  Sticky,
+  classPropToString,
+} from '/src/components'
 
 import Bar from './components/bar'
 import Loading from './components/loading'
@@ -68,17 +73,6 @@ export default () => {
         <Map />
         <Bar />
       </div>
-
-      {/* <SortableList
-        orientation="vertical"
-        list={[1, 2, 3]}
-        itemToId={(item) => String(item)}
-        component={(props: ButtonPropsWithHTMLAttributes) => (
-          <Button leftIcon={IconTabler123} {...props}>
-            Hey {props.children}
-          </Button>
-        )}
-      /> */}
 
       <Version />
     </div>

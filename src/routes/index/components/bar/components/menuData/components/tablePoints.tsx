@@ -1,5 +1,3 @@
-// @ts-ignore
-import { Sortable } from '@shopify/draggable'
 import { useI18n } from '@solid-primitives/i18n'
 
 import store from '/src/store'
@@ -11,6 +9,7 @@ import { movePointToZoneIndex } from './scripts'
 import {
   Button,
   DialogSelect,
+  SortableList,
   THead,
   Table,
   Td,
@@ -47,48 +46,6 @@ export default (props: Props) => {
         0
     )
 
-  let sortable: Sortable | undefined
-  let tbody: HTMLTableSectionElement | undefined
-
-  onMount(() => {
-    if (props.sortable) {
-      sortable = new Sortable(tbody, {
-        draggable: '.sortable',
-        handle: '.handle',
-        mirror: {
-          constrainDimensions: true,
-        },
-      }).on('sortable:stop', (event: any) => {
-        const { oldIndex, newIndex } = event.data
-
-        if (oldIndex !== newIndex && store.selectedReport) {
-          const points = moveIndexInCopiedArray(
-            props.points,
-            oldIndex,
-            newIndex
-          )
-
-          let number = 1
-
-          points.forEach((point, index) => {
-            point.index = index
-            point.number = number
-
-            if (point.settings.isVisible) {
-              number++
-            }
-          })
-
-          store.selectedReport.line.update()
-        }
-      })
-    }
-  })
-
-  onCleanup(() => {
-    sortable?.destroy()
-  })
-
   return (
     <Table>
       <THead>
@@ -111,10 +68,40 @@ export default (props: Props) => {
         <Td />
         <Td />
       </THead>
-      <tbody ref={tbody}>
-        <For each={props.points}>
-          {(point) => (
+      <tbody>
+        <SortableList
+          list={props.points}
+          itemToId={(point) => point.id}
+          draggedClasses={'!bg-gray-100'}
+          onChange={(from, to) => {
+            if (!store.selectedReport) return
+
+            const points = moveIndexInCopiedArray(props.points, from, to)
+
+            let number = 1
+
+            points.forEach((point, index) => {
+              point.index = index
+              point.number = number
+
+              if (point.settings.isVisible) {
+                number++
+              }
+            })
+
+            store.selectedReport.line.update()
+          }}
+          component={(
+            ref,
+            dragActivators,
+            transformStyle,
+            point,
+            _,
+            classes
+          ) => (
             <Tr
+              ref={ref}
+              style={transformStyle()}
               color={
                 props.colored
                   ? point.settings.isVisible && point.icon
@@ -122,11 +109,14 @@ export default (props: Props) => {
                     : colors.gray
                   : undefined
               }
-              class={[!point.settings.isVisible && 'text-opacity-50']}
+              class={[
+                !point.settings.isVisible && 'text-opacity-50',
+                classes(),
+              ]}
             >
               <Td>
                 <Button
-                  class="handle"
+                  {...dragActivators}
                   size={size}
                   disabled={store.selectedReport?.settings.groupBy === 'Zone'}
                   icon={
@@ -200,7 +190,7 @@ export default (props: Props) => {
               </Td>
             </Tr>
           )}
-        </For>
+        />
       </tbody>
     </Table>
   )

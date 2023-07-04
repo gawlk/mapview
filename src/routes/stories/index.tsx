@@ -10,6 +10,7 @@ import {
   StoryInputRadioHorizontal,
   StoryInteractive,
   StoryNavigator,
+  StorySortableList,
 } from '/src/components'
 
 export default () => {
@@ -21,11 +22,12 @@ export default () => {
       <StoryInteractive />
       <StoryButton />
       <StoryInput /> */}
-      <StoryInputRadioHorizontal />
+      <StorySortableList />
+      {/* <StoryInputRadioHorizontal />
       <StoryDialog />
       <StoryDialogSelect />
       <StoryDialogColor />
-      <StoryNavigator />
+      <StoryNavigator /> */}
     </div>
   )
 }

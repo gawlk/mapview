@@ -82,15 +82,17 @@ export default () => {
               dragActivators,
               transformStyle,
               dataLabel,
-              index
+              index,
+              classes
             ) => (
               <SortableDataLabel
                 ref={ref}
-                dragActivators={dragActivators}
+                dragActivators={dragActivators()}
                 transformStyle={transformStyle}
                 dataLabel={dataLabel}
                 index={index}
                 tableSelectedDataLabels={tableSelectedDataLabels()}
+                class={classes()}
               />
             )}
           />

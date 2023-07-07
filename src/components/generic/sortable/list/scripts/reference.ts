@@ -1,16 +1,21 @@
-import { ReactiveMap } from "@solid-primitives/map"
-import { type Id, transformStyle } from "@thisbeyond/solid-dnd"
+import { ReactiveMap } from '@solid-primitives/map'
+import { type Id, transformStyle } from '@thisbeyond/solid-dnd'
 import { createSortable } from '@thisbeyond/solid-dnd'
 
-export const createRefCallback = (element: HTMLElement, sortable: ReturnType<typeof createSortable>, sortables: ReactiveMap<Id, HTMLElement>, id: Id, isDraggedClasses: string, activeDraggable: () => boolean) => {
+export const createRefCallback = (
+  element: HTMLElement,
+  sortable: ReturnType<typeof createSortable>,
+  sortables: ReactiveMap<Id, HTMLElement>,
+  id: Id,
+  isDraggedClasses: string,
+  activeDraggable: () => boolean
+) => {
   sortable.ref(element)
 
   sortables.set(id, element)
 
   createEffect(() => {
-    const handle =
-      element.getElementsByClassName('handle')?.[0] ||
-      element
+    const handle = element.getElementsByClassName('handle')?.[0] || element
 
     Object.entries(sortable.dragActivators).forEach(
       // @ts-ignore

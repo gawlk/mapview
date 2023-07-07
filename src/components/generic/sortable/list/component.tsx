@@ -11,10 +11,17 @@ import {
   useDragDropContext,
 } from '@thisbeyond/solid-dnd'
 
-import { createColliderCenter, createDraggedElement, createOnDragEnd, createRefCallback, getScrollableParent, scrollEffectCallback } from './scripts'
+import {
+  createColliderCenter,
+  createDraggedElement,
+  createOnDragEnd,
+  createRefCallback,
+  getScrollableParent,
+  scrollEffectCallback,
+} from './scripts'
 
 interface Props<T> {
-  orientation: "horizontal" | "vertical" | "both"
+  orientation: 'horizontal' | 'vertical' | 'both'
   list: T[]
   itemToId: (item: T) => Id
   component: (
@@ -61,7 +68,16 @@ export default <T,>(props: Props<T>) => {
               createEffect(
                 on(
                   () => [scrollableParentScroll.x, scrollableParentScroll.y],
-                  () => scrollEffectCallback(state.scrollableParent, state.directParent, props.orientation, mouseX, mouseY, (inc) => mouseX += inc, (inc) => mouseY += inc)
+                  () =>
+                    scrollEffectCallback(
+                      state.scrollableParent,
+                      state.directParent,
+                      props.orientation,
+                      mouseX,
+                      mouseY,
+                      (inc) => (mouseX += inc),
+                      (inc) => (mouseY += inc)
+                    )
                 )
               )
           )
@@ -69,30 +85,35 @@ export default <T,>(props: Props<T>) => {
     )
   )
 
-  const draggedElement = createMemo(() => 
-    createDraggedElement(state.activeItem, sortables, isDraggedClasses, props.draggedClasses)
+  const draggedElement = createMemo(() =>
+    createDraggedElement(
+      state.activeItem,
+      sortables,
+      isDraggedClasses,
+      props.draggedClasses
+    )
   )
 
   return (
     <DragDropProvider
       onDragStart={({ draggable }) => {
         const element = sortables.get(draggable.id)
-    
+
         if (element) {
           setState({
             directParent: element.parentElement,
             scrollableParent: getScrollableParent(element, props.orientation),
           })
         }
-    
+
         setState({
           activeItem: draggable.id,
           startingScrollX: scrollableParentScroll.x,
           startingScrollY: scrollableParentScroll.y,
         })
       }}
-      onDragEnd={createOnDragEnd(
-        ids, props.onChange, () => setState('activeItem', null)
+      onDragEnd={createOnDragEnd(ids, props.onChange, () =>
+        setState('activeItem', null)
       )}
       collisionDetector={createColliderCenter(
         scrollableParentScroll.x - state.startingScrollX,
@@ -110,16 +131,17 @@ export default <T,>(props: Props<T>) => {
 
             return (
               <Dynamic
-                component={() => 
+                component={() =>
                   props.component(
-                    (element) => createRefCallback(
-                      element,
-                      sortable,
-                      sortables,
-                      id,
-                      isDraggedClasses,
-                      () => !!context?.[0].active.draggable
-                    ),
+                    (element) =>
+                      createRefCallback(
+                        element,
+                        sortable,
+                        sortables,
+                        id,
+                        isDraggedClasses,
+                        () => !!context?.[0].active.draggable
+                      ),
                     item,
                     index
                   )

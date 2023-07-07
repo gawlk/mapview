@@ -1,29 +1,33 @@
-import { ReactiveMap } from "@solid-primitives/map"
-import { Id } from "@thisbeyond/solid-dnd"
-import { classPropToString } from "/src/components"
+import { ReactiveMap } from '@solid-primitives/map'
+import { Id } from '@thisbeyond/solid-dnd'
 
-export const createDraggedElement = (id: Id | null, sortables: ReactiveMap<Id, HTMLElement>, isDraggedClasses: string, draggedClasses: ClassProp | undefined) => {
-    if (!id) return 
+import { classPropToString } from '/src/components'
 
-    const sortable = sortables.get(id)
-    if (!sortable) return
+export const createDraggedElement = (
+  id: Id | null,
+  sortables: ReactiveMap<Id, HTMLElement>,
+  isDraggedClasses: string,
+  draggedClasses: ClassProp | undefined
+) => {
+  if (!id) return
 
-    const copied = sortable.cloneNode(true) as HTMLElement
+  const sortable = sortables.get(id)
+  if (!sortable) return
 
-    const rect = sortable.getBoundingClientRect()
-    copied.style.width = `${rect.width}px`
-    copied.style.height = `${rect.height}px`
-    copied.style.transform = ''
+  const copied = sortable.cloneNode(true) as HTMLElement
 
-    copied.classList.remove(
-      ...classPropToString(isDraggedClasses.split(' ')).split(' ')
-    )
+  const rect = sortable.getBoundingClientRect()
+  copied.style.width = `${rect.width}px`
+  copied.style.height = `${rect.height}px`
+  copied.style.transform = ''
 
-    if (draggedClasses) {
-      copied.classList.add(
-        ...classPropToString(draggedClasses).split(' ')
-      )
-    }
+  copied.classList.remove(
+    ...classPropToString(isDraggedClasses.split(' ')).split(' ')
+  )
 
-    return copied
+  if (draggedClasses) {
+    copied.classList.add(...classPropToString(draggedClasses).split(' '))
+  }
+
+  return copied
 }

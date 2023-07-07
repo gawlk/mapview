@@ -70,6 +70,7 @@ export default (props: Props) => {
       </THead>
       <tbody>
         <SortableList
+          orientation="vertical"
           list={props.points}
           itemToId={(point) => point.id}
           draggedClasses={'!bg-gray-100'}
@@ -91,17 +92,9 @@ export default (props: Props) => {
 
             store.selectedReport.line.update()
           }}
-          component={(
-            ref,
-            dragActivators,
-            transformStyle,
-            point,
-            _,
-            classes
-          ) => (
+          component={(ref, point) => (
             <Tr
               ref={ref}
-              style={transformStyle()}
               color={
                 props.colored
                   ? point.settings.isVisible && point.icon
@@ -109,14 +102,10 @@ export default (props: Props) => {
                     : colors.gray
                   : undefined
               }
-              class={[
-                !point.settings.isVisible && 'text-opacity-50',
-                classes(),
-              ]}
+              class={[!point.settings.isVisible && 'text-opacity-50']}
             >
               <Td>
                 <Button
-                  {...dragActivators}
                   size={size}
                   disabled={store.selectedReport?.settings.groupBy === 'Zone'}
                   icon={
@@ -124,6 +113,7 @@ export default (props: Props) => {
                       ? IconTablerHandOff
                       : IconTablerHandStop
                   }
+                  class="handle"
                 />
               </Td>
               <Td>

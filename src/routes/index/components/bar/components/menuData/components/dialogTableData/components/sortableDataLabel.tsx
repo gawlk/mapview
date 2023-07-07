@@ -1,32 +1,17 @@
-import { style } from 'solid-js/web'
-
-import {
-  Button,
-  SpanDataLabel,
-  classPropToString,
-  stylePropToCSSProperties,
-} from '/src/components'
+import { Button, SpanDataLabel } from '/src/components'
 
 interface Props {
   ref: (el: HTMLElement) => void
-  dragActivators: SolidDNDListeners
-  transformStyle: () => StyleProp
   index: Solid.Accessor<number>
   dataLabel: DataLabel
   tableSelectedDataLabels: DataLabel[]
-  class: ClassProp
 }
 
 export default (props: Props) => {
   return (
-    <div
-      ref={props.ref}
-      style={stylePropToCSSProperties(props.transformStyle())}
-      class={classPropToString(['flex', props.class])}
-    >
+    <div ref={props.ref} class="flex">
       <Button
         full
-        {...props.dragActivators}
         leftIcon={IconTablerHandStop}
         class="handle rounded-r-none"
         label={String(props.index() + 1)}

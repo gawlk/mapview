@@ -3,7 +3,7 @@ import { CollisionDetector, Droppable } from '@thisbeyond/solid-dnd'
 import { distanceBetweenPoints } from './distance'
 
 export const createColliderCenter =
-  (scrolledY: number): CollisionDetector =>
+  (scrolledX: number, scrolledY: number): CollisionDetector =>
   (draggable, droppables, context) => {
     const draggableCenter = draggable.transformed.center
 
@@ -14,7 +14,7 @@ export const createColliderCenter =
 
     droppables.forEach((droppable) => {
       const distance = distanceBetweenPoints(draggableCenter, {
-        ...droppable.layout.center,
+        x: droppable.layout.center.x - scrolledX,
         y: droppable.layout.center.y - scrolledY,
       })
 

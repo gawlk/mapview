@@ -8,24 +8,19 @@ import {
   DragOverlay,
   SortableProvider,
   createSortable,
-  transformStyle,
   useDragDropContext,
 } from '@thisbeyond/solid-dnd'
 
-import { createColliderCenter, getScrollableParent } from './scripts'
-
-import { classPropToString } from '/src/components'
+import { createColliderCenter, createDraggedElement, createOnDragEnd, createRefCallback, getScrollableParent, scrollEffectCallback } from './scripts'
 
 interface Props<T> {
+  orientation: "horizontal" | "vertical" | "both"
   list: T[]
   itemToId: (item: T) => Id
   component: (
     ref: (element: HTMLElement) => void,
-    dragActivators: () => SolidDNDListeners,
-    transformStyle: () => Solid.JSX.CSSProperties,
     value: T,
-    index: Solid.Accessor<number>,
-    classes: () => ClassProp
+    index: Solid.Accessor<number>
   ) => Solid.JSX.Element
   onChange: (from: number, to: number) => void
   draggedClasses?: ClassProp
@@ -35,6 +30,7 @@ const isDraggedClasses = 'opacity-50'
 
 export default <T,>(props: Props<T>) => {
   const [state, setState] = createStore({
+    startingScrollX: 0,
     startingScrollY: 0,
     activeItem: null as Id | null,
     directParent: null as HTMLElement | null,
@@ -53,39 +49,6 @@ export default <T,>(props: Props<T>) => {
 
   const sortables = new ReactiveMap<Id, HTMLElement>()
 
-  const onDragStart: DragEventHandler = ({ draggable }) => {
-    const element = sortables.get(draggable.id)
-
-    if (element) {
-      setState({
-        directParent: element.parentElement,
-        scrollableParent: getScrollableParent(element),
-      })
-
-      console.log(state.directParent, state.scrollableParent)
-    }
-
-    setState({
-      activeItem: draggable.id,
-      startingScrollY: scrollableParentScroll.y,
-    })
-  }
-
-  const onDragEnd: DragEventHandler = ({ draggable, droppable }) => {
-    if (draggable && droppable) {
-      const currentItems = ids()
-
-      const from = currentItems.indexOf(draggable.id)
-      const to = currentItems.indexOf(droppable.id)
-
-      if (from !== to) {
-        props.onChange(from, to)
-      }
-    }
-
-    setState('activeItem', null)
-  }
-
   createEffect(
     on(
       () => state.activeItem,
@@ -93,49 +56,12 @@ export default <T,>(props: Props<T>) => {
         state.activeItem &&
         createEffect(
           on(
-            () => mousePosition.y,
-            (mouseY) =>
+            () => [mousePosition.x, mousePosition.y],
+            ([mouseX, mouseY]) =>
               createEffect(
                 on(
-                  () => scrollableParentScroll.y,
-                  () => {
-                    const { scrollableParent, directParent } = state
-
-                    if (!scrollableParent || !directParent) return
-
-                    const { scrollY: windowScrollY } = window
-
-                    const inc = 5
-
-                    const {
-                      top: scrollableTop,
-                      bottom: scrollableBottom,
-                      height: scrollableHeight,
-                    } = 'getBoundingClientRect' in scrollableParent
-                      ? scrollableParent.getBoundingClientRect()
-                      : {
-                          top: 0,
-                          bottom: window.innerHeight,
-                          height: window.innerHeight,
-                        }
-
-                    const pad = scrollableHeight / 10
-
-                    const { bottom: parentBottom, top: parentTop } =
-                      directParent.getBoundingClientRect()
-
-                    if (
-                      scrollableBottom - pad < parentBottom &&
-                      mouseY - windowScrollY > scrollableHeight - pad
-                    ) {
-                      scrollableParent.scrollBy(0, inc)
-                    } else if (
-                      scrollableTop + pad > parentTop &&
-                      mouseY - windowScrollY < scrollableTop + pad
-                    ) {
-                      scrollableParent.scrollBy(0, -inc)
-                    }
-                  }
+                  () => [scrollableParentScroll.x, scrollableParentScroll.y],
+                  () => scrollEffectCallback(state.scrollableParent, state.directParent, props.orientation, mouseX, mouseY, (inc) => mouseX += inc, (inc) => mouseY += inc)
                 )
               )
           )
@@ -143,38 +69,33 @@ export default <T,>(props: Props<T>) => {
     )
   )
 
-  const draggedOuterHTML = createMemo(() => {
-    const id = state.activeItem
-    if (!id) return
-
-    const sortable = sortables.get(id)
-    if (!sortable) return
-
-    const copied = sortable.cloneNode(true) as HTMLElement
-
-    const rect = sortable.getBoundingClientRect()
-    copied.style.width = `${rect.width}px`
-    copied.style.height = `${rect.height}px`
-    copied.style.transform = ''
-
-    copied.classList.remove(
-      ...classPropToString(isDraggedClasses.split(' ')).split(' ')
-    )
-
-    if (props.draggedClasses) {
-      copied.classList.add(
-        ...classPropToString(props.draggedClasses).split(' ')
-      )
-    }
-
-    return copied
-  })
+  const draggedElement = createMemo(() => 
+    createDraggedElement(state.activeItem, sortables, isDraggedClasses, props.draggedClasses)
+  )
 
   return (
     <DragDropProvider
-      onDragStart={onDragStart}
-      onDragEnd={onDragEnd}
+      onDragStart={({ draggable }) => {
+        const element = sortables.get(draggable.id)
+    
+        if (element) {
+          setState({
+            directParent: element.parentElement,
+            scrollableParent: getScrollableParent(element, props.orientation),
+          })
+        }
+    
+        setState({
+          activeItem: draggable.id,
+          startingScrollX: scrollableParentScroll.x,
+          startingScrollY: scrollableParentScroll.y,
+        })
+      }}
+      onDragEnd={createOnDragEnd(
+        ids, props.onChange, () => setState('activeItem', null)
+      )}
       collisionDetector={createColliderCenter(
+        scrollableParentScroll.x - state.startingScrollX,
         scrollableParentScroll.y - state.startingScrollY
       )}
     >
@@ -184,27 +105,23 @@ export default <T,>(props: Props<T>) => {
         <For each={props.list}>
           {(item, index) => {
             const id = props.itemToId(item)
-
             const sortable = createSortable(id)
-
             const context = useDragDropContext()
 
             return (
               <Dynamic
-                component={() =>
+                component={() => 
                   props.component(
-                    (element) => {
-                      sortables.set(id, element)
-                      sortable.ref(element)
-                    },
-                    () => sortable.dragActivators,
-                    () => transformStyle(sortable.transform),
+                    (element) => createRefCallback(
+                      element,
+                      sortable,
+                      sortables,
+                      id,
+                      isDraggedClasses,
+                      () => !!context?.[0].active.draggable
+                    ),
                     item,
-                    index,
-                    () => [
-                      sortable.isActiveDraggable && isDraggedClasses,
-                      !!context?.[0].active.draggable && 'transition-transform',
-                    ]
+                    index
                   )
                 }
               />
@@ -215,10 +132,10 @@ export default <T,>(props: Props<T>) => {
 
       <DragOverlay
         style={{
-          'z-index': 999999999999,
+          'z-index': 99999,
         }}
       >
-        <Show when={draggedOuterHTML()}>
+        <Show when={draggedElement()}>
           {(element) => <Dynamic component={element} />}
         </Show>
       </DragOverlay>

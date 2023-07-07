@@ -64,6 +64,7 @@ export default () => {
       <div class="space-y-2">
         <Label label={t('Selected columns')}>
           <SortableList
+            orientation="vertical"
             list={tableSelectedDataLabels()}
             itemToId={(dataLabel) => dataLabel.getSerializedName()}
             onChange={(oldIndex, newIndex) => {
@@ -77,22 +78,12 @@ export default () => {
                 )
               }
             }}
-            component={(
-              ref,
-              dragActivators,
-              transformStyle,
-              dataLabel,
-              index,
-              classes
-            ) => (
+            component={(ref, dataLabel, index) => (
               <SortableDataLabel
                 ref={ref}
-                dragActivators={dragActivators()}
-                transformStyle={transformStyle}
                 dataLabel={dataLabel}
                 index={index}
                 tableSelectedDataLabels={tableSelectedDataLabels()}
-                class={classes()}
               />
             )}
           />

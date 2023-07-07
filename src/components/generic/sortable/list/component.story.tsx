@@ -24,67 +24,85 @@ export default () => {
 
   return (
     <Label label="Sortable list">
-      {/* <Dialog title="In dialog">
-        <div class="flex flex-col space-y-4">
+      <div class="mb-10 overflow-x-auto">
+        <div class="flex space-x-2 overflow-y-auto h-32">
           <SortableList
+            orientation='both'
             list={list}
             itemToId={(item) => String(item)}
             onChange={(from, to) =>
               batch(() => list.splice(to, 0, list.splice(from, 1)[0]))
             }
-            draggedClasses={['!bg-black text-pink-500']}
-            component={(ref, dragActivators, value, index, classes) => (
+            draggedClasses={['!bg-black text-purple-500']}
+            component={(ref, value, index) => (
               <div
                 ref={ref}
-                {...dragActivators}
-                class={classPropToString([
-                  classes(),
-                  'inline-flex bg-pink-300 p-4',
-                ])}
+                class="shrink-0 h-64 w-32 inline-block bg-purple-300 p-4"
               >
                 Hey {value} {index()}
               </div>
             )}
           />
         </div>
-      </Dialog> */}
+      </div>
+      <div class="mb-10 overflow-x-auto">
+        <div class="flex space-x-2 overflow-y-auto h-32">
+          <SortableList
+            orientation='horizontal'
+            list={list}
+            itemToId={(item) => String(item)}
+            onChange={(from, to) =>
+              batch(() => list.splice(to, 0, list.splice(from, 1)[0]))
+            }
+            draggedClasses={['!bg-black text-blue-500']}
+            component={(ref, value, index) => (
+              <div
+                ref={ref}
+                class="shrink-0 h-64 w-32 inline-block bg-blue-300 p-4"
+              >
+                Hey {value} {index()}
+              </div>
+            )}
+          />
+        </div>
+      </div>
       <div class="flex flex-col space-y-4">
         <SortableList
+          orientation='vertical'
           list={list}
           itemToId={(item) => String(item)}
           onChange={(from, to) =>
             batch(() => list.splice(to, 0, list.splice(from, 1)[0]))
           }
-          component={(
-            ref,
-            dragActivators,
-            transformStyle,
-            value,
-            index,
-            classes
-          ) => {
-            createEffect(() => {
-              console.log('drag', dragActivators)
-            })
-
-            return (
-              <Tr
-                ref={ref}
-                {...dragActivators}
-                style={transformStyle()}
-                class={classPropToString([classes(), 'bg-pink-300 p-4'])}
-              >
-                <Td>
-                  {/* <div> */}
-                  Hey {value} {index()}
-                  {/* </div> */}
-                </Td>
-                <Td>
-                  Hey {value} {index()} BIS
-                </Td>
-              </Tr>
-            )
-          }}
+          draggedClasses={['!bg-black text-pink-500']}
+          component={(ref, value, index) => (
+            <div
+              ref={ref}
+              class="inline-flex bg-pink-300 p-4"
+            >
+              Hey {value} {index()}
+            </div>
+          )}
+        />
+      </div>
+      <div class="flex flex-col space-y-4">
+        <SortableList
+          orientation="vertical"
+          list={list}
+          itemToId={(item) => String(item)}
+          onChange={(from, to) =>
+            batch(() => list.splice(to, 0, list.splice(from, 1)[0]))
+          }
+          component={(ref, value, index) => (
+            <Tr ref={ref} class="bg-pink-300 p-4">
+              <Td>
+                Hey {value} {index()}
+              </Td>
+              <Td>
+                Hey {value} {index()} BIS
+              </Td>
+            </Tr>
+          )}
         />
       </div>
     </Label>

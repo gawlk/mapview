@@ -162,6 +162,7 @@ export const createBasePointFromJSON = <
                 () => value?.displayedString,
                 (displayedString) => {
                   this.icon?.setText(displayedString || '')
+                  this.updateColor()
                 },
                 {
                   immediate: true,

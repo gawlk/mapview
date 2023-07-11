@@ -70,6 +70,9 @@ export const checkDataConformity = (
   }
 
   if (Array.isArray(actualData) && Array.isArray(expectedData)) {
+    if (actualData.length !== expectedData.length) {
+      return 'array data invalid'
+    }
     let arrayIsOk = true
 
     actualData.forEach((value, index) => {

@@ -1,4 +1,9 @@
-import { blend, colorsClasses, gray } from '/src/scripts'
+import { blend, colorsClasses, gray, roundValue } from '/src/scripts'
+
+const convertToRoundedCurrent = (
+  valueToConvert: number,
+  unit: MathUnit<string>
+) => roundValue(unit.baseToCurrent(valueToConvert), unit.currentPrecision)
 
 export const createCustomThreshold = (parameters: {
   type: CustomThresholdType
@@ -16,32 +21,42 @@ export const createCustomThreshold = (parameters: {
       const hexColorMiddle = colorsClasses[colors.middle].hexColor
       const hexColorHigh = colorsClasses[colors.high].hexColor
 
+      const { unit } = mathNumber
+
       if (!mathNumber.checkValidity()) {
         return gray
       }
 
-      const value = Math.max(
-        this.value,
-        mathNumber.unit ? mathNumber.unit.min : -Infinity
+      const lowThresholdValue = convertToRoundedCurrent(
+        Math.max(this.value, unit ? mathNumber.unit.min : -Infinity),
+        unit
       )
 
-      const valueHigh = Math.min(
-        this.valueHigh,
-        mathNumber.unit ? mathNumber.unit.max : Infinity
+      const highThresholdValue = convertToRoundedCurrent(
+        Math.min(
+          this.valueHigh,
+          mathNumber.unit ? mathNumber.unit.max : Infinity
+        ),
+        unit
+      )
+
+      const testedValue = roundValue(
+        mathNumber.toCurrent(),
+        unit.currentPrecision
       )
 
       let color = hexColorHigh
 
-      if (mathNumber.value < value) {
+      if (testedValue < lowThresholdValue) {
         color = hexColorLow
-      } else if (this.type !== 'Bicolor' && mathNumber.value < valueHigh) {
+      } else if (this.type !== 'Bicolor' && testedValue < highThresholdValue) {
         color =
           this.type === 'Tricolor'
             ? hexColorMiddle
             : blend(
                 hexColorLow,
                 hexColorHigh,
-                (mathNumber.value - value) / valueHigh
+                (testedValue - lowThresholdValue) / highThresholdValue
               )
       }
 

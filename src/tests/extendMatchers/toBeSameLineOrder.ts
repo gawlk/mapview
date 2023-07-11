@@ -1,7 +1,7 @@
 import { expect } from 'vitest'
 
-import { getKey } from '/src/test/utils'
-import { filesToStringArray } from '/src/test/utils/text'
+import { getKey } from '../utils'
+import { filesToStringArray } from '../utils/text'
 
 interface CustomMatchers<R = unknown> {
   toBeSameLineOrder(expected: File | string): R

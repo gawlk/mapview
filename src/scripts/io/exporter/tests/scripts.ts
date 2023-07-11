@@ -9,7 +9,7 @@ import {
   unzipFile,
 } from '/src/scripts'
 
-import { getFileFromPath } from '/src/test/utils'
+import { getFileFromPath } from '../../../../tests/utils'
 
 const acceptedExtension = ['pdx', 'F25', 'fwd', 'mpvz', 'mvrz']
 

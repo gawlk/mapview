@@ -243,7 +243,10 @@ export const createBaseProjectFromJSON = <
                       })
                     )
 
-                    selectedReportUnit === mathUnit && point.updateText()
+                    if (selectedReportUnit === mathUnit) {
+                      point.updateText()
+                      point.updateColor()
+                    }
                   })
                 })
               })

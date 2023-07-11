@@ -1,5 +1,10 @@
 import { blend, colorsClasses, gray, roundValue } from '/src/scripts'
 
+const convertToRoundedCurrent = (
+  valueToConvert: number,
+  unit: MathUnit<string>
+) => roundValue(unit.baseToCurrent(valueToConvert), unit.currentPrecision)
+
 export const createCustomThreshold = (parameters: {
   type: CustomThresholdType
   value: number
@@ -22,37 +27,36 @@ export const createCustomThreshold = (parameters: {
         return gray
       }
 
-      const lowThresholdValue = roundValue(
-        unit.baseToCurrent(
-          Math.max(this.value, unit ? mathNumber.unit.min : -Infinity)
-        ),
-        unit.currentPrecision
+      const lowThresholdValue = convertToRoundedCurrent(
+        Math.max(this.value, unit ? mathNumber.unit.min : -Infinity),
+        unit
       )
 
-      const highThresholdValue = roundValue(
-        unit.baseToCurrent(
-          Math.min(
-            this.valueHigh,
-            mathNumber.unit ? mathNumber.unit.max : Infinity
-          )
+      const highThresholdValue = convertToRoundedCurrent(
+        Math.min(
+          this.valueHigh,
+          mathNumber.unit ? mathNumber.unit.max : Infinity
         ),
-        unit.currentPrecision
+        unit
       )
 
-      const value = roundValue(mathNumber.toCurrent(), unit.currentPrecision)
+      const testedValue = roundValue(
+        mathNumber.toCurrent(),
+        unit.currentPrecision
+      )
 
       let color = hexColorHigh
 
-      if (value < lowThresholdValue) {
+      if (testedValue < lowThresholdValue) {
         color = hexColorLow
-      } else if (this.type !== 'Bicolor' && value < highThresholdValue) {
+      } else if (this.type !== 'Bicolor' && testedValue < highThresholdValue) {
         color =
           this.type === 'Tricolor'
             ? hexColorMiddle
             : blend(
                 hexColorLow,
                 hexColorHigh,
-                (value - lowThresholdValue) / highThresholdValue
+                (testedValue - lowThresholdValue) / highThresholdValue
               )
       }
 

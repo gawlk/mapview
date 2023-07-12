@@ -43,6 +43,7 @@ export const createCharacteristicDeflectionComputer = (
           zone.data[zone.data.push(createDataValue(0, label)) - 1]
 
         const d0s = zone.points
+          .filter((point) => point.settings.isVisible)
           .map((point) =>
             (point.drops.at(-1) as HeavydynDrop).data.filter(
               (_data) => _data.label === d0DataLabel

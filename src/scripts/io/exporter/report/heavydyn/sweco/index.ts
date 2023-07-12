@@ -2,14 +2,13 @@ import dedent from 'dedent'
 
 import {
   currentCategory,
+  dayjsUtc,
   filterExportablePointsFromReport,
   findFieldInArray,
   replaceAllLFToCRLF,
 } from '/src/scripts'
 
 import { ddToDms } from './coordinates'
-
-import { dayjsUtc } from '../../../../../utils/date/dayjs'
 
 export const heavydynSwecoExporter: HeavydynExporter = {
   name: '.fwd (Sweco)',

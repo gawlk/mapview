@@ -5,6 +5,4 @@ dayjs.extend(utc)
 
 type ParamType = Parameters<typeof dayjs>
 
-export const dayjsUtc = (date: ParamType[0]) => {
-  return dayjs(date).utc()
-}
+export const dayjsUtc = (date: ParamType[0]) => dayjs(date).utc()

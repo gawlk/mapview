@@ -2,12 +2,11 @@ import dedent from 'dedent'
 
 import {
   currentCategory,
+  dayjsUtc,
   filterExportablePointsFromReport,
   findFieldInArray,
   replaceAllLFToCRLF,
 } from '/src/scripts'
-
-import { dayjsUtc } from '../../../../../utils/date/dayjs'
 
 export const heavydynPDXExporter: HeavydynExporter = {
   name: '.pdx',

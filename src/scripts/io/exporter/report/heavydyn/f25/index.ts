@@ -3,13 +3,12 @@ import { format } from 'mathjs'
 
 import {
   currentCategory,
+  dayjsUtc,
   filterExportablePointsFromReport,
   findFieldInArray,
   replaceAllLFToCRLF,
   trimAllLines,
 } from '/src/scripts'
-
-import { dayjsUtc } from '../../../../../utils/date/dayjs'
 
 // TODO:
 // Everything is always in the same order, with same precision, spaces, etc

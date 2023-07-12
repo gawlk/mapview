@@ -7,9 +7,11 @@ import {
   indicatorsCategory,
 } from '/src/scripts'
 
-const getStandardDeviation = (values: number[]) => {
+const computeStandardDeviation = (values: number[]) => {
   const n = values.length
+
   const mean = values.reduce((a, b) => a + b) / n
+
   return Math.sqrt(
     values.map((x) => (x - mean) ** 2).reduce((a, b) => a + b) / n
   )
@@ -57,7 +59,7 @@ export const createCharacteristicDeflectionComputer = (
         const value =
           d0s.length <= 1
             ? d0sAverage
-            : d0sAverage + 2 * getStandardDeviation(d0s)
+            : d0sAverage + 2 * computeStandardDeviation(d0s)
 
         data.value.updateValue(value)
       })

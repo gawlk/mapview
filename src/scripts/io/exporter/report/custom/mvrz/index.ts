@@ -5,8 +5,6 @@ import {
   convertValueFromUnitAToUnitB,
   createMathNumber,
   createZipFromEntity,
-  filterExportablePointsFromReport,
-  filterExportablePointsFromZone,
   unzipFile,
 } from '/src/scripts'
 
@@ -171,8 +169,6 @@ const generateZoneData = (zones: MachineZone[]): ExcelJSON =>
   zones
     .filter((zone) => zone.points.length)
     .reduce<ExcelJSON>((a, zone, index) => {
-      const visiblePoints = filterExportablePointsFromZone(zone)
-
       const Z = `Z${index + 1}`
 
       return {
@@ -185,7 +181,7 @@ const generateZoneData = (zones: MachineZone[]): ExcelJSON =>
           }),
           {}
         ),
-        ...generatePointAndDropData(visiblePoints, `${Z}_`),
+        ...generatePointAndDropData(zone.getExportablePoints(), `${Z}_`),
       }
     }, {})
 
@@ -421,13 +417,9 @@ const createBaseJson = (project: MachineProject): ExcelJSON => {
 const createMVRZJson = (project: MachineProject): ExcelJSON => {
   if (!project.reports.selected) return {}
 
-  const visiblePoints = filterExportablePointsFromReport(
-    project.reports.selected
-  )
-
   return {
     ...createBaseJson(project),
-    ...generatePointAndDropData(visiblePoints),
+    ...generatePointAndDropData(project.reports.selected.getExportablePoints()),
     ...generateZoneData(project.reports.selected.zones),
     ...generateSpecificMachineData(project),
   }

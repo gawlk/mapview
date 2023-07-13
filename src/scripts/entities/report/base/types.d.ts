@@ -80,6 +80,7 @@ interface BaseReport<
   project: Project
   isOnMap: boolean
   readonly fitOnMap: () => void
-  addToMap: () => void
-  remove: () => void
+  readonly addToMap: () => void
+  readonly remove: () => void
+  readonly getExportablePoints: () => BasePoint[]
 }

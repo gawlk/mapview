@@ -7,9 +7,11 @@ import {
   indicatorsCategory,
 } from '/src/scripts'
 
-const getStandardDeviation = (values: number[]) => {
+const computeStandardDeviation = (values: number[]) => {
   const n = values.length
+
   const mean = values.reduce((a, b) => a + b) / n
+
   return Math.sqrt(
     values.map((x) => (x - mean) ** 2).reduce((a, b) => a + b) / n
   )
@@ -42,7 +44,8 @@ export const createCharacteristicDeflectionComputer = (
           zone.data.find((_data) => _data.label === label) ||
           zone.data[zone.data.push(createDataValue(0, label)) - 1]
 
-        const d0s = zone.points
+        const d0s = zone
+          .getExportablePoints()
           .map((point) =>
             (point.drops.at(-1) as HeavydynDrop).data.filter(
               (_data) => _data.label === d0DataLabel
@@ -56,7 +59,7 @@ export const createCharacteristicDeflectionComputer = (
         const value =
           d0s.length <= 1
             ? d0sAverage
-            : d0sAverage + 2 * getStandardDeviation(d0s)
+            : d0sAverage + 2 * computeStandardDeviation(d0s)
 
         data.value.updateValue(value)
       })

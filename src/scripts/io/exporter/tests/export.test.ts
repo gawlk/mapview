@@ -11,7 +11,7 @@ import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest'
 
 import { exportFile } from './scripts'
 
-import { filesToString } from '../../../../tests/utils'
+import { filesToString } from '/src/tests'
 
 describe('Test exports', async () => {
   const testData: ReportTestExportData[] = []

@@ -2,12 +2,10 @@ import dedent from 'dedent'
 
 import {
   currentCategory,
-  filterExportablePointsFromReport,
+  dayjsUtc,
   findFieldInArray,
   replaceAllLFToCRLF,
 } from '/src/scripts'
-
-import { dayjsUtc } from '../../../../../utils/date/dayjs'
 
 export const heavydynDynatestExporter: HeavydynExporter = {
   name: '.fwd (Dynatest)',
@@ -152,46 +150,44 @@ const writePointGPS = (point: BasePoint) => {
 const writePoints = (project: HeavydynProject) => {
   if (!project.reports.selected) return []
 
-  return filterExportablePointsFromReport(project.reports.selected).map(
-    (point) => {
-      const celsiusDegreesTemps = point.data
-        .filter((data) => data.label.unit === project.units.temperature)
-        .map((data, index) => {
-          const precision = index === 0 ? 1 : 0
-          const value = data.getRawValue().toFixed(precision)
-          if (index === 0) {
-            return value.padStart(4, ' ')
-          }
+  return project.reports.selected.getExportablePoints().map((point) => {
+    const celsiusDegreesTemps = point.data
+      .filter((data) => data.label.unit === project.units.temperature)
+      .map((data, index) => {
+        const precision = index === 0 ? 1 : 0
+        const value = data.getRawValue().toFixed(precision)
+        if (index === 0) {
+          return value.padStart(4, ' ')
+        }
 
-          return value.padStart(2, ' ')
-        })
+        return value.padStart(2, ' ')
+      })
 
-      const fahrenheitDegreesTemps = point.data
-        .slice(0, 3)
-        .map((data) => {
-          return data.value
-            .getLocaleString({ unit: 'degF', locale: 'en-US' })
-            .padStart(4, ' ')
-        })
-        .join(' ')
+    const fahrenheitDegreesTemps = point.data
+      .slice(0, 3)
+      .map((data) => {
+        return data.value
+          .getLocaleString({ unit: 'degF', locale: 'en-US' })
+          .padStart(4, ' ')
+      })
+      .join(' ')
 
-      const chainage = Number(
-        point.data
-          .find((pointData) => pointData.label.name === 'Chainage')
-          ?.getRawValue()
-      )
-        .toFixed(2)
-        .padStart(8, ' ')
+    const chainage = Number(
+      point.data
+        .find((pointData) => pointData.label.name === 'Chainage')
+        ?.getRawValue()
+    )
+      .toFixed(2)
+      .padStart(8, ' ')
 
-      return [
-        `${writePointGPS(point)}`,
-        `S ${chainage} ${celsiusDegreesTemps[0]}00 ${celsiusDegreesTemps[1]} ${
-          celsiusDegreesTemps[2]
-        }I2${dayjsUtc(point.date).format('HHmm')} ${fahrenheitDegreesTemps}`,
-        `${writeDrops(point, project.calibrations.dPlate)}`,
-      ]
-    }
-  )
+    return [
+      `${writePointGPS(point)}`,
+      `S ${chainage} ${celsiusDegreesTemps[0]}00 ${celsiusDegreesTemps[1]} ${
+        celsiusDegreesTemps[2]
+      }I2${dayjsUtc(point.date).format('HHmm')} ${fahrenheitDegreesTemps}`,
+      `${writeDrops(point, project.calibrations.dPlate)}`,
+    ]
+  })
 }
 
 const writeDrops = (point: BasePoint, dPlate: number) => {

@@ -73,6 +73,9 @@ export const createBaseReportFromJSON = <
 
       flyToPoints(map, points)
     },
+    getExportablePoints() {
+      return this.line.sortedPoints.filter((point) => point.settings.isVisible)
+    },
     addToMap() {
       this.isOnMap = true
 

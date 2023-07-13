@@ -1,6 +1,4 @@
-import { createSelectableList } from '/src/scripts/utils'
-
-import { createMathNumber } from '../../../math'
+import { createMathNumber, createSelectableList } from '/src/scripts'
 
 export const createHeavydynProjectTemperatureCorrectionParametersFromJSON = (
   json: JSONHeavydynTemperatureCorrectionParametersVAny,
@@ -11,7 +9,6 @@ export const createHeavydynProjectTemperatureCorrectionParametersFromJSON = (
   const temperatureCorrectionParameters: HeavydynTemperatureCorrectionParameters =
     shallowReactive({
       active: false,
-      // Temperature from > Temperature to
       source: createSelectableList(
         ['Tair', 'Tsurf', 'Tman', 'Custom'] as TemperatureSourceList,
         {

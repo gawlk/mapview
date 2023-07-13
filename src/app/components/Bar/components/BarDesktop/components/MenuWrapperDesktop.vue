@@ -17,8 +17,6 @@
     :id="props.name"
     :icon="props.icon"
     :text="props.name + props.menuProps.route"
-    :defaultOpen="getDisclosureOpenState(key)"
-    @click="(open) => setDisclosureOpenState(key, open)"
   >
     <slot></slot>
   </Disclosure>

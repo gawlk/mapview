@@ -3,7 +3,6 @@ import dedent from 'dedent'
 import {
   currentCategory,
   dayjsUtc,
-  filterExportablePointsFromReport,
   findFieldInArray,
   replaceAllLFToCRLF,
 } from '/src/scripts'
@@ -98,7 +97,8 @@ const writePoints = (project: HeavydynProject): string => {
   if (!project.reports.selected) return ''
 
   return (
-    filterExportablePointsFromReport(project.reports.selected)
+    project.reports.selected
+      .getExportablePoints()
       .map((point) => {
         let coordinates = { lng: '', lat: '' }
 

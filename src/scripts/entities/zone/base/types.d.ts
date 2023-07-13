@@ -40,4 +40,5 @@ interface BaseZone<
   data: DataValue<string>[]
   readonly init: () => void
   readonly clean: () => void
+  readonly getExportablePoints: () => BasePoint[]
 }

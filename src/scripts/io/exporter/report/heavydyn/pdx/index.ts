@@ -3,7 +3,6 @@ import dedent from 'dedent'
 import {
   currentCategory,
   dayjsUtc,
-  filterExportablePointsFromReport,
   findFieldInArray,
   replaceAllLFToCRLF,
 } from '/src/scripts'
@@ -182,7 +181,8 @@ const writeDeviceCalibration = (project: HeavydynProject) => {
 const writePoints = (project: HeavydynProject) => {
   if (!project.reports.selected) return ''
 
-  return filterExportablePointsFromReport(project.reports.selected)
+  return project.reports.selected
+    .getExportablePoints()
     .map((point) => {
       const temps = point.data
         .slice(0, 3)

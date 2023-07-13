@@ -82,6 +82,9 @@ export const createBaseZoneFromJSON = <
         )
       )
     },
+    getExportablePoints() {
+      return this.points.filter((point) => point.settings.isVisible)
+    },
     clean() {
       watcherHandler.clean()
 

@@ -36,7 +36,7 @@ export const createCumSumDataComputer = (report: HeavydynReport) => {
       ),
     compute: (label) => {
       const groupedDropsByDropIndex = (
-        report.line.sortedPoints as HeavydynPoint[]
+        report.getExportablePoints() as HeavydynPoint[]
       ).reduce((grouped, point) => {
         point.drops.forEach((drop, dropIndex) => grouped[dropIndex].push(drop))
 

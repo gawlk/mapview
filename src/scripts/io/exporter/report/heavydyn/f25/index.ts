@@ -4,7 +4,6 @@ import { format } from 'mathjs'
 import {
   currentCategory,
   dayjsUtc,
-  filterExportablePointsFromReport,
   findFieldInArray,
   replaceAllLFToCRLF,
   trimAllLines,
@@ -181,7 +180,8 @@ const writeSensors = (project: HeavydynProject): string => {
 
 const writePoints = (project: HeavydynProject): string => {
   if (project.reports.selected) {
-    return filterExportablePointsFromReport(project.reports.selected)
+    return project.reports.selected
+      .getExportablePoints()
       .map((point) => {
         const header = dedent`
           ${writePointGps(point)}

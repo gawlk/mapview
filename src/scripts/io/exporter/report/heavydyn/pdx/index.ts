@@ -17,7 +17,7 @@ export const heavydynPDXExporter: HeavydynExporter = {
       
             ${writeDeviceCalibration(project)}
       
-            ${writePoints(project)}
+            ${writePoints(project) || ''}
           `,
       ],
       `${project.reports.selected?.name.toString()}.pdx`,
@@ -58,11 +58,11 @@ const writeHeader = (project: HeavydynProject): string => {
     DropHistoryDataFrequencyUnits = Hertz
 
     [Operations Information]
-    FileName = ${project.name.value}
+    FileName = ${String(project.name.value)}
     StartDate = ${reportDate} 
     EndDate = ${reportDate} 
-    OperatorName = ${infos[0]} 
-    WeatherCondition = ${infos[1]}
+    OperatorName = ${String(infos[0])} 
+    WeatherCondition = ${String(infos[1])}
     `
 }
 
@@ -78,9 +78,9 @@ const writeDeviceInformation = (project: HeavydynProject): string => {
     [Device Information]
     DeviceDesignationName = Rincent
     DeviceModelNumber =  HEAVYDYN
-    DeviceSerialNumber = ${
+    DeviceSerialNumber = ${String(
       project.hardware.find((data) => data.label === 'Serial number')?.value
-    } 
+    )} 
     LoadCellSerialNumber = ${project.calibrations.channels[0].name}  
     SensorSerialNumber = ${sensorSerialNumbers}
     DeviceLoadType = Impulse
@@ -99,8 +99,10 @@ const writeDeviceConfiguration = (project: HeavydynProject): string => {
 
   return dedent`
      [Device Configuration]
-     LoadPlateRadius = ${project.calibrations.dPlate} 
-     NumberOfDeflectionSensors = ${project.calibrations.channels.length - 1} 
+     LoadPlateRadius = ${String(project.calibrations.dPlate)} 
+     NumberOfDeflectionSensors = ${String(
+       project.calibrations.channels.length - 1
+     )} 
      DeflectionSensorXAxisDistances = ${deflectionSensorXAxis}
      DeflectionSensorYAxisDistances = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
      NumberOfTemperatureSensors = 3
@@ -146,8 +148,8 @@ const writeDeviceCalibration = (project: HeavydynProject) => {
   return dedent`
       [Device Calibration]
       LoadCellCalibrationDate = ${calibrationDate}
-      LoadCellCalibrationFactor = ${Math.round(
-        project.calibrations.channels[0].gain * 1000
+      LoadCellCalibrationFactor = ${String(
+        Math.round(project.calibrations.channels[0].gain * 1000)
       )} 
       LoadCellCalibrationIntercept = 0
       SensorStaticCalibrationDate = ${calibrationDate} 
@@ -159,13 +161,13 @@ const writeDeviceCalibration = (project: HeavydynProject) => {
       SensorRelativeCalibrationDate = ${calibrationDate} 
       SensorRelativeCalibrationFactor = ${sensorReferenceCalibrationFactor}
       DMIDeviceCalibrationDate = ${calibrationDate} 
-      DMIDeviceCalibrationFactor = ${dmiSensor} 
+      DMIDeviceCalibrationFactor = ${String(dmiSensor)} 
 
       [Location Identification]
-      SiteName = ${projectProject} 
-      FacilityName = ${siteProject} 
-      SectionName = ${reportLane}
-      PavementType = ${materialPlatform}
+      SiteName = ${String(projectProject)} 
+      FacilityName = ${String(siteProject)} 
+      SectionName = ${String(reportLane)}
+      PavementType = ${String(materialPlatform)}
     `
 }
 
@@ -179,6 +181,7 @@ const writePoints = (project: HeavydynProject) => {
         })
         .join(',')
 
+      // comment => number ??? wtf
       const comment = point.data.find((data) => data.label.name === 'Comment')
         ?.value.value
 
@@ -188,18 +191,18 @@ const writePoints = (project: HeavydynProject) => {
       }
 
       return dedent`
-        [Test Location ${point.index}]
-        TestLocation = ${
+        [Test Location ${String(point.index)}]
+        TestLocation = ${String(
           point.data.find((data) => data.label.name === 'Chainage')?.value.value
-        },0,0 
+        )},0,0 
         GPSLocation = ${lat.toFixed(8)},${lng.toFixed(8)},0
-        TestLane = ${comment}  
+        TestLane = ${String(comment)}  
         TestType = 0
         DropHistoryType = load and deflections
         TestTemperatures = ${temps} 
         TestTime = ${dayjs(point.date).format('HH:mm:ss')} 
-        TestComment = ${comment} 
-        NumberOfDrops = ${point.drops.length} 
+        TestComment = ${String(comment)} 
+        NumberOfDrops = ${String(point.drops.length)} 
         ${writeDrops(point, project.calibrations.dPlate)}
         \n
     `
@@ -228,7 +231,7 @@ const writeDrops = (point: BasePoint, dPlate: number) => {
       values.unshift(power.toFixed(2).toString())
 
       return dedent`
-        DropData_${index} = ${values} 
+        DropData_${String(index)} = ${String(values)} 
       `
     })
     .join('\n')

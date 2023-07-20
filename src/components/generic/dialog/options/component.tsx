@@ -7,6 +7,7 @@ interface Props {
   input?: string
   options: DialogValuesProps
   onClick?: (value?: string) => void
+  showAllWhenEmpty?: boolean
 }
 
 export default (props: Props) => {
@@ -19,6 +20,7 @@ export default (props: Props) => {
           selected={props.options.selected}
           list={props.options.list as ValuesListProps}
           onClick={props.onClick}
+          showAllWhenEmpty={props.showAllWhenEmpty}
         />
       }
     >
@@ -27,6 +29,7 @@ export default (props: Props) => {
         selected={props.options.selected}
         list={props.options.list as GroupedDialogSelectOptionsProps[]}
         onClick={props.onClick}
+        showAllWhenEmpty={props.showAllWhenEmpty}
       />
     </Show>
   )

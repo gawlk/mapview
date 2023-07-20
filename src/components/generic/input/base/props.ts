@@ -9,9 +9,13 @@ export const inputBooleanPropsKeysObject: BooleanPropsKeysObject<InputPropsOnly>
     max: true,
     min: true,
 
+    for: false,
+
     debounce: true,
     onInput: true,
-    copyRef: true,
+
+    ref: true,
+    wrapperRef: true,
 
     bind: true,
 

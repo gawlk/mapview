@@ -2,15 +2,7 @@ import dayjs from 'dayjs'
 import dedent from 'dedent'
 import { format } from 'mathjs'
 
-import {
-  currentCategory,
-  findFieldInArray,
-  isCurrentCategory,
-} from '/src/scripts'
-
-// TODO:
-// Everything is always in the same order, with same precision, spaces, etc
-// Test: Compare if strings are a match
+import { findFieldInArray, isCurrentCategory } from '/src/scripts'
 
 export const heavydynF25Exporter: HeavydynExporter = {
   name: '.F25',
@@ -54,12 +46,11 @@ const writeHeader = (project: HeavydynProject): string => {
 
   return dedent`
     5001,25.99,1,40, 3, 1,"Heavydyn     "
-    5002,"25SI ","${serialNumber?.padEnd(8, ' ')}","${serialNumber
-    ?.toString()
-    .padEnd(8, ' ')}"
-    5003, "${operator?.padEnd(8, ' ')}", "${sequenceName?.padEnd(
-    8,
-    ' '
+    5002,"25SI ","${String(serialNumber?.padEnd(8, ' '))}","${String(
+    serialNumber?.toString().padEnd(8, ' ')
+  )}"
+    5003, "${String(operator?.padEnd(8, ' '))}", "${String(
+    sequenceName?.padEnd(8, ' ')
   )}", "${project.name.value.toString().padStart(8, ' ')}", "F25"
     5010,0,0,0,0,0,0,0,3,1,0,0,0,0,0,1,0,0,0,0,0,1,"MDB"
     5011,0,1,${date},0,"Non",000
@@ -114,7 +105,7 @@ const writeEndHeader = (project: MachineProject): string => {
   )
     .toString()
     .padStart(8, '0')},   28439,   84378
-      5030,"${operator?.padEnd(32, ' ')}"
+      5030,"${operator?.padEnd(32, ' ') || ''}"
       5031,"${project.name.value.toString().padEnd(32, ' ')}"
       5032,"${reportName?.padEnd(32, ' ')}"
       5301,0,1,3,3,   6.000,1,1,        ,2018,07,25,10,22
@@ -145,7 +136,7 @@ const writeSensors = (project: HeavydynProject): string => {
   const nbrSensors = project.calibrations.channels.length - 1
   for (let i = 0; i < nbrSensors; i++) {
     sensorsString += dedent`
-      ${5200 + i},"${project.calibrations.channels[i + 1].name.padEnd(
+      ${String(5200 + i)},"${project.calibrations.channels[i + 1].name.padEnd(
       8,
       ' '
     )}",1.000,${formatExponential(
@@ -157,7 +148,7 @@ const writeSensors = (project: HeavydynProject): string => {
 
   for (let i = nbrSensors; i < 19; i++)
     sensorsString += dedent`
-    ${5200 + i},"NA      ",0,0.000,0.000\n
+    ${String(5200 + i)},"NA      ",0,0.000,0.000\n
     `
 
   let s5020 = '5020,   150'
@@ -198,15 +189,11 @@ const writePoints = (project: HeavydynProject): string => {
 
 const writePointGps = (point: BasePoint) => {
   return dedent`
-    5280,0,140418.0,${point.marker
-      ?.getLngLat()
-      .lat.toFixed(8)
-      .padStart(12, ' ')},${point.marker
-    ?.getLngLat()
-    .lng.toFixed(8)
-    .padStart(12, ' ')},${Number('1')
-    .toFixed(2)
-    .padStart(8, ' ')}, 2,18,   0,  0 
+    5280,0,140418.0,${String(
+      point.marker?.getLngLat().lat.toFixed(8).padStart(12, ' ')
+    )},${String(
+    point.marker?.getLngLat().lng.toFixed(8).padStart(12, ' ')
+  )},${Number('1').toFixed(2).padStart(8, ' ')}, 2,18,   0,  0 
     `
 }
 
@@ -242,7 +229,9 @@ const writePointHeader = (
 
   return dedent`
     5301,0,1,3,3,${chainage.toString().padStart(7, ' ')},1,1,        ,${date}
-    5302, 0, 1, 8, 0, 0, 0, 0, 0, "${comment?.toString().padStart(55, ' ')}"
+    5302, 0, 1, 8, 0, 0, 0, 0, 0, "${String(
+      comment?.toString().padStart(55, ' ')
+    )}"
     5303,0,${(Math.round(tman * 10) / 10)
       .toPrecision(2)
       .toString()

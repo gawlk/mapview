@@ -9,8 +9,6 @@ import { Details, DialogSelect, Input, Label } from '/src/components'
 export default () => {
   const [t] = useI18n()
 
-  // TODO: Create title element instead of using labels
-
   const getMathUnitIcon = (mathUnit: MathUnit<string>) => {
     switch (mathUnit.name) {
       case 'CumSum':
@@ -35,6 +33,7 @@ export default () => {
   }
 
   return (
+    // TODO: Create title element instead of using labels
     <Label size="lg" label={t('Units')} class="space-y-4">
       <For
         each={

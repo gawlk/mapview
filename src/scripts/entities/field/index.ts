@@ -3,7 +3,7 @@ import { run } from '/src/scripts'
 export const createFieldFromJSON = (json: JSONFieldVAny): Field => {
   const { label, value, settings } = json
 
-  return createMutable({
+  const field = createMutable({
     label,
     value: run(
       ():
@@ -132,6 +132,8 @@ export const createFieldFromJSON = (json: JSONFieldVAny): Field => {
       }
     },
   })
+
+  return field
 }
 
 export const findFieldInArray = (fields: Field[], label: string) =>

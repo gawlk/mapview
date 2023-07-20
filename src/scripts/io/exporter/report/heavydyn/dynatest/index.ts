@@ -84,8 +84,8 @@ const writeHeader = (project: HeavydynProject) => {
     throw new Error("can't access selected project")
 
   stringArray.push(dedent`
-      R80    102    ${project.name.value}
-      70103300${serialNumber}69994.3703111  1
+      R80    102    ${String(project.name.value)}
+      70103300${String(serialNumber)}69994.3703111  1
     `)
 
   stringArray.push(sensorsSection[0])

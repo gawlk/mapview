@@ -74,7 +74,6 @@ export default () => {
             full
             values={{
               selected: customThreshold().type,
-              // TODO: Check CustomThresholdType type
               list: [
                 {
                   value: 'Bicolor',

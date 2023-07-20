@@ -91,6 +91,7 @@ export default (props: Props) => {
         ) : undefined
       }
       form={
+        /* TODO: Add props component that would be displayed before this div */
         <div
           class={classPropToString([
             isAttached() ? 'space-y-1.5' : 'space-y-2',

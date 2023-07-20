@@ -16,7 +16,7 @@ type Props = InputPropsWithHTMLAttributes
 
 export default (props: Props) => {
   const [interactiveProps, inputProps] = splitProps(
-    removeProps(props, inputBooleanPropsKeysObject),
+    removeProps(props, { ...inputBooleanPropsKeysObject, onClick: true }),
     booleanPropsKeysToArray([
       interactiveBooleanPropsKeysObject,
       containerBooleanPropsKeysObject,
@@ -73,10 +73,6 @@ export default (props: Props) => {
     input && (input.value = String(state.value ?? ''))
 
     createEffect(() => {
-      props.copyRef?.(input)
-    })
-
-    createEffect(() => {
       if (props.bind && input) {
         setState('value', props.value)
 
@@ -86,7 +82,15 @@ export default (props: Props) => {
   })
 
   return (
-    <div class="flex flex-1 space-x-2">
+    <div
+      class={classPropToString([
+        props.full && 'w-full',
+        'inline-flex flex-1 space-x-2',
+      ])}
+      ref={props.wrapperRef}
+      // @ts-ignore
+      onClick={props.onClick}
+    >
       <Interactive
         kind="focusable"
         rightIcon={props.readOnly ? IconTablerLock : undefined}
@@ -109,7 +113,10 @@ export default (props: Props) => {
           aria-invalid={needsFixing()}
           disabled={props.disabled}
           {...inputProps}
-          ref={input}
+          ref={(inputRef: HTMLInputElement) => {
+            input = inputRef
+            props.ref?.(input)
+          }}
           {...(props.long ? { rows: 5 } : {})}
           type={type()}
           onInput={(event: InputEvent) => {

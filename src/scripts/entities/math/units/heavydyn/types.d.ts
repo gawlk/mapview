@@ -17,8 +17,6 @@ type PossibleHeavydynDistanceUnits = 'm' | 'km' | 'mi'
 type PossibleHeavydynTimeUnits = 's' | 'ms' | 'us'
 type PossibleHeavydynModulusUnits = 'MPa'
 
-// TODO: Simplify
-
 type JSONHeavydynUnits = HeavydynUnitsSkeleton<
   JSONMathUnit<PossibleHeavydynDeflectionUnits>,
   JSONMathUnit<PossibleHeavydynForceUnits>,

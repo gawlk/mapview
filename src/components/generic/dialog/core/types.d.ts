@@ -1,3 +1,8 @@
+type DialogPropsWithHTMLAttributes = MergePropsWithHTMLProps<
+  DialogProps,
+  Solid.JSX.DialogHTMLAttributes
+>
+
 type DialogProps = DialogPropsOnly &
   Omit<InteractiveProps, keyof DialogPropsOnly>
 
@@ -6,7 +11,7 @@ type DialogProps = DialogPropsOnly &
 interface DialogPropsOnly {
   button?: InternalButtonProps
 
-  attached?: true
+  attach?: HTMLElement
 
   title?: string
 
@@ -28,12 +33,24 @@ interface DialogPropsOnly {
 
   closeable?: boolean
 
+  onIdCreated?: (id: string) => void
+
+  onOpenCreated?: (callback: DialogOpenFunction) => void
+  onToggleCreated?: (callback: DialogToggleFunction) => void
+  onCloseCreated?: (callback: DialogCloseFunction) => void
+
   onOpen?: () => void
 
   onClose?: (value?: string) => void
 
   onCloseEnd?: () => void
 }
+
+type DialogOpenFunction = (isUserEvent: boolean) => void
+
+type DialogToggleFunction = (isUserEvent: boolean) => void
+
+type DialogCloseFunction = (element?: HTMLElement) => void
 
 type DialogResizeDirection = 'n' | 'nw' | 'w' | 'sw' | 's' | 'se' | 'e' | 'ne'
 

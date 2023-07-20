@@ -2,7 +2,7 @@ export const dialogBooleanPropsKeysObject: BooleanPropsKeysObject<DialogPropsOnl
   {
     button: true,
 
-    attached: true,
+    attach: true,
 
     title: true,
 
@@ -24,12 +24,13 @@ export const dialogBooleanPropsKeysObject: BooleanPropsKeysObject<DialogPropsOnl
 
     closeable: true,
 
+    onIdCreated: true,
+
+    onOpenCreated: true,
+    onToggleCreated: true,
+    onCloseCreated: true,
+
     onOpen: true,
     onClose: true,
     onCloseEnd: true,
-  }
-
-export const dialogButtonBooleanPropsKeysObject: BooleanPropsKeysObject<InternalButtonPropsOnly> =
-  {
-    text: true,
   }

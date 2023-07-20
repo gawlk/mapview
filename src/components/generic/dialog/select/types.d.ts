@@ -1,4 +1,4 @@
-type DialogSelectProps = DialogSelectPropsOnly & DialogProps
+type DialogSelectProps = DialogSelectPropsOnly & DialogClassicProps
 
 interface DialogSelectPropsOnly extends SaveableProps {
   search?: Omit<InputPropsWithHTMLAttributes, 'onInput'>
@@ -6,11 +6,3 @@ interface DialogSelectPropsOnly extends SaveableProps {
   values: DialogValuesProps
 }
 
-type DialogValuesProps = ValuesProps<
-  ValuesListProps | GroupedDialogSelectOptionsProps[]
->
-
-interface GroupedDialogSelectOptionsProps {
-  name: string
-  list: ValueWithTextProps[]
-}

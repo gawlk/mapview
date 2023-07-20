@@ -9,6 +9,7 @@ interface Props {
   selected: string | number | null
   list: GroupedDialogSelectOptionsProps[]
   onClick?: (value?: string) => void
+  showAllWhenEmpty?: boolean
 }
 
 export default (props: Props) => {

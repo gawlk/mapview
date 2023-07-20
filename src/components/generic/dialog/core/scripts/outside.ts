@@ -2,6 +2,7 @@ import { makeEventListener } from '@solid-primitives/event-listener'
 
 export const makeClickOutsideEventListener = (
   dialog: HTMLDialogElement | undefined,
+  attach: HTMLElement | undefined,
   close: () => void
 ) => {
   if (!dialog) {
@@ -19,11 +20,19 @@ export const makeClickOutsideEventListener = (
         if (pageX < left || pageY < top || pageX > right || pageY > bottom) {
           let element = event.target as HTMLElement | null
 
-          while (element && element !== dialog && element !== document.body) {
+          while (
+            element &&
+            element !== dialog &&
+            element !== attach &&
+            element !== document.body
+          ) {
             element = element.parentElement
           }
 
-          setTimeout(() => element !== dialog && close(), 1)
+          setTimeout(
+            () => element !== dialog && element !== attach && close(),
+            1
+          )
         }
       }
     },

@@ -7,6 +7,7 @@ import {
   StoryIcon,
   StoryIconInteractive,
   StoryInput,
+  StoryInputDataList,
   StoryInputRadioHorizontal,
   StoryInteractive,
   StoryNavigator,
@@ -22,10 +23,13 @@ export default () => {
       <StoryInteractive />
       <StoryButton />
       <StoryInput /> */}
-      <StorySortableList />
-      {/* <StoryInputRadioHorizontal />
       <StoryDialog />
+
       <StoryDialogSelect />
+      <StoryInputDataList />
+      {/* <StorySortableList />
+      <StoryInputRadioHorizontal />
+      
       <StoryDialogColor />
       <StoryNavigator /> */}
     </div>

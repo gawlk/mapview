@@ -1,6 +1,6 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import { Button, Dialog, Input, Label } from '/src/components'
+import { Button, Dialog, Input, InputDataList, Label } from '/src/components'
 
 interface Props {
   bulks: {
@@ -77,11 +77,13 @@ export default (props: Props) => {
                       break
                   }
 
+                  const isLongString =
+                    typeof field.value === 'object' &&
+                    field.value.kind === 'longString'
+
                   const isInput =
                     typeof field.value === 'object'
-                      ? field.value.kind === 'dateValue' ||
-                        field.value.kind === 'longString' ||
-                        field.value.kind === 'selectableString'
+                      ? field.value.kind === 'dateValue' || isLongString
                       : typeof value === 'string' || typeof value === 'number'
 
                   const id = createMemo(
@@ -98,31 +100,58 @@ export default (props: Props) => {
                     }
                   })
 
+                  const onInput = (newValue: string | undefined) => {
+                    pendingChanges.set(id(), () => {
+                      // TODO: Keep one instead of both ?
+                      field.setValue(newValue || '')
+                      value = newValue || ''
+                    })
+                    console.log(pendingChanges)
+                  }
+
+                  if (
+                    typeof field.value === 'object' &&
+                    field.value.kind === 'selectableString' &&
+                    field.value
+                  ) {
+                    console.log(field)
+                  }
+
                   return (
                     <Switch>
                       <Match when={isInput}>
                         <Input
-                          copyRef={(ref) => (input = ref)}
+                          ref={(ref) => (input = ref)}
                           full
-                          // TODO: Set color to yellow when value is pending ?
-                          color={undefined}
                           label={t(field.label)}
                           readOnly={readOnly()}
-                          long={
-                            typeof field.value === 'object' &&
-                            field.value.kind === 'longString'
-                          }
+                          long={isLongString}
                           value={value as string | number}
                           type={type}
                           id={id()}
-                          onInput={(newValue) => {
-                            pendingChanges.set(id(), () => {
-                              // TODO: Keep one instead of both
-                              field.setValue(newValue || '')
-                              value = newValue || ''
-                            })
-                          }}
+                          onInput={onInput}
                         />
+                      </Match>
+                      <Match
+                        when={
+                          typeof field.value === 'object' &&
+                          field.value.kind === 'selectableString' &&
+                          field.value
+                        }
+                      >
+                        {(fieldValue) => (
+                          <InputDataList
+                            ref={(ref) => (input = ref)}
+                            full
+                            id={id()}
+                            label={t(field.label)}
+                            value={fieldValue().value}
+                            list={fieldValue().possibleValues.map((value) =>
+                              t(value, undefined, value)
+                            )}
+                            onInput={onInput}
+                          />
+                        )}
                       </Match>
                     </Switch>
                   )

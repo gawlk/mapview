@@ -12,6 +12,8 @@ interface InputPropsOnly extends SaveableProps {
 
   min?: number
 
+  for?: string
+
   debounce?: number
 
   long?: boolean
@@ -20,5 +22,6 @@ interface InputPropsOnly extends SaveableProps {
 
   onInput?: (value?: string, event?: InputEvent) => void
 
-  copyRef?: (ref?: HTMLInputElement) => void
+  ref?: (ref?: HTMLInputElement) => void
+  wrapperRef?: (ref?: HTMLDivElement) => void
 }

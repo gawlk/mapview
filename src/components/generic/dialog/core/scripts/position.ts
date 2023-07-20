@@ -10,7 +10,7 @@ import { useWindowSize } from '@solid-primitives/resize-observer'
 
 export const createRelativePositionEffect = (
   dialog: HTMLDialogElement | undefined,
-  buttonOpen: HTMLButtonElement
+  element: HTMLElement
 ) => {
   if (!dialog) {
     return
@@ -34,8 +34,8 @@ export const createRelativePositionEffect = (
           // isIntersecting &&
           window.getComputedStyle(dialog).position === 'absolute' // Checking again for mobile iirc ?
         ) {
-          cleanup = autoUpdate(buttonOpen, dialog, async () => {
-            const { x, y } = await computePosition(buttonOpen, dialog, {
+          cleanup = autoUpdate(element, dialog, async () => {
+            const { x, y } = await computePosition(element, dialog, {
               middleware: [
                 offset(4),
                 flip(),
@@ -48,7 +48,7 @@ export const createRelativePositionEffect = (
             Object.assign(dialog.style, {
               left: `${x}px`,
               top: `${y}px`,
-              width: `${buttonOpen?.clientWidth}px`,
+              width: `${element?.clientWidth}px`,
             })
           })
         }
@@ -57,9 +57,8 @@ export const createRelativePositionEffect = (
   )
 
   createIntersectionObserver(
-    () => [buttonOpen],
-    ([buttonOpenEntry]) =>
-      setIsIntersecting(buttonOpenEntry?.isIntersecting ?? false)
+    () => [element],
+    ([entry]) => setIsIntersecting(entry?.isIntersecting ?? false)
   )
 
   onCleanup(() => {

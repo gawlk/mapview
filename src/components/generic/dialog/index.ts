@@ -1,4 +1,5 @@
-export * from './base'
+export * from './classic'
+export * from './core'
 export * from './color'
 export * from './date'
 export * from './options'

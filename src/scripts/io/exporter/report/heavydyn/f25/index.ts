@@ -3,13 +3,11 @@ import { format } from 'mathjs'
 
 import {
   currentCategory,
-  filterExportablePointsFromReport,
+  dayjsUtc,
   findFieldInArray,
   replaceAllLFToCRLF,
   trimAllLines,
 } from '/src/scripts'
-
-import { dayjsUtc } from '../../../../../utils/date/dayjs'
 
 // TODO:
 // Everything is always in the same order, with same precision, spaces, etc
@@ -182,7 +180,8 @@ const writeSensors = (project: HeavydynProject): string => {
 
 const writePoints = (project: HeavydynProject): string => {
   if (project.reports.selected) {
-    return filterExportablePointsFromReport(project.reports.selected)
+    return project.reports.selected
+      .getExportablePoints()
       .map((point) => {
         const header = dedent`
           ${writePointGps(point)}

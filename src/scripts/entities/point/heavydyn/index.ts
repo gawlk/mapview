@@ -1,6 +1,4 @@
-import store from '/src/store'
-
-import { createFieldFromJSON, createHeavydynDropFromJSON } from '/src/scripts'
+import { createHeavydynDropFromJSON } from '/src/scripts'
 
 import { createBasePointFromJSON } from '../base'
 
@@ -20,7 +18,7 @@ export const createHeavydynPointFromJSON = (
       drops: [] as HeavydynDrop[],
     }),
     machine: 'Heavydyn',
-    toJSON: function () {
+    toJSON() {
       return {
         version: json.version,
         base: this.toBaseJSON(),
@@ -46,8 +44,6 @@ const upgradeJSON = (json: JSONHeavydynPointVAny): JSONHeavydynPoint => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONHeavydynPoint
   }
 
   return json

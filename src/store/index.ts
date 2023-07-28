@@ -27,11 +27,6 @@ const store = createMutable<Store>({
   updateAvailable: false,
   importingFile: false,
   map: null,
-  save: (key: StoreKeys, value: StoreSaveableTypes): void => {
-    localStorage.setItem(key, JSON.stringify(value))
-    // @ts-ignore
-    store[key] = value
-  },
 })
 
 export default store

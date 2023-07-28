@@ -1,6 +1,6 @@
 [build]
   publish = "dist"
-  command = "pnpm build"
+  command = "VITE_CONTEXT=$CONTEXT VITE_COMMIT_REF=$COMMIT_REF pnpm run build"
 
 [[redirects]]
   from = "/*"

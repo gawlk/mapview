@@ -2,10 +2,10 @@ import {
   createDataLabelFromJSON,
   createSelectableList,
   currentCategory,
-  rawCategory,
 } from '/src/scripts'
 
 const convertFromToIndex = (from: DataLabelsFrom) =>
+  // eslint-disable-next-line no-nested-ternary
   from === 'Drop' ? 0 : from === 'Point' ? 1 : 2
 
 export const createBaseDataLabelsFromJSON = (
@@ -34,7 +34,7 @@ export const createBaseDataLabelsFromJSON = (
       groups.list[convertFromToIndex(from)].choices.list.push(label)
         ? label
         : undefined,
-    toBaseJSON: function () {
+    toBaseJSON() {
       return {
         version: 1,
         table: table.toJSON((params) => ({
@@ -58,10 +58,10 @@ export const createBaseDataLabelsFromJSON = (
 export const createTableDataLabelsFromJSON = (
   json: JSONSelectableList<JSONTableDataLabelsParameters>,
   groups: BaseDataLabelsGroups
-): BaseTableDataLabelsParameters[] => {
-  const tableDataLabelsList = groups.map((group) => {
+): BaseTableDataLabelsParameters[] =>
+  groups.map((group) => {
     const tableDataLabels = json.list?.find(
-      (tableDataLabels) => tableDataLabels.from === group.from
+      (_tableDataLabels) => _tableDataLabels.from === group.from
     )
 
     return createMutable({
@@ -74,9 +74,6 @@ export const createTableDataLabelsFromJSON = (
     })
   })
 
-  return tableDataLabelsList
-}
-
 export const createBaseDataLabelsGroupFromJSON = <
   T extends string,
   From extends DataLabelsFrom
@@ -85,7 +82,7 @@ export const createBaseDataLabelsGroupFromJSON = <
   units: MachineMathUnits,
   categorySelector?: CategorySelector
 ): BaseDataLabelsGroup<From> => {
-  const dataLabels = json.choices.list.map((jsonChoice) =>
+  const choices = json.choices.list.map((jsonChoice) =>
     createDataLabelFromJSON(
       jsonChoice,
       units,
@@ -96,8 +93,9 @@ export const createBaseDataLabelsGroupFromJSON = <
 
   return {
     from: json.from,
-    choices: createSelectableList(dataLabels),
-    toBaseJSON: function () {
+    choices: createSelectableList(choices),
+    saveableChoices: [...choices],
+    toBaseJSON() {
       return {
         version: 1,
         from: json.from,
@@ -126,21 +124,18 @@ export const createBaseTestDataLabelsGroupFromJSON = <T extends string>(
   json: JSONBaseDataLabelsGroup<'Point', T>,
   units: MachineMathUnits,
   categorySelector?: CategorySelector
-): BaseTestDataLabelsGroup => {
-  return {
-    ...createBaseDataLabelsGroupFromJSON(json, units, categorySelector),
-  }
-}
+): BaseTestDataLabelsGroup => ({
+  ...createBaseDataLabelsGroupFromJSON(json, units, categorySelector),
+})
 
 export const createBaseZoneDataLabelsGroupFromJSON = <T extends string>(
   json: JSONBaseDataLabelsGroup<'Zone', T>,
   units: MachineMathUnits,
   categorySelector?: CategorySelector
-): BaseZoneDataLabelsGroup => {
-  return {
-    ...createBaseDataLabelsGroupFromJSON(json, units, categorySelector),
-  }
-}
+  // eslint-disable-next-line sonarjs/no-identical-functions
+): BaseZoneDataLabelsGroup => ({
+  ...createBaseDataLabelsGroupFromJSON(json, units, categorySelector),
+})
 
 export const selectTableDataLabelsFromJSON = (
   report: BaseReport,

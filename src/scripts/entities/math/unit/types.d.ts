@@ -14,6 +14,9 @@ interface JSONMathUnit<PossibleUnits> {
 // Object
 // ---
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type AnyUnit = any
+
 interface MathUnit<PossibleUnits> {
   readonly name: UnitName
   readonly baseUnit: string
@@ -25,9 +28,14 @@ interface MathUnit<PossibleUnits> {
   currentUnit: PossibleUnits
   currentPrecision: number
   readonly getAverage: (values: number[]) => number
-  readonly toJSON: () => JSONMathUnit<PossibleUnits>
   readonly currentToBase: (value: number) => number
   readonly baseToCurrent: (value: number) => number
+  readonly checkValidity: (value: number) => boolean
+  readonly valueToString: (
+    value: number,
+    options?: MathUnitGetLocaleStringOptions
+  ) => string
+  readonly toJSON: () => JSONMathUnit<PossibleUnits>
 }
 
 type UnitName =
@@ -40,3 +48,14 @@ type UnitName =
   | 'CumSum'
   | 'Stiffness'
   | 'Percentage'
+  | 'Radius'
+
+interface MathUnitGetLocaleStringOptions {
+  readonly appendUnitToString?: true
+  readonly locale?: string
+  readonly precision?: number
+  readonly disablePreString?: true
+  readonly unit?: string
+  readonly removeSpaces?: true
+  readonly disableMinAndMax?: true
+}

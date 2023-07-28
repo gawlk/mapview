@@ -20,7 +20,7 @@ export const createHeavydynZoneFromJSON = (
       report: parameters.report,
     }),
     machine: 'Heavydyn',
-    toJSON: function (): JSONHeavydynZone {
+    toJSON(): JSONHeavydynZone {
       return {
         version: json.version,
         base: this.toBaseJSON(),
@@ -34,7 +34,7 @@ export const createHeavydynZoneFromJSON = (
   zone.points.push(
     ...json.base.points.map((jsonPoint) =>
       createHeavydynPointFromJSON(jsonPoint, map, {
-        zone: zone as HeavydynZone,
+        zone,
       })
     )
   )
@@ -46,8 +46,6 @@ const upgradeJSON = (json: JSONHeavydynZoneVAny): JSONHeavydynZone => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONHeavydynZone
   }
 
   return json

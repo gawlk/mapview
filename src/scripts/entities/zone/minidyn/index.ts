@@ -18,7 +18,7 @@ export const createMinidynZoneFromJSON = (
       report: parameters.report,
     }),
     machine: 'Minidyn',
-    toJSON: function (): JSONMinidynZone {
+    toJSON(): JSONMinidynZone {
       return {
         version: json.version,
         base: this.toBaseJSON(),
@@ -32,7 +32,7 @@ export const createMinidynZoneFromJSON = (
   zone.points.push(
     ...json.base.points.map((jsonPoint) =>
       createMinidynPointFromJSON(jsonPoint, map, {
-        zone: zone as MinidynZone,
+        zone,
       })
     )
   )
@@ -44,8 +44,6 @@ const upgradeJSON = (json: JSONMinidynZoneVAny): JSONMinidynZone => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONMinidynZone
   }
 
   return json

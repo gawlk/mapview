@@ -1,24 +1,29 @@
-interface MinidynUnitsSkeleton<A, B = A, C = A, D = A, E = A, F = A> {
+interface MinidynUnitsSkeleton<A, B = A, C = A, D = A, E = A, F = A, G = A> {
   readonly modulus: A
   readonly stiffness: B
   readonly deflection: C
   readonly force: D
-  readonly time: E
-  readonly percentage: F
+  readonly distance: E
+  readonly time: F
+  readonly percentage: G
 }
 
 type PossibleMinidynModulusUnits = 'MPa'
 type PossibleMinidynStiffnessUnits = 'MN / m'
 type PossibleMinidynDeflectionUnits = 'mm' | 'um'
 type PossibleMinidynForceUnits = 'N' | 'kN'
+type PossibleMinidynDistanceUnits = 'm' | 'km' | 'mi'
 type PossibleMinidynTimeUnits = 's' | 'ms' | 'us'
 type PossibleMinidynPercentageUnits = '%'
 
-type JSONMinidynUnits = MinidynUnitsSkeleton<
+type JSONMinidynUnitsVAny = JSONMinidynUnits
+
+type JSONMinidynUnits = { version: 1 } & MinidynUnitsSkeleton<
   JSONMathUnit<PossibleMinidynModulusUnits>,
   JSONMathUnit<PossibleMinidynStiffnessUnits>,
   JSONMathUnit<PossibleMinidynDeflectionUnits>,
   JSONMathUnit<PossibleMinidynForceUnits>,
+  JSONMathUnit<PossibleMinidynDistanceUnits>,
   JSONMathUnit<PossibleMinidynTimeUnits>,
   JSONMathUnit<PossibleMinidynPercentageUnits>
 >
@@ -28,8 +33,10 @@ type MinidynMathUnits = MinidynUnitsSkeleton<
   MathUnit<PossibleMinidynStiffnessUnits>,
   MathUnit<PossibleMinidynDeflectionUnits>,
   MathUnit<PossibleMinidynForceUnits>,
+  MathUnit<PossibleMinidynDistanceUnits>,
   MathUnit<PossibleMinidynTimeUnits>,
   MathUnit<PossibleMinidynPercentageUnits>
 >
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type MinidynUnitsNames = keyof MinidynUnitsSkeleton<any>

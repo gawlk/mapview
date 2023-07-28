@@ -24,7 +24,7 @@ export const createMaxidynProjectFromJSON = (
     ...baseProject,
     machine: 'Maxidyn',
     bearingParameters: createMutable(json.distinct.bearingParameters),
-    toJSON: function (): JSONMaxidynProject {
+    toJSON(): JSONMaxidynProject {
       return {
         version: json.version,
         machine: 'Maxidyn',
@@ -33,6 +33,7 @@ export const createMaxidynProjectFromJSON = (
           version: json.distinct.version,
           bearingParameters: json.distinct.bearingParameters,
           units: {
+            version: 1,
             deflection: this.units.deflection.toJSON(),
             distance: this.units.distance.toJSON(),
             force: this.units.force.toJSON(),
@@ -63,8 +64,6 @@ const upgradeJSON = (json: JSONMaxidynProjectVAny): JSONMaxidynProject => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONMaxidynProject
   }
 
   return json

@@ -4,7 +4,7 @@ import { getBrowserLocale } from '/src/locales'
 
 import store from '/src/store'
 
-import { downloadFile, mrvzExporter } from '/src/scripts'
+import { downloadFile, mvrzExporter } from '/src/scripts'
 
 import { Button, classPropToString } from '/src/components'
 
@@ -37,7 +37,7 @@ export default (props: Props) => {
           'x-functions-key':
             'v7IwtPEOA8etaIi-CnqPsWE749uRZRKL31iuTTi6n8tIAzFuE_220w==',
         },
-        body: await mrvzExporter.export(store.selectedProject, props.template),
+        body: await mvrzExporter.export(store.selectedProject, props.template),
       }
     )
 

@@ -40,8 +40,8 @@ export const createMinidynReportFromJSON = (
   const report: MinidynReport = createMutable({
     ...baseReport,
     machine: 'Minidyn',
-    addZone: function () {
-      const json: JSONMinidynZone = {
+    addZone() {
+      const jsonZone: JSONMinidynZone = {
         version: 1,
         base: createJSONBaseZone(this.zones.length),
         distinct: {
@@ -49,7 +49,7 @@ export const createMinidynReportFromJSON = (
         },
       }
 
-      const zone = createMinidynZoneFromJSON(json, map, {
+      const zone = createMinidynZoneFromJSON(jsonZone, map, {
         report: this,
       })
 
@@ -57,7 +57,7 @@ export const createMinidynReportFromJSON = (
 
       this.zones.push(zone)
     },
-    toJSON: function (): JSONMinidynReport {
+    toJSON(): JSONMinidynReport {
       const thresholdGroup = this.thresholds.groups
 
       return {
@@ -67,10 +67,14 @@ export const createMinidynReportFromJSON = (
           version: json.version,
           dataLabels: this.dataLabels.groups.toJSON((group) => group.toJSON()),
           thresholds: {
+            version: 1,
             deflection: convertThresholdsConfigurationToJSON(
               thresholdGroup.deflection
             ),
             force: convertThresholdsConfigurationToJSON(thresholdGroup.force),
+            distance: convertThresholdsConfigurationToJSON(
+              thresholdGroup.distance
+            ),
             modulus: convertThresholdsConfigurationToJSON(
               thresholdGroup.modulus
             ),
@@ -106,8 +110,6 @@ const upgradeJSON = (json: JSONMinidynReportVAny): JSONMinidynReport => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONMinidynReport
   }
 
   return json

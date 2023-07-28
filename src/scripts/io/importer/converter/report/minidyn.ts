@@ -8,9 +8,9 @@ import { convertPRJZToMinidynPoint } from '../point'
 import { convertPRJZToTestChoices } from '../shared'
 
 export const convertPRJZToMinidynReport = (
-  jsonPV: any,
+  jsonPV: RecordAny,
   index: number,
-  json: any
+  json: JSONAny
 ): JSONMinidynReport => {
   const report: JSONMinidynReport = {
     version: 1,
@@ -24,9 +24,10 @@ export const convertPRJZToMinidynReport = (
   }
 
   report.base.zones[0].base.points.push(
-    ...jsonPV.Points.map(
-      (jsonPoint: any, index: number): JSONMinidynPoint =>
-        convertPRJZToMinidynPoint(jsonPoint, index, json)
+    // must use that to the any structure
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+    ...jsonPV.Points.map((jsonPoint: RecordAny, index: number) =>
+      convertPRJZToMinidynPoint(jsonPoint, index, json)
     )
   )
 
@@ -34,8 +35,8 @@ export const convertPRJZToMinidynReport = (
 }
 
 export const convertPRJZToMinidynReportDistinct = (
-  jsonPV: any,
-  json: any
+  jsonPV: RecordAny,
+  json: JSONAny
 ): JSONMinidynReportDistinct => {
   const dropChoices = convertPRJZToMinidynDropChoices(json)
   const dropIndexes = convertPRJZToMinidynDropIndexes(json)
@@ -46,6 +47,7 @@ export const convertPRJZToMinidynReportDistinct = (
   return {
     version: 1,
     thresholds: {
+      version: 1,
       modulus: {
         version: 1,
         selectedIndex: 0,
@@ -67,6 +69,16 @@ export const convertPRJZToMinidynReportDistinct = (
         },
       },
       force: {
+        version: 1,
+        selectedIndex: 0,
+        custom: {
+          version: 1,
+          type: 'Bicolor',
+          value: 0,
+          valueHigh: 0,
+        },
+      },
+      distance: {
         version: 1,
         selectedIndex: 0,
         custom: {
@@ -118,7 +130,7 @@ export const convertPRJZToMinidynReportDistinct = (
             from: 'Drop',
             choices: {
               version: 1,
-              selectedIndex: 0,
+              selectedIndex: null,
               list: dropChoices,
             },
           },
@@ -138,11 +150,7 @@ export const convertPRJZToMinidynReportDistinct = (
             from: 'Point',
             choices: {
               version: 1,
-              selectedIndex:
-                testChoices.findIndex(
-                  (choice) =>
-                    choice.unit === 'modulus' || choice.unit === 'stiffness'
-                ) || 0,
+              selectedIndex: null,
               list: testChoices as JSONDataLabel<MinidynUnitsNames>[],
             },
           },

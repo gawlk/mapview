@@ -10,7 +10,7 @@ export const createWatcherHandler = () => {
           resolve(dispose)
         })
       }),
-    remove: (dispose: () => void): void => {
+    remove: (dispose: () => void) => {
       let index: number | undefined
 
       disposers.some((disposer, _index) => {

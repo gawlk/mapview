@@ -4,7 +4,10 @@ export default () => {
   const [t] = useI18n()
 
   return (
-    <div class="absolute inset-0 z-10 h-screen w-screen backdrop-blur">
+    <div
+      id="loader"
+      class="absolute inset-0 z-10 h-screen w-screen backdrop-blur"
+    >
       <div class="flex h-full flex-col items-center justify-center space-y-2">
         <svg
           class="h-24 w-24 animate-spin text-black/20 sm:h-32 sm:w-32"

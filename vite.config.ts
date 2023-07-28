@@ -8,6 +8,7 @@ import { defineConfig } from 'vite'
 import solidPages from 'vite-plugin-pages'
 import solid from 'vite-plugin-solid'
 import solidSvg from 'vite-plugin-solid-svg'
+import { configDefaults } from 'vitest/config'
 
 export default defineConfig({
   plugins: [
@@ -28,7 +29,7 @@ export default defineConfig({
 
     unpluginAutoImport({
       imports: ['solid-js', '@solidjs/router'],
-      dts: './src/auto-imports.d.ts',
+      dts: './src/types/auto-imports.d.ts',
       resolvers: [
         unpluginIconsResolver({
           prefix: 'Icon',
@@ -58,5 +59,10 @@ export default defineConfig({
   },
   build: {
     target: 'esnext',
+  },
+  test: {
+    environment: 'edge-runtime',
+    exclude: [...configDefaults.exclude, '**/e2e-tests/**', '**/importer/**'],
+    setupFiles: ['./src/tests/extendMatchers/index.ts'],
   },
 })

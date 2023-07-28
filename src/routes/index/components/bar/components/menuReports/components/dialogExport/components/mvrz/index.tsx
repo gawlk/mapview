@@ -2,7 +2,7 @@ import { useI18n } from '@solid-primitives/i18n'
 
 import store from '/src/store'
 
-import { downloadFile, mrvzExporter as mvrzExporter, run } from '/src/scripts'
+import { downloadFile, mvrzExporter, run } from '/src/scripts'
 
 import { Button } from '/src/components'
 

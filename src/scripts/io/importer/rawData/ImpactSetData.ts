@@ -1,6 +1,7 @@
 export default class ImpactSetData {
-  public ID: bigint = BigInt(0)
-  public ImpactDatas: ImpactData[] = []
+  public ID = BigInt(0)
+
+  public ImpactDatas = [] as ImpactData[]
 
   get numberOfDisplacement(): number {
     if (!this.numberOfImpact || !this.ImpactDatas[0].displacement) {

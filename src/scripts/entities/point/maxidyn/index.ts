@@ -1,6 +1,4 @@
-import store from '/src/store'
-
-import { createFieldFromJSON, createMaxidynDropFromJSON } from '/src/scripts'
+import { createMaxidynDropFromJSON } from '/src/scripts'
 
 import { createBasePointFromJSON } from '../base'
 
@@ -20,7 +18,7 @@ export const createMaxidynPointFromJSON = (
       drops: [] as MaxidynDrop[],
     }),
     machine: 'Maxidyn',
-    toJSON: function () {
+    toJSON() {
       return {
         version: json.version,
         base: this.toBaseJSON(),
@@ -34,7 +32,7 @@ export const createMaxidynPointFromJSON = (
   point.drops.push(
     ...json.base.drops.map((jsonDrop) =>
       createMaxidynDropFromJSON(jsonDrop, {
-        point: point,
+        point,
       })
     )
   )
@@ -46,8 +44,6 @@ const upgradeJSON = (json: JSONMaxidynPointVAny): JSONMaxidynPoint => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONMaxidynPoint
   }
 
   return json

@@ -1,22 +1,33 @@
-import dayjs from 'dayjs'
 import dedent from 'dedent'
 import { format } from 'mathjs'
 
-import { findFieldInArray, isCurrentCategory } from '/src/scripts'
+import {
+  currentCategory,
+  dayjsUtc,
+  findFieldInArray,
+  replaceAllLFToCRLF,
+  trimAllLines,
+} from '/src/scripts'
+
+// TODO:
+// Everything is always in the same order, with same precision, spaces, etc
+// Test: Compare if strings are a match
 
 export const heavydynF25Exporter: HeavydynExporter = {
   name: '.F25',
-  export: async (project: HeavydynProject) => {
+  export: (project) => {
     return new File(
       [
-        dedent`
-          ${writeHeader(project)}
-          ${writeSensors(project)}
-          ${writeEndHeader(project)}
-          ${writePoints(project)}
-        `,
+        replaceAllLFToCRLF(
+          trimAllLines(`
+            ${writeHeader(project)}
+            ${writeSensors(project)}
+            ${writeEndHeader(project)}
+            ${writePoints(project)}
+          `)
+        ),
       ],
-      `${project.reports.selected?.name.toString()}.F25`,
+      `${project.reports.selected?.name.toString() || ''}.F25`,
       { type: 'text/plain' }
     )
   },
@@ -29,14 +40,14 @@ const writeHeader = (project: HeavydynProject): string => {
   )?.toString()
 
   const operator = findFieldInArray(
-    project.reports.selected!.information,
+    project.reports.selected?.information || [],
     'Operator'
   )?.toString()
 
   const sequenceName =
     project.reports.selected?.dataLabels.groups.list[0].sequenceName
 
-  const date = dayjs(
+  const date = dayjsUtc(
     (
       project.information.find(
         (machineField: Field) => machineField.label === 'Date'
@@ -46,11 +57,12 @@ const writeHeader = (project: HeavydynProject): string => {
 
   return dedent`
     5001,25.99,1,40, 3, 1,"Heavydyn     "
-    5002,"25SI ","${String(serialNumber?.padEnd(8, ' '))}","${String(
-    serialNumber?.toString().padEnd(8, ' ')
-  )}"
-    5003, "${String(operator?.padEnd(8, ' '))}", "${String(
-    sequenceName?.padEnd(8, ' ')
+    5002,"25SI ","${serialNumber?.padEnd(8, ' ')}","${serialNumber
+    ?.toString()
+    .padEnd(8, ' ')}"
+    5003, "${operator?.padEnd(8, ' ')}", "${sequenceName?.padEnd(
+    8,
+    ' '
   )}", "${project.name.value.toString().padStart(8, ' ')}", "F25"
     5010,0,0,0,0,0,0,0,3,1,0,0,0,0,0,1,0,0,0,0,0,1,"MDB"
     5011,0,1,${date},0,"Non",000
@@ -61,8 +73,9 @@ const writeEndHeader = (project: MachineProject): string => {
   const d = project.reports.selected?.line.sortedPoints
     .map((point) =>
       Number(
-        point.data.find((pointData) => pointData.label.name === 'Chainage')
-          ?.value.value
+        point.data
+          .find((pointData) => pointData.label.name === 'Chainage')
+          ?.getRawValue()
       )
     )
     .sort((a, b) => a - b)
@@ -71,8 +84,9 @@ const writeEndHeader = (project: MachineProject): string => {
     throw new Error()
   }
 
-  let dmin = 0,
-    dmax = 0
+  let dmin = 0
+  let dmax = 0
+
   if (d.length > 2) {
     dmin = Number(d[0]) * 1e-3
     dmax = Number(d[d.length - 1]) * 1e-3
@@ -105,7 +119,7 @@ const writeEndHeader = (project: MachineProject): string => {
   )
     .toString()
     .padStart(8, '0')},   28439,   84378
-      5030,"${operator?.padEnd(32, ' ') || ''}"
+      5030,"${operator?.padEnd(32, ' ')}"
       5031,"${project.name.value.toString().padEnd(32, ' ')}"
       5032,"${reportName?.padEnd(32, ' ')}"
       5301,0,1,3,3,   6.000,1,1,        ,2018,07,25,10,22
@@ -129,26 +143,22 @@ const writeSensors = (project: HeavydynProject): string => {
 
   let sensorsString = dedent`
     5200,"${firstSensor.name.padEnd(8, ' ')}",2,1.000, ${formatExponential(
-    firstSensor.gain,
-    3
+    firstSensor.gain
   )}, 0.00,  1.000\n
     `
   const nbrSensors = project.calibrations.channels.length - 1
   for (let i = 0; i < nbrSensors; i++) {
     sensorsString += dedent`
-      ${String(5200 + i)},"${project.calibrations.channels[i + 1].name.padEnd(
+      ${5200 + i},"${project.calibrations.channels[i + 1].name.padEnd(
       8,
       ' '
-    )}",1.000,${formatExponential(
-      project.calibrations.channels[i + 1].gain,
-      3
-    )}\n 
+    )}",1.000,${formatExponential(project.calibrations.channels[i + 1].gain)}\n 
       `
   }
 
   for (let i = nbrSensors; i < 19; i++)
     sensorsString += dedent`
-    ${String(5200 + i)},"NA      ",0,0.000,0.000\n
+    ${5200 + i},"NA      ",0,0.000,0.000\n
     `
 
   let s5020 = '5020,   150'
@@ -170,7 +180,8 @@ const writeSensors = (project: HeavydynProject): string => {
 
 const writePoints = (project: HeavydynProject): string => {
   if (project.reports.selected) {
-    return project.reports.selected?.line.sortedPoints
+    return project.reports.selected
+      .getExportablePoints()
       .map((point) => {
         const header = dedent`
           ${writePointGps(point)}
@@ -184,16 +195,20 @@ const writePoints = (project: HeavydynProject): string => {
         return `${header}${values}\n`
       })
       .join('')
-  } else throw new Error()
+  }
+
+  throw new Error()
 }
 
 const writePointGps = (point: BasePoint) => {
+  const lngLat = point.toBaseJSON().coordinates as LngLat
+
+  const lat = lngLat.lat.toFixed(8).padStart(12, ' ')
+  const lng = lngLat.lng.toFixed(8).padStart(12, ' ')
+  const one = Number('1').toFixed(2).padStart(8, ' ')
+
   return dedent`
-    5280,0,140418.0,${String(
-      point.marker?.getLngLat().lat.toFixed(8).padStart(12, ' ')
-    )},${String(
-    point.marker?.getLngLat().lng.toFixed(8).padStart(12, ' ')
-  )},${Number('1').toFixed(2).padStart(8, ' ')}, 2,18,   0,  0 
+    5280,0,140418.0,${lat},${lng},${one}, 2,18,   0,  0 
     `
 }
 
@@ -201,24 +216,27 @@ const writePointHeader = (
   point: HeavydynPoint,
   report: HeavydynReport
 ): string => {
-  const date = dayjs(point.date).format('YYYY, MM, DD, HH, mm')
+  const date = dayjsUtc(point.date).format('YYYY, MM, DD, HH, mm')
 
-  let chainage = point.data.find(
-    (pointData) => pointData.label.name === 'Chainage'
-  )?.value.value
+  let chainage = point.data
+    .find((pointData) => pointData.label.name === 'Chainage')
+    ?.getRawValue()
   if (typeof chainage === 'undefined') throw new Error()
   chainage = Math.round(chainage)
 
   const comment = findFieldInArray(report.information, 'Comment')?.toString()
 
-  const tair = point.data.find((pointData) => pointData.label.name === 'Tair')
-    ?.value.value
+  const tair = point.data
+    .find((pointData) => pointData.label.name === 'Tair')
+    ?.getRawValue()
 
-  const tsurf = point.data.find((pointData) => pointData.label.name === 'Tsurf')
-    ?.value.value
+  const tsurf = point.data
+    .find((pointData) => pointData.label.name === 'Tsurf')
+    ?.getRawValue()
 
-  const tman = point.data.find((pointData) => pointData.label.name === 'Tman')
-    ?.value.value
+  const tman = point.data
+    .find((pointData) => pointData.label.name === 'Tman')
+    ?.getRawValue()
 
   if (
     typeof tair === 'undefined' ||
@@ -229,9 +247,7 @@ const writePointHeader = (
 
   return dedent`
     5301,0,1,3,3,${chainage.toString().padStart(7, ' ')},1,1,        ,${date}
-    5302, 0, 1, 8, 0, 0, 0, 0, 0, "${String(
-      comment?.toString().padStart(55, ' ')
-    )}"
+    5302, 0, 1, 8, 0, 0, 0, 0, 0, "${comment?.toString().padStart(55, ' ')}"
     5303,0,${(Math.round(tman * 10) / 10)
       .toPrecision(2)
       .toString()
@@ -249,11 +265,13 @@ const writeDrops = (point: BasePoint, dPlate: number): string => {
       const nbr = drop.index.displayedIndex.toString().padStart(3, ' ')
 
       const force =
-        (((drop.data.find(
-          (data) =>
-            data.label.unit === point.zone.report.project.units.force &&
-            isCurrentCategory(data.label.category)
-        )?.value.value || 0) *
+        (((drop.data
+          .find(
+            (data) =>
+              data.label.unit === point.zone.report.project.units.force &&
+              data.label.category === currentCategory
+          )
+          ?.getRawValue() || 0) *
           1e-3) /
           Math.PI /
           dPlate /
@@ -266,7 +284,7 @@ const writeDrops = (point: BasePoint, dPlate: number): string => {
         .filter(
           (data) =>
             data.label.unit === point.zone.report.project.units.deflection &&
-            isCurrentCategory(data.label.category)
+            data.label.category === currentCategory
         )
         .forEach((data) => {
           let value: string | number = data.value.getValueAs('um')
@@ -284,13 +302,13 @@ const writeDrops = (point: BasePoint, dPlate: number): string => {
     .join('')
 }
 
-const formatExponential = (n: number, pad: number): string => {
+const formatExponential = (n: number): string => {
   const splitedNumber = format(n, {
     precision: 4,
     notation: 'exponential',
   }).split('e')
 
-  let exponential = splitedNumber[1].split('')
+  const exponential = splitedNumber[1].split('')
   exponential[1] = exponential[1].toString().padStart(3, '0')
   return `${splitedNumber[0]}e${exponential.join('')}`.toUpperCase()
 }

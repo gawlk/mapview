@@ -2,13 +2,14 @@ import { useI18n } from '@solid-primitives/i18n'
 
 import store from '/src/store'
 
-import { icons } from '/src/scripts'
+import { hasRawData } from '/src/scripts'
 
-import ButtonFlyToReport from './buttonFlyToReport'
 import ButtonReportVisibility from './buttonReportVisibility'
 import SelectReportMarkerIcon from './selectReportMarkerIcon'
 
 import { Button, Dialog } from '/src/components'
+
+import env from '/src/env'
 
 export default () => {
   const [t] = useI18n()
@@ -16,6 +17,11 @@ export default () => {
   const [state, setState] = createStore({
     hideAll: true,
   })
+
+  const convertReportToName = (report: MachineReport | null) =>
+    env.isDev && report && hasRawData(report)
+      ? `${report?.name.value} - Raw data`
+      : `${report?.name.value}`
 
   return (
     <Dialog
@@ -25,7 +31,7 @@ export default () => {
       button={{
         label: t('Selected'),
         full: true,
-        text: `${store.selectedReport?.name.value}`,
+        text: convertReportToName(store.selectedReport),
       }}
     >
       <div class="space-y-2">
@@ -60,7 +66,7 @@ export default () => {
                 full
               >
                 <span class="flex-1 text-left">
-                  {report.name.value.toString()}
+                  {convertReportToName(report)}
                 </span>
               </Button>
               <ButtonReportVisibility report={report} />

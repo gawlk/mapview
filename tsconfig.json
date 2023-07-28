@@ -15,6 +15,7 @@
       "vite-plugin-solid-svg/types",
       "vite-plugin-pages/client-solid",
       "geojson",
+      "vitest",
       "@types/mapbox-gl",
       "mathjs"
     ],
@@ -24,5 +25,6 @@
     "paths": {
       "/src/*": ["src/*"]
     }
-  }
+  },
+  "exclude": ["dist", "node_modules"]
 }

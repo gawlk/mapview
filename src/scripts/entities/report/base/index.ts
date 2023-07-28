@@ -4,8 +4,11 @@ import {
   createFieldFromJSON,
   createLine,
   createWatcherHandler,
+  currentCategory,
   debounce,
+  flyToPoints,
   getIndexOfSelectedInSelectableList,
+  upgradeColorNameFromV1ToV2,
 } from '/src/scripts'
 
 export const createBaseReportFromJSON = <
@@ -33,7 +36,7 @@ export const createBaseReportFromJSON = <
   // @ts-ignore
   const thresholds: Thresholds = {
     groups: parameters.thresholdsGroups,
-    colors: createMutable(json.thresholds.colors),
+    colors: createMutable(upgradeThresholdsColorsJSON(json.thresholds.colors)),
     inputs: createMutable(json.thresholds.inputs),
   }
 
@@ -63,22 +66,15 @@ export const createBaseReportFromJSON = <
       )
     ),
     project: parameters.project,
-    fitOnMap: function () {
-      const bounds = new LngLatBounds()
+    fitOnMap() {
+      const points = this.zones.map((zone) => zone.points).flat()
 
-      this.zones.forEach((zone) => {
-        zone.points.forEach((point) => {
-          if (point.settings.isVisible && point.marker) {
-            bounds.extend(point.marker.getLngLat())
-          }
-        })
-      })
-
-      if (bounds.getCenter()) {
-        map?.fitBounds(bounds, { padding: 100 })
-      }
+      flyToPoints(map, points)
     },
-    addToMap: function () {
+    getExportablePoints() {
+      return this.line.sortedPoints.filter((point) => point.settings.isVisible)
+    },
+    addToMap() {
       this.isOnMap = true
 
       this.zones.forEach((zone) => {
@@ -188,7 +184,7 @@ export const createBaseReportFromJSON = <
         }
       )
     },
-    remove: function () {
+    remove() {
       this.isOnMap = false
 
       this.zones.forEach((zone) => {
@@ -199,7 +195,7 @@ export const createBaseReportFromJSON = <
 
       watcherHandler.clean()
     },
-    toBaseJSON: function (): JSONBaseReport {
+    toBaseJSON(): JSONBaseReport {
       return {
         version: 1,
         name: this.name.value as string,
@@ -225,8 +221,23 @@ const upgradeJSON = (json: JSONBaseReportVAny): JSONBaseReport => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONBaseReport
+  }
+
+  return json
+}
+
+const upgradeThresholdsColorsJSON = (
+  json: JSONThresholdColorsVAny
+): JSONThresholdColors => {
+  switch (json.version) {
+    case 1:
+      json = {
+        ...json,
+        version: 2,
+        high: upgradeColorNameFromV1ToV2(json.high),
+        middle: upgradeColorNameFromV1ToV2(json.middle),
+        low: upgradeColorNameFromV1ToV2(json.low),
+      }
   }
 
   return json

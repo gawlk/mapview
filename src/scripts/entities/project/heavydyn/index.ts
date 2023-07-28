@@ -5,6 +5,8 @@ import {
   createSelectableList,
 } from '/src/scripts'
 
+import { createHeavydynProjectCorrectionParametersFromJSON } from './correctionParameters'
+
 import { createBaseProjectFromJSON } from '../base'
 
 export const createHeavydynProjectFromJSON = (
@@ -33,70 +35,11 @@ export const createHeavydynProjectFromJSON = (
       channels: json.distinct.calibrations.channels,
       sensors: json.distinct.calibrations.sensors,
     },
-    correctionParameters: createMutable({
-      load: createMutable({
-        active: false,
-        source: createSelectableList(
-          ['Sequence', 'Custom'] as LoadReferenceSourceList,
-          {
-            selected: json.distinct.correctionParameters.load.source,
-          }
-        ),
-        customValue: createMathNumber(
-          json.distinct.correctionParameters.load.customValue,
-          units.force
-        ),
-      }),
-      temperature: createMutable({
-        active: false,
-        // Temperature from > Temperature to
-        source: createSelectableList(
-          ['Tair', 'Tsurf', 'Tman', 'Custom'] as TemperatureFromSourceList,
-          {
-            selected: json.distinct.correctionParameters.temperature.source,
-          }
-        ),
-        average: createSelectableList(
-          ['Point', 'Zone', 'Report'] as TemperatureAverageList,
-          {
-            selected: json.distinct.correctionParameters.temperature.average,
-          }
-        ),
-        customValue: createMathNumber(
-          json.distinct.correctionParameters.temperature.customValue,
-          units.temperature
-        ),
-        reference: createMathNumber(
-          json.distinct.correctionParameters.temperature.reference,
-          units.temperature
-        ),
-        structureType: createSelectableList(
-          [
-            {
-              name: 'Flexible',
-              k: 0.15,
-            },
-            {
-              name: 'Thick flexible',
-              k: 0.2,
-            },
-            {
-              name: 'Mixed',
-              k: 0.08,
-            },
-            {
-              name: 'Semi-flexible',
-              k: 0.04,
-            },
-          ] as TemperatureStructureTypeList,
-          {
-            selectedIndex:
-              json.distinct.correctionParameters.temperature.structureType,
-          }
-        ),
-      }),
-    }),
-    toJSON: function (): JSONHeavydynProject {
+    correctionParameters: createHeavydynProjectCorrectionParametersFromJSON(
+      json.distinct.correctionParameters,
+      units
+    ),
+    toJSON(): JSONHeavydynProject {
       return {
         version: json.version,
         machine: 'Heavydyn',
@@ -105,6 +48,7 @@ export const createHeavydynProjectFromJSON = (
           version: json.distinct.version,
           calibrations: json.distinct.calibrations,
           units: {
+            version: 2,
             deflection: this.units.deflection.toJSON(),
             distance: this.units.distance.toJSON(),
             force: this.units.force.toJSON(),
@@ -112,18 +56,19 @@ export const createHeavydynProjectFromJSON = (
             time: this.units.time.toJSON(),
             modulus: this.units.modulus.toJSON(),
             cumSum: this.units.cumSum.toJSON(),
+            radius: this.units.radius.toJSON(),
           },
           correctionParameters: {
             version: 1,
             load: {
-              version: 1,
+              version: 2,
               active: this.correctionParameters.load.active,
               source:
                 this.correctionParameters.load.source.selected || 'Sequence',
               customValue: this.correctionParameters.load.customValue.value,
             },
             temperature: {
-              version: 1,
+              version: 2,
               active: this.correctionParameters.temperature.active,
               source:
                 this.correctionParameters.temperature.source.selected || 'Tair',
@@ -146,22 +91,20 @@ export const createHeavydynProjectFromJSON = (
   project.reports.list.push(
     ...json.base.reports.list.map((report) =>
       createHeavydynReportFromJSON(report as JSONHeavydynReport, map, {
-        project: project,
+        project,
       })
     )
   )
 
   project.reports.selectIndex(json.base.reports.selectedIndex)
 
-  return project as HeavydynProject
+  return project
 }
 
 const upgradeJSON = (json: JSONHeavydynProjectVAny): JSONHeavydynProject => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONHeavydynProject
   }
 
   return json

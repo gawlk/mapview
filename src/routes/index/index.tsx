@@ -1,4 +1,3 @@
-import { useI18n } from '@solid-primitives/i18n'
 import { createTimer } from '@solid-primitives/timer'
 import { Meta, Title } from '@solidjs/meta'
 
@@ -6,16 +5,10 @@ import store from '/src/store'
 
 import { checkUpdate, snapshotMPVZ } from './scripts'
 
-import {
-  Button,
-  SortableList,
-  Sticky,
-  classPropToString,
-} from '/src/components'
-
 import Bar from './components/bar'
 import Loading from './components/loading'
 import Map from './components/map'
+import Update from './components/update'
 import Version from './components/version'
 
 import packageJSONRaw from '/src/../package.json?raw'
@@ -24,8 +17,6 @@ import env from '/src/env'
 const packageJSON = JSON.parse(packageJSONRaw)
 
 export default () => {
-  const [t] = useI18n()
-
   onMount(async () => {
     checkUpdate()
 
@@ -59,14 +50,7 @@ export default () => {
       </Show>
 
       <Show when={store.updateAvailable}>
-        <Sticky onClose={() => (store.updateAvailable = false)}>
-          <span> {t('A new version is available')}. </span>{' '}
-          <span class="inline-block">
-            <a class="font-bold text-white underline" href="/">
-              {t('Update')} <span aria-hidden="true">&rarr;</span>
-            </a>
-          </span>
-        </Sticky>
+        <Update />
       </Show>
 
       <div class="flex h-full flex-col text-gray-900 lg:flex-row">

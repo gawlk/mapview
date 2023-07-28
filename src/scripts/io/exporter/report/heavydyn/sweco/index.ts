@@ -1,16 +1,24 @@
-import dayjs from 'dayjs'
 import dedent from 'dedent'
 
-import { findFieldInArray, isCurrentCategory } from '/src/scripts/entities'
+import {
+  currentCategory,
+  dayjsUtc,
+  findFieldInArray,
+  replaceAllLFToCRLF,
+} from '/src/scripts'
 
 import { ddToDms } from './coordinates'
 
 export const heavydynSwecoExporter: HeavydynExporter = {
   name: '.fwd (Sweco)',
-  export: async (project: HeavydynProject) => {
+  export: (project: HeavydynProject) => {
     return new File(
-      ['\n' + writeHeader(project) + writePoints(project) + '\n'],
-      `${project.reports.selected?.name.toString()}-sweco.fwd`,
+      [
+        replaceAllLFToCRLF(
+          '\n' + writeHeader(project) + writePoints(project) + '\n'
+        ),
+      ],
+      `${project.reports.selected?.name.toString() || ''}-sweco.fwd`,
       { type: 'text/plain' }
     )
   },
@@ -20,11 +28,7 @@ const writeSeparator = (): string => {
   return ''.padEnd(130, '_')
 }
 
-const padDotString = (
-  str: string,
-  length: number,
-  tab: boolean = true
-): string => {
+const padDotString = (str: string, length: number, tab = true): string => {
   const c = tab ? '\t' : ''
   return str.padEnd(length, '.') + c
 }
@@ -34,7 +38,7 @@ const writeHeader = (project: HeavydynProject): string => {
     throw new Error('cannot find selected report ')
   }
 
-  const date = dayjs(
+  const date = dayjsUtc(
     findFieldInArray(project.reports.selected.information, 'Date')?.toString()
   ).format('DD/MM/YYYY')
 
@@ -61,16 +65,16 @@ const writeHeader = (project: HeavydynProject): string => {
     (c) ROAD SYSTEM 2016, Metric
     ${writeSeparator()}
     $1
-    ${padDotString('Filename:', 23) + project.name.value}
+    ${padDotString('Filename:', 23) + project.name.value.toString()}
     ${padDotString('Client Code:', 23)}
-    ${padDotString('Road number:', 23) + lane}
-    ${padDotString('Name of Client:', 23) + client}
+    ${padDotString('Road number:', 23) + (lane?.toString() || '')}
+    ${padDotString('Name of Client:', 23) + String(client?.toString())}
     ${padDotString('Districtnumber:', 23)}
-    ${padDotString('Road reference:', 23) + roadReference}
+    ${padDotString('Road reference:', 23) + (roadReference?.toString() || '')}
     ${padDotString('Start reference:', 23)}
     ${padDotString('Date [dd/mm/yy]:', 23) + date}
-    ${padDotString('FWD Number:', 23) + fwdNumber}
-    ${padDotString('Load plate radius [mm]', 23) + rPlate}
+    ${padDotString('FWD Number:', 23) + (fwdNumber?.toString() || '')}
+    ${padDotString('Load plate radius [mm]', 23) + rPlate.toString()}
     ${
       ' '.repeat(23) +
       '\t' +
@@ -90,8 +94,11 @@ const writeHeader = (project: HeavydynProject): string => {
 }
 
 const writePoints = (project: HeavydynProject): string => {
+  if (!project.reports.selected) return ''
+
   return (
-    project.reports.selected?.line.sortedPoints
+    project.reports.selected
+      .getExportablePoints()
       .map((point) => {
         let coordinates = { lng: '', lat: '' }
 
@@ -100,9 +107,7 @@ const writePoints = (project: HeavydynProject): string => {
             .value || 0
         )
 
-        if (point.marker) {
-          coordinates = ddToDms(point.marker?.getLngLat())
-        }
+        coordinates = ddToDms(point.toBaseJSON().coordinates as mapboxgl.LngLat)
 
         const dropPosition = [
           'Position of Drop:',
@@ -114,7 +119,7 @@ const writePoints = (project: HeavydynProject): string => {
         return dedent`
           \n${writeSeparator()}
           $2
-          ${padDotString('Chainage [m]', 23) + chainage}
+          ${padDotString('Chainage [m]', 23) + chainage.toString()}
           ${padDotString('Lane', 23)}
           ${padDotString('Pavement description', 23)}
           ${padDotString('Remarks', 23)}
@@ -130,8 +135,8 @@ const writeDrops = (point: BasePoint, channels: JSONChannel[]): string => {
   const pointInfos = [
     'Sequence: 1/1',
     'No. of drops: ' + point.drops.length.toString(),
-    'Fallheight: 0', //TODO
-    'Time: ' + dayjs(point.date).format('HH:mm'),
+    'Fallheight: 0',
+    'Time: ' + dayjsUtc(point.date).format('HH:mm'),
   ]
   const dropHeader = [
     'Drop',
@@ -139,7 +144,7 @@ const writeDrops = (point: BasePoint, channels: JSONChannel[]): string => {
       .filter(
         (data) =>
           data.label.unit === point.zone.report.project.units.deflection &&
-          isCurrentCategory(data.label.category)
+          data.label.category === currentCategory
       )
       .map((_, index) => `D(${index + 1})`),
     'kPa',
@@ -168,7 +173,7 @@ const writeDrop = (drop: MachineDrop, channels: JSONChannel[]): string => {
       .find(
         (data) =>
           data.label.unit === drop.point.zone.report.project.units.force &&
-          isCurrentCategory(data.label.category)
+          data.label.category === currentCategory
       )
       ?.value.getValueAs('kN')
       .toFixed(1) || 0
@@ -179,9 +184,9 @@ const writeDrop = (drop: MachineDrop, channels: JSONChannel[]): string => {
       .filter(
         (data) =>
           data.label.unit === drop.point.zone.report.project.units.deflection &&
-          isCurrentCategory(data.label.category)
+          data.label.category === currentCategory
       )
-      .map((drop) => drop.value.getValueAs('um').toFixed(1)),
+      .map((_drop) => _drop.value.getValueAs('um').toFixed(1)),
     0,
     loadMax,
     ...drop.point.data
@@ -240,7 +245,7 @@ const writeDisplacements = (
 
       const sensorData = [
         sensorName + sensorPosition + '[MPa;µm].',
-        1.0, //TODO
+        1.0, // TODO
         drop.data[index + 2].value.getValueAs('um').toFixed(1),
         ...displacement.map((val) =>
           (val * 1000000).toFixed(1).replace('-0.0', '0.0')

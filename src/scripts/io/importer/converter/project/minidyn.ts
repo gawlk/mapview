@@ -3,7 +3,7 @@ import { run } from '/src/scripts'
 import { convertPRJZToMinidynReport } from '../report'
 
 export const convertPRJZToMinidynProject = (
-  json: any,
+  json: JSONAny,
   baseProject: JSONBaseProject
 ): JSONMinidynProject => {
   const project: JSONMinidynProject = {
@@ -14,7 +14,7 @@ export const convertPRJZToMinidynProject = (
   }
 
   project.base.reports.list.push(
-    ...json.PVs.map((jsonPV: any, index: number) =>
+    ...json.PVs.map((jsonPV: RecordAny, index: number) =>
       convertPRJZToMinidynReport(jsonPV, index, json)
     )
   )
@@ -27,7 +27,7 @@ export const convertPRJZToMinidynProject = (
 }
 
 export const convertPRJZToMinidynProjectDistinct = (
-  json: any
+  json: JSONAny
 ): JSONMinidynProjectDistinct => {
   const units = convertPRJZToMinidynUnits(json)
 
@@ -36,7 +36,7 @@ export const convertPRJZToMinidynProjectDistinct = (
     units,
     bearingParameters: {
       version: 1,
-      name: json.ParamsBearing.Name,
+      name: String(json.ParamsBearing.Name),
       algoBearing: json.ParamsBearing.AlgoBearing,
       hasQuality: json.ParamsBearing.HasQuality,
       algoProcessing1: json.ParamsBearing.AlgoProcessing1,
@@ -50,35 +50,36 @@ export const convertPRJZToMinidynProjectDistinct = (
   }
 }
 
-export const convertPRJZToMinidynUnits = (json: any): JSONMinidynUnits => {
+export const convertPRJZToMinidynUnits = (json: JSONAny): JSONMinidynUnits => {
   const exportedModulus = json.ExportedData.Points.find(
-    (exportedUnit: any) => exportedUnit.Type === 'Modulus'
+    (exportedUnit: RecordAny) => exportedUnit.Type === 'Modulus'
   )
 
   const exportedStiffness = json.ExportedData.Points.find(
-    (exportedUnit: any) => exportedUnit.Type === 'Stiffness'
+    (exportedUnit: RecordAny) => exportedUnit.Type === 'Stiffness'
   )
 
   return {
+    version: 1,
     modulus: {
       version: 1,
       currentUnit: 'MPa',
       currentPrecision: 0,
-      min: exportedModulus ? json.ParamsBearing.MinBearing : 10000000,
-      max: exportedModulus ? json.ParamsBearing.MaxBearing : 150000000,
+      min: exportedModulus ? Number(json.ParamsBearing.MinBearing) : 10000000,
+      max: exportedModulus ? Number(json.ParamsBearing.MaxBearing) : 150000000,
     },
     stiffness: {
       version: 1,
       currentUnit: 'MN / m',
       currentPrecision: 0,
-      min: exportedStiffness ? json.ParamsBearing.MinBearing : 0,
-      max: exportedStiffness ? json.ParamsBearing.MaxBearing : 1000,
+      min: exportedStiffness ? Number(json.ParamsBearing.MinBearing) : 0,
+      max: exportedStiffness ? Number(json.ParamsBearing.MaxBearing) : 1000,
     },
     deflection: {
       version: 1,
       currentUnit: run((): PossibleMinidynDeflectionUnits => {
         switch (
-          (json.ExportedData.Drops as any[]).find(
+          (json.ExportedData.Drops as RecordAny[]).find(
             (exportedUnit) => exportedUnit.Type === 'Deflection'
           )?.Unit
         ) {
@@ -91,11 +92,30 @@ export const convertPRJZToMinidynUnits = (json: any): JSONMinidynUnits => {
       currentPrecision: 0,
       max: 1000,
     },
+    distance: {
+      version: 1,
+      currentUnit: ((): PossibleMinidynDistanceUnits => {
+        switch (
+          (json.ExportedData.Points as RecordAny[]).find(
+            (exportedUnit) => exportedUnit.Type === 'Distance'
+          )?.Unit
+        ) {
+          case 'mi':
+            return 'mi'
+          case 'km':
+            return 'km'
+          default:
+            return 'm'
+        }
+      })(),
+      currentPrecision: 0,
+      max: 1000,
+    },
     force: {
       version: 1,
       currentUnit: run((): PossibleMinidynForceUnits => {
         switch (
-          (json.ExportedData.Drops as any[]).find(
+          (json.ExportedData.Drops as RecordAny[]).find(
             (exportedUnit) => exportedUnit.Type === 'Load'
           )?.Unit
         ) {
@@ -112,7 +132,7 @@ export const convertPRJZToMinidynUnits = (json: any): JSONMinidynUnits => {
       version: 1,
       currentUnit: run((): PossibleMinidynTimeUnits => {
         switch (
-          (json.ExportedData.Drops as any[]).find(
+          (json.ExportedData.Drops as RecordAny[]).find(
             (exportedUnit) => exportedUnit.Type === 'Time'
           )?.Unit
         ) {

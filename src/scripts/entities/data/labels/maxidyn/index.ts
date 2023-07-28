@@ -68,7 +68,7 @@ export const createMaxidynDropDataLabelsGroupFromJSON = (
 
   return {
     ...createBaseDropDataLabelsGroupFromJSON(json.base, project.units, indexes),
-    toJSON: function () {
+    toJSON() {
       return {
         version: 1,
         base: this.toBaseJSON() as JSONBaseDataLabelsGroup<
@@ -90,7 +90,7 @@ export const createMaxidynTestDataLabelsGroupFromJSON = (
 ): MaxidynTestDataLabelsGroup => {
   return {
     ...createBaseTestDataLabelsGroupFromJSON(json.base, project.units),
-    toJSON: function () {
+    toJSON() {
       return {
         version: 1,
         base: this.toBaseJSON() as JSONBaseDataLabelsGroup<
@@ -111,7 +111,7 @@ export const createMaxidynZoneDataLabelsGroupFromJSON = (
 ): MaxidynZoneDataLabelsGroup => {
   return {
     ...createBaseZoneDataLabelsGroupFromJSON(json.base, project.units),
-    toJSON: function () {
+    toJSON() {
       return {
         version: 1,
         base: this.toBaseJSON() as JSONBaseDataLabelsGroup<

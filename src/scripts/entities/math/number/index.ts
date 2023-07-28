@@ -3,70 +3,51 @@ import { numberToLocaleString } from '/src/locales'
 import { convertValueFromUnitAToUnitB } from '/src/scripts'
 
 export const createMathNumber = (
-  value: number,
+  value: JSONMathNumberValue,
   unit: MathUnit<string>
-): MathNumber => {
-  const mathNumber = createMutable({
-    value,
+) => {
+  const mathNumber = createMutable<MathNumber>({
+    value: Number(value ?? 'NaN'),
     unit,
     displayedString: '',
     displayedStringWithUnit: '',
-    updateDisplayedStrings: function () {
+    updateDisplayedStrings() {
       this.displayedString = this.getLocaleString()
 
       this.displayedStringWithUnit = this.getLocaleString({
         appendUnitToString: true,
       })
     },
-    updateValue: function (value: number, asCurrent?: true) {
-      this.value = asCurrent ? this.unit.currentToBase(value) : value
+    updateValue(newValue: number, asCurrent?: true) {
+      this.value = asCurrent ? this.unit.currentToBase(newValue) : newValue
 
       this.updateDisplayedStrings()
     },
-    getValueAs: function (unit: string) {
-      return convertValueFromUnitAToUnitB(this.value, this.unit.baseUnit, unit)
+    getValueAs(unitAs: string) {
+      return convertValueFromUnitAToUnitB(
+        this.value,
+        this.unit.baseUnit,
+        unitAs
+      )
     },
-    getLocaleString: function (options: MathNumberGetLocaleStringOptions = {}) {
-      const numberToLocaleOptions = {
-        locale: options.locale,
-        precision: options.precision,
-      }
-
-      let value = this.value
-      let preString = ''
-
-      if (this.unit) {
-        numberToLocaleOptions.precision ??= this.unit.currentPrecision
-
-        if (!options.disableMinAndMax) {
-          if (this.value < this.unit.min) {
-            value = this.unit.min
-            preString = '<'
-          } else if (this.unit.max && this.value > this.unit.max) {
-            value = this.unit.max
-            preString = '>'
-          }
-        }
-
-        value = convertValueFromUnitAToUnitB(
-          value,
-          this.unit.baseUnit,
-          options.unit ?? this.unit.currentUnit
-        )
-      }
-
-      const localeString = `${
-        options.disablePreString ? '' : preString
-      } ${numberToLocaleString(value, numberToLocaleOptions)} ${
-        options.appendUnitToString && this.unit ? this.unit.currentUnit : ''
-      }`.trim()
-
-      return options.removeSpaces
-        ? localeString.replaceAll(' ', '')
-        : localeString
+    checkValidity() {
+      return this.unit.checkValidity(this.value)
     },
-    toCurrent: function () {
+    getLocaleString(options?) {
+      return this.unit.valueToString(this.value, options)
+    },
+    toCurrent() {
       return this.unit.baseToCurrent(this.value)
+    },
+    toExcel(asCurrent = false) {
+      if (!this.checkValidity()) {
+        return null
+      }
+
+      return asCurrent ? this.toCurrent() : this.value
+    },
+    toJSON() {
+      return Number.isNaN(this.value) ? 'NaN' : this.value
     },
   })
 

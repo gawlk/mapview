@@ -1,4 +1,3 @@
-import { LngLatBounds } from 'mapbox-gl'
 import { $TRACK } from 'solid-js'
 
 import {
@@ -6,6 +5,7 @@ import {
   createSelectableList,
   createWatcherHandler,
   debounce,
+  flyToPoints,
   mapStyles,
 } from '/src/scripts'
 
@@ -55,7 +55,7 @@ export const createBaseProjectFromJSON = <
       parameters.hardware.map((field: JSONField) => createFieldFromJSON(field))
     ),
     acquisitionParameters: json.acquisitionParameters,
-    refreshLinesAndOverlays: function () {
+    refreshLinesAndOverlays() {
       if (this.settings.arePointsLinked) {
         this.reports.list.forEach((report) => {
           report.isOnMap && report.settings.isVisible && report.line.addToMap()
@@ -66,7 +66,7 @@ export const createBaseProjectFromJSON = <
         overlay.addToMap(this.settings.areOverlaysVisible)
       })
     },
-    setMapStyle: function (styleIndex: number) {
+    setMapStyle(styleIndex: number) {
       const oldMapStyle = map?.getStyle().sprite?.split('/').pop()
       const newMapStyle = mapStyles[styleIndex].split('/').pop()
 
@@ -77,22 +77,14 @@ export const createBaseProjectFromJSON = <
         map?.setStyle(mapStyles[styleIndex])
       }
     },
-    fitOnMap: function () {
-      const bounds = new LngLatBounds()
+    fitOnMap() {
+      const points = this.reports.list
+        .map((report) => report.zones.map((zone) => zone.points))
+        .flat(2)
 
-      this.reports.list.forEach((report: MachineReport) => {
-        report.zones.forEach((zone) => {
-          zone.points.forEach((point: MachinePoint) => {
-            if (point.settings.isVisible && point.marker) {
-              bounds.extend(point.marker.getLngLat())
-            }
-          })
-        })
-      })
-
-      map?.fitBounds(bounds, { padding: 100 })
+      flyToPoints(map, points)
     },
-    addToMap: function () {
+    addToMap() {
       const flyTo = () => {
         if (this.settings.map.coordinates) {
           map?.flyTo({
@@ -132,9 +124,11 @@ export const createBaseProjectFromJSON = <
           () => this.settings.arePointsLinked,
           (arePointsLinked: boolean) => {
             this.reports.list.forEach((report: MachineReport) => {
-              report.settings.isVisible && arePointsLinked
-                ? report.line?.addToMap()
-                : report.line?.remove()
+              if (report.settings.isVisible && arePointsLinked) {
+                report.line?.addToMap()
+              } else {
+                report.line?.remove()
+              }
             })
           }
         )
@@ -168,12 +162,12 @@ export const createBaseProjectFromJSON = <
 
               if (areOverlaysVisible) {
                 if (map) {
-                  overlay.markerNW.addTo(map)
-                  overlay.markerSE.addTo(map)
+                  overlay.markerNW?.addTo(map)
+                  overlay.markerSE?.addTo(map)
                 }
               } else {
-                overlay.markerNW.remove()
-                overlay.markerSE.remove()
+                overlay.markerNW?.remove()
+                overlay.markerSE?.remove()
               }
             })
           }
@@ -244,7 +238,10 @@ export const createBaseProjectFromJSON = <
                       })
                     )
 
-                    selectedReportUnit === mathUnit && point.updateText()
+                    if (selectedReportUnit === mathUnit) {
+                      point.updateText()
+                      point.updateColor()
+                    }
                   })
                 })
               })
@@ -253,7 +250,7 @@ export const createBaseProjectFromJSON = <
         )
       )
     },
-    remove: function () {
+    remove() {
       this.reports.list.forEach((report) => {
         report.remove()
       })
@@ -262,7 +259,7 @@ export const createBaseProjectFromJSON = <
 
       watcherHandler.clean()
     },
-    toBaseJSON: function (): JSONBaseProject {
+    toBaseJSON(): JSONBaseProject {
       return {
         version: json.version,
         name: this.name.value as string,
@@ -283,8 +280,6 @@ const upgradeJSON = (json: JSONBaseProjectVAny): JSONBaseProject => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONBaseProject
   }
 
   return json

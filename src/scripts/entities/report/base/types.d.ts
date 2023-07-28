@@ -21,13 +21,24 @@ interface JSONBaseThresholdsSettings {
   readonly version: 1
   colors: JSONThresholdColors
   inputs: JSONThresholdInputs
+  readonly colors: JSONThresholdColorsVAny
+  readonly inputs: JSONThresholdInputs
 }
 
+type JSONThresholdColorsVAny = JSONThresholdColors | JSONThresholdColorsV1
+
 interface JSONThresholdColors {
-  readonly version: 1
+  readonly version: 2
   low: ColorName
   middle: ColorName
   high: ColorName
+}
+
+interface JSONThresholdColorsV1 {
+  readonly version: 1
+  low: ColorNameV1
+  middle: ColorNameV1
+  high: ColorNameV1
 }
 
 interface JSONThresholdInputs {
@@ -71,6 +82,7 @@ interface BaseReport<
   project: Project
   isOnMap: boolean
   readonly fitOnMap: () => void
-  addToMap: () => void
-  remove: () => void
+  readonly addToMap: () => void
+  readonly remove: () => void
+  readonly getExportablePoints: () => BasePoint[]
 }

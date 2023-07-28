@@ -1,25 +1,29 @@
-import dayjs from 'dayjs'
 import dedent from 'dedent'
 
 import {
   currentCategory,
+  dayjsUtc,
   findFieldInArray,
-  isCurrentCategory,
+  replaceAllLFToCRLF,
 } from '/src/scripts'
 
 export const heavydynDynatestExporter: HeavydynExporter = {
   name: '.fwd (Dynatest)',
-  export: async (project: HeavydynProject) => {
+  export: (project: HeavydynProject) => {
     return new File(
       [
-        `${writeHeader(project)}\n${writeEndHeader()}\n${writePoints(project)
-          ?.map((pointData) => pointData.join('\n'))
-          .join('\n')}`
-          .split('\n')
-          .map((line) => line.padEnd(80, ' '))
-          .join('\n'),
+        replaceAllLFToCRLF(
+          `${writeHeader(project)}\n${writeEndHeader()}\n${
+            writePoints(project)
+              ?.map((pointData) => pointData.join('\n'))
+              .join('\n') || ''
+          }`
+            .split('\n')
+            .map((line) => line.padEnd(80, ' '))
+            .join('\n')
+        ),
       ],
-      `${project.reports.selected?.name.toString()}-dynatest.fwd`,
+      `${project.reports.selected?.name.toString() || ''}-dynatest.fwd`,
       { type: 'text/plain' }
     )
   },
@@ -57,7 +61,7 @@ const writeSensors = (project: HeavydynProject): string[] => {
   sections.push(
     firstsSensors
       .map((sensor, index) => {
-        const name = index === 0 ? 'Ld' : 'D' + index
+        const name = index === 0 ? 'Ld' : `D${index}`
         return dedent`
           ${name} ${sensor.name.slice(
           sensor.name.length - 3,
@@ -84,8 +88,8 @@ const writeHeader = (project: HeavydynProject) => {
     throw new Error("can't access selected project")
 
   stringArray.push(dedent`
-      R80    102    ${String(project.name.value)}
-      70103300${String(serialNumber)}69994.3703111  1
+      R80    102    ${project.name.value}
+      70103300${serialNumber}69994.3703111  1
     `)
 
   stringArray.push(sensorsSection[0])
@@ -94,7 +98,7 @@ const writeHeader = (project: HeavydynProject) => {
     '   R  D1  D2  D3  D4  D5  D6  D7     R    D1    D2    D3    D4    D5    D6    D7'
   )
 
-  stringArray.push('C:\\' + project.reports.selected.name.value)
+  stringArray.push(`C:\\${project.reports.selected.name.value.toString()}`)
 
   const points = writePoints(project)
   if (!points) throw new Error("can't access first and last point")
@@ -139,26 +143,24 @@ const writeEndHeader = () => {
 }
 
 const writePointGPS = (point: BasePoint) => {
-  let [lat, lng] = [1, 1]
-  if (point.marker) {
-    ;({ lng, lat } = point.marker.getLngLat())
-  }
-
+  const { lng, lat } = point.toBaseJSON().coordinates as LngLat
   return `G0000001+${lat}+${lng}999.9`
 }
 
 const writePoints = (project: HeavydynProject) => {
-  return project.reports.selected?.line.sortedPoints.map((point) => {
+  if (!project.reports.selected) return []
+
+  return project.reports.selected.getExportablePoints().map((point) => {
     const celsiusDegreesTemps = point.data
       .filter((data) => data.label.unit === project.units.temperature)
       .map((data, index) => {
         const precision = index === 0 ? 1 : 0
-        const value = data.value.value.toFixed(precision)
+        const value = data.getRawValue().toFixed(precision)
         if (index === 0) {
           return value.padStart(4, ' ')
-        } else {
-          return value.padStart(2, ' ')
         }
+
+        return value.padStart(2, ' ')
       })
 
     const fahrenheitDegreesTemps = point.data
@@ -171,8 +173,9 @@ const writePoints = (project: HeavydynProject) => {
       .join(' ')
 
     const chainage = Number(
-      point.data.find((pointData) => pointData.label.name === 'Chainage')?.value
-        .value
+      point.data
+        .find((pointData) => pointData.label.name === 'Chainage')
+        ?.getRawValue()
     )
       .toFixed(2)
       .padStart(8, ' ')
@@ -181,7 +184,7 @@ const writePoints = (project: HeavydynProject) => {
       `${writePointGPS(point)}`,
       `S ${chainage} ${celsiusDegreesTemps[0]}00 ${celsiusDegreesTemps[1]} ${
         celsiusDegreesTemps[2]
-      }I2${dayjs(point.date).format('HHmm')} ${fahrenheitDegreesTemps}`,
+      }I2${dayjsUtc(point.date).format('HHmm')} ${fahrenheitDegreesTemps}`,
       `${writeDrops(point, project.calibrations.dPlate)}`,
     ]
   })
@@ -194,7 +197,7 @@ const writeDrops = (point: BasePoint, dPlate: number) => {
         .filter(
           (data) =>
             data.label.unit === point.zone.report.project.units.deflection &&
-            isCurrentCategory(data.label.category)
+            data.label.category === currentCategory
         )
         .map((data) => {
           let value: string | number = data.value.getValueAs('um')
@@ -204,11 +207,13 @@ const writeDrops = (point: BasePoint, dPlate: number) => {
         })
 
       const power =
-        (((drop.data.find(
-          (data) =>
-            data.label.unit === point.zone.report.project.units.force &&
-            isCurrentCategory(data.label.category)
-        )?.value.value || 0) *
+        (((drop.data
+          .find(
+            (data) =>
+              data.label.unit === point.zone.report.project.units.force &&
+              data.label.category === currentCategory
+          )
+          ?.getRawValue() || 0) *
           1e-3) /
           Math.PI /
           dPlate /

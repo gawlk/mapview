@@ -5,9 +5,11 @@ import {
 } from '/src/scripts'
 
 export const createMinidynThresholdsGroupsFromJSON = (
-  json: JSONMinidynThresholdsConfigurations,
+  json: JSONMinidynThresholdsConfigurationsVAny,
   units: MinidynMathUnits
 ) => {
+  json = upgradeJSON(json)
+
   const thresholdsGroups: MinidynThresholdsGroups = {
     modulus: {
       unit: units.modulus,
@@ -36,6 +38,15 @@ export const createMinidynThresholdsGroupsFromJSON = (
         [createCustomThreshold(json.deflection.custom)] as ThresoldsList,
         {
           selectedIndex: json.deflection.selectedIndex,
+        }
+      ),
+    },
+    distance: {
+      unit: units.distance,
+      choices: createSelectableList(
+        [createCustomThreshold(json.distance.custom)] as ThresoldsList,
+        {
+          selectedIndex: json.distance.selectedIndex,
         }
       ),
     },
@@ -69,4 +80,16 @@ export const createMinidynThresholdsGroupsFromJSON = (
   }
 
   return thresholdsGroups
+}
+
+const upgradeJSON = (
+  json: JSONMinidynThresholdsConfigurationsVAny
+): JSONMinidynThresholdsConfigurations => {
+  switch (json.version) {
+    case undefined:
+    case 1:
+    // upgrade
+  }
+
+  return json
 }

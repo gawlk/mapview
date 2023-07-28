@@ -40,8 +40,8 @@ export const createMaxidynReportFromJSON = (
   const report: MaxidynReport = createMutable({
     ...baseReport,
     machine: 'Maxidyn',
-    addZone: function () {
-      const json: JSONMaxidynZone = {
+    addZone() {
+      const jsonZone: JSONMaxidynZone = {
         version: 1,
         base: createJSONBaseZone(this.zones.length),
         distinct: {
@@ -49,7 +49,7 @@ export const createMaxidynReportFromJSON = (
         },
       }
 
-      const zone = createMaxidynZoneFromJSON(json, map, {
+      const zone = createMaxidynZoneFromJSON(jsonZone, map, {
         report: this,
       })
 
@@ -57,7 +57,7 @@ export const createMaxidynReportFromJSON = (
 
       this.zones.push(zone)
     },
-    toJSON: function (): JSONMaxidynReport {
+    toJSON(): JSONMaxidynReport {
       const thresholdGroup = this.thresholds.groups
 
       return {
@@ -67,13 +67,14 @@ export const createMaxidynReportFromJSON = (
           version: json.version,
           dataLabels: this.dataLabels.groups.toJSON((group) => group.toJSON()),
           thresholds: {
+            version: 1,
             deflection: convertThresholdsConfigurationToJSON(
               thresholdGroup.deflection
             ),
+            force: convertThresholdsConfigurationToJSON(thresholdGroup.force),
             distance: convertThresholdsConfigurationToJSON(
               thresholdGroup.distance
             ),
-            force: convertThresholdsConfigurationToJSON(thresholdGroup.force),
             modulus: convertThresholdsConfigurationToJSON(
               thresholdGroup.modulus
             ),
@@ -102,15 +103,13 @@ export const createMaxidynReportFromJSON = (
 
   selectTableDataLabelsFromJSON(report, json.base)
 
-  return report as MaxidynReport
+  return report
 }
 
 const upgradeJSON = (json: JSONMaxidynReportVAny): JSONMaxidynReport => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONMaxidynReport
   }
 
   return json

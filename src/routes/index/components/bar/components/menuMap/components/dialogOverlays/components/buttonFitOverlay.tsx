@@ -11,8 +11,12 @@ export default (props: Props) => {
     <Button
       full
       onClick={() => {
-        const nw = props.overlay.markerNW.getLngLat()
-        const se = props.overlay.markerSE.getLngLat()
+        const { markerNW, markerSE } = props.overlay
+
+        if (!markerNW || !markerSE) return
+
+        const nw = markerNW.getLngLat()
+        const se = markerSE.getLngLat()
 
         store.map?.fitBounds(
           [

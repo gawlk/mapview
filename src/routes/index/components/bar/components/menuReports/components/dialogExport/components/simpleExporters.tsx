@@ -3,7 +3,7 @@ import store from '/src/store'
 import {
   downloadFile,
   getSimpleReportExports,
-  mrvzExporter,
+  mvrzExporter,
 } from '/src/scripts'
 
 import { Button } from '/src/components'
@@ -25,7 +25,7 @@ export default (props: NavigatorComponentProps) => {
         full
         onClick={() => props.next('/mvrz')}
       >
-        <span class="flex-1 text-left">{mrvzExporter.name}</span>
+        <span class="flex-1 text-left">{mvrzExporter.name}</span>
       </Button>
       <For each={simpleExports()}>
         {(exporter) => (

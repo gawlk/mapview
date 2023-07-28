@@ -6,9 +6,9 @@ import {
 } from '../shared'
 
 export const convertPRJZToHeavydynDrop = (
-  jsonDrop: any,
+  jsonDrop: RecordAny,
   index: number,
-  json: any
+  json: JSONAny
 ): JSONHeavydynDrop => {
   const drop: JSONHeavydynDrop = {
     version: 1,
@@ -20,7 +20,7 @@ export const convertPRJZToHeavydynDrop = (
 }
 
 export const convertPRJZToHeavydynDropDistinct = (
-  jsonDrop: any
+  jsonDrop: RecordAny
 ): JSONHeavydynDropDistinct => {
   return {
     version: 1,
@@ -28,9 +28,9 @@ export const convertPRJZToHeavydynDropDistinct = (
 }
 
 export const convertPRJZToHeavydynDropChoices = (
-  json: any
+  json: JSONAny
 ): JSONDataLabel<HeavydynUnitsNames>[] => [
-  ...json.ExportedData.Drops.map((exportedUnit: any) =>
+  ...json.ExportedData.Drops.map((exportedUnit: RecordAny) =>
     convertExportedUnitToJSONDataLabel(exportedUnit)
   ).filter((choice: JSONDataLabel<string>) => choice.name !== 'Deflections'),
   ...json.Calibrations.SensorsPosition.map(
@@ -45,9 +45,9 @@ export const convertPRJZToHeavydynDropChoices = (
 ]
 
 export const convertPRJZToHeavydynDropIndexes = (
-  json: any
+  json: JSONAny
 ): JSONHeavydynDropIndex[] => {
-  return json.Sequences.Steps.map((step: any): JSONHeavydynDropIndex => {
+  return json.Sequences.Steps.map((step: RecordAny): JSONHeavydynDropIndex => {
     return {
       version: 1,
       base: {

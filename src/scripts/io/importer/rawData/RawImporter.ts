@@ -1,8 +1,16 @@
 import { ExtendedBinaryReader } from './ExtendedBinaryStream'
 import ImpactDataFile from './ImpactDataFile'
 
-function saveRawData(file: ArrayBufferLike, points: BasePoint[], id: string) {
-  const point = points.find((p) => p.id === id)
+export const removeLeading0s = (str: string) => str.replace(/^0+/, '')
+
+const saveRawData = (
+  file: ArrayBufferLike,
+  points: BasePoint[],
+  id: string
+) => {
+  const point = points.find(
+    (p) => removeLeading0s(p.id) === removeLeading0s(id)
+  )
 
   if (point) {
     point.rawDataFile = file
@@ -26,8 +34,9 @@ export function parsePointRawData(
     point.drops.forEach((drop, index) => {
       drop.impactData = impactDataFile.ImpactDatas[index]
     })
-  } catch (_) {
-    console.error(`Failed parsing point's ${id} rawdata file`)
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error(`Failed parsing point's ${id} rawdata file`, error)
   }
 }
 
@@ -37,7 +46,7 @@ export function importRawDataFromZIP(
 ) {
   const folderName = 'rawdata'
 
-  const points = project.reports.list.flatMap((a) => a.line.sortedPoints)
+  const points = getAllPointsFromProject(project)
 
   Object.keys(zip)
     .filter((key) => key.toLowerCase().startsWith(folderName))
@@ -52,4 +61,10 @@ export function importRawDataFromZIP(
         )
       }
     })
+}
+
+export function getAllPointsFromProject(project: MachineProject) {
+  return project.reports.list
+    .flatMap((a) => a.zones.map((zone) => zone.points))
+    .flat()
 }

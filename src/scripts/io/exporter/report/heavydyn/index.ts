@@ -9,3 +9,10 @@ export const heavydynReportExports = [
   heavydynSwecoExporter,
   heavydynPDXExporter,
 ]
+
+export {
+  heavydynDynatestExporter,
+  heavydynF25Exporter,
+  heavydynPDXExporter,
+  heavydynSwecoExporter,
+}

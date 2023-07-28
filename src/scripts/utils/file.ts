@@ -24,7 +24,7 @@ export const convertUint8arrayToXML = (array: Uint8Array) => {
   return parser.parseFromString(stringified, 'text/xml')
 }
 
-export const convertJSONToFile = (json: AnyJSON, name: string) =>
+export const convertJSONToFile = (json: JSONAny, name: string) =>
   new File([JSON.stringify(json, null, 2)], name, {
     type: 'json',
   })
@@ -40,7 +40,7 @@ export const convertUint8ArrayToData64Image = (
       .join('')
   )
 
-export const convertData64ImageToFile = async (data64: string) =>
+export const convertData64ImageToFile = (data64: string) =>
   convertData64ToFile(data64, 'screenshot.png', {
     type: 'image/png',
   })
@@ -54,7 +54,7 @@ export const convertData64ToFile = async (
 
   const blob = await res.blob()
 
-  return await new File([blob], fileName || 'file', options)
+  return new File([blob], fileName || 'file', options)
 }
 
 export const convertData64ImageToUint8Array = async (data64: string) => {
@@ -66,10 +66,7 @@ export const convertData64ImageToUint8Array = async (data64: string) => {
 export const downloadImage = async (screenshot: string) =>
   downloadFile(await convertData64ImageToFile(screenshot))
 
-export function convertFileNameToValidName(
-  name: string,
-  hasExtension: boolean = true
-) {
+export function convertFileNameToValidName(name: string, hasExtension = true) {
   let toCheck = name
   let extension = ''
 
@@ -88,10 +85,10 @@ export function convertFileNameToValidName(
 
   return `${toCheck
     .trim()
-    .replaceAll(/[\\\|\/*<>:"?\x00-\x1F]/g, '_')}${extension}`
+    .replaceAll(/[\\|/*<>:"?\x00-\x1F]/g, '_')}${extension}`
 }
 
-export const downloadFile = async (file: File) => {
+export const downloadFile = (file: File) => {
   const a = document.createElement('a')
 
   a.href = URL.createObjectURL(file)

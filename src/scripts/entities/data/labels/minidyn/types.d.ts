@@ -10,7 +10,7 @@ type JSONMinidynDataLabelsGroups = [
   JSONMinidynZoneDataLabelsGroup
 ]
 
-type AnyJSONMinidynDropDataLabelsGroup = JSONMinidynDropDataLabelsGroup
+type JSONMinidynDropDataLabelsGroupVAny = JSONMinidynDropDataLabelsGroup
 
 interface JSONMinidynDropDataLabelsGroup {
   readonly version: 1

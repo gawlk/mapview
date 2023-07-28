@@ -11,6 +11,7 @@ type ColorProp =
   | 'green'
   | 'orange'
   | 'yellow'
+  | 'violet'
   | 'transparent'
 
 interface BasePropsOnly {
@@ -18,7 +19,7 @@ interface BasePropsOnly {
 
   size?: SizeProp
 
-  padding?: SizeProp
+  padding?: SizeProp | boolean
 
   color?: ColorProp
 

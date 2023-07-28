@@ -1,18 +1,20 @@
 import mapboxgl, { LngLatBounds } from 'mapbox-gl'
 
-import { colors, createWatcherHandler, sortPoints } from '/src/scripts'
+import {
+  colors,
+  createWatcherHandler,
+  getRandomColorName,
+  sortPoints,
+  upgradeColorNameFromV1ToV2,
+} from '/src/scripts'
 
 export const createJSONBaseZone = (length: number) => {
-  const colorNames = Object.keys(colors)
-
   const json: JSONBaseZone = {
     version: 1,
     name: `Zone ${length + 1}`,
     settings: {
       version: 1,
-      color: colorNames[
-        Math.floor(Math.random() * colorNames.length)
-      ] as ColorName,
+      color: getRandomColorName(),
       isVisible: true,
     },
     points: [],
@@ -32,15 +34,17 @@ export const createBaseZoneFromJSON = <
 ) => {
   json = upgradeJSON(json)
 
+  const jsonSettings = upgradeSettingsJSON(json.settings)
+
   const watcherHandler = createWatcherHandler()
 
   const zone: BaseZone<Point, Report> = {
     name: json.name,
     points: createMutable([]),
-    settings: createMutable(json.settings),
+    settings: createMutable(jsonSettings),
     report: parameters.report,
     data: createMutable([]),
-    init: function () {
+    init() {
       this.points.forEach((point) => point.addToMap())
 
       watcherHandler.add(
@@ -66,16 +70,15 @@ export const createBaseZoneFromJSON = <
         )
       )
 
-      // TODO: Move all or a part to report
       watcherHandler.add(
         on(
-          () => this.points.length,
+          () => this.points.map((p) => p.index),
           () => {
             sortPoints(this.points)
 
             this.report.line.sortedPoints = Array.prototype.concat(
-              ...this.report.zones.map((zone) => zone.points)
-            ) as MachinePoint[]
+              ...this.report.zones.map((_zone) => _zone.points)
+            )
 
             this.report.line.update()
           }
@@ -95,20 +98,23 @@ export const createBaseZoneFromJSON = <
         map?.fitBounds(bounds, { padding: 100 })
       }
     },
-    clean: function () {
+    getExportablePoints() {
+      return this.points.filter((point) => point.settings.isVisible)
+    },
+    clean() {
       watcherHandler.clean()
 
       this.points.forEach((point) => {
         point.remove()
       })
     },
-    toBaseJSON: function (): JSONBaseZone {
+    toBaseJSON() {
       return {
         version: json.version,
         name: this.name,
         points: this.points.map((point) => point.toJSON()),
         settings: {
-          version: json.settings.version,
+          version: jsonSettings.version,
           color: this.settings.color,
           isVisible: this.settings.isVisible,
         },
@@ -123,8 +129,19 @@ const upgradeJSON = (json: JSONBaseZoneVAny): JSONBaseZone => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONBaseZone
+  }
+
+  return json
+}
+
+const upgradeSettingsJSON = (json: JSONZoneSettingsVAny): JSONZoneSettings => {
+  switch (json.version) {
+    case 1:
+      json = {
+        ...json,
+        version: 2,
+        color: upgradeColorNameFromV1ToV2(json.color),
+      }
   }
 
   return json

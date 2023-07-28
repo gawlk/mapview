@@ -64,17 +64,17 @@ export const createIcon = (iconName: IconName) => {
   const icon = createMutable({
     element: div,
     color: baseHexColor,
-    setColor: function (color?: string) {
+    setColor(color?: string) {
       const svg = subDiv.firstElementChild as HTMLElement
       this.color = color || baseHexColor
       svg.setAttribute('fill', this.color)
       svg.setAttribute('color', blend(this.color, '#000000'))
     },
-    setText: function (text: string) {
+    setText(text: string) {
       span.innerHTML = text
     },
-    setIcon: function (iconName: IconName) {
-      subDiv.innerHTML = icons[iconName] || icons.Circle
+    setIcon(newIconName: IconName) {
+      subDiv.innerHTML = icons[newIconName] || icons.Circle
       this.setColor()
     },
   })
@@ -85,13 +85,12 @@ export const createIcon = (iconName: IconName) => {
 }
 
 export const createSVGElement = (svg: string) => {
-  if (document) {
-    const div = document.createElement('div')
-    div.innerHTML = svg
-    return div.firstElementChild as HTMLElement
-  } else {
-    return undefined
-  }
+  if (!document) return undefined
+
+  const div = document.createElement('div')
+  div.innerHTML = svg
+
+  return div.firstElementChild as HTMLElement
 }
 
 export const formatIconSVGForUI = (svg: string) =>

@@ -1,6 +1,6 @@
 import localForage from 'localforage'
 
-import { convertFileToDataURL, fetchFileFromURL } from '/src/scripts'
+import { fetchFileFromURL } from '/src/scripts'
 
 interface TemplateObject {
   machine: MachineName
@@ -39,8 +39,7 @@ export const initDemoTemplates = () => {
         .filter(([key]) => key.endsWith(extension))
         .map(async ([key, value]) => ({
           fileName: key.split('/').pop() || `file${extension}`,
-          // TODO: Post merge change to RecordAny
-          path: String(((await value()) as any).default),
+          path: String(((await value()) as RecordAny).default),
         }))
     )
 

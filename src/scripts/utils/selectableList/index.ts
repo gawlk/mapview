@@ -38,13 +38,14 @@ export const createSelectableList = <T, L extends T[] = T[]>(
       }
     },
     list,
-    toJSON: function <TJSON, LJSON extends TJSON[] = TJSON[]>(
-      transform: (value: T) => TJSON
+    toJSON<TJSON, LJSON extends TJSON[] = TJSON[]>(
+      transform: (value: T) => TJSON,
+      filter?: (value: T) => boolean
     ): JSONSelectableList<TJSON, LJSON> {
       return {
         version: 1,
         selectedIndex: getIndexOfSelectedInSelectableList(this),
-        list: list.map((value) =>
+        list: (filter ? list.filter(filter) : list).map((value) =>
           // createMutable uses toJSON to hash so transform can be undefined
           typeof transform === 'function' ? transform(value) : value
         ) as LJSON,

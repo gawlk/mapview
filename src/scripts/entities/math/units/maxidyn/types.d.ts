@@ -16,7 +16,9 @@ type PossibleMaxidynDistanceUnits = 'm' | 'km' | 'mi'
 type PossibleMaxidynTimeUnits = 's' | 'ms' | 'us'
 type PossibleMaxidynPercentageUnits = '%'
 
-type JSONMaxidynUnits = MaxidynUnitsSkeleton<
+type JSONMaxidynUnitsVAny = JSONMaxidynUnits
+
+type JSONMaxidynUnits = { version: 1 } & MaxidynUnitsSkeleton<
   JSONMathUnit<PossibleMaxidynModulusUnits>,
   JSONMathUnit<PossibleMaxidynStiffnessUnits>,
   JSONMathUnit<PossibleMaxidynDeflectionUnits>,
@@ -36,4 +38,5 @@ type MaxidynMathUnits = MaxidynUnitsSkeleton<
   MathUnit<PossibleMaxidynPercentageUnits>
 >
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type MaxidynUnitsNames = keyof MaxidynUnitsSkeleton<any>

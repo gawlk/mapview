@@ -46,7 +46,7 @@ export default () => {
                 full
                 onInput={(value) => (zone.name = value || '')}
               />
-              <Show when={index() > 0}>
+              <Show when={index()}>
                 <Button
                   icon={IconTablerTrash}
                   onClick={() => {

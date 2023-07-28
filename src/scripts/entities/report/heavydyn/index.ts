@@ -52,8 +52,8 @@ export const createHeavydynReportFromJSON = (
   const report: HeavydynReport = createMutable({
     ...baseReport,
     machine: 'Heavydyn',
-    addZone: function () {
-      const json: JSONHeavydynZone = {
+    addZone() {
+      const jsonZone: JSONHeavydynZone = {
         version: 1,
         base: createJSONBaseZone(this.zones.length),
         distinct: {
@@ -61,7 +61,7 @@ export const createHeavydynReportFromJSON = (
         },
       }
 
-      const zone = createHeavydynZoneFromJSON(json, map, {
+      const zone = createHeavydynZoneFromJSON(jsonZone, map, {
         report: this,
       })
 
@@ -69,36 +69,7 @@ export const createHeavydynReportFromJSON = (
 
       this.zones.push(zone)
     },
-    toJSON: function (): JSONHeavydynReport {
-      const thresholdGroup = this.thresholds.groups
-
-      return {
-        version: json.version,
-        base: this.toBaseJSON(),
-        distinct: {
-          version: json.version,
-          dataLabels: this.dataLabels.groups.toJSON((group) => group.toJSON()),
-          thresholds: {
-            deflection: convertThresholdsConfigurationToJSON(
-              thresholdGroup.deflection
-            ),
-            distance: convertThresholdsConfigurationToJSON(
-              thresholdGroup.distance
-            ),
-            force: convertThresholdsConfigurationToJSON(thresholdGroup.force),
-            temperature: convertThresholdsConfigurationToJSON(
-              thresholdGroup.temperature
-            ),
-            time: convertThresholdsConfigurationToJSON(thresholdGroup.time),
-            modulus: convertThresholdsConfigurationToJSON(
-              thresholdGroup.modulus
-            ),
-            cumSum: convertThresholdsConfigurationToJSON(thresholdGroup.cumSum),
-          },
-        },
-      }
-    },
-    addToMap: function () {
+    addToMap() {
       baseReport.addToMap.call(report)
 
       report.dataLabels.groups.list[0].indexes.list.forEach((dropIndex) => {
@@ -114,17 +85,48 @@ export const createHeavydynReportFromJSON = (
         }
       })
     },
-    remove: function () {
+    remove() {
       baseReport.remove.call(report)
 
       watcherHandler.clean()
+    },
+    toJSON(): JSONHeavydynReport {
+      const thresholdGroup = this.thresholds.groups
+
+      return {
+        version: json.version,
+        base: this.toBaseJSON(),
+        distinct: {
+          version: json.version,
+          dataLabels: this.dataLabels.groups.toJSON((group) => group.toJSON()),
+          thresholds: {
+            version: 2,
+            deflection: convertThresholdsConfigurationToJSON(
+              thresholdGroup.deflection
+            ),
+            distance: convertThresholdsConfigurationToJSON(
+              thresholdGroup.distance
+            ),
+            force: convertThresholdsConfigurationToJSON(thresholdGroup.force),
+            temperature: convertThresholdsConfigurationToJSON(
+              thresholdGroup.temperature
+            ),
+            time: convertThresholdsConfigurationToJSON(thresholdGroup.time),
+            modulus: convertThresholdsConfigurationToJSON(
+              thresholdGroup.modulus
+            ),
+            cumSum: convertThresholdsConfigurationToJSON(thresholdGroup.cumSum),
+            radius: convertThresholdsConfigurationToJSON(thresholdGroup.radius),
+          },
+        },
+      }
     },
   })
 
   report.zones.push(
     ...json.base.zones.map((jsonZone) =>
       createHeavydynZoneFromJSON(jsonZone, map, {
-        report: report as HeavydynReport,
+        report,
       })
     )
   )
@@ -154,8 +156,6 @@ const upgradeJSON = (json: JSONHeavydynReportVAny): JSONHeavydynReport => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONHeavydynReport
   }
 
   return json

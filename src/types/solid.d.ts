@@ -17,8 +17,10 @@ declare namespace Solid {
   namespace JSX {
     export type Element = import('solid-js').JSXElement
 
-    export type EventHandlerUnion<T, K> =
-      import('solid-js').JSX.EventHandlerUnion<T, K>
+    export type EventHandlerUnion<
+      T,
+      E extends Event
+    > = import('solid-js').JSX.EventHandlerUnion<T, E>
 
     export type CSSProperties = import('solid-js').JSX.CSSProperties
 

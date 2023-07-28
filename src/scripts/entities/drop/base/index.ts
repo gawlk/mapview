@@ -26,10 +26,16 @@ export const createBaseDropFromJSON = <
     ),
     point: parameters.point,
     impactData: null,
-    toBaseJSON: function () {
+    toBaseJSON() {
       return {
         version: json.version,
-        data: this.data.map((data) => data.toJSON()),
+        data: this.data
+          .filter((data) =>
+            this.point.zone.report.dataLabels.groups.list[0].saveableChoices.includes(
+              data.label
+            )
+          )
+          .map((data) => data.toJSON()),
         index: json.index,
       }
     },
@@ -42,8 +48,6 @@ const upgradeJSONDrop = (json: JSONBaseDropVAny): JSONBaseDrop => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONBaseDrop
   }
 
   return json
@@ -56,7 +60,7 @@ export const createBaseDropIndexFromJSON = (
 
   return {
     displayedIndex: json.displayedIndex,
-    toBaseJSON: function (): JSONBaseDropIndex {
+    toBaseJSON(): JSONBaseDropIndex {
       return {
         version: json.version,
         displayedIndex: json.displayedIndex,
@@ -67,12 +71,12 @@ export const createBaseDropIndexFromJSON = (
 
 const upgradeJSONDropIndex = (
   json: JSONBaseDropIndexVAny
+  // Disable rule until there are at least 2 versions
+  // eslint-disable-next-line sonarjs/no-identical-functions
 ): JSONBaseDropIndex => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONBaseDropIndex
   }
 
   return json

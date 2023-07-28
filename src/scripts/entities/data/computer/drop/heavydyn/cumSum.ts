@@ -35,51 +35,49 @@ export const createCumSumDataComputer = (report: HeavydynReport) => {
         })
       ),
     compute: (label) => {
-      report.zones.forEach((zone) => {
-        const groupedDropsByDropIndex = zone.points.reduce((grouped, point) => {
-          point.drops.forEach((drop, dropIndex) =>
-            grouped[dropIndex].push(drop)
+      const groupedDropsByDropIndex = (
+        report.getExportablePoints() as HeavydynPoint[]
+      ).reduce((grouped, point) => {
+        point.drops.forEach((drop, dropIndex) => grouped[dropIndex].push(drop))
+
+        return grouped
+      }, new Array(numberOfDrops).fill(null).map(() => []) as HeavydynDrop[][])
+
+      groupedDropsByDropIndex.forEach((drops) => {
+        const d0OnLoadList = drops.map((drop) => {
+          const d0 = drop.data.find((data) => data.label === currentD0DataLabel)
+
+          const load = drop.data.find(
+            (data) => data.label === currentLoadDataLabel
           )
 
-          return grouped
-        }, new Array(numberOfDrops).fill(null).map(() => []) as HeavydynDrop[][])
+          return d0 && load
+            ? (d0.getRawValue() / load.getRawValue()) * 100000000
+            : undefined
+        })
 
-        groupedDropsByDropIndex.slice(-1).forEach((drops) => {
-          const d0OnLoadList = drops.map((drop) => {
-            const d0 = drop.data.find(
-              (data) => data.label === currentD0DataLabel
-            )
+        const averageD0OnLoad = average(
+          d0OnLoadList.flat().filter((v) => typeof v === 'number') as number[]
+        )
 
-            const load = drop.data.find(
-              (data) => data.label === currentLoadDataLabel
-            )
+        let lastCumSum = 0
 
-            return d0 && load
-              ? (d0.value.value / load.value.value) * 100000000
-              : undefined
-          })
+        drops.forEach((drop, index) => {
+          const data =
+            drop.data.find((_data) => _data.label === label) ||
+            drop.data[drop.data.push(createDataValue(0, label)) - 1]
 
-          const averageD0OnLoad = average(
-            d0OnLoadList.flat().filter((v) => typeof v === 'number') as number[]
-          )
+          const d0OnLoad = d0OnLoadList[index]
 
-          let lastCumSum = 0
+          if (typeof d0OnLoad === 'number') {
+            const value = index
+              ? d0OnLoad + lastCumSum - averageD0OnLoad
+              : lastCumSum
 
-          drops.forEach((drop, index) => {
-            const data =
-              drop.data.find((data) => data.label === label) ||
-              drop.data[drop.data.push(createDataValue(0, label)) - 1]
+            lastCumSum = value
 
-            const d0OnLoad = d0OnLoadList[index]
-
-            if (index > 0 && typeof d0OnLoad === 'number') {
-              const value = d0OnLoad + lastCumSum - averageD0OnLoad
-
-              lastCumSum = value
-
-              data.value.updateValue(Math.floor(value * 10) / 10)
-            }
-          })
+            data.value.updateValue(Math.round(value * 10) / 10)
+          }
         })
       })
     },

@@ -43,6 +43,7 @@ visualizer
 # ---
 
 .vercel
+.netlify
 
 # ---
 # Secrets
@@ -51,8 +52,12 @@ visualizer
 .env
 
 # ---
-# Test
+# Tests
 # ---
 
 coverage
 __snapshots__
+/test-results/
+/playwright-report/
+/playwright/.cache/
+.histoire

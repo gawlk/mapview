@@ -21,7 +21,7 @@ export const createMaxidynDropFromJSON = (
   const drop: MaxidynDrop = createMutable({
     ...baseDrop,
     machine: 'Maxidyn',
-    toJSON: function () {
+    toJSON() {
       return {
         version: json.version,
         base: this.toBaseJSON(),
@@ -39,8 +39,6 @@ const upgradeJSONDrop = (json: JSONMaxidynDropVAny): JSONMaxidynDrop => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONMaxidynDrop
   }
 
   return json
@@ -53,7 +51,7 @@ export const createMaxidynDropIndexFromJSON = (json: JSONMaxidynDropIndex) => {
     ...createBaseDropIndexFromJSON(json.base),
     machine: 'Maxidyn',
     type: json.distinct.type,
-    toJSON: function () {
+    toJSON() {
       return {
         version: json.version,
         base: this.toBaseJSON(),
@@ -74,8 +72,6 @@ const upgradeJSONDropIndex = (
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONMinidynDropIndex
   }
 
   return json

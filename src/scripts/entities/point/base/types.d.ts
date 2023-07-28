@@ -53,7 +53,7 @@ interface BasePoint<
     index?: BaseDropIndex | null
   ) => string
   readonly updateColor: () => void
-  readonly updateText: () => void
+  readonly async updateText: () => void
   readonly updateVisibility: () => void
   readonly updatePopup: () => void
   readonly addToMap: () => void

@@ -25,7 +25,7 @@ export const createMinidynProjectFromJSON = (
     ...baseProject,
     machine: 'Minidyn',
     bearingParameters: createMutable(json.distinct.bearingParameters),
-    toJSON: function (): JSONMinidynProject {
+    toJSON(): JSONMinidynProject {
       return {
         version: json.version,
         machine: 'Minidyn',
@@ -34,8 +34,10 @@ export const createMinidynProjectFromJSON = (
           version: json.distinct.version,
           bearingParameters: json.distinct.bearingParameters,
           units: {
+            version: 1,
             deflection: this.units.deflection.toJSON(),
             force: this.units.force.toJSON(),
+            distance: this.units.distance.toJSON(),
             modulus: this.units.modulus.toJSON(),
             percentage: this.units.percentage.toJSON(),
             stiffness: this.units.stiffness.toJSON(),
@@ -63,8 +65,6 @@ const upgradeJSON = (json: JSONMinidynProjectVAny): JSONMinidynProject => {
   switch (json.version) {
     case 1:
     // upgrade
-    default:
-      json = json as JSONMinidynProject
   }
 
   return json

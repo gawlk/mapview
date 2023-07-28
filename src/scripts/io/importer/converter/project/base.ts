@@ -3,7 +3,7 @@ import { run } from '/src/scripts'
 import { convertPRJZObjectToFields } from '../shared'
 
 export const convertPRJZToBaseProject = (
-  json: any,
+  json: JSONAny,
   machine: MachineName
 ): JSONBaseProject => {
   return {

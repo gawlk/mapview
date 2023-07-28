@@ -1,7 +1,7 @@
 export const blend = (
   color1: string,
   color2: string,
-  percentage: number = 0.5
+  percentage = 0.5
 ): string => {
   if (percentage > 1 || percentage < 0) {
     Error('Percentage must be between 1 and 0')
@@ -23,7 +23,7 @@ export const blend = (
 }
 
 const colorToArray = (color: string): number[] => {
-  const regexp: RegExp = new RegExp('^#?[0-9a-fA-F]{6}')
+  const regexp = /^#?[0-9a-fA-F]{6}/
 
   if (!regexp.test(color)) {
     color = '#ffffff'

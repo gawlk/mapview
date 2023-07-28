@@ -10,7 +10,7 @@ export const createLine = (map: mapboxgl.Map | null): Line => {
 
   const line: Line = createMutable({
     sortedPoints: [] as BasePoint[],
-    addToMap: function () {
+    addToMap() {
       if (map?.getLayer(id)) return
 
       map?.addLayer(
@@ -51,7 +51,7 @@ export const createLine = (map: mapboxgl.Map | null): Line => {
         )
       )
     },
-    remove: function (): void {
+    remove(): void {
       if (map) {
         map.getLayer(id) && map.removeLayer(id)
         map.getSource(id) && map.removeSource(id)
@@ -59,12 +59,22 @@ export const createLine = (map: mapboxgl.Map | null): Line => {
 
       watcherHandler.clean()
     },
-    update: function (): void {
+    update(): void {
       sortPoints(this.sortedPoints)
 
-      const visiblePoints = this.sortedPoints.filter((point) =>
-        point.checkVisibility()
-      )
+      const visiblePoints = this.sortedPoints.filter((point) => {
+        const {
+          settings: { isVisible: pointVisible },
+          zone: {
+            settings: { isVisible: zoneVisible },
+            report: {
+              settings: { isVisible: reportVisible },
+            },
+          },
+        } = point
+
+        return pointVisible && zoneVisible && reportVisible
+      })
 
       features = []
 

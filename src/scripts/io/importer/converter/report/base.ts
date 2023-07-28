@@ -1,9 +1,9 @@
-import { currentCategory, icons, run } from '/src/scripts'
+import { currentCategory, icons, indicatorsCategory, run } from '/src/scripts'
 
 import { convertPRJZObjectToFields } from '../shared'
 
 export const convertPRJZToBaseReport = (
-  jsonPV: any,
+  jsonPV: RecordAny,
   reportIndex: number,
   parameters: {
     machine: MachineName
@@ -16,7 +16,7 @@ export const convertPRJZToBaseReport = (
 
   return {
     version: 1,
-    name: jsonPV.PV.Name,
+    name: String(jsonPV.PV.Name),
     settings: {
       version: 1,
       iconName: iconsNames[reportIndex % iconsNames.length],
@@ -28,7 +28,7 @@ export const convertPRJZToBaseReport = (
       version: 1,
       colors: run(() => {
         return {
-          version: 1,
+          version: 2,
           low: parameters.machine === 'Heavydyn' ? 'green' : 'red',
           middle: 'yellow',
           high: parameters.machine === 'Heavydyn' ? 'red' : 'green',
@@ -48,7 +48,7 @@ export const convertPRJZToBaseReport = (
           name: 'Zone 1',
           settings: {
             version: 1,
-            color: 'gray',
+            color: 'orange',
             isVisible: true,
           },
           points: [] as JSONMachinePoint[],
@@ -77,21 +77,21 @@ export const convertPRJZToBaseReport = (
                       category: currentCategory.name,
                       version: 1,
                     },
-                    ...run(() => {
-                      const indexD0 = parameters.dropChoices.findIndex(
-                        (choice) => choice.name === 'D0'
-                      )
-
-                      return parameters.dropChoices
-                        .slice(indexD0, indexD0 + 3)
-                        .map(
-                          (choice): JSONTableDataLabelsValues => ({
-                            version: 1,
-                            name: choice.name,
-                            category: currentCategory.name,
-                          })
-                        )
-                    }),
+                    {
+                      name: 'D0',
+                      category: currentCategory.name,
+                      version: 1,
+                    },
+                    {
+                      name: 'Curvature radius (Front)',
+                      category: indicatorsCategory.name,
+                      version: 1,
+                    },
+                    {
+                      name: 'BLI (Base layer index)',
+                      category: indicatorsCategory.name,
+                      version: 1,
+                    },
                   ]
                 case 'Maxidyn':
                 case 'Minidyn':
@@ -145,13 +145,19 @@ export const convertPRJZToBaseReport = (
           {
             version: 1,
             from: 'Zone',
-            dataLabels: [],
+            dataLabels: [
+              {
+                name: 'Characteristic deflection',
+                version: 1,
+                category: indicatorsCategory.name,
+              },
+            ],
           },
         ],
       },
     },
     information: convertPRJZObjectToFields(jsonPV.PV),
-    platform: convertPRJZObjectToFields(jsonPV.Plateform),
+    platform: convertPRJZObjectToFields(jsonPV.Platform || jsonPV.Plateform),
     screenshots: [],
   }
 }

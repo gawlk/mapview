@@ -1,4 +1,9 @@
-import mapboxgl, { Map, Marker, NavigationControl } from 'mapbox-gl'
+import mapboxgl, {
+  LngLatBounds,
+  Map,
+  Marker,
+  NavigationControl,
+} from 'mapbox-gl'
 
 import store from '/src/store'
 
@@ -16,7 +21,7 @@ export const mapStyles = [
 
 export const waitForMap = () =>
   new Promise<boolean>((resolve) => {
-    const interval = setInterval(async () => {
+    const interval = setInterval(() => {
       if (!store.map || store.map?.isStyleLoaded()) {
         clearInterval(interval)
         resolve(true)
@@ -33,7 +38,7 @@ export const createMap = (container: string): mapboxgl.Map => {
     center: [2.419263, 48.621551], // [lng, lat]
     zoom: 2,
     preserveDrawingBuffer: true,
-    accessToken: import.meta.env.VITE_MAPBOXGL_ACCESS_TOKEN,
+    accessToken: import.meta.env.VITE_MAPBOXGL_ACCESS_TOKEN as string,
     antialias: true,
   }).addControl(new NavigationControl(), 'top-left')
 
@@ -179,4 +184,38 @@ const addBuildingsToMap = (map: mapboxgl.Map) => {
     },
     labelLayerId
   )
+}
+
+export const flyToPoints = (
+  map: mapboxgl.Map | null | undefined,
+  points: BasePoint[]
+): void => {
+  if (!map) return
+
+  const bounds = new LngLatBounds()
+
+  points.forEach((point) => {
+    if (point.settings.isVisible && point.marker) {
+      bounds.extend(point.marker.getLngLat())
+    }
+  })
+
+  const generatePadding = (higher: number, lower: number) =>
+    Math.max((higher - lower) / 4, 0.0001)
+
+  const horizontalPadding = generatePadding(bounds.getEast(), bounds.getWest())
+
+  const verticalPadding = generatePadding(bounds.getNorth(), bounds.getSouth())
+
+  const sw = {
+    lat: bounds.getSouth() - verticalPadding,
+    lng: bounds.getWest() + horizontalPadding,
+  }
+
+  const ne = {
+    lat: bounds.getNorth() + verticalPadding,
+    lng: bounds.getEast() - horizontalPadding,
+  }
+
+  map?.fitBounds(new LngLatBounds(sw, ne))
 }

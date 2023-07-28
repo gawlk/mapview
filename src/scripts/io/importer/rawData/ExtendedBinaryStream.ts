@@ -1,5 +1,6 @@
 export class ExtendedBinaryReader {
   private buffer: ArrayBuffer
+
   private cursor: number
 
   constructor(buffer: ArrayBuffer) {
@@ -11,9 +12,7 @@ export class ExtendedBinaryReader {
   private read(length: number): DataView {
     const buffer = this.buffer.slice(this.cursor, (this.cursor += length))
 
-    const dataView = new DataView(buffer, 0, length)
-
-    return dataView
+    return new DataView(buffer, 0, length)
   }
 
   public readArrayDouble(): number[] {

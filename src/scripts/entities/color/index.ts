@@ -24,6 +24,15 @@ export const baseHexColor = colors.gray
 export const colorNameToBackgroundColor = (name?: ColorName) =>
   colors[name || 'gray']
 
+export const upgradeColorNameFromV1ToV2 = (colorName: ColorName): ColorName =>
+  colorName === 'gray' ? 'orange' : colorName
+
+export const getRandomColorName = () => {
+  const colorNames = Object.keys(colors)
+
+  return colorNames[Math.floor(Math.random() * colorNames.length)] as ColorName
+}
+
 export const hexToRgb = (hex: string): [number, number, number] | null => {
   var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
   return result

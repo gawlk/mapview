@@ -9,8 +9,6 @@ interface Props {
 export const baseID = 'desktop-menu-'
 
 export default (props: Props) => {
-  const key = createMemo(() => `isDesktopMenu${props.name}Open`)
-
   return (
     <Details
       button={{

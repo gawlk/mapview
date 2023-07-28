@@ -8,3 +8,10 @@ export const getSimpleReportExports = (
 ): AnyExporter[] => {
   return [...(project.machine === 'Heavydyn' ? heavydynReportExports : [])]
 }
+
+export {
+  heavydynDynatestExporter,
+  heavydynF25Exporter,
+  heavydynPDXExporter,
+  heavydynSwecoExporter,
+} from './heavydyn'

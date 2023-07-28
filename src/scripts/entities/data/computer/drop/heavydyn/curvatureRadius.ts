@@ -31,7 +31,7 @@ export const createCurvatureRadiusDataComputers = (report: HeavydynReport) => {
           'Drop',
           createDataLabel({
             name: `Curvature radius (${obj.side})`,
-            unit: report.project.units.distance,
+            unit: report.project.units.radius,
             category: indicatorsCategory,
           })
         ),
@@ -39,13 +39,13 @@ export const createCurvatureRadiusDataComputers = (report: HeavydynReport) => {
         report.zones.forEach((zone) =>
           zone.points.forEach((point) =>
             point.drops.forEach((drop) => {
-              const d1 = drop.data.find((data) => data.label === d0DataLabel)
+              const d1 = drop.data.find((_data) => _data.label === d0DataLabel)
 
-              const d2 = drop.data.find((data) => data.label === obj.dl)
+              const d2 = drop.data.find((_data) => _data.label === obj.dl)
 
               if (d1 && d2) {
                 const data =
-                  drop.data.find((data) => data.label === label) ||
+                  drop.data.find((_data) => _data.label === label) ||
                   drop.data[drop.data.push(createDataValue(0, label)) - 1]
 
                 data.value.updateValue(

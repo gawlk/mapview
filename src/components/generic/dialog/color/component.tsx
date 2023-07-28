@@ -6,7 +6,9 @@ export interface Props
   extends MergePropsWithHTMLProps<
     DialogColorProps,
     Solid.JSX.DialogHTMLAttributes
-  > {}
+  > {
+  skip?: ColorName[]
+}
 
 export default (props: Props) => {
   return (
@@ -23,7 +25,11 @@ export default (props: Props) => {
       )}
       form={
         <div class="space-y-2">
-          <For each={Object.entries(colors)}>
+          <For
+            each={Object.entries(colors).filter(
+              ([name]) => !(props.skip || ['gray'])?.includes(name as ColorName)
+            )}
+          >
             {([name, hex]) => (
               <Button
                 full

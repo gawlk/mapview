@@ -66,7 +66,7 @@ export const createHeavydynDropDataLabelsGroupFromJSON = (
       heavydynCategorySelector
     ),
     sequenceName: json.distinct.sequenceName,
-    toJSON: function () {
+    toJSON() {
       return {
         version: 1,
         base: this.toBaseJSON() as JSONBaseDataLabelsGroup<
@@ -93,7 +93,7 @@ export const createHeavydynTestDataLabelsGroupFromJSON = (
       project.units,
       heavydynCategorySelector
     ),
-    toJSON: function () {
+    toJSON() {
       return {
         version: 1,
         base: this.toBaseJSON() as JSONBaseDataLabelsGroup<
@@ -114,7 +114,7 @@ export const createHeavydynZoneDataLabelsGroupFromJSON = (
 ): HeavydynZoneDataLabelsGroup => {
   return {
     ...createBaseZoneDataLabelsGroupFromJSON(json.base, project.units),
-    toJSON: function () {
+    toJSON() {
       return {
         version: 1,
         base: this.toBaseJSON() as JSONBaseDataLabelsGroup<

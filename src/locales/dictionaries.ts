@@ -1,6 +1,6 @@
 import translationsFR from '/src/locales/fr.json?raw'
 
-const fr = JSON.parse(translationsFR)
+const fr = JSON.parse(translationsFR) as Record<string, string>
 
 const en = Object.keys(fr).reduce((en, current) => {
   en[current] = current

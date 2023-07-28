@@ -13,17 +13,15 @@ export const addRawDataToZip = async (
         .flat()
       break
     case 'Report':
-      points = entity.line.sortedPoints
+      points = entity.line.sortedPoints.filter((point) => point.checkVisibility)
       break
   }
 
-  await Promise.all([
-    ...points.map((point) => {
-      if (point.rawDataFile) {
-        rawdata[point.id] = new Uint8Array(point.rawDataFile)
-      }
-    }),
-  ])
+  points.forEach((point) => {
+    if (point.rawDataFile) {
+      rawdata[point.id] = new Uint8Array(point.rawDataFile)
+    }
+  })
 
   zip.rawdata = rawdata
 }

@@ -1,0 +1,86 @@
+Table Project {
+ref ref [pk, increment]
+reports MachineReport[] [ref: < MachineReport.ref]
+images MapImage[] [ref: < MapImage.ref]
+database Database [ref: < Database.ref]
+addtionalFields Field[]
+}
+
+Table MachineReport {
+ref ref [pk, increment] // auto-increment
+points Point[] [ref: < Point.ref]
+line Line [ref: < Line.ref]
+thresholds Threshold[] [ref: > Threshold.ref]
+thresholdCustom ThresholdCustom [ref: > ThresholdCustom.ref]
+thresholdColors String[]
+images MachineReportImage[] [ref: < MachineReportImage.ref]
+platforms Platforms [ref: < Platforms.ref]
+addtionalFields Field[]
+}
+
+Table Platforms {
+ref ref [pk, increment] // auto-increment
+addtionalFields Field[]
+}
+
+Table Field {
+value any
+originalValue any
+}
+
+Table Point {
+ref ref [pk, increment] // auto-increment
+number integer
+mapboxPoint MapboxPoint
+icon Icon
+drops Drop[] [ref: > Drop.ref]
+addtionalFields Field[]
+}
+
+Table Line {
+ref ref [pk, increment] // auto-increment
+mapboxLine MapboxLine
+points Point[] [ref: < Point.ref]
+}
+
+Table Drop {
+ref ref [pk, increment] // auto-increment
+addtionalFields Field[]
+}
+
+Table Threshold {
+ref ref [pk, increment] // auto-increment
+name string
+value Unit
+}
+
+Table ThresholdCustom {
+ref ref [pk, increment] // auto-increment
+mode number
+valueMin Unit
+valueMax Unit
+}
+
+Table MachineReportImage {
+ref ref [pk, increment] // auto-increment
+data string
+}
+
+Table MapImage {
+ref ref [pk, increment] // auto-increment
+mapboxImage MapboxSource
+}
+
+Table Database {
+ref ref [pk, increment] // auto-increment
+version integer
+machine string
+}
+
+Table unitConverter {
+ref ref [pk, increment] // auto-increment
+}
+
+Table unitDisplay {
+ref ref [pk, increment] // auto-increment
+}

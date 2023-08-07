@@ -7,7 +7,7 @@ interface Props {
   to?: number
 }
 
-export default (props: Props) => {
+export const SpanThreshold = (props: Props) => {
   const [t] = useI18n()
 
   const formatValue = (value?: number) =>

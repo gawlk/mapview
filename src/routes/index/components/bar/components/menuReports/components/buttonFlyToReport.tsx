@@ -4,7 +4,7 @@ interface Props {
   report: BaseReport
 }
 
-export default (props: Props) => {
+export const ButtonFlyToReport = (props: Props) => {
   return (
     <Button icon={IconTablerZoomIn} onClick={() => props.report.fitOnMap()} />
   )

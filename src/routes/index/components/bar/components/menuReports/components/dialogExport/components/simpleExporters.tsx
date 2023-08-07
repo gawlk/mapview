@@ -1,4 +1,4 @@
-import store from '/src/store'
+import { store } from '/src/store'
 
 import {
   downloadFile,
@@ -8,7 +8,7 @@ import {
 
 import { Button } from '/src/components'
 
-export default (props: NavigatorComponentProps) => {
+export const SimpleExporters = (props: NavigatorComponentProps) => {
   const simpleExports = createMemo(() => [
     ...(store.selectedReport
       ? getSimpleReportExports(

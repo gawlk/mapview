@@ -4,7 +4,7 @@ interface Props {
   report: BaseReport
 }
 
-export default (props: Props) => {
+export const ButtonReportVisibility = (props: Props) => {
   return (
     <Button
       icon={props.report.settings.isVisible ? IconTablerEye : IconTablerEyeOff}

@@ -2,14 +2,14 @@ import { useI18n } from '@solid-primitives/i18n'
 
 import { Label } from '/src/components'
 
-import DetailsLoad from './components/detailsLoad'
-import DetailsTemperature from './components/detailsTemperature'
+import { DetailsLoad } from './components/detailsLoad'
+import { DetailsTemperature } from './components/detailsTemperature'
 
 interface Props {
   project: HeavydynProject
 }
 
-export default (props: Props) => {
+export const HeavydynCorrections = (props: Props) => {
   const [t] = useI18n()
 
   return (

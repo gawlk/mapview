@@ -1,12 +1,12 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import store from '/src/store'
+import { store } from '/src/store'
 
 import { groupDataLabelsByCategory } from '/src/scripts'
 
 import { DialogSelect, SpanDataLabel } from '/src/components'
 
-export default () => {
+export const SelectDataLabel = () => {
   const [t] = useI18n()
 
   const selectedDataLabelGroupChoices = createMemo(

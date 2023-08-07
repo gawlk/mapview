@@ -1,10 +1,10 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import store from '/src/store'
+import { store } from '/src/store'
 
 import { DialogSelect } from '/src/components'
 
-export default () => {
+export const SelectGroupBy = () => {
   const [t] = useI18n()
 
   const groupBys = ['Number', 'Zone'] as ReportGroupBy[]

@@ -1,22 +1,22 @@
 import { createTimer } from '@solid-primitives/timer'
 import { Meta, Title } from '@solidjs/meta'
 
-import store from '/src/store'
+import { store } from '/src/store'
 
 import { checkUpdate, snapshotMPVZ } from './scripts'
 
-import Bar from './components/bar'
-import Loading from './components/loading'
-import Map from './components/map'
-import Update from './components/update'
-import Version from './components/version'
+import { Bar } from './components/bar'
+import { Loading } from './components/loading'
+import { Map } from './components/map'
+import { Update } from './components/update'
+import { Version } from './components/version'
 
 import packageJSONRaw from '/src/../package.json?raw'
-import env from '/src/env'
+import { env } from '/src/env'
 
 const packageJSON = JSON.parse(packageJSONRaw)
 
-export default () => {
+export const Index = () => {
   onMount(async () => {
     checkUpdate()
 
@@ -62,3 +62,5 @@ export default () => {
     </div>
   )
 }
+
+export default Index

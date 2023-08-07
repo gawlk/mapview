@@ -130,7 +130,7 @@ export const createMathUnit = <PossibleUnits extends string>(
     checkValidity(value) {
       return !Number.isNaN(value) && (options?.checkValidity?.(value) ?? true)
     },
-    valueToString(value, parseOptions = {}) {
+    valueToLocaleString(value, parseOptions = {}) {
       let valueString
 
       if (this.checkValidity(value)) {

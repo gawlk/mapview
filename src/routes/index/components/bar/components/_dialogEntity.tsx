@@ -1,6 +1,6 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import store from '/src/store'
+import { store } from '/src/store'
 
 import {
   Button,
@@ -10,7 +10,7 @@ import {
   Interactive,
 } from '/src/components'
 
-export default () => {
+export const DialogEntity = () => {
   const [t] = useI18n()
 
   const dialogEntityButtonId = 'dialog-marker-button'

@@ -13,7 +13,7 @@ interface Props {
   setPosition: (position: Partial<DialogPosition>) => void
 }
 
-export default (props: Props) => {
+export const DialogResizers = (props: Props) => {
   const [state, setState] = createStore({
     resizeDirection: null as DialogResizeDirection | null,
   })

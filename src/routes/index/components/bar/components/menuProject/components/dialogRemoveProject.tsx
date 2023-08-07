@@ -1,10 +1,10 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import store from '/src/store'
+import { store } from '/src/store'
 
 import { Button, Dialog } from '/src/components'
 
-export default () => {
+export const DialogRemoveProject = () => {
   const [t] = useI18n()
 
   return (

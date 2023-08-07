@@ -10,7 +10,7 @@ import {
 
 interface Props extends MergePropsWithHTMLProps<InteractiveProps> {}
 
-export default (passedProps: Props) => {
+export const Interactive = (passedProps: Props) => {
   const props = mergeProps(
     {
       color: 'secondary',

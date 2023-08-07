@@ -5,7 +5,7 @@ interface Props extends Solid.ParentProps {
   description?: string | Solid.JSX.Element
 }
 
-export default (props: Props) => {
+export const Section = (props: Props) => {
   return (
     <section id={props.id} class="space-y-6">
       <h4 class="break-words text-2xl font-black tracking-tight">

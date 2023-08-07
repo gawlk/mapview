@@ -1,24 +1,24 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import store from '/src/store'
+import { store } from '/src/store'
 
 import { Interactive } from '/src/components'
 
-import ButtonFileOverlay from './components/buttonFileOverlay'
-import ButtonLineVisibility from './components/buttonLineVisibility'
-import ButtonMarkersMoveability from './components/buttonMarkersMoveability'
-import ButtonMarkersVisibility from './components/buttonMarkersVisibility'
-import ButtonOverlaysVisibility from './components/buttonOverlaysVisibility'
-import DialogOverlays from './components/dialogOverlays'
-import SelectMapStyles from './components/selectMapStyles'
-import SelectMarkersContent from './components/selectMarkersContent'
+import { ButtonFileOverlay } from './components/buttonFileOverlay'
+import { ButtonLineVisibility } from './components/buttonLineVisibility'
+import { ButtonMarkersMoveability } from './components/buttonMarkersMoveability'
+import { ButtonMarkersVisibility } from './components/buttonMarkersVisibility'
+import { ButtonOverlaysVisibility } from './components/buttonOverlaysVisibility'
+import { DialogOverlays } from './components/dialogOverlays'
+import { SelectMapStyle } from './components/selectMapStyles'
+import { SelectMarkersContent } from './components/selectMarkersContent'
 
-export default () => {
+export const MenuMap = () => {
   const [t] = useI18n()
 
   return (
     <>
-      <SelectMapStyles />
+      <SelectMapStyle />
       <div class="flex space-x-2">
         <Show when={store.selectedProject?.overlays.length}>
           <DialogOverlays />

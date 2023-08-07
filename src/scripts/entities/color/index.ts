@@ -1,5 +1,6 @@
+export const gray = '#9da3ae'
+
 export const colors: Record<ColorName, string> = {
-  gray: '#9da3ae',
   red: '#d97574',
   orange: '#e89856',
   amber: '#eec051',
@@ -19,12 +20,9 @@ export const colors: Record<ColorName, string> = {
   rose: '#e67a8b',
 }
 
-export const baseHexColor = colors.gray
+export const baseHexColor = gray
 
-export const colorNameToBackgroundColor = (name?: ColorName) =>
-  colors[name || 'gray']
-
-export const upgradeColorNameFromV1ToV2 = (colorName: ColorName): ColorName =>
+export const upgradeColorNameFromV1ToV2 = (colorName: ColorNameV1): ColorName =>
   colorName === 'gray' ? 'orange' : colorName
 
 export const getRandomColorName = () => {

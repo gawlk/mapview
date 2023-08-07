@@ -1,1 +1,1 @@
-export { default as DialogOptions } from './component'
+export * from './component'

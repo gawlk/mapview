@@ -1,12 +1,12 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import store from '/src/store'
+import { store } from '/src/store'
 
 import { roundValue } from '/src/scripts'
 
 import { Details, DialogSelect, Input, Label } from '/src/components'
 
-export default () => {
+export const Units = () => {
   const [t] = useI18n()
 
   const getMathUnitIcon = (mathUnit: MathUnit<string>) => {

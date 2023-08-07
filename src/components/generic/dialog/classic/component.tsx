@@ -5,11 +5,11 @@ import {
   removeProps,
 } from '/src/components'
 
-import DialogButtonOpen from './components/buttonOpen'
+import { DialogButtonOpen } from './components/buttonOpen'
 
 type Props = DialogClassicProps
 
-export default (props: Props) => {
+export const Dialog = (props: Props) => {
   const [state, setState] = createStore({
     button: undefined as HTMLButtonElement | undefined,
     id: '',

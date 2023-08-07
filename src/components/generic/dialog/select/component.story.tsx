@@ -1,6 +1,6 @@
 import { DialogSelect, Label } from '/src/components'
 
-export default () => {
+export const DialogSelectStory = () => {
   const [state, setState] = createStore({
     value1: '1',
   })

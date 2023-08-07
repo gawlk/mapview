@@ -1,13 +1,13 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import store from '/src/store'
+import { store } from '/src/store'
 
 import { Dialog } from '/src/components'
 
-import HeavydynCorrections from './components/corrections/heavydyn'
-import Units from './components/units'
+import { HeavydynCorrections } from './components/corrections/heavydyn'
+import { Units } from './components/units'
 
-export default () => {
+export const DialogConfig = () => {
   const [t] = useI18n()
 
   return (

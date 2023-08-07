@@ -1,10 +1,10 @@
 import packageJSONRaw from '/src/../package.json?raw'
-import env from '/src/env'
+import { env } from '/src/env'
 
 const packageJSON = JSON.parse(packageJSONRaw)
 const sha = import.meta.env.VITE_COMMIT_REF
 
-export default () => {
+export const Version = () => {
   return (
     <Switch>
       <Match when={env.isProd}>

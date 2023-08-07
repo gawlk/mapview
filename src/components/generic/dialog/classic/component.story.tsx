@@ -1,6 +1,6 @@
-import { Dialog, Label, StoryDialogSelect } from '/src/components'
+import { Dialog, DialogSelectStory, Label } from '/src/components'
 
-export default () => {
+export const DialogStory = () => {
   return (
     <Label label="Dialog">
       <Dialog
@@ -119,17 +119,17 @@ export default () => {
             <Dialog closeable title="Moveable + Resizable 4" moveable resizable>
               Moveable + Resizable dialog
             </Dialog>
-            <StoryDialogSelect />
+            <DialogSelectStory />
           </Dialog>
           <Dialog closeable title="Moveable + Resizable 5" moveable resizable>
             Moveable + Resizable dialog
             <Dialog closeable title="Moveable + Resizable 6" moveable resizable>
               Moveable + Resizable dialog
             </Dialog>
-            <StoryDialogSelect />
+            <DialogSelectStory />
           </Dialog>
         </Dialog>
-        <StoryDialogSelect />
+        <DialogSelectStory />
       </Dialog>
     </Label>
   )

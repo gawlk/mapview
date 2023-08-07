@@ -1,7 +1,7 @@
 import { useI18n } from '@solid-primitives/i18n'
 import localForage from 'localforage'
 
-import store from '/src/store'
+import { store } from '/src/store'
 
 import {
   convertData64ToFile,
@@ -18,7 +18,7 @@ interface Props extends NavigatorComponentProps {
   setTemplate: (file: File) => void
 }
 
-export default (props: Props) => {
+export const Template = (props: Props) => {
   const [state, setState] = createStore({
     file: null as File | null,
   })

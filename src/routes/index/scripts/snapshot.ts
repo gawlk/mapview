@@ -1,6 +1,6 @@
 import localforage from 'localforage'
 
-import store from '/src/store'
+import { store } from '/src/store'
 
 import { mpvzExporter, snapshotKey } from '/src/scripts'
 

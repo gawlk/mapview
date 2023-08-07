@@ -8,7 +8,7 @@ interface Props {
   onInput: (value: boolean) => void
 }
 
-export default (props: Props) => {
+export const Switch = (props: Props) => {
   return (
     <div class="ml-2 flex items-center space-x-2 px-2">
       <Show when={props.icon || props.leftIcon}>

@@ -4,8 +4,11 @@ interface Color {
   readonly hexColor: string
 }
 
-type ColorName =
-  | 'gray'
+type ColorNameVAny = ColorName | ColorNameV1
+
+type ColorName = Exclude<ColorNameV1, 'gray'>
+
+type ColorNameV1 =
   | 'red'
   | 'orange'
   | 'amber'
@@ -23,3 +26,4 @@ type ColorName =
   | 'fuchsia'
   | 'pink'
   | 'rose'
+  | 'gray'

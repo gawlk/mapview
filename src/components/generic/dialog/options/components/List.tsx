@@ -18,7 +18,7 @@ interface Props {
   showAllWhenEmpty?: boolean
 }
 
-export default (props: Props) => {
+export const DialogOptionsList = (props: Props) => {
   const [t] = useI18n()
 
   const unfilteredList = createMemo(() =>

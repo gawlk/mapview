@@ -2,7 +2,7 @@ import { classPropToString } from '/src/components'
 
 interface Props extends BaseProps {}
 
-export default (props: Props) => {
+export const DialogDivider = (props: Props) => {
   return (
     <Show when={props.color !== 'transparent'}>
       <hr

@@ -6,7 +6,7 @@ interface Props {
   zIndex: number
 }
 
-export default (props: Props) => {
+export const DialogBackdrop = (props: Props) => {
   const [state, setState] = createStore({
     zIndex: 0,
   })

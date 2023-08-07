@@ -6,7 +6,7 @@ interface Props extends Solid.ParentProps {
   text?: 'center' | 'right'
 }
 
-export default (props: Props) => {
+export const Td = (props: Props) => {
   return (
     <td
       class={classPropToString([

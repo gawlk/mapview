@@ -14,7 +14,7 @@ interface Props extends InteractiveProps {
   onChange: (value: string) => void
 }
 
-export default (props: Props) => {
+export const InputRadioHorizontal = (props: Props) => {
   return (
     // TODO: Should be interactive ?
     <Container

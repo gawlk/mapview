@@ -12,7 +12,7 @@ type Props = ContainerPropsWithHTMLAttributes
 
 // TODO: Make classes opt in
 
-export default (props: Props) => {
+export const Container = (props: Props) => {
   const dynamicProps = removeProps(props, [
     baseBooleanPropsKeysObject,
     containerBooleanPropsKeysObject,

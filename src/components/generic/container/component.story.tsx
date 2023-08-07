@@ -1,6 +1,6 @@
 import { Container, Label } from '/src/components'
 
-export default () => {
+export const ContainerStory = () => {
   return (
     <Label label="Container">
       <Container>container</Container>

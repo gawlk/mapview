@@ -1,6 +1,6 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-export default () => {
+export const Loading = () => {
   const [t] = useI18n()
 
   return (

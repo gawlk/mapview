@@ -1,6 +1,6 @@
 import { Button, Label, Navigator } from '/src/components'
 
-export default () => {
+export const NavigatorStory = () => {
   return (
     <Label label="Navigator">
       <Navigator

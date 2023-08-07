@@ -1,6 +1,6 @@
 import { Button, Label } from '/src/components'
 
-export default () => {
+export const ButtonStory = () => {
   return (
     <Label label="Button">
       <Button full onClick={() => console.log('click')}>

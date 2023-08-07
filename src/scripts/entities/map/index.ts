@@ -5,7 +5,7 @@ import mapboxgl, {
   NavigationControl,
 } from 'mapbox-gl'
 
-import store from '/src/store'
+import { store } from '/src/store'
 
 import { createSVGElement } from '/src/scripts'
 

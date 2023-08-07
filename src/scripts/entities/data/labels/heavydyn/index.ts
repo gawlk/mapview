@@ -2,7 +2,6 @@ import {
   createHeavydynDropIndexFromJSON,
   createSelectableList,
   currentCategory,
-  isCurrentCategory,
   rawCategory,
 } from '/src/scripts'
 
@@ -136,7 +135,7 @@ export const selectHeavydynGroupChoiceFromJSON = (
   report.dataLabels.groups.list.forEach((group, index) => {
     const indexD0 = group.choices.list.findIndex(
       (dataLabel) =>
-        dataLabel.name === 'D0' && isCurrentCategory(dataLabel.category)
+        dataLabel.name === 'D0' && dataLabel.category === currentCategory
     )
 
     group.choices.selectIndex(

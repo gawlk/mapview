@@ -4,7 +4,7 @@ interface Props {
   close: () => void
 }
 
-export default (props: Props) => {
+export const DialogButtonClose = (props: Props) => {
   return (
     <Button
       color="red"

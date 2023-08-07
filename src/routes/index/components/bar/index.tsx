@@ -1,16 +1,16 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import store from '/src/store'
+import { store } from '/src/store'
 
-import BarDesktop from './components/barDesktop'
-import BarMobile from './components/barMobile'
-import MenuColors from './components/menuColors'
-import MenuData from './components/menuData'
-import MenuMap from './components/menuMap'
-import MenuProject from './components/menuProject'
-import MenuReports from './components/menuReports'
+import { BarDesktop } from './components/barDesktop'
+import { BarMobile } from './components/barMobile'
+import { MenuColors } from './components/menuColors'
+import { MenuData } from './components/menuData'
+import { MenuMap } from './components/menuMap'
+import { MenuProject } from './components/menuProject'
+import { MenuReports } from './components/menuReports'
 
-export default () => {
+export const Bar = () => {
   const [t] = useI18n()
 
   const menus: Menu[] = [

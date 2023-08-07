@@ -2,11 +2,11 @@ import { run } from '/src/scripts'
 
 import { classPropToString } from '/src/components'
 
-export interface Props extends Solid.ParentProps, BaseProps {
+export interface LabelProps extends Solid.ParentProps, BaseProps {
   label: string | Solid.JSX.Element
 }
 
-export default (props: Props) => {
+export const Label = (props: LabelProps) => {
   const id = `${props.label}-${Math.random()}`
 
   return (

@@ -2,7 +2,7 @@ import { Dialog, Label, Td, Tr, classPropToString } from '/src/components'
 
 import { SortableList } from '.'
 
-export default () => {
+export const SortableListStory = () => {
   const list = createMutable([
     'a',
     'b',

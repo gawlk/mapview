@@ -1,6 +1,6 @@
 import { createSelectableList } from '/src/scripts/utils/selectableList'
 
-const store = createMutable<Store>({
+export const store = createMutable<Store>({
   // example: read('example') || defaultExample,
   projects: createSelectableList([]),
   get selectedProject() {
@@ -28,5 +28,3 @@ const store = createMutable<Store>({
   importingFile: false,
   map: null,
 })
-
-export default store

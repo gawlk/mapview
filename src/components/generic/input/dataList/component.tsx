@@ -9,7 +9,7 @@ import {
 
 interface Props extends InputDataListProps {}
 
-export default (props: Props) => {
+export const InputDataList = (props: Props) => {
   const [state, setState] = createStore({
     value: String(props.value) || '',
     wrapper: undefined as HTMLDivElement | undefined,

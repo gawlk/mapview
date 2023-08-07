@@ -1,10 +1,10 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import store from '/src/store'
+import { store } from '/src/store'
 
-import { colorNameToBackgroundColor } from '/src/scripts'
+import { colors } from '/src/scripts'
 
-import SpanThreshold from './spanThreshold'
+import { SpanThreshold } from './spanThreshold'
 
 import { DialogColor } from '/src/components'
 
@@ -16,7 +16,7 @@ interface Props {
   to?: number
 }
 
-export default (props: Props) => {
+export const DialogColorThreshold = (props: Props) => {
   const [t] = useI18n()
 
   const thresoldColors = createMemo(
@@ -24,21 +24,23 @@ export default (props: Props) => {
   )
 
   return (
-    <DialogColor
-      button={{
-        full: true,
-        text: () => <SpanThreshold {...props} />,
-        style: {
-          'background-color': `${colorNameToBackgroundColor(
-            thresoldColors()?.[props.level]
-          )}aa`,
-        },
-      }}
-      onClose={(color?: string) => {
-        const colors = thresoldColors()
-        color && colors && (colors[props.level] = color as ColorName)
-      }}
-      selected={thresoldColors()?.[props.level]}
-    />
+    <Show when={thresoldColors()}>
+      {(thresoldColors) => (
+        <DialogColor
+          button={{
+            full: true,
+            text: () => <SpanThreshold {...props} />,
+            style: {
+              'background-color': `${colors[thresoldColors()[props.level]]}aa`,
+            },
+          }}
+          onClose={(color?: string) => {
+            const colors = thresoldColors()
+            color && colors && (colors[props.level] = color as ColorName)
+          }}
+          selected={thresoldColors()[props.level]}
+        />
+      )}
+    </Show>
   )
 }

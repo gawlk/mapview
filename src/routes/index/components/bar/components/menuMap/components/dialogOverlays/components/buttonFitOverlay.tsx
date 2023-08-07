@@ -1,4 +1,4 @@
-import store from '/src/store'
+import { store } from '/src/store'
 
 import { Button } from '/src/components'
 
@@ -6,7 +6,7 @@ interface Props {
   overlay: Overlay
 }
 
-export default (props: Props) => {
+export const ButtonFitOverlay = (props: Props) => {
   return (
     <Button
       full

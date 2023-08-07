@@ -10,7 +10,7 @@ interface Props {
   overlay: Overlay
 }
 
-export default (props: Props) => {
+export const ButtonOverlayOpacity = (props: Props) => {
   const opacity = createMemo(() => props.overlay.opacity)
 
   const setOpacity = (opacity: 1 | 0.75 | 0.5 | 0.25 | 0) =>

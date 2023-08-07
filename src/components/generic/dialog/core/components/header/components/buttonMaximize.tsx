@@ -6,7 +6,7 @@ interface Props {
   onClick: ButtonPropsWithHTMLAttributes['onClick']
 }
 
-export default (props: Props) => {
+export const DialogButtonMaximize = (props: Props) => {
   return (
     // TODO: Add callback with span in order to have a centered title (but hidden below md:)
     <Show when={props.show}>

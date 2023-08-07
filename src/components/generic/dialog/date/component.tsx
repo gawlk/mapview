@@ -14,13 +14,13 @@ import {
   removeProps,
 } from '/src/components'
 
-export interface Props
+export interface DialogDatePropsWithHTMLAttributes
   extends MergePropsWithHTMLProps<
     DialogDateProps,
     Solid.JSX.DialogHTMLAttributes
   > {}
 
-export default (props: Props) => {
+export const DialogDate = (props: DialogDatePropsWithHTMLAttributes) => {
   const [state, setState] = createStore({
     year: 0,
     month: 0,

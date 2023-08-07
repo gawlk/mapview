@@ -1,14 +1,14 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import store from '/src/store'
+import { store } from '/src/store'
 
 import { Dialog } from '/src/components'
 
-import ButtonFitOverlay from './components/buttonFitOverlay'
-import ButtonOverlayOpacity from './components/buttonOverlayOpacity'
-import ButtonRemoveOverlay from './components/buttonRemoveOverlay'
+import { ButtonFitOverlay } from './components/buttonFitOverlay'
+import { ButtonOverlayOpacity } from './components/buttonOverlayOpacity'
+import { ButtonRemoveOverlay } from './components/buttonRemoveOverlay'
 
-export default () => {
+export const DialogOverlays = () => {
   const [t] = useI18n()
 
   return (

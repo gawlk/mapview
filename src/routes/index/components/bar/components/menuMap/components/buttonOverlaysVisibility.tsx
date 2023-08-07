@@ -1,8 +1,8 @@
-import store from '/src/store'
+import { store } from '/src/store'
 
 import { Button } from '/src/components'
 
-export default () => {
+export const ButtonOverlaysVisibility = () => {
   return (
     <Button
       onClick={() =>

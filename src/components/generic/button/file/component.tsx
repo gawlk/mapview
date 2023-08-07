@@ -5,7 +5,7 @@ interface Props extends ButtonPropsWithHTMLAttributes {
   extensions?: string | string[]
 }
 
-export default (props: Props) => {
+export const ButtonFile = (props: Props) => {
   let inputFile: HTMLInputElement | undefined
 
   return (

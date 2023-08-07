@@ -1,12 +1,10 @@
-import store from '/src/store'
+import { store } from '/src/store'
 
-import { acceptedExtensions, importFile } from '/src/scripts'
+import { importFile } from '/src/scripts'
 
-import { Button, ButtonFile } from '/src/components'
+import { ButtonFile } from '/src/components'
 
-export default () => {
-  let inputFile: HTMLInputElement | undefined
-
+export const ButtonAddProject = () => {
   const addProject = async (file: File | undefined) => {
     if (file) {
       store.importingFile = true

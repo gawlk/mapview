@@ -1,12 +1,10 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import store from '/src/store'
+import { store } from '/src/store'
 
 import { DialogSelect } from '/src/components'
 
-import DotIcon from '/src/assets/svg/custom/dot.svg'
-
-export default () => {
+export const SelectMarkersContent = () => {
   const [t] = useI18n()
 
   const markersPossibleStates = [

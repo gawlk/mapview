@@ -1,5 +1,5 @@
 import { DialogDate, Label } from '/src/components'
 
-export default () => {
+export const DialogDateStory = () => {
   return <Label label="Date picker (Dialog)"></Label>
 }

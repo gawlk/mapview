@@ -1,4 +1,4 @@
-import store from '/src/store'
+import { store } from '/src/store'
 
 import { Input, InputRadioHorizontal } from '/src/components'
 
@@ -9,9 +9,7 @@ interface Props extends InputProps {
   setValue: (value: number) => void
 }
 
-export default (props: Props) => {
-  let input: HTMLInputElement | undefined
-
+export const InputCustomThreshold = (props: Props) => {
   return (
     <div class="flex space-x-1">
       <InputRadioHorizontal

@@ -1,7 +1,7 @@
 import { isListOfGroups } from './scripts'
 
-import Group from './components/Group'
-import List from './components/List'
+import { DialogOptionsGroup } from './components/Group'
+import { DialogOptionsList } from './components/List'
 
 interface Props {
   input?: string
@@ -10,12 +10,12 @@ interface Props {
   showAllWhenEmpty?: boolean
 }
 
-export default (props: Props) => {
+export const DialogOptions = (props: Props) => {
   return (
     <Show
       when={isListOfGroups(props.options)}
       fallback={
-        <List
+        <DialogOptionsList
           input={props.input}
           selected={props.options.selected}
           list={props.options.list as ValuesListProps}
@@ -24,7 +24,7 @@ export default (props: Props) => {
         />
       }
     >
-      <Group
+      <DialogOptionsGroup
         input={props.input}
         selected={props.options.selected}
         list={props.options.list as GroupedDialogSelectOptionsProps[]}

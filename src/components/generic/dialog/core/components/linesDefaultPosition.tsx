@@ -4,7 +4,7 @@ interface Props {
   zIndex?: number
 }
 
-export default (props: Props) => {
+export const DialogLinesDefaultPosition = (props: Props) => {
   return (
     <div
       style={

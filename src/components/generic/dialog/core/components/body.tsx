@@ -13,7 +13,7 @@ interface Props extends Solid.ParentProps {
   form?: Solid.JSX.Element
 }
 
-export default (props: Props) => {
+export const DialogBody = (props: Props) => {
   return (
     <div
       class={classPropToString([

@@ -1,5 +1,5 @@
 import {
-  average,
+  computeAverage,
   createDataComputer,
   createDataLabel,
   createDataValue,
@@ -56,7 +56,7 @@ export const createCumSumDataComputer = (report: HeavydynReport) => {
             : undefined
         })
 
-        const averageD0OnLoad = average(
+        const averageD0OnLoad = computeAverage(
           d0OnLoadList.flat().filter((v) => typeof v === 'number') as number[]
         )
 

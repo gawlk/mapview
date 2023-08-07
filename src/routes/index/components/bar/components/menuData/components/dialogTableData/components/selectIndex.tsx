@@ -1,12 +1,12 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import store from '/src/store'
+import { store } from '/src/store'
 
 import { run } from '/src/scripts'
 
 import { DialogSelect, SpanDropIndex } from '/src/components'
 
-export default () => {
+export const SelectIndex = () => {
   const [t] = useI18n()
 
   const selectedTableParams = createMemo(

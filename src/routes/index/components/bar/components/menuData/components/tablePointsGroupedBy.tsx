@@ -1,7 +1,7 @@
-import store from '/src/store'
+import { store } from '/src/store'
 
-import TablePoints from './tablePoints'
-import ZonePreTable from './zonePreTable'
+import { TablePoints } from './tablePoints'
+import { ZonePreTable } from './zonePreTable'
 
 interface Props {
   dataLabels: DataLabel[]
@@ -11,7 +11,7 @@ interface Props {
   sortable?: boolean
 }
 
-export default (props: Props) => {
+export const TablePointsGroupedBy = (props: Props) => {
   return (
     <Switch>
       <Match when={store.selectedReport?.settings.groupBy === 'Number'}>

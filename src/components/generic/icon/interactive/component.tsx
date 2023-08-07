@@ -8,7 +8,7 @@ import {
 
 interface Props extends MergePropsWithHTMLProps<IconInteractiveProps> {}
 
-export default (props: Props) => {
+export const IconInteractive = (props: Props) => {
   const iconProps = removeProps(props, iconInteractiveBooleanPropsKeysObject)
 
   return (

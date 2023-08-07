@@ -1,6 +1,6 @@
 import { Button, Container, InputRadioHorizontal, Label } from '/src/components'
 
-export default () => {
+export const InputRadioHorizontalStory = () => {
   const [state, setState] = createStore({
     selected: 'Enable',
   })

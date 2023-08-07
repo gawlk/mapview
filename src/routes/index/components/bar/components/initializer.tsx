@@ -1,7 +1,7 @@
 import { useI18n } from '@solid-primitives/i18n'
 import localforage from 'localforage'
 
-import store from '/src/store'
+import { store } from '/src/store'
 
 import {
   acceptedExtensions,
@@ -17,7 +17,7 @@ interface Props {
   class?: ClassProp
 }
 
-export default (props: Props) => {
+export const Initializer = (props: Props) => {
   const [t] = useI18n()
 
   const [state, setState] = createStore({

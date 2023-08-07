@@ -1,22 +1,12 @@
 import {
-  average,
+  computeAverage,
+  computeStandardDeviation,
   createDataComputer,
   createDataLabel,
   createDataValue,
   currentCategory,
   indicatorsCategory,
-  isCurrentCategory,
 } from '/src/scripts'
-
-const computeStandardDeviation = (values: number[]) => {
-  const n = values.length
-
-  const mean = values.reduce((a, b) => a + b) / n
-
-  return Math.sqrt(
-    values.map((x) => (x - mean) ** 2).reduce((a, b) => a + b) / n
-  )
-}
 
 export const createCharacteristicDeflectionComputer = (
   report: HeavydynReport
@@ -55,7 +45,7 @@ export const createCharacteristicDeflectionComputer = (
           .flat()
           .map((d0) => d0.getRawValue())
 
-        const d0sAverage = average(d0s)
+        const d0sAverage = computeAverage(d0s)
 
         const value =
           d0s.length <= 1

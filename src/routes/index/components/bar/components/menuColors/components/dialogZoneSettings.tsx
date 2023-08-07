@@ -1,12 +1,12 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import store from '/src/store'
+import { store } from '/src/store'
 
-import { colorNameToBackgroundColor } from '/src/scripts'
+import { colors } from '/src/scripts'
 
 import { Button, Container, Dialog, DialogColor, Input } from '/src/components'
 
-export default () => {
+export const DialogZoneSettings = () => {
   const [t] = useI18n()
 
   return (
@@ -24,9 +24,7 @@ export default () => {
               size="xs"
               color="transparent"
               style={{
-                'background-color': `${colorNameToBackgroundColor(
-                  zone.settings.color
-                )}66`,
+                'background-color': `${colors[zone.settings.color]}66`,
               }}
             >
               <DialogColor

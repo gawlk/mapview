@@ -1,4 +1,4 @@
-import store from '/src/store'
+import { store } from '/src/store'
 
 export const movePointToZoneIndex = (point: BasePoint, zoneIndex: number) => {
   const zones = store.selectedReport?.zones

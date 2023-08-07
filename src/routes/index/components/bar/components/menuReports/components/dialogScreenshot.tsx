@@ -1,15 +1,15 @@
 import { useI18n } from '@solid-primitives/i18n'
 import html2canvas from 'html2canvas'
 
-import store from '/src/store'
+import { store } from '/src/store'
 
 import { downloadImage } from '/src/scripts'
 
-import Image from './image'
+import { Image } from './image'
 
 import { Button, Dialog } from '/src/components'
 
-export default () => {
+export const DialogScreenshot = () => {
   const [t] = useI18n()
 
   const [state, setState] = createStore({

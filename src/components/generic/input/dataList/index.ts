@@ -1,2 +1,2 @@
-export { default as InputDataList } from './component'
-export { default as StoryInputDataList } from './component.story'
+export * from './component'
+export * from './component.story'

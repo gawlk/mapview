@@ -1,4 +1,4 @@
-export { default as DialogDate } from './component'
-export { default as StoryDialogDate } from './component.story'
+export * from './component'
+export * from './component.story'
 
 export * from './props'

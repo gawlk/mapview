@@ -1,10 +1,10 @@
-import store from '/src/store'
+import { store } from '/src/store'
 
 import { Button } from '/src/components'
 
 import DotsIcon from '/src/assets/svg/custom/dots.svg'
 
-export default () => {
+export const ButtonLineVisibility = () => {
   return (
     <Button
       size="sm"

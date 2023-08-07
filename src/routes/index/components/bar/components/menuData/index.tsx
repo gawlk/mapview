@@ -1,11 +1,11 @@
-import store from '/src/store'
+import { store } from '/src/store'
 
-import DialogTableData from './components/dialogTableData'
-import SelectGroupBy from './components/selectGroupBy'
-import TablePointsGroupedBy from './components/tablePointsGroupedBy'
-import Values from './components/values'
+import { DialogTableData } from './components/dialogTableData'
+import { SelectGroupBy } from './components/selectGroupBy'
+import { TablePointsGroupedBy } from './components/tablePointsGroupedBy'
+import { Values } from './components/values'
 
-export default () => {
+export const MenuData = () => {
   return (
     <>
       <SelectGroupBy />

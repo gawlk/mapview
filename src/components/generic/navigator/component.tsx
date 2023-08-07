@@ -6,7 +6,7 @@ interface Props {
   }[]
 }
 
-export default (props: Props) => {
+export const Navigator = (props: Props) => {
   const [state, setState] = createStore({
     id: props.default,
     history: [] as string[],

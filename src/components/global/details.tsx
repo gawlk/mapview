@@ -18,7 +18,7 @@ interface Props
 
 // TODO: Add button props here and apply them to the opening button
 
-export default (props: Props) => {
+export const Details = (props: Props) => {
   // TODO: Improve component
 
   const defaultOpen = props.defaultOpen || false

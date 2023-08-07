@@ -8,7 +8,7 @@ interface Props {
 
 export const baseID = 'desktop-menu-'
 
-export default (props: Props) => {
+export const MenuWrapperDesktop = (props: Props) => {
   return (
     <Details
       button={{

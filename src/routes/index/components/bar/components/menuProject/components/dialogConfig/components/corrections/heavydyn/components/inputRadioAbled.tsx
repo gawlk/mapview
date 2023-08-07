@@ -7,7 +7,7 @@ interface Props {
   onChange: (value: boolean) => void
 }
 
-export default (props: Props) => {
+export const InputRadioAbled = (props: Props) => {
   const [t] = useI18n()
 
   const enabledString = t('Enabled')

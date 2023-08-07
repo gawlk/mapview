@@ -2,7 +2,7 @@ import { useI18n } from '@solid-primitives/i18n'
 
 import { roundValue } from '/src/scripts'
 
-import InputRadioAbled from './inputRadioAbled'
+import { InputRadioAbled } from './inputRadioAbled'
 
 import { Details, DialogSelect, Input } from '/src/components'
 
@@ -10,7 +10,7 @@ interface Props {
   project: HeavydynProject
 }
 
-export default (props: Props) => {
+export const DetailsTemperature = (props: Props) => {
   const [t] = useI18n()
 
   const temperature = createMemo(

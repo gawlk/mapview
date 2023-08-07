@@ -1,12 +1,12 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import store from '/src/store'
+import { store } from '/src/store'
 
 import { colors } from '/src/scripts'
 
 import { Button, THead, Table, Td, TdDataLabel, Tr } from '/src/components'
 
-export default () => {
+export const TableZones = () => {
   const size = 'sm'
 
   const [t] = useI18n()

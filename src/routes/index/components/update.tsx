@@ -1,10 +1,10 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import store from '/src/store'
+import { store } from '/src/store'
 
 import { Sticky } from '/src/components'
 
-export default () => {
+export const Update = () => {
   const [t] = useI18n()
 
   return (

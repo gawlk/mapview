@@ -1,1 +1,1 @@
-export { default as ButtonFile } from './component'
+export * from './component'

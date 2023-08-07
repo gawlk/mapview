@@ -14,7 +14,7 @@ import {
 
 type Props = InputPropsWithHTMLAttributes
 
-export default (props: Props) => {
+export const Input = (props: Props) => {
   const [interactiveProps, inputProps] = splitProps(
     removeProps(props, { ...inputBooleanPropsKeysObject, onClick: true }),
     booleanPropsKeysToArray([

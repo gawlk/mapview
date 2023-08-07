@@ -1,4 +1,4 @@
-import store from '/src/store'
+import { store } from '/src/store'
 
 import { convertUint8ArrayToData64Image, createOverlay } from '/src/scripts'
 

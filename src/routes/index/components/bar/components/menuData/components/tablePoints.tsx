@@ -1,8 +1,8 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import store from '/src/store'
+import { store } from '/src/store'
 
-import { colors, moveIndexInCopiedArray } from '/src/scripts'
+import { gray, moveIndexInCopiedArray } from '/src/scripts'
 
 import { movePointToZoneIndex } from './scripts'
 
@@ -26,7 +26,7 @@ interface Props {
   sortable?: boolean
 }
 
-export default (props: Props) => {
+export const TablePoints = (props: Props) => {
   const size = 'sm'
 
   const [t] = useI18n()
@@ -99,7 +99,7 @@ export default (props: Props) => {
                 props.colored
                   ? point.settings.isVisible && point.icon
                     ? point.icon.color
-                    : colors.gray
+                    : gray
                   : undefined
               }
               class={[!point.settings.isVisible && 'text-opacity-50']}

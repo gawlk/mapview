@@ -12,25 +12,25 @@ export const createCurvatureRadiusDataComputers = (report: HeavydynReport) => {
   return [
     {
       side: 'Front',
-      dl:
+      dataLabel:
         report.dataLabels.findIn('Drop', 'D200', currentCategory) ||
         report.dataLabels.findIn('Drop', 'D300', currentCategory),
     },
     {
       side: 'Back',
-      dl:
+      dataLabel:
         report.dataLabels.findIn('Drop', 'D-200', currentCategory) ||
         report.dataLabels.findIn('Drop', 'D-300', currentCategory),
     },
-  ].map((obj) => {
+  ].map((params) => {
     return createDataComputer({
       label:
         d0DataLabel &&
-        obj.dl &&
+        params.dataLabel &&
         report.dataLabels.pushTo(
           'Drop',
           createDataLabel({
-            name: `Curvature radius (${obj.side})`,
+            name: `Curvature radius (${params.side})`,
             unit: report.project.units.radius,
             category: indicatorsCategory,
           })
@@ -41,7 +41,9 @@ export const createCurvatureRadiusDataComputers = (report: HeavydynReport) => {
             point.drops.forEach((drop) => {
               const d1 = drop.data.find((_data) => _data.label === d0DataLabel)
 
-              const d2 = drop.data.find((_data) => _data.label === obj.dl)
+              const d2 = drop.data.find(
+                (_data) => _data.label === params.dataLabel
+              )
 
               if (d1 && d2) {
                 const data =

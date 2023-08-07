@@ -6,12 +6,6 @@ export const rawCategory: DataCategory = {
   neededInExcelName: true,
 }
 
-export const isRawCategory = (category: DataCategory) =>
-  unwrap(category) === rawCategory
-
 export const currentCategory: DataCategory = {
   name: 'Current',
 }
-
-export const isCurrentCategory = (category: DataCategory) =>
-  unwrap(category) === currentCategory

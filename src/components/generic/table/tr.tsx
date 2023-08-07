@@ -7,7 +7,7 @@ interface Props extends Solid.ParentProps, Sortable {
   class?: ClassProp
 }
 
-export default (props: Props) => {
+export const Tr = (props: Props) => {
   return (
     <tr
       ref={props.ref}

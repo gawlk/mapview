@@ -1,20 +1,20 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import store from '/src/store'
+import { store } from '/src/store'
 
 import { run } from '/src/scripts'
 
 import { Dialog, DialogDivider, SpanDataLabel } from '/src/components'
 
-import OptionsDataLabels from './components/optionsDataLabels'
-import SelectIndex from './components/selectIndex'
-import SelectSource from './components/selectSource'
-import TableZones from './components/tableZones'
+import { OptionsDataLabels } from './components/optionsDataLabels'
+import { SelectIndex } from './components/selectIndex'
+import { SelectSource } from './components/selectSource'
+import { TableZones } from './components/tableZones'
 
-import SelectGroupBy from '../selectGroupBy'
-import TablePointsGroupedBy from '../tablePointsGroupedBy'
+import { SelectGroupBy } from '../selectGroupBy'
+import { TablePointsGroupedBy } from '../tablePointsGroupedBy'
 
-export default () => {
+export const DialogTableData = () => {
   const [t] = useI18n()
 
   return (

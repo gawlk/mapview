@@ -1,10 +1,10 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import store from '/src/store'
+import { store } from '/src/store'
 
 import { DialogSelect } from '/src/components'
 
-export default () => {
+export const SelectSource = () => {
   const [t] = useI18n()
 
   const tableDataLabels = createMemo(

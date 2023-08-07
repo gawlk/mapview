@@ -7,7 +7,7 @@ interface Props {
   tableSelectedDataLabels: DataLabel[]
 }
 
-export default (props: Props) => {
+export const SortableDataLabel = (props: Props) => {
   return (
     <div ref={props.ref} class="flex">
       <Button

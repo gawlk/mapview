@@ -1,5 +1,5 @@
 import {
-  average,
+  computeAverage,
   createDataComputer,
   createDataLabel,
   createDataValue,
@@ -44,12 +44,12 @@ export const createHeavydynCurrentDeflectionDropDataComputers = (
               )
             )
 
-            const reportSourceTempAverage = average(
+            const reportSourceTempAverage = computeAverage(
               sourceTempMatrix.flat().filter((v) => v) as number[]
             )
 
             report.zones.forEach((zone, zoneIndex) => {
-              const zoneSourceTempAverage = average(
+              const zoneSourceTempAverage = computeAverage(
                 sourceTempMatrix[zoneIndex].filter((v) => v) as number[]
               )
 

@@ -8,7 +8,7 @@ interface Props {
   report: BaseReport
 }
 
-export default (props: Props) => {
+export const SelectReportMarkerIcon = (props: Props) => {
   const [t] = useI18n()
 
   return (

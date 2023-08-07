@@ -10,7 +10,7 @@ export interface Props
   skip?: ColorName[]
 }
 
-export default (props: Props) => {
+export const DialogColor = (props: Props) => {
   return (
     <Dialog
       title="Select a color"
@@ -27,7 +27,7 @@ export default (props: Props) => {
         <div class="space-y-2">
           <For
             each={Object.entries(colors).filter(
-              ([name]) => !(props.skip || ['gray'])?.includes(name as ColorName)
+              ([name]) => !(props.skip || [])?.includes(name as ColorName)
             )}
           >
             {([name, hex]) => (

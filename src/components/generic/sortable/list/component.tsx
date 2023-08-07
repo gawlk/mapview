@@ -1,7 +1,7 @@
 import { ReactiveMap } from '@solid-primitives/map'
 import { useMousePosition } from '@solid-primitives/mouse'
 import { createScrollPosition } from '@solid-primitives/scroll'
-import type { DragEventHandler, Id } from '@thisbeyond/solid-dnd'
+import type { Id } from '@thisbeyond/solid-dnd'
 import {
   DragDropProvider,
   DragDropSensors,
@@ -35,7 +35,7 @@ interface Props<T> {
 
 const isDraggedClasses = 'opacity-50'
 
-export default <T,>(props: Props<T>) => {
+export const SortableList = <T,>(props: Props<T>) => {
   const [state, setState] = createStore({
     startingScrollX: 0,
     startingScrollY: 0,

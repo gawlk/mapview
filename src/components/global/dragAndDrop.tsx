@@ -6,7 +6,7 @@ interface Props extends Solid.ParentProps {
   onInput: (value: FileList | null) => void
 }
 
-export default (props: Props) => {
+export const DragAndDrop = (props: Props) => {
   let file: HTMLInputElement | undefined
 
   const state = createMutable({

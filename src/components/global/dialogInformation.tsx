@@ -9,7 +9,7 @@ interface Props {
   }[]
 }
 
-export default (props: Props) => {
+export const DialogInformation = (props: Props) => {
   const [t] = useI18n()
 
   const [state, setState] = createStore({
@@ -20,7 +20,7 @@ export default (props: Props) => {
 
   return (
     <Dialog
-      title={t('Informations')}
+      title={t('Information')}
       button={{
         leftIcon: IconTablerInfoCircle,
         text: t('View information'),

@@ -1,17 +1,17 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import store from '/src/store'
+import { store } from '/src/store'
 
 import { getSimpleReportExports } from '/src/scripts'
 
 import { Dialog, Navigator } from '/src/components'
 
-import MVRZ from './components/mvrz'
-import Rest from './components/mvrz/components/rest'
+import { MVRZ } from './components/mvrz'
+import { REST } from './components/mvrz/components/rest'
 import { initDemoTemplates } from './components/mvrz/components/template/scripts'
-import SimpleExporters from './components/simpleExporters'
+import { SimpleExporters } from './components/simpleExporters'
 
-export default () => {
+export const DialogExport = () => {
   const [t] = useI18n()
 
   const [state, setState] = createStore({
@@ -80,7 +80,7 @@ export default () => {
             id: '/mvrz/rest',
             component: (props: NavigatorComponentProps) => (
               <Show when={state.template}>
-                {(file) => <Rest {...props} template={file()} />}
+                {(file) => <REST {...props} template={file()} />}
               </Show>
             ),
           },

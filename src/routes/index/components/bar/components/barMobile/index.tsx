@@ -1,17 +1,17 @@
 import { createResizeObserver } from '@solid-primitives/resize-observer'
 
-import store from '/src/store'
+import { store } from '/src/store'
 
-import MenuWrapperMobile, { baseID } from './components/menuWrapperMobile'
+import { MenuWrapperMobile, baseID } from './components/menuWrapperMobile'
 
-import Initializer from '../initializer'
+import { Initializer } from '../initializer'
 
 interface Props {
   readonly menus: Menu[]
   setID: (id: string) => void
 }
 
-export default (props: Props) => {
+export const BarMobile = (props: Props) => {
   props.menus?.map((menu) => {
     menu.openedOnMobile = false
   })

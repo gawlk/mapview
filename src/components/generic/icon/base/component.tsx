@@ -12,7 +12,7 @@ import {
 
 interface Props extends MergePropsWithHTMLProps<IconProps> {}
 
-export default (props: Props) => {
+export const Icon = (props: Props) => {
   const dynamicProps = removeProps(props, [
     baseBooleanPropsKeysObject,
     containerBooleanPropsKeysObject,

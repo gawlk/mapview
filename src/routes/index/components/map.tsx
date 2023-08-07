@@ -1,11 +1,11 @@
-import store from '/src/store'
+import { store } from '/src/store'
 
 import { createMap } from '/src/scripts'
 
 const fixMapHeight = () =>
   setTimeout(() => window.dispatchEvent(new Event('resize')), 200)
 
-export default () => {
+export const Map = () => {
   onMount(() => {
     setTimeout(() => {
       const map = createMap('map')

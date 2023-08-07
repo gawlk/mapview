@@ -1,6 +1,6 @@
 import { Input, Label } from '/src/components'
 
-export default () => {
+export const InputStory = () => {
   const [state, setState] = createStore({
     value1: '',
     value2: 2,

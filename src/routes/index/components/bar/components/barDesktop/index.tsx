@@ -1,23 +1,23 @@
 import { createResizeObserver } from '@solid-primitives/resize-observer'
 
-import store from '/src/store'
+import { store } from '/src/store'
 
 import { run } from '/src/scripts'
 
 import { Button } from '/src/components'
 
-import Footer from './components/footer'
-import Logo from './components/logo'
-import MenuWrapperDesktop, { baseID } from './components/menuWrapperDesktop'
+import { Footer } from './components/footer'
+import { Logo } from './components/logo'
+import { MenuWrapperDesktop, baseID } from './components/menuWrapperDesktop'
 
-import Initializer from '../initializer'
+import { Initializer } from '../initializer'
 
 interface Props {
   setID: (id: string) => void
   readonly menus: Menu[]
 }
 
-export default (props: Props) => {
+export const BarDesktop = (props: Props) => {
   return (
     <div class="hidden w-[520px] flex-none space-y-8 overflow-scroll px-2 py-8 lg:block">
       <Logo />

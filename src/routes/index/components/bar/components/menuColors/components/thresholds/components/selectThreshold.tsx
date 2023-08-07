@@ -6,7 +6,7 @@ interface Props {
   thresholds?: ThresholdsGroupChoices
 }
 
-export default (props: Props) => {
+export const SelectThreshold = (props: Props) => {
   const [t] = useI18n()
 
   return (

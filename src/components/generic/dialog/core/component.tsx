@@ -33,7 +33,7 @@ import {
 
 type Props = DialogPropsWithHTMLAttributes
 
-export default (props: Props) => {
+export const DialogCore = (props: Props) => {
   const [state, setState] = createStore({
     show: false,
     open: false,

@@ -1,6 +1,6 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import List from './List'
+import { DialogOptionsList } from './List'
 
 import { Label } from '/src/components'
 
@@ -12,7 +12,7 @@ interface Props {
   showAllWhenEmpty?: boolean
 }
 
-export default (props: Props) => {
+export const DialogOptionsGroup = (props: Props) => {
   const [t] = useI18n()
 
   return (
@@ -20,7 +20,7 @@ export default (props: Props) => {
       {(group) => (
         <Show when={group.list.length}>
           <Label label={t(group.name)}>
-            <List {...props} list={group.list} />
+            <DialogOptionsList {...props} list={group.list} />
           </Label>
         </Show>
       )}

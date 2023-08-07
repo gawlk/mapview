@@ -2,7 +2,7 @@ interface Props extends Solid.ParentProps {
   close: (element?: HTMLElement) => void
 }
 
-export default (props: Props) => {
+export const DialogForm = (props: Props) => {
   return (
     <form
       class="h-full w-full"

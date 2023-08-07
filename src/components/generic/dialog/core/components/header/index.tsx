@@ -5,8 +5,8 @@ import { moveDialog } from './scripts'
 
 import { classPropToString } from '/src/components'
 
-import DialogButtonClose from './components/buttonClose'
-import DialogButtonMaximize from './components/buttonMaximize'
+import { DialogButtonClose } from './components/buttonClose'
+import { DialogButtonMaximize } from './components/buttonMaximize'
 
 import { activateSelectNone, deactivateSelectNone } from '../scripts'
 
@@ -25,7 +25,7 @@ interface Props {
   setMoving: (moving: boolean) => void
 }
 
-export default (props: Props) => {
+export const DialogHeader = (props: Props) => {
   const [state, setState] = createStore({
     moving: false,
   })

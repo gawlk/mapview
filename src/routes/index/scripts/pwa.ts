@@ -1,4 +1,4 @@
-import store from '/src/store'
+import { store } from '/src/store'
 
 export const checkUpdate = async () => {
   if (!navigator.serviceWorker) {

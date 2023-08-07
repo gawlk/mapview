@@ -1,37 +1,39 @@
 import {
-  StoryButton,
-  StoryContainer,
-  StoryDialog,
-  StoryDialogColor,
-  StoryDialogSelect,
-  StoryIcon,
-  StoryIconInteractive,
-  StoryInput,
-  StoryInputDataList,
-  StoryInputRadioHorizontal,
-  StoryInteractive,
-  StoryNavigator,
-  StorySortableList,
+  ButtonStory,
+  ContainerStory,
+  DialogColorStory,
+  DialogSelectStory,
+  DialogStory,
+  IconInteractiveStory,
+  IconStory,
+  InputDataListStory,
+  InputRadioHorizontalStory,
+  InputStory,
+  InteractiveStory,
+  NavigatorStory,
+  SortableListStory,
 } from '/src/components'
 
-export default () => {
+export const Stories = () => {
   return (
     <div class="space-y-8 p-8">
-      {/* <StoryContainer />
-      <StoryIcon />
-      <StoryIconInteractive />
-      <StoryInteractive />
-      <StoryButton />
-      <StoryInput /> */}
-      <StoryDialog />
+      {/* <ContainerStory />
+      <IconStory />
+      <IconInteractiveStory />
+      <InteractiveStory />
+      <ButtonStory />
+      <InputStory /> */}
+      <DialogStory />
 
-      <StoryDialogSelect />
-      <StoryInputDataList />
-      {/* <StorySortableList />
-      <StoryInputRadioHorizontal />
+      <DialogSelectStory />
+      <InputDataListStory />
+      {/* <SortableListStory />
+      <InputRadioHorizontalStory />
       
-      <StoryDialogColor />
-      <StoryNavigator /> */}
+      <DialogColorStory />
+      <NavigatorStory /> */}
     </div>
   )
 }
+
+export default Stories

@@ -1,18 +1,18 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import store from '/src/store'
+import { store } from '/src/store'
 
 import { downloadFile, mvrzExporter, run } from '/src/scripts'
 
 import { Button } from '/src/components'
 
-import Template from './components/template'
+import { Template } from './components/template'
 
 interface Props extends NavigatorComponentProps {
   setTemplate: (file: File) => void
 }
 
-export default (props: Props) => {
+export const MVRZ = (props: Props) => {
   const [t] = useI18n()
 
   return (

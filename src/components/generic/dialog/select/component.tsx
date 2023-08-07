@@ -10,13 +10,13 @@ import {
 
 import { convertDialogValuesPropsListToValuesWithTextProps } from '../options/scripts'
 
-export interface Props
+export interface DialogSelectPropsWithHTMLAttributes
   extends MergePropsWithHTMLProps<
     DialogSelectProps,
     Solid.JSX.DialogHTMLAttributes
   > {}
 
-export default (props: Props) => {
+export const DialogSelect = (props: DialogSelectPropsWithHTMLAttributes) => {
   const [state, setState] = createStore({
     input: undefined as string | undefined,
   })

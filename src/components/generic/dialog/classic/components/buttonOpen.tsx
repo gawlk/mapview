@@ -9,7 +9,7 @@ interface Props extends InternalButtonProps {
   for: string
 }
 
-export default (props: Props) => {
+export const DialogButtonOpen = (props: Props) => {
   const propsToSpread = createMemo(
     (): ButtonPropsWithHTMLAttributes =>
       removeProps(

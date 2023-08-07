@@ -1,6 +1,6 @@
 import { Interactive, Label } from '/src/components'
 
-export default () => {
+export const InteractiveStory = () => {
   return (
     <Label label="Interactive">
       {/* Interactive have `display: inline-flex` which would display non full Interactive beside each other, to avoid this we wrap some in divs */}

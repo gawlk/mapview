@@ -13,7 +13,7 @@ interface Props {
 
 export const baseID = 'mobile-menu-'
 
-export default (props: Props) => {
+export const MenuWrapperMobile = (props: Props) => {
   return (
     <>
       <button

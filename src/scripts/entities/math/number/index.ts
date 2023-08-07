@@ -34,7 +34,7 @@ export const createMathNumber = (
       return this.unit.checkValidity(this.value)
     },
     getLocaleString(options?) {
-      return this.unit.valueToString(this.value, options)
+      return this.unit.valueToLocaleString(this.value, options)
     },
     toCurrent() {
       return this.unit.baseToCurrent(this.value)

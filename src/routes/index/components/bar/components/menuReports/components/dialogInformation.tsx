@@ -1,16 +1,15 @@
 import { useI18n } from '@solid-primitives/i18n'
-import { log } from 'console'
 
-import store from '/src/store'
+import { store } from '/src/store'
 
 import { DialogInformation } from '/src/components'
 
-export default () => {
+export const DialogReportInformation = () => {
   const [t] = useI18n()
 
   const bulks = createMemo(() => [
     {
-      title: t('Informations'),
+      title: t('Information'),
       fields: store.selectedReport
         ? [store.selectedReport.name, ...store.selectedReport.information]
         : [],
@@ -20,8 +19,6 @@ export default () => {
       fields: store.selectedReport ? store.selectedReport.platform : [],
     },
   ])
-
-  // TODO: Comboboxes input (dataList) via https://floating-ui.com
 
   return <DialogInformation bulks={bulks()} />
 }

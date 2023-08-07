@@ -5,7 +5,7 @@ interface Props {
   includeCategory?: true
 }
 
-export default (props: Props) => {
+export const SpanDataLabel = (props: Props) => {
   const [t] = useI18n()
 
   return (

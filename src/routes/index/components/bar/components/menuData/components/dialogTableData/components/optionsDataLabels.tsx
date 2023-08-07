@@ -1,10 +1,10 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import store from '/src/store'
+import { store } from '/src/store'
 
 import { groupDataLabelsByCategory, moveIndexInCopiedArray } from '/src/scripts'
 
-import SortableDataLabel from './sortableDataLabel'
+import { SortableDataLabel } from './sortableDataLabel'
 
 import {
   DialogDivider,
@@ -14,7 +14,7 @@ import {
   SpanDataLabel,
 } from '/src/components'
 
-export default () => {
+export const OptionsDataLabels = () => {
   const [t] = useI18n()
 
   const tableDataLabels = createMemo(

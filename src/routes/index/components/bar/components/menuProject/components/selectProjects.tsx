@@ -1,12 +1,12 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import store from '/src/store'
+import { store } from '/src/store'
 
 import { hasRawData } from '/src/scripts'
 
 import { DialogSelect } from '/src/components'
 
-import env from '/src/env'
+import { env } from '/src/env'
 
 const getMachineIcon = (machine: MachineName) =>
   machine === 'Heavydyn'
@@ -15,7 +15,7 @@ const getMachineIcon = (machine: MachineName) =>
     ? IconTablerCarCrane
     : IconTablerChess
 
-export default () => {
+export const SelectProject = () => {
   const [t] = useI18n()
 
   const convertProjectToName = (project: MachineProject) =>

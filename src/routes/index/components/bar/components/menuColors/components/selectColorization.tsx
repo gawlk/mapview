@@ -1,10 +1,10 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import store from '/src/store'
+import { store } from '/src/store'
 
 import { DialogSelect } from '/src/components'
 
-export default () => {
+export const SelectColorization = () => {
   const [t] = useI18n()
 
   const possibilities: ReportColorization[] = ['Threshold', 'Zone']

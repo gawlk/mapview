@@ -1,6 +1,6 @@
 import { DialogColor, Label } from '/src/components'
 
-export default () => {
+export const DialogColorStory = () => {
   return (
     <Label label="Dialog color">
       <DialogColor />

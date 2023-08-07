@@ -4,7 +4,7 @@ interface Props {
   dropIndex: MachineDropIndex
 }
 
-export default (props: Props) => {
+export const SpanDropIndex = (props: Props) => {
   const [t] = useI18n()
 
   return (

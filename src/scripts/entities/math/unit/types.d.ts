@@ -31,7 +31,7 @@ interface MathUnit<PossibleUnits> {
   readonly currentToBase: (value: number) => number
   readonly baseToCurrent: (value: number) => number
   readonly checkValidity: (value: number) => boolean
-  readonly valueToString: (
+  readonly valueToLocaleString: (
     value: number,
     options?: MathUnitGetLocaleStringOptions
   ) => string

@@ -1,22 +1,17 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import store from '/src/store'
+import { store } from '/src/store'
 
 import { blend, colors, roundValue, run } from '/src/scripts'
 
-import {
-  Details,
-  Input,
-  InputRadioHorizontal,
-  Interactive,
-} from '/src/components'
+import { Details, InputRadioHorizontal, Interactive } from '/src/components'
 
-import DialogColorThreshold from './components/dialogColorThreshold'
-import InputCustomThreshold from './components/inputCustomThreshold'
-import SelectThreshold from './components/selectThreshold'
-import SpanThreshold from './components/spanThreshold'
+import { DialogColorThreshold } from './components/dialogColorThreshold'
+import { InputCustomThreshold } from './components/inputCustomThreshold'
+import { SelectThreshold } from './components/selectThreshold'
+import { SpanThreshold } from './components/spanThreshold'
 
-export default () => {
+export const Thresholds = () => {
   const [t] = useI18n()
 
   const selectedDataLabel = createMemo(
@@ -173,11 +168,11 @@ export default () => {
                   )
 
                   const colorLow = createMemo(
-                    () => colors[thresoldColors()?.low || 'gray']
+                    () => colors[thresoldColors()?.low || 'orange']
                   )
 
                   const colorHigh = createMemo(
-                    () => colors[thresoldColors()?.high || 'gray']
+                    () => colors[thresoldColors()?.high || 'orange']
                   )
 
                   return (

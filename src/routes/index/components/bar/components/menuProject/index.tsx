@@ -1,23 +1,23 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import ButtonAddProject from './components/buttonAddProject'
-import ButtonSave from './components/buttonSave'
-import DialogConfig from './components/dialogConfig'
-import DialogInformations from './components/dialogInformations'
-import DialogRemoveProject from './components/dialogRemoveProject'
-import SelectProjects from './components/selectProjects'
+import { ButtonAddProject } from './components/buttonAddProject'
+import { ButtonSave } from './components/buttonSave'
+import { DialogConfig } from './components/dialogConfig'
+import { DialogProjectInformation } from './components/dialogInformation'
+import { DialogRemoveProject } from './components/dialogRemoveProject'
+import { SelectProject } from './components/selectProjects'
 
-export default () => {
+export const MenuProject = () => {
   const [t] = useI18n()
 
   return (
     <>
       <div class="flex space-x-2">
-        <SelectProjects />
+        <SelectProject />
         <ButtonAddProject />
         <DialogRemoveProject />
       </div>
-      <DialogInformations />
+      <DialogProjectInformation />
       <DialogConfig />
       <ButtonSave />
     </>

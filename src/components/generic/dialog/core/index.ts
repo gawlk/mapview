@@ -1,4 +1,3 @@
-export { default as DialogCore } from './component'
-export { DialogDivider } from './components'
-
+export * from './components'
+export * from './component'
 export * from './props'

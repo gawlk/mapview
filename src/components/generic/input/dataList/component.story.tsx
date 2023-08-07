@@ -1,6 +1,6 @@
 import { InputDataList, Label } from '/src/components'
 
-export default () => {
+export const InputDataListStory = () => {
   const [state, setState] = createStore({
     value1: '',
     value2: 2,

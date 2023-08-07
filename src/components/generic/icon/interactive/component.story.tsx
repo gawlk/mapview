@@ -2,7 +2,7 @@ import { IconInteractive, Label } from '/src/components'
 
 import Logo from '/src/assets/svg/mapview/logo.svg'
 
-export default () => {
+export const IconInteractiveStory = () => {
   const solidIconURL = 'https://start.solidjs.com/logo.svg'
 
   return (

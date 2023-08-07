@@ -2,7 +2,7 @@ import { useI18n } from '@solid-primitives/i18n'
 
 import { getBrowserLocale } from '/src/locales'
 
-import store from '/src/store'
+import { store } from '/src/store'
 
 import { downloadFile, mvrzExporter } from '/src/scripts'
 
@@ -12,7 +12,7 @@ interface Props extends NavigatorComponentProps {
   template: File
 }
 
-export default (props: Props) => {
+export const REST = (props: Props) => {
   const [t] = useI18n()
 
   const [state, setState] = createStore({

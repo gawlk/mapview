@@ -140,9 +140,7 @@ export const selectHeavydynGroupChoiceFromJSON = (
 
     group.choices.selectIndex(
       json.distinct.dataLabels.list[index].base.choices.selectedIndex ??
-        indexD0 === -1
-        ? 0
-        : indexD0
+        (indexD0 === -1 ? 0 : indexD0)
     )
   })
 }

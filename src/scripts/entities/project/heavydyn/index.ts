@@ -26,7 +26,7 @@ export const createHeavydynProjectFromJSON = (
     units,
   })
 
-  const project: HeavydynProject = createMutable({
+  const project = createMutable<HeavydynProject>({
     ...baseProject,
     machine: 'Heavydyn',
     calibrations: {

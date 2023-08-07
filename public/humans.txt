@@ -1,0 +1,30 @@
+/* TIMESTAMP */
+
+2023/08/07
+
+/* TEAM HISTORY */
+
+Name: Enzo LEGROS
+Site: -
+Role: Apprentice Web Developer (2023-2024)
+
+Name: Antoine OUDINOT
+Site: -
+Role: Lead Developer (2023-Today)
+
+Name: Kevin GAWLIK
+Site: github.com/gawlk
+Role: Only Developer (2018-2023)
+
+Name: Sébastien PELLEVRAULT
+Role: CEO (2018-Today)
+
+/* THANKS */
+
+Name: The whole Rincent NDT team
+Site: http://www.rincent-ndt.fr/
+                            
+/* SITE */
+
+Standards: HTML5, CSS3, Typescript
+Components: Typescript, SolidJS, TailwindCSS, ViteJS, NodeJS, Vitest

@@ -17,7 +17,7 @@ export const createMinidynPointFromJSON = (
     drops: [] as MinidynDrop[],
   })
 
-  const point: MinidynPoint = createMutable({
+  const point = createMutable<MinidynPoint>({
     ...basePoint,
     machine: 'Minidyn',
     toJSON() {

@@ -18,7 +18,7 @@ export const createMaxidynDropFromJSON = (
     dropGroup,
   })
 
-  const drop: MaxidynDrop = createMutable({
+  const drop = createMutable<MaxidynDrop>({
     ...baseDrop,
     machine: 'Maxidyn',
     toJSON() {

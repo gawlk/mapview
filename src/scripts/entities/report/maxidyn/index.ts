@@ -37,7 +37,7 @@ export const createMaxidynReportFromJSON = (
     project: parameters.project,
   })
 
-  const report: MaxidynReport = createMutable({
+  const report = createMutable<MaxidynReport>({
     ...baseReport,
     machine: 'Maxidyn',
     addZone() {

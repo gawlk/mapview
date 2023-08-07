@@ -18,6 +18,11 @@ export const importOverlaysFromZIP = (
 
       const overlay = await createOverlay(data64, store.map, jsonOverlay)
 
+      // Removed but was it needed ?
+      // if (store.projects.selected === project) {
+      //   overlay.addToMap(store.projects.selected.settings.areOverlaysVisible)
+      // }
+
       project.overlays.push(overlay)
     }
   })

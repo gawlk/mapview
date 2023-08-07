@@ -26,12 +26,12 @@ export const createBaseProjectFromJSON = <
 
   const watcherHandler = createWatcherHandler()
 
-  const settings: BaseProjectSettings = createMutable({
+  const settings = createMutable<BaseProjectSettings>({
     ...json.settings,
     arePointsLocked: true,
   })
 
-  const project: BaseProject<Report, MathUnits> = createMutable({
+  const project = createMutable<BaseProject<Report, MathUnits>>({
     kind: 'Project',
     name: createFieldFromJSON({
       version: 1,

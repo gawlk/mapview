@@ -18,7 +18,7 @@ export const createMinidynDropFromJSON = (
     dropGroup,
   })
 
-  const drop: MinidynDrop = createMutable({
+  const drop = createMutable<MinidynDrop>({
     ...baseDrop,
     machine: 'Minidyn',
     toJSON() {

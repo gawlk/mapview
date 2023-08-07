@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import {
   createBLIDataComputer,
   createCharacteristicDeflectionComputer,
@@ -49,7 +50,7 @@ export const createHeavydynReportFromJSON = (
     project: parameters.project,
   })
 
-  const report: HeavydynReport = createMutable({
+  const report = createMutable<HeavydynReport>({
     ...baseReport,
     machine: 'Heavydyn',
     addZone() {

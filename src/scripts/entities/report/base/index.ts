@@ -1,10 +1,7 @@
-import { LngLatBounds } from 'mapbox-gl'
-
 import {
   createFieldFromJSON,
   createLine,
   createWatcherHandler,
-  currentCategory,
   debounce,
   flyToPoints,
   getIndexOfSelectedInSelectableList,
@@ -33,6 +30,8 @@ export const createBaseReportFromJSON = <
 
   const watcherHandler = createWatcherHandler()
 
+  // Need to understand why the Thresholds type can't be used while BaseThresholds<ThresholdsGroups> works
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const thresholds: Thresholds = {
     groups: parameters.thresholdsGroups,

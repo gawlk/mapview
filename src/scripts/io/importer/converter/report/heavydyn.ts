@@ -24,6 +24,7 @@ export const convertPRJZToHeavydynReport = (
   }
 
   report.base.zones[0].base.points.push(
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-argument
     ...jsonPV.Points.map(
       (jsonPoint: RecordAny, pointIndex: number): JSONHeavydynPoint =>
         convertPRJZToHeavydynPoint(jsonPoint, pointIndex, json)

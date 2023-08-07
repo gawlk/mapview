@@ -54,7 +54,7 @@ export const createOverlay = async (
 
   const watcherHandler = createWatcherHandler()
 
-  const overlay: Overlay = createMutable({
+  const overlay = createMutable<Overlay>({
     id,
     sourceData,
     markerNW,

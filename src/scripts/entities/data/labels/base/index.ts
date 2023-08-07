@@ -99,7 +99,10 @@ export const createBaseDataLabelsGroupFromJSON = <
       return {
         version: 1,
         from: json.from,
-        choices: this.choices.toJSON((choice) => choice.toJSON()),
+        choices: this.choices.toJSON(
+          (choice) => choice.toJSON(),
+          (label) => this.saveableChoices.includes(label)
+        ),
       }
     },
   }

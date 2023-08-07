@@ -20,7 +20,7 @@ export const createMaxidynProjectFromJSON = (
     hardware: json.base.hardware,
   })
 
-  const project: MaxidynProject = createMutable({
+  const project = createMutable<MaxidynProject>({
     ...baseProject,
     machine: 'Maxidyn',
     bearingParameters: createMutable(json.distinct.bearingParameters),

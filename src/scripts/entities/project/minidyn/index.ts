@@ -21,7 +21,7 @@ export const createMinidynProjectFromJSON = (
     hardware: json.base.hardware,
   })
 
-  const project: MinidynProject = createMutable({
+  const project = createMutable<MinidynProject>({
     ...baseProject,
     machine: 'Minidyn',
     bearingParameters: createMutable(json.distinct.bearingParameters),

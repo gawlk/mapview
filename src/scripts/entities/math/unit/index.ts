@@ -78,7 +78,7 @@ export const createMathUnit = <PossibleUnits extends string>(
   const invalidReplacement =
     options?.invalidReplacement || defaultInvalidValueReplacement
 
-  const mathUnit: MathUnit<PossibleUnits> = createMutable({
+  const mathUnit = createMutable<MathUnit<PossibleUnits>>({
     name,
     baseUnit,
     possibleSettings,

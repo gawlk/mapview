@@ -13,7 +13,7 @@ export const createMinidynZoneFromJSON = (
 ) => {
   json = upgradeJSON(json)
 
-  const zone: MinidynZone = createMutable({
+  const zone = createMutable<MinidynZone>({
     ...createBaseZoneFromJSON(json.base, {
       report: parameters.report,
     }),

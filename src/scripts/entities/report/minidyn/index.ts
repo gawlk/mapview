@@ -37,7 +37,7 @@ export const createMinidynReportFromJSON = (
     project: parameters.project,
   })
 
-  const report: MinidynReport = createMutable({
+  const report = createMutable<MinidynReport>({
     ...baseReport,
     machine: 'Minidyn',
     addZone() {

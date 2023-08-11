@@ -14,7 +14,7 @@ import { getFileFromPath } from '/src/tests'
 const acceptedExtension = ['pdx', 'F25', 'fwd', 'mpvz', 'mvrz']
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
-export const exportFile = async (dirPath: string, folderName?: string) => {
+export const importFiles = async (dirPath: string, folderName?: string) => {
   const files = readdirSync(dirPath)
   const filesGroup: Partial<ReportTestExportData> = {
     directoryName: folderName,
@@ -103,7 +103,7 @@ export const exportFile = async (dirPath: string, folderName?: string) => {
       }
     } else if (stats.isDirectory()) {
       filesGroups.push(
-        ...(await exportFile(
+        ...(await importFiles(
           subPath,
           `${folderName || ''}${folderName ? '/' : ''}${fileName}`
         ))

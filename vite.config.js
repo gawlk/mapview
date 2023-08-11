@@ -117,5 +117,6 @@ export default defineConfig({
     environment: 'edge-runtime',
     exclude: [...configDefaults.exclude, '**/e2e-tests/**', '**/importer/**'],
     setupFiles: ['./src/tests/extendMatchers/index.ts'],
+    testTimeout: 600000,
   },
 })

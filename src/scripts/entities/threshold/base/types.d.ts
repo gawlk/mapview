@@ -1,5 +1,5 @@
 interface BaseThresholds<
-  ThresholdsGroups extends BaseThresholdsGroups = MachineThresholdsGroups
+  ThresholdsGroups extends BaseThresholdsGroups = MachineThresholdsGroups,
 > {
   readonly groups: ThresholdsGroups
   readonly colors: JSONThresholdColors

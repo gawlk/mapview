@@ -32,7 +32,7 @@ export const InputRadioHorizontal = (props: Props) => {
       >
         {(option, index) => {
           const isSelected = createMemo(() =>
-            isValuePropSelected(props.values.selected, option, index())
+            isValuePropSelected(props.values.selected, option, index()),
           )
 
           return (

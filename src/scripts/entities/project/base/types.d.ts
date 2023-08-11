@@ -48,7 +48,7 @@ interface JSONAcquisitionParameters {
 
 interface BaseProject<
   Report extends BaseReport = MachineReport,
-  MathUnits extends MachineMathUnits = MachineMathUnits
+  MathUnits extends MachineMathUnits = MachineMathUnits,
 > extends BaseObject<JSONBaseProject>,
     Entity<'Project'> {
   state: 'Loading' | 'Loaded'

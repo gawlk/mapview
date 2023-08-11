@@ -4,7 +4,7 @@ import { convertPRJZToHeavydynReport } from '../report'
 
 export const convertPRJZToHeavydynProject = (
   json: JSONAny,
-  baseProject: JSONBaseProject
+  baseProject: JSONBaseProject,
 ): JSONHeavydynProject => {
   const project: JSONHeavydynProject = {
     version: 1,
@@ -16,8 +16,8 @@ export const convertPRJZToHeavydynProject = (
   project.base.reports.list.push(
     ...json.PVs.map(
       (jsonPV: RecordAny, index: number): JSONHeavydynReport =>
-        convertPRJZToHeavydynReport(jsonPV, index, json)
-    )
+        convertPRJZToHeavydynReport(jsonPV, index, json),
+    ),
   )
 
   project.base.reports.selectedIndex = project.base.reports.list.length
@@ -28,7 +28,7 @@ export const convertPRJZToHeavydynProject = (
 }
 
 export const convertPRJZToHeavydynProjectDistinct = (
-  json: JSONAny
+  json: JSONAny,
 ): JSONHeavydynProjectDistinct => {
   const units = convertPRJZToHeavydynUnits(json)
 
@@ -91,7 +91,7 @@ export const convertPRJZToHeavydynUnits = (json: JSONAny) => {
       currentUnit: run((): PossibleHeavydynDeflectionUnits => {
         switch (
           (json.ExportedData.Drops as RecordAny[]).find(
-            (exportedUnit) => exportedUnit.Type === 'Deflection'
+            (exportedUnit) => exportedUnit.Type === 'Deflection',
           )?.Unit
         ) {
           case 'mm':
@@ -110,7 +110,7 @@ export const convertPRJZToHeavydynUnits = (json: JSONAny) => {
       currentUnit: run((): PossibleHeavydynForceUnits => {
         switch (
           (json.ExportedData.Drops as RecordAny[]).find(
-            (exportedUnit) => exportedUnit.Type === 'Load'
+            (exportedUnit) => exportedUnit.Type === 'Load',
           )?.Unit
         ) {
           case 'N':
@@ -127,7 +127,7 @@ export const convertPRJZToHeavydynUnits = (json: JSONAny) => {
       currentUnit: run((): PossibleHeavydynDistanceUnits => {
         switch (
           (json.ExportedData.Points as RecordAny[]).find(
-            (exportedUnit) => exportedUnit.Type === 'Distance'
+            (exportedUnit) => exportedUnit.Type === 'Distance',
           )?.Unit
         ) {
           case 'km':
@@ -146,7 +146,7 @@ export const convertPRJZToHeavydynUnits = (json: JSONAny) => {
       currentUnit: run((): PossibleHeavydynTimeUnits => {
         switch (
           (json.ExportedData.Drops as RecordAny[]).find(
-            (exportedUnit) => exportedUnit.Type === 'Time'
+            (exportedUnit) => exportedUnit.Type === 'Time',
           )?.Unit
         ) {
           case 's':
@@ -165,7 +165,7 @@ export const convertPRJZToHeavydynUnits = (json: JSONAny) => {
       currentUnit: run((): PossibleHeavydynTemperatureUnits => {
         switch (
           (json.ExportedData.Points as RecordAny[]).find(
-            (exportedUnit) => exportedUnit.Type === 'Temperature'
+            (exportedUnit) => exportedUnit.Type === 'Temperature',
           )?.Unit
         ) {
           case 'K':

@@ -21,10 +21,10 @@ export const DialogButtonOpen = (props: Props) => {
                 rightIconClass:
                   'group-hover:translate-x-0.5 will-change-transform',
               },
-          props
+          props,
         ),
-        dialogButtonBooleanPropsKeysObject
-      )
+        dialogButtonBooleanPropsKeysObject,
+      ),
   )
 
   return (

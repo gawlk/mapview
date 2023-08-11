@@ -14,7 +14,7 @@ export const ButtonFile = (props: Props) => {
         (props.children
           ? { rightIcon: IconTablerPlus }
           : { icon: IconTablerPlus }) as Props,
-        props
+        props,
       )}
       onClick={() => inputFile?.click()}
     >

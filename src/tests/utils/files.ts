@@ -14,7 +14,7 @@ export const getFileFromPath = (path: string) => {
 export const compareFiles = (
   actual: Unzipped,
   expected: Unzipped,
-  options?: CompareFilesOptions
+  options?: CompareFilesOptions,
 ) => {
   let actualKeys = Object.keys(actual)
   let expectedKeys = Object.keys(expected)

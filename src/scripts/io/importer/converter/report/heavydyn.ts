@@ -10,7 +10,7 @@ import { convertPRJZToTestChoices } from '../shared'
 export const convertPRJZToHeavydynReport = (
   jsonPV: RecordAny,
   index: number,
-  json: JSONAny
+  json: JSONAny,
 ): JSONHeavydynReport => {
   const report: JSONHeavydynReport = {
     version: 1,
@@ -27,15 +27,15 @@ export const convertPRJZToHeavydynReport = (
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-argument
     ...jsonPV.Points.map(
       (jsonPoint: RecordAny, pointIndex: number): JSONHeavydynPoint =>
-        convertPRJZToHeavydynPoint(jsonPoint, pointIndex, json)
-    )
+        convertPRJZToHeavydynPoint(jsonPoint, pointIndex, json),
+    ),
   )
 
   return report
 }
 
 export const convertPRJZToHeavydynReportDistinct = (
-  json: JSONAny
+  json: JSONAny,
 ): JSONHeavydynReportDistinct => {
   const dropChoices = convertPRJZToHeavydynDropChoices(json)
   const dropIndexes = convertPRJZToHeavydynDropIndexes(json)

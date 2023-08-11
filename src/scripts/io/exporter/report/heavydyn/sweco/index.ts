@@ -15,11 +15,11 @@ export const heavydynSwecoExporter: HeavydynExporter = {
     return new File(
       [
         replaceAllLFToCRLF(
-          '\n' + writeHeader(project) + writePoints(project) + '\n'
+          '\n' + writeHeader(project) + writePoints(project) + '\n',
         ),
       ],
       `${project.reports.selected?.name.toString() || ''}-sweco.fwd`,
-      { type: 'text/plain' }
+      { type: 'text/plain' },
     )
   },
 }
@@ -39,7 +39,7 @@ const writeHeader = (project: HeavydynProject): string => {
   }
 
   const date = dayjsUtc(
-    findFieldInArray(project.reports.selected.information, 'Date')?.toString()
+    findFieldInArray(project.reports.selected.information, 'Date')?.toString(),
   ).format('DD/MM/YYYY')
 
   const fwdNumber = findFieldInArray(project.hardware, 'Serial number')?.value
@@ -48,16 +48,14 @@ const writeHeader = (project: HeavydynProject): string => {
 
   const sensors = project.calibrations.channels.slice(1)
 
-  const lane = findFieldInArray(
-    project.reports.selected.information,
-    'Lane'
-  )?.value
+  const lane = findFieldInArray(project.reports.selected.information, 'Lane')
+    ?.value
 
   const client = findFieldInArray(project.information, 'Client')?.value
 
   const roadReference = findFieldInArray(
     project.reports.selected.information,
-    'Part'
+    'Part',
   )?.value
 
   return dedent`
@@ -104,7 +102,7 @@ const writePoints = (project: HeavydynProject): string => {
 
         const chainage = Math.round(
           point.data.find((data) => data.label.name === 'Chainage')?.value
-            .value || 0
+            .value || 0,
         )
 
         coordinates = ddToDms(point.toBaseJSON().coordinates as mapboxgl.LngLat)
@@ -144,7 +142,7 @@ const writeDrops = (point: BasePoint, channels: JSONChannel[]): string => {
       .filter(
         (data) =>
           data.label.unit === point.zone.report.project.units.deflection &&
-          data.label.category === currentCategory
+          data.label.category.name === currentCategory.name,
       )
       .map((_, index) => `D(${index + 1})`),
     'kPa',
@@ -173,7 +171,7 @@ const writeDrop = (drop: MachineDrop, channels: JSONChannel[]): string => {
       .find(
         (data) =>
           data.label.unit === drop.point.zone.report.project.units.force &&
-          data.label.category === currentCategory
+          data.label.category.name === currentCategory.name,
       )
       ?.value.getValueAs('kN')
       .toFixed(1) || 0
@@ -184,7 +182,7 @@ const writeDrop = (drop: MachineDrop, channels: JSONChannel[]): string => {
       .filter(
         (data) =>
           data.label.unit === drop.point.zone.report.project.units.deflection &&
-          data.label.category === currentCategory
+          data.label.category.name === currentCategory.name,
       )
       .map((_drop) => _drop.value.getValueAs('um').toFixed(1)),
     0,
@@ -192,13 +190,13 @@ const writeDrop = (drop: MachineDrop, channels: JSONChannel[]): string => {
     ...drop.point.data
       .slice(0, -1)
       .map((data) =>
-        data.value.getLocaleString({ precision: 1, locale: 'en-US' })
+        data.value.getLocaleString({ precision: 1, locale: 'en-US' }),
       ),
     (
       drop.data
         .find(
           (data) =>
-            data.label.unit === drop.point.zone.report.project.units.time
+            data.label.unit === drop.point.zone.report.project.units.time,
         )
         ?.value.getValueAs('ms') || 0
     ).toFixed(2),
@@ -227,7 +225,7 @@ const writeDrop = (drop: MachineDrop, channels: JSONChannel[]): string => {
 
 const writeDisplacements = (
   drop: MachineDrop,
-  channels: JSONChannel[]
+  channels: JSONChannel[],
 ): string => {
   if (!drop.impactData) {
     throw new Error('No impact data found')
@@ -238,7 +236,7 @@ const writeDisplacements = (
       const sensorName = 'Sensor' + (index + 1).toString().padStart(2, ' ')
 
       const sensorPosition = `(${Math.round(
-        parseFloat(channels[index + 1].position) * 1000
+        parseFloat(channels[index + 1].position) * 1000,
       )
         .toString()
         .padStart(4, ' ')})`
@@ -248,7 +246,7 @@ const writeDisplacements = (
         1.0, // TODO
         drop.data[index + 2].value.getValueAs('um').toFixed(1),
         ...displacement.map((val) =>
-          (val * 1000000).toFixed(1).replace('-0.0', '0.0')
+          (val * 1000000).toFixed(1).replace('-0.0', '0.0'),
         ),
       ]
       return sensorData.join('\t')

@@ -1,3 +1,4 @@
+/** @type {import("prettier").Options} */
 module.exports = {
   // Base
   semi: false,
@@ -39,6 +40,6 @@ module.exports = {
   pluginSearchDirs: false,
   plugins: [
     require.resolve('@trivago/prettier-plugin-sort-imports'),
-    require('prettier-plugin-tailwindcss'),
+    'prettier-plugin-tailwindcss',
   ],
 }

@@ -12,7 +12,7 @@ export const resizeDialog = (
   mousePosition: MousePositionInside,
   direction: DialogResizeDirection,
   setDimensions: (dimensions: Partial<DialogDimensions>) => void,
-  setPosition: (position: Partial<DialogPosition>) => void
+  setPosition: (position: Partial<DialogPosition>) => void,
 ) => {
   if (!dialog) return
 
@@ -61,14 +61,14 @@ export const resizeDialog = (
       !isVerticalOnly
         ? (currentMouseX - originalMouseX) * widthIncrementMultiplier
         : 0,
-      dialogOffsetHorizontal
+      dialogOffsetHorizontal,
     )
 
     const heightIncrement = Math.min(
       !isHorizontalOnly
         ? (currentMouseY - originalMouseY) * heightIncrementMultiplier
         : 0,
-      dialogOffsetVertical
+      dialogOffsetVertical,
     )
 
     setPosition({

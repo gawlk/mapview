@@ -13,7 +13,7 @@ import {
 
 export const createBasePointFromJSON = <
   Zone extends MachineZone,
-  Drop extends MachineDrop
+  Drop extends MachineDrop,
 >(
   json: JSONBasePointVAny,
   map: mapboxgl.Map | null,
@@ -21,7 +21,7 @@ export const createBasePointFromJSON = <
     zone: Zone
     information: JSONField[]
     drops: Drop[]
-  }
+  },
 ) => {
   json = upgradeJSON(json)
 
@@ -47,8 +47,8 @@ export const createBasePointFromJSON = <
     icon,
     information: createMutable(
       parameters.information.map((field: JSONField) =>
-        createFieldFromJSON(field)
-      )
+        createFieldFromJSON(field),
+      ),
     ),
     settings: createMutable(json.settings),
     zone: parameters.zone,
@@ -56,15 +56,15 @@ export const createBasePointFromJSON = <
       (jsonDataValue): DataValue<string> =>
         createDataValueFromJSON(
           jsonDataValue,
-          parameters.zone.report.dataLabels.groups.list[1].choices.list
-        )
+          parameters.zone.report.dataLabels.groups.list[1].choices.list,
+        ),
     ),
     drops: [],
     rawDataFile: null,
     getSelectedMathNumber(
       groupFrom: DataLabelsFrom,
       dataLabel: DataLabel<string>,
-      index?: BaseDropIndex | null
+      index?: BaseDropIndex | null,
     ) {
       let source
 
@@ -87,7 +87,7 @@ export const createBasePointFromJSON = <
     getDisplayedString(
       groupFrom: DataLabelsFrom,
       dataLabel: DataLabel<string>,
-      index?: BaseDropIndex | null
+      index?: BaseDropIndex | null,
     ) {
       const value = this.getSelectedMathNumber(groupFrom, dataLabel, index)
 
@@ -103,7 +103,7 @@ export const createBasePointFromJSON = <
           const mathNumber = this.getSelectedMathNumber(
             group.from,
             group.choices.selected,
-            group.from === 'Drop' ? group.indexes.selected : undefined
+            group.from === 'Drop' ? group.indexes.selected : undefined,
           )
 
           const unit = mathNumber?.unit
@@ -111,13 +111,13 @@ export const createBasePointFromJSON = <
           if (unit) {
             const threshold = (
               Object.values(this.zone.report.thresholds.groups).find(
-                (_group) => _group.unit === unit
+                (_group) => _group.unit === unit,
               ) as ThresholdsGroup<string>
             )?.choices.selected
 
             const color = threshold?.getColor(
               mathNumber,
-              this.zone.report.thresholds.colors
+              this.zone.report.thresholds.colors,
             )
 
             this.icon?.setColor(color)
@@ -140,8 +140,8 @@ export const createBasePointFromJSON = <
               () => this.number,
               (number) => {
                 this.icon?.setText(String(number))
-              }
-            )
+              },
+            ),
           )
 
           break
@@ -153,7 +153,7 @@ export const createBasePointFromJSON = <
             const value = this.getSelectedMathNumber(
               group.from,
               group.choices.selected,
-              group.from === 'Drop' ? group.indexes.selected : undefined
+              group.from === 'Drop' ? group.indexes.selected : undefined,
             )
 
             watcherMarkersString = await watcherHandler.add(
@@ -161,8 +161,8 @@ export const createBasePointFromJSON = <
                 () => value?.displayedString,
                 (displayedString) => {
                   this.icon?.setText(displayedString || '')
-                }
-              )
+                },
+              ),
             )
           }
 
@@ -191,19 +191,19 @@ export const createBasePointFromJSON = <
         translate('Longitude'),
         this.marker?.getLngLat().lng.toLocaleString(undefined, {
           maximumFractionDigits: 6,
-        }) || ''
+        }) || '',
       )
       appendToPopup(
         translate('Latitude'),
         this.marker?.getLngLat().lat.toLocaleString(undefined, {
           maximumFractionDigits: 6,
-        }) || ''
+        }) || '',
       )
 
       this.data.forEach((dataValue) => {
         appendToPopup(
           translate(dataValue.label.name),
-          dataValue.value.displayedStringWithUnit
+          dataValue.value.displayedStringWithUnit,
         )
       })
 
@@ -221,19 +221,22 @@ export const createBasePointFromJSON = <
           () => {
             const sortedPoints = this.zone.report.line.sortedPoints
 
-            point.updateVisibility()
+            this.updateVisibility()
 
             let index =
               sortedPoints.findIndex((_point) => this.index === _point.index) +
               1
 
             for (index; index < sortedPoints.length; index++) {
-              sortedPoints[index].number += point.settings.isVisible ? 1 : -1
+              sortedPoints[index].number += this.settings.isVisible ? 1 : -1
             }
 
             this.zone.report.line.update()
-          }
-        )
+          },
+          {
+            defer: true,
+          },
+        ),
       )
     },
     checkVisibility() {
@@ -260,8 +263,8 @@ export const createBasePointFromJSON = <
         data: this.data
           .filter((data) =>
             this.zone.report.dataLabels.groups.list[1].saveableChoices.includes(
-              data.label
-            )
+              data.label,
+            ),
           )
           .map((data) => data.toJSON()),
         information: this.information.map((field) => field.toJSON()),

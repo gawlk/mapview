@@ -38,7 +38,7 @@ export const Units = () => {
       <For
         each={
           Object.values(store.projects.selected?.units || {}).filter(
-            (unit) => !unit.readOnly
+            (unit) => !unit.readOnly,
           ) as MathUnit<string>[]
         }
       >
@@ -75,7 +75,7 @@ export const Units = () => {
                 values={{
                   selected: String(mathUnit.currentPrecision),
                   list: mathUnit.possiblePrecisions.map((precision) =>
-                    String(precision)
+                    String(precision),
                   ),
                 }}
                 onClose={(value) =>

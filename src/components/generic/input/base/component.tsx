@@ -21,7 +21,7 @@ export const Input = (props: Props) => {
       interactiveBooleanPropsKeysObject,
       containerBooleanPropsKeysObject,
       baseBooleanPropsKeysObject,
-    ]) as never[]
+    ]) as never[],
   )
 
   const [state, setState] = createStore({
@@ -44,7 +44,7 @@ export const Input = (props: Props) => {
   const type = createMemo(
     () =>
       props.type ||
-      (props.max || props.min || props.step ? 'number' : undefined)
+      (props.max || props.min || props.step ? 'number' : undefined),
   )
 
   const needsFixing = createMemo(
@@ -53,7 +53,7 @@ export const Input = (props: Props) => {
       type() === 'number' &&
       ((props.max !== undefined && Number(state.value) > props.max) ||
         (props.min !== undefined &&
-          (!state.value || Number(state.value) < props.min)))
+          (!state.value || Number(state.value) < props.min))),
   )
 
   const debounceInputPropagation = debounce(
@@ -65,7 +65,7 @@ export const Input = (props: Props) => {
       // Push the input to the end of the task for maximum fluidity
       setTimeout(() => props.onInput?.(value, event), 0)
     },
-    props.debounce || 50
+    props.debounce || 50,
   )
 
   onMount(() => {
@@ -139,7 +139,7 @@ export const Input = (props: Props) => {
               typeof state.value !== 'number' ||
                 (props.min !== undefined && state.value < props.min)
                 ? props.min
-                : props.max
+                : props.max,
             )
 
             input && (input.value = value)

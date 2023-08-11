@@ -7,7 +7,7 @@ export const createMinidynPointFromJSON = (
   map: mapboxgl.Map | null,
   parameters: {
     zone: MinidynZone
-  }
+  },
 ) => {
   json = upgradeJSON(json)
 
@@ -35,8 +35,8 @@ export const createMinidynPointFromJSON = (
     ...json.base.drops.map((jsonDrop) =>
       createMinidynDropFromJSON(jsonDrop, {
         point,
-      })
-    )
+      }),
+    ),
   )
 
   return point

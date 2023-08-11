@@ -17,7 +17,7 @@ export const createMinidynReportFromJSON = (
   map: mapboxgl.Map | null,
   parameters: {
     project: MinidynProject
-  }
+  },
 ) => {
   json = upgradeJSON(json)
 
@@ -25,12 +25,12 @@ export const createMinidynReportFromJSON = (
     zones: [] as MinidynZone[],
     thresholdsGroups: createMinidynThresholdsGroupsFromJSON(
       json.distinct.thresholds,
-      parameters.project.units
+      parameters.project.units,
     ),
     dataLabels: createMinidynDataLabelsFromJSON(
       json.distinct.dataLabels,
       json.base.dataLabels.table,
-      parameters.project
+      parameters.project,
     ),
     platform: json.base.platform,
     information: json.base.information,
@@ -69,20 +69,20 @@ export const createMinidynReportFromJSON = (
           thresholds: {
             version: 1,
             deflection: convertThresholdsConfigurationToJSON(
-              thresholdGroup.deflection
+              thresholdGroup.deflection,
             ),
             force: convertThresholdsConfigurationToJSON(thresholdGroup.force),
             distance: convertThresholdsConfigurationToJSON(
-              thresholdGroup.distance
+              thresholdGroup.distance,
             ),
             modulus: convertThresholdsConfigurationToJSON(
-              thresholdGroup.modulus
+              thresholdGroup.modulus,
             ),
             percentage: convertThresholdsConfigurationToJSON(
-              thresholdGroup.percentage
+              thresholdGroup.percentage,
             ),
             stiffness: convertThresholdsConfigurationToJSON(
-              thresholdGroup.stiffness
+              thresholdGroup.stiffness,
             ),
             time: convertThresholdsConfigurationToJSON(thresholdGroup.time),
           },
@@ -95,8 +95,8 @@ export const createMinidynReportFromJSON = (
     ...json.base.zones.map((jsonZone) =>
       createMinidynZoneFromJSON(jsonZone, map, {
         report,
-      })
-    )
+      }),
+    ),
   )
 
   selectMinidynGroupChoiceFromJSON(report, json)

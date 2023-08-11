@@ -23,7 +23,7 @@ interface CustomThreshold {
   valueHigh: number
   readonly getColor: (
     mathNumber: MathNumber,
-    colors: JSONThresholdColors
+    colors: JSONThresholdColors,
   ) => string
   readonly toJSON: () => JSONCustomThreshold
 }

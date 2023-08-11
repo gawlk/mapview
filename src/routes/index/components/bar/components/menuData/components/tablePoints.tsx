@@ -33,7 +33,7 @@ export const TablePoints = (props: Props) => {
 
   const getValuesFromPoints = (
     points: BasePoint[],
-    dataLabel: DataLabel<string>
+    dataLabel: DataLabel<string>,
   ) =>
     points.map(
       (point) =>
@@ -41,9 +41,9 @@ export const TablePoints = (props: Props) => {
           point.getSelectedMathNumber(
             props.from || 'Drop',
             dataLabel,
-            props.index
+            props.index,
           )?.value) ||
-        0
+        0,
     )
 
   return (
@@ -60,7 +60,7 @@ export const TablePoints = (props: Props) => {
               dataLabel={dataLabel}
               values={getValuesFromPoints(
                 props.points.filter((point) => point.settings.isVisible),
-                dataLabel
+                dataLabel,
               )}
             />
           )}
@@ -148,7 +148,7 @@ export const TablePoints = (props: Props) => {
                         {point.getDisplayedString(
                           from(),
                           dataLabel,
-                          props.index
+                          props.index,
                         )}
                       </Td>
                     )}

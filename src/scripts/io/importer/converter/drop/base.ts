@@ -3,10 +3,10 @@ import { convertSensorPositionToName } from '../shared'
 export const convertPRJZToBaseDrop = (
   jsonDrop: RecordAny,
   index: number,
-  json: JSONAny
+  json: JSONAny,
 ): JSONBaseDrop => {
   const exportedDeflections = (json.ExportedData.Drops as RecordAny[]).find(
-    (exportedData) => exportedData.Name === 'Deflections'
+    (exportedData) => exportedData.Name === 'Deflections',
   )
 
   const drop: JSONBaseDrop = {
@@ -28,11 +28,11 @@ export const convertPRJZToBaseDrop = (
               return {
                 version: 1,
                 label: convertSensorPositionToName(
-                  json.Calibrations.SensorsPosition[deflectionIndex]
+                  json.Calibrations.SensorsPosition[deflectionIndex],
                 ),
                 value,
               }
-            }
+            },
           )
         : []),
     ],

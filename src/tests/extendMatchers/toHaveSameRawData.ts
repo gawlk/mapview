@@ -4,7 +4,7 @@ import { compareFiles } from '../utils'
 
 export const toHaveSameRawData = (
   actual: Fflate.Unzipped,
-  expected: Fflate.Unzipped
+  expected: Fflate.Unzipped,
 ) => {
   const compareResult = compareFiles(actual, expected, { filter: 'rawdata/' })
   const { lastKey, haveSameContent } = compareResult
@@ -13,7 +13,7 @@ export const toHaveSameRawData = (
     return {
       message: () =>
         `number of rawData aren't the same: (${String(
-          compareResult.actualLength
+          compareResult.actualLength,
         )}, ${String(compareResult.expectedLength)})`,
       pass: false,
     }
@@ -23,7 +23,7 @@ export const toHaveSameRawData = (
     return {
       message: () =>
         `rawData files are different ${String(
-          lastKey
+          lastKey,
         )} isn't present in expected`,
       pass: false,
     }

@@ -15,8 +15,8 @@ export const DialogBackdrop = (props: Props) => {
   createEffect(
     on(
       () => props.show,
-      (show) => show && setState('zIndex', props.zIndex)
-    )
+      (show) => show && setState('zIndex', props.zIndex),
+    ),
   )
 
   return (

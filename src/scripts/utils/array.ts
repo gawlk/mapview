@@ -1,7 +1,7 @@
 export const moveIndexInCopiedArray = <T>(
   originalArray: T[],
   oldIndex: number,
-  newIndex: number
+  newIndex: number,
 ) => {
   let copiedArray = [...originalArray]
 

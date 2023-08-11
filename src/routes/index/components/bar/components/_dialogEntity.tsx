@@ -24,8 +24,8 @@ export const DialogEntity = () => {
 
           button?.click()
         }
-      }
-    )
+      },
+    ),
   )
 
   const creaseEntity = (crease: -1 | 1) => {
@@ -75,7 +75,7 @@ export const DialogEntity = () => {
                     text: `Point ${point.number} ${
                       point.settings.isVisible ? '' : ` - ${t('Hidden')}`
                     }`,
-                  })
+                  }),
                 ) || [],
             }}
             onClose={(value) => {

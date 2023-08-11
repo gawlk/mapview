@@ -8,7 +8,7 @@ export const SelectSource = () => {
   const [t] = useI18n()
 
   const tableDataLabels = createMemo(
-    () => store.selectedReport?.dataLabels.table
+    () => store.selectedReport?.dataLabels.table,
   )
 
   return (

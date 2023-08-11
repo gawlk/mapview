@@ -58,35 +58,35 @@ export const DialogCore = (props: Props) => {
   const forcedClosedChildDialogsOpenButtons: HTMLButtonElement[] = []
 
   const isWindowLarge = createMediaQuery(
-    `(min-width: ${defaultTailwindCSSTheme.screens.md})`
+    `(min-width: ${defaultTailwindCSSTheme.screens.md})`,
   )
   const isAble = createMemo(() => props.moveable || props.resizable)
   const isAttached = createMemo(() => !!props.attach)
   const isMaximized = createMemo(() => props.maximized || state.maximized)
   const isModal = createMemo(
-    () => isWindowLarge() && !(isAttached() || isAble())
+    () => isWindowLarge() && !(isAttached() || isAble()),
   )
   const id = createMemo(
     () =>
       `dialog-${(props.title || props.button?.text?.toString())
         ?.toLowerCase()
-        .replaceAll(' ', '-')}-${Math.floor(Math.random() * 100000000)}`
+        .replaceAll(' ', '-')}-${Math.floor(Math.random() * 100000000)}`,
   )
   const defaultLeft = createMemo(() =>
-    state.show ? (useWindowSize().width - dialogWidth()) / 2 : 0
+    state.show ? (useWindowSize().width - dialogWidth()) / 2 : 0,
   )
   const defaultTop = createMemo(() => Math.round(useWindowSize().height / 10))
 
   const [dialog, setDialog] = createSignal<HTMLDialogElement | undefined>(
-    undefined
+    undefined,
   )
   const [dialogsDiv, setDialogsDiv] = createSignal<HTMLElement | undefined>(
-    undefined
+    undefined,
   )
 
   const dialogDimensions = createElementSize(dialog)
   const dialogWidth = createMemo(
-    () => (dialogDimensions.width && dialog()?.offsetWidth) || 0
+    () => (dialogDimensions.width && dialog()?.offsetWidth) || 0,
   )
 
   const moveToFront = () => {
@@ -129,7 +129,7 @@ export const DialogCore = (props: Props) => {
     forceCloseChildDialogs(dialog(), forcedClosedChildDialogsOpenButtons)
 
     const value = String(
-      element && 'value' in element ? element.value ?? '' : ''
+      element && 'value' in element ? element.value ?? '' : '',
     )
 
     setState({
@@ -160,8 +160,8 @@ export const DialogCore = (props: Props) => {
           if (!current && previous) {
             props.onClose?.(state.value || undefined)
           }
-        }
-      )
+        },
+      ),
     )
 
     createEffect(() => {
@@ -177,7 +177,7 @@ export const DialogCore = (props: Props) => {
         clearClickEvent = makeClickOutsideEventListener(
           dialog(),
           props.attach,
-          close
+          close,
         )
       }
     })
@@ -199,7 +199,7 @@ export const DialogCore = (props: Props) => {
         },
         {
           threshold: 0,
-        }
+        },
       )
     }
   })
@@ -257,7 +257,7 @@ export const DialogCore = (props: Props) => {
 
                 left: `${Math.min(
                   state.position.left ?? defaultLeft(),
-                  useWindowSize().width - dialogWidth()
+                  useWindowSize().width - dialogWidth(),
                 )}px`,
 
                 top: `${state.position.top ?? defaultTop()}px`,

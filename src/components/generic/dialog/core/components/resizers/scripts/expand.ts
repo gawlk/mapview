@@ -2,7 +2,7 @@ export const expand = (
   dialog: HTMLDialogElement | undefined,
   direction: DialogResizeDirection,
   setDimensions: (dimensions: Partial<DialogDimensions>) => void,
-  setPosition: (position: Partial<DialogPosition>) => void
+  setPosition: (position: Partial<DialogPosition>) => void,
 ) => {
   if (!dialog) {
     return

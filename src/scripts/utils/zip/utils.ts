@@ -8,7 +8,7 @@ export const unzipFile = async (file: File) =>
 export const addJSONToZip = async (
   zip: Fflate.Zippable,
   name: string,
-  json: JSONAny
+  json: JSONAny,
 ) => addFileToZip(zip, convertJSONToFile(json, name))
 
 export const addFileToZip = async (zip: Fflate.Zippable, file: File) => {

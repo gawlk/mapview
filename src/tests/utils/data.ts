@@ -11,7 +11,7 @@ export const checkNumericValue = (actual: number, expected: number) => {
 
 export const checkDataConformity = (
   actualData: unknown,
-  expectedData: unknown
+  expectedData: unknown,
   // eslint-disable-next-line sonarjs/cognitive-complexity
 ) => {
   if (typeof actualData !== typeof expectedData) {

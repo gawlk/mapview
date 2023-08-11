@@ -9,7 +9,7 @@ interface MaxidynZoneCreatorParameters extends MachineZoneCreatorParameters {
 export const createMaxidynZoneFromJSON = (
   json: JSONMaxidynZoneVAny,
   map: mapboxgl.Map | null,
-  parameters: MaxidynZoneCreatorParameters
+  parameters: MaxidynZoneCreatorParameters,
 ) => {
   json = upgradeJSON(json)
 
@@ -33,8 +33,8 @@ export const createMaxidynZoneFromJSON = (
     ...json.base.points.map((jsonPoint) =>
       createMaxidynPointFromJSON(jsonPoint, map, {
         zone,
-      })
-    )
+      }),
+    ),
   )
 
   return zone

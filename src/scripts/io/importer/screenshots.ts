@@ -11,14 +11,14 @@ export const getScreenshotFileNamesFromZIP = (zip: Fflate.Zippable) =>
 export const importScreenshotsFromZIP = (
   zip: Fflate.Unzipped,
   json: JSONMachineProject,
-  project: MachineProject
+  project: MachineProject,
 ) => {
   const screenshots = getScreenshotFileNamesFromZIP(zip)
 
   json.base.reports.list.forEach((jsonReport, index) => {
     jsonReport.base.screenshots.forEach((screenshotIndex) => {
       const screenshotFileName = screenshots.find(
-        (screenshot) => Number(screenshot.split('.')[0]) === screenshotIndex
+        (screenshot) => Number(screenshot.split('.')[0]) === screenshotIndex,
       )
 
       if (screenshotFileName) {
@@ -26,7 +26,7 @@ export const importScreenshotsFromZIP = (
 
         const data64 = convertUint8ArrayToData64Image(
           array,
-          String(screenshotFileName.split('.').pop())
+          String(screenshotFileName.split('.').pop()),
         )
 
         project.reports.list[index]?.screenshots.push(data64)

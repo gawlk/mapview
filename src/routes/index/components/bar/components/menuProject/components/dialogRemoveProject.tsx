@@ -19,7 +19,7 @@ export const DialogRemoveProject = () => {
         onClose={(value) => {
           if (value === 'delete') {
             const index = store.projects.list.findIndex(
-              (project) => project === store.selectedProject
+              (project) => project === store.selectedProject,
             )
 
             const project = store.projects.list.splice(index, 1)?.[0]
@@ -36,7 +36,7 @@ export const DialogRemoveProject = () => {
           <div class="space-y-2">
             <p>
               {`${t('Are you sure that you want to delete the project')}${t(
-                ':'
+                ':',
               )} `}
               <strong>{String(store.selectedProject?.name.value)}</strong> ?
             </p>

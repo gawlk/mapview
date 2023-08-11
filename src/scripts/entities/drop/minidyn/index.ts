@@ -4,7 +4,7 @@ export const createMinidynDropFromJSON = (
   json: JSONMinidynDropVAny,
   parameters: {
     point: MinidynPoint
-  }
+  },
 ) => {
   json = upgradeJSONDrop(json)
 
@@ -45,7 +45,7 @@ const upgradeJSONDrop = (json: JSONMinidynDropVAny): JSONMinidynDrop => {
 }
 
 export const createMinidynDropIndexFromJSON = (
-  json: JSONMinidynDropIndexVAny
+  json: JSONMinidynDropIndexVAny,
 ) => {
   json = upgradeJSONDropIndex(json)
 
@@ -69,7 +69,7 @@ export const createMinidynDropIndexFromJSON = (
 }
 
 const upgradeJSONDropIndex = (
-  json: JSONMinidynDropIndexVAny
+  json: JSONMinidynDropIndexVAny,
 ): JSONMinidynDropIndex => {
   switch (json.version) {
     case 1:

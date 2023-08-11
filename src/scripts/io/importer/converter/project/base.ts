@@ -4,7 +4,7 @@ import { convertPRJZObjectToFields } from '../shared'
 
 export const convertPRJZToBaseProject = (
   json: JSONAny,
-  machine: MachineName
+  machine: MachineName,
 ): JSONBaseProject => {
   return {
     version: 1,

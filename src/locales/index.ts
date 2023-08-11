@@ -47,7 +47,7 @@ export const numberToLocaleString = (
   options: {
     locale?: string
     precision?: number
-  } = {}
+  } = {},
 ) =>
   value.toLocaleString(
     options.locale ||
@@ -55,5 +55,5 @@ export const numberToLocaleString = (
     {
       minimumFractionDigits: options.precision || 0,
       maximumFractionDigits: options.precision || 0,
-    }
+    },
   )

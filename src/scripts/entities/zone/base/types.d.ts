@@ -31,7 +31,7 @@ interface JSONZoneSettingsV1 {
 
 interface BaseZone<
   Point extends MachinePoint = MachinePoint,
-  Report extends BaseReport = BaseReport
+  Report extends BaseReport = BaseReport,
 > extends BaseObject<JSONBaseZone> {
   readonly points: Point[]
   readonly settings: JSONZoneSettings

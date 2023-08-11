@@ -22,14 +22,14 @@ export const SelectThreshold = (props: Props) => {
         selected: t(
           props.thresholds?.selected?.name || '',
           undefined,
-          props.thresholds?.selected?.name
+          props.thresholds?.selected?.name,
         ),
         list: (props.thresholds?.list || []).map(
           // TODO: Same as the previous TODO
           (threshold, index) => ({
             value: String(index),
             text: t(threshold.name, undefined, threshold.name),
-          })
+          }),
         ),
       }}
     />

@@ -33,7 +33,7 @@ interface MathUnit<PossibleUnits> {
   readonly checkValidity: (value: number) => boolean
   readonly valueToLocaleString: (
     value: number,
-    options?: MathUnitGetLocaleStringOptions
+    options?: MathUnitGetLocaleStringOptions,
   ) => string
   readonly toJSON: () => JSONMathUnit<PossibleUnits>
 }

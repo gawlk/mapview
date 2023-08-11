@@ -11,7 +11,7 @@ export const booleanPropsKeysToArray = (propsKeys: BooleanPropsKeys) => {
           ...previous,
           ...current,
         }),
-        {}
+        {},
       )
     : propsKeys
 
@@ -20,12 +20,12 @@ export const booleanPropsKeysToArray = (propsKeys: BooleanPropsKeys) => {
 
 export const keepProps = <T extends RecordAny>(
   props: T,
-  propsKeys: BooleanPropsKeys
+  propsKeys: BooleanPropsKeys,
 ) => splitProps(props, booleanPropsKeysToArray(propsKeys))[0]
 
 export const removeProps = <T extends RecordAny>(
   props: T,
-  propsKeys: BooleanPropsKeys
+  propsKeys: BooleanPropsKeys,
 ) => splitProps(props, booleanPropsKeysToArray(propsKeys))[1]
 
 export const classPropToString = (classes?: ClassProp): string =>
@@ -41,7 +41,7 @@ export const classPropToString = (classes?: ClassProp): string =>
     : classes || ''
 
 export const stylePropToCSSProperties = (
-  style?: string | Solid.JSX.CSSProperties
+  style?: string | Solid.JSX.CSSProperties,
 ) => {
   if (!style) {
     return undefined
@@ -60,14 +60,14 @@ export const stylePropToCSSProperties = (
 }
 
 export const valueWithTextToJSXElement = (
-  prop: ValueWithTextProps
+  prop: ValueWithTextProps,
 ): (() => Solid.JSX.Element) =>
   typeof prop.text === 'function'
     ? prop.text
     : () => String(prop.text ?? prop.value ?? '')
 
 export const convertValuesPropsListToValuesWithTextProps = (
-  list: ValuesListProps
+  list: ValuesListProps,
 ): ValueWithTextProps[] => {
   const first = list.at(0)
 
@@ -83,7 +83,7 @@ export const convertValuesPropsListToValuesWithTextProps = (
 export const isValuePropSelected = (
   selected: string | number | null,
   toCheck: ValueWithTextProps,
-  toCheckIndex: number
+  toCheckIndex: number,
 ) =>
   (typeof selected === 'number' && selected === toCheckIndex) ||
   selected === toCheck.value ||

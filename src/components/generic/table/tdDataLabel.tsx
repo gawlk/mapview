@@ -18,7 +18,7 @@ export const TdDataLabel = (props: Props) => {
         {
           createMathNumber(
             props.dataLabel.unit.getAverage(props.values),
-            props.dataLabel.unit
+            props.dataLabel.unit,
           ).displayedString
         }
       </p>

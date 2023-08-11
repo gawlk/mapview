@@ -9,12 +9,13 @@ import {
 } from '/src/scripts'
 
 export const createCharacteristicDeflectionComputer = (
-  report: HeavydynReport
+  report: HeavydynReport,
 ) => {
   const unitName: HeavydynUnitsNames = 'deflection'
 
   const d0DataLabel = report.dataLabels.groups.list[0].choices.list.find(
-    (label) => label.name === 'D0' && label.category === currentCategory
+    (label) =>
+      label.name === 'D0' && label.category.name === currentCategory.name,
   )
 
   return createDataComputer({
@@ -27,7 +28,7 @@ export const createCharacteristicDeflectionComputer = (
           unit: report.project.units[unitName],
           unitKey: unitName,
           category: indicatorsCategory,
-        })
+        }),
       ),
     compute: (label) => {
       report.zones.forEach((zone) => {
@@ -39,8 +40,8 @@ export const createCharacteristicDeflectionComputer = (
           .getExportablePoints()
           .map((point) =>
             (point.drops.at(-1) as HeavydynDrop).data.filter(
-              (_data) => _data.label === d0DataLabel
-            )
+              (_data) => _data.label === d0DataLabel,
+            ),
           )
           .flat()
           .map((d0) => d0.getRawValue())

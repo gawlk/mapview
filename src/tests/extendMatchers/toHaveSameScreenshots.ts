@@ -4,7 +4,7 @@ import { compareFiles } from '../utils'
 
 export const toHaveSameScreenshots = (
   actual: Fflate.Unzipped,
-  expected: Fflate.Unzipped
+  expected: Fflate.Unzipped,
 ) => {
   const compareResult = compareFiles(actual, expected, {
     filter: 'screenshots/',
@@ -22,7 +22,7 @@ export const toHaveSameScreenshots = (
     return {
       message: () =>
         `screenshots files are different ${String(
-          lastKey
+          lastKey,
         )} isn't present in expected`,
       pass: false,
     }

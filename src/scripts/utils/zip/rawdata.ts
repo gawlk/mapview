@@ -1,6 +1,6 @@
 export const addRawDataToZip = async (
   zip: Fflate.Zippable,
-  entity: MachineProject | MachineReport
+  entity: MachineProject | MachineReport,
 ) => {
   const rawdata: { [key: string]: Uint8Array } = {}
 

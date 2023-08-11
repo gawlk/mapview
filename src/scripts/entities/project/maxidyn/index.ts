@@ -7,7 +7,7 @@ import { createBaseProjectFromJSON } from '../base'
 
 export const createMaxidynProjectFromJSON = (
   json: JSONMaxidynProjectVAny,
-  map: mapboxgl.Map | null
+  map: mapboxgl.Map | null,
 ) => {
   json = upgradeJSON(json)
 
@@ -51,8 +51,8 @@ export const createMaxidynProjectFromJSON = (
     ...json.base.reports.list.map((report) =>
       createMaxidynReportFromJSON(report as JSONMaxidynReport, map, {
         project,
-      })
-    )
+      }),
+    ),
   )
 
   project.reports.selectIndex(json.base.reports.selectedIndex)

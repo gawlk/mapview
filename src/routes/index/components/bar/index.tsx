@@ -62,8 +62,8 @@ export const Bar = () => {
             const element = createMemo(
               () =>
                 (document.getElementById(
-                  `${id() || 'none'}${menu.id}`
-                ) as HTMLElement | null) || undefined
+                  `${id() || 'none'}${menu.id}`,
+                ) as HTMLElement | null) || undefined,
             )
 
             // const [mounted, setMounted] = createSignal(false)

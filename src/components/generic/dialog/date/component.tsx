@@ -74,24 +74,24 @@ export const DialogDate = (props: DialogDatePropsWithHTMLAttributes) => {
   }
 
   const isMaxYear = createMemo(
-    () => props.max && state.year >= props.max.getUTCFullYear()
+    () => props.max && state.year >= props.max.getUTCFullYear(),
   )
 
   const isMaxMonth = createMemo(
-    () => isMaxYear() && props.max && state.month >= props.max.getUTCMonth()
+    () => isMaxYear() && props.max && state.month >= props.max.getUTCMonth(),
   )
 
   const isMinYear = createMemo(
-    () => props.min && state.year <= props.min.getUTCFullYear()
+    () => props.min && state.year <= props.min.getUTCFullYear(),
   )
 
   const isMinMonth = createMemo(
-    () => isMinYear() && props.min && state.month <= props.min.getUTCMonth()
+    () => isMinYear() && props.min && state.month <= props.min.getUTCMonth(),
   )
 
   const showReset = createMemo(
     () =>
-      props.reset && props.value.valueOf() !== props.reset?.default.valueOf()
+      props.reset && props.value.valueOf() !== props.reset?.default.valueOf(),
   )
 
   createEffect(() => {
@@ -118,7 +118,7 @@ export const DialogDate = (props: DialogDatePropsWithHTMLAttributes) => {
             rightIconClass: '',
             text: props.value.toLocaleString(),
           } as ButtonPropsWithHTMLAttributes,
-          props.button
+          props.button,
         )}
         onClose={(value?: string) => {
           if (props.saveable) {
@@ -126,7 +126,7 @@ export const DialogDate = (props: DialogDatePropsWithHTMLAttributes) => {
               id,
               value && value !== props.reset?.default.toJSON()
                 ? value
-                : undefined
+                : undefined,
             )
           }
 
@@ -155,7 +155,7 @@ export const DialogDate = (props: DialogDatePropsWithHTMLAttributes) => {
                     <For each={week}>
                       {(date) => {
                         const isValue = createMemo(
-                          () => props.value.valueOf() === date.valueOf()
+                          () => props.value.valueOf() === date.valueOf(),
                         )
 
                         return (

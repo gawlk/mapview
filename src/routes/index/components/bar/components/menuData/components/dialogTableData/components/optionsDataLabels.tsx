@@ -18,19 +18,19 @@ export const OptionsDataLabels = () => {
   const [t] = useI18n()
 
   const tableDataLabels = createMemo(
-    () => store.selectedReport?.dataLabels.table.selected
+    () => store.selectedReport?.dataLabels.table.selected,
   )
 
   const tableSelectedDataLabels = createMemo(
-    () => tableDataLabels()?.dataLabels || []
+    () => tableDataLabels()?.dataLabels || [],
   )
 
   const tableDataLabelsChoices = createMemo(
-    () => tableDataLabels()?.group.choices.list
+    () => tableDataLabels()?.group.choices.list,
   )
 
   const groupedTableDataLabelsChoices = createMemo(() =>
-    groupDataLabelsByCategory(tableDataLabelsChoices() || [])
+    groupDataLabelsByCategory(tableDataLabelsChoices() || []),
   )
 
   const optionsList = createMemo(
@@ -39,7 +39,7 @@ export const OptionsDataLabels = () => {
         name: t(category.name),
         list: dataLabels.map((dataLabel) => {
           const index = createMemo(
-            () => tableSelectedDataLabels()?.indexOf(dataLabel) ?? -1
+            () => tableSelectedDataLabels()?.indexOf(dataLabel) ?? -1,
           )
 
           const selected = createMemo(() => index() !== -1)
@@ -56,7 +56,7 @@ export const OptionsDataLabels = () => {
             },
           }
         }),
-      })) || []
+      })) || [],
   )
 
   return (
@@ -74,7 +74,7 @@ export const OptionsDataLabels = () => {
                 tableSelected.dataLabels = moveIndexInCopiedArray(
                   tableSelected.dataLabels,
                   oldIndex,
-                  newIndex
+                  newIndex,
                 )
               }
             }}

@@ -10,7 +10,7 @@ import { useWindowSize } from '@solid-primitives/resize-observer'
 
 export const createRelativePositionEffect = (
   dialog: HTMLDialogElement | undefined,
-  element: HTMLElement
+  element: HTMLElement,
 ) => {
   if (!dialog) {
     return
@@ -52,13 +52,13 @@ export const createRelativePositionEffect = (
             })
           })
         }
-      }
-    )
+      },
+    ),
   )
 
   createIntersectionObserver(
     () => [element],
-    ([entry]) => setIsIntersecting(entry?.isIntersecting ?? false)
+    ([entry]) => setIsIntersecting(entry?.isIntersecting ?? false),
   )
 
   onCleanup(() => {

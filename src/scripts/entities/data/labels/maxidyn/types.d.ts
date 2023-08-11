@@ -7,7 +7,7 @@ type JSONMaxidynDataLabelsGroup = JSONMaxidynDataLabelsGroups[number]
 type JSONMaxidynDataLabelsGroups = [
   JSONMaxidynDropDataLabelsGroup,
   JSONMaxidynTestDataLabelsGroup,
-  JSONMaxidynZoneDataLabelsGroup
+  JSONMaxidynZoneDataLabelsGroup,
 ]
 
 interface JSONMaxidynDropDataLabelsGroup {
@@ -60,7 +60,7 @@ type MaxidynDataLabelsGroup = MaxidynDataLabelsGroups[number]
 type MaxidynDataLabelsGroups = [
   MaxidynDropDataLabelsGroup,
   MaxidynTestDataLabelsGroup,
-  MaxidynZoneDataLabelsGroup
+  MaxidynZoneDataLabelsGroup,
 ]
 
 interface MaxidynDropDataLabelsGroup

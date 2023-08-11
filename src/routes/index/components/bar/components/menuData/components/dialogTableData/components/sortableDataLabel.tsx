@@ -24,7 +24,7 @@ export const SortableDataLabel = (props: Props) => {
         class="rounded-l-none border-l-black/10"
         onClick={() => {
           const index = props.tableSelectedDataLabels.findIndex(
-            (dataLabel) => props.dataLabel === dataLabel
+            (dataLabel) => props.dataLabel === dataLabel,
           )
 
           if (typeof index === 'number' && index !== -1) {

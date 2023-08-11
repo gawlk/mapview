@@ -42,7 +42,7 @@ describe('Test exports', async () => {
   test.each(
     testData
       .filter((data) => data.pdx)
-      .map((data) => [data.directoryName, data.mpvz.project, data.pdx])
+      .map((data) => [data.directoryName, data.mpvz.project, data.pdx]),
   )('test PDX: %s', async (_, project, expected) => {
     const pdxFile = heavydynPDXExporter.export(project as HeavydynProject)
     expect(pdxFile).toBeDefined()
@@ -53,7 +53,7 @@ describe('Test exports', async () => {
   test.each(
     testData
       .filter((data) => data.fwdSweco)
-      .map((data) => [data.directoryName, data.mpvz.project, data.fwdSweco])
+      .map((data) => [data.directoryName, data.mpvz.project, data.fwdSweco]),
   )('test FWD (Sweco): %s', async (_, project, expected) => {
     const swecoFile = heavydynSwecoExporter.export(project as HeavydynProject)
 
@@ -70,10 +70,10 @@ describe('Test exports', async () => {
   test.each(
     testData
       .filter((data) => data.fwdDynatest)
-      .map((data) => [data.directoryName, data.mpvz.project, data.fwdDynatest])
+      .map((data) => [data.directoryName, data.mpvz.project, data.fwdDynatest]),
   )('test FWD (Dynatest): %s', async (_, project, expected) => {
     const dynatestFile = heavydynDynatestExporter.export(
-      project as HeavydynProject
+      project as HeavydynProject,
     )
 
     expect(dynatestFile).toBeDefined()
@@ -89,7 +89,7 @@ describe('Test exports', async () => {
   test.each(
     testData
       .filter((data) => data.f25)
-      .map((data) => [data.directoryName, data.mpvz.project, data.f25])
+      .map((data) => [data.directoryName, data.mpvz.project, data.f25]),
   )('test F25: %s', async (_, project, expected) => {
     const f25File = heavydynF25Exporter.export(project as HeavydynProject)
 
@@ -106,12 +106,12 @@ describe('Test exports', async () => {
   test.each(
     testData
       .filter((data) => data.mvrz)
-      .map((data) => [data.directoryName, data.mpvz.project, data.mvrz])
+      .map((data) => [data.directoryName, data.mpvz.project, data.mvrz]),
   )('test mvrz: %s', async (_, project, expected) => {
     const mpvzFile = await mvrzExporter.export(project as MachineProject)
 
     expect(mpvzFile.name).toSatisfy(
-      (val: string) => val.substring(val.length - 4) === 'mvrz'
+      (val: string) => val.substring(val.length - 4) === 'mvrz',
     )
 
     const data = new Uint8Array(await mpvzFile.arrayBuffer())

@@ -9,7 +9,7 @@ interface MinidynZoneCreatorParameters extends MachineZoneCreatorParameters {
 export const createMinidynZoneFromJSON = (
   json: JSONMinidynZoneVAny,
   map: mapboxgl.Map | null,
-  parameters: MinidynZoneCreatorParameters
+  parameters: MinidynZoneCreatorParameters,
 ) => {
   json = upgradeJSON(json)
 
@@ -33,8 +33,8 @@ export const createMinidynZoneFromJSON = (
     ...json.base.points.map((jsonPoint) =>
       createMinidynPointFromJSON(jsonPoint, map, {
         zone,
-      })
-    )
+      }),
+    ),
   )
 
   return zone

@@ -16,7 +16,7 @@ export const Tr = (props: Props) => {
         props.color
           ? {
               'background-color': `rgb(${hexToRgb(props.color)?.join(
-                ' '
+                ' ',
               )} / var(--tw-bg-opacity))`,
             }
           : {}

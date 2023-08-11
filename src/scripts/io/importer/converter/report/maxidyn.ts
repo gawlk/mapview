@@ -12,7 +12,7 @@ import { convertPRJZToTestChoices } from '../shared'
 export const convertPRJZToMaxidynReport = (
   jsonPV: RecordAny,
   index: number,
-  json: JSONAny
+  json: JSONAny,
 ): JSONMaxidynReport => {
   const report: JSONMaxidynReport = {
     version: 1,
@@ -30,8 +30,8 @@ export const convertPRJZToMaxidynReport = (
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call
     ...jsonPV.Points.map(
       (jsonPoint: RecordAny, pointIndex: number): JSONMaxidynPoint =>
-        convertPRJZToMaxidynPoint(jsonPoint, pointIndex, json)
-    )
+        convertPRJZToMaxidynPoint(jsonPoint, pointIndex, json),
+    ),
   )
 
   return report
@@ -39,7 +39,7 @@ export const convertPRJZToMaxidynReport = (
 
 export const convertPRJZToMaxidynReportDistinct = (
   jsonPV: RecordAny,
-  json: JSONAny
+  json: JSONAny,
 ): JSONMaxidynReportDistinct => {
   const dropChoices = convertPRJZToMaxidynDropChoices(json)
   const dropIndexes = convertPRJZToMaxidynDropIndexes(json)
@@ -48,7 +48,7 @@ export const convertPRJZToMaxidynReportDistinct = (
   const modulusThresholdIndex = defaultThresholds.modulus.findIndex(
     (threshold) => {
       return threshold.value === jsonPV.Threshold.Threshold
-    }
+    },
   )
 
   return {

@@ -10,7 +10,7 @@ export const SelectIndex = () => {
   const [t] = useI18n()
 
   const selectedDataLabelGroup = createMemo(
-    () => store.selectedReport?.dataLabels.groups.selected
+    () => store.selectedReport?.dataLabels.groups.selected,
   )
 
   return (
@@ -35,7 +35,7 @@ export const SelectIndex = () => {
                   (dropIndex, index) => ({
                     value: String(index),
                     text: () => <SpanDropIndex dropIndex={dropIndex} />,
-                  })
+                  }),
                 ) || [],
             }}
             onClose={(value) => {

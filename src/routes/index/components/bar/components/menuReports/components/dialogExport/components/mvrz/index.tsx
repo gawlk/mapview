@@ -27,7 +27,7 @@ export const MVRZ = (props: Props) => {
           run(
             async () =>
               store.projects.selected &&
-              downloadFile(await mvrzExporter.export(store.projects.selected))
+              downloadFile(await mvrzExporter.export(store.projects.selected)),
           )
         }
         full

@@ -7,19 +7,19 @@ import {
 } from '/src/scripts'
 
 export const createHeavydynSurfaceModulusDataComputers = (
-  report: HeavydynReport
+  report: HeavydynReport,
 ) => {
   const unitName: HeavydynUnitsNames = 'modulus'
 
   const currentD0DataLabel = report.dataLabels.findIn(
     'Drop',
     'DO',
-    currentCategory
+    currentCategory,
   )
   const currentLoadDataLabel = report.dataLabels.findIn(
     'Drop',
     'Load',
-    currentCategory
+    currentCategory,
   )
 
   return (
@@ -33,7 +33,7 @@ export const createHeavydynSurfaceModulusDataComputers = (
           unit: report.project.units[unitName],
           unitKey: unitName,
           category: indicatorsCategory,
-        })
+        }),
       ),
       compute: (label) => {
         const radius = report.project.calibrations.dPlate / 2
@@ -44,7 +44,7 @@ export const createHeavydynSurfaceModulusDataComputers = (
           zone.points.forEach((point) => {
             point.drops.forEach((drop) => {
               const load = drop.data.find(
-                (data) => data.label === currentLoadDataLabel
+                (data) => data.label === currentLoadDataLabel,
               )
 
               const sm0 =
@@ -59,7 +59,7 @@ export const createHeavydynSurfaceModulusDataComputers = (
                 sm0.value.updateValue(value)
               }
             })
-          })
+          }),
         )
       },
     })

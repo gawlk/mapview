@@ -2,7 +2,7 @@ import { baseHexColor, colors } from '/src/scripts'
 
 export const createPredefinedThreshold = (
   name: string,
-  value: number
+  value: number,
 ): PredefinedThreshold => {
   return {
     kind: 'predefined',

@@ -4,7 +4,7 @@ export const createMaxidynDropFromJSON = (
   json: JSONMaxidynDropVAny,
   parameters: {
     point: MaxidynPoint
-  }
+  },
 ) => {
   json = upgradeJSONDrop(json)
 
@@ -67,7 +67,7 @@ export const createMaxidynDropIndexFromJSON = (json: JSONMaxidynDropIndex) => {
 }
 
 const upgradeJSONDropIndex = (
-  json: JSONMaxidynDropIndexVAny
+  json: JSONMaxidynDropIndexVAny,
 ): JSONMaxidynDropIndex => {
   switch (json.version) {
     case 1:

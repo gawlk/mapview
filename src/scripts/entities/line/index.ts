@@ -33,7 +33,7 @@ export const createLine = (map: mapboxgl.Map | null): Line => {
           } as unknown as mapboxgl.GeoJSONSource,
           type: 'line',
         },
-        'lines'
+        'lines',
       )
 
       watcherHandler.add(
@@ -47,8 +47,8 @@ export const createLine = (map: mapboxgl.Map | null): Line => {
                 line.update()
               })
             })
-          }
-        )
+          },
+        ),
       )
     },
     remove(): void {

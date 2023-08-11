@@ -14,7 +14,7 @@ export const DetailsTemperature = (props: Props) => {
   const [t] = useI18n()
 
   const temperature = createMemo(
-    () => props.project.correctionParameters.temperature
+    () => props.project.correctionParameters.temperature,
   )
 
   return (

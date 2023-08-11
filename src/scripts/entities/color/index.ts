@@ -22,8 +22,9 @@ export const colors: Record<ColorName, string> = {
 
 export const baseHexColor = gray
 
-export const upgradeColorNameFromV1ToV2 = (colorName: ColorNameV1): ColorName =>
-  colorName === 'gray' ? 'orange' : colorName
+export const upgradeColorNameFromV1ToV2 = (
+  colorName: ColorNameV1,
+): ColorName => (colorName === 'gray' ? 'orange' : colorName)
 
 export const getRandomColorName = () => {
   const colorNames = Object.keys(colors)

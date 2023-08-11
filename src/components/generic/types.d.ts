@@ -6,7 +6,7 @@ type StyleProp = string | Solid.JSX.CSSProperties
 
 type MergePropsWithHTMLProps<
   T,
-  HTMLAttributes extends Solid.JSX.HTMLAttributes = Solid.JSX.HTMLAttributes
+  HTMLAttributes extends Solid.JSX.HTMLAttributes = Solid.JSX.HTMLAttributes,
 > = T & Omit<HTMLAttributes, keyof T>
 
 type BooleanPropsKeysObject<Props> = {

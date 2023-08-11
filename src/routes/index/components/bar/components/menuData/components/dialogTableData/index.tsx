@@ -54,10 +54,13 @@ export const DialogTableData = () => {
                 label: t('Columns'),
                 text: () => (
                   <div class="space-x-2">
-                    {run(() =>
-                      store.selectedReport?.dataLabels.table.selected?.dataLabels.map(
-                        (dataLabel) => <SpanDataLabel dataLabel={dataLabel} />
-                      )
+                    {run(
+                      () =>
+                        store.selectedReport?.dataLabels.table.selected?.dataLabels.map(
+                          (dataLabel) => (
+                            <SpanDataLabel dataLabel={dataLabel} />
+                          ),
+                        ),
                     )}
                   </div>
                 ),

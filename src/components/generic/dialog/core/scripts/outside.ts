@@ -3,7 +3,7 @@ import { makeEventListener } from '@solid-primitives/event-listener'
 export const makeClickOutsideEventListener = (
   dialog: HTMLDialogElement | undefined,
   attach: HTMLElement | undefined,
-  close: () => void
+  close: () => void,
 ) => {
   if (!dialog) {
     return
@@ -31,11 +31,11 @@ export const makeClickOutsideEventListener = (
 
           setTimeout(
             () => element !== dialog && element !== attach && close(),
-            1
+            1,
           )
         }
       }
     },
-    { passive: true }
+    { passive: true },
   )
 }

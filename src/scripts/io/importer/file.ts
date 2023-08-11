@@ -17,7 +17,7 @@ export const unzippedToObject = (unzipped: Fflate.Unzipped) => {
 
 export const getProjectJSONFromZip = (
   unzipped: Fflate.Unzipped,
-  extension: string
+  extension: string,
 ) => {
   const importedJSON = unzippedToObject(unzipped)
 

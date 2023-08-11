@@ -7,7 +7,7 @@ import {
 } from '/src/scripts'
 
 export const createHeavydynCurrentLoadDataComputer = (
-  report: HeavydynReport
+  report: HeavydynReport,
 ) => {
   const rawLoadDataLabel = report.dataLabels.findIn('Drop', 'Load', rawCategory)
 
@@ -24,7 +24,7 @@ export const createHeavydynCurrentLoadDataComputer = (
           name: rawLoadDataLabel.name,
           unit: rawLoadDataLabel.unit,
           category: currentCategory,
-        })
+        }),
       ),
     compute: (currentLoadDataLabel) => {
       const {
@@ -45,7 +45,7 @@ export const createHeavydynCurrentLoadDataComputer = (
             if (!correctionParameters.load.active) {
               referenceData = (
                 drop.data.find(
-                  (_data) => _data.label === rawLoadDataLabel
+                  (_data) => _data.label === rawLoadDataLabel,
                 ) as DataValue<string>
               ).value // can't be undefined
             } else {
@@ -59,8 +59,8 @@ export const createHeavydynCurrentLoadDataComputer = (
               ]
 
             data.value.updateValue(referenceData.value)
-          })
-        )
+          }),
+        ),
       )
     },
   })

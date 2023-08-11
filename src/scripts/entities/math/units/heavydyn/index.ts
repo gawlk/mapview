@@ -1,7 +1,7 @@
 import { createMathUnit } from '/src/scripts'
 
 export const createHeavydynMathUnitsFromJSON = (
-  json: JSONHeavydynUnitsVAny
+  json: JSONHeavydynUnitsVAny,
 ): HeavydynMathUnits => {
   json = upgradeJSON(json)
 
@@ -17,7 +17,7 @@ export const createHeavydynMathUnitsFromJSON = (
       ],
       {
         checkValidity: (value) => value >= 0,
-      }
+      },
     ),
     modulus: createMathUnit('Modulus', json.modulus, 'Pa', [['MPa', 2]]),
     force: createMathUnit(
@@ -31,7 +31,7 @@ export const createHeavydynMathUnitsFromJSON = (
       ],
       {
         checkValidity: (value) => value >= 0,
-      }
+      },
     ),
     temperature: createMathUnit('Temperature', json.temperature, '°C', [
       ['°C', 0],
@@ -55,7 +55,7 @@ export const createHeavydynMathUnitsFromJSON = (
       {
         step: 0.1,
         checkValidity: (value) => value >= 0,
-      }
+      },
     ),
     cumSum: createMathUnit(
       'CumSum',
@@ -71,7 +71,7 @@ export const createHeavydynMathUnitsFromJSON = (
       {
         step: 0.1,
         readOnly: true,
-      }
+      },
     ),
     radius: createMathUnit(
       'Radius',
@@ -84,7 +84,7 @@ export const createHeavydynMathUnitsFromJSON = (
       ],
       {
         checkValidity: (value) => value >= 0,
-      }
+      },
     ),
   }
 }

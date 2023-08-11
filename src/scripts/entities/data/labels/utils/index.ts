@@ -14,8 +14,8 @@ export const groupDataLabelsByCategory = (dataLabels: DataLabel[]) =>
       map.set(category, list)
 
       return map
-    }, new Map<DataCategory, DataLabel[]>())
+    }, new Map<DataCategory, DataLabel[]>()),
   ).sort(
     ([categoryA], [categoryB]) =>
-      categoriesOrder.indexOf(categoryA) - categoriesOrder.indexOf(categoryB)
+      categoriesOrder.indexOf(categoryA) - categoriesOrder.indexOf(categoryB),
   )

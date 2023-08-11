@@ -7,7 +7,7 @@ export const createMaxidynPointFromJSON = (
   map: mapboxgl.Map | null,
   parameters: {
     zone: MaxidynZone
-  }
+  },
 ) => {
   json = upgradeJSON(json)
 
@@ -33,8 +33,8 @@ export const createMaxidynPointFromJSON = (
     ...json.base.drops.map((jsonDrop) =>
       createMaxidynDropFromJSON(jsonDrop, {
         point,
-      })
-    )
+      }),
+    ),
   )
 
   return point

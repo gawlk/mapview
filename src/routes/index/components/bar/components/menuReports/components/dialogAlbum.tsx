@@ -17,9 +17,8 @@ export const DialogAlbum = () => {
       maximized
       button={{
         leftIcon: IconTablerSlideshow,
-        text: `${t('View the album')} - ${
-          store.selectedReport?.screenshots.length
-        }`,
+        text: `${t('View the album')} - ${store.selectedReport?.screenshots
+          .length}`,
         full: true,
       }}
       title={t('Album')}

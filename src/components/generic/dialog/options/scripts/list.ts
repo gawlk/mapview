@@ -1,7 +1,7 @@
 import { convertValuesPropsListToValuesWithTextProps } from '/src/components'
 
 export const convertDialogValuesPropsListToValuesWithTextProps = (
-  list: DialogValuesProps['list']
+  list: DialogValuesProps['list'],
 ): ValueWithTextProps[] => {
   const first = list.at(0)
 

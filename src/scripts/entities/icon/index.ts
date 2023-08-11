@@ -43,7 +43,7 @@ export const createIcon = (iconName: IconName) => {
     'flex',
     'items-center',
     'justify-center',
-    'h-full'
+    'h-full',
   )
   subDiv2.style.left = '-50%'
   subDiv2.style.right = '-50%'
@@ -56,7 +56,7 @@ export const createIcon = (iconName: IconName) => {
     'text-white',
     'serif',
     'mb-0.5',
-    'mapview-icon'
+    'mapview-icon',
   )
 
   span.style.textShadow = '-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black'

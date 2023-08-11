@@ -20,7 +20,7 @@ export const DialogColorThreshold = (props: Props) => {
   const [t] = useI18n()
 
   const thresoldColors = createMemo(
-    () => store.selectedReport?.thresholds.colors
+    () => store.selectedReport?.thresholds.colors,
   )
 
   return (

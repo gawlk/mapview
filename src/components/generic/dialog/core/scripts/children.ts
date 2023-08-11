@@ -1,7 +1,7 @@
 import { HIDDEN_CLOSE_BUTTON_CLASS } from '.'
 
 export const openForcedClosedChildDialogs = (
-  forcedClosedChildDialogsOpenButtons: HTMLButtonElement[]
+  forcedClosedChildDialogsOpenButtons: HTMLButtonElement[],
 ) =>
   forcedClosedChildDialogsOpenButtons
     .splice(0)
@@ -9,7 +9,7 @@ export const openForcedClosedChildDialogs = (
 
 export const forceCloseChildDialogs = (
   dialog: HTMLDialogElement | undefined,
-  forcedClosedChildDialogsOpenButtons: HTMLButtonElement[]
+  forcedClosedChildDialogsOpenButtons: HTMLButtonElement[],
 ) =>
   Array.from(document.getElementsByTagName('dialog'))
     .filter((_dialog) => _dialog.open && _dialog !== dialog)
@@ -21,7 +21,7 @@ export const forceCloseChildDialogs = (
       const elementsWithFor = [...dialog.querySelectorAll('[for]')]
 
       const openButton = elementsWithFor.find(
-        (elementWithFor) => elementWithFor.getAttribute('for') === _id
+        (elementWithFor) => elementWithFor.getAttribute('for') === _id,
       ) as HTMLButtonElement | undefined
 
       if (openButton) {

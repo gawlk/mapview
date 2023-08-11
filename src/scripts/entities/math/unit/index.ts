@@ -42,7 +42,7 @@ const getValueForAverage = (
   min: number,
   max: number,
   value: number,
-  averageFunction?: AverageFunction
+  averageFunction?: AverageFunction,
 ) => {
   if (averageFunction === 'capOutliers') {
     if (max && value > max) {
@@ -67,7 +67,7 @@ export const createMathUnit = <PossibleUnits extends string>(
     readOnly?: true
     invalidReplacement?: string
     checkValidity?: (value: number) => boolean
-  }
+  },
 ): MathUnit<PossibleUnits> => {
   const currentUnit = json.currentUnit || possibleSettings[0][0]
   const possiblePrecisions = options?.possiblePrecisions || [0, 1, 2]
@@ -96,7 +96,7 @@ export const createMathUnit = <PossibleUnits extends string>(
           this.checkValidity(value) &&
           (options?.averageFunction === 'ignoreOutliers'
             ? value <= max && value >= min
-            : true)
+            : true),
       )
 
       return filteredValues.length > 0
@@ -107,9 +107,9 @@ export const createMathUnit = <PossibleUnits extends string>(
                 this.min,
                 this.max,
                 currentValue,
-                options?.averageFunction
+                options?.averageFunction,
               ),
-            0
+            0,
           ) / filteredValues.length
         : 0
     },
@@ -117,14 +117,14 @@ export const createMathUnit = <PossibleUnits extends string>(
       return convertValueFromUnitAToUnitB(
         value,
         this.currentUnit,
-        this.baseUnit
+        this.baseUnit,
       )
     },
     baseToCurrent(value) {
       return convertValueFromUnitAToUnitB(
         value,
         this.baseUnit,
-        this.currentUnit
+        this.currentUnit,
       )
     },
     checkValidity(value) {
@@ -156,7 +156,7 @@ export const createMathUnit = <PossibleUnits extends string>(
         value = convertValueFromUnitAToUnitB(
           value,
           this.baseUnit,
-          parseOptions.unit ?? this.currentUnit
+          parseOptions.unit ?? this.currentUnit,
         )
 
         valueString = `${
@@ -191,10 +191,10 @@ export const createMathUnit = <PossibleUnits extends string>(
 export const convertValueFromUnitAToUnitB = (
   value: number,
   unitA: string,
-  unitB: string
+  unitB: string,
 ) =>
   unitA !== unitB
     ? Unit(value, convertMapviewUnitToMathJSUnit(unitA)).toNumber(
-        convertMapviewUnitToMathJSUnit(unitB)
+        convertMapviewUnitToMathJSUnit(unitB),
       )
     : value

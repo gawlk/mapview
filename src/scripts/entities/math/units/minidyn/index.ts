@@ -1,7 +1,7 @@
 import { createMathUnit } from '/src/scripts'
 
 export const createMinidynMathUnitsFromJSON = (
-  json: JSONMinidynUnitsVAny
+  json: JSONMinidynUnitsVAny,
 ): MinidynMathUnits => {
   json = upgradeJSON(json)
 
@@ -16,7 +16,7 @@ export const createMinidynMathUnitsFromJSON = (
       [['MN / m', 0]],
       {
         averageFunction: 'capOutliers',
-      }
+      },
     ),
     deflection: createMathUnit(
       'Deflection',
@@ -28,7 +28,7 @@ export const createMinidynMathUnitsFromJSON = (
       ],
       {
         checkValidity: (value) => value >= 0,
-      }
+      },
     ),
     force: createMathUnit(
       'Force',
@@ -40,7 +40,7 @@ export const createMinidynMathUnitsFromJSON = (
       ],
       {
         checkValidity: (value) => value >= 0,
-      }
+      },
     ),
     distance: createMathUnit('Distance', json.distance, 'm', [
       ['m', 0],
@@ -58,7 +58,7 @@ export const createMinidynMathUnitsFromJSON = (
       ],
       {
         checkValidity: (value) => value >= 0,
-      }
+      },
     ),
     percentage: createMathUnit(
       'Percentage',
@@ -74,7 +74,7 @@ export const createMinidynMathUnitsFromJSON = (
         step: 0.5,
         readOnly: true,
         invalidReplacement: '0',
-      }
+      },
     ),
   }
 }

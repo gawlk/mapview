@@ -28,7 +28,7 @@ export const DialogScreenshot = () => {
       .classList.add('hidden')
 
     Array.from(map.getElementsByClassName('mapview-icon')).forEach(
-      (icon) => ((icon as HTMLSpanElement).style.marginBottom = '1rem')
+      (icon) => ((icon as HTMLSpanElement).style.marginBottom = '1rem'),
     )
 
     const canvas = await html2canvas(map, {
@@ -36,7 +36,7 @@ export const DialogScreenshot = () => {
     })
 
     Array.from(map.getElementsByClassName('mapview-icon')).forEach(
-      (icon) => ((icon as HTMLSpanElement).style.marginBottom = '')
+      (icon) => ((icon as HTMLSpanElement).style.marginBottom = ''),
     )
 
     map

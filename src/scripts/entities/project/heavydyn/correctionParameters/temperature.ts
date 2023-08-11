@@ -2,24 +2,24 @@ import { createMathNumber, createSelectableList } from '/src/scripts'
 
 export const createHeavydynProjectTemperatureCorrectionParametersFromJSON = (
   json: JSONHeavydynTemperatureCorrectionParametersVAny,
-  units: HeavydynMathUnits
+  units: HeavydynMathUnits,
 ) => {
   json = upgradeJSON(json)
 
   const temperatureCorrectionParameters: HeavydynTemperatureCorrectionParameters =
     createMutable({
-      active: false,
+      active: json.active,
       source: createSelectableList(
         ['Tair', 'Tsurf', 'Tman', 'Custom'] as TemperatureSourceList,
         {
           selected: json.source,
-        }
+        },
       ),
       average: createSelectableList(
         ['Point', 'Zone', 'Report'] as TemperatureAverageList,
         {
           selected: json.average,
-        }
+        },
       ),
       customValue: createMathNumber(json.customValue, units.temperature),
       reference: createMathNumber(json.reference, units.temperature),
@@ -44,7 +44,7 @@ export const createHeavydynProjectTemperatureCorrectionParametersFromJSON = (
         ] as TemperatureStructureTypeList,
         {
           selectedIndex: json.structureType,
-        }
+        },
       ),
     })
 
@@ -52,7 +52,7 @@ export const createHeavydynProjectTemperatureCorrectionParametersFromJSON = (
 }
 
 const upgradeJSON = (
-  json: JSONHeavydynTemperatureCorrectionParametersVAny
+  json: JSONHeavydynTemperatureCorrectionParametersVAny,
 ): JSONHeavydynTemperatureCorrectionParameters => {
   switch (json.version) {
     case 1:

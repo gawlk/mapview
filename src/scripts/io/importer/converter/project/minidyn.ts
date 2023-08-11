@@ -4,7 +4,7 @@ import { convertPRJZToMinidynReport } from '../report'
 
 export const convertPRJZToMinidynProject = (
   json: JSONAny,
-  baseProject: JSONBaseProject
+  baseProject: JSONBaseProject,
 ): JSONMinidynProject => {
   const project: JSONMinidynProject = {
     version: 1,
@@ -15,8 +15,8 @@ export const convertPRJZToMinidynProject = (
 
   project.base.reports.list.push(
     ...json.PVs.map((jsonPV: RecordAny, index: number) =>
-      convertPRJZToMinidynReport(jsonPV, index, json)
-    )
+      convertPRJZToMinidynReport(jsonPV, index, json),
+    ),
   )
 
   project.base.reports.selectedIndex = project.base.reports.list.length
@@ -27,7 +27,7 @@ export const convertPRJZToMinidynProject = (
 }
 
 export const convertPRJZToMinidynProjectDistinct = (
-  json: JSONAny
+  json: JSONAny,
 ): JSONMinidynProjectDistinct => {
   const units = convertPRJZToMinidynUnits(json)
 
@@ -52,11 +52,11 @@ export const convertPRJZToMinidynProjectDistinct = (
 
 export const convertPRJZToMinidynUnits = (json: JSONAny): JSONMinidynUnits => {
   const exportedModulus = json.ExportedData.Points.find(
-    (exportedUnit: RecordAny) => exportedUnit.Type === 'Modulus'
+    (exportedUnit: RecordAny) => exportedUnit.Type === 'Modulus',
   )
 
   const exportedStiffness = json.ExportedData.Points.find(
-    (exportedUnit: RecordAny) => exportedUnit.Type === 'Stiffness'
+    (exportedUnit: RecordAny) => exportedUnit.Type === 'Stiffness',
   )
 
   return {
@@ -80,7 +80,7 @@ export const convertPRJZToMinidynUnits = (json: JSONAny): JSONMinidynUnits => {
       currentUnit: run((): PossibleMinidynDeflectionUnits => {
         switch (
           (json.ExportedData.Drops as RecordAny[]).find(
-            (exportedUnit) => exportedUnit.Type === 'Deflection'
+            (exportedUnit) => exportedUnit.Type === 'Deflection',
           )?.Unit
         ) {
           case 'mm':
@@ -97,7 +97,7 @@ export const convertPRJZToMinidynUnits = (json: JSONAny): JSONMinidynUnits => {
       currentUnit: ((): PossibleMinidynDistanceUnits => {
         switch (
           (json.ExportedData.Points as RecordAny[]).find(
-            (exportedUnit) => exportedUnit.Type === 'Distance'
+            (exportedUnit) => exportedUnit.Type === 'Distance',
           )?.Unit
         ) {
           case 'mi':
@@ -116,7 +116,7 @@ export const convertPRJZToMinidynUnits = (json: JSONAny): JSONMinidynUnits => {
       currentUnit: run((): PossibleMinidynForceUnits => {
         switch (
           (json.ExportedData.Drops as RecordAny[]).find(
-            (exportedUnit) => exportedUnit.Type === 'Load'
+            (exportedUnit) => exportedUnit.Type === 'Load',
           )?.Unit
         ) {
           case 'N':
@@ -133,7 +133,7 @@ export const convertPRJZToMinidynUnits = (json: JSONAny): JSONMinidynUnits => {
       currentUnit: run((): PossibleMinidynTimeUnits => {
         switch (
           (json.ExportedData.Drops as RecordAny[]).find(
-            (exportedUnit) => exportedUnit.Type === 'Time'
+            (exportedUnit) => exportedUnit.Type === 'Time',
           )?.Unit
         ) {
           case 's':

@@ -107,7 +107,7 @@ export const createFieldFromJSON = (json: JSONFieldVAny): Field => {
           default:
             return value
         }
-      }
+      },
     ),
     settings: createMutable(settings),
     getValue() {

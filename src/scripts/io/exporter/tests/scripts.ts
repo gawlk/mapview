@@ -48,7 +48,7 @@ export const exportFile = async (dirPath: string, folderName?: string) => {
               const unzipped = await unzipFile(file)
 
               const raws = Object.keys(unzipped).filter((key) =>
-                key.match(/rawdata\/\w+/)
+                key.match(/rawdata\/\w+/),
               )
 
               if (raws.length < 1) {
@@ -60,13 +60,13 @@ export const exportFile = async (dirPath: string, folderName?: string) => {
               // rawdata and screenshoot are load in async so we wetting for the data to be init
               while (needInit) {
                 const points = getAllPointsFromProject(
-                  project as MachineProject
+                  project as MachineProject,
                 )
 
                 raws.forEach((key) => {
                   const id = key.split('/')[1]
                   const point = points.find(
-                    (p) => removeLeading0s(p.id) === removeLeading0s(id)
+                    (p) => removeLeading0s(p.id) === removeLeading0s(id),
                   )
 
                   needInit =
@@ -77,7 +77,7 @@ export const exportFile = async (dirPath: string, folderName?: string) => {
               }
 
               resolve(true)
-            })
+            }),
           )
 
           filesGroup.mpvz = {
@@ -105,8 +105,8 @@ export const exportFile = async (dirPath: string, folderName?: string) => {
       filesGroups.push(
         ...(await exportFile(
           subPath,
-          `${folderName || ''}${folderName ? '/' : ''}${fileName}`
-        ))
+          `${folderName || ''}${folderName ? '/' : ''}${fileName}`,
+        )),
       )
     }
   }

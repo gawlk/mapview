@@ -8,7 +8,7 @@ import { createBaseProjectFromJSON } from '../base'
 
 export const createMinidynProjectFromJSON = (
   json: JSONMinidynProjectVAny,
-  map: mapboxgl.Map | null
+  map: mapboxgl.Map | null,
 ) => {
   json = upgradeJSON(json)
 
@@ -52,8 +52,8 @@ export const createMinidynProjectFromJSON = (
     ...json.base.reports.list.map((report) =>
       createMinidynReportFromJSON(report as JSONMinidynReport, map, {
         project: project as MinidynProject,
-      })
-    )
+      }),
+    ),
   )
 
   project.reports.selectIndex(json.base.reports.selectedIndex)

@@ -6,7 +6,7 @@ import {
 
 export const createMaxidynThresholdsGroupsFromJSON = (
   json: JSONMaxidynThresholdsConfigurationsVAny,
-  units: MaxidynMathUnits
+  units: MaxidynMathUnits,
 ) => {
   json = upgradeJSON(json)
 
@@ -20,7 +20,7 @@ export const createMaxidynThresholdsGroupsFromJSON = (
         ] as ThresoldsList,
         {
           selectedIndex: json.modulus.selectedIndex,
-        }
+        },
       ),
     },
     stiffness: {
@@ -29,7 +29,7 @@ export const createMaxidynThresholdsGroupsFromJSON = (
         [createCustomThreshold(json.stiffness.custom)] as ThresoldsList,
         {
           selectedIndex: json.stiffness.selectedIndex,
-        }
+        },
       ),
     },
     deflection: {
@@ -38,7 +38,7 @@ export const createMaxidynThresholdsGroupsFromJSON = (
         [createCustomThreshold(json.deflection.custom)] as ThresoldsList,
         {
           selectedIndex: json.deflection.selectedIndex,
-        }
+        },
       ),
     },
     force: {
@@ -47,7 +47,7 @@ export const createMaxidynThresholdsGroupsFromJSON = (
         [createCustomThreshold(json.force.custom)] as ThresoldsList,
         {
           selectedIndex: json.force.selectedIndex,
-        }
+        },
       ),
     },
     distance: {
@@ -56,7 +56,7 @@ export const createMaxidynThresholdsGroupsFromJSON = (
         [createCustomThreshold(json.distance.custom)] as ThresoldsList,
         {
           selectedIndex: json.distance.selectedIndex,
-        }
+        },
       ),
     },
     time: {
@@ -65,7 +65,7 @@ export const createMaxidynThresholdsGroupsFromJSON = (
         [createCustomThreshold(json.time.custom)] as ThresoldsList,
         {
           selectedIndex: json.time.selectedIndex,
-        }
+        },
       ),
     },
     percentage: {
@@ -74,7 +74,7 @@ export const createMaxidynThresholdsGroupsFromJSON = (
         [createCustomThreshold(json.percentage.custom)] as ThresoldsList,
         {
           selectedIndex: json.percentage.selectedIndex,
-        }
+        },
       ),
     },
   }
@@ -83,7 +83,7 @@ export const createMaxidynThresholdsGroupsFromJSON = (
 }
 
 const upgradeJSON = (
-  json: JSONMaxidynThresholdsConfigurationsVAny
+  json: JSONMaxidynThresholdsConfigurationsVAny,
 ): JSONMaxidynThresholdsConfigurations => {
   switch (json.version) {
     case undefined:

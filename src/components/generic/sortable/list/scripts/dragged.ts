@@ -7,7 +7,7 @@ export const createDraggedElement = (
   id: Id | null,
   sortables: ReactiveMap<Id, HTMLElement>,
   isDraggedClasses: string,
-  draggedClasses: ClassProp | undefined
+  draggedClasses: ClassProp | undefined,
 ) => {
   if (!id) return
 
@@ -22,7 +22,7 @@ export const createDraggedElement = (
   copied.style.transform = ''
 
   copied.classList.remove(
-    ...classPropToString(isDraggedClasses.split(' ')).split(' ')
+    ...classPropToString(isDraggedClasses.split(' ')).split(' '),
   )
 
   if (draggedClasses) {

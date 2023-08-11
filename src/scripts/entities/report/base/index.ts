@@ -13,7 +13,7 @@ export const createBaseReportFromJSON = <
   DataLabels extends BaseDataLabels,
   ThresholdsGroups extends BaseThresholdsGroups,
   Thresholds extends BaseThresholds<ThresholdsGroups>,
-  Project extends BaseProject
+  Project extends BaseProject,
 >(
   json: JSONBaseReport,
   map: mapboxgl.Map | null,
@@ -24,7 +24,7 @@ export const createBaseReportFromJSON = <
     platform: JSONField[]
     information: JSONField[]
     thresholdsGroups: ThresholdsGroups
-  }
+  },
 ) => {
   json = upgradeJSON(json)
 
@@ -57,12 +57,12 @@ export const createBaseReportFromJSON = <
     zones: createMutable(parameters.zones),
     line: createLine(map),
     platform: createMutable(
-      parameters.platform.map((field: JSONField) => createFieldFromJSON(field))
+      parameters.platform.map((field: JSONField) => createFieldFromJSON(field)),
     ),
     information: createMutable(
       parameters.information.map((field: JSONField) =>
-        createFieldFromJSON(field)
-      )
+        createFieldFromJSON(field),
+      ),
     ),
     project: parameters.project,
     fitOnMap() {
@@ -95,8 +95,8 @@ export const createBaseReportFromJSON = <
             } else {
               this.line.remove()
             }
-          }
-        )
+          },
+        ),
       )
 
       watcherHandler.add(
@@ -110,8 +110,8 @@ export const createBaseReportFromJSON = <
                 point.updateColor()
               })
             })
-          }
-        )
+          },
+        ),
       )
 
       watcherHandler.add(
@@ -132,8 +132,8 @@ export const createBaseReportFromJSON = <
             })
 
             this.line.update()
-          }
-        )
+          },
+        ),
       )
 
       watcherHandler.add(
@@ -152,8 +152,8 @@ export const createBaseReportFromJSON = <
             })
 
             this.line.update()
-          }
-        )
+          },
+        ),
       )
 
       Object.values(this.thresholds.groups).forEach(
@@ -177,10 +177,10 @@ export const createBaseReportFromJSON = <
                 })
 
                 this.line.update()
-              })
-            )
+              }),
+            ),
           )
-        }
+        },
       )
     },
     remove() {
@@ -226,7 +226,7 @@ const upgradeJSON = (json: JSONBaseReportVAny): JSONBaseReport => {
 }
 
 const upgradeThresholdsColorsJSON = (
-  json: JSONThresholdColorsVAny
+  json: JSONThresholdColorsVAny,
 ): JSONThresholdColors => {
   switch (json.version) {
     case 1:
@@ -243,7 +243,7 @@ const upgradeThresholdsColorsJSON = (
 }
 
 export const convertThresholdsConfigurationToJSON = (
-  group: ThresholdsGroup<string>
+  group: ThresholdsGroup<string>,
 ): JSONDistinctThresholdsConfiguration => ({
   version: 1,
   selectedIndex: getIndexOfSelectedInSelectableList(group.choices) || 0,

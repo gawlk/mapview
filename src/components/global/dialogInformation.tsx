@@ -87,11 +87,11 @@ export const DialogInformation = (props: Props) => {
                       : typeof value === 'string' || typeof value === 'number'
 
                   const id = createMemo(
-                    () => `input-${field.label.toLowerCase()}`
+                    () => `input-${field.label.toLowerCase()}`,
                   )
 
                   const readOnly = createMemo(
-                    () => type === 'date' || field.settings.readOnly
+                    () => type === 'date' || field.settings.readOnly,
                   )
 
                   createEffect(() => {
@@ -106,15 +106,6 @@ export const DialogInformation = (props: Props) => {
                       field.setValue(newValue || '')
                       value = newValue || ''
                     })
-                    console.log(pendingChanges)
-                  }
-
-                  if (
-                    typeof field.value === 'object' &&
-                    field.value.kind === 'selectableString' &&
-                    field.value
-                  ) {
-                    console.log(field)
                   }
 
                   return (
@@ -147,7 +138,7 @@ export const DialogInformation = (props: Props) => {
                             label={t(field.label)}
                             value={fieldValue().value}
                             list={fieldValue().possibleValues.map((value) =>
-                              t(value, undefined, value)
+                              t(value, undefined, value),
                             )}
                             onInput={onInput}
                           />

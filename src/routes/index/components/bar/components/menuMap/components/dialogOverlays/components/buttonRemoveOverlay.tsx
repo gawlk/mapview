@@ -12,7 +12,7 @@ export const ButtonRemoveOverlay = (props: Props) => {
       icon={IconTablerTrash}
       onClick={() => {
         const index = store.selectedProject?.overlays.findIndex(
-          (overlay) => props.overlay === overlay
+          (overlay) => props.overlay === overlay,
         )
 
         if (typeof index === 'number' && index !== -1) {

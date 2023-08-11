@@ -11,13 +11,13 @@ export const createCumSumDataComputer = (report: HeavydynReport) => {
   const currentD0DataLabel = report.dataLabels.findIn(
     'Drop',
     'D0',
-    currentCategory
+    currentCategory,
   )
 
   const currentLoadDataLabel = report.dataLabels.findIn(
     'Drop',
     'Load',
-    currentCategory
+    currentCategory,
   )
 
   const numberOfDrops = report.dataLabels.groups.list[0].indexes.list.length
@@ -32,23 +32,28 @@ export const createCumSumDataComputer = (report: HeavydynReport) => {
           name: 'Cumulative sum',
           category: indicatorsCategory,
           unit: report.project.units.cumSum,
-        })
+        }),
       ),
     compute: (label) => {
       const groupedDropsByDropIndex = (
         report.getExportablePoints() as HeavydynPoint[]
-      ).reduce((grouped, point) => {
-        point.drops.forEach((drop, dropIndex) => grouped[dropIndex].push(drop))
+      ).reduce(
+        (grouped, point) => {
+          point.drops.forEach((drop, dropIndex) =>
+            grouped[dropIndex].push(drop),
+          )
 
-        return grouped
-      }, new Array(numberOfDrops).fill(null).map(() => []) as HeavydynDrop[][])
+          return grouped
+        },
+        new Array(numberOfDrops).fill(null).map(() => []) as HeavydynDrop[][],
+      )
 
       groupedDropsByDropIndex.forEach((drops) => {
         const d0OnLoadList = drops.map((drop) => {
           const d0 = drop.data.find((data) => data.label === currentD0DataLabel)
 
           const load = drop.data.find(
-            (data) => data.label === currentLoadDataLabel
+            (data) => data.label === currentLoadDataLabel,
           )
 
           return d0 && load
@@ -57,7 +62,7 @@ export const createCumSumDataComputer = (report: HeavydynReport) => {
         })
 
         const averageD0OnLoad = computeAverage(
-          d0OnLoadList.flat().filter((v) => typeof v === 'number') as number[]
+          d0OnLoadList.flat().filter((v) => typeof v === 'number') as number[],
         )
 
         let lastCumSum = 0

@@ -10,7 +10,20 @@ export const SelectDataLabel = () => {
   const [t] = useI18n()
 
   const selectedDataLabelGroupChoices = createMemo(
-    () => store.selectedReport?.dataLabels.groups.selected?.choices
+    () => store.selectedReport?.dataLabels.groups.selected?.choices,
+  )
+
+  const groupedDataLabels = createMemo(
+    () =>
+      groupDataLabelsByCategory(
+        selectedDataLabelGroupChoices()?.list || [],
+      ).map(([category, dataLabels]) => ({
+        name: category.name,
+        list: dataLabels.map((dataLabel) => ({
+          value: dataLabel.toString(),
+          text: () => <SpanDataLabel dataLabel={dataLabel} />,
+        })),
+      })) || [],
   )
 
   return (
@@ -31,21 +44,12 @@ export const SelectDataLabel = () => {
       search={{}}
       values={{
         selected: selectedDataLabelGroupChoices()?.selected?.toString() ?? null,
-        list:
-          groupDataLabelsByCategory(
-            selectedDataLabelGroupChoices()?.list || []
-          ).map(([category, dataLabels]) => ({
-            name: t(category.name),
-            list: dataLabels.map((dataLabel) => ({
-              value: dataLabel.toString(),
-              text: () => <SpanDataLabel dataLabel={dataLabel} />,
-            })),
-          })) || [],
+        list: groupedDataLabels(),
       }}
       onClose={(value) =>
         value &&
         selectedDataLabelGroupChoices()?.selectFind(value, (dataLabel) =>
-          dataLabel.toString()
+          dataLabel.toString(),
         )
       }
     />

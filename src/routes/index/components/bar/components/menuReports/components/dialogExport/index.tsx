@@ -21,7 +21,7 @@ export const DialogExport = () => {
   const simpleExports = createMemo(() => [
     ...(store.selectedReport
       ? getSimpleReportExports(
-          store.selectedReport as unknown as MachineProject
+          store.selectedReport as unknown as MachineProject,
         )
       : []),
   ])
@@ -41,8 +41,8 @@ export const DialogExport = () => {
 
             localStorage.setItem(key, 'true')
           }
-        }
-      )
+        },
+      ),
     )
   })
 

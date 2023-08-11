@@ -18,7 +18,7 @@ export const SelectMapStyle = () => {
   ]
 
   const background = createMemo(
-    () => stylesImages[store.selectedProject?.settings.map.styleIndex || 0]
+    () => stylesImages[store.selectedProject?.settings.map.styleIndex || 0],
   )
 
   return (

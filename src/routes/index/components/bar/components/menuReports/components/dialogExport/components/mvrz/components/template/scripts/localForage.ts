@@ -40,7 +40,7 @@ export const initDemoTemplates = () => {
         .map(async ([key, value]) => ({
           fileName: key.split('/').pop() || `file${extension}`,
           path: String(((await value()) as RecordAny).default),
-        }))
+        })),
     )
 
     const promises = []
@@ -58,7 +58,7 @@ export const initDemoTemplates = () => {
 const setDemoFilesToLocalForage = async (
   files: FileObject[],
   i: 1 | 2 | 3,
-  machine: MachineName
+  machine: MachineName,
 ) => {
   const fileInfo = files[i - 1]
 

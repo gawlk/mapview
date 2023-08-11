@@ -7,7 +7,7 @@ import {
 } from '/src/scripts'
 
 export const importProjectFromJSON = (
-  json: JSONMachineProject
+  json: JSONMachineProject,
 ): MachineProject => {
   const map = store.map as mapboxgl.Map
 

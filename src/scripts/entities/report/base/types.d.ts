@@ -67,7 +67,7 @@ interface BaseReport<
   Project extends BaseProject = BaseProject,
   Zone extends BaseZone = MachineZone,
   DataLabels extends BaseDataLabels = MachineDataLabels,
-  Thresholds extends BaseThresholds = BaseThresholds
+  Thresholds extends BaseThresholds = BaseThresholds,
 > extends BaseObject<JSONBaseReport>,
     Entity<'Report'> {
   readonly name: Field

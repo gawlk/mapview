@@ -39,14 +39,14 @@ export const DialogSelect = (props: DialogSelectPropsWithHTMLAttributes) => {
     const option =
       typeof props.values.selected === 'number'
         ? convertDialogValuesPropsListToValuesWithTextProps(
-            props.values.list
+            props.values.list,
           ).at(props.values.selected)
         : convertDialogValuesPropsListToValuesWithTextProps(
-            props.values.list
+            props.values.list,
           ).find(
             (option) =>
               option.value === props.values.selected ||
-              option.text === props.values.selected
+              option.text === props.values.selected,
           )
 
     return option ? valueWithTextToJSXElement(option) : undefined
@@ -67,7 +67,7 @@ export const DialogSelect = (props: DialogSelectPropsWithHTMLAttributes) => {
           rightIcon: IconTablerSelector,
           text: getDialogButtonText(),
         } as InternalButtonProps,
-        props.button
+        props.button,
       )}
       onClose={(value?: string) => {
         if (props.saveable) {

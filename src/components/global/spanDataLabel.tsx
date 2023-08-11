@@ -13,7 +13,7 @@ export const SpanDataLabel = (props: Props) => {
       {props.dataLabel.name}
       <Show when={props.includeCategory}>
         <span class="text-black/50">{` - ${t(
-          props.dataLabel.category.name
+          props.dataLabel.category.name,
         )}`}</span>
       </Show>
     </span>

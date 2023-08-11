@@ -1,6 +1,6 @@
 export const getScrollableParent = (
   element: HTMLElement | null,
-  orientation: 'horizontal' | 'vertical' | 'both'
+  orientation: 'horizontal' | 'vertical' | 'both',
 ): Window | HTMLElement | undefined => {
   if (!element) {
     return undefined

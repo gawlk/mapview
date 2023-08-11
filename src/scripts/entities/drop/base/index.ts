@@ -3,14 +3,14 @@ import { createDataValueFromJSON } from '/src/scripts'
 export const createBaseDropFromJSON = <
   Point extends MachinePoint,
   DropIndex extends MachineDropIndex,
-  DropGroup extends MachineDropDataLabelsGroup
+  DropGroup extends MachineDropDataLabelsGroup,
 >(
   json: JSONBaseDropVAny,
   parameters: {
     point: Point
     index: DropIndex
     dropGroup: DropGroup
-  }
+  },
 ) => {
   json = upgradeJSONDrop(json)
 
@@ -20,9 +20,9 @@ export const createBaseDropFromJSON = <
       json.data.map((jsonDataValue) =>
         createDataValueFromJSON(
           jsonDataValue,
-          parameters.dropGroup.choices.list
-        )
-      )
+          parameters.dropGroup.choices.list,
+        ),
+      ),
     ),
     point: parameters.point,
     impactData: null,
@@ -32,8 +32,8 @@ export const createBaseDropFromJSON = <
         data: this.data
           .filter((data) =>
             this.point.zone.report.dataLabels.groups.list[0].saveableChoices.includes(
-              data.label
-            )
+              data.label,
+            ),
           )
           .map((data) => data.toJSON()),
         index: json.index,
@@ -54,7 +54,7 @@ const upgradeJSONDrop = (json: JSONBaseDropVAny): JSONBaseDrop => {
 }
 
 export const createBaseDropIndexFromJSON = (
-  json: JSONBaseDropIndexVAny
+  json: JSONBaseDropIndexVAny,
 ): BaseDropIndex => {
   json = upgradeJSONDropIndex(json)
 
@@ -70,7 +70,7 @@ export const createBaseDropIndexFromJSON = (
 }
 
 const upgradeJSONDropIndex = (
-  json: JSONBaseDropIndexVAny
+  json: JSONBaseDropIndexVAny,
   // Disable rule until there are at least 2 versions
   // eslint-disable-next-line sonarjs/no-identical-functions
 ): JSONBaseDropIndex => {

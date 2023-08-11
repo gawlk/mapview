@@ -2,7 +2,7 @@ import { createMathNumber } from '/src/scripts'
 
 export const createDataValue = (
   value: number,
-  label: DataLabel<string>
+  label: DataLabel<string>,
 ): DataValue<string> => {
   return {
     label,
@@ -25,12 +25,12 @@ export const createDataValue = (
 
 export const createDataValueFromJSON = (
   json: JSONDataValueVAny,
-  list: DataLabel<string>[]
+  list: DataLabel<string>[],
 ): DataValue<string> => {
   json = upgradeJSON(json)
 
   const label = list.find(
-    (dataLabel) => dataLabel.name === json.label
+    (dataLabel) => dataLabel.name === json.label,
   ) as DataLabel<string>
 
   return createDataValue(json.value, label)

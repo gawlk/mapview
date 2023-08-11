@@ -2,7 +2,7 @@ import { baseHexColor, blend, colors, roundValue } from '/src/scripts'
 
 const convertToRoundedCurrent = (
   valueToConvert: number,
-  unit: MathUnit<string>
+  unit: MathUnit<string>,
 ) => roundValue(unit.baseToCurrent(valueToConvert), unit.currentPrecision)
 
 export const createCustomThreshold = (parameters: {
@@ -29,20 +29,20 @@ export const createCustomThreshold = (parameters: {
 
       const lowThresholdValue = convertToRoundedCurrent(
         Math.max(this.value, unit ? mathNumber.unit.min : -Infinity),
-        unit
+        unit,
       )
 
       const highThresholdValue = convertToRoundedCurrent(
         Math.min(
           this.valueHigh,
-          mathNumber.unit ? mathNumber.unit.max : Infinity
+          mathNumber.unit ? mathNumber.unit.max : Infinity,
         ),
-        unit
+        unit,
       )
 
       const testedValue = roundValue(
         mathNumber.toCurrent(),
-        unit.currentPrecision
+        unit.currentPrecision,
       )
 
       let color = hexColorHigh
@@ -56,7 +56,7 @@ export const createCustomThreshold = (parameters: {
             : blend(
                 hexColorLow,
                 hexColorHigh,
-                (testedValue - lowThresholdValue) / highThresholdValue
+                (testedValue - lowThresholdValue) / highThresholdValue,
               )
       }
 

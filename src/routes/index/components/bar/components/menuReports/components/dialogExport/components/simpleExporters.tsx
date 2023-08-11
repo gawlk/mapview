@@ -12,7 +12,7 @@ export const SimpleExporters = (props: NavigatorComponentProps) => {
   const simpleExports = createMemo(() => [
     ...(store.selectedReport
       ? getSimpleReportExports(
-          store.selectedReport as unknown as MachineProject
+          store.selectedReport as unknown as MachineProject,
         )
       : []),
   ])
@@ -37,7 +37,7 @@ export const SimpleExporters = (props: NavigatorComponentProps) => {
               // TODO: Fix any
               store.selectedProject &&
                 downloadFile(
-                  await exporter.export(store.selectedProject as any)
+                  await exporter.export(store.selectedProject as any),
                 )
             }}
           >

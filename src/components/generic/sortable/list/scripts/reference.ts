@@ -8,7 +8,7 @@ export const createRefCallback = (
   sortables: ReactiveMap<Id, HTMLElement>,
   id: Id,
   isDraggedClasses: string,
-  activeDraggable: () => boolean
+  activeDraggable: () => boolean,
 ) => {
   sortable.ref(element)
 
@@ -19,14 +19,14 @@ export const createRefCallback = (
 
     Object.entries(sortable.dragActivators).forEach(
       // @ts-ignore
-      ([key, f]) => (handle[key] = f)
+      ([key, f]) => (handle[key] = f),
     )
   })
 
   createEffect(
     () =>
       (element.style.transform =
-        transformStyle(sortable.transform).transform || '')
+        transformStyle(sortable.transform).transform || ''),
   )
 
   createEffect(() => {
@@ -40,6 +40,6 @@ export const createRefCallback = (
   createEffect(() =>
     activeDraggable()
       ? element.classList.add('transition-transform')
-      : element.classList.remove('transition-transform')
+      : element.classList.remove('transition-transform'),
   )
 }

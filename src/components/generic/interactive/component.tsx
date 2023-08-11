@@ -15,7 +15,7 @@ export const Interactive = (passedProps: Props) => {
     {
       color: 'secondary',
     },
-    passedProps
+    passedProps,
   )
 
   const containerProps = removeProps(props, interactiveBooleanPropsKeysObject)

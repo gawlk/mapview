@@ -38,7 +38,7 @@ export const REST = (props: Props) => {
             'v7IwtPEOA8etaIi-CnqPsWE749uRZRKL31iuTTi6n8tIAzFuE_220w==',
         },
         body: await mvrzExporter.export(store.selectedProject, props.template),
-      }
+      },
     )
 
     setState('progress', 80)
@@ -51,8 +51,8 @@ export const REST = (props: Props) => {
       downloadFile(
         new File(
           [blob],
-          `${store.selectedProject.name.toString()}_${store.selectedReport?.name.toString()}.xlsx`
-        )
+          `${store.selectedProject.name.toString()}_${store.selectedReport?.name.toString()}.xlsx`,
+        ),
       )
 
       setState({

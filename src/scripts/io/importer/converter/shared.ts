@@ -4,11 +4,11 @@ export const convertPRJZObjectToFields = (
   object: RecordAny,
   settings: JSONFieldSettings = {
     version: 1,
-  }
+  },
 ): JSONField[] =>
   Object.entries(object)
     .filter(
-      ([key]) => key !== 'Version' && key !== 'Name' && key !== 'TypeBoard'
+      ([key]) => key !== 'Version' && key !== 'Name' && key !== 'TypeBoard',
     )
     .map(([key, value]) => {
       return {
@@ -37,7 +37,7 @@ export const convertPRJZObjectToFields = (
     })
 
 export const convertExportedUnitToJSONDataLabel = (
-  jsonExportedUnit: RecordAny
+  jsonExportedUnit: RecordAny,
 ): JSONDataLabel<string> => {
   const mathUnitName = String(jsonExportedUnit.Type).toLowerCase()
 
@@ -57,11 +57,11 @@ export const convertExportedUnitToJSONDataLabel = (
 }
 
 export const convertPRJZToTestChoices = (
-  json: JSONAny
+  json: JSONAny,
 ): JSONDataLabel<string>[] =>
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
   json.ExportedData.Points.map((jsonExportedUnit: RecordAny) =>
-    convertExportedUnitToJSONDataLabel(jsonExportedUnit)
+    convertExportedUnitToJSONDataLabel(jsonExportedUnit),
   )
 
 export const convertSensorPositionToName = (position: number) =>

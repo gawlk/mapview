@@ -2,7 +2,7 @@ import { convertData64ImageToUint8Array } from '/src/scripts'
 
 export const addOverlaysToZip = async (
   zip: Fflate.Zippable,
-  project: MachineProject
+  project: MachineProject,
 ) => {
   const overlays: { [key: string]: Uint8Array } = {}
 
@@ -10,10 +10,10 @@ export const addOverlaysToZip = async (
     project.overlays.map(async (overlay) => {
       if (overlay.sourceData.url) {
         overlays[overlay.toJSON().name] = await convertData64ImageToUint8Array(
-          overlay.sourceData.url
+          overlay.sourceData.url,
         )
       }
-    })
+    }),
   )
 
   zip.overlays = overlays

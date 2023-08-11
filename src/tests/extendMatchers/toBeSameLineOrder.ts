@@ -5,11 +5,11 @@ import { filesToStringArray } from '../utils/text'
 
 export const toBeSameLineOrder = async (
   actual: File | string,
-  expected: File | string
+  expected: File | string,
 ) => {
   const [actualLignes, expectedLignes] = (await filesToStringArray(
     [actual, expected],
-    { removeBlankLine: true }
+    { removeBlankLine: true },
   )) as string[][]
 
   if (actualLignes.length !== expectedLignes.length) {

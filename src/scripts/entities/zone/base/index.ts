@@ -25,12 +25,12 @@ export const createJSONBaseZone = (length: number) => {
 
 export const createBaseZoneFromJSON = <
   Point extends MachinePoint,
-  Report extends BaseReport
+  Report extends BaseReport,
 >(
   json: JSONBaseZoneVAny,
   parameters: {
     report: Report
-  }
+  },
 ) => {
   json = upgradeJSON(json)
 
@@ -54,8 +54,8 @@ export const createBaseZoneFromJSON = <
             this.points.forEach((point) => point.updateColor())
 
             this.report.line.update()
-          }
-        )
+          },
+        ),
       )
 
       watcherHandler.add(
@@ -66,8 +66,8 @@ export const createBaseZoneFromJSON = <
               point.updateVisibility()
             })
             this.report.line.update()
-          }
-        )
+          },
+        ),
       )
 
       watcherHandler.add(
@@ -77,12 +77,12 @@ export const createBaseZoneFromJSON = <
             sortPoints(this.points)
 
             this.report.line.sortedPoints = Array.prototype.concat(
-              ...this.report.zones.map((_zone) => _zone.points)
+              ...this.report.zones.map((_zone) => _zone.points),
             )
 
             this.report.line.update()
-          }
-        )
+          },
+        ),
       )
     },
     fitOnMap(map: mapboxgl.Map) {

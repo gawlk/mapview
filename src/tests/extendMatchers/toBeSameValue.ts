@@ -6,12 +6,12 @@ import { checkNumericValue } from '../utils/data'
 
 export const toBeSameValue = async (
   actual: File | string,
-  expected: File | string
+  expected: File | string,
   // eslint-disable-next-line sonarjs/cognitive-complexity
 ) => {
   const [actualLignes, expectedLignes] = (await filesToStringArray(
     [actual, expected],
-    { removeBlankLine: true, dataType: 'combos' }
+    { removeBlankLine: true, dataType: 'combos' },
   )) as KeyValueData[][]
 
   if (actualLignes.length !== expectedLignes.length) {

@@ -60,17 +60,17 @@ export const Initializer = (props: Props) => {
         ...Object.entries(demosMinidyn),
       ]
         .filter(([key, _]) =>
-          acceptedExtensions.some((extension) => key.endsWith(extension))
+          acceptedExtensions.some((extension) => key.endsWith(extension)),
         )
-        .map(async ([_, value]) => String(((await value()) as any).default))
+        .map(async ([_, value]) => String(((await value()) as any).default)),
     )
 
     const projects = await Promise.all(
-      paths.map(async (url) => await importFile(await fetchFileFromURL(url)))
+      paths.map(async (url) => await importFile(await fetchFileFromURL(url))),
     )
 
     store.projects.list.sort(
-      (a, b) => projects.indexOf(a) - projects.indexOf(b)
+      (a, b) => projects.indexOf(a) - projects.indexOf(b),
     )
 
     store.selectedProject = projects[0]

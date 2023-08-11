@@ -33,7 +33,7 @@ export const Navigator = (props: Props) => {
         state.history.length
           ? () =>
               setState(
-                produce((s) => (s.id = s.history.pop() || props.default))
+                produce((s) => (s.id = s.history.pop() || props.default)),
               )
           : undefined
       }
@@ -42,7 +42,7 @@ export const Navigator = (props: Props) => {
           produce((s) => {
             s.history.length = 0
             s.id = props.default
-          })
+          }),
         )
       }
     />

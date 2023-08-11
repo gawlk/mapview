@@ -2,13 +2,13 @@ import { createMathNumber, createSelectableList } from '/src/scripts'
 
 export const createHeavydynProjectLoadCorrectionParametersFromJSON = (
   json: JSONHeavydynLoadCorrectionParametersVAny,
-  units: HeavydynMathUnits
+  units: HeavydynMathUnits,
 ) => {
   json = upgradeJSON(json)
 
   const loadCorrectionParameters: HeavydynLoadCorrectionParameters =
     createMutable({
-      active: false,
+      active: json.active,
       source: createSelectableList(['Sequence', 'Custom'] as LoadSourceList, {
         selected: json.source,
       }),
@@ -19,7 +19,7 @@ export const createHeavydynProjectLoadCorrectionParametersFromJSON = (
 }
 
 const upgradeJSON = (
-  json: JSONHeavydynLoadCorrectionParametersVAny
+  json: JSONHeavydynLoadCorrectionParametersVAny,
 ): JSONHeavydynLoadCorrectionParameters => {
   switch (json.version) {
     case 1:

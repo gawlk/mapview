@@ -23,8 +23,8 @@ const layerIndexCompute =
           if (d1 && d2) {
             data.value.updateValue(d1.getRawValue() - d2.getRawValue())
           }
-        })
-      )
+        }),
+      ),
     )
   }
 
@@ -34,7 +34,7 @@ export const createBLIDataComputer = (report: HeavydynReport) => {
   const d300DataLabel = report.dataLabels.findIn(
     'Drop',
     'D300',
-    currentCategory
+    currentCategory,
   )
 
   return createDataComputer({
@@ -48,7 +48,7 @@ export const createBLIDataComputer = (report: HeavydynReport) => {
           shortName: 'BLI',
           unit: d0DataLabel.unit,
           category: indicatorsCategory,
-        })
+        }),
       ),
     compute: layerIndexCompute(report, d0DataLabel, d300DataLabel),
   })
@@ -58,13 +58,13 @@ export const createMLIDataComputer = (report: HeavydynReport) => {
   const d300DataLabel = report.dataLabels.findIn(
     'Drop',
     'D300',
-    currentCategory
+    currentCategory,
   )
 
   const d600DataLabel = report.dataLabels.findIn(
     'Drop',
     'D600',
-    currentCategory
+    currentCategory,
   )
 
   return createDataComputer({
@@ -78,7 +78,7 @@ export const createMLIDataComputer = (report: HeavydynReport) => {
           shortName: 'MLI',
           unit: d300DataLabel.unit,
           category: indicatorsCategory,
-        })
+        }),
       ),
     compute: layerIndexCompute(report, d300DataLabel, d600DataLabel),
   })
@@ -88,13 +88,13 @@ export const createLLIDataComputer = (report: HeavydynReport) => {
   const d600DataLabel = report.dataLabels.findIn(
     'Drop',
     'D600',
-    currentCategory
+    currentCategory,
   )
 
   const d900DataLabel = report.dataLabels.findIn(
     'Drop',
     'D900',
-    currentCategory
+    currentCategory,
   )
 
   return createDataComputer({
@@ -108,7 +108,7 @@ export const createLLIDataComputer = (report: HeavydynReport) => {
           shortName: 'LLI',
           unit: d600DataLabel.unit,
           category: indicatorsCategory,
-        })
+        }),
       ),
     compute: layerIndexCompute(report, d600DataLabel, d900DataLabel),
   })

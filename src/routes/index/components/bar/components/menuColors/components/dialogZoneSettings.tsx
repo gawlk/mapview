@@ -56,7 +56,7 @@ export const DialogZoneSettings = () => {
                           point.zone = selectedReport.zones[0]
                         }
                         return point
-                      })
+                      }),
                     )
 
                     zone.clean()

@@ -8,7 +8,7 @@ export const filesToString = (files: File[]) => {
 
 export const fileToStringArray = async (
   file: File | string,
-  opt: FileTransformerOpt = defaultOptions
+  opt: FileTransformerOpt = defaultOptions,
 ) => {
   let text: string
 
@@ -41,7 +41,7 @@ export const fileToStringArray = async (
 
 export const filesToStringArray = async (
   files: (File | string)[],
-  opt: FileTransformerOpt = defaultOptions
+  opt: FileTransformerOpt = defaultOptions,
 ) => {
   return Promise.all(files.map((file) => fileToStringArray(file, opt)))
 }

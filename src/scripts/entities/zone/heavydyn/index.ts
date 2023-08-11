@@ -9,7 +9,7 @@ interface HeavydynZoneCreatorParameters extends MachineZoneCreatorParameters {
 export const createHeavydynZoneFromJSON = (
   json: JSONHeavydynZoneVAny,
   map: mapboxgl.Map | null,
-  parameters: HeavydynZoneCreatorParameters
+  parameters: HeavydynZoneCreatorParameters,
 ) => {
   json = upgradeJSON(json)
 
@@ -35,8 +35,8 @@ export const createHeavydynZoneFromJSON = (
     ...json.base.points.map((jsonPoint) =>
       createHeavydynPointFromJSON(jsonPoint, map, {
         zone,
-      })
-    )
+      }),
+    ),
   )
 
   return zone

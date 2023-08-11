@@ -12,6 +12,6 @@ export const mpvzExporter: MachineExporter = {
         }),
       ],
       `${project.name.toString()}.mpvz`,
-      { type: 'blob' }
+      { type: 'blob' },
     ),
 }

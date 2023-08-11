@@ -47,12 +47,12 @@ export const createMap = (container: string): mapboxgl.Map => {
       'online',
       () => {
         map.setStyle(
-          mapStyles[store.selectedProject?.settings.map.styleIndex || 0]
+          mapStyles[store.selectedProject?.settings.map.styleIndex || 0],
         )
       },
       {
         once: true,
-      }
+      },
     )
   }
 
@@ -125,7 +125,7 @@ const addDummyLayersToMap = (map: mapboxgl.Map) => {
       type: 'symbol',
       source: 'empty',
     },
-    'lines'
+    'lines',
   )
 }
 
@@ -144,7 +144,7 @@ const addBuildingsToMap = (map: mapboxgl.Map) => {
   const layers = map.getStyle().layers
 
   const labelLayerId = layers.find(
-    (layer) => layer.type === 'symbol' && layer.layout?.['text-field']
+    (layer) => layer.type === 'symbol' && layer.layout?.['text-field'],
   )?.id
 
   map.addLayer(
@@ -182,13 +182,13 @@ const addBuildingsToMap = (map: mapboxgl.Map) => {
         'fill-extrusion-opacity': 0.2,
       },
     },
-    labelLayerId
+    labelLayerId,
   )
 }
 
 export const flyToPoints = (
   map: mapboxgl.Map | null | undefined,
-  points: BasePoint[]
+  points: BasePoint[],
 ): void => {
   if (!map) return
 

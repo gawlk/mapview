@@ -21,7 +21,7 @@ export const InputDataList = (props: Props) => {
 
   const dialogProps = removeProps(
     props.dialog || {},
-    dialogClassicBooleanPropsKeysObject
+    dialogClassicBooleanPropsKeysObject,
   )
 
   const onInput = (value: string) => {

@@ -54,7 +54,7 @@ export const SelectProject = () => {
       onClose={(value) => {
         if (value) {
           const project = store.projects.list.find(
-            (project) => convertProjectToName(project) === value
+            (project) => convertProjectToName(project) === value,
           )
 
           if (project) {

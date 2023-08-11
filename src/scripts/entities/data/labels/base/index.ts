@@ -10,13 +10,13 @@ const convertFromToIndex = (from: DataLabelsFrom) =>
 
 export const createBaseDataLabelsFromJSON = (
   jsonTable: JSONSelectableList<JSONTableDataLabelsParameters>,
-  groups: SelectableList<AnyBaseDataLabelsGroup, BaseDataLabelsGroups>
+  groups: SelectableList<AnyBaseDataLabelsGroup, BaseDataLabelsGroups>,
 ): BaseDataLabels => {
   const table = createSelectableList(
     createTableDataLabelsFromJSON(jsonTable, groups.list),
     {
       selectedIndex: jsonTable.selectedIndex,
-    }
+    },
   )
 
   return createMutable({
@@ -28,7 +28,7 @@ export const createBaseDataLabelsFromJSON = (
       groups.list[convertFromToIndex(from)].choices.list.find(
         (label) =>
           label.name === name &&
-          (category ? label.category.name === category.name : true)
+          (category ? label.category.name === category.name : true),
       ),
     pushTo: (from: DataLabelsFrom, label: DataLabel) =>
       groups.list[convertFromToIndex(from)].choices.list.push(label)
@@ -47,7 +47,10 @@ export const createBaseDataLabelsFromJSON = (
           })),
           index:
             params.index && table.selected?.group.from === 'Drop'
-              ? table.selected.group.indexes.list.indexOf(params.index)
+              ? table.selected.group.indexes.list.findIndex(
+                  (index) =>
+                    index.displayedIndex === params.index?.displayedIndex,
+                )
               : undefined,
         })),
       }
@@ -57,11 +60,11 @@ export const createBaseDataLabelsFromJSON = (
 
 export const createTableDataLabelsFromJSON = (
   json: JSONSelectableList<JSONTableDataLabelsParameters>,
-  groups: BaseDataLabelsGroups
+  groups: BaseDataLabelsGroups,
 ): BaseTableDataLabelsParameters[] =>
   groups.map((group) => {
     const tableDataLabels = json.list?.find(
-      (_tableDataLabels) => _tableDataLabels.from === group.from
+      (_tableDataLabels) => _tableDataLabels.from === group.from,
     )
 
     return createMutable({
@@ -76,19 +79,19 @@ export const createTableDataLabelsFromJSON = (
 
 export const createBaseDataLabelsGroupFromJSON = <
   T extends string,
-  From extends DataLabelsFrom
+  From extends DataLabelsFrom,
 >(
   json: JSONBaseDataLabelsGroup<From, T>,
   units: MachineMathUnits,
-  categorySelector?: CategorySelector
+  categorySelector?: CategorySelector,
 ): BaseDataLabelsGroup<From> => {
   const choices = json.choices.list.map((jsonChoice) =>
     createDataLabelFromJSON(
       jsonChoice,
       units,
       categorySelector?.(jsonChoice.unit as MachineUnitsNames) ||
-        currentCategory
-    )
+        currentCategory,
+    ),
   )
 
   return {
@@ -101,7 +104,7 @@ export const createBaseDataLabelsGroupFromJSON = <
         from: json.from,
         choices: this.choices.toJSON(
           (choice) => choice.toJSON(),
-          (label) => this.saveableChoices.includes(label)
+          (label) => this.saveableChoices.includes(label),
         ),
       }
     },
@@ -110,12 +113,12 @@ export const createBaseDataLabelsGroupFromJSON = <
 
 export const createBaseDropDataLabelsGroupFromJSON = <
   T extends string,
-  DropIndex extends BaseDropIndex
+  DropIndex extends BaseDropIndex,
 >(
   json: JSONBaseDataLabelsGroup<'Drop', T>,
   units: MachineMathUnits,
   indexes: SelectableList<DropIndex>,
-  categorySelector?: CategorySelector
+  categorySelector?: CategorySelector,
 ): BaseDropDataLabelsGroup<DropIndex> => {
   return {
     ...createBaseDataLabelsGroupFromJSON(json, units, categorySelector),
@@ -126,7 +129,7 @@ export const createBaseDropDataLabelsGroupFromJSON = <
 export const createBaseTestDataLabelsGroupFromJSON = <T extends string>(
   json: JSONBaseDataLabelsGroup<'Point', T>,
   units: MachineMathUnits,
-  categorySelector?: CategorySelector
+  categorySelector?: CategorySelector,
 ): BaseTestDataLabelsGroup => ({
   ...createBaseDataLabelsGroupFromJSON(json, units, categorySelector),
 })
@@ -134,7 +137,7 @@ export const createBaseTestDataLabelsGroupFromJSON = <T extends string>(
 export const createBaseZoneDataLabelsGroupFromJSON = <T extends string>(
   json: JSONBaseDataLabelsGroup<'Zone', T>,
   units: MachineMathUnits,
-  categorySelector?: CategorySelector
+  categorySelector?: CategorySelector,
   // eslint-disable-next-line sonarjs/no-identical-functions
 ): BaseZoneDataLabelsGroup => ({
   ...createBaseDataLabelsGroupFromJSON(json, units, categorySelector),
@@ -142,13 +145,13 @@ export const createBaseZoneDataLabelsGroupFromJSON = <T extends string>(
 
 export const selectTableDataLabelsFromJSON = (
   report: BaseReport,
-  json: JSONBaseReport
+  json: JSONBaseReport,
 ) => {
   report.dataLabels.table.list.forEach((parameters) => {
     const { group } = parameters
 
     const tableDataLabels = json.dataLabels.table.list.find(
-      (tableDataLabels) => tableDataLabels.from === group.from
+      (tableDataLabels) => tableDataLabels.from === group.from,
     )
 
     parameters.dataLabels.push(
@@ -157,10 +160,10 @@ export const selectTableDataLabelsFromJSON = (
           group.choices.list.find(
             (choice) =>
               choice.name === dataLabel.name &&
-              choice.category.name === dataLabel.category
-          )
+              choice.category.name === dataLabel.category,
+          ),
         )
-        .filter((dataLabel) => dataLabel) as DataLabel<string>[])
+        .filter((dataLabel) => dataLabel) as DataLabel<string>[]),
     )
   })
 }

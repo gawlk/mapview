@@ -20,11 +20,11 @@ export const heavydynDynatestExporter: HeavydynExporter = {
           }`
             .split('\n')
             .map((line) => line.padEnd(80, ' '))
-            .join('\n')
+            .join('\n'),
         ),
       ],
       `${project.reports.selected?.name.toString() || ''}-dynatest.fwd`,
-      { type: 'text/plain' }
+      { type: 'text/plain' },
     )
   },
 }
@@ -37,7 +37,7 @@ const writeSensors = (project: HeavydynProject): string[] => {
 
   const firstsSensors = project.calibrations.channels.slice(
     startIndex + 1,
-    startIndex + 8
+    startIndex + 8,
   )
   firstsSensors.unshift(project.calibrations.channels[0])
 
@@ -46,16 +46,16 @@ const writeSensors = (project: HeavydynProject): string[] => {
       .map((sensor) =>
         Math.round(Number(sensor.position) * 1000)
           .toString()
-          .padStart(4, ' ')
+          .padStart(4, ' '),
       )
       .join('')}${firstsSensors
       .map((sensor) =>
         (Number(sensor.position) * 0.0393701)
           .toFixed(2)
           .toString()
-          .padStart(6, ' ')
+          .padStart(6, ' '),
       )
-      .join('')}`
+      .join('')}`,
   )
 
   sections.push(
@@ -64,12 +64,12 @@ const writeSensors = (project: HeavydynProject): string[] => {
         const name = index === 0 ? 'Ld' : `D${index}`
         return dedent`
           ${name} ${sensor.name.slice(
-          sensor.name.length - 3,
-          sensor.name.length
-        )} 1.000 ${sensor.gain.toFixed(2)}
+            sensor.name.length - 3,
+            sensor.name.length,
+          )} 1.000 ${sensor.gain.toFixed(2)}
         `
       })
-      .join('\n')
+      .join('\n'),
   )
 
   return sections
@@ -79,7 +79,7 @@ const writeHeader = (project: HeavydynProject) => {
   const stringArray = []
   const serialNumber = findFieldInArray(
     project.hardware,
-    'Serial number'
+    'Serial number',
   )?.toString()
 
   const sensorsSection = writeSensors(project)
@@ -95,7 +95,7 @@ const writeHeader = (project: HeavydynProject) => {
   stringArray.push(sensorsSection[0])
 
   stringArray.push(
-    '   R  D1  D2  D3  D4  D5  D6  D7     R    D1    D2    D3    D4    D5    D6    D7'
+    '   R  D1  D2  D3  D4  D5  D6  D7     R    D1    D2    D3    D4    D5    D6    D7',
   )
 
   stringArray.push(`C:\\${project.reports.selected.name.value.toString()}`)
@@ -175,7 +175,7 @@ const writePoints = (project: HeavydynProject) => {
     const chainage = Number(
       point.data
         .find((pointData) => pointData.label.name === 'Chainage')
-        ?.getRawValue()
+        ?.getRawValue(),
     )
       .toFixed(2)
       .padStart(8, ' ')
@@ -197,7 +197,7 @@ const writeDrops = (point: BasePoint, dPlate: number) => {
         .filter(
           (data) =>
             data.label.unit === point.zone.report.project.units.deflection &&
-            data.label.category === currentCategory
+            data.label.category.name === currentCategory.name,
         )
         .map((data) => {
           let value: string | number = data.value.getValueAs('um')
@@ -211,7 +211,7 @@ const writeDrops = (point: BasePoint, dPlate: number) => {
           .find(
             (data) =>
               data.label.unit === point.zone.report.project.units.force &&
-              data.label.category === currentCategory
+              data.label.category.name === currentCategory.name,
           )
           ?.getRawValue() || 0) *
           1e-3) /

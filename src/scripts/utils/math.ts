@@ -17,7 +17,7 @@ export const computeStandardDeviation = (values: number[]) => {
     values.map((x) => {
       const deviation = x - valuesAverage
       return deviation ** 2
-    })
+    }),
   )
 
   return Math.sqrt(variance)

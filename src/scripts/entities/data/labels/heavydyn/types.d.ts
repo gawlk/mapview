@@ -7,7 +7,7 @@ type JSONHeavydynDataLabelsGroup = JSONHeavydynDataLabelsGroups[number]
 type JSONHeavydynDataLabelsGroups = [
   JSONHeavydynDropDataLabelsGroup,
   JSONHeavydynTestDataLabelsGroup,
-  JSONHeavydynZoneDataLabelsGroup
+  JSONHeavydynZoneDataLabelsGroup,
 ]
 
 interface JSONHeavydynDropDataLabelsGroup {
@@ -61,7 +61,7 @@ type HeavydynDataLabelsGroup = HeavydynDataLabelsGroups[number]
 type HeavydynDataLabelsGroups = [
   HeavydynDropDataLabelsGroup,
   HeavydynTestDataLabelsGroup,
-  HeavydynZoneDataLabelsGroup
+  HeavydynZoneDataLabelsGroup,
 ]
 
 interface HeavydynDropDataLabelsGroup

@@ -41,7 +41,7 @@ export const DialogReports = () => {
           full
           onClick={() => {
             store.selectedProject?.reports.list.forEach(
-              (report) => (report.settings.isVisible = !state.hideAll)
+              (report) => (report.settings.isVisible = !state.hideAll),
             )
             setState('hideAll', !state.hideAll)
           }}

@@ -7,7 +7,7 @@ interface SelectableList<T, L extends T[] = T[]> {
   readonly list: L
   readonly toJSON: <TJSON, LJSON extends TJSON[] = TJSON[]>(
     transform: (value: T) => LJSON[number],
-    filter?: (value: T) => boolean
+    filter?: (value: T) => boolean,
   ) => JSONSelectableList<TJSON, LJSON>
 }
 

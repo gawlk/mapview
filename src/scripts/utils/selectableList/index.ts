@@ -3,7 +3,7 @@ export const createSelectableList = <T, L extends T[] = T[]>(
   parameters?: {
     selected?: L[number]
     selectedIndex?: number | null
-  }
+  },
 ) => {
   const selectableList = createMutable<SelectableList<L[number], L>>({
     selected: null,
@@ -40,14 +40,14 @@ export const createSelectableList = <T, L extends T[] = T[]>(
     list,
     toJSON<TJSON, LJSON extends TJSON[] = TJSON[]>(
       transform: (value: T) => TJSON,
-      filter?: (value: T) => boolean
+      filter?: (value: T) => boolean,
     ): JSONSelectableList<TJSON, LJSON> {
       return {
         version: 1,
         selectedIndex: getIndexOfSelectedInSelectableList(this),
         list: (filter ? list.filter(filter) : list).map((value) =>
           // createMutable uses toJSON to hash so transform can be undefined
-          typeof transform === 'function' ? transform(value) : value
+          typeof transform === 'function' ? transform(value) : value,
         ) as LJSON,
       }
     },
@@ -65,10 +65,10 @@ export const createSelectableList = <T, L extends T[] = T[]>(
 }
 
 export const getIndexOfSelectedInSelectableList = <T, L extends T[] = T[]>(
-  sl: SelectableList<L[number], L>
+  sl: SelectableList<L[number], L>,
 ) => (sl.selected ? sl.list.indexOf(sl.selected) : null)
 
 const getValueFromIndexInList = <T, L extends T[] = T[]>(
   index: number | null,
-  list: L
+  list: L,
 ) => (index !== null && list.length > 0 ? list.at(index) || list[0] : null)

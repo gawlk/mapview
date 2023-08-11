@@ -10,7 +10,7 @@ export const convertPRJZToBaseReport = (
     dropChoices: JSONDataLabel<string>[]
     dropIndexes: JSONMachineDropIndex[]
     testChoices: JSONDataLabel<string>[]
-  }
+  },
 ): JSONBaseReport => {
   const iconsNames = Object.keys(icons) as IconName[]
 
@@ -101,13 +101,13 @@ export const convertPRJZToBaseReport = (
                         version: 1,
                         name: choice.name,
                         category: currentCategory.name,
-                      })
+                      }),
                     )
                     .filter(
                       (value) =>
                         value.name === 'Modulus' ||
                         value.name === 'Stiffness' ||
-                        value.name === 'Quality'
+                        value.name === 'Quality',
                     )
               }
             }),
@@ -131,13 +131,13 @@ export const convertPRJZToBaseReport = (
                         version: 1,
                         name: choice.name,
                         category: currentCategory.name,
-                      })
+                      }),
                     )
                     .filter(
                       (value) =>
                         value.name === 'Modulus' ||
                         value.name === 'Stiffness' ||
-                        value.name === 'Quality'
+                        value.name === 'Quality',
                     )
               }
             }),

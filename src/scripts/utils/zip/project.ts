@@ -14,7 +14,7 @@ export const createZipFromEntity = async (
     rawData?: boolean
     customJSON?: { name: string; json: JSONAny }
     template?: File
-  }
+  },
 ) => {
   const { overlays, screenshots, rawData, template } = parameters
   const zip: Fflate.Zippable = {}
@@ -48,7 +48,7 @@ export const createZipFromEntity = async (
     await addJSONToZip(
       zip,
       parameters.customJSON?.name || 'database.json',
-      json
+      json,
     )
   }
 

@@ -3,7 +3,7 @@ import { convertData64ImageToUint8Array } from '/src/scripts'
 export const addScreenshotsToZip = async (
   zip: Fflate.Zippable,
   entity: MachineProject | MachineReport,
-  json?: JSONMachineProject
+  json?: JSONMachineProject,
 ) => {
   const screenshotsConverted: { [key: string]: Uint8Array } = {}
 
@@ -18,7 +18,7 @@ export const addScreenshotsToZip = async (
               reportIndex,
               screenshot,
             }
-          })
+          }),
         )
         .flat()
       break
@@ -38,7 +38,7 @@ export const addScreenshotsToZip = async (
         await convertData64ImageToUint8Array(obj.screenshot)
 
       json?.base.reports.list[obj.reportIndex].base.screenshots.push(index)
-    })
+    }),
   )
 
   zip.screenshots = screenshotsConverted

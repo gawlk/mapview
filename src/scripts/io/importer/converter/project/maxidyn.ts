@@ -4,7 +4,7 @@ import { convertPRJZToMaxidynReport } from '../report'
 
 export const convertPRJZToMaxidynProject = (
   json: JSONAny,
-  baseProject: JSONBaseProject
+  baseProject: JSONBaseProject,
 ): JSONMaxidynProject => {
   const project: JSONMaxidynProject = {
     version: 1,
@@ -16,8 +16,8 @@ export const convertPRJZToMaxidynProject = (
   project.base.reports.list.push(
     ...json.PVs.map(
       (jsonPV: RecordAny, index: number): JSONMaxidynReport =>
-        convertPRJZToMaxidynReport(jsonPV, index, json)
-    )
+        convertPRJZToMaxidynReport(jsonPV, index, json),
+    ),
   )
 
   project.base.reports.selectedIndex = project.base.reports.list.length
@@ -28,7 +28,7 @@ export const convertPRJZToMaxidynProject = (
 }
 
 export const convertPRJZToMaxidynProjectDistinct = (
-  json: JSONAny
+  json: JSONAny,
 ): JSONMaxidynProjectDistinct => {
   const units = convertPRJZToMaxidynUnits(json)
 
@@ -53,11 +53,11 @@ export const convertPRJZToMaxidynProjectDistinct = (
 
 export const convertPRJZToMaxidynUnits = (json: JSONAny): JSONMaxidynUnits => {
   const exportedModulus = json.ExportedData.Points.find(
-    (exportedUnit: RecordAny) => exportedUnit.Type === 'Modulus'
+    (exportedUnit: RecordAny) => exportedUnit.Type === 'Modulus',
   )
 
   const exportedStiffness = json.ExportedData.Points.find(
-    (exportedUnit: RecordAny) => exportedUnit.Type === 'Stiffness'
+    (exportedUnit: RecordAny) => exportedUnit.Type === 'Stiffness',
   )
 
   return {
@@ -81,7 +81,7 @@ export const convertPRJZToMaxidynUnits = (json: JSONAny): JSONMaxidynUnits => {
       currentUnit: run((): PossibleMaxidynDeflectionUnits => {
         switch (
           (json.ExportedData.Drops as RecordAny[]).find(
-            (exportedUnit) => exportedUnit.Type === 'Deflection'
+            (exportedUnit) => exportedUnit.Type === 'Deflection',
           )?.Unit
         ) {
           case 'mm':
@@ -98,7 +98,7 @@ export const convertPRJZToMaxidynUnits = (json: JSONAny): JSONMaxidynUnits => {
       currentUnit: run((): PossibleMaxidynForceUnits => {
         switch (
           (json.ExportedData.Drops as RecordAny[]).find(
-            (exportedUnit) => exportedUnit.Type === 'Load'
+            (exportedUnit) => exportedUnit.Type === 'Load',
           )?.Unit
         ) {
           case 'N':
@@ -115,7 +115,7 @@ export const convertPRJZToMaxidynUnits = (json: JSONAny): JSONMaxidynUnits => {
       currentUnit: run((): PossibleMaxidynDistanceUnits => {
         switch (
           (json.ExportedData.Points as RecordAny[]).find(
-            (exportedUnit) => exportedUnit.Type === 'Distance'
+            (exportedUnit) => exportedUnit.Type === 'Distance',
           )?.Unit
         ) {
           case 'mi':
@@ -134,7 +134,7 @@ export const convertPRJZToMaxidynUnits = (json: JSONAny): JSONMaxidynUnits => {
       currentUnit: run((): PossibleMaxidynTimeUnits => {
         switch (
           (json.ExportedData.Drops as RecordAny[]).find(
-            (exportedUnit) => exportedUnit.Type === 'Time'
+            (exportedUnit) => exportedUnit.Type === 'Time',
           )?.Unit
         ) {
           case 's':

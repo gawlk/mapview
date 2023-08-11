@@ -22,7 +22,7 @@ export const DialogOptionsList = (props: Props) => {
   const [t] = useI18n()
 
   const unfilteredList = createMemo(() =>
-    convertDialogValuesPropsListToValuesWithTextProps(props.list)
+    convertDialogValuesPropsListToValuesWithTextProps(props.list),
   )
 
   const list = createMemo(() =>
@@ -37,8 +37,8 @@ export const DialogOptionsList = (props: Props) => {
           : option.value
         )
           .toLowerCase()
-          .includes(props.input.toLowerCase())
-    )
+          .includes(props.input.toLowerCase()),
+    ),
   )
 
   return (
@@ -56,7 +56,7 @@ export const DialogOptionsList = (props: Props) => {
         <For each={finalList()}>
           {(option, index) => {
             const isSelected = createMemo(() =>
-              isValuePropSelected(props.selected, option, index())
+              isValuePropSelected(props.selected, option, index()),
             )
 
             return (

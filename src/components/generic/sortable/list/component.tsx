@@ -27,7 +27,7 @@ interface Props<T> {
   component: (
     ref: (element: HTMLElement) => void,
     value: T,
-    index: Solid.Accessor<number>
+    index: Solid.Accessor<number>,
   ) => Solid.JSX.Element
   onChange: (from: number, to: number) => void
   draggedClasses?: ClassProp
@@ -45,13 +45,13 @@ export const SortableList = <T,>(props: Props<T>) => {
   })
 
   const scrollableParentScroll = createScrollPosition(
-    () => state.scrollableParent
+    () => state.scrollableParent,
   )
 
   const mousePosition = useMousePosition()
 
   const ids = createMemo(
-    (): Id[] => props.list.map((item) => props.itemToId(item)) || []
+    (): Id[] => props.list.map((item) => props.itemToId(item)) || [],
   )
 
   const sortables = new ReactiveMap<Id, HTMLElement>()
@@ -76,13 +76,13 @@ export const SortableList = <T,>(props: Props<T>) => {
                       mouseX,
                       mouseY,
                       (inc) => (mouseX += inc),
-                      (inc) => (mouseY += inc)
-                    )
-                )
-              )
-          )
-        )
-    )
+                      (inc) => (mouseY += inc),
+                    ),
+                ),
+              ),
+          ),
+        ),
+    ),
   )
 
   const draggedElement = createMemo(() =>
@@ -90,8 +90,8 @@ export const SortableList = <T,>(props: Props<T>) => {
       state.activeItem,
       sortables,
       isDraggedClasses,
-      props.draggedClasses
-    )
+      props.draggedClasses,
+    ),
   )
 
   return (
@@ -113,11 +113,11 @@ export const SortableList = <T,>(props: Props<T>) => {
         })
       }}
       onDragEnd={createOnDragEnd(ids, props.onChange, () =>
-        setState('activeItem', null)
+        setState('activeItem', null),
       )}
       collisionDetector={createColliderCenter(
         scrollableParentScroll.x - state.startingScrollX,
-        scrollableParentScroll.y - state.startingScrollY
+        scrollableParentScroll.y - state.startingScrollY,
       )}
     >
       <DragDropSensors />
@@ -140,10 +140,10 @@ export const SortableList = <T,>(props: Props<T>) => {
                         sortables,
                         id,
                         isDraggedClasses,
-                        () => !!context?.[0].active.draggable
+                        () => !!context?.[0].active.draggable,
                       ),
                     item,
-                    index
+                    index,
                   )
                 }
               />

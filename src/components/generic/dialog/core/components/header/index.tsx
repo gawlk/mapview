@@ -50,13 +50,13 @@ export const DialogHeader = (props: Props) => {
             props.defaultLeft,
             props.defaultTop,
             mousePosition,
-            props.setPosition
+            props.setPosition,
           )
         } else {
           deactivateSelectNone()
         }
-      }
-    )
+      },
+    ),
   )
 
   return (

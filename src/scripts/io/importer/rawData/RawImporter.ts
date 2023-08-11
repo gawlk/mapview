@@ -6,10 +6,10 @@ export const removeLeading0s = (str: string) => str.replace(/^0+/, '')
 const saveRawData = (
   file: ArrayBufferLike,
   points: BasePoint[],
-  id: string
+  id: string,
 ) => {
   const point = points.find(
-    (p) => removeLeading0s(p.id) === removeLeading0s(id)
+    (p) => removeLeading0s(p.id) === removeLeading0s(id),
   )
 
   if (point) {
@@ -22,7 +22,7 @@ const saveRawData = (
 export function parsePointRawData(
   file: ArrayBufferLike,
   point: BasePoint,
-  id: string
+  id: string,
 ) {
   try {
     const reader = new ExtendedBinaryReader(file)
@@ -42,7 +42,7 @@ export function parsePointRawData(
 
 export function importRawDataFromZIP(
   zip: Fflate.Unzipped,
-  project: MachineProject
+  project: MachineProject,
 ) {
   const folderName = 'rawdata'
 
@@ -57,7 +57,7 @@ export function importRawDataFromZIP(
         saveRawData(
           file.buffer,
           points,
-          fileName.substring(folderName.length + 1)
+          fileName.substring(folderName.length + 1),
         )
       }
     })

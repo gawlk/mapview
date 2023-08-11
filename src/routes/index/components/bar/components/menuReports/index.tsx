@@ -31,10 +31,11 @@ export const MenuReports = () => {
         <DialogScreenshot />
         <ButtonFile
           onFiles={(files) =>
-            Array.from(files || []).forEach(async (file: File) =>
-              store.selectedReport?.screenshots.push(
-                await convertFileToDataURL(file)
-              )
+            Array.from(files || []).forEach(
+              async (file: File) =>
+                store.selectedReport?.screenshots.push(
+                  await convertFileToDataURL(file),
+                ),
             )
           }
         />

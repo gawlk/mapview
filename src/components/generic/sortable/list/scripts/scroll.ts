@@ -7,7 +7,7 @@ export const scrollEffectCallback = (
   mouseX: number,
   mouseY: number,
   increaseMouseX: (inc: number) => void,
-  increaseMouseY: (inc: number) => void
+  increaseMouseY: (inc: number) => void,
 ) => {
   if (!scrollableParent || !directParent) return
 
@@ -52,8 +52,8 @@ export const scrollEffectCallback = (
         parentRight,
         windowScrollX,
         scrollableWidth,
-        pad
-      )
+        pad,
+      ),
     )
   }
 
@@ -69,8 +69,8 @@ export const scrollEffectCallback = (
         parentBottom,
         windowScrollY,
         scrollableHeight,
-        pad
-      )
+        pad,
+      ),
     )
   }
 }
@@ -85,7 +85,7 @@ const processScroll = (
   parentBottomOrRight: number,
   windowScrollXOrY: number,
   scrollableHeightOrWidth: number,
-  pad: number
+  pad: number,
 ) => {
   if (
     scrollableBottomOrRight - pad < parentBottomOrRight &&
@@ -105,7 +105,7 @@ const processScroll = (
 const scroll = (
   scrollableParent: HTMLElement | Window,
   orientation: 'horizontal' | 'vertical',
-  signum: -1 | 1
+  signum: -1 | 1,
 ) => {
   const quantity = signum * scrollAmount
 

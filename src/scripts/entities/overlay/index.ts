@@ -13,7 +13,7 @@ import SVGRotate from '/src/assets/svg/custom/rotate.svg?raw'
 export const createOverlay = async (
   data64: string,
   map: Map | null,
-  parameters: JSONOverlay
+  parameters: JSONOverlay,
   // eslint-disable-next-line sonarjs/cognitive-complexity
 ): Promise<Overlay> => {
   const id = `overlay-${parameters.name}-${+new Date() + Math.random()}`
@@ -80,7 +80,7 @@ export const createOverlay = async (
             'raster-fade-duration': 0,
           },
         },
-        'images'
+        'images',
       )
 
       const source = map?.getSource(id) as mapboxgl.ImageSource | undefined
@@ -101,8 +101,8 @@ export const createOverlay = async (
           () => overlay.opacity,
           (opacity: number) => {
             map?.setPaintProperty(id, 'raster-opacity', opacity)
-          }
-        )
+          },
+        ),
       )
     },
     remove: (): void => {
@@ -133,7 +133,7 @@ export const createOverlay = async (
 }
 
 const initialiseNWAndSECoords = (
-  map: mapboxgl.Map | null
+  map: mapboxgl.Map | null,
 ): {
   nw: LngLat
   se: LngLat
@@ -194,7 +194,7 @@ const setImageCoordinates = (
   markerSE: mapboxgl.Marker,
   sourceImage: mapboxgl.ImageSource | undefined,
   imageWidth: number,
-  imageHeight: number
+  imageHeight: number,
 ) => {
   const markerLngLatTL = markerNW.getLngLat()
   const markerLngLatBR = markerSE.getLngLat()
@@ -206,7 +206,7 @@ const setImageCoordinates = (
     markerWCTL,
     markerWCBR,
     imageHeight,
-    imageWidth
+    imageWidth,
   )
 
   const markerWGSTL = wcToWGS(wCCoord.tl)
@@ -228,7 +228,7 @@ const getImageCoordinates = (
   markerTL: XYCoord,
   markerBR: XYCoord,
   imageWidth: number,
-  imageHeight: number
+  imageHeight: number,
 ): ImageCoordinates => {
   const orTL: XYCoord = { x: -imageWidth / 2, y: +imageHeight / 2 }
   const orTR: XYCoord = { x: +imageWidth / 2, y: +imageHeight / 2 }
@@ -251,7 +251,7 @@ const scaleFactorBetweenOrFin = (
   orTL: XYCoord,
   orBR: XYCoord,
   finTL: XYCoord,
-  finBR: XYCoord
+  finBR: XYCoord,
 ): number => {
   const lfin = cartesianDistance(finTL, finBR)
   const lor = cartesianDistance(orTL, orBR)
@@ -260,7 +260,7 @@ const scaleFactorBetweenOrFin = (
 
 const cartesianDistance = (pt1: XYCoord, pt2: XYCoord): number =>
   Math.sqrt(
-    (pt1.x - pt2.x) * (pt1.x - pt2.x) + (pt1.y - pt2.y) * (pt1.y - pt2.y)
+    (pt1.x - pt2.x) * (pt1.x - pt2.x) + (pt1.y - pt2.y) * (pt1.y - pt2.y),
   )
 
 const getAngle = (a: XYCoord, b: XYCoord): number =>
@@ -270,7 +270,7 @@ const angleBetweenOrFin = (
   orTL: XYCoord,
   orBR: XYCoord,
   finTL: XYCoord,
-  finBR: XYCoord
+  finBR: XYCoord,
 ): number => {
   const o = getAngle(orTL, orBR)
   const f = getAngle(finTL, finBR)
@@ -281,7 +281,7 @@ const offsetBetweenOrFin = (
   orTL: XYCoord,
   orBR: XYCoord,
   finTL: XYCoord,
-  finBR: XYCoord
+  finBR: XYCoord,
 ): XYCoord => {
   const midOr: XYCoord = {
     x: (orTL.x + orBR.x) / 2,
@@ -323,7 +323,7 @@ const transformPoint = (
   pt: XYCoord,
   scale: number,
   angle: number,
-  offset: XYCoord
+  offset: XYCoord,
 ): XYCoord => {
   let pttranform = pt
   pttranform = scalePoint(pttranform, scale)

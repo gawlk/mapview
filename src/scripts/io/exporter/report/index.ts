@@ -4,7 +4,7 @@ export * from './custom'
 
 // TODO: Fix return type
 export const getSimpleReportExports = (
-  project: MachineProject
+  project: MachineProject,
 ): AnyExporter[] => {
   return [...(project.machine === 'Heavydyn' ? heavydynReportExports : [])]
 }

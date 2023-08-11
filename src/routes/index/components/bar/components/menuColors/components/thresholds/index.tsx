@@ -15,11 +15,11 @@ export const Thresholds = () => {
   const [t] = useI18n()
 
   const selectedDataLabel = createMemo(
-    () => store.selectedReport?.dataLabels.groups.selected?.choices.selected
+    () => store.selectedReport?.dataLabels.groups.selected?.choices.selected,
   )
 
-  const selectedDataLabelName = createMemo(() =>
-    selectedDataLabel()?.getDisplayedName()
+  const selectedDataLabelName = createMemo(
+    () => selectedDataLabel()?.getDisplayedName(),
   )
 
   const selectedMathUnit = createMemo(() => selectedDataLabel()?.unit)
@@ -28,24 +28,24 @@ export const Thresholds = () => {
     const selectedUnit = selectedDataLabel()?.unit
 
     const thresholdsGroups = Object.values(
-      store.selectedReport?.thresholds.groups || {}
+      store.selectedReport?.thresholds.groups || {},
     ) as ThresholdsGroup<string>[]
 
     const thresholdGroup = thresholdsGroups.find(
-      (group) => group.unit.name === selectedUnit?.name
+      (group) => group.unit.name === selectedUnit?.name,
     )
 
     return thresholdGroup?.choices
   })
 
   const selectedThreshold = createMemo(
-    () => selectedThresholdsGroupChoices()?.selected
+    () => selectedThresholdsGroupChoices()?.selected,
   )
 
   const isCustom = createMemo(() =>
     selectedThreshold()?.kind === 'custom'
       ? (selectedThreshold() as CustomThreshold)
-      : undefined
+      : undefined,
   )
 
   const baseToCurrent = (value = 0) =>
@@ -141,7 +141,7 @@ export const Thresholds = () => {
 
                   customThreshold().valueHigh = Math.max(
                     customThreshold().valueHigh,
-                    number
+                    number,
                   )
                 }
               }}
@@ -164,15 +164,15 @@ export const Thresholds = () => {
               >
                 {run(() => {
                   const thresoldColors = createMemo(
-                    () => store.selectedReport?.thresholds.colors
+                    () => store.selectedReport?.thresholds.colors,
                   )
 
                   const colorLow = createMemo(
-                    () => colors[thresoldColors()?.low || 'orange']
+                    () => colors[thresoldColors()?.low || 'orange'],
                   )
 
                   const colorHigh = createMemo(
-                    () => colors[thresoldColors()?.high || 'orange']
+                    () => colors[thresoldColors()?.high || 'orange'],
                   )
 
                   return (
@@ -184,7 +184,7 @@ export const Thresholds = () => {
                         color: blend(
                           blend(colorLow(), colorHigh()),
                           '#000000',
-                          0.75
+                          0.75,
                         ),
                         background: `linear-gradient(180deg,${colorLow()},${colorHigh()})`,
                         'border-top-color': colorLow(),
@@ -223,7 +223,7 @@ export const Thresholds = () => {
 
                     customThreshold().value = Math.min(
                       customThreshold().value,
-                      number
+                      number,
                     )
                   }
                 }}

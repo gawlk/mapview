@@ -4,7 +4,7 @@
 
 interface JSONBaseDataLabelsGroup<
   From extends DataLabelsFrom,
-  T extends string
+  T extends string,
 > {
   readonly version: 1
   readonly from: From
@@ -42,18 +42,18 @@ interface BaseDataLabels extends BaseObject<JSONBaseDataLabels> {
   readonly findIn: (
     from: DataLabelsFrom,
     name: string,
-    category?: DataCategory
+    category?: DataCategory,
   ) => DataLabel<string, string> | undefined
   readonly pushTo: (
     from: DataLabelsFrom,
-    label: DataLabel
+    label: DataLabel,
   ) => DataLabel<string, string> | undefined
 }
 
 type BaseDataLabelsGroups = [
   BaseDropDataLabelsGroup<BaseDropIndex>,
   BaseTestDataLabelsGroup,
-  BaseZoneDataLabelsGroup
+  BaseZoneDataLabelsGroup,
 ]
 
 type AnyBaseDataLabelsGroup = BaseDataLabelsGroups[number]

@@ -23,7 +23,7 @@ export const createHeavydynDataLabelsFromJSON = (
     JSONHeavydynDataLabelsGroups
   >,
   jsonTable: JSONSelectableList<JSONTableDataLabelsParameters>,
-  project: HeavydynProject
+  project: HeavydynProject,
 ): HeavydynDataLabels => {
   const list: HeavydynDataLabelsGroups = [
     createHeavydynDropDataLabelsGroupFromJSON(jsonGroups.list[0], project),
@@ -44,17 +44,17 @@ export const createHeavydynDataLabelsFromJSON = (
 
 export const createHeavydynDropDataLabelsGroupFromJSON = (
   json: JSONHeavydynDropDataLabelsGroup,
-  project: HeavydynProject
+  project: HeavydynProject,
 ): HeavydynDropDataLabelsGroup => {
   const indexes = createSelectableList(
     json.distinct.indexes.list.map((jsonDropIndex) =>
       createHeavydynDropIndexFromJSON(jsonDropIndex, {
         project,
-      })
+      }),
     ),
     {
       selectedIndex: json.distinct.indexes.selectedIndex,
-    }
+    },
   )
 
   return {
@@ -62,7 +62,7 @@ export const createHeavydynDropDataLabelsGroupFromJSON = (
       json.base,
       project.units,
       indexes,
-      heavydynCategorySelector
+      heavydynCategorySelector,
     ),
     sequenceName: json.distinct.sequenceName,
     toJSON() {
@@ -84,13 +84,13 @@ export const createHeavydynDropDataLabelsGroupFromJSON = (
 
 export const createHeavydynTestDataLabelsGroupFromJSON = (
   json: JSONHeavydynTestDataLabelsGroup,
-  project: HeavydynProject
+  project: HeavydynProject,
 ): HeavydynTestDataLabelsGroup => {
   return {
     ...createBaseTestDataLabelsGroupFromJSON(
       json.base,
       project.units,
-      heavydynCategorySelector
+      heavydynCategorySelector,
     ),
     toJSON() {
       return {
@@ -109,7 +109,7 @@ export const createHeavydynTestDataLabelsGroupFromJSON = (
 
 export const createHeavydynZoneDataLabelsGroupFromJSON = (
   json: JSONHeavydynZoneDataLabelsGroup,
-  project: HeavydynProject
+  project: HeavydynProject,
 ): HeavydynZoneDataLabelsGroup => {
   return {
     ...createBaseZoneDataLabelsGroupFromJSON(json.base, project.units),
@@ -130,17 +130,18 @@ export const createHeavydynZoneDataLabelsGroupFromJSON = (
 
 export const selectHeavydynGroupChoiceFromJSON = (
   report: HeavydynReport,
-  json: JSONHeavydynReport
+  json: JSONHeavydynReport,
 ) => {
   report.dataLabels.groups.list.forEach((group, index) => {
     const indexD0 = group.choices.list.findIndex(
       (dataLabel) =>
-        dataLabel.name === 'D0' && dataLabel.category === currentCategory
+        dataLabel.name === 'D0' &&
+        dataLabel.category.name === currentCategory.name,
     )
 
     group.choices.selectIndex(
       json.distinct.dataLabels.list[index].base.choices.selectedIndex ??
-        (indexD0 === -1 ? 0 : indexD0)
+        (indexD0 === -1 ? 0 : indexD0),
     )
   })
 }

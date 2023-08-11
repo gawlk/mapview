@@ -4,7 +4,7 @@ import { convertValueFromUnitAToUnitB } from '/src/scripts'
 
 export const createMathNumber = (
   value: JSONMathNumberValue,
-  unit: MathUnit<string>
+  unit: MathUnit<string>,
 ) => {
   const mathNumber = createMutable<MathNumber>({
     value: Number(value ?? 'NaN'),
@@ -27,7 +27,7 @@ export const createMathNumber = (
       return convertValueFromUnitAToUnitB(
         this.value,
         this.unit.baseUnit,
-        unitAs
+        unitAs,
       )
     },
     checkValidity() {

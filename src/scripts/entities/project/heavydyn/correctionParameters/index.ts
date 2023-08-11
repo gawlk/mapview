@@ -3,18 +3,18 @@ import { createHeavydynProjectTemperatureCorrectionParametersFromJSON } from './
 
 export const createHeavydynProjectCorrectionParametersFromJSON = (
   json: JSONHeavydynCorrectionParametersVAny,
-  units: HeavydynMathUnits
+  units: HeavydynMathUnits,
 ) => {
   json = upgradeJSON(json)
 
   const correctionParameters = createMutable<HeavydynCorrectionParameters>({
     load: createHeavydynProjectLoadCorrectionParametersFromJSON(
       json.load,
-      units
+      units,
     ),
     temperature: createHeavydynProjectTemperatureCorrectionParametersFromJSON(
       json.temperature,
-      units
+      units,
     ),
   })
 
@@ -22,7 +22,7 @@ export const createHeavydynProjectCorrectionParametersFromJSON = (
 }
 
 const upgradeJSON = (
-  json: JSONHeavydynCorrectionParametersVAny
+  json: JSONHeavydynCorrectionParametersVAny,
 ): JSONHeavydynCorrectionParameters => {
   switch (json.version) {
     case 1:

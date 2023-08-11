@@ -6,7 +6,7 @@ interface HeavydynUnitsSkeleton<
   E = A,
   F = A,
   G = A,
-  H = A
+  H = A,
 > {
   readonly deflection: A
   readonly force: B

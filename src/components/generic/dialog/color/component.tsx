@@ -21,13 +21,13 @@ export const DialogColor = (props: Props) => {
           leftIcon: IconTablerColorSwatch,
           rightIcon: IconTablerSelector,
         },
-        props.button || {}
+        props.button || {},
       )}
       form={
         <div class="space-y-2">
           <For
             each={Object.entries(colors).filter(
-              ([name]) => !(props.skip || [])?.includes(name as ColorName)
+              ([name]) => !(props.skip || [])?.includes(name as ColorName),
             )}
           >
             {([name, hex]) => (

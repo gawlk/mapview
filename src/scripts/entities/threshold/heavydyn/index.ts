@@ -6,7 +6,7 @@ import {
 
 export const createHeavydynThresholdsGroupsFromJSON = (
   json: JSONHeavydynThresholdsConfigurationsVAny,
-  units: HeavydynMathUnits
+  units: HeavydynMathUnits,
 ) => {
   json = upgradeJSON(json)
 
@@ -20,7 +20,7 @@ export const createHeavydynThresholdsGroupsFromJSON = (
         ] as ThresoldsList,
         {
           selectedIndex: json.deflection.selectedIndex,
-        }
+        },
       ),
     },
     force: {
@@ -29,7 +29,7 @@ export const createHeavydynThresholdsGroupsFromJSON = (
         [createCustomThreshold(json.force.custom)] as ThresoldsList,
         {
           selectedIndex: json.force.selectedIndex,
-        }
+        },
       ),
     },
     temperature: {
@@ -38,7 +38,7 @@ export const createHeavydynThresholdsGroupsFromJSON = (
         [createCustomThreshold(json.temperature.custom)] as ThresoldsList,
         {
           selectedIndex: json.temperature.selectedIndex,
-        }
+        },
       ),
     },
     distance: {
@@ -47,7 +47,7 @@ export const createHeavydynThresholdsGroupsFromJSON = (
         [createCustomThreshold(json.distance.custom)] as ThresoldsList,
         {
           selectedIndex: json.distance.selectedIndex,
-        }
+        },
       ),
     },
     time: {
@@ -56,7 +56,7 @@ export const createHeavydynThresholdsGroupsFromJSON = (
         [createCustomThreshold(json.time.custom)] as ThresoldsList,
         {
           selectedIndex: json.time.selectedIndex,
-        }
+        },
       ),
     },
     modulus: {
@@ -65,7 +65,7 @@ export const createHeavydynThresholdsGroupsFromJSON = (
         [createCustomThreshold(json.modulus.custom)] as ThresoldsList,
         {
           selectedIndex: json.modulus.selectedIndex,
-        }
+        },
       ),
     },
     cumSum: {
@@ -74,7 +74,7 @@ export const createHeavydynThresholdsGroupsFromJSON = (
         [createCustomThreshold(json.cumSum.custom)] as ThresoldsList,
         {
           selectedIndex: json.cumSum.selectedIndex,
-        }
+        },
       ),
     },
     radius: {
@@ -83,7 +83,7 @@ export const createHeavydynThresholdsGroupsFromJSON = (
         [createCustomThreshold(json.radius.custom)] as ThresoldsList,
         {
           selectedIndex: json.radius.selectedIndex,
-        }
+        },
       ),
     },
   }
@@ -92,7 +92,7 @@ export const createHeavydynThresholdsGroupsFromJSON = (
 }
 
 const upgradeJSON = (
-  json: JSONHeavydynThresholdsConfigurationsVAny
+  json: JSONHeavydynThresholdsConfigurationsVAny,
 ): JSONHeavydynThresholdsConfigurations => {
   switch (json.version) {
     case undefined:

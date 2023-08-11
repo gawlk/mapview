@@ -9,7 +9,7 @@ declare namespace Solid {
 
   export type EffectFunction<
     Prev,
-    Next extends Prev = Prev
+    Next extends Prev = Prev,
   > = import('solid-js').EffectFunction<Prev, Next>
 
   export type Setter<T> = import('solid-js').Setter<T>
@@ -19,7 +19,7 @@ declare namespace Solid {
 
     export type EventHandlerUnion<
       T,
-      E extends Event
+      E extends Event,
     > = import('solid-js').JSX.EventHandlerUnion<T, E>
 
     export type CSSProperties = import('solid-js').JSX.CSSProperties

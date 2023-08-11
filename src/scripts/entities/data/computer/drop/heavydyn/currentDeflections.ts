@@ -8,7 +8,7 @@ import {
 } from '/src/scripts'
 
 export const createHeavydynCurrentDeflectionDropDataComputers = (
-  report: HeavydynReport
+  report: HeavydynReport,
 ) => {
   const dropGroupDataLabels = report.dataLabels.groups.list[0]
   const labels = dropGroupDataLabels.choices.list
@@ -26,37 +26,38 @@ export const createHeavydynCurrentDeflectionDropDataComputers = (
                   name: rawLabel.name,
                   unit: rawLabel.unit,
                   category: currentCategory,
-                })
+                }),
               ) - 1
             ],
           compute: (currentLabel) => {
             const correctionParameters = report.project.correctionParameters
 
             const sourceTempMatrix = report.zones.map((zone) =>
-              zone.points.map((point) =>
-                point.data
-                  .find(
-                    (data) =>
-                      data.label.name ===
-                      correctionParameters.temperature.source.selected
-                  )
-                  ?.getRawValue()
-              )
+              zone.points.map(
+                (point) =>
+                  point.data
+                    .find(
+                      (data) =>
+                        data.label.name ===
+                        correctionParameters.temperature.source.selected,
+                    )
+                    ?.getRawValue(),
+              ),
             )
 
             const reportSourceTempAverage = computeAverage(
-              sourceTempMatrix.flat().filter((v) => v) as number[]
+              sourceTempMatrix.flat().filter((v) => v) as number[],
             )
 
             report.zones.forEach((zone, zoneIndex) => {
               const zoneSourceTempAverage = computeAverage(
-                sourceTempMatrix[zoneIndex].filter((v) => v) as number[]
+                sourceTempMatrix[zoneIndex].filter((v) => v) as number[],
               )
 
               zone.points.forEach((point, pointIndex) => {
                 point.drops.forEach((drop) => {
                   const rawData = drop.data.find(
-                    (data) => data.label === rawLabel
+                    (data) => data.label === rawLabel,
                   )
 
                   if (rawData) {
@@ -71,13 +72,13 @@ export const createHeavydynCurrentDeflectionDropDataComputers = (
                     const currentLoad = drop.data.find(
                       (data) =>
                         data.label.name === 'Load' &&
-                        data.label.category === currentCategory
+                        data.label.category.name === currentCategory.name,
                     )
 
                     const rawLoad = drop.data.find(
                       (data) =>
                         data.label.name === 'Load' &&
-                        data.label.category === rawCategory
+                        data.label.category.name === rawCategory.name,
                     )
 
                     if (currentLoad && rawLoad) {

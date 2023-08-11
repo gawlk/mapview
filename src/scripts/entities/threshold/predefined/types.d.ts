@@ -4,6 +4,6 @@ interface PredefinedThreshold {
   readonly value: number
   readonly getColor: (
     mathNumber: MathNumber,
-    colors: JSONThresholdColors
+    colors: JSONThresholdColors,
   ) => string
 }

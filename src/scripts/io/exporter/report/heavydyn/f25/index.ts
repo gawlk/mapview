@@ -24,11 +24,11 @@ export const heavydynF25Exporter: HeavydynExporter = {
             ${writeSensors(project)}
             ${writeEndHeader(project)}
             ${writePoints(project)}
-          `)
+          `),
         ),
       ],
       `${project.reports.selected?.name.toString() || ''}.F25`,
-      { type: 'text/plain' }
+      { type: 'text/plain' },
     )
   },
 }
@@ -36,12 +36,12 @@ export const heavydynF25Exporter: HeavydynExporter = {
 const writeHeader = (project: HeavydynProject): string => {
   const serialNumber = findFieldInArray(
     project.hardware,
-    'Serial number'
+    'Serial number',
   )?.toString()
 
   const operator = findFieldInArray(
     project.reports.selected?.information || [],
-    'Operator'
+    'Operator',
   )?.toString()
 
   const sequenceName =
@@ -50,20 +50,20 @@ const writeHeader = (project: HeavydynProject): string => {
   const date = dayjsUtc(
     (
       project.information.find(
-        (machineField: Field) => machineField.label === 'Date'
+        (machineField: Field) => machineField.label === 'Date',
       )?.value as SelectableString
-    ).value
+    ).value,
   ).format('YYYY,MM,DD,HH,mm')
 
   return dedent`
     5001,25.99,1,40, 3, 1,"Heavydyn     "
     5002,"25SI ","${serialNumber?.padEnd(8, ' ')}","${serialNumber
-    ?.toString()
-    .padEnd(8, ' ')}"
+      ?.toString()
+      .padEnd(8, ' ')}"
     5003, "${operator?.padEnd(8, ' ')}", "${sequenceName?.padEnd(
-    8,
-    ' '
-  )}", "${project.name.value.toString().padStart(8, ' ')}", "F25"
+      8,
+      ' ',
+    )}", "${project.name.value.toString().padStart(8, ' ')}", "F25"
     5010,0,0,0,0,0,0,0,3,1,0,0,0,0,0,1,0,0,0,0,0,1,"MDB"
     5011,0,1,${date},0,"Non",000
     `
@@ -75,8 +75,8 @@ const writeEndHeader = (project: MachineProject): string => {
       Number(
         point.data
           .find((pointData) => pointData.label.name === 'Chainage')
-          ?.getRawValue()
-      )
+          ?.getRawValue(),
+      ),
     )
     .sort((a, b) => a - b)
 
@@ -98,7 +98,7 @@ const writeEndHeader = (project: MachineProject): string => {
 
   const operator = findFieldInArray(
     project.reports.selected.information,
-    'Operator'
+    'Operator',
   )?.toString()
 
   const reportName = project.reports.selected?.name.value.toString()
@@ -107,18 +107,18 @@ const writeEndHeader = (project: MachineProject): string => {
 
   return dedent`
       5023,1,3,0,${dmin.toString().padStart(8, ' ')},${(
-    Math.round(dmax * 1000) / 1000
-  )
-    .toString()
-    .padStart(8, ' ')},${(Math.round(dmax * 1000) / 1000)
-    .toString()
-    .padStart(8, ' ')},   1.000,   0.000,1,1
+        Math.round(dmax * 1000) / 1000
+      )
+        .toString()
+        .padStart(8, ' ')},${(Math.round(dmax * 1000) / 1000)
+        .toString()
+        .padStart(8, ' ')},   1.000,   0.000,1,1
       5024,1,1,0,1,1,1,     5, 2.0,     2, 2.0,1,1,0,  60
       5029,${d.length.toString().padStart(8, '0')},${(
-    d.length * (project.reports.selected?.zones.length || 1)
-  )
-    .toString()
-    .padStart(8, '0')},   28439,   84378
+        d.length * (project.reports.selected?.zones.length || 1)
+      )
+        .toString()
+        .padStart(8, '0')},   28439,   84378
       5030,"${operator?.padEnd(32, ' ')}"
       5031,"${project.name.value.toString().padEnd(32, ' ')}"
       5032,"${reportName?.padEnd(32, ' ')}"
@@ -134,7 +134,7 @@ const writeEndHeader = (project: MachineProject): string => {
 
 const writeSensors = (project: HeavydynProject): string => {
   const firstSensor = project.calibrations.channels.find(
-    (channel) => channel.acquisition === 0
+    (channel) => channel.acquisition === 0,
   )
 
   if (!firstSensor) {
@@ -143,16 +143,18 @@ const writeSensors = (project: HeavydynProject): string => {
 
   let sensorsString = dedent`
     5200,"${firstSensor.name.padEnd(8, ' ')}",2,1.000, ${formatExponential(
-    firstSensor.gain
-  )}, 0.00,  1.000\n
+      firstSensor.gain,
+    )}, 0.00,  1.000\n
     `
   const nbrSensors = project.calibrations.channels.length - 1
   for (let i = 0; i < nbrSensors; i++) {
     sensorsString += dedent`
       ${5200 + i},"${project.calibrations.channels[i + 1].name.padEnd(
-      8,
-      ' '
-    )}",1.000,${formatExponential(project.calibrations.channels[i + 1].gain)}\n 
+        8,
+        ' ',
+      )}",1.000,${formatExponential(
+        project.calibrations.channels[i + 1].gain,
+      )}\n 
       `
   }
 
@@ -164,7 +166,7 @@ const writeSensors = (project: HeavydynProject): string => {
   let s5020 = '5020,   150'
   for (let i = 1; i < nbrSensors + 1; i++)
     s5020 += `,${Math.round(
-      Number(project.calibrations.channels[i].position) * 1000
+      Number(project.calibrations.channels[i].position) * 1000,
     )
       .toString()
       .padStart(6, ' ')}`
@@ -187,7 +189,7 @@ const writePoints = (project: HeavydynProject): string => {
           ${writePointGps(point)}
           ${writePointHeader(
             point as HeavydynPoint,
-            project.reports.selected as HeavydynReport
+            project.reports.selected as HeavydynReport,
           )}
         `
         const values = writeDrops(point, project.calibrations.dPlate)
@@ -214,7 +216,7 @@ const writePointGps = (point: BasePoint) => {
 
 const writePointHeader = (
   point: HeavydynPoint,
-  report: HeavydynReport
+  report: HeavydynReport,
 ): string => {
   const date = dayjsUtc(point.date).format('YYYY, MM, DD, HH, mm')
 
@@ -252,10 +254,10 @@ const writePointHeader = (
       .toPrecision(2)
       .toString()
       .padStart(5, ' ')},${(Math.round(tsurf * 10) / 10)
-    .toString()
-    .padStart(5, ' ')},${(Math.round(tair * 10) / 10)
-    .toString()
-    .padStart(5, ' ')}
+      .toString()
+      .padStart(5, ' ')},${(Math.round(tair * 10) / 10)
+      .toString()
+      .padStart(5, ' ')}
     `
 }
 
@@ -269,7 +271,7 @@ const writeDrops = (point: BasePoint, dPlate: number): string => {
           .find(
             (data) =>
               data.label.unit === point.zone.report.project.units.force &&
-              data.label.category === currentCategory
+              data.label.category.name === currentCategory.name,
           )
           ?.getRawValue() || 0) *
           1e-3) /
@@ -284,7 +286,7 @@ const writeDrops = (point: BasePoint, dPlate: number): string => {
         .filter(
           (data) =>
             data.label.unit === point.zone.report.project.units.deflection &&
-            data.label.category === currentCategory
+            data.label.category.name === currentCategory.name,
         )
         .forEach((data) => {
           let value: string | number = data.value.getValueAs('um')

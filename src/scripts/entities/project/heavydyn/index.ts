@@ -11,12 +11,12 @@ import { createBaseProjectFromJSON } from '../base'
 
 export const createHeavydynProjectFromJSON = (
   json: JSONHeavydynProjectVAny,
-  map: mapboxgl.Map | null
+  map: mapboxgl.Map | null,
 ) => {
   json = upgradeJSON(json)
 
   const units: HeavydynMathUnits = createHeavydynMathUnitsFromJSON(
-    json.distinct.units
+    json.distinct.units,
   )
 
   const baseProject = createBaseProjectFromJSON(json.base, map, {
@@ -37,7 +37,7 @@ export const createHeavydynProjectFromJSON = (
     },
     correctionParameters: createHeavydynProjectCorrectionParametersFromJSON(
       json.distinct.correctionParameters,
-      units
+      units,
     ),
     toJSON(): JSONHeavydynProject {
       return {
@@ -92,8 +92,8 @@ export const createHeavydynProjectFromJSON = (
     ...json.base.reports.list.map((report) =>
       createHeavydynReportFromJSON(report as JSONHeavydynReport, map, {
         project,
-      })
-    )
+      }),
+    ),
   )
 
   project.reports.selectIndex(json.base.reports.selectedIndex)

@@ -6,7 +6,7 @@ export const createHeavydynDropFromJSON = (
   json: JSONHeavydynDropVAny,
   parameters: {
     point: HeavydynPoint
-  }
+  },
 ) => {
   json = upgradeJSONDrop(json)
 
@@ -50,7 +50,7 @@ export const createHeavydynDropIndexFromJSON = (
   json: JSONHeavydynDropIndex,
   parameters: {
     project: HeavydynProject
-  }
+  },
 ) => {
   json = upgradeJSONDropIndex(json)
 
@@ -62,7 +62,7 @@ export const createHeavydynDropIndexFromJSON = (
     type: json.distinct.type,
     value: createMathNumber(
       json.distinct.value,
-      parameters.project.units[unitName as keyof HeavydynMathUnits]
+      parameters.project.units[unitName as keyof HeavydynMathUnits],
     ),
     toJSON() {
       return {
@@ -82,7 +82,7 @@ export const createHeavydynDropIndexFromJSON = (
 }
 
 const upgradeJSONDropIndex = (
-  json: JSONHeavydynDropIndexVAny
+  json: JSONHeavydynDropIndexVAny,
   // Disable rule until there are at least 2 versions
   // eslint-disable-next-line sonarjs/no-identical-functions
 ): JSONHeavydynDropIndex => {

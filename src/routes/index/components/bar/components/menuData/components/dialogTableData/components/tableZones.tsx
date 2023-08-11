@@ -13,8 +13,9 @@ export const TableZones = () => {
 
   const getValuesFromZones = (dataLabel: DataLabel<string>) =>
     (store.selectedReport?.zones || [])
-      .map((zone) =>
-        zone.data.find((data) => data.label === dataLabel)?.getRawValue()
+      .map(
+        (zone) =>
+          zone.data.find((data) => data.label === dataLabel)?.getRawValue(),
       )
       .filter((value) => typeof value === 'number') as number[]
 

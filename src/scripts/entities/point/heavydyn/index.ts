@@ -7,7 +7,7 @@ export const createHeavydynPointFromJSON = (
   map: mapboxgl.Map | null,
   parameters: {
     zone: HeavydynZone
-  }
+  },
 ) => {
   json = upgradeJSON(json)
 
@@ -33,8 +33,8 @@ export const createHeavydynPointFromJSON = (
     ...json.base.drops.map((jsonDrop) =>
       createHeavydynDropFromJSON(jsonDrop, {
         point,
-      })
-    )
+      }),
+    ),
   )
 
   return point

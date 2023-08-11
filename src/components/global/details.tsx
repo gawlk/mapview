@@ -31,7 +31,7 @@ export const Details = (props: Props) => {
   const buttonRightIcon = createMemo(() =>
     state.open
       ? props.button?.rightIconOpen ?? IconTablerChevronDown
-      : props.button?.rightIconClosed ?? IconTablerChevronRight
+      : props.button?.rightIconClosed ?? IconTablerChevronRight,
   )
 
   return (

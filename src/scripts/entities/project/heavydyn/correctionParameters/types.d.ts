@@ -76,7 +76,7 @@ type TemperatureStructureTypeList = [
   {
     name: 'Semi-flexible'
     k: 0.04
-  }
+  },
 ]
 
 // ---

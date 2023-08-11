@@ -1,7 +1,7 @@
 export const blend = (
   color1: string,
   color2: string,
-  percentage = 0.5
+  percentage = 0.5,
 ): string => {
   if (percentage > 1 || percentage < 0) {
     Error('Percentage must be between 1 and 0')
@@ -18,7 +18,7 @@ export const blend = (
   ]
 
   return `#${intToHex(color3Array[0])}${intToHex(color3Array[1])}${intToHex(
-    color3Array[2]
+    color3Array[2],
   )}`
 }
 

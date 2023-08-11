@@ -33,7 +33,7 @@ export const createCurvatureRadiusDataComputers = (report: HeavydynReport) => {
             name: `Curvature radius (${params.side})`,
             unit: report.project.units.radius,
             category: indicatorsCategory,
-          })
+          }),
         ),
       compute: (label) => {
         report.zones.forEach((zone) =>
@@ -42,7 +42,7 @@ export const createCurvatureRadiusDataComputers = (report: HeavydynReport) => {
               const d1 = drop.data.find((_data) => _data.label === d0DataLabel)
 
               const d2 = drop.data.find(
-                (_data) => _data.label === params.dataLabel
+                (_data) => _data.label === params.dataLabel,
               )
 
               if (d1 && d2) {
@@ -52,11 +52,11 @@ export const createCurvatureRadiusDataComputers = (report: HeavydynReport) => {
 
                 data.value.updateValue(
                   (0 - Number(d2.label.name.slice(1)) * 10 ** -3) ** 2 /
-                    (2 * (d1.value.getValueAs('m') - d2.value.getValueAs('m')))
+                    (2 * (d1.value.getValueAs('m') - d2.value.getValueAs('m'))),
                 )
               }
-            })
-          )
+            }),
+          ),
         )
       },
     })

@@ -28,8 +28,8 @@ export const Template = (props: Props) => {
   const key = createMemo(() =>
     getTemplateKey(
       store.selectedProject?.machine as MachineName,
-      props.index + 1
-    )
+      props.index + 1,
+    ),
   )
 
   createEffect(async () => {
@@ -37,7 +37,7 @@ export const Template = (props: Props) => {
 
     setState(
       'file',
-      file ? await convertData64ToFile(file.data64, file.name) : null
+      file ? await convertData64ToFile(file.data64, file.name) : null,
     )
   })
 

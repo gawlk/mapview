@@ -25,7 +25,7 @@ export const heavydynPDXExporter: HeavydynExporter = {
           `),
       ],
       `${project.reports.selected?.name.toString() || ''}.pdx`,
-      { type: 'text/plain' }
+      { type: 'text/plain' },
     )
   },
 }
@@ -40,12 +40,12 @@ const writeHeader = (project: HeavydynProject): string => {
   const reportDate = dayjsUtc(
     findFieldInArray(
       project.reports.selected?.information || [],
-      'Date'
-    )?.toString()
+      'Date',
+    )?.toString(),
   ).format('DD-MMM-YYYY')
 
-  const infos = ['Operator', 'Climat'].map((label) =>
-    findFieldInArray(selectedReport.information, label)?.toString()
+  const infos = ['Operator', 'Climat'].map(
+    (label) => findFieldInArray(selectedReport.information, label)?.toString(),
   )
 
   return dedent`
@@ -87,9 +87,9 @@ const writeDeviceInformation = (project: HeavydynProject): string => {
     [Device Information]
     DeviceDesignationName = Rincent
     DeviceModelNumber =  HEAVYDYN
-    DeviceSerialNumber = ${
-      project.hardware.find((data) => data.label === 'Serial number')?.value
-    } 
+    DeviceSerialNumber = ${project.hardware.find(
+      (data) => data.label === 'Serial number',
+    )?.value} 
     LoadCellSerialNumber = ${project.calibrations.channels[0].name}  
     SensorSerialNumber = ${sensorSerialNumbers}
     DeviceLoadType = Impulse
@@ -120,20 +120,20 @@ const writeDeviceConfiguration = (project: HeavydynProject): string => {
 const writeDeviceCalibration = (project: HeavydynProject) => {
   const { information } = project
   const calibrationDate = dayjsUtc(project.calibrations.date).format(
-    'DD-MMM-YYYY'
+    'DD-MMM-YYYY',
   )
 
   let sensorStaticCalibrationFactor = ''
   for (let i = 1; i < project.calibrations.channels.length; i++) {
     sensorStaticCalibrationFactor += Math.round(
-      Number(project.calibrations.channels[i].gain) * 1000
+      Number(project.calibrations.channels[i].gain) * 1000,
     ).toString()
     if (i !== project.calibrations.channels.length - 1)
       sensorStaticCalibrationFactor += ', '
   }
 
   const dmiSensor = project.calibrations.sensors.find(
-    (sensor) => sensor.name === 'DMI'
+    (sensor) => sensor.name === 'DMI',
   )?.gain
 
   const projectProject = findFieldInArray(information, 'Project')?.value
@@ -142,7 +142,7 @@ const writeDeviceCalibration = (project: HeavydynProject) => {
 
   const reportLane = findFieldInArray(
     project.reports.selected?.information || [],
-    'Lane'
+    'Lane',
   )?.value
 
   const materialPlatform = project.reports.selected?.platform
@@ -156,7 +156,7 @@ const writeDeviceCalibration = (project: HeavydynProject) => {
       [Device Calibration]
       LoadCellCalibrationDate = ${calibrationDate}
       LoadCellCalibrationFactor = ${Math.round(
-        project.calibrations.channels[0].gain * 1000
+        project.calibrations.channels[0].gain * 1000,
       )} 
       LoadCellCalibrationIntercept = 0
       SensorStaticCalibrationDate = ${calibrationDate} 
@@ -226,7 +226,7 @@ const writeDrops = (point: BasePoint, dPlate: number) => {
         .filter(
           (data) =>
             data.label.unit === deflection &&
-            data.label.category === currentCategory
+            data.label.category.name === currentCategory.name,
         )
         .map((data) => {
           const value = data.value.getValueAs('um')

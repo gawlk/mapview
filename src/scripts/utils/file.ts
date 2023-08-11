@@ -31,13 +31,13 @@ export const convertJSONToFile = (json: JSONAny, name: string) =>
 
 export const convertUint8ArrayToData64Image = (
   array: Uint8Array,
-  extension: string
+  extension: string,
 ) =>
   `data:image/${extension === 'png' ? extension : 'jpeg'};base64,` +
   window.btoa(
     Array.from(array)
       .map((value) => String.fromCharCode(value))
-      .join('')
+      .join(''),
   )
 
 export const convertData64ImageToFile = (data64: string) =>
@@ -48,7 +48,7 @@ export const convertData64ImageToFile = (data64: string) =>
 export const convertData64ToFile = async (
   data64: string,
   fileName?: string,
-  options?: FilePropertyBag | undefined
+  options?: FilePropertyBag | undefined,
 ) => {
   const res = await fetch(data64)
 

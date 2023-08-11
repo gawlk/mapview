@@ -5,7 +5,7 @@ import { convertExportedUnitToJSONDataLabel } from '../shared'
 export const convertPRJZToMinidynDrop = (
   jsonDrop: RecordAny,
   index: number,
-  json: JSONAny
+  json: JSONAny,
 ): JSONMinidynDrop => {
   const drop: JSONMinidynDrop = {
     version: 1,
@@ -17,7 +17,7 @@ export const convertPRJZToMinidynDrop = (
 }
 
 export const convertPRJZToMinidynDropDistinct = (
-  jsonDrop: RecordAny
+  jsonDrop: RecordAny,
 ): JSONMinidynDropDistinct => {
   return {
     version: 1,
@@ -25,14 +25,14 @@ export const convertPRJZToMinidynDropDistinct = (
 }
 
 export const convertPRJZToMinidynDropChoices = (
-  json: JSONAny
+  json: JSONAny,
 ): JSONDataLabel<MinidynUnitsNames>[] =>
   json.ExportedData.Drops.map((exportedUnit: RecordAny) =>
-    convertExportedUnitToJSONDataLabel(exportedUnit)
+    convertExportedUnitToJSONDataLabel(exportedUnit),
   )
 
 export const convertPRJZToMinidynDropIndexes = (
-  json: JSONAny
+  json: JSONAny,
 ): JSONMinidynDropIndex[] =>
   Array(json.ParamsPoint.NbTotal)
     .fill(0)

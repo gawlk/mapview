@@ -13,7 +13,7 @@ export const moveDialog = (
   defaultLeft: number,
   defaultTop: number,
   mousePosition: MousePositionInside,
-  callback: (position: DialogPosition) => void
+  callback: (position: DialogPosition) => void,
 ) => {
   if (!dialog) return
 

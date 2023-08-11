@@ -5,4 +5,3 @@ interface DialogSelectPropsOnly extends SaveableProps {
 
   values: DialogValuesProps
 }
-

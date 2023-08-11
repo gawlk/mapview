@@ -6,7 +6,7 @@ import {
 
 export const createMinidynThresholdsGroupsFromJSON = (
   json: JSONMinidynThresholdsConfigurationsVAny,
-  units: MinidynMathUnits
+  units: MinidynMathUnits,
 ) => {
   json = upgradeJSON(json)
 
@@ -20,7 +20,7 @@ export const createMinidynThresholdsGroupsFromJSON = (
         ] as ThresoldsList,
         {
           selectedIndex: json.modulus.selectedIndex,
-        }
+        },
       ),
     },
     stiffness: {
@@ -29,7 +29,7 @@ export const createMinidynThresholdsGroupsFromJSON = (
         [createCustomThreshold(json.stiffness.custom)] as ThresoldsList,
         {
           selectedIndex: json.stiffness.selectedIndex,
-        }
+        },
       ),
     },
     deflection: {
@@ -38,7 +38,7 @@ export const createMinidynThresholdsGroupsFromJSON = (
         [createCustomThreshold(json.deflection.custom)] as ThresoldsList,
         {
           selectedIndex: json.deflection.selectedIndex,
-        }
+        },
       ),
     },
     distance: {
@@ -47,7 +47,7 @@ export const createMinidynThresholdsGroupsFromJSON = (
         [createCustomThreshold(json.distance.custom)] as ThresoldsList,
         {
           selectedIndex: json.distance.selectedIndex,
-        }
+        },
       ),
     },
     force: {
@@ -56,7 +56,7 @@ export const createMinidynThresholdsGroupsFromJSON = (
         [createCustomThreshold(json.force.custom)] as ThresoldsList,
         {
           selectedIndex: json.force.selectedIndex,
-        }
+        },
       ),
     },
     time: {
@@ -65,7 +65,7 @@ export const createMinidynThresholdsGroupsFromJSON = (
         [createCustomThreshold(json.time.custom)] as ThresoldsList,
         {
           selectedIndex: json.time.selectedIndex,
-        }
+        },
       ),
     },
     percentage: {
@@ -74,7 +74,7 @@ export const createMinidynThresholdsGroupsFromJSON = (
         [createCustomThreshold(json.percentage.custom)] as ThresoldsList,
         {
           selectedIndex: json.percentage.selectedIndex,
-        }
+        },
       ),
     },
   }
@@ -83,7 +83,7 @@ export const createMinidynThresholdsGroupsFromJSON = (
 }
 
 const upgradeJSON = (
-  json: JSONMinidynThresholdsConfigurationsVAny
+  json: JSONMinidynThresholdsConfigurationsVAny,
 ): JSONMinidynThresholdsConfigurations => {
   switch (json.version) {
     case undefined:

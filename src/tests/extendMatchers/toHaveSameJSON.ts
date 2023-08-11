@@ -11,14 +11,14 @@ import { checkDataConformity } from '../utils/data'
 
 export const toHaveSameJSON = (
   actual: Fflate.Unzipped,
-  expected: Fflate.Unzipped
+  expected: Fflate.Unzipped,
 ) => {
   const actualJson = unzippedToObject(actual)
   const expectedJson = unzippedToObject(expected)
 
   const { message, key, actualData, expectedData, diff } = browseCheckData(
     actualJson,
-    expectedJson
+    expectedJson,
   )
 
   let matcherMessage: string
@@ -26,48 +26,48 @@ export const toHaveSameJSON = (
   switch (message) {
     case 'dataType differ':
       matcherMessage = `for ${String(key)}, data type differ (${String(
-        actualData
+        actualData,
       )}: ${typeof actualData}, ${String(
-        expectedData
+        expectedData,
       )}: ${typeof expectedData})`
       break
     case 'invalid Date':
       matcherMessage = `Date differ for "${String(key)}" (${String(
-        actualData
+        actualData,
       )}, ${String(expectedData)})`
       break
     case 'invalid Number':
       matcherMessage = `number differ for "${String(key)}" (${String(
-        actualData
+        actualData,
       )}, ${String(expectedData)})`
       break
     case 'invalid date format':
       matcherMessage = `Date format of "${String(key)}" is invalid ${String(
-        actualData
+        actualData,
       )}`
       break
     case 'invalid data':
       matcherMessage = `for "${String(key)}" value differ (${String(
-        actualData
+        actualData,
       )}, ${String(expectedData)})`
       break
     case "json key's differ":
       matcherMessage = `number of key's differ${
         key ? ` (${key})` : ''
       }, diff of: ${String(diff?.number)} from ${String(
-        diff?.bigger
+        diff?.bigger,
       )} lignes (${String(diff?.keys.join(', '))})`
       break
     case 'no data':
       matcherMessage = "JSON doesn't have data"
       break
     case 'valid data':
-      matcherMessage = 'Every thing is ok'
+      matcherMessage = 'Everything is valid'
       break
     case 'array data invalid':
-      matcherMessage = `array isn't similar for "${String(key)}": ([${String(
-        actualData
-      )}];\n [${String(expectedData)}])`
+      matcherMessage = `Problem found with "${String(key)}":
+Current: [${String(actualData)}]
+Expected: [${String(expectedData)}]`
       break
     default:
       matcherMessage = 'something unexpected occurred'
@@ -98,7 +98,7 @@ interface BrowseCheckDataResult {
 
 const browseCheckData = (
   actualData: any,
-  expectedData: any
+  expectedData: any,
 ): BrowseCheckDataResult => {
   const actualKeys = Object.keys(actualData)
   const expectedKeys = Object.keys(expectedData)
@@ -143,7 +143,7 @@ const browseCheckData = (
     } else {
       resultMessage = checkDataConformity(
         currentActualData,
-        currentExpectedData
+        currentExpectedData,
       )
 
       isIdentical = isIdentical && resultMessage === 'valid data'

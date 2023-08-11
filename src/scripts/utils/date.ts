@@ -20,7 +20,7 @@ export const getMonthFromIndex = (index: number) =>
 
 export const getWeekDays = () =>
   [...Array(7).keys()].map((index) =>
-    getWeekDayFromDate(new Date(0, 0, index + 1))
+    getWeekDayFromDate(new Date(0, 0, index + 1)),
   )
 
 export const getMonths = () =>

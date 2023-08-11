@@ -11,7 +11,7 @@ import {
 
 export const createBaseProjectFromJSON = <
   Report extends MachineReport,
-  MathUnits extends MachineMathUnits
+  MathUnits extends MachineMathUnits,
 >(
   json: JSONBaseProjectVAny,
   map: mapboxgl.Map | null,
@@ -20,7 +20,7 @@ export const createBaseProjectFromJSON = <
     information: JSONField[]
     hardware: JSONField[]
     units: MathUnits
-  }
+  },
 ) => {
   json = upgradeJSON(json)
 
@@ -48,11 +48,11 @@ export const createBaseProjectFromJSON = <
     settings,
     information: createMutable(
       parameters.information.map((field: JSONField) =>
-        createFieldFromJSON(field)
-      )
+        createFieldFromJSON(field),
+      ),
     ),
     hardware: createMutable(
-      parameters.hardware.map((field: JSONField) => createFieldFromJSON(field))
+      parameters.hardware.map((field: JSONField) => createFieldFromJSON(field)),
     ),
     acquisitionParameters: json.acquisitionParameters,
     refreshLinesAndOverlays() {
@@ -115,8 +115,8 @@ export const createBaseProjectFromJSON = <
                 })
               })
             })
-          }
-        )
+          },
+        ),
       )
 
       watcherHandler.add(
@@ -130,8 +130,8 @@ export const createBaseProjectFromJSON = <
                 report.line?.remove()
               }
             })
-          }
-        )
+          },
+        ),
       )
 
       watcherHandler.add(
@@ -145,8 +145,8 @@ export const createBaseProjectFromJSON = <
                 })
               })
             })
-          }
-        )
+          },
+        ),
       )
 
       watcherHandler.add(
@@ -157,7 +157,7 @@ export const createBaseProjectFromJSON = <
               map?.setPaintProperty(
                 overlay.id,
                 'raster-opacity',
-                areOverlaysVisible ? overlay.opacity : 0
+                areOverlaysVisible ? overlay.opacity : 0,
               )
 
               if (areOverlaysVisible) {
@@ -170,8 +170,8 @@ export const createBaseProjectFromJSON = <
                 overlay.markerSE?.remove()
               }
             })
-          }
-        )
+          },
+        ),
       )
 
       watcherHandler.add(
@@ -185,8 +185,8 @@ export const createBaseProjectFromJSON = <
                 })
               })
             })
-          }
-        )
+          },
+        ),
       )
 
       watcherHandler.add(
@@ -194,8 +194,8 @@ export const createBaseProjectFromJSON = <
           () => this.settings.map.styleIndex,
           (styleIndex) => {
             this.setMapStyle(styleIndex)
-          }
-        )
+          },
+        ),
       )
 
       watcherHandler.add(
@@ -209,8 +209,8 @@ export const createBaseProjectFromJSON = <
                 overlay.addToMap(this.settings.areOverlaysVisible)
               }
             })
-          }
-        )
+          },
+        ),
       )
 
       Object.values(this.units).forEach((mathUnit) =>
@@ -235,7 +235,7 @@ export const createBaseProjectFromJSON = <
                       drop.data.forEach((dataValue) => {
                         dataValue.label.unit === mathUnit &&
                           dataValue.value.updateDisplayedStrings()
-                      })
+                      }),
                     )
 
                     if (selectedReportUnit === mathUnit) {
@@ -245,9 +245,9 @@ export const createBaseProjectFromJSON = <
                   })
                 })
               })
-            })
-          )
-        )
+            }),
+          ),
+        ),
       )
     },
     remove() {

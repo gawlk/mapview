@@ -23,7 +23,7 @@ interface JSONBaseDropIndex {
 
 interface BaseDrop<
   DropIndex extends BaseDropIndex = MachineDropIndex,
-  Point extends BasePoint = MachinePoint
+  Point extends BasePoint = MachinePoint,
 > extends BaseObject<JSONBaseDrop> {
   readonly index: DropIndex
   readonly data: DataValue<string>[]

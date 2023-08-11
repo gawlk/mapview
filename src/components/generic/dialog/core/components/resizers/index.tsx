@@ -26,7 +26,7 @@ export const DialogResizers = (props: Props) => {
     () => setState('resizeDirection', null),
     {
       passive: true,
-    }
+    },
   )
 
   createEffect(
@@ -41,13 +41,13 @@ export const DialogResizers = (props: Props) => {
             mousePosition,
             resizeDirection,
             props.setDimensions,
-            props.setPosition
+            props.setPosition,
           )
         } else {
           deactivateSelectNone()
         }
-      }
-    )
+      },
+    ),
   )
 
   const runExpand = (resizeDirection: DialogResizeDirection) =>
@@ -55,7 +55,7 @@ export const DialogResizers = (props: Props) => {
       props.dialog,
       resizeDirection,
       props.setDimensions,
-      props.setPosition
+      props.setPosition,
     )
 
   const Resizer = (props: {

@@ -36,11 +36,11 @@ export const createDataLabel = <T extends string, Unit extends string>(args: {
 
 export const createDataLabelFromJSON = <
   T extends string,
-  MathUnits extends MachineMathUnits
+  MathUnits extends MachineMathUnits,
 >(
   json: JSONDataLabelVAny<T>,
   units: MathUnits,
-  category: DataCategory
+  category: DataCategory,
 ): DataLabel<T> => {
   json = upgradeJSON(json)
 
@@ -53,7 +53,7 @@ export const createDataLabelFromJSON = <
 }
 
 const upgradeJSON = <T extends string>(
-  json: JSONDataLabelVAny<T>
+  json: JSONDataLabelVAny<T>,
 ): JSONDataLabel<T> => {
   switch (json.version) {
     case 1:

@@ -29,7 +29,7 @@ export const ButtonFitOverlay = (props: Props) => {
               nw.lat > se.lat ? nw.lat : se.lat,
             ], // northeastern corner of the bounds
           ],
-          { padding: 100 }
+          { padding: 100 },
         )
       }}
     >

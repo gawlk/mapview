@@ -28,7 +28,7 @@ export const createHeavydynReportFromJSON = (
   map: mapboxgl.Map | null,
   parameters: {
     project: HeavydynProject
-  }
+  },
 ) => {
   json = upgradeJSON(json)
 
@@ -38,12 +38,12 @@ export const createHeavydynReportFromJSON = (
     zones: [] as HeavydynZone[],
     thresholdsGroups: createHeavydynThresholdsGroupsFromJSON(
       json.distinct.thresholds,
-      parameters.project.units
+      parameters.project.units,
     ),
     dataLabels: createHeavydynDataLabelsFromJSON(
       json.distinct.dataLabels,
       json.base.dataLabels.table,
-      parameters.project
+      parameters.project,
     ),
     platform: json.base.platform,
     information: json.base.information,
@@ -80,8 +80,8 @@ export const createHeavydynReportFromJSON = (
               () => dropIndex.value.unit,
               () => {
                 dropIndex.value.updateDisplayedStrings()
-              }
-            )
+              },
+            ),
           )
         }
       })
@@ -103,18 +103,18 @@ export const createHeavydynReportFromJSON = (
           thresholds: {
             version: 2,
             deflection: convertThresholdsConfigurationToJSON(
-              thresholdGroup.deflection
+              thresholdGroup.deflection,
             ),
             distance: convertThresholdsConfigurationToJSON(
-              thresholdGroup.distance
+              thresholdGroup.distance,
             ),
             force: convertThresholdsConfigurationToJSON(thresholdGroup.force),
             temperature: convertThresholdsConfigurationToJSON(
-              thresholdGroup.temperature
+              thresholdGroup.temperature,
             ),
             time: convertThresholdsConfigurationToJSON(thresholdGroup.time),
             modulus: convertThresholdsConfigurationToJSON(
-              thresholdGroup.modulus
+              thresholdGroup.modulus,
             ),
             cumSum: convertThresholdsConfigurationToJSON(thresholdGroup.cumSum),
             radius: convertThresholdsConfigurationToJSON(thresholdGroup.radius),
@@ -128,8 +128,8 @@ export const createHeavydynReportFromJSON = (
     ...json.base.zones.map((jsonZone) =>
       createHeavydynZoneFromJSON(jsonZone, map, {
         report,
-      })
-    )
+      }),
+    ),
   )
 
   // Warning: Order matters

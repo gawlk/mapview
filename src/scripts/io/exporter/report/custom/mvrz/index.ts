@@ -17,17 +17,17 @@ export const mvrzExporter = {
       const unzippedTemplate = await unzipFile(template)
 
       const xml = convertUint8arrayToXML(
-        unzippedTemplate['xl/worksheets/sheet1.xml']
+        unzippedTemplate['xl/worksheets/sheet1.xml'],
       )
 
       const rows = Array.from(
-        xml.getElementsByTagName('sheetData')[0].getElementsByTagName('row')
+        xml.getElementsByTagName('sheetData')[0].getElementsByTagName('row'),
       )
 
       const currentRow = rows.find((row) => row.getAttribute('r') === '3')
 
       const cell = Array.from(currentRow?.getElementsByTagName('c') || []).find(
-        (_cell) => _cell.getAttribute('r') === 'B3'
+        (_cell) => _cell.getAttribute('r') === 'B3',
       )
 
       needsRawData = cell?.firstChild?.firstChild?.nodeValue !== '0' // not sending raw data only if the value we get is false
@@ -50,14 +50,14 @@ export const mvrzExporter = {
       `${project.name.toString()}_${
         project.reports.selected?.name.toString() || ''
       }.mvrz`,
-      { type: 'blob' }
+      { type: 'blob' },
     )
   },
 }
 
 const generateInformationFromFields = (
   fields: Field[],
-  tag: string
+  tag: string,
 ): ExcelJSON =>
   fields.reduce<ExcelJSON>((a, v) => {
     const label = tag + toPascalCase(v.label)
@@ -79,7 +79,7 @@ const toPascalCase = (str: string): string =>
 
 const generatePointData = (
   points: BasePoint[],
-  labelPrefix: string
+  labelPrefix: string,
 ): ExcelDataListJSON =>
   points.reduce<ExcelDataListJSON>(
     (a, point) =>
@@ -93,7 +93,7 @@ const generatePointData = (
           [label]: values,
         }
       }, a),
-    {}
+    {},
   )
 
 const generatePointInformation = (points: BasePoint[], labelPrefix: string) =>
@@ -130,12 +130,12 @@ const generatePointInformation = (points: BasePoint[], labelPrefix: string) =>
         (point.toBaseJSON().coordinates as LngLat).lat || 0,
       ],
     }),
-    {}
+    {},
   )
 
 const generateDropData = (
   points: BasePoint[],
-  labelPrefix: string
+  labelPrefix: string,
 ): ExcelDataListJSON =>
   points.reduce<ExcelDataListJSON>((a, point) => {
     const drops: MachineDrop[] = point.drops
@@ -144,7 +144,7 @@ const generateDropData = (
       (b, drop) => ({
         ...b,
         [`${labelPrefix}${drop.index.displayedIndex}_Number`]: new Array(
-          points.length
+          points.length,
         ).fill(drop.index.displayedIndex),
         ...drop.data.reduce<ExcelDataListJSON>((c, data) => {
           const label = `${labelPrefix}${
@@ -161,7 +161,7 @@ const generateDropData = (
           }
         }, b),
       }),
-      a
+      a,
     )
   }, {})
 
@@ -179,7 +179,7 @@ const generateZoneData = (zones: MachineZone[]): ExcelJSON =>
             ...prev,
             [`${Z}_${toPascalCase(data.label.name)}`]: data.toExcel(),
           }),
-          {}
+          {},
         ),
         ...generatePointAndDropData(zone.getExportablePoints(), `${Z}_`),
       }
@@ -194,15 +194,15 @@ const generateUnits = (units: MachineMathUnits): ExcelJSON =>
       [`Unit_${unit.name}_Max`]: convertValueFromUnitAToUnitB(
         unit.max,
         unit.baseUnit,
-        unit.currentUnit
+        unit.currentUnit,
       ),
       [`Unit_${unit.name}_Min`]: convertValueFromUnitAToUnitB(
         unit.min,
         unit.baseUnit,
-        unit.currentUnit
+        unit.currentUnit,
       ),
     }),
-    {}
+    {},
   )
 
 const generateThresholds = (thresholds: MachineThresholds): ExcelJSON =>
@@ -215,14 +215,14 @@ const generateThresholds = (thresholds: MachineThresholds): ExcelJSON =>
           [`Thresholds_${group.unit.name}_Name`]: group.choices.selected.name,
           [`Thresholds_${group.unit.name}_Value`]: createMathNumber(
             group.choices.selected.value,
-            group.unit
+            group.unit,
           ).getValueAs(group.unit.currentUnit),
           ...(group.choices.selected.kind === 'custom' &&
           group.choices.selected.type !== 'Bicolor'
             ? {
                 [`Thresholds_${group.unit.name}_ValueHigh`]: createMathNumber(
                   group.choices.selected.valueHigh,
-                  group.unit
+                  group.unit,
                 ).getValueAs(group.unit.currentUnit),
               }
             : {}),
@@ -230,7 +230,7 @@ const generateThresholds = (thresholds: MachineThresholds): ExcelJSON =>
       }
       return a
     },
-    {}
+    {},
   )
 
 const generateAcquisitionParameters = (project: MachineProject) => ({
@@ -256,7 +256,7 @@ const generateSequence = (report: MachineReport): ExcelJSON => {
 
     dropDataLabels.indexes.list.forEach((dropIndex, index) => {
       dropSequence[`DropSequence_Drop${index + 1}_Type`] = translate(
-        dropIndex.type
+        dropIndex.type,
       )
 
       dropSequence[`DropSequence_Drop${index + 1}_Value`] = dropIndex.value.unit
@@ -275,16 +275,16 @@ const generateSequence = (report: MachineReport): ExcelJSON => {
   return {
     DropSequence_Total: indexesList.length,
     DropSequence_Training: indexesList.filter(
-      (index) => index.type === 'Training'
+      (index) => index.type === 'Training',
     ).length,
     DropSequence_Averaging: indexesList.filter(
-      (index) => index.type === 'Averaging'
+      (index) => index.type === 'Averaging',
     ).length,
   }
 }
 
 const generateCalibrations = (
-  calibrations: HeavydynCalibrations
+  calibrations: HeavydynCalibrations,
 ): ExcelJSON => ({
   Calibration_Date: calibrations.date.toISOString(),
   Calibration_Dplate: calibrations.dPlate,
@@ -299,7 +299,7 @@ const generateCalibrations = (
       [`Calibration_Channel${index + 1}_Type`]: channel.type,
       [`Calibration_Channel${index + 1}_V0`]: channel.v0,
     }),
-    {}
+    {},
   ),
   ...calibrations.sensors.reduce<ExcelJSON>(
     (a, sensor, index) => ({
@@ -310,12 +310,12 @@ const generateCalibrations = (
       [`Calibration_Sensor${index + 1}_Type`]: sensor.type,
       [`Calibration_Sensor${index + 1}_V0`]: sensor.v0,
     }),
-    {}
+    {},
   ),
 })
 
 const generateBearingParameters = (
-  parameters: JSONBearingParameters
+  parameters: JSONBearingParameters,
 ): ExcelJSON => ({
   ['BearingParameters_Version']: parameters.version,
   ['BearingParameters_Name']: parameters.name,
@@ -401,11 +401,11 @@ const createBaseJson = (project: MachineProject): ExcelJSON => {
     Report_Name: project.reports.selected.name.toString(),
     ...generateInformationFromFields(
       project.reports.selected.information,
-      'Report_'
+      'Report_',
     ),
     ...generateInformationFromFields(
       project.reports.selected.platform,
-      'Platform_'
+      'Platform_',
     ),
     ...generateAcquisitionParameters(project),
     ...generateUnits(project.units),

@@ -128,7 +128,7 @@ export default class ImpactDataFile {
     this.impactDataHeader.fromStream(br)
 
     this.impactDatas = new Array(
-      this.impactDataHeader.nbOfImpact
+      this.impactDataHeader.nbOfImpact,
     ) as ImpactData[]
 
     for (let i = 0; i < this.impactDataHeader.nbOfImpact; i++) {

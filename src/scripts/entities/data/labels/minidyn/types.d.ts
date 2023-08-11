@@ -7,7 +7,7 @@ type JSONMinidynDataLabelsGroup = JSONMinidynDataLabelsGroups[number]
 type JSONMinidynDataLabelsGroups = [
   JSONMinidynDropDataLabelsGroup,
   JSONMinidynTestDataLabelsGroup,
-  JSONMinidynZoneDataLabelsGroup
+  JSONMinidynZoneDataLabelsGroup,
 ]
 
 type JSONMinidynDropDataLabelsGroupVAny = JSONMinidynDropDataLabelsGroup
@@ -60,7 +60,7 @@ type MinidynDataLabelsGroup = MinidynDataLabelsGroups[number]
 type MinidynDataLabelsGroups = [
   MinidynDropDataLabelsGroup,
   MinidynTestDataLabelsGroup,
-  MinidynZoneDataLabelsGroup
+  MinidynZoneDataLabelsGroup,
 ]
 
 interface MinidynDropDataLabelsGroup

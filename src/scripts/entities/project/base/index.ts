@@ -31,7 +31,7 @@ export const createBaseProjectFromJSON = <
     arePointsLocked: true,
   })
 
-  const project = createMutable<BaseProject<Report, MathUnits>>({
+  return createMutable<BaseProject<Report, MathUnits>>({
     kind: 'Project',
     name: createFieldFromJSON({
       version: 1,
@@ -84,6 +84,7 @@ export const createBaseProjectFromJSON = <
 
       flyToPoints(map, points)
     },
+    // eslint-disable-next-line sonarjs/cognitive-complexity
     addToMap() {
       const flyTo = () => {
         if (this.settings.map.coordinates) {
@@ -104,7 +105,7 @@ export const createBaseProjectFromJSON = <
         report.addToMap()
       })
 
-      watcherHandler.add(
+      void watcherHandler.add(
         on(
           () => this.settings.arePointsVisible,
           () => {
@@ -119,7 +120,7 @@ export const createBaseProjectFromJSON = <
         ),
       )
 
-      watcherHandler.add(
+      void watcherHandler.add(
         on(
           () => this.settings.arePointsLinked,
           (arePointsLinked: boolean) => {
@@ -134,7 +135,7 @@ export const createBaseProjectFromJSON = <
         ),
       )
 
-      watcherHandler.add(
+      void watcherHandler.add(
         on(
           () => this.settings.arePointsLocked,
           (arePointsLocked: boolean) => {
@@ -149,7 +150,7 @@ export const createBaseProjectFromJSON = <
         ),
       )
 
-      watcherHandler.add(
+      void watcherHandler.add(
         on(
           () => this.settings.areOverlaysVisible,
           (areOverlaysVisible) => {
@@ -174,14 +175,14 @@ export const createBaseProjectFromJSON = <
         ),
       )
 
-      watcherHandler.add(
+      void watcherHandler.add(
         on(
           () => this.settings.pointsState,
           () => {
             this.reports.list.forEach((report) => {
               report.zones.forEach((zone) => {
                 zone.points.forEach((point) => {
-                  point.updateText()
+                  void point.updateText()
                 })
               })
             })
@@ -189,7 +190,7 @@ export const createBaseProjectFromJSON = <
         ),
       )
 
-      watcherHandler.add(
+      void watcherHandler.add(
         on(
           () => this.settings.map.styleIndex,
           (styleIndex) => {
@@ -198,8 +199,9 @@ export const createBaseProjectFromJSON = <
         ),
       )
 
-      watcherHandler.add(
+      void watcherHandler.add(
         on(
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           // $TRACK is used here to watch pushes without watching the underlying children of the array
           () => this.overlays[$TRACK] as Overlay[],
@@ -213,8 +215,8 @@ export const createBaseProjectFromJSON = <
         ),
       )
 
-      Object.values(this.units).forEach((mathUnit) =>
-        watcherHandler.add(
+      Object.values(this.units).forEach((mathUnit) => {
+        void watcherHandler.add(
           on(
             () => mathUnit,
             debounce(() => {
@@ -239,7 +241,7 @@ export const createBaseProjectFromJSON = <
                     )
 
                     if (selectedReportUnit === mathUnit) {
-                      point.updateText()
+                      void point.updateText()
                       point.updateColor()
                     }
                   })
@@ -247,8 +249,8 @@ export const createBaseProjectFromJSON = <
               })
             }),
           ),
-        ),
-      )
+        )
+      })
     },
     remove() {
       this.reports.list.forEach((report) => {
@@ -272,8 +274,6 @@ export const createBaseProjectFromJSON = <
       }
     },
   })
-
-  return project
 }
 
 const upgradeJSON = (json: JSONBaseProjectVAny): JSONBaseProject => {

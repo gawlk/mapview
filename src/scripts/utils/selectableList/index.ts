@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/cognitive-complexity */
 export const createSelectableList = <T, L extends T[] = T[]>(
   list: L,
   parameters?: {
@@ -9,6 +10,7 @@ export const createSelectableList = <T, L extends T[] = T[]>(
     selected: null,
     select(s) {
       if (this.selected !== s) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         this.selected = s
 
@@ -17,7 +19,9 @@ export const createSelectableList = <T, L extends T[] = T[]>(
     },
     selectedIndex: null,
     selectFind(search, callback) {
-      const element = this.list.find((element) => callback(element) === search)
+      const element = this.list.find(
+        (_element) => callback(_element) === search,
+      )
 
       if (element) {
         this.select(element)
@@ -31,6 +35,7 @@ export const createSelectableList = <T, L extends T[] = T[]>(
       }
 
       if (i !== this.selectedIndex) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         this.selectedIndex = i
 

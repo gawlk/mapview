@@ -75,7 +75,7 @@ export const createHeavydynReportFromJSON = (
 
       report.dataLabels.groups.list[0].indexes.list.forEach((dropIndex) => {
         if (typeof dropIndex.value.unit === 'object') {
-          watcherHandler.add(
+          void watcherHandler.add(
             on(
               () => dropIndex.value.unit,
               () => {

@@ -20,8 +20,8 @@ export const DialogReports = () => {
 
   const convertReportToName = (report: MachineReport | null) =>
     env.isDev && report && hasRawData(report)
-      ? `${report?.name.value} - Raw data`
-      : `${report?.name.value}`
+      ? `${report?.name.toString()} - Raw data`
+      : `${report?.name.toString()}`
 
   return (
     <Dialog
@@ -40,9 +40,9 @@ export const DialogReports = () => {
           rightIcon={state.hideAll ? IconTablerEyeOff : IconTablerEye}
           full
           onClick={() => {
-            store.selectedProject?.reports.list.forEach(
-              (report) => (report.settings.isVisible = !state.hideAll),
-            )
+            store.selectedProject?.reports.list.forEach((report) => {
+              report.settings.isVisible = !state.hideAll
+            })
             setState('hideAll', !state.hideAll)
           }}
         >

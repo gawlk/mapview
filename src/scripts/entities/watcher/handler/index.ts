@@ -2,7 +2,8 @@ export const createWatcherHandler = () => {
   const disposers: (() => void)[] = []
 
   return {
-    add: (effect: Solid.EffectFunction<any>): Promise<() => void> =>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    add: (effect: Solid.EffectFunction): Promise<() => void> =>
       new Promise((resolve) => {
         createRoot((dispose) => {
           createEffect(effect)

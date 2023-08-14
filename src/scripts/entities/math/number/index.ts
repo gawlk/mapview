@@ -1,5 +1,3 @@
-import { numberToLocaleString } from '/src/locales'
-
 import { convertValueFromUnitAToUnitB } from '/src/scripts'
 
 export const createMathNumber = (

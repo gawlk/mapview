@@ -18,7 +18,7 @@ export const createMaxidynDropFromJSON = (
     dropGroup,
   })
 
-  const drop = createMutable<MaxidynDrop>({
+  return createMutable<MaxidynDrop>({
     ...baseDrop,
     machine: 'Maxidyn',
     toJSON() {
@@ -31,8 +31,6 @@ export const createMaxidynDropFromJSON = (
       }
     },
   })
-
-  return drop
 }
 
 const upgradeJSONDrop = (json: JSONMaxidynDropVAny): JSONMaxidynDrop => {
@@ -68,6 +66,7 @@ export const createMaxidynDropIndexFromJSON = (json: JSONMaxidynDropIndex) => {
 
 const upgradeJSONDropIndex = (
   json: JSONMaxidynDropIndexVAny,
+  // eslint-disable-next-line sonarjs/no-identical-functions
 ): JSONMaxidynDropIndex => {
   switch (json.version) {
     case 1:

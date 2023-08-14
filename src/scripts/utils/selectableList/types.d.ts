@@ -1,6 +1,6 @@
 interface SelectableList<T, L extends T[] = T[]> {
   readonly selected: T | null
-  readonly select: <T = L[number], S extends T = T>(s: S | null) => void
+  readonly select: <V = L[number], S extends T = V>(s: S | null) => void
   readonly selectedIndex: number | null
   readonly selectFind: <K>(search: K, callback: (element: T) => K) => void
   readonly selectIndex: (i: number | null) => void

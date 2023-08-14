@@ -24,6 +24,7 @@ export const convertPRJZToMinidynPoint = (
 }
 
 export const convertPRJZToMinidynPointDistinct = (
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   jsonPoint: RecordAny,
 ): JSONMinidynPointDistinct => {
   return {

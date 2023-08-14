@@ -24,6 +24,7 @@ export const convertPRJZToHeavydynPoint = (
 }
 
 export const convertPRJZToHeavydynPointDistinct = (
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   jsonPoint: RecordAny,
 ): JSONHeavydynPointDistinct => {
   return {

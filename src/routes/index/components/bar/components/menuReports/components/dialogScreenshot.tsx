@@ -27,17 +27,17 @@ export const DialogScreenshot = () => {
       .getElementsByClassName('mapboxgl-control-container')[0]
       .classList.add('hidden')
 
-    Array.from(map.getElementsByClassName('mapview-icon')).forEach(
-      (icon) => ((icon as HTMLSpanElement).style.marginBottom = '1rem'),
-    )
+    Array.from(map.getElementsByClassName('mapview-icon')).forEach((icon) => {
+      ;(icon as HTMLSpanElement).style.marginBottom = '1rem'
+    })
 
     const canvas = await html2canvas(map, {
       logging: false,
     })
 
-    Array.from(map.getElementsByClassName('mapview-icon')).forEach(
-      (icon) => ((icon as HTMLSpanElement).style.marginBottom = ''),
-    )
+    Array.from(map.getElementsByClassName('mapview-icon')).forEach((icon) => {
+      ;(icon as HTMLSpanElement).style.marginBottom = ''
+    })
 
     map
       .getElementsByClassName('mapboxgl-control-container')[0]
@@ -61,7 +61,9 @@ export const DialogScreenshot = () => {
               text: t('Take a screenshot'),
               full: true,
             }),
-        onClick: screenshot,
+        onClick: () => {
+          void screenshot
+        },
       }}
       onClose={() => setState('image', null)}
       title={t('Screenshot')}
@@ -75,7 +77,9 @@ export const DialogScreenshot = () => {
                   <div class="inline-block space-x-2">
                     <Button
                       leftIcon={IconTablerCameraDown}
-                      onClick={() => downloadImage(image())}
+                      onClick={() => {
+                        void downloadImage(image())
+                      }}
                     >
                       {t('Download picture')}
                     </Button>

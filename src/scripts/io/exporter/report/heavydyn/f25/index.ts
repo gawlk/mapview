@@ -63,7 +63,7 @@ const writeHeader = (project: HeavydynProject): string => {
     5003, "${operator?.padEnd(8, ' ')}", "${sequenceName?.padEnd(
       8,
       ' ',
-    )}", "${project.name.value.toString().padStart(8, ' ')}", "F25"
+    )}", "${project.name.toString().padStart(8, ' ')}", "F25"
     5010,0,0,0,0,0,0,0,3,1,0,0,0,0,0,1,0,0,0,0,0,1,"MDB"
     5011,0,1,${date},0,"Non",000
     `
@@ -101,7 +101,7 @@ const writeEndHeader = (project: MachineProject): string => {
     'Operator',
   )?.toString()
 
-  const reportName = project.reports.selected?.name.value.toString()
+  const reportName = project.reports.selected?.name.toString()
 
   // TODO: zones length ?
 
@@ -120,7 +120,7 @@ const writeEndHeader = (project: MachineProject): string => {
         .toString()
         .padStart(8, '0')},   28439,   84378
       5030,"${operator?.padEnd(32, ' ')}"
-      5031,"${project.name.value.toString().padEnd(32, ' ')}"
+      5031,"${project.name.toString().padEnd(32, ' ')}"
       5032,"${reportName?.padEnd(32, ' ')}"
       5301,0,1,3,3,   6.000,1,1,        ,2018,07,25,10,22
       5302, 0, 1, 8, 0, 0, 0, 0, 0, "          "

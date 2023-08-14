@@ -17,9 +17,9 @@ interface JSONDataValue {
 interface DataValue<T extends string> {
   readonly label: DataLabel<T>
   readonly value: MathNumber
-  readonly getRawValue(): number
-  readonly toJSON: () => JSONDataValue
-  readonly toExcel: () => number | null
+  getRawValue(): number
+  toJSON: () => JSONDataValue
+  toExcel: () => number | null
 }
 
 type DataValueTuple = [DataValue<string>, DataValueUpdater]
@@ -27,5 +27,5 @@ type DataValueTuple = [DataValue<string>, DataValueUpdater]
 type DataValueUpdater = (
   dataList: DataValue<string>[],
   index?: number,
-  array?: DataValue<string>[][]
+  array?: DataValue<string>[][],
 ) => void

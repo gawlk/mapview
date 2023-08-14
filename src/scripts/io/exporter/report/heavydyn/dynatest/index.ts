@@ -98,7 +98,7 @@ const writeHeader = (project: HeavydynProject) => {
     '   R  D1  D2  D3  D4  D5  D6  D7     R    D1    D2    D3    D4    D5    D6    D7',
   )
 
-  stringArray.push(`C:\\${project.reports.selected.name.value.toString()}`)
+  stringArray.push(`C:\\${project.reports.selected.name.toString()}`)
 
   const points = writePoints(project)
   if (!points) throw new Error("can't access first and last point")

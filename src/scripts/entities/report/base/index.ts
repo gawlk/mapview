@@ -80,7 +80,7 @@ export const createBaseReportFromJSON = <
         zone.init()
       })
 
-      watcherHandler.add(
+      void watcherHandler.add(
         on(
           () => this.settings.isVisible,
           (isVisible) => {
@@ -99,7 +99,7 @@ export const createBaseReportFromJSON = <
         ),
       )
 
-      watcherHandler.add(
+      void watcherHandler.add(
         on(
           () => this.settings.iconName,
           (iconName) => {
@@ -114,7 +114,7 @@ export const createBaseReportFromJSON = <
         ),
       )
 
-      watcherHandler.add(
+      void watcherHandler.add(
         on(
           () => [
             this.dataLabels.groups.selected,
@@ -126,7 +126,7 @@ export const createBaseReportFromJSON = <
           () => {
             this.zones.forEach((zone) => {
               zone.points.forEach((point) => {
-                point.updateText()
+                void point.updateText()
                 point.updateColor()
               })
             })
@@ -136,7 +136,7 @@ export const createBaseReportFromJSON = <
         ),
       )
 
-      watcherHandler.add(
+      void watcherHandler.add(
         on(
           [
             () => this.settings.colorization,
@@ -158,7 +158,7 @@ export const createBaseReportFromJSON = <
 
       Object.values(this.thresholds.groups).forEach(
         (thresholdGroup: ThresholdsGroup<string>) => {
-          watcherHandler.add(
+          void watcherHandler.add(
             on(
               () => [
                 thresholdGroup.choices.selected,

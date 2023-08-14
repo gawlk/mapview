@@ -24,6 +24,7 @@ export const convertPRJZToMaxidynPoint = (
 }
 
 export const convertPRJZToMaxidynPointDistinct = (
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   jsonPoint: RecordAny,
 ): JSONMaxidynPointDistinct => {
   return {

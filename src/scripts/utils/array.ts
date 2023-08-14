@@ -3,7 +3,7 @@ export const moveIndexInCopiedArray = <T>(
   oldIndex: number,
   newIndex: number,
 ) => {
-  let copiedArray = [...originalArray]
+  const copiedArray = [...originalArray]
 
   const [movedElement] = copiedArray.splice(oldIndex, 1)
 

@@ -28,7 +28,7 @@ interface JSONPointSettings {
 
 interface BasePoint<
   Drop extends BaseDrop = MachineDrop,
-  Zone extends BaseZone = BaseZone
+  Zone extends BaseZone = BaseZone,
 > extends BaseObject<JSONBasePoint> {
   readonly id: string
   readonly date: Date
@@ -45,15 +45,15 @@ interface BasePoint<
   readonly getSelectedMathNumber: (
     groupFrom: DataLabelsFrom,
     dataLabel: DataLabel<string>,
-    index?: BaseDropIndex | null
+    index?: BaseDropIndex | null,
   ) => MathNumber | undefined
   readonly getDisplayedString: (
     groupFrom: DataLabelsFrom,
     dataLabel: DataLabel<string>,
-    index?: BaseDropIndex | null
+    index?: BaseDropIndex | null,
   ) => string
   readonly updateColor: () => void
-  readonly async updateText: () => void
+  readonly updateText: () => Promise<void>
   readonly updateVisibility: () => void
   readonly updatePopup: () => void
   readonly addToMap: () => void

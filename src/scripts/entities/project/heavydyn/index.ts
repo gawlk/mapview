@@ -1,8 +1,6 @@
 import {
   createHeavydynMathUnitsFromJSON,
   createHeavydynReportFromJSON,
-  createMathNumber,
-  createSelectableList,
 } from '/src/scripts'
 
 import { createHeavydynProjectCorrectionParametersFromJSON } from './correctionParameters'

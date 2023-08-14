@@ -11,5 +11,5 @@ export const snapshotMPVZ = async () => {
 
   const snapshot = await mpvzExporter.export(project)
 
-  localforage.setItem(snapshotKey, snapshot)
+  void localforage.setItem(snapshotKey, snapshot)
 }

@@ -78,7 +78,7 @@ export const createMathUnit = <PossibleUnits extends string>(
   const invalidReplacement =
     options?.invalidReplacement || defaultInvalidValueReplacement
 
-  const mathUnit = createMutable<MathUnit<PossibleUnits>>({
+  return createMutable<MathUnit<PossibleUnits>>({
     name,
     baseUnit,
     possibleSettings,
@@ -184,8 +184,6 @@ export const createMathUnit = <PossibleUnits extends string>(
       }
     },
   })
-
-  return mathUnit
 }
 
 export const convertValueFromUnitAToUnitB = (

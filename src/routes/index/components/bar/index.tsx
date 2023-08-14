@@ -54,16 +54,15 @@ export const Bar = () => {
 
   return (
     <>
-      <BarDesktop menus={menus} setID={(id) => setID(id)} />
-      <BarMobile menus={menus} setID={(id) => setID(id)} />
+      <BarDesktop menus={menus} setID={(_id) => setID(_id)} />
+      <BarMobile menus={menus} setID={(_id) => setID(_id)} />
       <Show when={store.selectedProject}>
         <For each={menus}>
           {(menu) => {
             const element = createMemo(
               () =>
-                (document.getElementById(
-                  `${id() || 'none'}${menu.id}`,
-                ) as HTMLElement | null) || undefined,
+                document.getElementById(`${id() || 'none'}${menu.id}`) ||
+                undefined,
             )
 
             // const [mounted, setMounted] = createSignal(false)

@@ -26,8 +26,8 @@ export const convertPRJZToMinidynReport = (
   report.base.zones[0].base.points.push(
     // must use that to the any structure
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-    ...jsonPV.Points.map((jsonPoint: RecordAny, index: number) =>
-      convertPRJZToMinidynPoint(jsonPoint, index, json),
+    ...jsonPV.Points.map((jsonPoint: RecordAny, pointIndex: number) =>
+      convertPRJZToMinidynPoint(jsonPoint, pointIndex, json),
     ),
   )
 

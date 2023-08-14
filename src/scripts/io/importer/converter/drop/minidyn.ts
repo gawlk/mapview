@@ -17,6 +17,7 @@ export const convertPRJZToMinidynDrop = (
 }
 
 export const convertPRJZToMinidynDropDistinct = (
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   jsonDrop: RecordAny,
 ): JSONMinidynDropDistinct => {
   return {

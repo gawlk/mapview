@@ -1,4 +1,4 @@
-export const addRawDataToZip = async (
+export const addRawDataToZip = (
   zip: Fflate.Zippable,
   entity: MachineProject | MachineReport,
 ) => {

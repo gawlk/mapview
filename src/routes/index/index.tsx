@@ -17,8 +17,8 @@ import { env } from '/src/env'
 const packageJSON = JSON.parse(packageJSONRaw)
 
 export const Index = () => {
-  onMount(async () => {
-    checkUpdate()
+  onMount(() => {
+    void checkUpdate()
 
     createTimer(snapshotMPVZ, 2000, setInterval)
 

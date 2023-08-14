@@ -3,9 +3,28 @@ export const dateToString = (date: Date) => date.toJSON().split('T')[0]
 export const getOrdinalDayFromDayNumber = (day: number) => {
   const rest = (day % 30) % 20
 
-  return `${day}${
-    rest === 1 ? 'st' : rest === 2 ? 'nd' : rest === 3 ? 'rd' : 'th'
-  }`
+  let suffix
+
+  switch (rest) {
+    case 1: {
+      suffix = 'st'
+      break
+    }
+    case 2: {
+      suffix = 'nd'
+      break
+    }
+    case 3: {
+      suffix = 'rd'
+      break
+    }
+    default: {
+      suffix = 'th'
+      break
+    }
+  }
+
+  return `${day}${suffix}`
 }
 
 export const getWeekDayFromDate = (date: Date) =>

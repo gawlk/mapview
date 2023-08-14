@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/await-thenable */
 import { expect, test } from '@playwright/test'
 
 test('demo launch', async ({ page, baseURL }) => {
   if (!baseURL) return
+
   await page.goto(baseURL)
 
   const demoButton = await page.getByRole('button', { name: 'Try demo' })

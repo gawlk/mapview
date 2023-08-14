@@ -103,7 +103,7 @@ export const createMinidynReportFromJSON = (
 
   selectTableDataLabelsFromJSON(report, json.base)
 
-  return report as MinidynReport
+  return report
 }
 
 const upgradeJSON = (json: JSONMinidynReportVAny): JSONMinidynReport => {

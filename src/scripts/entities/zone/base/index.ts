@@ -1,7 +1,6 @@
 import mapboxgl, { LngLatBounds } from 'mapbox-gl'
 
 import {
-  colors,
   createWatcherHandler,
   getRandomColorName,
   sortPoints,
@@ -47,7 +46,7 @@ export const createBaseZoneFromJSON = <
     init() {
       this.points.forEach((point) => point.addToMap())
 
-      watcherHandler.add(
+      void watcherHandler.add(
         on(
           () => this.settings.color,
           () => {
@@ -58,7 +57,7 @@ export const createBaseZoneFromJSON = <
         ),
       )
 
-      watcherHandler.add(
+      void watcherHandler.add(
         on(
           () => this.settings.isVisible,
           () => {
@@ -70,7 +69,7 @@ export const createBaseZoneFromJSON = <
         ),
       )
 
-      watcherHandler.add(
+      void watcherHandler.add(
         on(
           () => this.points.map((p) => p.index),
           () => {

@@ -151,7 +151,7 @@ export const selectTableDataLabelsFromJSON = (
     const { group } = parameters
 
     const tableDataLabels = json.dataLabels.table.list.find(
-      (tableDataLabels) => tableDataLabels.from === group.from,
+      (_tableDataLabels) => _tableDataLabels.from === group.from,
     )
 
     parameters.dataLabels.push(

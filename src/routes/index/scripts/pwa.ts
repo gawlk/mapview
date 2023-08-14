@@ -25,10 +25,10 @@ export const checkUpdate = async () => {
 
     if (registrations.length > 0) {
       registrations.forEach((registration) => {
-        registration.unregister()
+        void registration.unregister()
       })
 
-      location.reload()
+      window.location.reload()
     }
   }
 }

@@ -9,10 +9,10 @@ export const createDataComputer = (parameters: {
   if (label) {
     const watcherHandler = createWatcherHandler()
 
-    const computer = createMutable<DataComputer>({
+    return createMutable<DataComputer>({
       label,
-      async init() {
-        watcherHandler.add(() => {
+      init() {
+        void watcherHandler.add(() => {
           this.label && compute(this.label)
         })
       },
@@ -20,9 +20,7 @@ export const createDataComputer = (parameters: {
         watcherHandler.clean()
       },
     })
-
-    return computer
-  } else {
-    return null
   }
+
+  return null
 }

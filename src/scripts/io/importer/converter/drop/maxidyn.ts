@@ -17,6 +17,7 @@ export const convertPRJZToMaxidynDrop = (
 }
 
 export const convertPRJZToMaxidynDropDistinct = (
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   jsonDrop: RecordAny,
 ): JSONMaxidynDropDistinct => {
   return {

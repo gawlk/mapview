@@ -18,7 +18,7 @@ export const createMinidynDropFromJSON = (
     dropGroup,
   })
 
-  const drop = createMutable<MinidynDrop>({
+  return createMutable<MinidynDrop>({
     ...baseDrop,
     machine: 'Minidyn',
     toJSON() {
@@ -31,8 +31,6 @@ export const createMinidynDropFromJSON = (
       }
     },
   })
-
-  return drop
 }
 
 const upgradeJSONDrop = (json: JSONMinidynDropVAny): JSONMinidynDrop => {
@@ -70,6 +68,7 @@ export const createMinidynDropIndexFromJSON = (
 
 const upgradeJSONDropIndex = (
   json: JSONMinidynDropIndexVAny,
+  // eslint-disable-next-line sonarjs/no-identical-functions
 ): JSONMinidynDropIndex => {
   switch (json.version) {
     case 1:

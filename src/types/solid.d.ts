@@ -1,6 +1,7 @@
 declare namespace Solid {
   export type Accessor<T> = import('solid-js').Accessor<T>
 
+  // eslint-disable-next-line @typescript-eslint/ban-types
   export type Component<T = {}> = import('solid-js').Component<T>
 
   export type ValidComponent = import('solid-js').ValidComponent
@@ -8,7 +9,8 @@ declare namespace Solid {
   export type ParentProps = import('solid-js').ParentProps
 
   export type EffectFunction<
-    Prev,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    Prev = any,
     Next extends Prev = Prev,
   > = import('solid-js').EffectFunction<Prev, Next>
 
@@ -24,6 +26,7 @@ declare namespace Solid {
 
     export type CSSProperties = import('solid-js').JSX.CSSProperties
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     export type HTMLAttributes<T = any> =
       import('solid-js').JSX.HTMLAttributes<T>
     export type ButtonHTMLAttributes =

@@ -2,4 +2,4 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 pnpm check
-pnpm eslint ./src
+pnpm lint

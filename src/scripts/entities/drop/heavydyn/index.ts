@@ -20,7 +20,7 @@ export const createHeavydynDropFromJSON = (
     dropGroup,
   })
 
-  const drop = createMutable<HeavydynDrop>({
+  return createMutable<HeavydynDrop>({
     ...baseDrop,
     machine: 'Heavydyn',
     toJSON() {
@@ -33,8 +33,6 @@ export const createHeavydynDropFromJSON = (
       }
     },
   })
-
-  return drop
 }
 
 const upgradeJSONDrop = (json: JSONHeavydynDropVAny): JSONHeavydynDrop => {

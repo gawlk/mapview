@@ -36,7 +36,7 @@ export const createLine = (map: mapboxgl.Map | null): Line => {
         'lines',
       )
 
-      watcherHandler.add(
+      void watcherHandler.add(
         on(
           () => this.sortedPoints.length,
           () => {

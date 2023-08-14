@@ -63,7 +63,8 @@ const writeHeader = (project: HeavydynProject): string => {
     (c) ROAD SYSTEM 2016, Metric
     ${writeSeparator()}
     $1
-    ${padDotString('Filename:', 23) + project.name.value.toString()}
+    
+    ${padDotString('Filename:', 23) + project.name.toString()}
     ${padDotString('Client Code:', 23)}
     ${padDotString('Road number:', 23) + (lane?.toString() || '')}
     ${padDotString('Name of Client:', 23) + String(client?.toString())}

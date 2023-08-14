@@ -6,7 +6,7 @@
   "extends": [
     "airbnb-base/legacy",
     "eslint:recommended",
-    "plugin:vue/vue3-essential",
+    "plugin:solid/recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "plugin:sonarjs/recommended",
@@ -20,7 +20,7 @@
     "project": true,
     "tsconfigRootDir": "src/"
   },
-  "plugins": ["vue", "@typescript-eslint", "sonarjs"],
+  "plugins": ["@typescript-eslint", "sonarjs", "solid"],
   "ignorePatterns": [
     "/src/shims-vue.d.ts",
     "vite.config.js",
@@ -28,11 +28,27 @@
     "tailwind.config.js"
   ],
   "rules": {
+    // ---
+    // Solid
+    // ---
+    // Fails with createEffect(on(...)), remove after fix
+    "solid/reactivity": "off",
+    // Sadly doesn't support auto imports
+    "solid/jsx-no-undef": "off",
+
+    // ---
+    // TS
+    // ---
+    "@typescript-eslint/no-floating-promises": [
+      "error",
+      { "ignoreVoid": true }
+    ],
     "no-duplicate-imports": "error",
     "no-useless-rename": "error",
     "object-shorthand": "error",
     "no-param-reassign": "off",
     "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
+    "no-void": ["error", { "allowAsStatement": true }],
     "default-case": "off",
     "no-control-regex": "off",
     "@typescript-eslint/no-explicit-any": "error",
@@ -64,7 +80,8 @@
       "error",
       {
         "selector": ["variable"],
-        "format": ["camelCase", "UPPER_CASE"]
+        // PascalCase only for TSX Components
+        "format": ["camelCase", "UPPER_CASE", "PascalCase"]
       },
       {
         "selector": ["parameter"],

@@ -96,7 +96,7 @@ export const createOverlay = async (
         markerSE.on('drag', onMarkerDrag)
       }
 
-      watcherHandler.add(
+      void watcherHandler.add(
         on(
           () => overlay.opacity,
           (opacity: number) => {

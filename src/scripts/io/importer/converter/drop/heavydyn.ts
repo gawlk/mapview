@@ -20,6 +20,7 @@ export const convertPRJZToHeavydynDrop = (
 }
 
 export const convertPRJZToHeavydynDropDistinct = (
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   jsonDrop: RecordAny,
 ): JSONHeavydynDropDistinct => {
   return {

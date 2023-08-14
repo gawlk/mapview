@@ -183,8 +183,9 @@ export const createBasePointFromJSON = <
     updatePopup() {
       let html = ``
 
-      const appendToPopup = (label: string, value: string) =>
-        (html += `<p><strong>${label}:</strong> ${value}</p>`)
+      const appendToPopup = (label: string, value: string) => {
+        html += `<p><strong>${label}:</strong> ${value}</p>`
+      }
 
       appendToPopup(translate('Date'), this.date.toLocaleString())
       appendToPopup(
@@ -211,11 +212,11 @@ export const createBasePointFromJSON = <
     },
     addToMap() {
       this.updateVisibility()
-      this.updateText()
+      void this.updateText()
       this.updateColor()
       this.updatePopup()
 
-      watcherHandler.add(
+      void watcherHandler.add(
         on(
           () => this.settings.isVisible,
           () => {

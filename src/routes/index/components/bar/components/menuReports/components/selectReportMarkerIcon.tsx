@@ -28,9 +28,9 @@ export const SelectReportMarkerIcon = (props: Props) => {
           }
         }),
       }}
-      onClose={(iconName) =>
+      onClose={(iconName) => {
         iconName && (props.report.settings.iconName = iconName as IconName)
-      }
+      }}
     />
   )
 }

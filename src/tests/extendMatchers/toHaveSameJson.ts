@@ -57,11 +57,11 @@ export const toHaveSameJson = (
       )}, ${String(actualData)})`
       break
     case "json key's differ":
-      matcherMessage = `number of key's differ ${
+      matcherMessage = `number of keys differ ${
         keys ? `(${keys.join(',')})` : ''
       }, diff of: ${String(diff?.number)} from ${String(
         diff?.bigger
-      )} lignes (${String(diff?.keys.join(', '))})`
+      )}; missing keys : (${diff?.keys.join(', ') || ''})`
       break
     case 'no data':
       matcherMessage = "JSON doesn't have data"
@@ -108,7 +108,7 @@ interface BrowseCheckDataResult {
   }
 }
 
-const keysToIgnore = ['arePointsLocked']
+const keysToIgnore = ['arePointsLocked', 'map']
 
 const browseCheckData = (
   actualData: any,

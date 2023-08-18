@@ -1,10 +1,8 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import { store } from '/src/store'
-
-import { groupDataLabelsByCategory } from '/src/scripts'
-
 import { DialogSelect, SpanDataLabel } from '/src/components'
+import { groupDataLabelsByCategory } from '/src/scripts'
+import { store } from '/src/store'
 
 export const SelectDataLabel = () => {
   const [t] = useI18n()

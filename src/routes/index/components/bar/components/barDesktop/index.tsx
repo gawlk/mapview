@@ -1,16 +1,13 @@
 import { createResizeObserver } from '@solid-primitives/resize-observer'
 
+import { Button } from '/src/components'
+import { run } from '/src/scripts'
 import { store } from '/src/store'
 
-import { run } from '/src/scripts'
-
-import { Button } from '/src/components'
-
+import { Initializer } from '../initializer'
 import { Footer } from './components/footer'
 import { Logo } from './components/logo'
-import { MenuWrapperDesktop, baseID } from './components/menuWrapperDesktop'
-
-import { Initializer } from '../initializer'
+import { baseID, MenuWrapperDesktop } from './components/menuWrapperDesktop'
 
 interface Props {
   setID: (id: string) => void
@@ -24,7 +21,9 @@ export const BarDesktop = (props: Props) => {
 
       <Show when={store.selectedProject} fallback={<Initializer />}>
         {run(() => {
-          let div = undefined as HTMLDivElement | undefined
+          const [div, setDiv] = createSignal<HTMLDivElement | undefined>(
+            undefined,
+          )
 
           onMount(() => {
             if (!div) return
@@ -35,7 +34,7 @@ export const BarDesktop = (props: Props) => {
           })
 
           return (
-            <div ref={div} class="space-y-8">
+            <div ref={setDiv} class="space-y-8">
               <For each={props.menus}>
                 {(menu) => (
                   <div>

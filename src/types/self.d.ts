@@ -3,6 +3,9 @@ type DeepRequired<T> = {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
+type AnyFile = any
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type RecordAny = Record<string, any>
 type JSONAny = RecordAny
 

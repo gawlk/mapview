@@ -1,8 +1,7 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import { store } from '/src/store'
-
 import { DialogSelect } from '/src/components'
+import { store } from '/src/store'
 
 export const SelectMarkersContent = () => {
   const [t] = useI18n()
@@ -33,8 +32,20 @@ export const SelectMarkersContent = () => {
     if (store.selectedProject) {
       const pointsState = store.selectedProject.settings.pointsState
 
-      state.pointStateSelected =
-        pointsState === 'number' ? 0 : pointsState === 'value' ? 1 : 2
+      switch (pointsState) {
+        case 'number': {
+          state.pointStateSelected = 0
+          break
+        }
+        case 'value': {
+          state.pointStateSelected = 1
+          break
+        }
+        default: {
+          state.pointStateSelected = 2
+          break
+        }
+      }
     }
   })
 

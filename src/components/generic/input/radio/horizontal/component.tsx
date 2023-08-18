@@ -1,5 +1,3 @@
-import { run } from '/src/scripts'
-
 import {
   Button,
   Container,
@@ -8,6 +6,7 @@ import {
   removeProps,
   valueWithTextToJSXElement,
 } from '/src/components'
+import { run } from '/src/scripts'
 
 interface Props extends InteractiveProps {
   values: ValuesProps
@@ -18,8 +17,8 @@ export const InputRadioHorizontal = (props: Props) => {
   return (
     // TODO: Should be interactive ?
     <Container
+      bgColor="base"
       border={false}
-      color="secondary"
       padding="xs"
       {...removeProps(props, {
         onChange: true,

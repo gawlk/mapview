@@ -1,13 +1,11 @@
 import { useI18n } from '@solid-primitives/i18n'
 import html2canvas from 'html2canvas'
 
+import { Button, Dialog } from '/src/components'
+import { downloadImage } from '/src/scripts'
 import { store } from '/src/store'
 
-import { downloadImage } from '/src/scripts'
-
 import { Image } from './image'
-
-import { Button, Dialog } from '/src/components'
 
 export const DialogScreenshot = () => {
   const [t] = useI18n()
@@ -35,6 +33,8 @@ export const DialogScreenshot = () => {
       logging: false,
     })
 
+    console.log(canvas)
+
     Array.from(map.getElementsByClassName('mapview-icon')).forEach((icon) => {
       ;(icon as HTMLSpanElement).style.marginBottom = ''
     })
@@ -49,9 +49,11 @@ export const DialogScreenshot = () => {
     })
   }
 
+  let closeDialog = undefined as undefined | DialogCloseFunction
+
   return (
     <Dialog
-      closeable
+      color="transparent"
       maximized
       button={{
         ...(store.selectedReport?.screenshots.length
@@ -62,11 +64,14 @@ export const DialogScreenshot = () => {
               full: true,
             }),
         onClick: () => {
-          void screenshot
+          void screenshot()
         },
       }}
       onClose={() => setState('image', null)}
       title={t('Screenshot')}
+      onCloseCreated={(_closeDialog) => {
+        closeDialog = _closeDialog
+      }}
       form={
         <div class="flex h-full items-center justify-center">
           <Show when={state.image}>
@@ -76,6 +81,16 @@ export const DialogScreenshot = () => {
                 <div class="flex justify-center space-x-2">
                   <div class="inline-block space-x-2">
                     <Button
+                      color="green"
+                      leftIcon={IconTablerCameraCheck}
+                      onClick={() =>
+                        store.selectedReport?.screenshots.push(image())
+                      }
+                    >
+                      {t('Add to album')}
+                    </Button>
+                    <Button
+                      color="yellow"
                       leftIcon={IconTablerCameraDown}
                       onClick={() => {
                         void downloadImage(image())
@@ -84,12 +99,13 @@ export const DialogScreenshot = () => {
                       {t('Download picture')}
                     </Button>
                     <Button
-                      leftIcon={IconTablerCameraCheck}
-                      onClick={() =>
-                        store.selectedReport?.screenshots.push(image())
-                      }
+                      leftIcon={IconTablerDoorExit}
+                      color="red"
+                      onClick={() => {
+                        closeDialog?.()
+                      }}
                     >
-                      {t('Add to album')}
+                      {t('Exit')}
                     </Button>
                   </div>
                 </div>

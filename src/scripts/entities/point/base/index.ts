@@ -2,7 +2,6 @@
 import { Marker, Popup } from 'mapbox-gl'
 
 import { translate } from '/src/locales'
-
 import {
   colors,
   createDataValueFromJSON,

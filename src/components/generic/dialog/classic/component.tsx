@@ -1,7 +1,7 @@
 import {
-  DialogCore,
   classPropToString,
   dialogClassicBooleanPropsKeysObject,
+  DialogCore,
   removeProps,
 } from '/src/components'
 
@@ -28,6 +28,8 @@ export const Dialog = (props: Props) => {
         title={props.button?.title || props.title}
         ref={(button) => setState('button', button)}
         onClick={(event) => {
+          // Types failing
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           props.button?.onClick?.(event)
 
@@ -40,7 +42,9 @@ export const Dialog = (props: Props) => {
         title={props.title || props.button?.text?.toString()}
         {...(props.attached ? { attach: state.button } : {})}
         onIdCreated={(id) => setState('id', id)}
-        onToggleCreated={(toggle) => (toggleDialog = toggle)}
+        onToggleCreated={(toggle) => {
+          toggleDialog = toggle
+        }}
       />
     </div>
   )

@@ -3,7 +3,7 @@ import { classPropToString, stylePropToCSSProperties } from '/src/components'
 interface Props {
   id: string
   disabled: boolean
-  icon: any
+  icon: Solid.ValidComponent | undefined
   name: string
   opened?: boolean
   style?: string

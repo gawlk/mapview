@@ -25,7 +25,7 @@ export const Navigator = (props: Props) => {
       component={props.list.find((obj) => obj.id === state.id)?.component}
       next={(id: string) =>
         setState({
-          id: id,
+          id,
           history: [...state.history, state.id],
         })
       }
@@ -33,7 +33,9 @@ export const Navigator = (props: Props) => {
         state.history.length
           ? () =>
               setState(
-                produce((s) => (s.id = s.history.pop() || props.default)),
+                produce((s) => {
+                  s.id = s.history.pop() || props.default
+                }),
               )
           : undefined
       }

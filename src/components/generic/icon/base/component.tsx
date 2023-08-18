@@ -1,5 +1,3 @@
-import { run } from '/src/scripts'
-
 import {
   baseBooleanPropsKeysObject,
   classPropToString,
@@ -9,6 +7,7 @@ import {
   removeProps,
   stylePropToCSSProperties,
 } from '/src/components'
+import { run } from '/src/scripts'
 
 interface Props extends MergePropsWithHTMLProps<IconProps> {}
 
@@ -29,18 +28,24 @@ export const Icon = (props: Props) => {
 
   const isImage = createMemo(() => !isSpan() && typeof props.icon === 'string')
 
+  const component = createMemo(() => {
+    if (isSpan()) return 'span'
+    if (isImage()) return 'img'
+    return props.icon as Solid.Component
+  })
+
+  const additionalProps = createMemo(() => {
+    if (isImage()) return { src: props.icon, loading: 'lazy' }
+    if (isSpan() && props.icon !== true) return { innerHTML: props.icon }
+    return {}
+  })
+
   return (
     <Dynamic
       {...dynamicProps}
       {...(props.style ? { style: stylePropToCSSProperties(props.style) } : {})}
-      component={
-        isSpan() ? 'span' : isImage() ? 'img' : (props.icon as Solid.Component)
-      }
-      {...(isImage()
-        ? { src: props.icon, loading: 'lazy' }
-        : isSpan() && props.icon !== true
-        ? { innerHTML: props.icon }
-        : {})}
+      component={component()}
+      {...additionalProps()}
       class={classPropToString([
         run(() => {
           switch (props.size) {
@@ -60,17 +65,17 @@ export const Icon = (props: Props) => {
         run(() => {
           if (isImage()) {
             return 'rounded-md object-contain'
-          } else {
-            switch (props.color) {
-              case 'primary':
-                return 'text-stone-500'
-              case 'red':
-                return 'text-red-500'
-              case 'green':
-                return 'text-green-500'
-              default:
-                return 'text-black opacity-30'
-            }
+          }
+
+          switch (props.color) {
+            case 'primary':
+              return 'text-stone-500'
+            case 'red':
+              return 'text-red-500'
+            case 'green':
+              return 'text-green-500'
+            default:
+              return 'text-black opacity-30'
           }
         }),
 

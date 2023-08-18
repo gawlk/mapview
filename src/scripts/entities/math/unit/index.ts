@@ -1,4 +1,4 @@
-import { unit as Unit, createUnit } from 'mathjs'
+import { createUnit, unit as Unit } from 'mathjs'
 
 import { numberToLocaleString } from '/src/locales'
 

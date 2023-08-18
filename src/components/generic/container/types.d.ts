@@ -9,5 +9,13 @@ interface ContainerPropsOnly extends Solid.ParentProps {
 
   orientation?: 'horizontal' | 'vertical' | 'none'
 
+  textColor?: ColorProp
+
+  bgColor?: ColorProp
+  bgHoverColor?: ColorProp
+
   border?: boolean
+  borderWidth?: number
+  borderColor?: ColorProp
+  borderHoverColor?: ColorProp
 }

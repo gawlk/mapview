@@ -1,7 +1,6 @@
-import { isListOfGroups } from './scripts'
-
 import { DialogOptionsGroup } from './components/Group'
 import { DialogOptionsList } from './components/List'
+import { isListOfGroups } from './scripts'
 
 interface Props {
   input?: string

@@ -14,7 +14,8 @@ interface JSONDistinctThresholdsConfiguration {
 
 type AnyThreshold = PredefinedThreshold | CustomThreshold
 
-type ThresoldsList = [...PredefinedThreshold[], CustomThreshold]
+type CustomThresholdIndex = 0
+type ThresoldsList = [CustomThreshold, ...PredefinedThreshold[]]
 
 type MachineThresholds =
   | HeavydynThresholds

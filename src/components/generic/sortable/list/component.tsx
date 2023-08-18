@@ -1,14 +1,14 @@
 import { ReactiveMap } from '@solid-primitives/map'
 import { useMousePosition } from '@solid-primitives/mouse'
 import { createScrollPosition } from '@solid-primitives/scroll'
-import type { Id } from '@thisbeyond/solid-dnd'
 import {
+  createSortable,
   DragDropProvider,
   DragDropSensors,
   DragOverlay,
   SortableProvider,
-  createSortable,
   useDragDropContext,
+  type Id,
 } from '@thisbeyond/solid-dnd'
 
 import {
@@ -75,8 +75,12 @@ export const SortableList = <T,>(props: Props<T>) => {
                       props.orientation,
                       mouseX,
                       mouseY,
-                      (inc) => (mouseX += inc),
-                      (inc) => (mouseY += inc),
+                      (inc) => {
+                        mouseX += inc
+                      },
+                      (inc) => {
+                        mouseY += inc
+                      },
                     ),
                 ),
               ),

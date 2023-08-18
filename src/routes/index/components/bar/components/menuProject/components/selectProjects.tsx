@@ -1,27 +1,29 @@
 import { useI18n } from '@solid-primitives/i18n'
 
+import { DialogSelect } from '/src/components'
+import { env } from '/src/env'
+import { hasRawData } from '/src/scripts'
 import { store } from '/src/store'
 
-import { hasRawData } from '/src/scripts'
+const getMachineIcon = (machine: MachineName) => {
+  if (machine === 'Heavydyn') {
+    return IconTablerCaravan
+  }
 
-import { DialogSelect } from '/src/components'
+  if (machine === 'Maxidyn') {
+    return IconTablerCarCrane
+  }
 
-import { env } from '/src/env'
-
-const getMachineIcon = (machine: MachineName) =>
-  machine === 'Heavydyn'
-    ? IconTablerCaravan
-    : machine === 'Maxidyn'
-    ? IconTablerCarCrane
-    : IconTablerChess
+  return IconTablerChess
+}
 
 export const SelectProject = () => {
   const [t] = useI18n()
 
   const convertProjectToName = (project: MachineProject) =>
     env.isDev && hasRawData(project)
-      ? `${project.name.value} - Raw data`
-      : `${project.name.value}`
+      ? `${project.name.toString()} - Raw data`
+      : `${project.name.toString()}`
 
   return (
     <DialogSelect
@@ -54,7 +56,7 @@ export const SelectProject = () => {
       onClose={(value) => {
         if (value) {
           const project = store.projects.list.find(
-            (project) => convertProjectToName(project) === value,
+            (_project) => convertProjectToName(_project) === value,
           )
 
           if (project) {

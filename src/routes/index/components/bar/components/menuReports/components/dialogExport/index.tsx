@@ -1,10 +1,8 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import { store } from '/src/store'
-
-import { getSimpleReportExports } from '/src/scripts'
-
 import { Dialog, Navigator } from '/src/components'
+import { getSimpleReportExports } from '/src/scripts'
+import { store } from '/src/store'
 
 import { MVRZ } from './components/mvrz'
 import { REST } from './components/mvrz/components/rest'

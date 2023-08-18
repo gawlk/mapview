@@ -1,10 +1,8 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import { store } from '/src/store'
-
-import { roundValue } from '/src/scripts'
-
 import { Details, DialogSelect, Input, Label } from '/src/components'
+import { roundValue } from '/src/scripts'
+import { store } from '/src/store'
 
 export const Units = () => {
   const [t] = useI18n()
@@ -63,7 +61,9 @@ export const Units = () => {
                   selected: mathUnit.currentUnit,
                   list: mathUnit.possibleSettings.map((setting) => setting[0]),
                 }}
-                onClose={(value) => value && (mathUnit.currentUnit = value)}
+                onClose={(value) => {
+                  value && (mathUnit.currentUnit = value)
+                }}
               />
               <DialogSelect
                 attached
@@ -78,9 +78,9 @@ export const Units = () => {
                     String(precision),
                   ),
                 }}
-                onClose={(value) =>
+                onClose={(value) => {
                   value && (mathUnit.currentPrecision = Number(value))
-                }
+                }}
               />
             </div>
             <div class="flex space-x-2">
@@ -90,9 +90,9 @@ export const Units = () => {
                 full
                 value={roundValue(mathUnit.baseToCurrent(mathUnit.min))}
                 bind
-                onInput={(value) =>
-                  (mathUnit.min = mathUnit.currentToBase(Number(value || 0)))
-                }
+                onInput={(value) => {
+                  mathUnit.min = mathUnit.currentToBase(Number(value || 0))
+                }}
               />
               <Input
                 leftIcon={IconTablerArrowBarToUp}
@@ -100,9 +100,9 @@ export const Units = () => {
                 full
                 bind
                 value={roundValue(mathUnit.baseToCurrent(mathUnit.max))}
-                onInput={(value) =>
-                  (mathUnit.max = mathUnit.currentToBase(Number(value || 0)))
-                }
+                onInput={(value) => {
+                  mathUnit.max = mathUnit.currentToBase(Number(value || 0))
+                }}
               />
             </div>
           </Details>

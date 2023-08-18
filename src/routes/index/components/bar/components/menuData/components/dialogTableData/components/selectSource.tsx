@@ -1,8 +1,7 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import { store } from '/src/store'
-
 import { DialogSelect } from '/src/components'
+import { store } from '/src/store'
 
 export const SelectSource = () => {
   const [t] = useI18n()
@@ -20,7 +19,7 @@ export const SelectSource = () => {
         full: true,
       }}
       values={{
-        selected: tableDataLabels()?.selected?.group.from || '',
+        selected: tableDataLabels()?.selectedIndex ?? null,
         list:
           tableDataLabels()
             ?.list.filter((parameters) => parameters.group.choices.list.length)

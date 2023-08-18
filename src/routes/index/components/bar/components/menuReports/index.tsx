@@ -1,8 +1,6 @@
-import { store } from '/src/store'
-
-import { convertFileToDataURL } from '/src/scripts'
-
 import { ButtonFile } from '/src/components'
+import { convertFileToDataURL } from '/src/scripts'
+import { store } from '/src/store'
 
 import { ButtonFlyToReport } from './components/buttonFlyToReport'
 import { DialogAlbum } from './components/dialogAlbum'

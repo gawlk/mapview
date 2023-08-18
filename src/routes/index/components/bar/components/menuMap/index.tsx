@@ -1,8 +1,7 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import { store } from '/src/store'
-
 import { Interactive } from '/src/components'
+import { store } from '/src/store'
 
 import { ButtonFileOverlay } from './components/buttonFileOverlay'
 import { ButtonLineVisibility } from './components/buttonLineVisibility'
@@ -28,6 +27,7 @@ export const MenuMap = () => {
       </div>
       <Interactive
         full
+        bgColor="base"
         label={t('Points')}
         border={false}
         kind="static"

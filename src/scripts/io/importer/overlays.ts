@@ -1,6 +1,5 @@
-import { store } from '/src/store'
-
 import { convertUint8ArrayToData64Image, createOverlay } from '/src/scripts'
+import { store } from '/src/store'
 
 export const importOverlaysFromZIP = (
   zip: Fflate.Unzipped,

@@ -1,6 +1,5 @@
-import { colors } from '/src/scripts'
-
 import { Button, Dialog } from '/src/components'
+import { colors } from '/src/scripts'
 
 export interface Props
   extends MergePropsWithHTMLProps<

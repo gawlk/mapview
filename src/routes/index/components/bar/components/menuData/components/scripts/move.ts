@@ -20,8 +20,8 @@ export const movePointToZoneIndex = (point: BasePoint, zoneIndex: number) => {
       }
 
       return true
-    } else {
-      return false
     }
+
+    return false
   })
 }

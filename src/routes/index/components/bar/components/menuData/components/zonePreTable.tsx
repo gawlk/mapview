@@ -1,10 +1,8 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import { store } from '/src/store'
-
-import { colors } from '/src/scripts'
-
 import { Button } from '/src/components'
+import { colors } from '/src/scripts'
+import { store } from '/src/store'
 
 interface Props {
   zone: BaseZone
@@ -25,7 +23,7 @@ export const ZonePreTable = (props: Props) => {
     <div class="flex items-center space-x-2 border-t-2 border-black/10 p-2">
       <span
         class="block h-6 w-6 flex-none rounded-full"
-        style={`background-color: ${colors[props.zone.settings.color]}`}
+        style={{ 'background-color': colors[props.zone.settings.color] }}
       />
       <div class="ml-2 flex-none space-x-2 text-sm">
         <span class="font-medium text-gray-500">{`${t('Zone')}${t(':')}`}</span>
@@ -41,9 +39,9 @@ export const ZonePreTable = (props: Props) => {
       <Button
         size="sm"
         icon={props.zone.settings.isVisible ? IconTablerEye : IconTablerEyeOff}
-        onClick={() =>
-          (props.zone.settings.isVisible = !props.zone.settings.isVisible)
-        }
+        onClick={() => {
+          props.zone.settings.isVisible = !props.zone.settings.isVisible
+        }}
       />
     </div>
   )

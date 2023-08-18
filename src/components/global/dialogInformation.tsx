@@ -4,7 +4,7 @@ import { Button, Dialog, Input, InputDataList, Label } from '/src/components'
 
 interface Props {
   bulks: {
-    title: any
+    title: string | Solid.JSX.Element
     fields: Field[]
   }[]
 }
@@ -50,6 +50,7 @@ export const DialogInformation = (props: Props) => {
     >
       <div class="space-y-8">
         <For each={props.bulks}>
+          {/* eslint-disable-next-line sonarjs/cognitive-complexity */}
           {(bulk) => (
             <Label label={bulk.title}>
               <For each={bulk.fields}>
@@ -112,7 +113,9 @@ export const DialogInformation = (props: Props) => {
                     <Switch>
                       <Match when={isInput}>
                         <Input
-                          ref={(ref) => (input = ref)}
+                          ref={(ref) => {
+                            input = ref
+                          }}
                           full
                           label={t(field.label)}
                           readOnly={readOnly()}
@@ -132,13 +135,15 @@ export const DialogInformation = (props: Props) => {
                       >
                         {(fieldValue) => (
                           <InputDataList
-                            ref={(ref) => (input = ref)}
+                            ref={(ref) => {
+                              input = ref
+                            }}
                             full
                             id={id()}
                             label={t(field.label)}
                             value={fieldValue().value}
-                            list={fieldValue().possibleValues.map((value) =>
-                              t(value, undefined, value),
+                            list={fieldValue().possibleValues.map((_value) =>
+                              t(_value, undefined, _value),
                             )}
                             onInput={onInput}
                           />

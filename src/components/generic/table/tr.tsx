@@ -1,6 +1,5 @@
-import { hexToRgb } from '/src/scripts'
-
 import { classPropToString } from '/src/components'
+import { hexToRgb } from '/src/scripts'
 
 interface Props extends Solid.ParentProps, Sortable {
   color?: string
@@ -10,7 +9,7 @@ interface Props extends Solid.ParentProps, Sortable {
 export const Tr = (props: Props) => {
   return (
     <tr
-      ref={props.ref}
+      ref={typeof props.ref === 'function' ? props.ref : undefined}
       {...props}
       style={
         props.color

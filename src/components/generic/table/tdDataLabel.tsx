@@ -5,11 +5,12 @@ import { Td } from './td'
 interface Props {
   dataLabel: DataLabel
   values: number[]
+  widthClass: string
 }
 
 export const TdDataLabel = (props: Props) => {
   return (
-    <Td class="w-1/4" wide text="right">
+    <Td class={props.widthClass} wide text="right">
       <p class="font-semibold">{props.dataLabel.getDisplayedName()}</p>
       <p class="whitespace-nowrap text-xs">
         {props.dataLabel.unit.currentUnit}

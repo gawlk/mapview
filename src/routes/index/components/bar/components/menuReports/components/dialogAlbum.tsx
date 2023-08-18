@@ -1,12 +1,10 @@
 import { useI18n } from '@solid-primitives/i18n'
 
+import { Button, Dialog } from '/src/components'
+import { downloadImage } from '/src/scripts'
 import { store } from '/src/store'
 
-import { downloadImage } from '/src/scripts'
-
 import { Image } from './image'
-
-import { Button, Dialog } from '/src/components'
 
 export const DialogAlbum = () => {
   const [t] = useI18n()
@@ -33,7 +31,9 @@ export const DialogAlbum = () => {
                 <div class="inline-block space-x-2">
                   <Button
                     leftIcon={IconTablerCameraDown}
-                    onClick={() => downloadImage(image)}
+                    onClick={() => {
+                      void downloadImage(image)
+                    }}
                   >
                     {t('Download')}
                   </Button>

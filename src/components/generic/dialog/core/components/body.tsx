@@ -1,6 +1,5 @@
-import { run } from '/src/scripts'
-
 import { classPropToString } from '/src/components'
+import { run } from '/src/scripts'
 
 import { DialogForm } from '.'
 import { HIDDEN_CLOSE_BUTTON_CLASS } from '../scripts'

@@ -28,9 +28,10 @@ export const Switch = (props: Props) => {
           props.onInput((event.target as HTMLInputElement)?.checked)
         }
         checked={props.value}
-        style="
-    background-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%22-4 -4 8 8%22%3E%3Ccircle r=%223%22 fill=%22%23fff%22/%3E%3C/svg%3E');
-    "
+        style={{
+          'background-image':
+            "url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%22-4 -4 8 8%22%3E%3Ccircle r=%223%22 fill=%22%23fff%22/%3E%3C/svg%3E')",
+        }}
       />
       <Show when={props.rightIcon}>
         <Dynamic

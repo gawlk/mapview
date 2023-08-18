@@ -33,16 +33,18 @@ export const createHeavydynCurrentDeflectionDropDataComputers = (
             const correctionParameters = report.project.correctionParameters
 
             const sourceTempMatrix = report.zones.map((zone) =>
-              zone.points.map(
-                (point) =>
-                  point.data
-                    .find(
-                      (data) =>
-                        data.label.name ===
-                        correctionParameters.temperature.source.selected,
-                    )
-                    ?.getRawValue(),
-              ),
+              zone
+                .getExportablePoints()
+                .map(
+                  (point) =>
+                    point.data
+                      .find(
+                        (data) =>
+                          data.label.name ===
+                          correctionParameters.temperature.source.selected,
+                      )
+                      ?.getRawValue(),
+                ),
             )
 
             const reportSourceTempAverage = computeAverage(
@@ -54,7 +56,7 @@ export const createHeavydynCurrentDeflectionDropDataComputers = (
                 sourceTempMatrix[zoneIndex].filter((v) => v) as number[],
               )
 
-              zone.points.forEach((point, pointIndex) => {
+              zone.getExportablePoints().forEach((point, pointIndex) => {
                 point.drops.forEach((drop) => {
                   const rawData = drop.data.find(
                     (data) => data.label === rawLabel,

@@ -3,6 +3,7 @@ export const interactiveBooleanPropsKeysObject: BooleanPropsKeysObject<Interacti
     kind: true,
 
     label: true,
+    suffix: true,
 
     full: true,
 

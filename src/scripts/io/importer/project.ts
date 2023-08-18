@@ -1,10 +1,9 @@
-import { store } from '/src/store'
-
 import {
   createHeavydynProjectFromJSON,
   createMaxidynProjectFromJSON,
   createMinidynProjectFromJSON,
 } from '/src/scripts'
+import { store } from '/src/store'
 
 export const importProjectFromJSON = (
   json: JSONMachineProject,

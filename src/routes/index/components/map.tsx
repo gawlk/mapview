@@ -1,6 +1,5 @@
-import { store } from '/src/store'
-
 import { createMap } from '/src/scripts'
+import { store } from '/src/store'
 
 const fixMapHeight = () =>
   setTimeout(() => window.dispatchEvent(new Event('resize')), 200)

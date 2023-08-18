@@ -26,9 +26,7 @@ export const InputRadioAbled = (props: Props) => {
           { value: disabledString, color: 'red' },
         ],
       }}
-      onChange={(value) =>
-        props.onChange(value === enabledString ? true : false)
-      }
+      onChange={(value) => props.onChange(value === enabledString)}
     />
   )
 }

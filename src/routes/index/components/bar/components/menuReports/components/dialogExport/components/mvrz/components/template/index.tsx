@@ -1,17 +1,11 @@
 import { useI18n } from '@solid-primitives/i18n'
 import localForage from 'localforage'
 
+import { Button, ButtonFile } from '/src/components'
+import { convertData64ToFile, downloadFile } from '/src/scripts'
 import { store } from '/src/store'
 
-import {
-  convertData64ToFile,
-  convertFileToDataURL,
-  downloadFile,
-} from '/src/scripts'
-
 import { getTemplateKey } from './scripts'
-
-import { Button, ButtonFile } from '/src/components'
 
 interface Props extends NavigatorComponentProps {
   index: number
@@ -33,7 +27,7 @@ export const Template = (props: Props) => {
   )
 
   createEffect(async () => {
-    const file: any = await localForage.getItem(key())
+    const file: AnyFile = await localForage.getItem(key())
 
     setState(
       'file',
@@ -52,7 +46,7 @@ export const Template = (props: Props) => {
   const remove = () => {
     setState('file', null)
 
-    localForage.removeItem(key())
+    void localForage.removeItem(key())
   }
 
   return (

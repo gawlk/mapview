@@ -1,27 +1,27 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import { store } from '/src/store'
-
-import { gray, moveIndexInCopiedArray } from '/src/scripts'
-
-import { movePointToZoneIndex } from './scripts'
-
 import {
   Button,
   DialogSelect,
   SortableList,
-  THead,
   Table,
   Td,
   TdDataLabel,
+  THead,
   Tr,
 } from '/src/components'
+import { gray, moveIndexInCopiedArray } from '/src/scripts'
+import { store } from '/src/store'
+
+import { movePointToZoneIndex } from './scripts'
 
 interface Props {
   points: BasePoint[]
   dataLabels: DataLabel[]
+  cellWidthClass: string
   from?: DataLabelsFrom
   index?: BaseDropIndex
+  hideZones?: true
   colored?: boolean
   sortable?: boolean
 }
@@ -50,13 +50,16 @@ export const TablePoints = (props: Props) => {
     <Table>
       <THead>
         <Td />
-        <Td text="center">{t('Zone')}</Td>
-        <Td text="right" class="w-1/4" wide>
+        <Show when={!props.hideZones}>
+          <Td text="center">{t('Zone')}</Td>
+        </Show>
+        <Td text="right" class={props.cellWidthClass} wide>
           {t('Number')}
         </Td>
         <For each={props.dataLabels}>
           {(dataLabel) => (
             <TdDataLabel
+              widthClass={props.cellWidthClass}
               dataLabel={dataLabel}
               values={getValuesFromPoints(
                 props.points.filter((point) => point.settings.isVisible),
@@ -86,100 +89,111 @@ export const TablePoints = (props: Props) => {
               point.number = number
 
               if (point.settings.isVisible) {
-                number++
+                number += 1
               }
             })
 
             store.selectedReport.line.update()
           }}
-          component={(ref, point) => (
-            <Tr
-              ref={ref}
-              color={
-                props.colored
-                  ? point.settings.isVisible && point.icon
-                    ? point.icon.color
-                    : gray
-                  : undefined
-              }
-              class={[!point.settings.isVisible && 'text-opacity-50']}
-            >
-              <Td>
-                <Button
-                  size={size}
-                  disabled={store.selectedReport?.settings.groupBy === 'Zone'}
-                  icon={
-                    store.selectedReport?.settings.groupBy === 'Zone'
-                      ? IconTablerHandOff
-                      : IconTablerHandStop
-                  }
-                  class="handle"
-                />
-              </Td>
-              <Td>
-                <DialogSelect
-                  button={{
-                    size,
-                    full: true,
-                  }}
-                  attached
-                  values={{
-                    selected: point.zone.name,
-                    list: (
-                      store.selectedReport?.zones.map((zone) => zone.name) || []
-                    ).map((text, index) => ({
-                      value: String(index),
-                      text,
-                    })),
-                  }}
-                  onClose={(index) =>
-                    index && movePointToZoneIndex(point, Number(index))
-                  }
-                />
-              </Td>
-              <Td wide text="right">
-                {point.number}
-              </Td>
-              <Show when={props.from}>
-                {(from) => (
-                  <For each={props.dataLabels}>
-                    {(dataLabel) => (
-                      <Td wide text="right">
-                        {point.getDisplayedString(
-                          from(),
-                          dataLabel,
-                          props.index,
-                        )}
-                      </Td>
-                    )}
-                  </For>
-                )}
-              </Show>
-              <Td>
-                <Button
-                  size={size}
-                  icon={IconTablerZoomIn}
-                  onClick={() =>
-                    store.map?.flyTo({
-                      center: point.marker?.getLngLat(),
-                      zoom: 18,
-                    })
-                  }
-                />
-              </Td>
-              <Td>
-                <Button
-                  size={size}
-                  icon={
-                    point.settings.isVisible ? IconTablerEye : IconTablerEyeOff
-                  }
-                  onClick={() =>
-                    (point.settings.isVisible = !point.settings.isVisible)
-                  }
-                />
-              </Td>
-            </Tr>
-          )}
+          component={(ref, point) => {
+            const color = createMemo(() => {
+              if (!props.colored) return undefined
+
+              return point.settings.isVisible && point.icon
+                ? point.icon.color
+                : gray
+            })
+
+            return (
+              <Tr
+                ref={ref}
+                color={color()}
+                class={[!point.settings.isVisible && 'text-opacity-50']}
+              >
+                <Td>
+                  <Button
+                    size={size}
+                    disabled={store.selectedReport?.settings.groupBy === 'Zone'}
+                    icon={
+                      store.selectedReport?.settings.groupBy === 'Zone'
+                        ? IconTablerHandOff
+                        : IconTablerHandStop
+                    }
+                    // eslint-disable-next-line tailwindcss/no-custom-classname
+                    class="handle"
+                  />
+                </Td>
+                <Show when={!props.hideZones}>
+                  <Td>
+                    <DialogSelect
+                      button={{
+                        size,
+                        full: true,
+                      }}
+                      attached
+                      values={{
+                        selected: point.zone.name,
+                        list: (
+                          store.selectedReport?.zones.map(
+                            (zone) => zone.name,
+                          ) || []
+                        ).map((text, index) => ({
+                          value: String(index),
+                          text,
+                        })),
+                      }}
+                      onClose={(index) =>
+                        index && movePointToZoneIndex(point, Number(index))
+                      }
+                    />
+                  </Td>
+                </Show>
+                <Td wide text="right">
+                  {point.number}
+                </Td>
+                <Show when={props.from}>
+                  {(from) => (
+                    <For each={props.dataLabels}>
+                      {(dataLabel) => (
+                        <Td wide text="right">
+                          {point.getDisplayedString(
+                            from(),
+                            dataLabel,
+                            props.index,
+                          )}
+                        </Td>
+                      )}
+                    </For>
+                  )}
+                </Show>
+                <Td>
+                  <Button
+                    size={size}
+                    icon={IconTablerZoomIn}
+                    onClick={() =>
+                      store.map?.flyTo({
+                        center: point.marker?.getLngLat(),
+                        zoom: 18,
+                      })
+                    }
+                  />
+                </Td>
+                <Td>
+                  <Button
+                    size={size}
+                    icon={
+                      point.settings.isVisible
+                        ? IconTablerEye
+                        : IconTablerEyeOff
+                    }
+                    onClick={() => {
+                      point.settings.isVisible = !point.settings.isVisible
+                    }}
+                  />
+                </Td>
+              </Tr>
+            )
+          }}
         />
       </tbody>
     </Table>

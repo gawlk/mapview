@@ -1,10 +1,8 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import { store } from '/src/store'
-
+import { Button, Dialog, DialogColor, Input } from '/src/components'
 import { colors } from '/src/scripts'
-
-import { Button, Container, Dialog, DialogColor, Input } from '/src/components'
+import { store } from '/src/store'
 
 export const DialogZoneSettings = () => {
   const [t] = useI18n()
@@ -19,22 +17,18 @@ export const DialogZoneSettings = () => {
       <div class="space-y-2">
         <For each={store.selectedReport?.zones}>
           {(zone, index) => (
-            <Container
-              class="flex space-x-1.5"
-              size="xs"
-              color="transparent"
-              style={{
-                'background-color': `${colors[zone.settings.color]}66`,
-              }}
-            >
+            <div class="flex space-x-1.5">
               <DialogColor
                 selected={zone.settings.color}
-                onClose={(color?: string) =>
+                onClose={(color?: string) => {
                   color && (zone.settings.color = color as ColorName)
-                }
+                }}
                 button={{
                   text: '',
                   class: 'h-full',
+                  style: {
+                    'background-color': `${colors[zone.settings.color]}66`,
+                  },
                 }}
               />
               <Input
@@ -42,11 +36,20 @@ export const DialogZoneSettings = () => {
                 value={zone.name}
                 leftIcon={IconTablerIdBadge}
                 full
-                onInput={(value) => (zone.name = value || '')}
+                onInput={(value) => {
+                  zone.name = value || ''
+                }}
+                style={{
+                  'border-color': `${colors[zone.settings.color]}66`,
+                  'background-color': 'white',
+                }}
               />
               <Show when={index()}>
                 <Button
                   icon={IconTablerTrash}
+                  style={{
+                    'background-color': `${colors[zone.settings.color]}66`,
+                  }}
                   onClick={() => {
                     const { selectedReport } = store
 
@@ -65,7 +68,7 @@ export const DialogZoneSettings = () => {
                   }}
                 />
               </Show>
-            </Container>
+            </div>
           )}
         </For>
         <Button

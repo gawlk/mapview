@@ -44,8 +44,12 @@ export const DragAndDrop = (props: Props) => {
         <div
           class="absolute inset-0 h-full w-full"
           onClick={() => file?.click()}
-          ondragenter={() => (state.dragging = true)}
-          ondragleave={() => (state.dragging = false)}
+          onDragEnter={() => {
+            state.dragging = true
+          }}
+          onDragLeave={() => {
+            state.dragging = false
+          }}
           onDragOver={(event) => {
             event.preventDefault()
             event.stopPropagation()

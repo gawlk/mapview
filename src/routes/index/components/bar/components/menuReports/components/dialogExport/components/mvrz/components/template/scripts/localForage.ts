@@ -15,6 +15,8 @@ interface FileObject {
 export const getTemplateKey = (machine: MachineName, number: number) =>
   `template${machine.toLowerCase()}${number}`
 
+export const fetchDefaultTemplates = () => {}
+
 export const initDemoTemplates = () => {
   const extension = '.xlsx'
 

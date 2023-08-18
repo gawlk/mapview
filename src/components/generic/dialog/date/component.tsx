@@ -1,18 +1,17 @@
 import {
+  Button,
+  Dialog,
+  dialogDateBooleanPropsKeysObject,
+  DialogSelect,
+  removeProps,
+} from '/src/components'
+import {
   addLocationToID,
   getMonths,
   getWeekDayFromDate,
   getWeekDays,
   localStorageSetItem,
 } from '/src/scripts'
-
-import {
-  Button,
-  Dialog,
-  DialogSelect,
-  dialogDateBooleanPropsKeysObject,
-  removeProps,
-} from '/src/components'
 
 export interface DialogDatePropsWithHTMLAttributes
   extends MergePropsWithHTMLProps<
@@ -162,7 +161,7 @@ export const DialogDate = (props: DialogDatePropsWithHTMLAttributes) => {
                           <td>
                             <div class="flex items-center justify-center">
                               <Button
-                                color={isValue() ? 'primary' : 'tertiary'}
+                                color={isValue() ? 'primary' : 'base'}
                                 value={date.toJSON()}
                                 orientation="none"
                                 disabled={

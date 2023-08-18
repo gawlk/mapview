@@ -1,12 +1,11 @@
-import { store } from '/src/store'
-
+import { Button } from '/src/components'
 import {
   downloadFile,
   getSimpleReportExports,
   mvrzExporter,
+  run,
 } from '/src/scripts'
-
-import { Button } from '/src/components'
+import { store } from '/src/store'
 
 export const SimpleExporters = (props: NavigatorComponentProps) => {
   const simpleExports = createMemo(() => [
@@ -33,12 +32,14 @@ export const SimpleExporters = (props: NavigatorComponentProps) => {
             full
             leftIcon={IconTablerFileText}
             rightIcon={IconTablerDownload}
-            onClick={async () => {
-              // TODO: Fix any
-              store.selectedProject &&
-                downloadFile(
-                  await exporter.export(store.selectedProject as any),
-                )
+            onClick={() => {
+              void run(async () => {
+                store.selectedProject &&
+                  downloadFile(
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    await exporter.export(store.selectedProject as any),
+                  )
+              })
             }}
           >
             <span class="flex-1 text-left">{exporter.name}</span>

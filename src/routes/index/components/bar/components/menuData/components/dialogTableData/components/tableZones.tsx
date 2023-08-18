@@ -1,10 +1,8 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import { store } from '/src/store'
-
+import { Button, Table, Td, TdDataLabel, THead, Tr } from '/src/components'
 import { colors } from '/src/scripts'
-
-import { Button, THead, Table, Td, TdDataLabel, Tr } from '/src/components'
+import { store } from '/src/store'
 
 export const TableZones = () => {
   const size = 'sm'
@@ -32,6 +30,7 @@ export const TableZones = () => {
         >
           {(dataLabel) => (
             <TdDataLabel
+              widthClass="w-1/4"
               dataLabel={dataLabel}
               values={getValuesFromZones(dataLabel)}
             />
@@ -76,9 +75,9 @@ export const TableZones = () => {
                   icon={
                     zone.settings.isVisible ? IconTablerEye : IconTablerEyeOff
                   }
-                  onClick={() =>
-                    (zone.settings.isVisible = !zone.settings.isVisible)
-                  }
+                  onClick={() => {
+                    zone.settings.isVisible = !zone.settings.isVisible
+                  }}
                 />
               </Td>
             </Tr>

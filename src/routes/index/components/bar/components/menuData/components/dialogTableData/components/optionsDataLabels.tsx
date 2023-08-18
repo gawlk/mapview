@@ -1,11 +1,5 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import { store } from '/src/store'
-
-import { groupDataLabelsByCategory, moveIndexInCopiedArray } from '/src/scripts'
-
-import { SortableDataLabel } from './sortableDataLabel'
-
 import {
   DialogDivider,
   DialogOptions,
@@ -13,6 +7,10 @@ import {
   SortableList,
   SpanDataLabel,
 } from '/src/components'
+import { groupDataLabelsByCategory, moveIndexInCopiedArray } from '/src/scripts'
+import { store } from '/src/store'
+
+import { SortableDataLabel } from './sortableDataLabel'
 
 export const OptionsDataLabels = () => {
   const [t] = useI18n()
@@ -36,7 +34,7 @@ export const OptionsDataLabels = () => {
   const optionsList = createMemo(
     () =>
       groupedTableDataLabelsChoices().map(([category, dataLabels]) => ({
-        name: t(category.name),
+        name: category.name,
         list: dataLabels.map((dataLabel) => {
           const index = createMemo(
             () => tableSelectedDataLabels()?.indexOf(dataLabel) ?? -1,

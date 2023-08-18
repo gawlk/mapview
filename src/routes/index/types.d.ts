@@ -1,7 +1,7 @@
 interface Menu {
   readonly id: string
   readonly name: string
-  readonly icon: IconProp
+  readonly icon: Exclude<IconProp, true>
   readonly component: Solid.Component
   readonly needsReport?: boolean
   readonly style?: string

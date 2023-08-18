@@ -1,23 +1,15 @@
-import { run } from '/src/scripts'
-
 import {
+  classPropToString,
   Container,
   IconInteractive,
-  classPropToString,
   interactiveBooleanPropsKeysObject,
   removeProps,
 } from '/src/components'
+import { run } from '/src/scripts'
 
 interface Props extends MergePropsWithHTMLProps<InteractiveProps> {}
 
-export const Interactive = (passedProps: Props) => {
-  const props = mergeProps(
-    {
-      color: 'secondary',
-    },
-    passedProps,
-  )
-
+export const Interactive = (props: Props) => {
   const containerProps = removeProps(props, interactiveBooleanPropsKeysObject)
 
   // TODO: Instead of removing tell what we wanna keep
@@ -50,8 +42,8 @@ export const Interactive = (passedProps: Props) => {
             switch (props.color) {
               case 'secondary':
                 return 'hover:bg-opacity-10 active:bg-opacity-[0.15]'
-
-              default:
+              case 'base':
+              case 'transparent':
                 return [
                   props.color === 'transparent' && 'hover:bg-black/5',
                   'hover:brightness-[0.95] active:brightness-90',
@@ -63,7 +55,9 @@ export const Interactive = (passedProps: Props) => {
         run(() => {
           if (props.disabled) {
             return 'opacity-60'
-          } else if (props.kind !== 'static') {
+          }
+
+          if (props.kind !== 'static') {
             return `group appearance-none transition duration-200 will-change-transform focus:outline-none disabled:transform-none motion-reduce:transform-none ${
               props.kind === 'clickable' ? 'cursor-pointer select-none' : ''
             }`
@@ -112,6 +106,10 @@ export const Interactive = (passedProps: Props) => {
         </Show>
 
         {props.children}
+
+        <Show when={props.suffix}>
+          <span class="text-black/50">{props.suffix}</span>
+        </Show>
 
         <Show when={props.rightIcon || (props.center && props.leftIcon)}>
           <IconInteractive

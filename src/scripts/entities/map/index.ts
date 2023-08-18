@@ -5,11 +5,9 @@ import mapboxgl, {
   NavigationControl,
 } from 'mapbox-gl'
 
-import { store } from '/src/store'
-
-import { createSVGElement } from '/src/scripts'
-
 import SVGUserCircle from '/src/assets/svg/custom/user-circle.svg?raw'
+import { createSVGElement } from '/src/scripts'
+import { store } from '/src/store'
 
 export const mapStyles = [
   'mapbox://styles/mapbox/streets-v12',

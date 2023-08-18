@@ -1,5 +1,5 @@
-import { unzipSync } from 'fflate'
 import { readdirSync, statSync } from 'fs'
+import { unzipSync } from 'fflate'
 import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest'
 
 import {
@@ -9,10 +9,9 @@ import {
   heavydynSwecoExporter,
   mvrzExporter,
 } from '/src/scripts'
+import { filesToString } from '/src/tests'
 
 import { exportFile } from './scripts'
-
-import { filesToString } from '/src/tests'
 
 describe('Test exports', async () => {
   const testData: ReportTestExportData[] = []

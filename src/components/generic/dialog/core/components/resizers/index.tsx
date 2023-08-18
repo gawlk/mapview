@@ -1,11 +1,10 @@
 import { makeEventListener } from '@solid-primitives/event-listener'
 import { useMousePosition } from '@solid-primitives/mouse'
 
-import { expand, resizeDialog } from './scripts'
-
 import { classPropToString } from '/src/components/generic/props'
 
 import { activateSelectNone, deactivateSelectNone } from '../scripts'
+import { expand, resizeDialog } from './scripts'
 
 interface Props {
   dialog?: HTMLDialogElement
@@ -58,14 +57,14 @@ export const DialogResizers = (props: Props) => {
       props.setPosition,
     )
 
-  const Resizer = (props: {
+  const Resizer = (resizerProps: {
     direction: DialogResizeDirection
     class: ClassProp
   }) => (
     <div
-      onMouseDown={() => setState('resizeDirection', props.direction)}
-      onDblClick={() => runExpand(props.direction)}
-      class={classPropToString(['absolute md:block', props.class])}
+      onMouseDown={() => setState('resizeDirection', resizerProps.direction)}
+      onDblClick={() => runExpand(resizerProps.direction)}
+      class={classPropToString(['absolute md:block', resizerProps.class])}
     />
   )
 
@@ -77,9 +76,7 @@ export const DialogResizers = (props: Props) => {
       />
       <Resizer
         direction="w"
-        class={[
-          'bottom-0 left-0 top-0 -mx-1.5 hidden h-full w-3 cursor-ew-resize',
-        ]}
+        class={['inset-y-0 left-0 -mx-1.5 hidden h-full w-3 cursor-ew-resize']}
       />
       <Resizer
         direction="s"
@@ -89,9 +86,7 @@ export const DialogResizers = (props: Props) => {
       />
       <Resizer
         direction="e"
-        class={[
-          'bottom-0 right-0 top-0 -mx-1.5 hidden h-full w-3 cursor-ew-resize',
-        ]}
+        class={['inset-y-0 right-0 -mx-1.5 hidden h-full w-3 cursor-ew-resize']}
       />
       <Resizer
         direction="nw"

@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type IconProp = string | ((...args: any[]) => Solid.JSX.Element) | true
 
 type ClassProp = string | (ClassProp | string | false | undefined)[]

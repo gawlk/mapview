@@ -1,18 +1,15 @@
 import { useI18n } from '@solid-primitives/i18n'
 
+import { Dialog, DialogDivider, SpanDataLabel } from '/src/components'
+import { run } from '/src/scripts'
 import { store } from '/src/store'
 
-import { run } from '/src/scripts'
-
-import { Dialog, DialogDivider, SpanDataLabel } from '/src/components'
-
+import { SelectGroupBy } from '../selectGroupBy'
+import { TablePointsGroupedBy } from '../tablePointsGroupedBy'
 import { OptionsDataLabels } from './components/optionsDataLabels'
 import { SelectIndex } from './components/selectIndex'
 import { SelectSource } from './components/selectSource'
 import { TableZones } from './components/tableZones'
-
-import { SelectGroupBy } from '../selectGroupBy'
-import { TablePointsGroupedBy } from '../tablePointsGroupedBy'
 
 export const DialogTableData = () => {
   const [t] = useI18n()
@@ -83,6 +80,7 @@ export const DialogTableData = () => {
               >
                 <TablePointsGroupedBy
                   sortable
+                  cellWidthClass="w-1/6"
                   from={group().group.from}
                   dataLabels={group().dataLabels}
                   index={group().index}

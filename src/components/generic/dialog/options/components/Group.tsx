@@ -1,8 +1,8 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import { DialogOptionsList } from './List'
-
 import { Label } from '/src/components'
+
+import { DialogOptionsList } from './List'
 
 interface Props {
   input: string | undefined

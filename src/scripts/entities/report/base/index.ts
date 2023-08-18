@@ -244,8 +244,16 @@ const upgradeThresholdsColorsJSON = (
 
 export const convertThresholdsConfigurationToJSON = (
   group: ThresholdsGroup<string>,
-): JSONDistinctThresholdsConfiguration => ({
-  version: 1,
-  selectedIndex: getIndexOfSelectedInSelectableList(group.choices) || 0,
-  custom: (group.choices.list.slice(-1)[0] as CustomThreshold).toJSON(),
-})
+): JSONDistinctThresholdsConfiguration => {
+  const customThresholdIndex: CustomThresholdIndex = 0
+
+  return {
+    version: 1,
+    selectedIndex: getIndexOfSelectedInSelectableList(group.choices) || 0,
+    custom: (
+      group.choices.list.slice()[
+        customThresholdIndex
+      ] as ThresoldsList[CustomThresholdIndex]
+    ).toJSON(),
+  }
+}

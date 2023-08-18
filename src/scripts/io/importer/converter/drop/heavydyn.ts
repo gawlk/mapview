@@ -1,9 +1,8 @@
-import { convertPRJZToBaseDrop } from './base'
-
 import {
   convertExportedUnitToJSONDataLabel,
   convertSensorPositionToName,
 } from '../shared'
+import { convertPRJZToBaseDrop } from './base'
 
 export const convertPRJZToHeavydynDrop = (
   jsonDrop: RecordAny,

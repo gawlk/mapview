@@ -1,10 +1,9 @@
-import { Button } from '/src/components'
-
 import Sun0 from '/src/assets/svg/custom/sun0.svg'
 import Sun25 from '/src/assets/svg/custom/sun25.svg'
 import Sun50 from '/src/assets/svg/custom/sun50.svg'
 import Sun75 from '/src/assets/svg/custom/sun75.svg'
 import Sun100 from '/src/assets/svg/custom/sun100.svg'
+import { Button } from '/src/components'
 
 interface Props {
   overlay: Overlay
@@ -13,22 +12,28 @@ interface Props {
 export const ButtonOverlayOpacity = (props: Props) => {
   const opacity = createMemo(() => props.overlay.opacity)
 
-  const setOpacity = (opacity: 1 | 0.75 | 0.5 | 0.25 | 0) =>
-    (props.overlay.opacity = opacity)
+  const setOpacity = (_opacity: 1 | 0.75 | 0.5 | 0.25 | 0) => {
+    props.overlay.opacity = _opacity
+  }
+
+  const icon = createMemo(() => {
+    switch (opacity()) {
+      case 1:
+        return Sun100
+      case 0.75:
+        return Sun75
+      case 0.5:
+        return Sun50
+      case 0.25:
+        return Sun25
+      default:
+        return Sun0
+    }
+  })
 
   return (
     <Button
-      icon={
-        opacity() === 1
-          ? Sun100
-          : opacity() === 0.75
-          ? Sun75
-          : opacity() === 0.5
-          ? Sun50
-          : opacity() === 0.25
-          ? Sun25
-          : Sun0
-      }
+      icon={icon()}
       onClick={() => {
         switch (opacity()) {
           case 0:

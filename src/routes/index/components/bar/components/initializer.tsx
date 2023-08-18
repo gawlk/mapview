@@ -1,8 +1,7 @@
 import { useI18n } from '@solid-primitives/i18n'
 import localforage from 'localforage'
 
-import { store } from '/src/store'
-
+import { Button, classPropToString, DragAndDrop } from '/src/components'
 import {
   acceptedExtensions,
   downloadFile,
@@ -10,8 +9,7 @@ import {
   importFile,
   snapshotKey,
 } from '/src/scripts'
-
-import { Button, DragAndDrop, classPropToString } from '/src/components'
+import { store } from '/src/store'
 
 interface Props {
   class?: ClassProp
@@ -59,14 +57,14 @@ export const Initializer = (props: Props) => {
         ...Object.entries(demosMaxidyn),
         ...Object.entries(demosMinidyn),
       ]
-        .filter(([key, _]) =>
+        .filter(([key]) =>
           acceptedExtensions.some((extension) => key.endsWith(extension)),
         )
-        .map(async ([_, value]) => String(((await value()) as any).default)),
+        .map(async ([, value]) => String(((await value()) as AnyFile).default)),
     )
 
     const projects = await Promise.all(
-      paths.map(async (url) => await importFile(await fetchFileFromURL(url))),
+      paths.map(async (url) => importFile(await fetchFileFromURL(url))),
     )
 
     store.projects.list.sort(
@@ -81,7 +79,9 @@ export const Initializer = (props: Props) => {
   return (
     <div class={classPropToString(['space-y-2', props.class])}>
       <DragAndDrop
-        onInput={openFiles}
+        onInput={(fileList) => {
+          void openFiles(fileList)
+        }}
         accept={acceptedExtensions.join(', ')}
         buttonText={t('Open a file')}
       >
@@ -92,7 +92,9 @@ export const Initializer = (props: Props) => {
           <div class="flex space-x-2">
             <Button
               color="orange"
-              onClick={() => openFiles([snapshot()] as unknown as FileList)}
+              onClick={() => {
+                void openFiles([snapshot()] as unknown as FileList)
+              }}
               full
               leftIcon={IconTablerReload}
             >
@@ -106,7 +108,13 @@ export const Initializer = (props: Props) => {
           </div>
         )}
       </Show>
-      <Button onClick={openDemo} full leftIcon={IconTablerPlayerPlay}>
+      <Button
+        onClick={() => {
+          void openDemo()
+        }}
+        full
+        leftIcon={IconTablerPlayerPlay}
+      >
         {t('Try demo')}
       </Button>
     </div>

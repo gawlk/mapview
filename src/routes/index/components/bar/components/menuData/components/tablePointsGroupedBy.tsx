@@ -5,6 +5,7 @@ import { ZonePreTable } from './zonePreTable'
 
 interface Props {
   dataLabels: DataLabel[]
+  cellWidthClass: string
   from?: DataLabelsFrom
   index?: BaseDropIndex
   colored?: boolean

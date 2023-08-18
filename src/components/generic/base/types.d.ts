@@ -6,6 +6,7 @@ type ColorProp =
   | 'primary'
   | 'secondary'
   | 'tertiary'
+  | 'base'
   | 'gray'
   | 'red'
   | 'green'

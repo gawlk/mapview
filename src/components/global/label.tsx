@@ -1,16 +1,15 @@
-import { run } from '/src/scripts'
-
 import { classPropToString } from '/src/components'
+import { run } from '/src/scripts'
 
 export interface LabelProps extends Solid.ParentProps, BaseProps {
   label: string | Solid.JSX.Element
 }
 
 export const Label = (props: LabelProps) => {
-  const id = `${props.label}-${Math.random()}`
+  const id = `${props.label?.toString()}-${Math.random()}`
 
   return (
-    <div class="space-y-2">
+    <div class="relative space-y-2">
       <label
         for={id}
         class={classPropToString([
@@ -23,7 +22,7 @@ export const Label = (props: LabelProps) => {
             }
           }),
 
-          'break-words font-semibold',
+          'sticky top-0 z-10 -my-0.5 mx-1 inline-block break-words rounded-full bg-white/90 px-3 py-1.5 font-semibold',
         ])}
       >
         {props.label}

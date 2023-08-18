@@ -8,7 +8,6 @@ import {
   sleep,
   unzipFile,
 } from '/src/scripts'
-
 import { getFileFromPath } from '/src/tests'
 
 const acceptedExtension = ['pdx', 'F25', 'fwd', 'mpvz', 'mvrz']

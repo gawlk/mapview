@@ -1,6 +1,5 @@
 import { ReactiveMap } from '@solid-primitives/map'
-import { type Id, transformStyle } from '@thisbeyond/solid-dnd'
-import { createSortable } from '@thisbeyond/solid-dnd'
+import { createSortable, transformStyle, type Id } from '@thisbeyond/solid-dnd'
 
 export const createRefCallback = (
   element: HTMLElement,
@@ -17,17 +16,17 @@ export const createRefCallback = (
   createEffect(() => {
     const handle = element.getElementsByClassName('handle')?.[0] || element
 
-    Object.entries(sortable.dragActivators).forEach(
+    Object.entries(sortable.dragActivators).forEach(([key, f]) => {
+      // Types failing
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      ([key, f]) => (handle[key] = f),
-    )
+      handle[key] = f
+    })
   })
 
-  createEffect(
-    () =>
-      (element.style.transform =
-        transformStyle(sortable.transform).transform || ''),
-  )
+  createEffect(() => {
+    element.style.transform = transformStyle(sortable.transform).transform || ''
+  })
 
   createEffect(() => {
     const splitClasses = isDraggedClasses.split(' ')

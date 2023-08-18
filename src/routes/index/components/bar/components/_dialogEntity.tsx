@@ -1,7 +1,4 @@
 import { useI18n } from '@solid-primitives/i18n'
-
-import { store } from '/src/store'
-
 import {
   Button,
   Dialog,
@@ -9,6 +6,8 @@ import {
   DialogSelect,
   Interactive,
 } from '/src/components'
+import { run } from '/src/scripts'
+import { store } from '/src/store'
 
 export const DialogEntity = () => {
   const [t] = useI18n()
@@ -33,7 +32,11 @@ export const DialogEntity = () => {
 
     let index = (store.dialogEntity?.index || 0) + crease
 
-    index = index >= len ? 0 : index < 0 ? len - 1 : index
+    if (index >= len) {
+      index = 0
+    } else if (index < 0) {
+      index = len - 1
+    }
 
     const point = store.dialogEntity?.zone.report.line.sortedPoints[index]
 
@@ -50,7 +53,9 @@ export const DialogEntity = () => {
         id: dialogEntityButtonId,
       }}
       title={`${t('Point')} - ${t('Data')}`}
-      onCloseEnd={() => (store.dialogEntity = null)}
+      onCloseEnd={() => {
+        store.dialogEntity = null
+      }}
       sticky={
         <div class="flex space-x-2 px-4">
           <Button icon={IconTablerArrowLeft} onClick={() => creaseEntity(-1)} />
@@ -122,13 +127,16 @@ export const DialogEntity = () => {
                 <Interactive
                   component="div"
                   full
-                  leftIcon={
-                    dataValue.value.unit.name === 'Temperature'
-                      ? IconTablerTemperature
-                      : dataValue.value.unit.name === 'Distance'
-                      ? IconTablerRuler2
-                      : IconTablerNumbers
-                  }
+                  leftIcon={run(() => {
+                    switch (dataValue.value.unit.name) {
+                      case 'Temperature':
+                        return IconTablerTemperature
+                      case 'Distance':
+                        return IconTablerRuler2
+                      default:
+                        return IconTablerNumbers
+                    }
+                  })}
                   label={t(dataValue.label.name)}
                 >
                   {dataValue.value.displayedStringWithUnit}

@@ -4,6 +4,7 @@ interface InteractivePropsOnly {
   kind?: 'clickable' | 'focusable' | 'static'
 
   label?: string
+  suffix?: string
 
   full?: boolean
 

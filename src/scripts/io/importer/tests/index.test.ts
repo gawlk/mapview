@@ -1,5 +1,5 @@
-import { unzipSync } from 'fflate'
 import { readFileSync } from 'fs'
+import { unzipSync } from 'fflate'
 import { describe, expect, test } from 'vitest'
 
 import { getScreenshotFileNamesFromZIP, importFile, sleep } from '/src/scripts'

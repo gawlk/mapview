@@ -19,7 +19,7 @@ export const ContainerStory = () => {
 
       <Container class="border-red-500">class = border-red-500</Container>
 
-      <Container style="border-color: red; color: red">
+      <Container style={{ 'border-color': 'red', color: 'red' }}>
         style = "border-color: red; color: red"
       </Container>
     </Label>

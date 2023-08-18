@@ -1,5 +1,5 @@
-import { DialogDate, Label } from '/src/components'
+import { Label } from '/src/components'
 
 export const DialogDateStory = () => {
-  return <Label label="Date picker (Dialog)"></Label>
+  return <Label label="Date picker (Dialog)" />
 }

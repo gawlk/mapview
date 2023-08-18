@@ -13,6 +13,7 @@ export const SortableDataLabel = (props: Props) => {
       <Button
         full
         leftIcon={IconTablerHandStop}
+        // eslint-disable-next-line tailwindcss/no-custom-classname
         class="handle rounded-r-none"
         label={String(props.index() + 1)}
       >

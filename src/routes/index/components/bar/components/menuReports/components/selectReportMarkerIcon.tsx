@@ -1,8 +1,7 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import { formatIconSVGForUI, icons } from '/src/scripts'
-
 import { DialogSelect } from '/src/components'
+import { formatIconSVGForUI, icons } from '/src/scripts'
 
 interface Props {
   report: BaseReport

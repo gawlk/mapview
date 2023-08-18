@@ -8,5 +8,13 @@ export const containerBooleanPropsKeysObject: BooleanPropsKeysObject<ContainerPr
 
     orientation: true,
 
+    textColor: true,
+
+    bgColor: true,
+    bgHoverColor: true,
+
     border: true,
+    borderColor: true,
+    borderWidth: true,
+    borderHoverColor: true,
   }

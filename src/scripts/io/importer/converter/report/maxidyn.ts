@@ -1,13 +1,12 @@
 import { defaultThresholds } from '/src/scripts/entities'
 
-import { convertPRJZToBaseReport } from './base'
-
 import {
   convertPRJZToMaxidynDropChoices,
   convertPRJZToMaxidynDropIndexes,
 } from '../drop'
 import { convertPRJZToMaxidynPoint } from '../point'
 import { convertPRJZToTestChoices } from '../shared'
+import { convertPRJZToBaseReport } from './base'
 
 export const convertPRJZToMaxidynReport = (
   jsonPV: RecordAny,

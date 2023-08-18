@@ -1,6 +1,5 @@
-import { Icon, Label } from '/src/components'
-
 import Logo from '/src/assets/svg/mapview/logo.svg'
+import { Icon, Label } from '/src/components'
 
 export const IconStory = () => {
   const solidIconURL = 'https://start.solidjs.com/logo.svg'

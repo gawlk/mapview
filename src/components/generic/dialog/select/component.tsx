@@ -1,12 +1,11 @@
-import { addLocationToID, localStorageSetItem } from '/src/scripts'
-
 import {
+  classPropToString,
   Dialog,
   DialogOptions,
   Input,
-  classPropToString,
   valueWithTextToJSXElement,
 } from '/src/components'
+import { addLocationToID, localStorageSetItem } from '/src/scripts'
 
 import { convertDialogValuesPropsListToValuesWithTextProps } from '../options/scripts'
 
@@ -44,9 +43,9 @@ export const DialogSelect = (props: DialogSelectPropsWithHTMLAttributes) => {
         : convertDialogValuesPropsListToValuesWithTextProps(
             props.values.list,
           ).find(
-            (option) =>
-              option.value === props.values.selected ||
-              option.text === props.values.selected,
+            (_option) =>
+              _option.value === props.values.selected ||
+              _option.text === props.values.selected,
           )
 
     return option ? valueWithTextToJSXElement(option) : undefined

@@ -1,14 +1,13 @@
-import { type Map, Marker } from 'mapbox-gl'
+import { Marker, type Map } from 'mapbox-gl'
 import pica from 'pica'
 
+import SVGRotate from '/src/assets/svg/custom/rotate.svg?raw'
 import {
   createSVGElement,
   createWatcherHandler,
-  wGStoWc,
   wcToWGS,
+  wGStoWc,
 } from '/src/scripts'
-
-import SVGRotate from '/src/assets/svg/custom/rotate.svg?raw'
 
 export const createOverlay = async (
   data64: string,

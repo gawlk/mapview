@@ -1,10 +1,8 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import { store } from '/src/store'
-
-import { downloadFile, mpvzExporter } from '/src/scripts'
-
 import { Button } from '/src/components'
+import { downloadFile, mpvzExporter } from '/src/scripts'
+import { store } from '/src/store'
 
 export const ButtonSave = () => {
   const [t] = useI18n()
@@ -18,7 +16,9 @@ export const ButtonSave = () => {
       full
       leftIcon={IconTablerFileDownload}
       disabled={!store.selectedProject}
-      onClick={save}
+      onClick={() => {
+        void save()
+      }}
       color="orange"
     >
       {t('Save project')}

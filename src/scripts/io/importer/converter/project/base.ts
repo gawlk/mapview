@@ -13,8 +13,6 @@ export const convertPRJZToBaseProject = (
       version: 1,
       arePointsLinked: run(() => {
         switch (machine) {
-          case 'Heavydyn':
-            return true
           default:
             return false
         }

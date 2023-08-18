@@ -7,7 +7,7 @@ interface Props {
   to?: number
 }
 
-export const SpanThreshold = (props: Props) => {
+export const SpanCustomThresholdRange = (props: Props) => {
   const [t] = useI18n()
 
   const formatValue = (value?: number) =>
@@ -15,7 +15,9 @@ export const SpanThreshold = (props: Props) => {
       .mathUnit?.currentUnit}`
 
   return (
-    <span>{`${formatValue(props.from)} ≤ ${t(
+    <span
+      classList={{ 'line-through': props.to === props.from }}
+    >{`${formatValue(props.from)} ≤ ${t(
       props.name || '',
       undefined,
       props.name,

@@ -1,11 +1,10 @@
-import { convertPRJZToBaseReport } from './base'
-
 import {
   convertPRJZToMinidynDropChoices,
   convertPRJZToMinidynDropIndexes,
 } from '../drop'
 import { convertPRJZToMinidynPoint } from '../point'
 import { convertPRJZToTestChoices } from '../shared'
+import { convertPRJZToBaseReport } from './base'
 
 export const convertPRJZToMinidynReport = (
   jsonPV: RecordAny,

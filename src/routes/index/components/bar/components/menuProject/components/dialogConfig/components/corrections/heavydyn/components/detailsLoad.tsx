@@ -1,10 +1,9 @@
 import { useI18n } from '@solid-primitives/i18n'
 
+import { Details, DialogSelect, Input } from '/src/components'
 import { roundValue } from '/src/scripts'
 
 import { InputRadioAbled } from './inputRadioAbled'
-
-import { Details, DialogSelect, Input } from '/src/components'
 
 interface Props {
   project: HeavydynProject
@@ -27,7 +26,9 @@ export const DetailsLoad = (props: Props) => {
     >
       <InputRadioAbled
         active={load().active}
-        onChange={(value) => (load().active = value)}
+        onChange={(value) => {
+          load().active = value
+        }}
       />
       <DialogSelect
         attached
@@ -54,6 +55,7 @@ export const DetailsLoad = (props: Props) => {
             onInput={(value) =>
               mathNumber().updateValue(Number(value || 0), true)
             }
+            suffix={load().customValue.unit.currentUnit}
           />
         )}
       </Show>

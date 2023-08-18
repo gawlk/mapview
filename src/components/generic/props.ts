@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type RecordAny = Record<string, any>
 
 type RecordBoolean = Record<string, boolean>
@@ -45,7 +46,9 @@ export const stylePropToCSSProperties = (
 ) => {
   if (!style) {
     return undefined
-  } else if (typeof style === 'object') {
+  }
+
+  if (typeof style === 'object') {
     return style
   }
 
@@ -73,11 +76,10 @@ export const convertValuesPropsListToValuesWithTextProps = (
 
   if (first && typeof first !== 'string') {
     return list as (typeof first)[]
-  } else {
-    return list.map((value) => ({
-      value: value as string,
-    }))
   }
+  return list.map((value) => ({
+    value: value as string,
+  }))
 }
 
 export const isValuePropSelected = (

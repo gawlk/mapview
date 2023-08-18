@@ -1,8 +1,8 @@
 /* @refresh reload */
-import { I18nContext, createI18nContext } from '@solid-primitives/i18n'
+import { createI18nContext, I18nContext } from '@solid-primitives/i18n'
 import { MetaProvider } from '@solidjs/meta'
-import { render } from 'solid-js/web'
 import routes from '~solid-pages'
+import { render } from 'solid-js/web'
 
 import './styles/main.css'
 import 'mapbox-gl/dist/mapbox-gl.css'

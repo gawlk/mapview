@@ -1,6 +1,5 @@
-import { store } from '/src/store'
-
 import { Button } from '/src/components'
+import { store } from '/src/store'
 
 interface Props {
   overlay: Overlay

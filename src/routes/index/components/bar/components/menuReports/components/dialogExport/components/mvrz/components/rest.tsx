@@ -1,12 +1,9 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import { getBrowserLocale } from '/src/locales'
-
-import { store } from '/src/store'
-
-import { downloadFile, mvrzExporter } from '/src/scripts'
-
 import { Button, classPropToString } from '/src/components'
+import { getBrowserLocale } from '/src/locales'
+import { downloadFile, mvrzExporter, run } from '/src/scripts'
+import { store } from '/src/store'
 
 interface Props extends NavigatorComponentProps {
   template: File
@@ -76,11 +73,16 @@ export const REST = (props: Props) => {
       <div class="p-4">
         <progress
           class={classPropToString([
-            state.state === 'loading'
-              ? '[&::-moz-progress-bar]:bg-yellow-600'
-              : state.state === 'error'
-              ? '[&::-moz-progress-bar]:bg-red-600 [&::-webkit-progress-value]:bg-red-600'
-              : '[&::-moz-progress-bar]:bg-green-600 [&::-webkit-progress-value]:bg-green-600',
+            run(() => {
+              switch (state.state) {
+                case 'loading':
+                  return '[&::-moz-progress-bar]:bg-yellow-600'
+                case 'error':
+                  return '[&::-moz-progress-bar]:bg-red-600 [&::-webkit-progress-value]:bg-red-600'
+                default:
+                  return '[&::-moz-progress-bar]:bg-green-600 [&::-webkit-progress-value]:bg-green-600'
+              }
+            }),
             'bg-orange w-full rounded-full bg-gray-100 [&::-moz-progress-bar]:rounded-full [&::-webkit-progress-bar]:rounded-full [&::-webkit-progress-bar]:bg-gray-100 [&::-webkit-progress-value]:rounded-full',
           ])}
           value={state.progress}
@@ -88,11 +90,16 @@ export const REST = (props: Props) => {
         />
         <p
           class={classPropToString([
-            state.state === 'loading'
-              ? 'text-yellow-900'
-              : state.state === 'error'
-              ? 'text-red-900'
-              : 'text-green-900',
+            run(() => {
+              switch (state.state) {
+                case 'loading':
+                  return 'text-yellow-900'
+                case 'error':
+                  return 'text-red-900'
+                default:
+                  return 'text-green-900'
+              }
+            }),
             'text-center text-sm font-medium',
           ])}
         >

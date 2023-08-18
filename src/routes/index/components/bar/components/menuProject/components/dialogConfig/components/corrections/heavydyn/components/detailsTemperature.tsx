@@ -1,10 +1,9 @@
 import { useI18n } from '@solid-primitives/i18n'
 
+import { Details, DialogSelect, Input } from '/src/components'
 import { roundValue } from '/src/scripts'
 
 import { InputRadioAbled } from './inputRadioAbled'
-
-import { Details, DialogSelect, Input } from '/src/components'
 
 interface Props {
   project: HeavydynProject
@@ -29,7 +28,9 @@ export const DetailsTemperature = (props: Props) => {
     >
       <InputRadioAbled
         active={temperature().active}
-        onChange={(value) => (temperature().active = value)}
+        onChange={(value) => {
+          temperature().active = value
+        }}
       />
       <DialogSelect
         attached
@@ -59,6 +60,7 @@ export const DetailsTemperature = (props: Props) => {
             onInput={(value) =>
               temperature().customValue.updateValue(Number(value || 0), true)
             }
+            suffix={temperature().customValue.unit.currentUnit}
           />
         }
       >
@@ -88,6 +90,7 @@ export const DetailsTemperature = (props: Props) => {
         onInput={(value) =>
           temperature().reference.updateValue(Number(value || 0), true)
         }
+        suffix={temperature().reference.unit.currentUnit}
       />
       <DialogSelect
         attached

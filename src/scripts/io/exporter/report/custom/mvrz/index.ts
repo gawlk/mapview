@@ -1,5 +1,4 @@
 import { getBrowserLocale, translate } from '/src/locales'
-
 import {
   convertUint8arrayToXML,
   convertValueFromUnitAToUnitB,
@@ -167,7 +166,7 @@ const generateDropData = (
 
 const generateZoneData = (zones: MachineZone[]): ExcelJSON =>
   zones
-    .filter((zone) => zone.points.length)
+    .filter((zone) => zone.getExportablePoints().length)
     .reduce<ExcelJSON>((a, zone, index) => {
       const Z = `Z${index + 1}`
 

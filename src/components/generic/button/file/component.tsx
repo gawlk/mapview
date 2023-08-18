@@ -22,9 +22,9 @@ export const ButtonFile = (props: Props) => {
       <input
         class="hidden"
         multiple
-        onChange={(event) =>
-          props.onFiles((event.target as HTMLInputElement).files)
-        }
+        onChange={(event) => {
+          void props.onFiles((event.target as HTMLInputElement).files)
+        }}
         accept={
           Array.isArray(props.extensions)
             ? props.extensions.join(', ')

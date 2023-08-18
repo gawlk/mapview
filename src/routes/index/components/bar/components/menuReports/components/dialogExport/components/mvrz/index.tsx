@@ -1,10 +1,8 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import { store } from '/src/store'
-
+import { Button, DialogDivider } from '/src/components'
 import { downloadFile, mvrzExporter, run } from '/src/scripts'
-
-import { Button } from '/src/components'
+import { store } from '/src/store'
 
 import { Template } from './components/template'
 
@@ -20,20 +18,41 @@ export const MVRZ = (props: Props) => {
       <For each={new Array(3).fill(0)}>
         {(_, index) => <Template index={index()} {...props} />}
       </For>
+
       <Button
         leftIcon={IconTablerFileZip}
         rightIcon={IconTablerDownload}
-        onClick={() =>
-          run(
+        onClick={() => {
+          void run(
             async () =>
               store.projects.selected &&
               downloadFile(await mvrzExporter.export(store.projects.selected)),
           )
-        }
+        }}
+        full
+      >
+        <span class="flex-1 text-left">{t('Download default templates')}</span>
+      </Button>
+
+      <DialogDivider class="-mx-4" />
+
+      <Button
+        leftIcon={IconTablerFileZip}
+        rightIcon={IconTablerDownload}
+        onClick={() => {
+          void run(
+            async () =>
+              store.projects.selected &&
+              downloadFile(await mvrzExporter.export(store.projects.selected)),
+          )
+        }}
         full
       >
         <span class="flex-1 text-left">{t('Download MVRZ file')}</span>
       </Button>
+
+      <DialogDivider class="-mx-4" />
+
       <Show when={props.back}>
         <Button
           full

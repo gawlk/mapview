@@ -1,18 +1,16 @@
 import { createTimer } from '@solid-primitives/timer'
 import { Meta, Title } from '@solidjs/meta'
 
+import packageJSONRaw from '/src/../package.json?raw'
+import { env } from '/src/env'
 import { store } from '/src/store'
-
-import { checkUpdate, snapshotMPVZ } from './scripts'
 
 import { Bar } from './components/bar'
 import { Loading } from './components/loading'
 import { Map } from './components/map'
 import { Update } from './components/update'
 import { Version } from './components/version'
-
-import packageJSONRaw from '/src/../package.json?raw'
-import { env } from '/src/env'
+import { checkUpdate, snapshotMPVZ } from './scripts'
 
 const packageJSON = JSON.parse(packageJSONRaw)
 

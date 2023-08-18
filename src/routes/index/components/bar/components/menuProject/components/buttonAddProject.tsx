@@ -1,8 +1,6 @@
-import { store } from '/src/store'
-
-import { importFile } from '/src/scripts'
-
 import { ButtonFile } from '/src/components'
+import { importFile } from '/src/scripts'
+import { store } from '/src/store'
 
 export const ButtonAddProject = () => {
   const addProject = async (file: File | undefined) => {
@@ -19,11 +17,5 @@ export const ButtonAddProject = () => {
     }
   }
 
-  return (
-    <ButtonFile
-      onFiles={(files) => {
-        addProject(files?.[0])
-      }}
-    />
-  )
+  return <ButtonFile onFiles={(files) => addProject(files?.[0])} />
 }

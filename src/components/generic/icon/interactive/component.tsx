@@ -1,10 +1,9 @@
-import { run } from '/src/scripts'
-
 import {
   Icon,
   iconInteractiveBooleanPropsKeysObject,
   removeProps,
 } from '/src/components'
+import { run } from '/src/scripts'
 
 interface Props extends MergePropsWithHTMLProps<IconInteractiveProps> {}
 

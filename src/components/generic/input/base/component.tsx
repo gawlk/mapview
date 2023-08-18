@@ -1,16 +1,15 @@
-import { addLocationToID, debounce, localStorageSetItem } from '/src/scripts'
-
 import {
-  Button,
-  Interactive,
   baseBooleanPropsKeysObject,
   booleanPropsKeysToArray,
+  Button,
   classPropToString,
   containerBooleanPropsKeysObject,
   inputBooleanPropsKeysObject,
+  Interactive,
   interactiveBooleanPropsKeysObject,
   removeProps,
 } from '/src/components'
+import { addLocationToID, debounce, localStorageSetItem } from '/src/scripts'
 
 type Props = InputPropsWithHTMLAttributes
 
@@ -44,7 +43,9 @@ export const Input = (props: Props) => {
   const type = createMemo(
     () =>
       props.type ||
-      (props.max || props.min || props.step ? 'number' : undefined),
+      (props.max || props.min || props.step || typeof props.value === 'number'
+        ? 'number'
+        : undefined),
   )
 
   const needsFixing = createMemo(
@@ -88,10 +89,13 @@ export const Input = (props: Props) => {
         'inline-flex flex-1 space-x-2',
       ])}
       ref={props.wrapperRef}
+      // Types failing
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       onClick={props.onClick}
     >
       <Interactive
+        bgColor="base"
         kind="focusable"
         rightIcon={props.readOnly ? IconTablerLock : undefined}
         {...interactiveProps}

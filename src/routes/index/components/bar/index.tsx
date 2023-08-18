@@ -65,26 +65,12 @@ export const Bar = () => {
                 undefined,
             )
 
-            // const [mounted, setMounted] = createSignal(false)
-
-            // TODO: Only run on HMR, resizing breaks
-            // createEffect(() => {
-            //   setMounted(false)
-            //   const el = element()
-            //   if (el) {
-            //     el.innerHTML = ''
-            //     setMounted(true)
-            //   }
-            // })
-
             return (
-              // <Show when={mounted()}>
               <Portal mount={element()}>
                 <div class="space-y-1.5">
                   <Dynamic component={menu.component} />
                 </div>
               </Portal>
-              // </Show>
             )
           }}
         </For>

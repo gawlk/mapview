@@ -93,7 +93,9 @@ const processScroll = (
       scrollableHeightOrWidth - pad
   ) {
     return scroll(scrollableParent, orientation, 1)
-  } else if (
+  }
+
+  if (
     scrollableTopOrLeft + pad > parentTopOrLeft &&
     mouseXOrY - windowScrollXOrY < scrollableTopOrLeft + pad
   ) {

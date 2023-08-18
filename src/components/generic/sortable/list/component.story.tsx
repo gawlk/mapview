@@ -1,4 +1,4 @@
-import { Dialog, Label, Td, Tr, classPropToString } from '/src/components'
+import { Label, Td, Tr } from '/src/components'
 
 import { SortableList } from '.'
 

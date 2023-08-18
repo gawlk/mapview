@@ -1,12 +1,11 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import { run } from '/src/scripts'
-
 import {
   Button,
   isValuePropSelected,
   valueWithTextToJSXElement,
 } from '/src/components'
+import { run } from '/src/scripts'
 
 import { convertDialogValuesPropsListToValuesWithTextProps } from '../scripts'
 
@@ -26,32 +25,34 @@ export const DialogOptionsList = (props: Props) => {
   )
 
   const list = createMemo(() =>
-    unfilteredList().filter(
-      (option) =>
-        !props.input ||
-        (option.text
-          ? typeof option.text === 'function'
-            ? // @ts-ignore
+    unfilteredList().filter((option) => {
+      if (!props.input) return true
+
+      let value
+
+      if (option.text) {
+        value =
+          typeof option.text === 'function'
+            ? // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
               option.text()?.textContent
             : option.text
-          : option.value
-        )
-          .toLowerCase()
-          .includes(props.input.toLowerCase()),
-    ),
+      } else {
+        value = option.value
+      }
+
+      return value.toLowerCase().includes(props.input.toLowerCase())
+    }),
   )
 
+  const _finalList = createMemo(() => {
+    if (list().length) return list()
+    if (props.showAllWhenEmpty) return unfilteredList()
+    return undefined
+  })
+
   return (
-    <Show
-      when={
-        list().length
-          ? list()
-          : props.showAllWhenEmpty
-          ? unfilteredList()
-          : undefined
-      }
-      fallback={<p>{t('The list is empty')}</p>}
-    >
+    <Show when={_finalList()} fallback={<p>{t('The list is empty')}</p>}>
       {(finalList) => (
         <For each={finalList()}>
           {(option, index) => {

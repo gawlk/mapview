@@ -12,7 +12,7 @@ export const Section = (props: Props) => {
         <Show when={props.number} fallback={props.title}>
           <div class="flex items-center space-x-3">
             <div
-              style="font-size: 0.75em"
+              style={{ 'font-size': '0.75em' }}
               class="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-neutral-600"
             >
               <span>{props.number}</span>

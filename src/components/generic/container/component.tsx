@@ -1,5 +1,3 @@
-import { run } from '/src/scripts'
-
 import {
   baseBooleanPropsKeysObject,
   classPropToString,
@@ -7,10 +5,9 @@ import {
   removeProps,
   stylePropToCSSProperties,
 } from '/src/components'
+import { run } from '/src/scripts'
 
 type Props = ContainerPropsWithHTMLAttributes
-
-// TODO: Make classes opt in
 
 export const Container = (props: Props) => {
   const dynamicProps = removeProps(props, [
@@ -25,7 +22,7 @@ export const Container = (props: Props) => {
       class={classPropToString([
         // Text color
         run(() => {
-          switch (props.color) {
+          switch (props.textColor || props.color) {
             case 'primary':
               return 'text-black/90'
             case 'red':
@@ -36,18 +33,16 @@ export const Container = (props: Props) => {
               return 'text-orange-900'
             case 'yellow':
               return 'text-yellow-900'
-            default:
+            case 'base':
               return 'text-black/90'
           }
         }),
 
         // Background color
         run(() => {
-          switch (props.color) {
+          switch (props.bgColor) {
             case 'primary':
               return 'bg-orange-700'
-            case 'secondary':
-              return 'bg-black bg-opacity-5'
             case 'gray':
               return 'bg-neutral-100'
             case 'red':
@@ -60,35 +55,67 @@ export const Container = (props: Props) => {
               return 'bg-yellow-200'
             case 'transparent':
               return 'bg-transparent'
-            default:
-              return 'bg-white'
+            case 'base':
+              return 'bg-black/5'
+          }
+        }),
+
+        // Background hover color
+        run(() => {
+          switch (props.bgHoverColor) {
+            case 'primary':
+              return 'bg-orange-800'
+            case 'gray':
+              return 'bg-neutral-200'
+            case 'red':
+              return 'bg-red-300'
+            case 'green':
+              return 'bg-green-300'
+            case 'orange':
+              return 'bg-orange-300'
+            case 'yellow':
+              return 'bg-yellow-300'
+            case 'transparent':
+              return 'bg-black/5'
+            case 'base':
+              return 'bg-black/10'
           }
         }),
 
         // Border width
         run(() => {
-          if (props.border !== false) {
-            switch (props.size) {
-              default:
-                return 'border-2'
-            }
+          if (props.border === false) return
+
+          switch (props.size) {
+            default:
+              return 'border-2'
           }
         }),
 
         // Border color
         run(() => {
-          switch (props.color) {
+          switch (props.borderColor ?? props.color) {
             case 'primary':
-            case 'secondary':
             case 'red':
             case 'green':
             case 'orange':
             case 'transparent':
               return 'border-transparent'
-            case 'tertiary':
-              return 'border-transparent hover:border-neutral-600'
-            default:
+            case 'base':
               return 'border-black border-opacity-5'
+          }
+        }),
+
+        // Border color
+        run(() => {
+          switch (props.borderHoverColor) {
+            case 'primary':
+            case 'red':
+            case 'green':
+            case 'orange':
+            case 'tertiary':
+            case 'transparent':
+              return 'hover:border-black/10'
           }
         }),
 
@@ -146,7 +173,7 @@ export const Container = (props: Props) => {
               return 'text-sm'
             case 'xs':
               return 'text-xs'
-            default:
+            case 'base':
               return 'text-base'
           }
         }),

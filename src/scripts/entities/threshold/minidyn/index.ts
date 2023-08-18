@@ -15,8 +15,8 @@ export const createMinidynThresholdsGroupsFromJSON = (
       unit: units.modulus,
       choices: createSelectableList(
         [
-          ...defaultThresholds.modulus,
           createCustomThreshold(json.modulus.custom),
+          ...defaultThresholds.modulus,
         ] as ThresoldsList,
         {
           selectedIndex: json.modulus.selectedIndex,

@@ -1,9 +1,9 @@
 import {
+  classPropToString,
+  dialogClassicBooleanPropsKeysObject,
   DialogCore,
   DialogOptions,
   Input,
-  classPropToString,
-  dialogClassicBooleanPropsKeysObject,
   removeProps,
 } from '/src/components'
 
@@ -57,7 +57,9 @@ export const InputDataList = (props: Props) => {
         {...dialogProps}
         attach={state.wrapper}
         onIdCreated={(id) => setState('id', id)}
-        onOpenCreated={(open) => (openDialog = open)}
+        onOpenCreated={(open) => {
+          openDialog = open
+        }}
         onClose={(value) => value && onInput(value)}
         form={
           <div class="space-y-1">

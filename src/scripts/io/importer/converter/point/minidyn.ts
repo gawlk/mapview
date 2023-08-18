@@ -1,6 +1,5 @@
-import { convertPRJZToBasePoint } from './base'
-
 import { convertPRJZToMinidynDrop } from '../drop'
+import { convertPRJZToBasePoint } from './base'
 
 export const convertPRJZToMinidynPoint = (
   jsonPoint: RecordAny,

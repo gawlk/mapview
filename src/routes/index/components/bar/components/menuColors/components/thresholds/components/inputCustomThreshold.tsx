@@ -1,6 +1,5 @@
-import { store } from '/src/store'
-
 import { Input, InputRadioHorizontal } from '/src/components'
+import { store } from '/src/store'
 
 interface Props extends InputProps {
   isRange: boolean
@@ -27,8 +26,7 @@ export const InputCustomThreshold = (props: Props) => {
           ],
         }}
         onChange={(value) =>
-          store.selectedReport &&
-          props.setIsRange(value === 'range' ? true : false)
+          store.selectedReport && props.setIsRange(value === 'range')
         }
       />
       <Input

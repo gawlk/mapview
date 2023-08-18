@@ -3,9 +3,8 @@ import {
   createHeavydynReportFromJSON,
 } from '/src/scripts'
 
-import { createHeavydynProjectCorrectionParametersFromJSON } from './correctionParameters'
-
 import { createBaseProjectFromJSON } from '../base'
+import { createHeavydynProjectCorrectionParametersFromJSON } from './correctionParameters'
 
 export const createHeavydynProjectFromJSON = (
   json: JSONHeavydynProjectVAny,

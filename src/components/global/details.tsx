@@ -57,6 +57,7 @@ export const Details = (props: Props) => {
         </Button>
       </summary>
       <Container
+        borderColor="base"
         class={[
           state.open && 'rounded-t-none',
           'space-y-2 overflow-hidden border-t-0',

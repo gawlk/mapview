@@ -1,8 +1,7 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import { store } from '/src/store'
-
 import { Dialog } from '/src/components'
+import { store } from '/src/store'
 
 import { ButtonFitOverlay } from './components/buttonFitOverlay'
 import { ButtonOverlayOpacity } from './components/buttonOverlayOpacity'

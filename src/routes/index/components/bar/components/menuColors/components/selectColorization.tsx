@@ -1,8 +1,7 @@
 import { useI18n } from '@solid-primitives/i18n'
 
-import { store } from '/src/store'
-
 import { DialogSelect } from '/src/components'
+import { store } from '/src/store'
 
 export const SelectColorization = () => {
   const [t] = useI18n()
@@ -25,13 +24,13 @@ export const SelectColorization = () => {
           text: t(possibility),
         })),
       }}
-      onClose={(value) =>
+      onClose={(value) => {
         value &&
-        store.selectedReport &&
-        (possibilities as string[]).includes(value) &&
-        (store.selectedReport.settings.colorization =
-          value as ReportColorization)
-      }
+          store.selectedReport &&
+          (possibilities as string[]).includes(value) &&
+          (store.selectedReport.settings.colorization =
+            value as ReportColorization)
+      }}
     />
   )
 }

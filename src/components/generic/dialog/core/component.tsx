@@ -6,14 +6,12 @@ import {
 } from '@solid-primitives/resize-observer'
 import defaultTailwindCSSTheme from 'tailwindcss/defaultTheme'
 
-import { run } from '/src/scripts'
-
 import {
-  createRelativePositionEffect,
-  forceCloseChildDialogs,
-  makeClickOutsideEventListener,
-  openForcedClosedChildDialogs,
-} from './scripts'
+  classPropToString,
+  dialogBooleanPropsKeysObject,
+  removeProps,
+} from '/src/components'
+import { run } from '/src/scripts'
 
 import {
   DialogBackdrop,
@@ -24,12 +22,12 @@ import {
   DialogLinesDefaultPosition,
   DialogResizers,
 } from './components'
-
 import {
-  classPropToString,
-  dialogBooleanPropsKeysObject,
-  removeProps,
-} from '/src/components'
+  createRelativePositionEffect,
+  forceCloseChildDialogs,
+  makeClickOutsideEventListener,
+  openForcedClosedChildDialogs,
+} from './scripts'
 
 type Props = DialogPropsWithHTMLAttributes
 
@@ -95,8 +93,10 @@ export const DialogCore = (props: Props) => {
     const list = dialogsDiv()?.getElementsByTagName('dialog')
 
     const zIndexes = Array.from(list || [])
-      .filter((dialog) => dialog.open)
-      .map((dialog) => (Number(dialog.style.zIndex) || baseZIndex) - baseZIndex)
+      .filter((_dialog) => _dialog.open)
+      .map(
+        (_dialog) => (Number(_dialog.style.zIndex) || baseZIndex) - baseZIndex,
+      )
 
     const maxZIndex = zIndexes.length ? Math.max(...zIndexes) : 0
 
@@ -189,7 +189,7 @@ export const DialogCore = (props: Props) => {
 
   createEffect(() => {
     if (props.attach) {
-      const [elements, _] = createSignal([props.attach])
+      const [elements] = createSignal([props.attach])
       createIntersectionObserver(
         elements,
         (entries) => {
@@ -296,7 +296,7 @@ export const DialogCore = (props: Props) => {
       >
         <div class="relative flex w-full">
           <div class="flex flex-1 flex-col space-y-3">
-            <Show when={!isAttached()}>
+            <Show when={!isAttached() && props.color !== 'transparent'}>
               <DialogHeader
                 dialog={dialog()}
                 maximized={state.maximized}

@@ -1,12 +1,10 @@
-import { store } from '/src/store'
-
-import { DialogSelect } from '/src/components'
-
 import mapboxDarkStyle from '/src/assets/png/mapboxStyles/dark.png'
 import mapboxLightStyle from '/src/assets/png/mapboxStyles/light.png'
 import mapboxOutdoorsStyle from '/src/assets/png/mapboxStyles/outdoors.png'
 import mapboxSatelliteStyle from '/src/assets/png/mapboxStyles/satellite.png'
 import mapboxStreetsStyle from '/src/assets/png/mapboxStyles/streets.png'
+import { DialogSelect } from '/src/components'
+import { store } from '/src/store'
 
 export const SelectMapStyle = () => {
   const stylesImages = [

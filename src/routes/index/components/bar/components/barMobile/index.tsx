@@ -2,9 +2,8 @@ import { createResizeObserver } from '@solid-primitives/resize-observer'
 
 import { store } from '/src/store'
 
-import { MenuWrapperMobile, baseID } from './components/menuWrapperMobile'
-
 import { Initializer } from '../initializer'
+import { baseID, MenuWrapperMobile } from './components/menuWrapperMobile'
 
 interface Props {
   readonly menus: Menu[]
@@ -12,7 +11,7 @@ interface Props {
 }
 
 export const BarMobile = (props: Props) => {
-  props.menus?.map((menu) => {
+  props.menus?.forEach((menu) => {
     menu.openedOnMobile = false
   })
 
@@ -25,7 +24,7 @@ export const BarMobile = (props: Props) => {
     }
   }
 
-  let div = undefined as HTMLDivElement | undefined
+  const [div, setDiv] = createSignal<HTMLDivElement | undefined>(undefined)
 
   onMount(() => {
     if (!div) return
@@ -43,7 +42,7 @@ export const BarMobile = (props: Props) => {
         </div>
       </Show>
 
-      <div ref={div} class="relative flex items-center justify-around">
+      <div ref={setDiv} class="relative flex items-center justify-around">
         <For each={props.menus}>
           {(menu) => (
             <MenuWrapperMobile
@@ -54,7 +53,9 @@ export const BarMobile = (props: Props) => {
               class={menu.class}
               opened={menu.openedOnMobile}
               disabled={!store.selectedProject}
-              onClick={() => selectMenu(menu)}
+              onClick={() => {
+                selectMenu(menu)
+              }}
             />
           )}
         </For>

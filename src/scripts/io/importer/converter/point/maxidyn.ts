@@ -1,6 +1,5 @@
-import { convertPRJZToBasePoint } from './base'
-
 import { convertPRJZToMaxidynDrop } from '../drop'
+import { convertPRJZToBasePoint } from './base'
 
 export const convertPRJZToMaxidynPoint = (
   jsonPoint: RecordAny,

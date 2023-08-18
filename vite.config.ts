@@ -1,9 +1,10 @@
+import { fileURLToPath } from 'url'
 import autoprefixer from 'autoprefixer'
 import tailwindcss from 'tailwindcss'
+import Unimport from 'unimport/unplugin'
 import unpluginAutoImport from 'unplugin-auto-import/vite'
 import unpluginIconsResolver from 'unplugin-icons/resolver'
 import unpluginIcons from 'unplugin-icons/vite'
-import { fileURLToPath } from 'url'
 import { defineConfig } from 'vite'
 import solidPages from 'vite-plugin-pages'
 import solid from 'vite-plugin-solid'
@@ -25,6 +26,11 @@ export default defineConfig({
         '**/scripts/**/*',
         '**/*.d.ts',
       ],
+    }),
+
+    Unimport.vite({
+      dts: './src/types/unimport.d.ts',
+      presets: [],
     }),
 
     unpluginAutoImport({

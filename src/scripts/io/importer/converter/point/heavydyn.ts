@@ -1,6 +1,5 @@
-import { convertPRJZToBasePoint } from './base'
-
 import { convertPRJZToHeavydynDrop } from '../drop'
+import { convertPRJZToBasePoint } from './base'
 
 export const convertPRJZToHeavydynPoint = (
   jsonPoint: RecordAny,

@@ -2,7 +2,7 @@ import { useI18n } from '@solid-primitives/i18n'
 import localForage from 'localforage'
 
 import { Button, ButtonFile } from '/src/components'
-import { convertData64ToFile, downloadFile } from '/src/scripts'
+import { downloadFile } from '/src/scripts'
 import { store } from '/src/store'
 
 import { getTemplateKey } from './scripts'
@@ -29,10 +29,7 @@ export const Template = (props: Props) => {
   createEffect(async () => {
     const file: AnyFile = await localForage.getItem(key())
 
-    setState(
-      'file',
-      file ? await convertData64ToFile(file.data64, file.name) : null,
-    )
+    setState('file', file || null)
   })
 
   const updateFile = async (file: File | undefined) => {

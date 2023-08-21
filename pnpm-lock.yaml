@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: true
@@ -65,8 +65,8 @@ devDependencies:
     specifier: ^0.3.0
     version: 0.3.0(typescript@5.0.4)(vite@4.2.1)
   '@edge-runtime/vm':
-    specifier: ^2.1.2
-    version: 2.1.2
+    specifier: ^3.0.4
+    version: 3.0.4
   '@iconify-json/heroicons-outline':
     specifier: ^1.1.6
     version: 1.1.6
@@ -204,7 +204,7 @@ devDependencies:
     version: 4.0.0
   vitest:
     specifier: ^0.30.1
-    version: 0.30.1(@edge-runtime/vm@2.1.2)(@vitest/ui@0.30.1)
+    version: 0.30.1(@edge-runtime/vm@3.0.4)(@vitest/ui@0.30.1)
   vue-tsc:
     specifier: ^1.2.0
     version: 1.2.0(typescript@5.0.4)
@@ -1406,7 +1406,7 @@ packages:
       '@babel/helper-plugin-utils': 7.22.5
       '@babel/plugin-proposal-unicode-property-regex': 7.18.6(@babel/core@7.22.8)
       '@babel/plugin-transform-dotall-regex': 7.22.5(@babel/core@7.22.8)
-      '@babel/types': 7.21.4
+      '@babel/types': 7.22.5
       esutils: 2.0.3
     dev: true
 
@@ -1573,16 +1573,16 @@ packages:
       stackframe: 1.3.4
     dev: true
 
-  /@edge-runtime/primitives@2.1.2:
-    resolution: {integrity: sha512-SR04SMDybALlhIYIi0hiuEUwIl0b7Sn+RKwQkX6hydg4+AKMzBNDFhj2nqHDD1+xkHArV9EhmJIb6iGjShwSzg==}
+  /@edge-runtime/primitives@3.0.4:
+    resolution: {integrity: sha512-ZisWDavCpjroNbXZ1FZ2qHqlNfTXjIcQx+7aRdC+n6DVsTShUW7S+urGj2Wags5CH0oICWRoksYX5GngW7SZzw==}
     engines: {node: '>=14'}
     dev: true
 
-  /@edge-runtime/vm@2.1.2:
-    resolution: {integrity: sha512-j4H5S26NJhYOyjVMN8T/YJuwwslfnEX1P0j6N2Rq1FaubgNowdYunA9nlO7lg8Rgjv6dqJ2zKuM7GD1HFtNSGw==}
+  /@edge-runtime/vm@3.0.4:
+    resolution: {integrity: sha512-/QvVIn2+nO48dO3cl5tD3cjoF/xJ7WfTKBIs/oKgfmmWbEQ4EixKlOTJEpcBdOni0E8FCHIc7yxoJGq1qcLdCg==}
     engines: {node: '>=14'}
     dependencies:
-      '@edge-runtime/primitives': 2.1.2
+      '@edge-runtime/primitives': 3.0.4
     dev: true
 
   /@esbuild/android-arm64@0.17.19:
@@ -2574,7 +2574,7 @@ packages:
       c8: 7.14.0
       picocolors: 1.0.0
       std-env: 3.3.3
-      vitest: 0.30.1(@edge-runtime/vm@2.1.2)(@vitest/ui@0.30.1)
+      vitest: 0.30.1(@edge-runtime/vm@3.0.4)(@vitest/ui@0.30.1)
     dev: true
 
   /@vitest/expect@0.30.1:
@@ -6843,7 +6843,7 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitest@0.30.1(@edge-runtime/vm@2.1.2)(@vitest/ui@0.30.1):
+  /vitest@0.30.1(@edge-runtime/vm@3.0.4)(@vitest/ui@0.30.1):
     resolution: {integrity: sha512-y35WTrSTlTxfMLttgQk4rHcaDkbHQwDP++SNwPb+7H8yb13Q3cu2EixrtHzF27iZ8v0XCciSsLg00RkPAzB/aA==}
     engines: {node: '>=v14.18.0'}
     hasBin: true
@@ -6874,7 +6874,7 @@ packages:
       webdriverio:
         optional: true
     dependencies:
-      '@edge-runtime/vm': 2.1.2
+      '@edge-runtime/vm': 3.0.4
       '@types/chai': 4.3.5
       '@types/chai-subset': 1.3.3
       '@types/node': 20.4.1
@@ -7103,7 +7103,6 @@ packages:
 
   /workbox-cacheable-response@6.6.0:
     resolution: {integrity: sha512-JfhJUSQDwsF1Xv3EV1vWzSsCOZn4mQ38bWEBR3LdvOxSPgB65gAM6cS2CX8rkkKHRgiLrN7Wxoyu+TuH67kHrw==}
-    deprecated: workbox-background-sync@6.6.0
     dependencies:
       workbox-core: 6.6.0
     dev: true

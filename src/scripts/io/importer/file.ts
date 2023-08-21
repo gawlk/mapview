@@ -9,8 +9,6 @@ import {
   waitForMap,
 } from '/src/scripts'
 
-const CONSOLE_FILE_STATEMENT = 'import: file'
-
 export const unzippedToObject = (unzipped: Fflate.Unzipped) => {
   const jsonUint = unzipped['database.json']
 

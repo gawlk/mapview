@@ -31,8 +31,8 @@
     // ---
     // Solid
     // ---
-    // Fails with createEffect(on(...)), remove after fix
-    "solid/reactivity": "off",
+    // Fails with createEffect(on(...)), remove after fix: https://github.com/solidjs-community/eslint-plugin-solid/issues/105
+    // "solid/reactivity": "off",
     // Sadly doesn't support auto imports
     "solid/jsx-no-undef": "off",
 

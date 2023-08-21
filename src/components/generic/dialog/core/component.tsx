@@ -123,7 +123,8 @@ export const DialogCore = (props: Props) => {
 
     openForcedClosedChildDialogs(forcedClosedChildDialogsOpenButtons)
   }
-  props.onOpenCreated?.(open)
+
+  createEffect(() => props.onOpenCreated?.(open))
 
   const close: DialogCloseFunction = (element?: HTMLElement) => {
     forceCloseChildDialogs(dialog(), forcedClosedChildDialogsOpenButtons)
@@ -137,7 +138,8 @@ export const DialogCore = (props: Props) => {
       open: false,
     })
   }
-  props.onCloseCreated?.(close)
+
+  createEffect(() => props.onCloseCreated?.(close))
 
   const toggle: DialogToggleFunction = (isUserEvent) => {
     if (!state.open) {
@@ -146,7 +148,8 @@ export const DialogCore = (props: Props) => {
       close()
     }
   }
-  props.onToggleCreated?.(toggle)
+
+  createEffect(() => props.onToggleCreated?.(toggle))
 
   createEffect(() => props.onIdCreated?.(id()))
 

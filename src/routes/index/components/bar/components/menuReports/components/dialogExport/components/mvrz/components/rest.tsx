@@ -18,7 +18,7 @@ export const REST = (props: Props) => {
     message: t('Loading'),
   })
 
-  onMount(async () => {
+  createEffect(async () => {
     if (!store.selectedProject) {
       return
     }

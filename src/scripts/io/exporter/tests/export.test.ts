@@ -1,5 +1,4 @@
 import { readdirSync, statSync } from 'fs'
-import { unzipSync } from 'fflate'
 import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest'
 
 import {
@@ -7,11 +6,12 @@ import {
   heavydynF25Exporter,
   heavydynPDXExporter,
   heavydynSwecoExporter,
+  mpvzExporter,
   mvrzExporter,
 } from '/src/scripts'
 import { filesToString } from '/src/tests'
 
-import { exportFile } from './scripts'
+import { importFiles } from './scripts'
 
 describe('Test exports', async () => {
   const testData: ReportTestExportData[] = []
@@ -25,7 +25,7 @@ describe('Test exports', async () => {
       const stats = statSync(subPath)
 
       if (stats.isDirectory()) {
-        testData.push(...(await exportFile(subPath, file)))
+        testData.push(...(await importFiles(subPath, file)))
       }
     }),
   ])
@@ -107,23 +107,26 @@ describe('Test exports', async () => {
       .filter((data) => data.mvrz)
       .map((data) => [data.directoryName, data.mpvz.project, data.mvrz]),
   )('test mvrz: %s', async (_, project, expected) => {
-    const mpvzFile = await mvrzExporter.export(project as MachineProject)
+    const mvrzFile = await mvrzExporter.export(project as MachineProject)
 
-    expect(mpvzFile.name).toSatisfy(
+    expect(mvrzFile.name).toSatisfy(
       (val: string) => val.substring(val.length - 4) === 'mvrz',
     )
 
-    const data = new Uint8Array(await mpvzFile.arrayBuffer())
+    await expect(mvrzFile).toHaveSameZip(expected)
+  })
 
-    expect(() => unzipSync(data)).not.toThrowError('invalid zip data')
+  test.each(
+    testData
+      .filter((data) => data.mpvz.file)
+      .map((data) => [data.directoryName, data.mpvz.project, data.mpvz.file]),
+  )('test mpvz: %s', async (_, project, expected) => {
+    const mpvzFile = await mpvzExporter.export(project as MachineProject)
 
-    const expectedData = new Uint8Array(await expected.arrayBuffer())
+    expect(mpvzFile.name).toSatisfy(
+      (val: string) => val.substring(val.length - 4) === 'mpvz',
+    )
 
-    const unzippedContent = unzipSync(data)
-    const unzippedExpected = unzipSync(expectedData)
-
-    expect(unzippedContent).toHaveSameRawData(unzippedExpected)
-    expect(unzippedContent).toHaveSameScreenshots(unzippedExpected)
-    expect(unzippedContent).toHaveSameJSON(unzippedExpected)
+    await expect(mpvzFile).toHaveSameZip(expected)
   })
 })

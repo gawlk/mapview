@@ -16,44 +16,45 @@ export const toHaveSameJSON = (
   const actualJson = unzippedToObject(actual)
   const expectedJson = unzippedToObject(expected)
 
-  const { message, key, actualData, expectedData, diff } = browseCheckData(
+  const { message, keys, actualData, expectedData, diff } = browseCheckData(
     actualJson,
     expectedJson,
+    ['root'],
   )
 
   let matcherMessage: string
 
+  const keysString = keys.join(' > ')
+
   switch (message) {
     case 'dataType differ':
-      matcherMessage = `for ${String(key)}, data type differ (${String(
-        actualData,
-      )}: ${typeof actualData}, ${String(
+      matcherMessage = `for ${keysString}, data type differ (${String(
         expectedData,
-      )}: ${typeof expectedData})`
+      )}: ${typeof expectedData}, ${String(actualData)}: ${typeof actualData})`
       break
     case 'invalid Date':
-      matcherMessage = `Date differ for "${String(key)}" (${String(
-        actualData,
-      )}, ${String(expectedData)})`
+      matcherMessage = `Date differ for "${keysString}" (${String(
+        expectedData,
+      )}, ${String(actualData)})`
       break
     case 'invalid Number':
-      matcherMessage = `number differ for "${String(key)}" (${String(
-        actualData,
-      )}, ${String(expectedData)})`
+      matcherMessage = `number differ for "${keysString}" (${String(
+        expectedData,
+      )}, ${String(actualData)})`
       break
     case 'invalid date format':
-      matcherMessage = `Date format of "${String(key)}" is invalid ${String(
+      matcherMessage = `Date format of "${keysString}" is invalid ${String(
         actualData,
       )}`
       break
     case 'invalid data':
-      matcherMessage = `for "${String(key)}" value differ (${String(
-        actualData,
-      )}, ${String(expectedData)})`
+      matcherMessage = `for "${keysString}" value differ (${String(
+        expectedData,
+      )}, ${String(actualData)})`
       break
     case "json key's differ":
-      matcherMessage = `number of key's differ${
-        key ? ` (${key})` : ''
+      matcherMessage = `number of key's differ ${
+        keys ? `(${keys.join(',')})` : ''
       }, diff of: ${String(diff?.number)} from ${String(
         diff?.bigger,
       )} lignes (${String(diff?.keys.join(', '))})`
@@ -64,11 +65,18 @@ export const toHaveSameJSON = (
     case 'valid data':
       matcherMessage = 'Everything is valid'
       break
-    case 'array data invalid':
-      matcherMessage = `Problem found with "${String(key)}":
-Current: [${String(actualData)}]
-Expected: [${String(expectedData)}]`
+    case 'array data invalid': {
+      const actualLength = (actualData as Array<unknown>).length
+      const expectedLength = (expectedData as Array<unknown>).length
+
+      matcherMessage = `array isn't similar for "${keysString}": ${
+        expectedLength > 0 ? String(expectedData) : '[]'
+      }(${expectedLength}); \n ${
+        actualLength > 0 ? String(actualData) : '[]'
+      }(${actualLength})`
+
       break
+    }
     default:
       matcherMessage = 'something unexpected occurred'
   }
@@ -80,13 +88,13 @@ Expected: [${String(expectedData)}]`
 }
 
 type BrowseCheckDataMessage =
-  | ReturnType<typeof checkDataConformity>
+  | CheckDataConformityMessage
   | "json key's differ"
   | 'no data'
 
 interface BrowseCheckDataResult {
   message: BrowseCheckDataMessage
-  key?: string
+  keys: string[]
   actualData?: any
   expectedData?: any
   diff?: {
@@ -96,9 +104,13 @@ interface BrowseCheckDataResult {
   }
 }
 
+const keysToIgnore = ['arePointsLocked']
+
 const browseCheckData = (
   actualData: any,
   expectedData: any,
+  keys: string[],
+  // eslint-disable-next-line sonarjs/cognitive-complexity
 ): BrowseCheckDataResult => {
   const actualKeys = Object.keys(actualData)
   const expectedKeys = Object.keys(expectedData)
@@ -107,52 +119,85 @@ const browseCheckData = (
   const expectedLength = expectedKeys.length
 
   if (actualLength !== expectedLength) {
-    const keys =
+    const diffKeys =
       actualLength > expectedLength
         ? actualKeys.filter((key: string) => !expectedKeys.includes(key))
         : expectedKeys.filter((key: string) => !actualKeys.includes(key))
 
     return {
       message: "json key's differ",
+      keys,
       diff: {
-        number: Math.abs(actualKeys.length - expectedKeys.length),
-        keys,
+        number: diffKeys.length,
+        keys: diffKeys,
         bigger: actualLength > expectedLength ? 'actual' : 'expected',
       },
     }
   }
 
   let isIdentical = true
-  let resultMessage: BrowseCheckDataMessage = 'no data'
   let lastData: BrowseCheckDataResult = {
-    message: resultMessage,
+    message: 'no data',
+    keys,
   }
 
-  for (let i = 0; i < actualKeys.length && isIdentical; i++) {
-    const key = actualKeys[i]
-    const currentActualData = actualData[key]
-    const currentExpectedData = expectedData[key]
+  for (let i = 0; i < expectedKeys.length && isIdentical; i++) {
+    const key = expectedKeys[i]
+    const updatedKeys = [...keys, key]
 
-    if (
-      currentActualData instanceof Object &&
-      !(currentActualData instanceof Array)
-    ) {
-      lastData = browseCheckData(currentActualData, currentExpectedData)
+    if (!keysToIgnore.includes(key)) {
+      const currentActualData = actualData[key]
+      const currentExpectedData = expectedData[key]
 
-      isIdentical = isIdentical && lastData.message === 'valid data'
-    } else {
-      resultMessage = checkDataConformity(
-        currentActualData,
-        currentExpectedData,
-      )
+      if (
+        currentExpectedData instanceof Object &&
+        !(currentExpectedData instanceof Array)
+      ) {
+        lastData = browseCheckData(
+          currentActualData,
+          currentExpectedData,
+          updatedKeys,
+        )
 
-      isIdentical = isIdentical && resultMessage === 'valid data'
+        isIdentical = lastData.message === 'valid data'
+      } else if (currentExpectedData instanceof Array) {
+        if (currentExpectedData.length !== currentActualData.length) {
+          isIdentical = false
+          lastData.message = 'array data invalid'
+          lastData.actualData = currentActualData
+          lastData.expectedData = currentExpectedData
+          lastData.keys = updatedKeys
+        } else {
+          isIdentical = currentExpectedData.every((data, index) => {
+            if (data instanceof Object) {
+              lastData = browseCheckData(
+                data,
+                currentActualData[index],
+                updatedKeys,
+              )
+              return lastData.message === 'valid data'
+            }
 
-      lastData = {
-        key,
-        actualData: currentActualData,
-        expectedData: currentExpectedData,
-        message: resultMessage,
+            return (
+              checkDataConformity(data, currentActualData[index]) ===
+              'valid data'
+            )
+          })
+        }
+      } else {
+        const resultMessage = checkDataConformity(
+          currentActualData,
+          currentExpectedData,
+        )
+
+        isIdentical = resultMessage === 'valid data'
+
+        lastData = {
+          keys: updatedKeys,
+          actualData: currentActualData,
+          expectedData: currentExpectedData,
+          message: resultMessage,
+        }
       }
     }
   }

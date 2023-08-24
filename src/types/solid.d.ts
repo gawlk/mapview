@@ -1,6 +1,9 @@
 declare namespace Solid {
   export type Accessor<T> = import('solid-js').Accessor<T>
 
+  export type Signal<T> = import('solid-js').Signal<T>
+  export type SignalOptions<T> = import('solid-js').SignalOptions<T>
+
   // eslint-disable-next-line @typescript-eslint/ban-types
   export type Component<T = {}> = import('solid-js').Component<T>
 

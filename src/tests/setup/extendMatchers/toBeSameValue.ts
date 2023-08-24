@@ -1,10 +1,14 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 import { expect } from 'vitest'
 
-import { filesToStringArray, isValidDate, parseData } from '../utils'
-import { checkNumericValue } from '../utils/data'
+import {
+  checkNumericValue,
+  filesToStringArray,
+  isValidDate,
+  parseData,
+} from '/src/tests'
 
-export const toBeSameValue = async (
+const toBeSameValue = async (
   actual: File | string,
   expected: File | string,
   // eslint-disable-next-line sonarjs/cognitive-complexity

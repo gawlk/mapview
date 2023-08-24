@@ -67,9 +67,12 @@ export default defineConfig({
     target: 'esnext',
   },
   test: {
-    environment: 'edge-runtime',
+    environment: 'happy-dom',
     exclude: [...configDefaults.exclude, '**/e2e/**', '**/importer/**'],
-    setupFiles: ['./src/tests/extendMatchers/index.ts'],
+    setupFiles: [
+      './src/tests/setup/mocks/url.ts',
+      './src/tests/setup/extendMatchers/index.ts',
+    ],
     testTimeout: 600000,
   },
 })

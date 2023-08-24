@@ -58,12 +58,33 @@ describe('Test exports', async () => {
 
     expect(swecoFile).toBeDefined()
 
-    const [actualLignes, expectedLignes] = await filesToString([
+    const [actualFile, expectedFile] = await filesToString([
       swecoFile,
       expected,
     ])
 
-    expect(actualLignes).toEqual(expectedLignes)
+    const actualLines = actualFile.split('\n')
+    const expectedLines = expectedFile.split('\n')
+
+    actualLines.forEach((line, index) =>
+      expect(
+        line,
+        `Problem on line ${index + 1}:
+Expected bulk:
+${index ? expectedLines[index - 1] + '\n' : ''}${expectedLines[index]}\n${
+          index + 1 < expectedLines.length
+            ? expectedLines[index + 1] + '\n'
+            : ''
+        }
+Found bulk:
+${index ? actualLines[index - 1] + '\n' : ''}${line}\n${
+          index + 1 < actualLines.length ? actualLines[index + 1] + '\n' : ''
+        }
+`,
+      ).toEqual(expectedLines[index]),
+    )
+
+    expect(actualLines.length).toEqual(expectedLines.length)
   })
 
   test.each(
@@ -113,7 +134,7 @@ describe('Test exports', async () => {
       (val: string) => val.substring(val.length - 4) === 'mvrz',
     )
 
-    await expect(mvrzFile).toHaveSameZip(expected)
+    await expect(mvrzFile).toBeSameZip(expected)
   })
 
   test.each(
@@ -127,6 +148,6 @@ describe('Test exports', async () => {
       (val: string) => val.substring(val.length - 4) === 'mpvz',
     )
 
-    await expect(mpvzFile).toHaveSameZip(expected)
+    await expect(mpvzFile).toBeSameZip(expected)
   })
 })

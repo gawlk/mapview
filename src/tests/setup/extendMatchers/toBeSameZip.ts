@@ -1,7 +1,7 @@
 import { unzipSync } from 'fflate'
 import { expect } from 'vitest'
 
-export const toBeSameZip = async (actual: File, expected: File) => {
+const toBeSameZip = async (actual: File, expected: File) => {
   const data = new Uint8Array(await actual.arrayBuffer())
 
   expect(() => unzipSync(data)).not.toThrowError('invalid zip data')

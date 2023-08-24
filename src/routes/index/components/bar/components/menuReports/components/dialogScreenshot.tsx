@@ -33,8 +33,6 @@ export const DialogScreenshot = () => {
       logging: false,
     })
 
-    console.log(canvas)
-
     Array.from(map.getElementsByClassName('mapview-icon')).forEach((icon) => {
       ;(icon as HTMLSpanElement).style.marginBottom = ''
     })

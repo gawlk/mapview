@@ -1,9 +1,8 @@
 import { expect } from 'vitest'
 
-import { getKey } from '../utils'
-import { filesToStringArray } from '../utils/text'
+import { filesToStringArray, getKey } from '/src/tests'
 
-export const toBeSameLineOrder = async (
+const toBeSameLineOrder = async (
   actual: File | string,
   expected: File | string,
 ) => {

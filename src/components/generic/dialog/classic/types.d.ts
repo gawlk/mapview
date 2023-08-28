@@ -9,5 +9,5 @@ type InternalButtonProps = InternalButtonPropsOnly &
   ButtonPropsWithHTMLAttributes
 
 interface InternalButtonPropsOnly {
-  text?: string | (() => Solid.JSX.Element)
+  text?: string | (() => JSXElement)
 }

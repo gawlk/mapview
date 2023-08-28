@@ -8,7 +8,7 @@ import { expect } from 'vitest'
 import { unzippedToObject } from '/src/scripts'
 import { checkDataConformity } from '/src/tests'
 
-const toHaveSameJSON = (actual: Fflate.Unzipped, expected: Fflate.Unzipped) => {
+const toHaveSameJSON = (actual: Unzipped, expected: Unzipped) => {
   const actualJson = unzippedToObject(actual)
   const expectedJson = unzippedToObject(expected)
 

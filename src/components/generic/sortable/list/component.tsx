@@ -27,8 +27,8 @@ interface Props<T> {
   component: (
     ref: (element: HTMLElement) => void,
     value: T,
-    index: Solid.Accessor<number>,
-  ) => Solid.JSX.Element
+    index: Accessor<number>,
+  ) => JSXElement
   onChange: (from: number, to: number) => void
   draggedClasses?: ClassProp
 }

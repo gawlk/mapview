@@ -2,7 +2,7 @@ import { Button, SpanDataLabel } from '/src/components'
 
 interface Props {
   ref: (el: HTMLElement) => void
-  index: Solid.Accessor<number>
+  index: Accessor<number>
   dataLabel: DataLabel
   tableSelectedDataLabels: DataLabel[]
 }

@@ -10,6 +10,7 @@ interface Props {
   index?: BaseDropIndex
   colored?: boolean
   sortable?: boolean
+  hideZones?: true
 }
 
 export const TablePointsGroupedBy = (props: Props) => {

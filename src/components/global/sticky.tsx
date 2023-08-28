@@ -1,4 +1,4 @@
-interface Props extends Solid.ParentProps {
+interface Props extends ParentProps {
   onClose: () => void
 }
 

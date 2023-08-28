@@ -70,7 +70,7 @@ export const DialogExport = () => {
             component: (props: NavigatorComponentProps) => (
               <MVRZ
                 {...props}
-                setTemplate={(file: File) => setState('template', file)}
+                setTemplate={(file) => setState('template', file)}
               />
             ),
           },

@@ -1,6 +1,6 @@
 type DialogPropsWithHTMLAttributes = MergePropsWithHTMLProps<
   DialogProps,
-  Solid.JSX.DialogHTMLAttributes
+  DialogHTMLAttributes
 >
 
 type DialogProps = DialogPropsOnly &
@@ -15,15 +15,15 @@ interface DialogPropsOnly {
 
   title?: string
 
-  sticky?: Solid.JSX.Element
+  sticky?: JSXElement
 
-  form?: Solid.JSX.Element
+  form?: JSXElement
 
   maximized?: true
 
   full?: true
 
-  footer?: Solid.JSX.Element
+  footer?: JSXElement
 
   moveable?: boolean
 

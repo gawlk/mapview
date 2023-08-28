@@ -1,0 +1,936 @@
+{
+  "version": 1,
+  "jsonFileFormat": "Database from Mapview",
+  "project": {
+    "version": 1,
+    "machine": "Minidyn",
+    "base": {
+      "version": 1,
+      "name": "AG Wind ",
+      "settings": {
+        "version": 1,
+        "arePointsLinked": false,
+        "arePointsVisible": true,
+        "areOverlaysVisible": true,
+        "pointsState": "number",
+        "map": {
+          "version": 1,
+          "styleIndex": 2,
+          "zoom": 18.351386653996254,
+          "coordinates": {
+            "lng": -1.6014690907257716,
+            "lat": 47.19373654503224
+          }
+        },
+        "arePointsLocked": false
+      },
+      "acquisitionParameters": {
+        "version": 1,
+        "nbSamples": 750,
+        "frequency": 15000,
+        "preTrig": 0.008
+      },
+      "overlays": [],
+      "information": [
+        {
+          "version": 1,
+          "label": "Customer",
+          "value": "Aubron Méchineau ",
+          "settings": {
+            "version": 1
+          }
+        },
+        {
+          "version": 1,
+          "label": "Project",
+          "value": "AG Wind ",
+          "settings": {
+            "version": 1
+          }
+        },
+        {
+          "version": 1,
+          "label": "Town",
+          "value": "Nantes",
+          "settings": {
+            "version": 1
+          }
+        },
+        {
+          "version": 1,
+          "label": "Site",
+          "value": "",
+          "settings": {
+            "version": 1
+          }
+        },
+        {
+          "version": 1,
+          "label": "Comment",
+          "value": "",
+          "settings": {
+            "version": 1
+          }
+        },
+        {
+          "version": 1,
+          "label": "Date",
+          "value": "2023-05-30T13:47:32.000Z",
+          "settings": {
+            "version": 1
+          }
+        }
+      ],
+      "hardware": [
+        {
+          "version": 1,
+          "label": "Serial number",
+          "value": "MIN-135D",
+          "settings": {
+            "version": 1,
+            "readOnly": true
+          }
+        },
+        {
+          "version": 1,
+          "label": "Attribution",
+          "value": "TP Concept",
+          "settings": {
+            "version": 1,
+            "readOnly": true
+          }
+        },
+        {
+          "version": 1,
+          "label": "MAC address",
+          "value": "D5-C4-11-46-4E-94-55-D2",
+          "settings": {
+            "version": 1,
+            "readOnly": true
+          }
+        },
+        {
+          "version": 1,
+          "label": "License start",
+          "value": "2019-01-01T00:00:00.000Z",
+          "settings": {
+            "version": 1,
+            "readOnly": true
+          }
+        },
+        {
+          "version": 1,
+          "label": "License end",
+          "value": "2050-01-01T00:00:00.000Z",
+          "settings": {
+            "version": 1,
+            "readOnly": true
+          }
+        },
+        {
+          "version": 1,
+          "label": "Certificate start",
+          "value": "2021-01-05T00:00:00.000Z",
+          "settings": {
+            "version": 1,
+            "readOnly": true
+          }
+        },
+        {
+          "version": 1,
+          "label": "Certificate end",
+          "value": "2022-01-05T00:00:00.000Z",
+          "settings": {
+            "version": 1,
+            "readOnly": true
+          }
+        },
+        {
+          "version": 1,
+          "label": "PCBRevision",
+          "value": 0,
+          "settings": {
+            "version": 1,
+            "readOnly": true
+          }
+        },
+        {
+          "version": 1,
+          "label": "FirmwareRevision",
+          "value": 0,
+          "settings": {
+            "version": 1,
+            "readOnly": true
+          }
+        },
+        {
+          "version": 1,
+          "label": "TypeMachineName",
+          "value": "Minidyn-BT",
+          "settings": {
+            "version": 1,
+            "readOnly": true
+          }
+        },
+        {
+          "version": 1,
+          "label": "TypeMachinePCB",
+          "value": 371449566,
+          "settings": {
+            "version": 1,
+            "readOnly": true
+          }
+        }
+      ],
+      "reports": {
+        "version": 1,
+        "selectedIndex": 0,
+        "list": [
+          {
+            "version": 1,
+            "base": {
+              "version": 1,
+              "name": "AG wind",
+              "dataLabels": {
+                "version": 1,
+                "table": {
+                  "version": 1,
+                  "selectedIndex": 1,
+                  "list": [
+                    {
+                      "version": 1,
+                      "from": "Drop",
+                      "dataLabels": [
+                        {
+                          "version": 1,
+                          "name": "Modulus",
+                          "category": "Current"
+                        }
+                      ]
+                    },
+                    {
+                      "version": 1,
+                      "from": "Point",
+                      "dataLabels": [
+                        {
+                          "version": 1,
+                          "name": "Modulus",
+                          "category": "Current"
+                        }
+                      ]
+                    },
+                    {
+                      "version": 1,
+                      "from": "Zone",
+                      "dataLabels": []
+                    }
+                  ]
+                }
+              },
+              "thresholds": {
+                "version": 1,
+                "colors": {
+                  "version": 2,
+                  "low": "red",
+                  "middle": "yellow",
+                  "high": "green"
+                },
+                "inputs": {
+                  "version": 1,
+                  "isRequiredARange": true,
+                  "isOptionalARange": true
+                }
+              },
+              "zones": [
+                {
+                  "version": 1,
+                  "base": {
+                    "version": 1,
+                    "name": "Zone 1",
+                    "points": [
+                      {
+                        "version": 1,
+                        "base": {
+                          "version": 1,
+                          "id": "1",
+                          "index": 0,
+                          "settings": {
+                            "version": 1,
+                            "isVisible": true
+                          },
+                          "number": 1,
+                          "date": "2023-05-30T13:48:56.000Z",
+                          "coordinates": {
+                            "lng": -1.6018907522626762,
+                            "lat": 47.19379673453642
+                          },
+                          "data": [
+                            {
+                              "version": 1,
+                              "label": "Modulus",
+                              "value": 62593433.09742041
+                            }
+                          ],
+                          "information": [
+                            {
+                              "version": 1,
+                              "label": "Comment",
+                              "value": "",
+                              "settings": {
+                                "version": 1,
+                                "readOnly": true
+                              }
+                            }
+                          ],
+                          "drops": [
+                            {
+                              "version": 1,
+                              "base": {
+                                "version": 1,
+                                "data": [
+                                  {
+                                    "version": 1,
+                                    "label": "Time pulse",
+                                    "value": 0.015933333333333334
+                                  },
+                                  {
+                                    "version": 1,
+                                    "label": "Fmax",
+                                    "value": 7491.280548556686
+                                  },
+                                  {
+                                    "version": 1,
+                                    "label": "Umax",
+                                    "value": 0.0023782191410380597
+                                  },
+                                  {
+                                    "version": 1,
+                                    "label": "Modulus",
+                                    "value": 15798858.246393519
+                                  }
+                                ],
+                                "index": 0
+                              },
+                              "distinct": {
+                                "version": 1
+                              }
+                            },
+                            {
+                              "version": 1,
+                              "base": {
+                                "version": 1,
+                                "data": [
+                                  {
+                                    "version": 1,
+                                    "label": "Time pulse",
+                                    "value": 0.015533333333333335
+                                  },
+                                  {
+                                    "version": 1,
+                                    "label": "Fmax",
+                                    "value": 8083.086023517579
+                                  },
+                                  {
+                                    "version": 1,
+                                    "label": "Umax",
+                                    "value": 0.000642946124919145
+                                  },
+                                  {
+                                    "version": 1,
+                                    "label": "Modulus",
+                                    "value": 51948182.48934575
+                                  }
+                                ],
+                                "index": 1
+                              },
+                              "distinct": {
+                                "version": 1
+                              }
+                            },
+                            {
+                              "version": 1,
+                              "base": {
+                                "version": 1,
+                                "data": [
+                                  {
+                                    "version": 1,
+                                    "label": "Time pulse",
+                                    "value": 0.015266666666666668
+                                  },
+                                  {
+                                    "version": 1,
+                                    "label": "Fmax",
+                                    "value": 8398.820867273798
+                                  },
+                                  {
+                                    "version": 1,
+                                    "label": "Umax",
+                                    "value": 0.0004480866598687786
+                                  },
+                                  {
+                                    "version": 1,
+                                    "label": "Modulus",
+                                    "value": 73238683.70549507
+                                  }
+                                ],
+                                "index": 2
+                              },
+                              "distinct": {
+                                "version": 1
+                              }
+                            }
+                          ]
+                        },
+                        "distinct": {
+                          "version": 1
+                        }
+                      },
+                      {
+                        "version": 1,
+                        "base": {
+                          "version": 1,
+                          "id": "2",
+                          "index": 1,
+                          "settings": {
+                            "version": 1,
+                            "isVisible": true
+                          },
+                          "number": 2,
+                          "date": "2023-05-30T13:49:09.000Z",
+                          "coordinates": {
+                            "lng": -1.6018571369535266,
+                            "lat": 47.193771067484136
+                          },
+                          "data": [
+                            {
+                              "version": 1,
+                              "label": "Modulus",
+                              "value": 62308857.21751122
+                            }
+                          ],
+                          "information": [
+                            {
+                              "version": 1,
+                              "label": "Comment",
+                              "value": "",
+                              "settings": {
+                                "version": 1,
+                                "readOnly": true
+                              }
+                            }
+                          ],
+                          "drops": [
+                            {
+                              "version": 1,
+                              "base": {
+                                "version": 1,
+                                "data": [
+                                  {
+                                    "version": 1,
+                                    "label": "Time pulse",
+                                    "value": 0.015866666666666668
+                                  },
+                                  {
+                                    "version": 1,
+                                    "label": "Fmax",
+                                    "value": 7517.620845299433
+                                  },
+                                  {
+                                    "version": 1,
+                                    "label": "Umax",
+                                    "value": 0.0023294996224352887
+                                  },
+                                  {
+                                    "version": 1,
+                                    "label": "Modulus",
+                                    "value": 16131226.27958365
+                                  }
+                                ],
+                                "index": 0
+                              },
+                              "distinct": {
+                                "version": 1
+                              }
+                            },
+                            {
+                              "version": 1,
+                              "base": {
+                                "version": 1,
+                                "data": [
+                                  {
+                                    "version": 1,
+                                    "label": "Time pulse",
+                                    "value": 0.015466666666666667
+                                  },
+                                  {
+                                    "version": 1,
+                                    "label": "Fmax",
+                                    "value": 8189.716877094698
+                                  },
+                                  {
+                                    "version": 1,
+                                    "label": "Umax",
+                                    "value": 0.0005559108450551895
+                                  },
+                                  {
+                                    "version": 1,
+                                    "label": "Modulus",
+                                    "value": 59537545.32247967
+                                  }
+                                ],
+                                "index": 1
+                              },
+                              "distinct": {
+                                "version": 1
+                              }
+                            },
+                            {
+                              "version": 1,
+                              "base": {
+                                "version": 1,
+                                "data": [
+                                  {
+                                    "version": 1,
+                                    "label": "Time pulse",
+                                    "value": 0.015333333333333334
+                                  },
+                                  {
+                                    "version": 1,
+                                    "label": "Fmax",
+                                    "value": 8240.274053064244
+                                  },
+                                  {
+                                    "version": 1,
+                                    "label": "Umax",
+                                    "value": 0.000504344216926787
+                                  },
+                                  {
+                                    "version": 1,
+                                    "label": "Modulus",
+                                    "value": 65080169.11254276
+                                  }
+                                ],
+                                "index": 2
+                              },
+                              "distinct": {
+                                "version": 1
+                              }
+                            }
+                          ]
+                        },
+                        "distinct": {
+                          "version": 1
+                        }
+                      }
+                    ],
+                    "settings": {
+                      "version": 2,
+                      "color": "orange",
+                      "isVisible": true
+                    }
+                  },
+                  "distinct": {
+                    "version": 1
+                  }
+                },
+                {
+                  "version": 1,
+                  "base": {
+                    "version": 1,
+                    "name": "Zone 2",
+                    "points": [],
+                    "settings": {
+                      "version": 2,
+                      "color": "yellow",
+                      "isVisible": true
+                    }
+                  },
+                  "distinct": {
+                    "version": 1
+                  }
+                }
+              ],
+              "settings": {
+                "version": 1,
+                "iconName": "Circle",
+                "isVisible": true,
+                "colorization": "Threshold",
+                "groupBy": "Number"
+              },
+              "screenshots": [],
+              "platform": [
+                {
+                  "version": 1,
+                  "label": "Type",
+                  "value": "",
+                  "settings": {
+                    "version": 1
+                  }
+                },
+                {
+                  "version": 1,
+                  "label": "Support",
+                  "value": "",
+                  "settings": {
+                    "version": 1
+                  }
+                },
+                {
+                  "version": 1,
+                  "label": "Layer",
+                  "value": "",
+                  "settings": {
+                    "version": 1
+                  }
+                },
+                {
+                  "version": 1,
+                  "label": "Material",
+                  "value": "",
+                  "settings": {
+                    "version": 1
+                  }
+                },
+                {
+                  "version": 1,
+                  "label": "GTR",
+                  "value": "N.S",
+                  "settings": {
+                    "version": 1
+                  }
+                }
+              ],
+              "information": [
+                {
+                  "version": 1,
+                  "label": "Date",
+                  "value": "2023-05-30T13:47:59.000Z",
+                  "settings": {
+                    "version": 1
+                  }
+                },
+                {
+                  "version": 1,
+                  "label": "Operator",
+                  "value": "Vincent Poupard",
+                  "settings": {
+                    "version": 1
+                  }
+                },
+                {
+                  "version": 1,
+                  "label": "Lane",
+                  "value": "",
+                  "settings": {
+                    "version": 1
+                  }
+                },
+                {
+                  "version": 1,
+                  "label": "Direction",
+                  "value": "",
+                  "settings": {
+                    "version": 1
+                  }
+                },
+                {
+                  "version": 1,
+                  "label": "Part",
+                  "value": "",
+                  "settings": {
+                    "version": 1
+                  }
+                },
+                {
+                  "version": 1,
+                  "label": "Weather",
+                  "value": "",
+                  "settings": {
+                    "version": 1
+                  }
+                },
+                {
+                  "version": 1,
+                  "label": "Temperature",
+                  "value": 0,
+                  "settings": {
+                    "version": 1
+                  }
+                },
+                {
+                  "version": 1,
+                  "label": "Comment",
+                  "value": "Commentaires",
+                  "settings": {
+                    "version": 1
+                  }
+                }
+              ]
+            },
+            "distinct": {
+              "version": 1,
+              "dataLabels": {
+                "version": 1,
+                "selectedIndex": 1,
+                "list": [
+                  {
+                    "version": 1,
+                    "base": {
+                      "version": 1,
+                      "from": "Drop",
+                      "choices": {
+                        "version": 1,
+                        "selectedIndex": 3,
+                        "list": [
+                          {
+                            "version": 1,
+                            "name": "Time pulse",
+                            "unit": "time"
+                          },
+                          {
+                            "version": 1,
+                            "name": "Fmax",
+                            "unit": "force"
+                          },
+                          {
+                            "version": 1,
+                            "name": "Umax",
+                            "unit": "deflection"
+                          },
+                          {
+                            "version": 1,
+                            "name": "Modulus",
+                            "unit": "modulus"
+                          }
+                        ]
+                      }
+                    },
+                    "distinct": {
+                      "version": 1,
+                      "indexes": {
+                        "version": 1,
+                        "selectedIndex": 2,
+                        "list": [
+                          {
+                            "version": 1,
+                            "base": {
+                              "version": 1,
+                              "displayedIndex": 1
+                            },
+                            "distinct": {
+                              "version": 1,
+                              "type": "Training"
+                            }
+                          },
+                          {
+                            "version": 1,
+                            "base": {
+                              "version": 1,
+                              "displayedIndex": 2
+                            },
+                            "distinct": {
+                              "version": 1,
+                              "type": "Averaging"
+                            }
+                          },
+                          {
+                            "version": 1,
+                            "base": {
+                              "version": 1,
+                              "displayedIndex": 3
+                            },
+                            "distinct": {
+                              "version": 1,
+                              "type": "Averaging"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  {
+                    "version": 1,
+                    "base": {
+                      "version": 1,
+                      "from": "Point",
+                      "choices": {
+                        "version": 1,
+                        "selectedIndex": 0,
+                        "list": [
+                          {
+                            "version": 1,
+                            "name": "Modulus",
+                            "unit": "modulus"
+                          }
+                        ]
+                      }
+                    },
+                    "distinct": {
+                      "version": 1
+                    }
+                  },
+                  {
+                    "version": 1,
+                    "base": {
+                      "version": 1,
+                      "from": "Zone",
+                      "choices": {
+                        "version": 1,
+                        "selectedIndex": null,
+                        "list": []
+                      }
+                    },
+                    "distinct": {
+                      "version": 1
+                    }
+                  }
+                ]
+              },
+              "thresholds": {
+                "version": 1,
+                "deflection": {
+                  "version": 1,
+                  "selectedIndex": 0,
+                  "custom": {
+                    "version": 1,
+                    "type": "Bicolor",
+                    "value": 0,
+                    "valueHigh": 0
+                  }
+                },
+                "force": {
+                  "version": 1,
+                  "selectedIndex": 0,
+                  "custom": {
+                    "version": 1,
+                    "type": "Bicolor",
+                    "value": 0,
+                    "valueHigh": 0
+                  }
+                },
+                "distance": {
+                  "version": 1,
+                  "selectedIndex": 0,
+                  "custom": {
+                    "version": 1,
+                    "type": "Bicolor",
+                    "value": 0,
+                    "valueHigh": 0
+                  }
+                },
+                "modulus": {
+                  "version": 1,
+                  "selectedIndex": 6,
+                  "custom": {
+                    "version": 1,
+                    "type": "Bicolor",
+                    "value": 0,
+                    "valueHigh": 0
+                  }
+                },
+                "percentage": {
+                  "version": 1,
+                  "selectedIndex": 0,
+                  "custom": {
+                    "version": 1,
+                    "type": "Bicolor",
+                    "value": 0,
+                    "valueHigh": 0
+                  }
+                },
+                "stiffness": {
+                  "version": 1,
+                  "selectedIndex": 0,
+                  "custom": {
+                    "version": 1,
+                    "type": "Bicolor",
+                    "value": 0,
+                    "valueHigh": 0
+                  }
+                },
+                "time": {
+                  "version": 1,
+                  "selectedIndex": 0,
+                  "custom": {
+                    "version": 1,
+                    "type": "Bicolor",
+                    "value": 0,
+                    "valueHigh": 0
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "distinct": {
+      "version": 1,
+      "bearingParameters": {
+        "version": 1,
+        "name": "FR NFP94160 equ.",
+        "algoBearing": "Max",
+        "hasQuality": false,
+        "algoProcessing1": "Boussinesq",
+        "algoProcessing2": "Exponential",
+        "dPlate": 0.3,
+        "cPoisson": 0.35,
+        "fForme": 4,
+        "k": 2.34,
+        "alpha": 0.86
+      },
+      "units": {
+        "version": 1,
+        "deflection": {
+          "version": 1,
+          "currentUnit": "um",
+          "currentPrecision": 0,
+          "max": 1000,
+          "min": 0
+        },
+        "force": {
+          "version": 1,
+          "currentUnit": "kN",
+          "currentPrecision": 0,
+          "max": 1000,
+          "min": 0
+        },
+        "distance": {
+          "version": 1,
+          "currentUnit": "m",
+          "currentPrecision": 0,
+          "max": 1000,
+          "min": 0
+        },
+        "modulus": {
+          "version": 1,
+          "currentUnit": "MPa",
+          "currentPrecision": 0,
+          "max": 150000000,
+          "min": 10000000
+        },
+        "percentage": {
+          "version": 1,
+          "currentUnit": "%",
+          "currentPrecision": 0,
+          "max": 100,
+          "min": 0
+        },
+        "stiffness": {
+          "version": 1,
+          "currentUnit": "MN / m",
+          "currentPrecision": 0,
+          "max": 1000,
+          "min": 0
+        },
+        "time": {
+          "version": 1,
+          "currentUnit": "ms",
+          "currentPrecision": 0,
+          "max": 1000,
+          "min": 0
+        }
+      }
+    }
+  }
+}

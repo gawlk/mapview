@@ -1,7 +1,7 @@
 import { classPropToString } from '/src/components'
 import { hexToRgb } from '/src/scripts'
 
-interface Props extends Solid.ParentProps, Sortable {
+interface Props extends ParentProps, Sortable {
   color?: string
   class?: ClassProp
 }

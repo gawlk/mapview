@@ -17,7 +17,7 @@ export const createZipFromEntity = async (
   },
 ) => {
   const { overlays, screenshots, rawData, template } = parameters
-  const zip: Fflate.Zippable = {}
+  const zip: Zippable = {}
 
   let json: JSONMapview | JSONAny | undefined
   let projectJson

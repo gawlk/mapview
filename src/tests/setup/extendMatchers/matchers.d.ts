@@ -5,9 +5,9 @@ interface CustomMatchers<R = unknown> {
   toBeSameLineOrder(expected: File | string): R
   toBeSameValue(expected: File): R
   toBeSameZip(expected: File): R
-  toHaveSameJSON(expected: Fflate.Unzipped): R
-  toHaveSameRawData(expected: Fflate.Unzipped): R
-  toHaveSameScreenshots(expected: Fflate.Unzipped): R
+  toHaveSameJSON(expected: Unzipped): R
+  toHaveSameRawData(expected: Unzipped): R
+  toHaveSameScreenshots(expected: Unzipped): R
 }
 
 declare module 'vitest' {

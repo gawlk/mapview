@@ -1,5 +1,5 @@
-type AngularStyleSignal<T> = Solid.Accessor<T> & {
-  readonly set: Solid.Setter<T>
+type AngularStyleSignal<T> = Accessor<T> & {
+  readonly set: Setter<T>
 }
 
 type ASS<T> = AngularStyleSignal<T>

@@ -2,8 +2,8 @@ type ContainerPropsWithHTMLAttributes = MergePropsWithHTMLProps<ContainerProps>
 
 type ContainerProps = ContainerPropsOnly & BaseProps
 
-interface ContainerPropsOnly extends Solid.ParentProps {
-  component?: string | Solid.Component
+interface ContainerPropsOnly extends ParentProps {
+  component?: string | Component
 
   rounded?: 'full' | 'none'
 

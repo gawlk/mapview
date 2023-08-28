@@ -137,9 +137,7 @@ export const selectMinidynGroupChoiceFromJSON = (
 
     group.choices.selectIndex(
       json.distinct.dataLabels.list[index].base.choices.selectedIndex ??
-        indexModulus === -1
-        ? 0
-        : indexModulus,
+        (indexModulus === -1 ? 0 : indexModulus),
     )
   })
 }

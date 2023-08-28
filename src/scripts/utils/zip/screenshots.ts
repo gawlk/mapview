@@ -1,7 +1,7 @@
 import { convertData64ImageToUint8Array } from '/src/scripts'
 
 export const addScreenshotsToZip = async (
-  zip: Fflate.Zippable,
+  zip: Zippable,
   entity: MachineProject | MachineReport,
   json?: JSONMachineProject,
 ) => {

@@ -13,7 +13,7 @@ export const Switch = (props: Props) => {
     <div class="ml-2 flex items-center space-x-2 px-2">
       <Show when={props.icon || props.leftIcon}>
         <Dynamic
-          component={(props.icon || props.leftIcon) as Solid.ValidComponent}
+          component={(props.icon || props.leftIcon) as ValidComponent}
           class={classPropToString([
             'h-5 w-5 text-gray-400 transition-opacity duration-200 ease-in-out',
             props.value && 'opacity-50',
@@ -35,7 +35,7 @@ export const Switch = (props: Props) => {
       />
       <Show when={props.rightIcon}>
         <Dynamic
-          component={props.rightIcon as Solid.ValidComponent}
+          component={props.rightIcon as ValidComponent}
           class={classPropToString([
             !props.value && 'opacity-50',
             'h-5 w-5 text-gray-400 transition-opacity duration-200 ease-in-out',

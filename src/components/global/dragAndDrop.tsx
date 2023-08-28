@@ -1,6 +1,6 @@
 import { Button, classPropToString } from '/src/components'
 
-interface Props extends Solid.ParentProps {
+interface Props extends ParentProps {
   accept: string
   buttonText: string
   onInput: (value: FileList | null) => void

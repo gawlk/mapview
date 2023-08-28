@@ -1,6 +1,6 @@
 import { classPropToString } from '/src/components'
 
-interface Props extends Solid.ParentProps {
+interface Props extends ParentProps {
   wide?: boolean
   class?: ClassProp
   text?: 'center' | 'right'

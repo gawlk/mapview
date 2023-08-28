@@ -1,10 +1,8 @@
-type PartialAngularStyleSignal<T> = Solid.Accessor<T> & {
-  set?: Solid.Setter<T>
+type PartialAngularStyleSignal<T> = Accessor<T> & {
+  set?: Setter<T>
 }
 
-export const convertSignalToAngularStyleSignal = <T>(
-  signal: Solid.Signal<T>,
-) => {
+export const convertSignalToAngularStyleSignal = <T>(signal: Signal<T>) => {
   const getter = signal[0] as PartialAngularStyleSignal<T>
 
   getter.set = signal[1]
@@ -14,7 +12,7 @@ export const convertSignalToAngularStyleSignal = <T>(
 
 export const createAngularStyleSignal = <T>(
   value: T,
-  options?: Solid.SignalOptions<T>,
+  options?: SignalOptions<T>,
 ) => {
   return convertSignalToAngularStyleSignal(createSignal(value, options))
 }

@@ -2,14 +2,14 @@ import { convertUint8ArrayToData64Image } from '/src/scripts'
 
 export const screenshotFolderPathInZip = 'screenshots/'
 
-export const getScreenshotFileNamesFromZIP = (zip: Fflate.Zippable) =>
+export const getScreenshotFileNamesFromZIP = (zip: Zippable) =>
   Object.keys(zip)
     .filter((key) => key.startsWith(screenshotFolderPathInZip))
     .map((key) => key.substring(screenshotFolderPathInZip.length))
     .filter((key) => key)
 
 export const importScreenshotsFromZIP = (
-  zip: Fflate.Unzipped,
+  zip: Unzipped,
   json: JSONMachineProject,
   project: MachineProject,
 ) => {

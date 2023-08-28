@@ -1,4 +1,4 @@
-interface Props extends Solid.ParentProps {}
+interface Props extends ParentProps {}
 
 export const Table = (props: Props) => {
   return (

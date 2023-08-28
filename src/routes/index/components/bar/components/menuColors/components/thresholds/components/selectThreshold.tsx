@@ -21,20 +21,16 @@ export const SelectThreshold = (props: Props) => {
       }}
       onClose={(value) => value && props.thresholds?.selectIndex(Number(value))}
       values={{
-        // TODO: Remove default value once https://github.com/solidjs-community/solid-primitives/issues/382 is fixed
-        selected: props.thresholds?.selectedIndex || null,
-        list: (props.thresholds?.list || []).map(
-          // TODO: Same as the previous TODO
-          (threshold, index) => ({
-            value: String(index),
-            text: () => (
-              <SpanThresholdName
-                threshold={threshold}
-                mathUnit={props.mathUnit}
-              />
-            ),
-          }),
-        ),
+        selected: props.thresholds?.selectedIndex ?? null,
+        list: (props.thresholds?.list || []).map((threshold, index) => ({
+          value: String(index),
+          text: () => (
+            <SpanThresholdName
+              threshold={threshold}
+              mathUnit={props.mathUnit}
+            />
+          ),
+        })),
       }}
     />
   )

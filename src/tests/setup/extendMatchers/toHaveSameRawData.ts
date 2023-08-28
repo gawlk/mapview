@@ -2,10 +2,7 @@ import { expect } from 'vitest'
 
 import { compareFiles } from '/src/tests'
 
-const toHaveSameRawData = (
-  actual: Fflate.Unzipped,
-  expected: Fflate.Unzipped,
-) => {
+const toHaveSameRawData = (actual: Unzipped, expected: Unzipped) => {
   const compareResult = compareFiles(actual, expected, { filter: 'rawdata/' })
   const { lastKey, haveSameContent } = compareResult
 

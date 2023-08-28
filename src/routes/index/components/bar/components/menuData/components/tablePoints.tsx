@@ -24,6 +24,7 @@ interface Props {
   hideZones?: true
   colored?: boolean
   sortable?: boolean
+  showZone?: boolean
 }
 
 export const TablePoints = (props: Props) => {

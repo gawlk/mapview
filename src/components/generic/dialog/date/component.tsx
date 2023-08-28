@@ -14,10 +14,7 @@ import {
 } from '/src/scripts'
 
 export interface DialogDatePropsWithHTMLAttributes
-  extends MergePropsWithHTMLProps<
-    DialogDateProps,
-    Solid.JSX.DialogHTMLAttributes
-  > {}
+  extends MergePropsWithHTMLProps<DialogDateProps, DialogHTMLAttributes> {}
 
 export const DialogDate = (props: DialogDatePropsWithHTMLAttributes) => {
   const [state, setState] = createStore({

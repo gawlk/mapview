@@ -1,6 +1,6 @@
 type InputPropsWithHTMLAttributes = MergePropsWithHTMLProps<
   InputProps,
-  Solid.JSX.InputHTMLAttributes
+  InputHTMLAttributes
 >
 
 type InputProps = InputPropsOnly & InteractiveProps

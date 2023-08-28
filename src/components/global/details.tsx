@@ -5,9 +5,7 @@ interface DetailsButtonProps extends InternalButtonProps {
   rightIconClosed?: IconProp
 }
 
-interface Props
-  extends Solid.ParentProps,
-    Omit<Solid.JSX.DetailsHTMLAttributes, 'onClick'> {
+interface Props extends ParentProps, Omit<DetailsHTMLAttributes, 'onClick'> {
   button?: DetailsButtonProps
   defaultOpen?: boolean
   locked?: boolean

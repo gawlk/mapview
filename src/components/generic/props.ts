@@ -41,9 +41,7 @@ export const classPropToString = (classes?: ClassProp): string =>
         .trim()
     : classes || ''
 
-export const stylePropToCSSProperties = (
-  style?: string | Solid.JSX.CSSProperties,
-) => {
+export const stylePropToCSSProperties = (style?: string | CSSProperties) => {
   if (!style) {
     return undefined
   }
@@ -52,7 +50,7 @@ export const stylePropToCSSProperties = (
     return style
   }
 
-  const styleObject: Solid.JSX.CSSProperties = {}
+  const styleObject: CSSProperties = {}
 
   ;(style || '').replace(/([\w-]+)\s*:\s*([^;]+)/g, (_, prop, value) => {
     styleObject[prop] = value
@@ -64,7 +62,7 @@ export const stylePropToCSSProperties = (
 
 export const valueWithTextToJSXElement = (
   prop: ValueWithTextProps,
-): (() => Solid.JSX.Element) =>
+): (() => JSXElement) =>
   typeof prop.text === 'function'
     ? prop.text
     : () => String(prop.text ?? prop.value ?? '')

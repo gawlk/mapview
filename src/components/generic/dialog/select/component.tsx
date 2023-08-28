@@ -10,10 +10,7 @@ import { addLocationToID, localStorageSetItem } from '/src/scripts'
 import { convertDialogValuesPropsListToValuesWithTextProps } from '../options/scripts'
 
 export interface DialogSelectPropsWithHTMLAttributes
-  extends MergePropsWithHTMLProps<
-    DialogSelectProps,
-    Solid.JSX.DialogHTMLAttributes
-  > {}
+  extends MergePropsWithHTMLProps<DialogSelectProps, DialogHTMLAttributes> {}
 
 export const DialogSelect = (props: DialogSelectPropsWithHTMLAttributes) => {
   const [state, setState] = createStore({

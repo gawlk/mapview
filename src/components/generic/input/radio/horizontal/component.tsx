@@ -1,3 +1,5 @@
+import { useI18n } from '@solid-primitives/i18n'
+
 import {
   Button,
   Container,
@@ -14,6 +16,8 @@ interface Props extends InteractiveProps {
 }
 
 export const InputRadioHorizontal = (props: Props) => {
+  const [t] = useI18n()
+
   return (
     // TODO: Should be interactive ?
     <Container
@@ -24,8 +28,20 @@ export const InputRadioHorizontal = (props: Props) => {
         onChange: true,
         values: true,
       })}
-      class={['inline-flex space-x-1', props.full && 'w-full', props.class]}
+      class={[
+        'inline-flex select-none items-center space-x-1',
+        props.full && 'w-full',
+        props.class,
+      ]}
     >
+      <Show when={props.label}>
+        {(label) => (
+          <span class="ml-3 mr-0.5 text-black/50">
+            {label()}
+            {t(':')}
+          </span>
+        )}
+      </Show>
       <For
         each={convertValuesPropsListToValuesWithTextProps(props.values.list)}
       >

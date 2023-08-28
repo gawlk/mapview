@@ -99,9 +99,10 @@ export const createMaxidynReportFromJSON = (
     ),
   )
 
-  selectMaxidynGroupChoiceFromJSON(report, json)
-
-  selectTableDataLabelsFromJSON(report, json.base)
+  setTimeout(() => {
+    selectMaxidynGroupChoiceFromJSON(report, json)
+    selectTableDataLabelsFromJSON(report, json.base)
+  }, 100)
 
   return report
 }

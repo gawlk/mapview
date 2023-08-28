@@ -1,13 +1,13 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type IconProp = string | ((...args: any[]) => Solid.JSX.Element) | true
+type IconProp = string | ((...args: any[]) => JSXElement) | true
 
 type ClassProp = string | (ClassProp | string | false | undefined)[]
 
-type StyleProp = string | Solid.JSX.CSSProperties
+type StyleProp = string | CSSProperties
 
 type MergePropsWithHTMLProps<
   T,
-  HTMLAttributes extends Solid.JSX.HTMLAttributes = Solid.JSX.HTMLAttributes,
+  HTMLAttributes extends HTMLAttributes = HTMLAttributes,
 > = T & Omit<HTMLAttributes, keyof T>
 
 type BooleanPropsKeysObject<Props> = {
@@ -22,6 +22,6 @@ interface ValuesProps<T = ValuesListProps> {
 type ValuesListProps = string[] | ValueWithTextProps[]
 
 interface ValueWithTextProps extends ButtonPropsWithHTMLAttributes {
-  text?: string | (() => Solid.JSX.Element)
+  text?: string | (() => JSXElement)
   value: string
 }

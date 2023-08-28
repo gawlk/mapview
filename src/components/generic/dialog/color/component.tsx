@@ -2,10 +2,7 @@ import { Button, Dialog } from '/src/components'
 import { colors } from '/src/scripts'
 
 export interface Props
-  extends MergePropsWithHTMLProps<
-    DialogColorProps,
-    Solid.JSX.DialogHTMLAttributes
-  > {
+  extends MergePropsWithHTMLProps<DialogColorProps, DialogHTMLAttributes> {
   skip?: ColorName[]
 }
 

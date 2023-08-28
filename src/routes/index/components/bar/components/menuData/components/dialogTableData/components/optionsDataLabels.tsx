@@ -7,7 +7,13 @@ import {
   SortableList,
   SpanDataLabel,
 } from '/src/components'
-import { groupDataLabelsByCategory, moveIndexInCopiedArray } from '/src/scripts'
+import {
+  currentCategory,
+  groupDataLabelsByCategory,
+  indicatorsCategory,
+  moveIndexInCopiedArray,
+  rawCategory,
+} from '/src/scripts'
 import { store } from '/src/store'
 
 import { SortableDataLabel } from './sortableDataLabel'
@@ -48,7 +54,6 @@ export const OptionsDataLabels = () => {
               return selected() ? `${index() + 1}` : ''
             },
             text: () => <SpanDataLabel dataLabel={dataLabel} />,
-            // Magical next line
             get rightIcon() {
               return selected() ? IconTablerMinus : IconTablerPlus
             },
@@ -60,7 +65,7 @@ export const OptionsDataLabels = () => {
   return (
     <div class="space-y-4">
       <div class="space-y-2">
-        <Label label={t('Selected columns')}>
+        <Label label={t('Selected')}>
           <SortableList
             orientation="vertical"
             list={tableSelectedDataLabels()}
@@ -104,6 +109,20 @@ export const OptionsDataLabels = () => {
           const index = _tableSelectedDataLabels.indexOf(dataLabel)
 
           if (index === -1) {
+            console.log(tableDataLabelsChoices())
+
+            const categoriesOrder = [
+              rawCategory,
+              currentCategory,
+              indicatorsCategory,
+            ]
+
+            const dataLabelCategory = categoriesOrder.find(
+              (category) => category.name === dataLabel.category.name,
+            )
+
+            // const first
+
             _tableSelectedDataLabels.push(dataLabel)
           } else {
             _tableSelectedDataLabels.splice(index, 1)

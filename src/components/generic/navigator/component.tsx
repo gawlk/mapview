@@ -2,7 +2,7 @@ interface Props {
   default: string
   list: {
     id: string
-    component: (props: NavigatorComponentProps) => Solid.JSX.Element
+    component: (props: NavigatorComponentProps) => JSXElement
   }[]
 }
 

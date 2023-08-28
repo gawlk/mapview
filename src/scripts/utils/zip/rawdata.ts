@@ -1,5 +1,5 @@
 export const addRawDataToZip = (
-  zip: Fflate.Zippable,
+  zip: Zippable,
   entity: MachineProject | MachineReport,
 ) => {
   const rawdata: { [key: string]: Uint8Array } = {}

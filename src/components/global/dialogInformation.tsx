@@ -4,7 +4,7 @@ import { Button, Dialog, Input, InputDataList, Label } from '/src/components'
 
 interface Props {
   bulks: {
-    title: string | Solid.JSX.Element
+    title: string | Element
     fields: Field[]
   }[]
 }

@@ -9,14 +9,14 @@ import {
   waitForMap,
 } from '/src/scripts'
 
-export const unzippedToObject = (unzipped: Fflate.Unzipped) => {
+export const unzippedToObject = (unzipped: Unzipped) => {
   const jsonUint = unzipped['database.json']
 
   return JSON.parse(new TextDecoder().decode(jsonUint))
 }
 
 export const getProjectJSONFromZip = (
-  unzipped: Fflate.Unzipped,
+  unzipped: Unzipped,
   extension: string,
 ) => {
   const importedJSON = unzippedToObject(unzipped)

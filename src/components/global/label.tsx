@@ -1,8 +1,8 @@
 import { classPropToString } from '/src/components'
 import { run } from '/src/scripts'
 
-export interface LabelProps extends Solid.ParentProps, BaseProps {
-  label: string | Solid.JSX.Element
+export interface LabelProps extends ParentProps, BaseProps {
+  label: string | Element
 }
 
 export const Label = (props: LabelProps) => {

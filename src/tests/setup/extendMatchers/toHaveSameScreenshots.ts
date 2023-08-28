@@ -2,10 +2,7 @@ import { expect } from 'vitest'
 
 import { compareFiles } from '/src/tests'
 
-export const toHaveSameScreenshots = (
-  actual: Fflate.Unzipped,
-  expected: Fflate.Unzipped,
-) => {
+export const toHaveSameScreenshots = (actual: Unzipped, expected: Unzipped) => {
   const compareResult = compareFiles(actual, expected, {
     filter: 'screenshots/',
   })

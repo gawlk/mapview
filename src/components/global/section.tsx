@@ -1,8 +1,8 @@
-interface Props extends Solid.ParentProps {
+interface Props extends ParentProps {
   id: string
   number?: number
-  title: string | Solid.JSX.Element
-  description?: string | Solid.JSX.Element
+  title: string | Element
+  description?: string | Element
 }
 
 export const Section = (props: Props) => {

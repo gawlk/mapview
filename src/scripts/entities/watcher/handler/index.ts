@@ -3,7 +3,7 @@ export const createWatcherHandler = () => {
 
   return {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    add: (effect: Solid.EffectFunction): Promise<() => void> =>
+    add: (effect: EffectFunction): Promise<() => void> =>
       new Promise((resolve) => {
         createRoot((dispose) => {
           createEffect(effect)

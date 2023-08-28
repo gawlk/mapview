@@ -31,7 +31,7 @@ export const Icon = (props: Props) => {
   const component = createMemo(() => {
     if (isSpan()) return 'span'
     if (isImage()) return 'img'
-    return props.icon as Solid.Component
+    return props.icon as Component
   })
 
   const additionalProps = createMemo(() => {

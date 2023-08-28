@@ -57,6 +57,7 @@ export default defineConfig({
     '**/*.dynz',
     '**/*.mvrz',
     '**/*.xlsx',
+    '**/*.zip',
   ],
   css: {
     postcss: {

@@ -40,10 +40,7 @@ export function parsePointRawData(
   }
 }
 
-export function importRawDataFromZIP(
-  zip: Fflate.Unzipped,
-  project: MachineProject,
-) {
+export function importRawDataFromZIP(zip: Unzipped, project: MachineProject) {
   const folderName = 'rawdata'
 
   const points = getAllPointsFromProject(project)

@@ -7,16 +7,13 @@ import {
   SortableList,
   SpanDataLabel,
 } from '/src/components'
-import {
-  currentCategory,
-  groupDataLabelsByCategory,
-  indicatorsCategory,
-  moveIndexInCopiedArray,
-  rawCategory,
-} from '/src/scripts'
+import { groupDataLabelsByCategory, moveIndexInCopiedArray } from '/src/scripts'
 import { store } from '/src/store'
 
-import { SortableDataLabel } from './sortableDataLabel'
+import { SortableDataLabel } from '../sortableDataLabel'
+import { insertHeavydynDataLabel } from './scripts'
+import { insertMaxidynDataLabel } from './scripts/maxidyn'
+import { insertMinidynDataLabel } from './scripts/minidyn'
 
 export const OptionsDataLabels = () => {
   const [t] = useI18n()
@@ -97,10 +94,9 @@ export const OptionsDataLabels = () => {
 
       <DialogOptions
         onClick={(value) => {
-          const findFn = (dataLabel: DataLabel) =>
-            dataLabel.toString() === value
-
-          const dataLabel = tableDataLabelsChoices()?.find(findFn)
+          const dataLabel = tableDataLabelsChoices()?.find(
+            (_dataLabel) => _dataLabel.toString() === value,
+          )
 
           const _tableSelectedDataLabels = tableSelectedDataLabels()
 
@@ -109,21 +105,17 @@ export const OptionsDataLabels = () => {
           const index = _tableSelectedDataLabels.indexOf(dataLabel)
 
           if (index === -1) {
-            console.log(tableDataLabelsChoices())
-
-            const categoriesOrder = [
-              rawCategory,
-              currentCategory,
-              indicatorsCategory,
-            ]
-
-            const dataLabelCategory = categoriesOrder.find(
-              (category) => category.name === dataLabel.category.name,
-            )
-
-            // const first
-
-            _tableSelectedDataLabels.push(dataLabel)
+            switch (store.selectedProject?.machine) {
+              case 'Heavydyn':
+                insertHeavydynDataLabel(dataLabel, _tableSelectedDataLabels)
+                break
+              case 'Maxidyn':
+                insertMaxidynDataLabel(dataLabel, _tableSelectedDataLabels)
+                break
+              case 'Minidyn':
+                insertMinidynDataLabel(dataLabel, _tableSelectedDataLabels)
+                break
+            }
           } else {
             _tableSelectedDataLabels.splice(index, 1)
           }

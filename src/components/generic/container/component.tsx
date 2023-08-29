@@ -64,21 +64,19 @@ export const Container = (props: Props) => {
         run(() => {
           switch (props.bgHoverColor) {
             case 'primary':
-              return 'bg-orange-800'
+              return 'hover:bg-orange-800'
             case 'gray':
-              return 'bg-neutral-200'
+              return 'hover:bg-neutral-200'
             case 'red':
-              return 'bg-red-300'
+              return 'hover:bg-red-300'
             case 'green':
-              return 'bg-green-300'
+              return 'hover:bg-green-300'
             case 'orange':
-              return 'bg-orange-300'
+              return 'hover:bg-orange-300'
             case 'yellow':
-              return 'bg-yellow-300'
-            case 'transparent':
-              return 'bg-black/5'
+              return 'hover:bg-yellow-300'
             case 'base':
-              return 'bg-black/10'
+              return 'hover:bg-black/10'
           }
         }),
 
@@ -94,7 +92,7 @@ export const Container = (props: Props) => {
 
         // Border color
         run(() => {
-          switch (props.borderColor ?? props.color) {
+          switch (props.borderColor) {
             case 'primary':
             case 'red':
             case 'green':
@@ -115,7 +113,7 @@ export const Container = (props: Props) => {
             case 'orange':
             case 'tertiary':
             case 'transparent':
-              return 'hover:border-black/10'
+              return 'hover:border-opacity-10'
           }
         }),
 

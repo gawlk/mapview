@@ -11,7 +11,7 @@ import { store } from '/src/store'
 
 import { SelectGroupBy } from '../selectGroupBy'
 import { TablePointsGroupedBy } from '../tablePointsGroupedBy'
-import { OptionsDataLabels } from './components/optionsDataLabels'
+import { OptionsDataLabels } from './components/optionsDataLabels/index'
 import { SelectIndex } from './components/selectIndex'
 import { SelectSource } from './components/selectSource'
 import { TableZones } from './components/tableZones'

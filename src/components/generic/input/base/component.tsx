@@ -82,6 +82,16 @@ export const Input = (props: Props) => {
     })
   })
 
+  const min = createMemo(() => (type() === 'range' ? props.min : undefined))
+  const max = createMemo(() => (type() === 'range' ? props.max : undefined))
+
+  createEffect(() => {
+    props.bind &&
+      (min() !== undefined || max() !== undefined) &&
+      input &&
+      (input.value = String(props.value))
+  })
+
   return (
     <div
       class={classPropToString([
@@ -95,7 +105,9 @@ export const Input = (props: Props) => {
       onClick={props.onClick}
     >
       <Interactive
-        bgColor="base"
+        bgColor={props.readOnly ? 'base' : 'transparent'}
+        borderColor={props.readOnly ? 'transparent' : 'base'}
+        borderHoverColor="transparent"
         kind="focusable"
         rightIcon={props.readOnly ? IconTablerLock : undefined}
         {...interactiveProps}
@@ -117,6 +129,8 @@ export const Input = (props: Props) => {
           aria-invalid={needsFixing()}
           disabled={props.disabled}
           {...inputProps}
+          min={min()}
+          max={max()}
           ref={(inputRef: HTMLInputElement) => {
             input = inputRef
             props.ref?.(input)
@@ -132,7 +146,6 @@ export const Input = (props: Props) => {
 
             debounceInputPropagation(value, event)
           }}
-          {...(type() === 'range' ? { min: props.min, max: props.max } : {})}
         />
       </Interactive>
       <Show when={needsFixing()}>

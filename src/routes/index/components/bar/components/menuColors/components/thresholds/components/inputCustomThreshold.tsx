@@ -29,6 +29,7 @@ export const InputCustomThreshold = (props: Props) => {
           store.selectedReport && props.setIsRange(value === 'range')
         }
       />
+      {props.value}
       <Input
         full
         {...props}
@@ -36,7 +37,7 @@ export const InputCustomThreshold = (props: Props) => {
         onInput={(value) => {
           props.setValue(Number(value))
         }}
-        type={props.isRange ? 'range' : 'text'}
+        type={props.isRange ? 'range' : 'number'}
         bind
       />
     </div>

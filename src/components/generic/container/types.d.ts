@@ -9,13 +9,13 @@ interface ContainerPropsOnly extends ParentProps {
 
   orientation?: 'horizontal' | 'vertical' | 'none'
 
-  textColor?: ColorProp
+  textColor?: ColorProp | null
 
-  bgColor?: ColorProp
-  bgHoverColor?: ColorProp
+  bgColor?: ColorProp | null
+  bgHoverColor?: ColorProp | null
 
   border?: boolean
   borderWidth?: number
-  borderColor?: ColorProp
-  borderHoverColor?: ColorProp
+  borderColor?: ColorProp | null
+  borderHoverColor?: ColorProp | null
 }

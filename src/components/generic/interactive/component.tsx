@@ -27,9 +27,7 @@ export const Interactive = (props: Props) => {
   return (
     <Container
       {...containerProps}
-      bgHoverColor={
-        props.kind !== 'static' ? containerProps.bgHoverColor : null
-      }
+      bgHoverColor={props.kind !== 'static' ? props.bgHoverColor : null}
       orientation={props.orientation || props.icon ? undefined : 'horizontal'}
       disabled={disabled()}
       class={[

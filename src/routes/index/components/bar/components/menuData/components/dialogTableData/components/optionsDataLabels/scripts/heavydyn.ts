@@ -4,10 +4,10 @@ export const insertHeavydynDataLabel = (
   dataLabel: DataLabel,
   list: DataLabel[],
 ) => {
-  const categories = [rawCategory, currentCategory, indicatorsCategory]
+  const orderedCategories = [rawCategory, currentCategory, indicatorsCategory]
 
   const findCategoryIndex = (_dataLabel: DataLabel) =>
-    categories.findIndex(
+    orderedCategories.findIndex(
       (category) => category.name === _dataLabel.category.name,
     )
 
@@ -18,11 +18,14 @@ export const insertHeavydynDataLabel = (
   )
   maxIndex = maxIndex === -1 ? list.length : maxIndex
 
-  let minIndex = list.findIndex(
-    (_dataLabel) =>
-      categories.indexOf(_dataLabel.category) === dataLabelCategoryIndex,
-  )
+  let minIndex = list.findIndex((_dataLabel) => {
+    console.log(findCategoryIndex(_dataLabel), dataLabelCategoryIndex)
+
+    return findCategoryIndex(_dataLabel) === dataLabelCategoryIndex
+  })
   minIndex = Math.min(minIndex === -1 ? 0 : minIndex, maxIndex)
+
+  console.log('min', minIndex, 'max', maxIndex)
 
   const isLoad = (name: string) => name === 'Load'
   const isDeflection = (name: string) => name.startsWith('D')
@@ -47,7 +50,11 @@ export const insertHeavydynDataLabel = (
           return isNeitherLoadNorDeflection || isHigherDeflection
         })
 
-      list.splice(newIndex === -1 ? maxIndex : newIndex, 0, dataLabel)
+      list.splice(
+        newIndex === -1 ? maxIndex : newIndex + minIndex,
+        0,
+        dataLabel,
+      )
     } else if (isLoad(name)) {
       list.splice(minIndex, 0, dataLabel)
     } else {

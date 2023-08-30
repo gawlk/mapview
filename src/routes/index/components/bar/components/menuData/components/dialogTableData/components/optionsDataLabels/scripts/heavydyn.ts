@@ -18,14 +18,10 @@ export const insertHeavydynDataLabel = (
   )
   maxIndex = maxIndex === -1 ? list.length : maxIndex
 
-  let minIndex = list.findIndex((_dataLabel) => {
-    console.log(findCategoryIndex(_dataLabel), dataLabelCategoryIndex)
-
-    return findCategoryIndex(_dataLabel) === dataLabelCategoryIndex
-  })
+  let minIndex = list.findIndex(
+    (_dataLabel) => findCategoryIndex(_dataLabel) === dataLabelCategoryIndex,
+  )
   minIndex = Math.min(minIndex === -1 ? 0 : minIndex, maxIndex)
-
-  console.log('min', minIndex, 'max', maxIndex)
 
   const isLoad = (name: string) => name === 'Load'
   const isDeflection = (name: string) => name.startsWith('D')

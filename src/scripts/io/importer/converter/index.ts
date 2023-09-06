@@ -8,8 +8,10 @@ import {
 export const convertJSONFromPRJZToMPVZ = (json: RecordAny) => {
   let machine: MachineName = 'Minidyn'
 
-  const pcb = Object.keys(json.Hardware).find((key) =>
-    key.toLowerCase().includes('TypeMachinePCB'.toLowerCase()),
+  const pcb = Object.keys(json.Hardware).find(
+    (key) =>
+      key.toLowerCase().includes('TypeMachinePCB'.toLowerCase()) ||
+      key.toLowerCase().includes('TypeBoard'.toLowerCase())
   )
 
   if (pcb) {
@@ -28,6 +30,8 @@ export const convertJSONFromPRJZToMPVZ = (json: RecordAny) => {
         break
       }
     }
+  } else {
+    console.log('WARNING: PCB not found', json.Hardware)
   }
 
   const baseProject = convertPRJZToBaseProject(json, machine)

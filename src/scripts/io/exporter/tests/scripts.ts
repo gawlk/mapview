@@ -39,6 +39,7 @@ export const importFiles = async (dirPath: string, folderName?: string) => {
       switch (extension) {
         case 'mpvz': {
           const project = await importFile(file)
+
           project?.addToMap()
 
           promises.push(

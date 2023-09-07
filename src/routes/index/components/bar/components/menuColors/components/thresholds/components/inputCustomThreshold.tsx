@@ -9,6 +9,17 @@ interface Props extends InputProps {
 }
 
 export const InputCustomThreshold = (props: Props) => {
+  const [input, setInput] = createSignal(
+    undefined as HTMLInputElement | undefined,
+  )
+
+  createEffect(() => {
+    const _input = input()
+    if (!props.isRange && _input) {
+      _input.value = String(props.value)
+    }
+  })
+
   return (
     <div class="flex space-x-1">
       <InputRadioHorizontal
@@ -29,9 +40,9 @@ export const InputCustomThreshold = (props: Props) => {
           store.selectedReport && props.setIsRange(value === 'range')
         }
       />
-      {props.value}
       <Input
         full
+        ref={setInput}
         {...props}
         value={props.value}
         onInput={(value) => {

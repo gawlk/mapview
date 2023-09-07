@@ -1,9 +1,4 @@
-interface PredefinedThreshold {
+interface PredefinedThreshold extends Threshold {
   readonly kind: 'predefined'
-  readonly name: string
   readonly value: number
-  readonly getColor: (
-    mathNumber: MathNumber,
-    colors: JSONThresholdColors,
-  ) => string
 }

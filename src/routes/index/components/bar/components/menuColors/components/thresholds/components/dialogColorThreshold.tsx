@@ -13,9 +13,15 @@ interface Props {
 }
 
 export const DialogColorThreshold = (props: Props) => {
+  const [state, setState] = createStore({
+    equals: false,
+  })
+
   const thresoldColors = createMemo(
     () => store.selectedReport?.thresholds.colors,
   )
+
+  const disabled = createMemo(() => state.equals && props.level !== 'high')
 
   return (
     <Show when={thresoldColors()}>
@@ -23,10 +29,38 @@ export const DialogColorThreshold = (props: Props) => {
         <DialogColor
           button={{
             full: true,
-            disabled: props.from === props.to,
-            text: () => <SpanCustomThresholdRange {...props} />,
+            text: () => {
+              const { name, mathUnit, from, to } = props
+
+              if (
+                name === undefined ||
+                mathUnit === undefined ||
+                from === undefined ||
+                to === undefined
+              ) {
+                return undefined
+              }
+
+              return (
+                <SpanCustomThresholdRange
+                  name={name}
+                  mathUnit={mathUnit}
+                  from={from}
+                  to={to}
+                  last={props.level === 'high'}
+                  setEquals={(equals) => setState('equals', equals)}
+                />
+              )
+            },
+            disabled: disabled(),
             style: {
-              'background-color': `${colors[_thresoldColors()[props.level]]}aa`,
+              ...(!disabled()
+                ? {
+                    'background-color': `${
+                      colors[_thresoldColors()[props.level]]
+                    }aa`,
+                  }
+                : {}),
             },
           }}
           onClose={(color?: string) => {

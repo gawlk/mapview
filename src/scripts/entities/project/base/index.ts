@@ -4,7 +4,6 @@ import {
   createFieldFromJSON,
   createSelectableList,
   createWatcherHandler,
-  debounce,
   flyToPoints,
   mapStyles,
 } from '/src/scripts'
@@ -70,10 +69,7 @@ export const createBaseProjectFromJSON = <
       const oldMapStyle = map?.getStyle().sprite?.split('/').pop()
       const newMapStyle = mapStyles[styleIndex].split('/').pop()
 
-      if (oldMapStyle === newMapStyle) {
-        // TODO: Fix
-        // this.refreshLinesAndOverlays()
-      } else {
+      if (oldMapStyle !== newMapStyle) {
         map?.setStyle(mapStyles[styleIndex])
       }
     },
@@ -215,11 +211,11 @@ export const createBaseProjectFromJSON = <
         ),
       )
 
-      Object.values(this.units).forEach((mathUnit) => {
+      Object.values(this.units).forEach((mathUnit: MathUnit<string>) => {
         void watcherHandler.add(
           on(
             () => mathUnit,
-            debounce(() => {
+            () => {
               this.reports.list.forEach((report) => {
                 report.zones.forEach((zone) => {
                   zone.points.forEach((point) => {
@@ -247,7 +243,7 @@ export const createBaseProjectFromJSON = <
                   })
                 })
               })
-            }),
+            },
           ),
         )
       })

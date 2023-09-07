@@ -8,6 +8,7 @@ import {
   createFieldFromJSON,
   createIcon,
   createWatcherHandler,
+  run,
 } from '/src/scripts'
 
 export const createBasePointFromJSON = <
@@ -36,6 +37,7 @@ export const createBasePointFromJSON = <
   const watcherHandler = createWatcherHandler()
 
   let watcherMarkersString: (() => void) | undefined
+  let watcherMarkersColor: (() => void) | undefined
 
   const point: BasePoint<Drop, Zone> = {
     id: json.id,
@@ -93,6 +95,11 @@ export const createBasePointFromJSON = <
       return value ? value.displayedString : ''
     },
     updateColor() {
+      if (watcherMarkersColor) {
+        watcherHandler.remove(watcherMarkersColor)
+        watcherMarkersColor = undefined
+      }
+
       if (this.zone.report.settings.colorization === 'Zone') {
         this.icon?.setColor(colors[this.zone.settings.color])
       } else {
@@ -114,12 +121,16 @@ export const createBasePointFromJSON = <
               ) as ThresholdsGroup<string>
             )?.choices.selected
 
-            const color = threshold?.getColor(
-              mathNumber,
-              this.zone.report.thresholds.colors,
-            )
+            void run(async () => {
+              watcherMarkersColor = await watcherHandler.add(() => {
+                const color = threshold?.getColor(
+                  mathNumber,
+                  this.zone.report.thresholds.colors,
+                )
 
-            this.icon?.setColor(color)
+                this.icon?.setColor(color)
+              })
+            })
           } else {
             this.icon?.setColor()
           }

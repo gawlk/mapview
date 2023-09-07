@@ -1,5 +1,2 @@
-export {}
-declare global {
-  export type Zippable = import('fflate').Zippable
-  export type Unzipped = import('fflate').Unzipped
-}
+type Zippable = import('fflate').Zippable
+type Unzipped = import('fflate').Unzipped

@@ -22,8 +22,8 @@ export const DetailsTemperature = (props: Props) => {
       locked
       button={{
         leftIcon: IconTablerTemperature,
-        label: t('Temperature'),
-        text: temperature().active ? t('Enabled') : t('Disabled'),
+        label: t('Correction'),
+        text: t('Temperature'),
       }}
     >
       <InputRadioAbled

@@ -3,47 +3,43 @@ import { baseHexColor, blend, colors, roundValue } from '/src/scripts'
 const convertToRoundedCurrent = (
   valueToConvert: number,
   unit: MathUnit<string>,
-) => roundValue(unit.baseToCurrent(valueToConvert), unit.currentPrecision)
+) =>
+  roundValue(
+    unit.baseToCurrent(unit.capValue(valueToConvert)),
+    unit.currentPrecision,
+  )
 
-export const createCustomThreshold = (parameters: {
-  type: CustomThresholdType
-  value: number
-  valueHigh: number
-}): CustomThreshold => {
+export const createCustomThreshold = (
+  json: JSONCustomThreshold,
+  unit: MathUnit<string>,
+): CustomThreshold => {
+  // upgrade JSON
+
   return createMutable({
     kind: 'custom',
     name: 'Custom',
-    type: parameters.type,
-    value: parameters.value,
-    valueHigh: parameters.valueHigh,
+    unit,
+    type: json.type,
+    value: json.value,
+    valueHigh: json.valueHigh,
     getColor(mathNumber: MathNumber, jsonColors: JSONThresholdColors) {
       const hexColorLow = colors[jsonColors.low]
       const hexColorMiddle = colors[jsonColors.middle]
       const hexColorHigh = colors[jsonColors.high]
 
-      const { unit } = mathNumber
+      if (unit !== mathNumber.unit) {
+        throw Error('Passed mathNumber with wrong unit')
+      }
 
       if (!mathNumber.checkValidity()) {
         return baseHexColor
       }
 
-      const lowThresholdValue = convertToRoundedCurrent(
-        Math.max(this.value, unit ? mathNumber.unit.min : -Infinity),
-        unit,
-      )
+      const lowThresholdValue = convertToRoundedCurrent(this.value, unit)
 
-      const highThresholdValue = convertToRoundedCurrent(
-        Math.min(
-          this.valueHigh,
-          mathNumber.unit ? mathNumber.unit.max : Infinity,
-        ),
-        unit,
-      )
+      const highThresholdValue = convertToRoundedCurrent(this.valueHigh, unit)
 
-      const testedValue = roundValue(
-        mathNumber.toCurrent(),
-        unit.currentPrecision,
-      )
+      const testedValue = mathNumber.displayedValue
 
       let color = hexColorHigh
 

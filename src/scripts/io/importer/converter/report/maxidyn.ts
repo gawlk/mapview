@@ -1,4 +1,4 @@
-import { defaultThresholds } from '/src/scripts/entities'
+import { createDefaultModulusThresholds } from '/src/scripts/entities'
 
 import {
   convertPRJZToMaxidynDropChoices,
@@ -44,11 +44,11 @@ export const convertPRJZToMaxidynReportDistinct = (
   const dropIndexes = convertPRJZToMaxidynDropIndexes(json)
   const testChoices = convertPRJZToTestChoices(json)
 
-  const modulusThresholdIndex = defaultThresholds.modulus.findIndex(
-    (threshold) => {
-      return threshold.value === jsonPV.Threshold.Threshold
-    },
-  )
+  const modulusThresholdIndex = createDefaultModulusThresholds(
+    {} as unknown as MathUnit<string>,
+  ).findIndex((threshold) => {
+    return threshold.value === jsonPV.Threshold.Threshold
+  })
 
   return {
     version: 1,

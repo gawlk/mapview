@@ -53,18 +53,32 @@ export const DialogZoneSettings = () => {
                   onClick={() => {
                     const { selectedReport } = store
 
-                    ;(selectedReport?.zones[0].points as BasePoint[]).push(
-                      ...zone.points.map((point) => {
-                        if (selectedReport) {
-                          point.zone = selectedReport.zones[0]
-                        }
-                        return point
-                      }),
-                    )
+                    if (!selectedReport) return
+
+                    const zone0 = selectedReport?.zones[0]
+
+                    if (zone0 === zone) return
+
+                    const points = zone0.points as BasePoint[]
 
                     zone.clean()
 
-                    selectedReport?.zones.splice(index(), 1)
+                    selectedReport.zones.splice(index(), 1)
+
+                    batch(() =>
+                      points.push(
+                        ...zone.points.map((point) => {
+                          if (selectedReport) {
+                            point.zone = zone0
+                          }
+                          return point
+                        }),
+                      ),
+                    )
+
+                    points.forEach((p) => p.addToMap())
+
+                    console.log(4)
                   }}
                 />
               </Show>

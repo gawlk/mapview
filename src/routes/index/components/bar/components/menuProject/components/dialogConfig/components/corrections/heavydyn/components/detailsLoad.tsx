@@ -20,8 +20,8 @@ export const DetailsLoad = (props: Props) => {
       locked
       button={{
         leftIcon: IconTablerWeight,
-        label: t('Load'),
-        text: load().active ? t('Enabled') : t('Disabled'),
+        label: t('Correction'),
+        text: t('Load'),
       }}
     >
       <InputRadioAbled

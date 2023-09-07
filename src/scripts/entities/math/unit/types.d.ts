@@ -27,6 +27,7 @@ interface MathUnit<PossibleUnits> {
   max: number
   currentUnit: PossibleUnits
   currentPrecision: number
+  readonly capValue: (value: number) => number
   readonly getAverage: (values: number[]) => number
   readonly currentToBase: (value: number) => number
   readonly baseToCurrent: (value: number) => number

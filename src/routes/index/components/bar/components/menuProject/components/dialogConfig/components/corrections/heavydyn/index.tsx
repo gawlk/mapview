@@ -13,7 +13,7 @@ export const HeavydynCorrections = (props: Props) => {
   const [t] = useI18n()
 
   return (
-    <Label size="lg" label={t('Correction')} class="space-y-4">
+    <Label size="lg" label={t('Corrections')} class="space-y-4">
       <DetailsLoad project={props.project} />
       <DetailsTemperature project={props.project} />
     </Label>

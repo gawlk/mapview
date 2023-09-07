@@ -1,15 +1,26 @@
-import { convertValueFromUnitAToUnitB } from '/src/scripts'
+import { convertValueFromUnitAToUnitB, roundValue } from '/src/scripts'
 
 export const createMathNumber = (
-  value: JSONMathNumberValue,
+  json: JSONMathNumberValue,
   unit: MathUnit<string>,
 ) => {
+  const value = Number(json ?? 'NaN')
+
   const mathNumber = createMutable<MathNumber>({
-    value: Number(value ?? 'NaN'),
+    value,
     unit,
+    displayedValue: value,
     displayedString: '',
     displayedStringWithUnit: '',
+    updateDisplayedValue() {
+      this.displayedValue = roundValue(
+        this.unit.baseToCurrent(this.unit.capValue(this.value)),
+        this.unit.currentPrecision,
+      )
+    },
     updateDisplayedStrings() {
+      this.updateDisplayedValue()
+
       this.displayedString = this.getLocaleString()
 
       this.displayedStringWithUnit = this.getLocaleString({

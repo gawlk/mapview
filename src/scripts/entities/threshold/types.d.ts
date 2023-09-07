@@ -12,6 +12,17 @@ interface JSONDistinctThresholdsConfiguration {
 // Object
 // ---
 
+interface Threshold {
+  readonly kind: 'predefined' | 'custom'
+  readonly name: string
+  readonly unit: MathUnit<string>
+  value: number
+  readonly getColor: (
+    mathNumber: MathNumber,
+    colors: JSONThresholdColors,
+  ) => string
+}
+
 type AnyThreshold = PredefinedThreshold | CustomThreshold
 
 type CustomThresholdIndex = 0

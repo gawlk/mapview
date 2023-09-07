@@ -1,10 +1,12 @@
 import { useI18n } from '@solid-primitives/i18n'
 
 interface Props {
-  name?: string
+  name: string
   mathUnit?: MathUnit<string>
-  from?: number
-  to?: number
+  from: number
+  to: number
+  last: boolean
+  setEquals?: (equals: boolean) => void
 }
 
 export const SpanCustomThresholdRange = (props: Props) => {
@@ -14,13 +16,38 @@ export const SpanCustomThresholdRange = (props: Props) => {
     `${props.mathUnit?.baseToCurrent(value || 0).toLocaleString()} ${props
       .mathUnit?.currentUnit}`
 
+  const min = createMemo(() => props.mathUnit?.min ?? -Infinity)
+
+  const max = createMemo(() => props.mathUnit?.max ?? Infinity)
+
+  const cappedFrom = createMemo(() => Math.max(props.from, min()))
+  const to = createMemo(() => Math.min(props.to, max()))
+
+  const from = createMemo(() => Math.min(cappedFrom(), to()))
+
+  const formattedFrom = createMemo(() => formatValue(from()))
+  const formattedTo = createMemo(() => formatValue(to()))
+
+  const equals = createMemo(() => formattedFrom() !== formattedTo())
+
+  createEffect(() => props.setEquals?.(!equals()))
+
   return (
-    <span
-      classList={{ 'line-through': props.to === props.from }}
-    >{`${formatValue(props.from)} ≤ ${t(
-      props.name || '',
-      undefined,
-      props.name,
-    )} < ${formatValue(props.to)}`}</span>
+    <Show
+      when={equals()}
+      fallback={
+        <span>{`${t(
+          props.name || '',
+          undefined,
+          props.name,
+        )} = ${formattedTo()}`}</span>
+      }
+    >
+      <span>{`${formattedFrom()} ≤ ${t(
+        props.name || '',
+        undefined,
+        props.name,
+      )} ${props.last ? '≤' : '<'} ${formattedTo()}`}</span>
+    </Show>
   )
 }

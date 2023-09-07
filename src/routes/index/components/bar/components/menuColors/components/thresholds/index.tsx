@@ -47,10 +47,14 @@ export const Thresholds = () => {
   )
 
   const baseToCurrent = (value = 0) =>
-    roundValue(selectedMathUnit()?.baseToCurrent(value) || 0, 5)
+    roundValue(selectedMathUnit()?.baseToCurrent(value) || 0)
 
   const isBicolor = createMemo(() => isCustom()?.type === 'Bicolor')
   const isGradient = createMemo(() => isCustom()?.type === 'Gradient')
+
+  const min = createMemo(() => baseToCurrent(selectedMathUnit()?.min))
+
+  const max = createMemo(() => baseToCurrent(selectedMathUnit()?.max))
 
   return (
     <Details
@@ -113,8 +117,8 @@ export const Thresholds = () => {
             level="high"
             name={selectedDataLabelName()}
             mathUnit={selectedMathUnit()}
-            from={selectedThreshold()?.value}
-            to={selectedMathUnit()?.max}
+            from={selectedThreshold()?.value ?? 0}
+            to={selectedMathUnit()?.max ?? 0}
           />
         }
       >
@@ -195,10 +199,11 @@ export const Thresholds = () => {
                       }}
                     >
                       <SpanCustomThresholdRange
-                        name={selectedDataLabelName()}
+                        name={selectedDataLabelName() || ''}
                         mathUnit={selectedMathUnit()}
                         from={value}
                         to={valueHigh}
+                        last={false}
                       />
                     </Interactive>
                   )
@@ -230,8 +235,8 @@ export const Thresholds = () => {
                     )
                   }
                 }}
-                min={baseToCurrent(selectedMathUnit()?.min)}
-                max={baseToCurrent(selectedMathUnit()?.max)}
+                min={min()}
+                max={max()}
               />
             </Show>
 

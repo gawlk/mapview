@@ -88,6 +88,9 @@ export const createMathUnit = <PossibleUnits extends string>(
     min: jsonMin,
     max: jsonMax,
     readOnly,
+    capValue(value: number) {
+      return Math.max(this.min, Math.min(this.max, value))
+    },
     getAverage(values) {
       const { min, max } = this
 

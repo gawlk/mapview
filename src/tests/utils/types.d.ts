@@ -12,3 +12,14 @@ interface ParsedDate {
   date: Date
   origin: string
 }
+
+type CheckDataConformityMessage =
+  | 'dataType differ'
+  | 'invalid Number'
+  | 'invalid Date'
+  | 'invalid date format'
+  | 'array data invalid'
+  | 'valid data'
+  | 'object data differ'
+  | 'object data invalid'
+  | 'invalid data'

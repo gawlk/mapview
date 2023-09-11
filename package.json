@@ -9,7 +9,7 @@
     "check": "vue-tsc --noEmit --skipLibCheck",
     "build": "$npm_execpath run check && vite build",
     "prod": "$npm_execpath run build && vite preview --host",
-    "test": "vitest run",
+    "test": "TZ=Europe/Paris vitest run",
     "test-watch": "vitest",
     "test-ui": "vitest --ui",
     "test-coverage": "vitest --coverage",
@@ -39,7 +39,7 @@
   "devDependencies": {
     "@babel/types": "^7.21.4",
     "@darkobits/vite-plugin-favicons": "^0.3.0",
-    "@edge-runtime/vm": "^2.1.2",
+    "@edge-runtime/vm": "^3.0.4",
     "@iconify-json/heroicons-outline": "^1.1.6",
     "@iconify-json/heroicons-solid": "^1.1.7",
     "@iconify-json/octicon": "^1.1.37",

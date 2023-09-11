@@ -10,9 +10,8 @@ export const checkNumericValue = (actual: number, expected: number) => {
 }
 
 export const checkDataConformity = (
-  actualData: unknown,
-  expectedData: unknown
-  // eslint-disable-next-line sonarjs/cognitive-complexity
+  actualData: number | Date | string,
+  expectedData: number | Date | string
 ) => {
   if (typeof actualData !== typeof expectedData) {
     return 'dataType differ'
@@ -35,53 +34,23 @@ export const checkDataConformity = (
   }
 
   if (
-    (actualData &&
-      expectedData &&
-      typeof actualData === 'object' &&
-      Object.hasOwn(actualData, 'date') &&
-      Object.hasOwn(actualData, 'origin') &&
-      typeof expectedData === 'object' &&
-      Object.hasOwn(expectedData, 'date')) ||
-    (typeof expectedData === 'string' &&
-      !Number.isNaN(Date.parse(expectedData)) &&
-      typeof actualData === 'string' &&
-      !Number.isNaN(Date.parse(actualData)) &&
-      isValidDateFormat(expectedData))
+    typeof expectedData === 'string' &&
+    !Number.isNaN(Date.parse(expectedData)) &&
+    typeof actualData === 'string' &&
+    !Number.isNaN(Date.parse(actualData)) &&
+    isValidDateFormat(expectedData)
   ) {
-    if (!isValidDate(actualData as ParsedDate | string)) {
+    if (!isValidDate(actualData)) {
       return 'invalid date format'
     }
 
-    const actualTime = (
-      typeof actualData === 'string'
-        ? new Date(actualData)
-        : (actualData as ParsedDate).date
-    ).getTime()
+    const actualTime = new Date(actualData).getTime()
 
-    const expectedTime = (
-      typeof expectedData === 'string'
-        ? new Date(expectedData)
-        : (expectedData as ParsedDate).date
-    ).getTime()
+    const expectedTime = new Date(expectedData).getTime()
 
     if (actualTime !== expectedTime) {
       return 'invalid Date'
     }
-  }
-
-  if (Array.isArray(actualData) && Array.isArray(expectedData)) {
-    if (actualData.length !== expectedData.length) {
-      return 'array data invalid'
-    }
-    let arrayIsOk = true
-
-    actualData.forEach((value, index) => {
-      const exp = expectedData[index]
-
-      arrayIsOk = arrayIsOk && checkDataConformity(value, exp) === 'valid data'
-    })
-
-    return arrayIsOk ? 'valid data' : 'array data invalid'
   }
 
   if (actualData !== expectedData) return 'invalid data'

@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "($npm_execpath outdated || read -p \"Press enter to ignore...\") && vite --host",
     "check": "tsc --noEmit --skipLibCheck",
-    "build": "cd src/assets/templates && rm -f templates.zip && (command -v zip && zip -r templates.zip . || true) && cd - && $npm_execpath run check && vite build",
+    "build": "(command -v zip && cd src/assets/templates && rm -f templates.zip && zip -r templates.zip . && cd -) || true && $npm_execpath run check && vite build",
     "prod": "$npm_execpath run build && vite preview --host",
     "serve": "vite preview",
     "test": "sed -i.bak 's|DEV$1\\.|DEV$1?\\.|g' node_modules/.pnpm/solid-js@*/node_modules/solid-js/store/dist/dev.js && sed -i.bak 's|\"./integration\"|\"./integration.js\"|g' node_modules/.pnpm/@solidjs+router@*_solid-js@*/node_modules/@solidjs/router/dist/routing.js && sed -i.bak 's|\"./lifecycle\"|\"./lifecycle.js\"|g' node_modules/.pnpm/@solidjs+router@*_solid-js@*/node_modules/@solidjs/router/dist/routing.js && sed -i.bak 's|\"./utils\"|\"./utils.js\"|g' node_modules/.pnpm/@solidjs+router@*_solid-js@*/node_modules/@solidjs/router/dist/routing.js && TZ=Europe/Paris vitest run",

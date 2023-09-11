@@ -9,7 +9,7 @@
     "check": "vue-tsc --noEmit --skipLibCheck",
     "build": "$npm_execpath run check && vite build",
     "prod": "$npm_execpath run build && vite preview --host",
-    "test": "vitest run",
+    "test": "TZ=Europe/Paris vitest run",
     "test-watch": "vitest",
     "test-ui": "vitest --ui",
     "test-coverage": "vitest --coverage",

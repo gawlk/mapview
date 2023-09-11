@@ -2,6 +2,7 @@ import { Marker, type Map } from 'mapbox-gl'
 import pica from 'pica'
 
 import SVGRotate from '/src/assets/svg/custom/rotate.svg?raw'
+import { env } from '/src/env'
 import {
   createSVGElement,
   createWatcherHandler,
@@ -20,12 +21,8 @@ export const createOverlay = async (
   let width = 0
   let height = 0
 
-  if (Image) {
-    console.log('IMAGE')
-
+  if (!env.isTest) {
     const imageElement = await getImageFromData64(data64)
-
-    console.log('ekrofpwekofp')
 
     width = 500
     height = (width * imageElement.height) / imageElement.width
@@ -176,8 +173,6 @@ const getImageFromData64 = async (data64: string): Promise<HTMLImageElement> =>
     const image = new Image()
 
     image.src = data64
-
-    // console.log(data64)
 
     image.onload = () => {
       resolve(image)

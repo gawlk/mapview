@@ -79,13 +79,6 @@ export const createBaseZoneFromJSON = <
               ...this.report.zones.map((_zone) => _zone.points),
             ].flat()
 
-            // console.log(
-            //   'set sortedPoints',
-            //   this.report.name.toString(),
-            //   this.report.line.sortedPoints.length,
-            //   this.report.getExportablePoints().length,
-            // )
-
             this.report.line.update()
           },
         ),

@@ -38,24 +38,18 @@ export const importFile = async (file: File) => {
 
     const jsonProject = getProjectJSONFromZip(unzipped, extension || '')
 
-    // console.log(jsonProject)
+    console.log(jsonProject)
 
     if (jsonProject) {
       project = importProjectFromJSON(jsonProject)
 
       setTimeout(async () => {
         if (project) {
-          console.log('import file timeout')
-
           importScreenshotsFromZIP(unzipped, jsonProject, project)
 
           importRawDataFromZIP(unzipped, project)
 
-          console.log('importRawDataFromZIP')
-
           await waitForMap()
-
-          console.log('importOverlaysFromZIP')
 
           importOverlaysFromZIP(unzipped, jsonProject, project)
 

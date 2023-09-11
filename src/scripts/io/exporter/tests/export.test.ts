@@ -142,13 +142,6 @@ ${index ? actualLines[index - 1] + '\n' : ''}${line}\n${
       .filter((data) => data.mpvz.file)
       .map((data) => [data.directoryName, data.mpvz.project, data.mpvz.file]),
   )('test mpvz: %s', async (_, project, expected) => {
-    // await sleep(1000)
-
-    // console.log(
-    //   'in test sortedPoints.length',
-    //   project?.reports.selected?.line.sortedPoints.length,
-    // )
-
     const mpvzFile = await mpvzExporter.export(project as MachineProject)
 
     expect(mpvzFile.name).toSatisfy(

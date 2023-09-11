@@ -12,15 +12,6 @@ const toHaveSameJSON = (actual: Unzipped, expected: Unzipped) => {
   const actualJSON = unzippedToJSON(actual)
   const expectedJSON = unzippedToJSON(expected)
 
-  // const actualKeys = Object.keys(actualJSON)
-  // const expectedKeys = Object.keys(expectedJSON)
-  // if (actualKeys.length !== expectedKeys.length) {
-  //   console.log(
-  //     actualKeys.filter((k) => !expectedKeys.includes(k)),
-  //     expectedKeys.filter((k) => !actualKeys.includes(k)),
-  //   )
-  // }
-
   const { message, keys, actualData, expectedData, diff } = browseCheckData(
     actualJSON,
     expectedJSON,

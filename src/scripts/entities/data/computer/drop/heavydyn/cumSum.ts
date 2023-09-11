@@ -35,11 +35,7 @@ export const createCumSumDataComputer = (report: HeavydynReport) => {
         }),
       ),
     compute: (label) => {
-      // console.log('compute cumsum', report.name.toString())
-
       const exportablePoints = report.getExportablePoints() as HeavydynPoint[]
-
-      // console.log('compute cumsum exportablePoints', exportablePoints.length)
 
       const groupedDropsByDropIndex = exportablePoints.reduce(
         (grouped, point) => {
@@ -51,12 +47,6 @@ export const createCumSumDataComputer = (report: HeavydynReport) => {
         },
         new Array(numberOfDrops).fill(null).map(() => []) as HeavydynDrop[][],
       )
-
-      // console.log(
-      //   'groupedDropsByDropIndex',
-      //   groupedDropsByDropIndex.map((g) => g.length),
-      //   report.name.toString(),
-      // )
 
       groupedDropsByDropIndex.forEach((drops) => {
         const d0OnLoadList = drops.map((drop) => {
@@ -81,8 +71,6 @@ export const createCumSumDataComputer = (report: HeavydynReport) => {
           const data =
             drop.data.find((_data) => _data.label === label) ||
             drop.data[drop.data.push(createDataValue(0, label)) - 1]
-
-          // console.log('data', report.name.toString())
 
           const d0OnLoad = d0OnLoadList[index]
 

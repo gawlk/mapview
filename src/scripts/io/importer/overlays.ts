@@ -18,7 +18,6 @@ export const importOverlaysFromZIP = (
     )
 
     if (result) {
-      console.log('result', 1)
       const array = result[1]
 
       const data64 = convertUint8ArrayToData64Image(
@@ -26,17 +25,11 @@ export const importOverlaysFromZIP = (
         jsonOverlay.name.split('.').pop() as string,
       )
 
-      console.log('result', 2)
-
       const overlay = await createOverlay(data64, store.map, jsonOverlay)
-
-      console.log('result', 3)
 
       if (store.projects.selected === project) {
         overlay.addToMap(store.projects.selected.settings.areOverlaysVisible)
       }
-
-      console.log('result', 4)
 
       project.overlays.push(overlay)
     }

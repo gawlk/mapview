@@ -18,13 +18,21 @@ test('demo launch', async ({ page, baseURL }) => {
 
   await expect(page.locator('#loader')).not.toBeVisible()
 
-  await expect(page.locator('#Project')).toBeVisible({ visible: true })
+  await expect(page.locator('#desktop-menu-project')).toBeVisible({
+    visible: true,
+  })
 
-  await expect(page.locator('#Map')).toBeVisible({ visible: true })
+  await expect(page.locator('#desktop-menu-map')).toBeVisible({ visible: true })
 
-  await expect(page.locator('#Reports')).toBeVisible({ visible: true })
+  await expect(page.locator('#desktop-menu-reports')).toBeVisible({
+    visible: true,
+  })
 
-  await expect(page.locator('#Points')).toBeVisible({ visible: true })
+  await expect(page.locator('#desktop-menu-colors')).toBeVisible({
+    visible: true,
+  })
 
-  await expect(page.locator('#Data')).toBeVisible({ visible: true })
+  await expect(page.locator('#desktop-menu-data')).toBeVisible({
+    visible: true,
+  })
 })

@@ -20,10 +20,6 @@ stages:
   - build
   - version
 
-cache:
-  paths:
-    - node_modules/
-
 version-2:
   stage: version
   variables:
@@ -48,7 +44,7 @@ test-vitest:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 
   script:
-    - npx pnpm i --store=node_modules/.pnpm-store
+    - npx pnpm i
     - npx pnpm check
     - npx pnpm test
 
@@ -59,7 +55,7 @@ test-playwright:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 
   script:
-    - npx pnpm i --store=node_modules/.pnpm-store
+    - npx pnpm i
     - npx pnpm check
     - npx playwright install
     - npx pnpm test-browser

@@ -26,6 +26,7 @@ export const SpanCustomThresholdRange = (props: Props) => {
   const from = createMemo(() => Math.min(cappedFrom(), to()))
 
   const formattedFrom = createMemo(() => formatValue(from()))
+
   const formattedTo = createMemo(() => formatValue(to()))
 
   const equals = createMemo(() => formattedFrom() !== formattedTo())

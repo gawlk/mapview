@@ -62,7 +62,7 @@ export const Container = (props: Props) => {
 
         // Background hover color
         run(() => {
-          switch (props.bgHoverColor) {
+          switch (!props.disabled && props.bgHoverColor) {
             case 'primary':
               return 'hover:bg-orange-800'
             case 'gray':

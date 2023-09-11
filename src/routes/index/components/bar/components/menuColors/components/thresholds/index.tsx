@@ -181,22 +181,30 @@ export const Thresholds = () => {
 
                   const { value, valueHigh } = customThreshold()
 
+                  const disabled = createMemo(() => value === valueHigh)
+
                   return (
                     <Interactive
                       leftIcon={IconTablerColorSwatch}
                       full
                       kind="static"
-                      disabled={value === valueHigh}
-                      style={{
-                        color: blend(
-                          blend(colorLow(), colorHigh()),
-                          '#000000',
-                          0.75,
-                        ),
-                        background: `linear-gradient(180deg,${colorLow()},${colorHigh()})`,
-                        'border-top-color': colorLow(),
-                        'border-bottom-color': colorHigh(),
-                      }}
+                      bgColor="base"
+                      borderColor="transparent"
+                      disabled={disabled()}
+                      style={
+                        !disabled()
+                          ? {
+                              color: blend(
+                                blend(colorLow(), colorHigh()),
+                                '#000000',
+                                0.75,
+                              ),
+                              background: `linear-gradient(180deg,${colorLow()},${colorHigh()})`,
+                              'border-top-color': colorLow(),
+                              'border-bottom-color': colorHigh(),
+                            }
+                          : {}
+                      }
                     >
                       <SpanCustomThresholdRange
                         name={selectedDataLabelName() || ''}

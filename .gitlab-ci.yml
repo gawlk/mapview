@@ -58,7 +58,7 @@ test-playwright:
     - npx pnpm i
     - npx pnpm check
     - npx playwright install
-    - npx pnpm test-browser
+    - npx playwright test
 
 test-ts:
   stage: test

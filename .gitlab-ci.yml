@@ -16,8 +16,8 @@ image: node:latest
   - git push --tags ssh_origin
 
 stages:
-  - test
   - build
+  - test
   - version
 
 version-2:
@@ -37,6 +37,15 @@ version-2:
     - git push ssh_origin HEAD:$CI_COMMIT_REF_NAME
   after_script:
     - *git_tag
+
+test-build:
+  stage: build
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+
+  script:
+    - npx pnpm i
+    - npx pnpm build
 
 test-vitest:
   stage: test

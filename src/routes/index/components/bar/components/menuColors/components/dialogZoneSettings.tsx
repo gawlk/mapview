@@ -77,8 +77,6 @@ export const DialogZoneSettings = () => {
                     )
 
                     points.forEach((p) => p.addToMap())
-
-                    console.log(4)
                   }}
                 />
               </Show>

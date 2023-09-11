@@ -5,16 +5,25 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 import { expect } from 'vitest'
 
-import { unzippedToObject } from '/src/scripts'
+import { unzippedToJSON } from '/src/scripts'
 import { checkDataConformity } from '/src/tests'
 
 const toHaveSameJSON = (actual: Unzipped, expected: Unzipped) => {
-  const actualJson = unzippedToObject(actual)
-  const expectedJson = unzippedToObject(expected)
+  const actualJSON = unzippedToJSON(actual)
+  const expectedJSON = unzippedToJSON(expected)
+
+  // const actualKeys = Object.keys(actualJSON)
+  // const expectedKeys = Object.keys(expectedJSON)
+  // if (actualKeys.length !== expectedKeys.length) {
+  //   console.log(
+  //     actualKeys.filter((k) => !expectedKeys.includes(k)),
+  //     expectedKeys.filter((k) => !actualKeys.includes(k)),
+  //   )
+  // }
 
   const { message, keys, actualData, expectedData, diff } = browseCheckData(
-    actualJson,
-    expectedJson,
+    actualJSON,
+    expectedJSON,
     ['root'],
   )
 

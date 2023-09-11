@@ -9,7 +9,7 @@ import {
   waitForMap,
 } from '/src/scripts'
 
-export const unzippedToObject = (unzipped: Unzipped) => {
+export const unzippedToJSON = (unzipped: Unzipped) => {
   const jsonUint = unzipped['database.json']
 
   return JSON.parse(new TextDecoder().decode(jsonUint))
@@ -19,7 +19,7 @@ export const getProjectJSONFromZip = (
   unzipped: Unzipped,
   extension: string,
 ) => {
-  const importedJSON = unzippedToObject(unzipped)
+  const importedJSON = unzippedToJSON(unzipped)
 
   return extension === 'mpvz'
     ? (importedJSON as JSONMapview).project
@@ -45,11 +45,17 @@ export const importFile = async (file: File) => {
 
       setTimeout(async () => {
         if (project) {
+          console.log('import file timeout')
+
           importScreenshotsFromZIP(unzipped, jsonProject, project)
 
           importRawDataFromZIP(unzipped, project)
 
+          console.log('importRawDataFromZIP')
+
           await waitForMap()
+
+          console.log('importOverlaysFromZIP')
 
           importOverlaysFromZIP(unzipped, jsonProject, project)
 

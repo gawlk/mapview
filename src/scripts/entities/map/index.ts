@@ -22,6 +22,9 @@ export const waitForMap = () =>
     const interval = setInterval(() => {
       if (!store.map || store.map?.isStyleLoaded()) {
         clearInterval(interval)
+
+        // console.log('resolve waitForMap')
+
         resolve(true)
       }
     }, 100)

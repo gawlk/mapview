@@ -21,8 +21,11 @@ export const createOverlay = async (
   let height = 0
 
   if (Image) {
-    // Image isn't implemented in the test runtime
+    console.log('IMAGE')
+
     const imageElement = await getImageFromData64(data64)
+
+    console.log('ekrofpwekofp')
 
     width = 500
     height = (width * imageElement.height) / imageElement.width
@@ -173,6 +176,8 @@ const getImageFromData64 = async (data64: string): Promise<HTMLImageElement> =>
     const image = new Image()
 
     image.src = data64
+
+    // console.log(data64)
 
     image.onload = () => {
       resolve(image)

@@ -3,7 +3,7 @@ import {
   convertUint8arrayToXML,
   convertValueFromUnitAToUnitB,
   createMathNumber,
-  createZipFromEntity,
+  createZIPFromEntity,
   unzipFile,
 } from '/src/scripts'
 
@@ -35,12 +35,12 @@ export const mvrzExporter = {
     return new File(
       project.reports.selected
         ? [
-            await createZipFromEntity(project.reports.selected, {
+            await createZIPFromEntity(project.reports.selected, {
               rawData: needsRawData,
               screenshots: true,
               customJSON: {
                 name: 'database.json',
-                json: createMVRZJson(project),
+                json: createMVRZJSON(project),
               },
               template,
             }),
@@ -413,7 +413,7 @@ const createBaseJson = (project: MachineProject): ExcelJSON => {
   }
 }
 
-const createMVRZJson = (project: MachineProject): ExcelJSON => {
+const createMVRZJSON = (project: MachineProject): ExcelJSON => {
   if (!project.reports.selected) return {}
 
   return {

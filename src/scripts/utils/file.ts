@@ -45,26 +45,48 @@ export const convertData64ImageToFile = (data64: string) =>
     type: 'image/png',
   })
 
-export const convertData64ToFile = async (
+export const convertBase64toBlob = (
+  b64Data: string,
+  contentType = '',
+  sliceSize = 512,
+) => {
+  const byteCharacters = atob(b64Data)
+  const byteArrays = []
+
+  for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+    const slice = byteCharacters.slice(offset, offset + sliceSize)
+
+    const byteNumbers = new Array(slice.length)
+    for (let i = 0; i < slice.length; i++) {
+      byteNumbers[i] = slice.charCodeAt(i)
+    }
+
+    const byteArray = new Uint8Array(byteNumbers)
+    byteArrays.push(byteArray)
+  }
+
+  return new Blob(byteArrays, { type: contentType })
+}
+
+export const convertData64ToFile = (
   data64: string,
   fileName?: string,
   options?: FilePropertyBag | undefined,
-) => {
-  const res = await fetch(data64)
-
-  const blob = await res.blob()
-
-  return new File([blob], fileName || 'file', options)
-}
+) =>
+  new File(
+    [convertBase64toBlob(data64.split('base64,')[1], 'image/png')],
+    fileName || 'file',
+    options,
+  )
 
 export const convertData64ImageToUint8Array = async (data64: string) => {
-  const file = await convertData64ImageToFile(data64)
+  const file = convertData64ImageToFile(data64)
 
   return new Uint8Array(await file.arrayBuffer())
 }
 
-export const downloadImage = async (screenshot: string) =>
-  downloadFile(await convertData64ImageToFile(screenshot))
+export const downloadImage = (screenshot: string) =>
+  downloadFile(convertData64ImageToFile(screenshot))
 
 export function convertFileNameToValidName(name: string, hasExtension = true) {
   let toCheck = name

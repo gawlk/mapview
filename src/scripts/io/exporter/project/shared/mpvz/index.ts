@@ -1,11 +1,11 @@
-import { createZipFromEntity } from '/src/scripts'
+import { createZIPFromEntity } from '/src/scripts'
 
 export const mpvzExporter: MachineExporter = {
   name: 'MPVZ',
   export: async (project: MachineProject) =>
     new File(
       [
-        await createZipFromEntity(project, {
+        await createZIPFromEntity(project, {
           overlays: true,
           rawData: true,
           screenshots: true,

@@ -25,11 +25,11 @@ const toBeSameValue = async (
     }
   }
 
-  let allValueIsIdentical = true
+  let areValuesIdentical = true
 
   const lastValues: ReturnType<typeof parseData>[] = []
 
-  for (let i = 0; i < actualLignes.length && allValueIsIdentical; i++) {
+  for (let i = 0; i < actualLignes.length && areValuesIdentical; i++) {
     const actualLigne = actualLignes[i]
     const expectedLigne = expectedLignes[i]
 
@@ -50,8 +50,8 @@ const toBeSameValue = async (
     }
 
     if (typeof actualValue === 'number' && typeof expectedValue === 'number') {
-      allValueIsIdentical =
-        allValueIsIdentical && checkNumericValue(actualValue, expectedValue)
+      areValuesIdentical =
+        areValuesIdentical && checkNumericValue(actualValue, expectedValue)
     } else if (
       typeof actualValue === 'object' &&
       Object.hasOwn(actualValue, 'date') &&
@@ -68,12 +68,12 @@ const toBeSameValue = async (
         }
       }
 
-      allValueIsIdentical =
-        allValueIsIdentical &&
+      areValuesIdentical =
+        areValuesIdentical &&
         (actualValue as ParsedDate).date.getTime() === parsed.date.getTime()
     } else if (Array.isArray(actualValue) && Array.isArray(expectedValue)) {
-      allValueIsIdentical =
-        allValueIsIdentical &&
+      areValuesIdentical =
+        areValuesIdentical &&
         actualValue.every((value, index) => {
           const exp = expectedValue[index]
           const valueType = typeof value
@@ -87,16 +87,16 @@ const toBeSameValue = async (
           )
         })
     } else {
-      allValueIsIdentical = actualValue === expectedValue
+      areValuesIdentical = actualValue === expectedValue
     }
   }
 
   return {
     message: () =>
       `Values ${
-        allValueIsIdentical ? 'are' : 'are not'
-      } equal (${lastValues.join(',')})`,
-    pass: allValueIsIdentical,
+        areValuesIdentical ? 'are' : 'are not'
+      } identical (${lastValues.join(',')})`,
+    pass: areValuesIdentical,
   }
 }
 

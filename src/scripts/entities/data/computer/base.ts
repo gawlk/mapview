@@ -13,6 +13,8 @@ export const createDataComputer = (parameters: {
       label,
       init() {
         void watcherHandler.add(() => {
+          // console.log(this.label.toString())
+
           this.label && compute(this.label)
         })
       },

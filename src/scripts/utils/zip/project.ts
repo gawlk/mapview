@@ -6,7 +6,7 @@ import { addOverlaysToZip } from './overlays'
 import { addRawDataToZip } from './rawdata'
 import { addScreenshotsToZip } from './screenshots'
 
-export const createZipFromEntity = async (
+export const createZIPFromEntity = async (
   entity: MachineProject | MachineReport,
   parameters: {
     overlays?: boolean

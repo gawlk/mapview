@@ -2,6 +2,7 @@
 import { readdirSync, statSync } from 'fs'
 
 import {
+  sleep as _sleep,
   getAllPointsFromProject,
   importFile,
   removeLeading0s,
@@ -40,6 +41,8 @@ export const importFiles = async (dirPath: string, folderName?: string) => {
         case 'mpvz': {
           const project = await importFile(file)
 
+          await sleep(10000)
+
           project?.addToMap()
 
           promises.push(
@@ -73,7 +76,7 @@ export const importFiles = async (dirPath: string, folderName?: string) => {
                     needInit && point?.rawDataFile?.byteLength !== undefined
                 })
 
-                await sleep(250)
+                await _sleep(250)
               }
 
               resolve(true)

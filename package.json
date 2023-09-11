@@ -10,7 +10,7 @@
     "build": "cd src/assets/templates && rm -f templates.zip && zip -r templates.zip . && cd - && $npm_execpath run check && vite build",
     "prod": "$npm_execpath run build && vite preview --host",
     "serve": "vite preview",
-    "test": "sed -i.bak 's|\"./integration\"|\"./integration.js\"|g' node_modules/.pnpm/@solidjs+router@*_solid-js@*/node_modules/@solidjs/router/dist/routing.js && sed -i.bak 's|\"./lifecycle\"|\"./lifecycle.js\"|g' node_modules/.pnpm/@solidjs+router@*_solid-js@*/node_modules/@solidjs/router/dist/routing.js && sed -i.bak 's|\"./utils\"|\"./utils.js\"|g' node_modules/.pnpm/@solidjs+router@*_solid-js@*/node_modules/@solidjs/router/dist/routing.js && TZ=Europe/Paris vitest run",
+    "test": "sed -i.bak 's|DEV$1\\.|DEV$1?\\.|g' node_modules/.pnpm/solid-js@*/node_modules/solid-js/store/dist/dev.js && sed -i.bak 's|\"./integration\"|\"./integration.js\"|g' node_modules/.pnpm/@solidjs+router@*_solid-js@*/node_modules/@solidjs/router/dist/routing.js && sed -i.bak 's|\"./lifecycle\"|\"./lifecycle.js\"|g' node_modules/.pnpm/@solidjs+router@*_solid-js@*/node_modules/@solidjs/router/dist/routing.js && sed -i.bak 's|\"./utils\"|\"./utils.js\"|g' node_modules/.pnpm/@solidjs+router@*_solid-js@*/node_modules/@solidjs/router/dist/routing.js && TZ=Europe/Paris vitest run",
     "test-watch": "vitest",
     "test-ui": "vitest --ui",
     "test-coverage": "vitest --coverage",
@@ -50,7 +50,7 @@
     "@edge-runtime/vm": "^3.1.1",
     "@ianvs/prettier-plugin-sort-imports": "^4.1.0",
     "@iconify-json/heroicons-solid": "^1.1.8",
-    "@iconify-json/tabler": "^1.1.90",
+    "@iconify-json/tabler": "^1.1.91",
     "@playwright/test": "^1.37.1",
     "@tailwindcss/container-queries": "^0.1.1",
     "@types/dedent": "^0.7.0",
@@ -59,8 +59,8 @@
     "@types/node": "^20.5.9",
     "@types/pica": "^9.0.1",
     "@typescript-eslint/eslint-plugin": "^6.6.0",
-    "@vitest/coverage-v8": "^0.34.3",
-    "@vitest/ui": "^0.34.3",
+    "@vitest/coverage-v8": "^0.34.4",
+    "@vitest/ui": "^0.34.4",
     "autoprefixer": "^10.4.15",
     "eslint": "^8.48.0",
     "eslint-config-airbnb-base": "^15.0.0",
@@ -69,7 +69,7 @@
     "eslint-plugin-solid": "^0.13.0",
     "eslint-plugin-sonarjs": "^0.21.0",
     "eslint-plugin-tailwindcss": "^3.13.0",
-    "happy-dom": "^10.11.2",
+    "happy-dom": "^11.0.2",
     "husky": "^8.0.3",
     "jsdom": "^22.1.0",
     "postcss": "^8.4.29",
@@ -84,6 +84,6 @@
     "vite-plugin-pages": "^0.31.0",
     "vite-plugin-solid": "^2.7.0",
     "vite-plugin-solid-svg": "^0.6.4",
-    "vitest": "^0.34.3"
+    "vitest": "^0.34.4"
   }
 }

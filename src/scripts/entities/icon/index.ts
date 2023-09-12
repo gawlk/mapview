@@ -3,6 +3,7 @@ import CircleIcon from 'iconoir/icons/circle.svg?raw'
 import FlareIcon from 'iconoir/icons/flare.svg?raw'
 import HeptagonIcon from 'iconoir/icons/heptagon.svg?raw'
 import HexagonAltIcon from 'iconoir/icons/hexagon-alt.svg?raw'
+import HexagonIcon from 'iconoir/icons/hexagon.svg?raw'
 import OctagonIcon from 'iconoir/icons/octagon.svg?raw'
 import PentagonIcon from 'iconoir/icons/pentagon.svg?raw'
 import RhombusIcon from 'iconoir/icons/rhombus.svg?raw'
@@ -18,7 +19,8 @@ export const icons: Record<IconName, string> = {
   Rhombus: RhombusIcon,
   Flare: FlareIcon,
   Pentagon: PentagonIcon,
-  Hexagon: HexagonAltIcon,
+  Hexagon: HexagonIcon,
+  HexagonAlt: HexagonAltIcon,
   Heptagon: HeptagonIcon,
   Octagon: OctagonIcon,
 }

@@ -44,8 +44,20 @@ export const SortableList = <T,>(props: Props<T>) => {
     scrollableParent: undefined as Window | HTMLElement | undefined,
   })
 
+  createEffect(() => {
+    console.log('scrollableParent', state.scrollableParent)
+  })
+
+  createEffect(() => {
+    console.log('directParent', state.directParent)
+  })
+
+  // createEffect(() => {
+  //   console.log('activeItem', state.activeItem)
+  // })
+
   const scrollableParentScroll = createScrollPosition(
-    () => state.scrollableParent,
+    createMemo(() => state.scrollableParent),
   )
 
   const mousePosition = useMousePosition()
@@ -63,7 +75,12 @@ export const SortableList = <T,>(props: Props<T>) => {
         state.activeItem &&
         createEffect(
           on(
-            () => [mousePosition.x, mousePosition.y],
+            () => [
+              mousePosition.x +
+                (mousePosition.sourceType === 'touch' ? window.scrollX : 0),
+              mousePosition.y +
+                (mousePosition.sourceType === 'touch' ? window.scrollY : 0),
+            ],
             ([mouseX, mouseY]) =>
               createEffect(
                 on(

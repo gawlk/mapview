@@ -1,4 +1,4 @@
-import { Label, Td, Tr } from '/src/components'
+import { Dialog, Label, Td, Tr } from '/src/components'
 
 import { SortableList } from '.'
 
@@ -102,6 +102,28 @@ export const SortableListStory = () => {
           )}
         />
       </div>
+      <Dialog closeable title="Sortable in dialog">
+        <div class="flex flex-col space-y-4">
+          <SortableList
+            orientation="vertical"
+            list={list}
+            itemToId={(item) => String(item)}
+            onChange={(from, to) =>
+              batch(() => list.splice(to, 0, list.splice(from, 1)[0]))
+            }
+            component={(ref, value, index) => (
+              <Tr ref={ref} class="bg-pink-300 p-4">
+                <Td>
+                  Hey {value} {index()}
+                </Td>
+                <Td>
+                  Hey {value} {index()} BIS
+                </Td>
+              </Tr>
+            )}
+          />
+        </div>
+      </Dialog>
     </Label>
   )
 }

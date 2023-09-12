@@ -69,11 +69,11 @@ export default defineConfig({
     }),
 
     faviconsPlugin({
+      cache: true,
       appName: packageJSON.name[0].toUpperCase() + packageJSON.name.slice(1),
       appDescription: packageJSON.description,
-      start_url: '',
+      start_url: '/',
       theme_color: white,
-      cache: true,
       background: white,
       icons: {
         favicons: {

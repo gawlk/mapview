@@ -43,6 +43,9 @@ export const DialogBody = (props: Props) => {
 
         'flex-1 overflow-y-auto @container',
       ])}
+      style={{
+        'overscroll-behavior': 'contain',
+      }}
     >
       <button
         hidden

@@ -87,6 +87,19 @@ const processScroll = (
   scrollableHeightOrWidth: number,
   pad: number,
 ) => {
+  console.log({
+    scrollableParent,
+    orientation,
+    mouseXOrY,
+    scrollableTopOrLeft,
+    scrollableBottomOrRight,
+    parentTopOrLeft,
+    parentBottomOrRight,
+    windowScrollXOrY,
+    scrollableHeightOrWidth,
+    pad,
+  })
+
   if (
     scrollableBottomOrRight - pad < parentBottomOrRight &&
     mouseXOrY - scrollableTopOrLeft - windowScrollXOrY >

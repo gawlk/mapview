@@ -46,7 +46,7 @@ export const Bar = () => {
       component: MenuData,
       needsReport: true,
       style: 'max-height: 75vh; max-height: 75dvh',
-      class: 'overflow-y-auto',
+      class: 'overflow-y-auto !p-0',
     },
   ].map((menu) => createMutable(menu))
 

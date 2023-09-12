@@ -53,6 +53,7 @@ export const BarDesktop = (props: Props) => {
                         id={menu.id}
                         name={menu.name}
                         icon={menu.icon}
+                        class={menu.class}
                       />
                     </Show>
                   </div>

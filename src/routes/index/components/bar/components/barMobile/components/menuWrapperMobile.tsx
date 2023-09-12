@@ -36,8 +36,8 @@ export const MenuWrapperMobile = (props: Props) => {
         ])}
       >
         <div
-          id={`${baseID}${props.id}`}
           style={stylePropToCSSProperties(props.style)}
+          id={`${baseID}${props.id}`}
           class={classPropToString([
             'space-y-2 rounded-lg bg-white p-2',
             props.class || '',

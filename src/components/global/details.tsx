@@ -59,6 +59,7 @@ export const Details = (props: Props) => {
         class={[
           state.open && 'rounded-t-none',
           'space-y-2 overflow-hidden border-t-0',
+          props.class,
         ]}
       >
         {props.children}

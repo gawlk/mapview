@@ -4,6 +4,7 @@ interface Props {
   id: string
   icon: IconProp
   name: string
+  class?: string
 }
 
 export const baseID = 'desktop-menu-'
@@ -17,6 +18,7 @@ export const MenuWrapperDesktop = (props: Props) => {
       }}
       defaultOpen
       locked
+      class={props.class}
     >
       <div id={`${baseID}${props.id}`} />
     </Details>

@@ -8,11 +8,13 @@ import { Values } from './components/values'
 export const MenuData = () => {
   return (
     <>
-      <SelectGroupBy />
-      <Values />
-      <DialogTableData />
+      <div class="space-y-1.5 p-2 pb-0">
+        <SelectGroupBy />
+        <Values />
+        <DialogTableData />
+      </div>
 
-      <div class="-mx-2 !-mb-2">
+      <div>
         <Show when={store.selectedReport?.dataLabels.groups.selected}>
           {(group) => (
             <TablePointsGroupedBy

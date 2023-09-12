@@ -84,6 +84,9 @@ a `.mpvz` files is required for the test to work.
 
 ## Solid JS
 
+Documentation: https://www.solidjs.com/docs/latest/
+Additional primitives: https://github.com/solidjs-community/solid-primitives
+
 ### $TRACK
 
 There is also $PROXY

@@ -22,6 +22,7 @@
     "noEmit": true,
     "isolatedModules": true,
     "baseUrl": "./",
+    "resolveJsonModule": true,
     "paths": {
       "/src/*": ["src/*"]
     }

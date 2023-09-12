@@ -1,3 +1,5 @@
+import { ReactiveMap } from '@solid-primitives/map'
+
 import { createDataValueFromJSON } from '/src/scripts'
 
 export const createBaseDropFromJSON = <
@@ -14,22 +16,25 @@ export const createBaseDropFromJSON = <
 ) => {
   json = upgradeJSONDrop(json)
 
+  const dataset = new ReactiveMap<string, DataValue<string>>()
+  json.data.forEach((jsonDataValue) => {
+    const dataValue = createDataValueFromJSON(
+      jsonDataValue,
+      parameters.dropGroup.choices.list,
+    )
+
+    dataset.set(dataValue.label.toString(), dataValue)
+  })
+
   const drop: BaseDrop<DropIndex, Point> = {
     index: parameters.index,
-    data: createMutable(
-      json.data.map((jsonDataValue) =>
-        createDataValueFromJSON(
-          jsonDataValue,
-          parameters.dropGroup.choices.list,
-        ),
-      ),
-    ),
+    dataset,
     point: parameters.point,
     impactData: null,
     toBaseJSON() {
       return {
         version: json.version,
-        data: this.data
+        data: Array.from(this.dataset.values())
           .filter((data) =>
             this.point.zone.report.dataLabels.groups.list[0].saveableChoices.includes(
               data.label,

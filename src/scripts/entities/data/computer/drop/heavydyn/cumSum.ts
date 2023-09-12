@@ -5,6 +5,7 @@ import {
   createDataValue,
   currentCategory,
   indicatorsCategory,
+  run,
 } from '/src/scripts'
 
 export const createCumSumDataComputer = (report: HeavydynReport) => {
@@ -35,6 +36,7 @@ export const createCumSumDataComputer = (report: HeavydynReport) => {
           unit: report.project.units.cumSum,
         }),
       ),
+    // eslint-disable-next-line sonarjs/cognitive-complexity
     compute: (label) => {
       const exportablePoints = report.getExportablePoints() as HeavydynPoint[]
 
@@ -51,11 +53,11 @@ export const createCumSumDataComputer = (report: HeavydynReport) => {
 
       groupedDropsByDropIndex.forEach((drops) => {
         const d0OnLoadList = drops.map((drop) => {
-          const d0 = drop.data.find((data) => data.label === currentD0DataLabel)
+          if (!currentD0DataLabel || !currentLoadDataLabel) return
 
-          const load = drop.data.find(
-            (data) => data.label === currentLoadDataLabel,
-          )
+          const d0 = drop.dataset.get(currentD0DataLabel.toString())
+
+          const load = drop.dataset.get(currentD0DataLabel.toString())
 
           return d0 && load
             ? (d0.getRawValue() / load.getRawValue()) * 100000000
@@ -70,8 +72,12 @@ export const createCumSumDataComputer = (report: HeavydynReport) => {
 
         drops.forEach((drop, index) => {
           const data =
-            drop.data.find((_data) => _data.label === label) ||
-            drop.data[drop.data.push(createDataValue(0, label)) - 1]
+            drop.dataset.get(label.toString()) ||
+            run(() => {
+              const dl = createDataValue(0, label)
+              drop.dataset.set(label.toString(), dl)
+              return dl
+            })
 
           const d0OnLoad = d0OnLoadList[index]
 

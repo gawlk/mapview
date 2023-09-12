@@ -226,7 +226,7 @@ export const createBaseProjectFromJSON = <
                     const selectedReportUnit =
                       report.dataLabels.groups.selected?.choices.selected?.unit
 
-                    point.data.forEach((dataValue) => {
+                    point.dataset.forEach((dataValue) => {
                       const areUnitsMatching =
                         dataValue.label.unit.name === mathUnit.name
 
@@ -235,7 +235,7 @@ export const createBaseProjectFromJSON = <
                     })
 
                     point.drops.forEach((drop) =>
-                      drop.data.forEach((dataValue) => {
+                      drop.dataset.forEach((dataValue) => {
                         dataValue.label.unit.name === mathUnit.name &&
                           dataValue.value.updateDisplayedStrings()
                       }),

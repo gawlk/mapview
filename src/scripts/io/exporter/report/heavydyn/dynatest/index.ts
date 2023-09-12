@@ -151,7 +151,7 @@ const writePoints = (project: HeavydynProject) => {
   if (!project.reports.selected) return []
 
   return project.reports.selected.getExportablePoints().map((point) => {
-    const celsiusDegreesTemps = point.data
+    const celsiusDegreesTemps = Array.from(point.dataset.values())
       .filter((data) => data.label.unit === project.units.temperature)
       .map((data, index) => {
         const precision = index === 0 ? 1 : 0
@@ -163,7 +163,7 @@ const writePoints = (project: HeavydynProject) => {
         return value.padStart(2, ' ')
       })
 
-    const fahrenheitDegreesTemps = point.data
+    const fahrenheitDegreesTemps = Array.from(point.dataset.values())
       .slice(0, 3)
       .map((data) => {
         return data.value
@@ -173,7 +173,7 @@ const writePoints = (project: HeavydynProject) => {
       .join(' ')
 
     const chainage = Number(
-      point.data
+      Array.from(point.dataset.values())
         .find((pointData) => pointData.label.name === 'Chainage')
         ?.getRawValue(),
     )
@@ -193,7 +193,7 @@ const writePoints = (project: HeavydynProject) => {
 const writeDrops = (point: BasePoint, dPlate: number) => {
   return point.drops
     .map((drop) => {
-      const values = drop.data
+      const values = Array.from(drop.dataset.values())
         .filter(
           (data) =>
             data.label.unit === point.zone.report.project.units.deflection &&
@@ -207,7 +207,7 @@ const writeDrops = (point: BasePoint, dPlate: number) => {
         })
 
       const power =
-        (((drop.data
+        (((Array.from(drop.dataset.values())
           .find(
             (data) =>
               data.label.unit === point.zone.report.project.units.force &&

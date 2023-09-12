@@ -11,7 +11,7 @@ export const ZonePreTable = (props: Props) => {
   const { t } = useAppState()
 
   const dcar = createMemo(() => {
-    const dCar = props.zone.data.find(
+    const dCar = Array.from(props.zone.dataset.values()).find(
       (data) => data.label.name === 'Characteristic deflection',
     )
 

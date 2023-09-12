@@ -26,7 +26,7 @@ interface BaseDrop<
   Point extends BasePoint = MachinePoint,
 > extends BaseObject<JSONBaseDrop> {
   readonly index: DropIndex
-  readonly data: DataValue<string>[]
+  readonly dataset: ReactiveMap<string, DataValue<string>>
   readonly point: Point
   impactData: ImpactData | null
 }

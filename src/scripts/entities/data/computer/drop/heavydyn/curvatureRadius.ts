@@ -4,6 +4,7 @@ import {
   createDataValue,
   currentCategory,
   indicatorsCategory,
+  run,
 } from '/src/scripts'
 
 export const createCurvatureRadiusDataComputers = (report: HeavydynReport) => {
@@ -37,19 +38,25 @@ export const createCurvatureRadiusDataComputers = (report: HeavydynReport) => {
           }),
         ),
       compute: (label) => {
+        const paramsDataLabel = params.dataLabel
+
+        if (!d0DataLabel || !paramsDataLabel) return
+
         report.zones.forEach((zone) =>
           zone.points.forEach((point) =>
             point.drops.forEach((drop) => {
-              const d1 = drop.data.find((_data) => _data.label === d0DataLabel)
+              const d1 = drop.dataset.get(d0DataLabel?.toString())
 
-              const d2 = drop.data.find(
-                (_data) => _data.label === params.dataLabel,
-              )
+              const d2 = drop.dataset.get(paramsDataLabel.toString())
 
               if (d1 && d2) {
                 const data =
-                  drop.data.find((_data) => _data.label === label) ||
-                  drop.data[drop.data.push(createDataValue(0, label)) - 1]
+                  drop.dataset.get(label.toString()) ||
+                  run(() => {
+                    const dl = createDataValue(0, label)
+                    drop.dataset.set(label.toString(), dl)
+                    return dl
+                  })
 
                 data.value.updateValue(
                   (0 - Number(d2.label.name.slice(1)) * 10 ** -3) ** 2 /

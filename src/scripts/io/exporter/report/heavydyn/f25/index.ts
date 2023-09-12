@@ -73,7 +73,7 @@ const writeEndHeader = (project: MachineProject): string => {
   const d = project.reports.selected?.line.sortedPoints
     .map((point) =>
       Number(
-        point.data
+        Array.from(point.dataset.values())
           .find((pointData) => pointData.label.name === 'Chainage')
           ?.getRawValue(),
       ),
@@ -220,7 +220,7 @@ const writePointHeader = (
 ): string => {
   const date = dayjsUtc(point.date).format('YYYY, MM, DD, HH, mm')
 
-  let chainage = point.data
+  let chainage = Array.from(point.dataset.values())
     .find((pointData) => pointData.label.name === 'Chainage')
     ?.getRawValue()
   if (typeof chainage === 'undefined') throw new Error()
@@ -228,15 +228,15 @@ const writePointHeader = (
 
   const comment = findFieldInArray(report.information, 'Comment')?.toString()
 
-  const tair = point.data
+  const tair = Array.from(point.dataset.values())
     .find((pointData) => pointData.label.name === 'Tair')
     ?.getRawValue()
 
-  const tsurf = point.data
+  const tsurf = Array.from(point.dataset.values())
     .find((pointData) => pointData.label.name === 'Tsurf')
     ?.getRawValue()
 
-  const tman = point.data
+  const tman = Array.from(point.dataset.values())
     .find((pointData) => pointData.label.name === 'Tman')
     ?.getRawValue()
 
@@ -267,7 +267,7 @@ const writeDrops = (point: BasePoint, dPlate: number): string => {
       const nbr = drop.index.displayedIndex.toString().padStart(3, ' ')
 
       const force =
-        (((drop.data
+        (((Array.from(drop.dataset.values())
           .find(
             (data) =>
               data.label.unit === point.zone.report.project.units.force &&
@@ -282,7 +282,7 @@ const writeDrops = (point: BasePoint, dPlate: number): string => {
 
       let values = ''
 
-      drop.data
+      Array.from(drop.dataset.values())
         .filter(
           (data) =>
             data.label.unit === point.zone.report.project.units.deflection &&

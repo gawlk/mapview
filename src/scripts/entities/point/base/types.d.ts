@@ -35,7 +35,7 @@ interface BasePoint<
   readonly marker: mapboxgl.Marker | null
   readonly icon: Icon | null
   readonly settings: JSONPointSettings
-  readonly data: DataValue<string>[]
+  readonly dataset: ReactiveMap<string, DataValue<string>>
   readonly information: Field[]
   readonly drops: Drop[]
   index: number

@@ -1,4 +1,5 @@
 /* eslint-disable sonarjs/cognitive-complexity */
+import { ReactiveMap } from '@solid-primitives/map'
 import { Marker, Popup } from 'mapbox-gl'
 
 import { translate } from '/src/locales'
@@ -39,6 +40,16 @@ export const createBasePointFromJSON = <
   let watcherMarkersString: (() => void) | undefined
   let watcherMarkersColor: (() => void) | undefined
 
+  const dataset = new ReactiveMap<string, DataValue<string>>()
+  json.data.forEach((jsonDataValue) => {
+    const dataValue = createDataValueFromJSON(
+      jsonDataValue,
+      parameters.zone.report.dataLabels.groups.list[1].choices.list,
+    )
+
+    dataset.set(dataValue.label.toString(), dataValue)
+  })
+
   const point: BasePoint<Drop, Zone> = {
     id: json.id,
     number: json.number,
@@ -53,13 +64,7 @@ export const createBasePointFromJSON = <
     ),
     settings: createMutable(json.settings),
     zone: parameters.zone,
-    data: json.data.map(
-      (jsonDataValue): DataValue<string> =>
-        createDataValueFromJSON(
-          jsonDataValue,
-          parameters.zone.report.dataLabels.groups.list[1].choices.list,
-        ),
-    ),
+    dataset,
     drops: [],
     rawDataFile: null,
     getSelectedMathNumber(
@@ -82,8 +87,7 @@ export const createBasePointFromJSON = <
           break
       }
 
-      return source?.data.find((dataValue) => dataValue.label === dataLabel)
-        ?.value
+      return source?.dataset.get(dataLabel.toString())?.value
     },
     getDisplayedString(
       groupFrom: DataLabelsFrom,
@@ -215,7 +219,7 @@ export const createBasePointFromJSON = <
         }) || '',
       )
 
-      this.data.forEach((dataValue) => {
+      this.dataset.forEach((dataValue) => {
         appendToPopup(
           translate(dataValue.label.name),
           dataValue.value.displayedStringWithUnit,
@@ -275,7 +279,7 @@ export const createBasePointFromJSON = <
         number: this.number,
         date: this.date.toJSON(),
         coordinates: this.marker?.getLngLat() || json.coordinates,
-        data: this.data
+        data: Array.from(this.dataset.values())
           .filter((data) =>
             this.zone.report.dataLabels.groups.list[1].saveableChoices.includes(
               data.label,

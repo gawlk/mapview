@@ -1,3 +1,4 @@
+import { ReactiveMap } from '@solid-primitives/map'
 import mapboxgl, { LngLatBounds } from 'mapbox-gl'
 
 import {
@@ -42,7 +43,7 @@ export const createBaseZoneFromJSON = <
     points: createMutable([]),
     settings: createMutable(jsonSettings),
     report: parameters.report,
-    data: createMutable([]),
+    dataset: new ReactiveMap(),
     init() {
       this.points.forEach((point) => point.addToMap())
 

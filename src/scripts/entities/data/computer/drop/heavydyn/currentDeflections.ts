@@ -4,7 +4,9 @@ import {
   createDataLabel,
   createDataValue,
   currentCategory,
+  generateDataLabelString,
   rawCategory,
+  run,
 } from '/src/scripts'
 
 export const createHeavydynCurrentDeflectionDropDataComputers = (
@@ -37,11 +39,13 @@ export const createHeavydynCurrentDeflectionDropDataComputers = (
                 .getExportablePoints()
                 .map(
                   (point) =>
-                    point.data
-                      .find(
-                        (data) =>
-                          data.label.name ===
-                          correctionParameters.temperature.source.selected,
+                    point.dataset
+                      .get(
+                        generateDataLabelString(
+                          rawCategory,
+                          correctionParameters.temperature.source.selected ||
+                            '',
+                        ),
                       )
                       ?.getRawValue(),
                 ),
@@ -58,29 +62,25 @@ export const createHeavydynCurrentDeflectionDropDataComputers = (
 
               zone.getExportablePoints().forEach((point, pointIndex) => {
                 point.drops.forEach((drop) => {
-                  const rawData = drop.data.find(
-                    (data) => data.label === rawLabel,
-                  )
+                  const rawData = drop.dataset.get(rawLabel.toString())
 
                   if (rawData) {
                     const currentData =
-                      drop.data.find((data) => data.label === currentLabel) ||
-                      drop.data[
-                        drop.data.push(createDataValue(0, currentLabel)) - 1
-                      ]
+                      drop.dataset.get(currentLabel.toString()) ||
+                      run(() => {
+                        const dl = createDataValue(0, currentLabel)
+                        drop.dataset.set(currentLabel.toString(), dl)
+                        return dl
+                      })
 
                     let value = rawData.getRawValue()
 
-                    const currentLoad = drop.data.find(
-                      (data) =>
-                        data.label.name === 'Load' &&
-                        data.label.category.name === currentCategory.name,
+                    const currentLoad = drop.dataset.get(
+                      generateDataLabelString(currentCategory, 'Load'),
                     )
 
-                    const rawLoad = drop.data.find(
-                      (data) =>
-                        data.label.name === 'Load' &&
-                        data.label.category.name === rawCategory.name,
+                    const rawLoad = drop.dataset.get(
+                      generateDataLabelString(rawCategory, 'Load'),
                     )
 
                     if (currentLoad && rawLoad) {

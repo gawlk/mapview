@@ -82,16 +82,20 @@ const generatePointData = (
 ): ExcelDataListJSON =>
   points.reduce<ExcelDataListJSON>(
     (a, point) =>
-      point.data.reduce<ExcelDataListJSON>((b, data) => {
-        const label = labelPrefix + toPascalCase(data.label.getSerializedName())
+      Array.from(point.dataset.values()).reduce<ExcelDataListJSON>(
+        (b, data) => {
+          const label =
+            labelPrefix + toPascalCase(data.label.getSerializedName())
 
-        const values = [...((b[label] || []) as number[]), data.toExcel()]
+          const values = [...((b[label] || []) as number[]), data.toExcel()]
 
-        return {
-          ...b,
-          [label]: values,
-        }
-      }, a),
+          return {
+            ...b,
+            [label]: values,
+          }
+        },
+        a,
+      ),
     {},
   )
 
@@ -145,20 +149,23 @@ const generateDropData = (
         [`${labelPrefix}${drop.index.displayedIndex}_Number`]: new Array(
           points.length,
         ).fill(drop.index.displayedIndex),
-        ...drop.data.reduce<ExcelDataListJSON>((c, data) => {
-          const label = `${labelPrefix}${
-            drop.index.displayedIndex
-          }_${toPascalCase(data.label.getSerializedName())}`
+        ...Array.from(drop.dataset.values()).reduce<ExcelDataListJSON>(
+          (c, data) => {
+            const label = `${labelPrefix}${
+              drop.index.displayedIndex
+            }_${toPascalCase(data.label.getSerializedName())}`
 
-          const values = c[label] || []
+            const values = c[label] || []
 
-          values.push(data.toExcel())
+            values.push(data.toExcel())
 
-          return {
-            ...c,
-            [label]: values,
-          }
-        }, b),
+            return {
+              ...c,
+              [label]: values,
+            }
+          },
+          b,
+        ),
       }),
       a,
     )
@@ -173,7 +180,7 @@ const generateZoneData = (zones: MachineZone[]): ExcelJSON =>
       return {
         ...a,
         [`${Z}_Name`]: zone.name,
-        ...zone.data.reduce<ExcelJSON>(
+        ...Array.from(zone.dataset.values()).reduce<ExcelJSON>(
           (prev, data) => ({
             ...prev,
             [`${Z}_${toPascalCase(data.label.name)}`]: data.toExcel(),

@@ -6,6 +6,7 @@ import {
   createDataValue,
   currentCategory,
   indicatorsCategory,
+  run,
 } from '/src/scripts'
 
 export const createCharacteristicDeflectionComputer = (
@@ -31,20 +32,25 @@ export const createCharacteristicDeflectionComputer = (
         }),
       ),
     compute: (label) => {
+      if (!d0DataLabel) return
+
       report.zones.forEach((zone) => {
         const data =
-          zone.data.find((_data) => _data.label === label) ||
-          zone.data[zone.data.push(createDataValue(0, label)) - 1]
+          zone.dataset.get(label.toString()) ||
+          run(() => {
+            const dl = createDataValue(0, label)
+            zone.dataset.set(label.toString(), dl)
+            return dl
+          })
 
         const d0s = zone
           .getExportablePoints()
-          .map((point) =>
-            (point.drops.at(-1) as HeavydynDrop).data.filter(
-              (_data) => _data.label === d0DataLabel,
-            ),
+          .flatMap(
+            (point) =>
+              (point.drops.at(-1) as HeavydynDrop).dataset
+                .get(d0DataLabel?.toString())
+                ?.getRawValue() || [],
           )
-          .flat()
-          .map((d0) => d0.getRawValue())
 
         const d0sAverage = computeAverage(d0s)
 

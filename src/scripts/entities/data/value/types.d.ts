@@ -21,11 +21,3 @@ interface DataValue<T extends string> {
   toJSON: () => JSONDataValue
   toExcel: () => number | null
 }
-
-type DataValueTuple = [DataValue<string>, DataValueUpdater]
-
-type DataValueUpdater = (
-  dataList: DataValue<string>[],
-  index?: number,
-  array?: DataValue<string>[][],
-) => void

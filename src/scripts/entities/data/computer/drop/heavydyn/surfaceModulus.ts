@@ -4,6 +4,7 @@ import {
   createDataValue,
   currentCategory,
   indicatorsCategory,
+  run,
 } from '/src/scripts'
 
 export const createHeavydynSurfaceModulusDataComputers = (
@@ -43,13 +44,15 @@ export const createHeavydynSurfaceModulusDataComputers = (
         report.zones.forEach((zone) =>
           zone.points.forEach((point) => {
             point.drops.forEach((drop) => {
-              const load = drop.data.find(
-                (data) => data.label === currentLoadDataLabel,
-              )
+              const load = drop.dataset.get(currentLoadDataLabel.toString())
 
               const sm0 =
-                drop.data.find((data) => data.label === label) ||
-                drop.data[drop.data.push(createDataValue(0, label)) - 1]
+                drop.dataset.get(label.toString()) ||
+                run(() => {
+                  const dl = createDataValue(0, label)
+                  drop.dataset.set(label.toString(), dl)
+                  return dl
+                })
 
               if (load) {
                 const pressure = load.getRawValue() / (Math.PI * radius ** 2)

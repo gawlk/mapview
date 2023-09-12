@@ -101,8 +101,9 @@ const writePoints = (project: HeavydynProject): string => {
         let coordinates = { lng: '', lat: '' }
 
         const chainage = Math.round(
-          point.data.find((data) => data.label.name === 'Chainage')?.value
-            .value || 0,
+          Array.from(point.dataset.values()).find(
+            (data) => data.label.name === 'Chainage',
+          )?.value.value || 0,
         )
 
         coordinates = ddToDms(point.toBaseJSON().coordinates as mapboxgl.LngLat)
@@ -138,7 +139,7 @@ const writeDrops = (point: BasePoint, channels: JSONChannel[]): string => {
   ]
   const dropHeader = [
     'Drop',
-    ...point.drops[0].data
+    ...Array.from(point.drops[0].dataset.values())
       .filter(
         (data) =>
           data.label.unit === point.zone.report.project.units.deflection &&
@@ -167,7 +168,7 @@ const writeDrop = (drop: MachineDrop, channels: JSONChannel[]): string => {
   let str = ''
 
   const loadMax =
-    drop.data
+    Array.from(drop.dataset.values())
       .find(
         (data) =>
           data.label.unit === drop.point.zone.report.project.units.force &&
@@ -178,7 +179,7 @@ const writeDrop = (drop: MachineDrop, channels: JSONChannel[]): string => {
 
   const maxValues = [
     drop.index.displayedIndex,
-    ...drop.data
+    ...Array.from(drop.dataset.values())
       .filter(
         (data) =>
           data.label.unit === drop.point.zone.report.project.units.deflection &&
@@ -187,13 +188,13 @@ const writeDrop = (drop: MachineDrop, channels: JSONChannel[]): string => {
       .map((_drop) => _drop.value.getValueAs('um').toFixed(1)),
     0,
     loadMax,
-    ...drop.point.data
+    ...Array.from(drop.point.dataset.values())
       .slice(0, -1)
       .map((data) =>
         data.value.getLocaleString({ precision: 1, locale: 'en-US' }),
       ),
     (
-      drop.data
+      Array.from(drop.dataset.values())
         .find(
           (data) =>
             data.label.unit === drop.point.zone.report.project.units.time,
@@ -244,7 +245,9 @@ const writeDisplacements = (
       const sensorData = [
         sensorName + sensorPosition + '[MPa;µm].',
         1.0, // TODO
-        drop.data[index + 2].value.getValueAs('um').toFixed(1),
+        Array.from(drop.dataset.values())
+          [index + 2].value.getValueAs('um')
+          .toFixed(1),
         ...displacement.map((val) =>
           (val * 1000000).toFixed(1).replace('-0.0', '0.0'),
         ),

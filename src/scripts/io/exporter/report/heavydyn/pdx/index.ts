@@ -184,14 +184,14 @@ const writePoints = (project: HeavydynProject) => {
   return project.reports.selected
     .getExportablePoints()
     .map((point) => {
-      const temps = point.data
+      const temps = Array.from(point.dataset.values())
         .slice(0, 3)
         .map((data) => {
           return data.value.getLocaleString({ precision: 1, locale: 'en-US' })
         })
         .join(',')
 
-      const comment = point.data
+      const comment = Array.from(point.dataset.values())
         .find((data) => data.label.name === 'Comment')
         ?.getRawValue()
 
@@ -199,7 +199,7 @@ const writePoints = (project: HeavydynProject) => {
 
       return dedent`
         [Test Location ${point.index}]
-        TestLocation = ${point.data
+        TestLocation = ${Array.from(point.dataset.values())
           .find((data) => data.label.name === 'Chainage')
           ?.getRawValue()},0,0 
         GPSLocation = ${lat.toFixed(8)},${lng.toFixed(8)},0
@@ -222,7 +222,7 @@ const writeDrops = (point: BasePoint, dPlate: number) => {
 
   return point.drops
     .map((drop, index) => {
-      const values = drop.data
+      const values = Array.from(drop.dataset.values())
         .filter(
           (data) =>
             data.label.unit === deflection &&
@@ -234,7 +234,11 @@ const writeDrops = (point: BasePoint, dPlate: number) => {
         })
 
       const power =
-        ((drop.data[1].getRawValue() * 1e-3) / Math.PI / dPlate / dPlate) * 4
+        ((Array.from(drop.dataset.values())[1].getRawValue() * 1e-3) /
+          Math.PI /
+          dPlate /
+          dPlate) *
+        4
 
       values.unshift(power.toFixed(2).toString())
 

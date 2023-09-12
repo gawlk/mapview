@@ -4,6 +4,7 @@ import {
   createDataValue,
   currentCategory,
   rawCategory,
+  run,
 } from '/src/scripts'
 
 export const createHeavydynCurrentLoadDataComputer = (
@@ -27,6 +28,8 @@ export const createHeavydynCurrentLoadDataComputer = (
         }),
       ),
     compute: (currentLoadDataLabel) => {
+      if (!rawLoadDataLabel) return
+
       const {
         project: { correctionParameters },
       } = report
@@ -44,8 +47,8 @@ export const createHeavydynCurrentLoadDataComputer = (
             let referenceData: MathNumber
             if (!correctionParameters.load.active) {
               referenceData = (
-                drop.data.find(
-                  (_data) => _data.label === rawLoadDataLabel,
+                drop.dataset.get(
+                  rawLoadDataLabel?.toString(),
                 ) as DataValue<string>
               ).value // can't be undefined
             } else {
@@ -53,10 +56,12 @@ export const createHeavydynCurrentLoadDataComputer = (
             }
 
             const data =
-              drop.data.find((_data) => _data.label === currentLoadDataLabel) ||
-              drop.data[
-                drop.data.push(createDataValue(0, currentLoadDataLabel)) - 1
-              ]
+              drop.dataset.get(currentLoadDataLabel.toString()) ||
+              run(() => {
+                const dl = createDataValue(0, currentLoadDataLabel)
+                drop.dataset.set(currentLoadDataLabel.toString(), dl)
+                return dl
+              })
 
             data.value.updateValue(referenceData.value)
           }),

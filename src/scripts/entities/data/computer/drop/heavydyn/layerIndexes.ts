@@ -4,21 +4,28 @@ import {
   createDataValue,
   currentCategory,
   indicatorsCategory,
+  run,
 } from '/src/scripts'
 
 const layerIndexCompute =
   (report: HeavydynReport, dataLabel1?: DataLabel, dataLabel2?: DataLabel) =>
   (label: DataLabel) => {
+    if (!dataLabel1 || !dataLabel2) return
+
     report.zones.forEach((zone) =>
       zone.points.forEach((point) =>
         point.drops.forEach((drop) => {
           const data =
-            drop.data.find((_data) => _data.label === label) ||
-            drop.data[drop.data.push(createDataValue(0, label)) - 1]
+            drop.dataset.get(label.toString()) ||
+            run(() => {
+              const dl = createDataValue(0, label)
+              drop.dataset.set(label.toString(), dl)
+              return dl
+            })
 
-          const d1 = drop.data.find((_data) => _data.label === dataLabel1)
+          const d1 = drop.dataset.get(dataLabel1?.toString())
 
-          const d2 = drop.data.find((_data) => _data.label === dataLabel2)
+          const d2 = drop.dataset.get(dataLabel2?.toString())
 
           if (d1 && d2) {
             data.value.updateValue(d1.getRawValue() - d2.getRawValue())

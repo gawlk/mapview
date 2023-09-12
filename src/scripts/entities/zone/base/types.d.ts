@@ -37,7 +37,7 @@ interface BaseZone<
   readonly settings: JSONZoneSettings
   name: string
   report: Report
-  data: DataValue<string>[]
+  readonly dataset: ReactiveMap<string, DataValue<string>>
   readonly init: () => void
   readonly clean: () => void
   readonly fitOnMap: (map: mapboxgl.Map) => void

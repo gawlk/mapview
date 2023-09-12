@@ -20,7 +20,7 @@ export const Dialog = (props: Props) => {
   const dialogProps = removeProps(props, dialogClassicBooleanPropsKeysObject)
 
   return (
-    <div class={classPropToString([props.button?.full && 'w-full'])}>
+    <div class={classPropToString([props.button?.full && 'w-full min-w-0'])}>
       <DialogButtonOpen
         {...props.button}
         for={state.id}

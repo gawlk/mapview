@@ -129,4 +129,11 @@ export default defineConfig({
     ],
     testTimeout: 600000,
   },
+  optimizeDeps: {
+    esbuildOptions: {
+      define: {
+        global: 'globalThis',
+      },
+    },
+  },
 })

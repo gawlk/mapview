@@ -14,9 +14,9 @@ export const getScrollableParent = (
     const isScrollable =
       orientation === 'vertical' || orientation === 'both'
         ? isOverflowScrollable(overflowY) &&
-          parent.offsetHeight !== parent.scrollHeight
+          parent.offsetHeight < parent.scrollHeight
         : isOverflowScrollable(overflowX) &&
-          parent.offsetWidth !== parent.scrollWidth
+          parent.offsetWidth < parent.scrollWidth
 
     if (isScrollable) {
       return parent

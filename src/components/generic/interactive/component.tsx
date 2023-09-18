@@ -99,7 +99,7 @@ export const Interactive = (props: Props) => {
           <label
             for={props.id}
             class={classPropToString([
-              'pointer-events-none flex-none select-none whitespace-pre-wrap text-black/50',
+              'pointer-events-none flex-none select-none whitespace-pre text-black/50',
             ])}
           >
             {`${props.label}: `}

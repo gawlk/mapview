@@ -1,13 +1,14 @@
 import { useI18n } from '@solid-primitives/i18n'
-import localforage from 'localforage'
+
+// import localforage from 'localforage'
 
 import { Button, classPropToString, DragAndDrop } from '/src/components'
 import {
   acceptedExtensions,
-  downloadFile,
+  // downloadFile,
   fetchFileFromURL,
   importFile,
-  snapshotKey,
+  // snapshotKey,
 } from '/src/scripts'
 import { store } from '/src/store'
 
@@ -18,17 +19,17 @@ interface Props {
 export const Initializer = (props: Props) => {
   const [t] = useI18n()
 
-  const [state, setState] = createStore({
-    snapshot: null as File | null,
-  })
+  // const [state, setState] = createStore({
+  //   snapshot: null as File | null,
+  // })
 
-  onMount(async () => {
-    const snapshot: File | null = await localforage.getItem(snapshotKey)
+  // onMount(async () => {
+  // const snapshot: File | null = await localforage.getItem(snapshotKey)
 
-    if (snapshot) {
-      setState('snapshot', snapshot)
-    }
-  })
+  // if (snapshot) {
+  //   setState('snapshot', snapshot)
+  // }
+  // })
 
   const openFiles = async (files: FileList | null) => {
     const file = files?.[0]
@@ -87,7 +88,7 @@ export const Initializer = (props: Props) => {
       >
         {t('Drop a file here or click here to choose one')}
       </DragAndDrop>
-      <Show when={state.snapshot}>
+      {/* <Show when={state.snapshot}>
         {(snapshot) => (
           <div class="flex space-x-2">
             <Button
@@ -107,7 +108,7 @@ export const Initializer = (props: Props) => {
             />
           </div>
         )}
-      </Show>
+      </Show> */}
       <Button
         onClick={() => {
           void openDemo()

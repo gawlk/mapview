@@ -1,4 +1,3 @@
-import { createTimer } from '@solid-primitives/timer'
 import { Meta, Title } from '@solidjs/meta'
 
 import packageJSONRaw from '/src/../package.json?raw'
@@ -10,7 +9,7 @@ import { Loading } from './components/loading'
 import { Map } from './components/map'
 import { Update } from './components/update'
 import { Version } from './components/version'
-import { checkUpdate, snapshotMPVZ } from './scripts'
+import { checkUpdate } from './scripts'
 
 const packageJSON = JSON.parse(packageJSONRaw)
 
@@ -18,7 +17,7 @@ export const Index = () => {
   onMount(() => {
     void checkUpdate()
 
-    createTimer(snapshotMPVZ, 2000, setInterval)
+    // createSnapshotInterval()
 
     if (env.isHTTPS) {
       // Block browser reload

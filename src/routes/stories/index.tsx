@@ -18,7 +18,7 @@ import {
 export const Stories = () => {
   return (
     <div class="space-y-8 p-8">
-      <ContainerStory />
+      {/* <ContainerStory />
       <IconStory />
       <IconInteractiveStory />
       <InteractiveStory />
@@ -27,12 +27,12 @@ export const Stories = () => {
       <DialogStory />
 
       <DialogSelectStory />
-      <InputDataListStory />
+      <InputDataListStory /> */}
       <SortableListStory />
-      <InputRadioHorizontalStory />
+      {/* <InputRadioHorizontalStory />
 
       <DialogColorStory />
-      <NavigatorStory />
+      <NavigatorStory /> */}
     </div>
   )
 }

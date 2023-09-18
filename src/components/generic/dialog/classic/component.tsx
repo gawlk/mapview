@@ -26,7 +26,14 @@ export const Dialog = (props: Props) => {
         for={state.id}
         class={[!!props.attached && 'md:relative', props.button?.class]}
         title={props.button?.title || props.title}
-        ref={(button) => setState('button', button)}
+        ref={(button) => {
+          setState('button', button)
+          const propRef = props.button?.ref
+
+          if (typeof propRef === 'function') {
+            propRef(button)
+          }
+        }}
         onClick={(event) => {
           // Types failing
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment

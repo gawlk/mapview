@@ -6,12 +6,10 @@ export const scrollEffectCallback = (
   orientation: 'horizontal' | 'vertical' | 'both',
   mouseX: number,
   mouseY: number,
-  increaseMouseX: (inc: number) => void,
-  increaseMouseY: (inc: number) => void,
 ) => {
   if (!scrollableParent || !directParent) return
 
-  const { scrollX: windowScrollX, scrollY: windowScrollY } = window
+  const { innerHeight: windowHeight, innerWidth: windowWidth } = window
 
   const {
     top: scrollableTop,
@@ -31,8 +29,6 @@ export const scrollEffectCallback = (
         width: window.innerWidth,
       }
 
-  const pad = scrollableHeight / 10
-
   const {
     bottom: parentBottom,
     top: parentTop,
@@ -41,36 +37,30 @@ export const scrollEffectCallback = (
   } = directParent.getBoundingClientRect()
 
   if (orientation === 'horizontal' || orientation === 'both') {
-    increaseMouseX(
-      processScroll(
-        scrollableParent,
-        'horizontal',
-        mouseX,
-        scrollableLeft,
-        scrollableRight,
-        parentLeft,
-        parentRight,
-        windowScrollX,
-        scrollableWidth,
-        pad,
-      ),
+    processScroll(
+      scrollableParent,
+      'horizontal',
+      mouseX,
+      scrollableLeft,
+      scrollableRight,
+      parentLeft,
+      parentRight,
+      scrollableWidth,
+      windowWidth,
     )
   }
 
   if (orientation === 'vertical' || orientation === 'both') {
-    increaseMouseY(
-      processScroll(
-        scrollableParent,
-        'vertical',
-        mouseY,
-        scrollableTop,
-        scrollableBottom,
-        parentTop,
-        parentBottom,
-        windowScrollY,
-        scrollableHeight,
-        pad,
-      ),
+    processScroll(
+      scrollableParent,
+      'vertical',
+      mouseY,
+      scrollableTop,
+      scrollableBottom,
+      parentTop,
+      parentBottom,
+      scrollableHeight,
+      windowHeight,
     )
   }
 }
@@ -83,37 +73,40 @@ const processScroll = (
   scrollableBottomOrRight: number,
   parentTopOrLeft: number,
   parentBottomOrRight: number,
-  windowScrollXOrY: number,
   scrollableHeightOrWidth: number,
-  pad: number,
+  windowHeightOrWidth: number,
 ) => {
-  console.log({
-    scrollableParent,
-    orientation,
-    mouseXOrY,
-    scrollableTopOrLeft,
-    scrollableBottomOrRight,
-    parentTopOrLeft,
-    parentBottomOrRight,
-    windowScrollXOrY,
-    scrollableHeightOrWidth,
-    pad,
-  })
+  const topOrLeft = Math.max(scrollableTopOrLeft, parentTopOrLeft, 0)
 
-  if (
-    scrollableBottomOrRight - pad < parentBottomOrRight &&
-    mouseXOrY - scrollableTopOrLeft - windowScrollXOrY >
-      scrollableHeightOrWidth - pad
-  ) {
+  const bottomOrLeft = Math.min(
+    scrollableBottomOrRight,
+    parentBottomOrRight,
+    windowHeightOrWidth,
+  )
+
+  const pad = Math.max(
+    Math.min(
+      windowHeightOrWidth,
+      scrollableBottomOrRight - scrollableTopOrLeft,
+    ) / 10,
+    50,
+  )
+
+  const scrollTop =
+    mouseXOrY <= topOrLeft + pad && scrollableTopOrLeft + pad >= parentTopOrLeft
+
+  if (scrollTop) {
+    return scroll(scrollableParent, orientation, -1)
+  }
+
+  const scrollBottom =
+    mouseXOrY >= bottomOrLeft - pad &&
+    scrollableBottomOrRight - pad < parentBottomOrRight
+
+  if (scrollBottom) {
     return scroll(scrollableParent, orientation, 1)
   }
 
-  if (
-    scrollableTopOrLeft + pad > parentTopOrLeft &&
-    mouseXOrY - windowScrollXOrY < scrollableTopOrLeft + pad
-  ) {
-    return scroll(scrollableParent, orientation, -1)
-  }
   return 0
 }
 

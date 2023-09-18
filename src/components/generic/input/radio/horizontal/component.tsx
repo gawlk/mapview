@@ -36,7 +36,7 @@ export const InputRadioHorizontal = (props: Props) => {
     >
       <Show when={props.label}>
         {(label) => (
-          <span class="ml-3 mr-0.5 whitespace-pre-wrap text-black/50">
+          <span class="ml-3 mr-0.5 whitespace-pre text-black/50">
             {label()}
             {t(':')}
           </span>

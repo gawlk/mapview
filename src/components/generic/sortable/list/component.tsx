@@ -1,6 +1,7 @@
 import { ReactiveMap } from '@solid-primitives/map'
 import { useMousePosition } from '@solid-primitives/mouse'
 import { createScrollPosition } from '@solid-primitives/scroll'
+import { createTimer } from '@solid-primitives/timer'
 import {
   createSortable,
   DragDropProvider,
@@ -44,18 +45,6 @@ export const SortableList = <T,>(props: Props<T>) => {
     scrollableParent: undefined as Window | HTMLElement | undefined,
   })
 
-  createEffect(() => {
-    console.log('scrollableParent', state.scrollableParent)
-  })
-
-  createEffect(() => {
-    console.log('directParent', state.directParent)
-  })
-
-  // createEffect(() => {
-  //   console.log('activeItem', state.activeItem)
-  // })
-
   const scrollableParentScroll = createScrollPosition(
     createMemo(() => state.scrollableParent),
   )
@@ -71,38 +60,22 @@ export const SortableList = <T,>(props: Props<T>) => {
   createEffect(
     on(
       () => state.activeItem,
-      () =>
-        state.activeItem &&
-        createEffect(
-          on(
-            () => [
-              mousePosition.x +
-                (mousePosition.sourceType === 'touch' ? window.scrollX : 0),
-              mousePosition.y +
-                (mousePosition.sourceType === 'touch' ? window.scrollY : 0),
-            ],
-            ([mouseX, mouseY]) =>
-              createEffect(
-                on(
-                  () => [scrollableParentScroll.x, scrollableParentScroll.y],
-                  () =>
-                    scrollEffectCallback(
-                      state.scrollableParent,
-                      state.directParent,
-                      props.orientation,
-                      mouseX,
-                      mouseY,
-                      (inc) => {
-                        mouseX += inc
-                      },
-                      (inc) => {
-                        mouseY += inc
-                      },
-                    ),
-                ),
-              ),
-          ),
-        ),
+      () => {
+        if (!state.activeItem) return
+
+        createTimer(
+          () =>
+            scrollEffectCallback(
+              state.scrollableParent,
+              state.directParent,
+              props.orientation,
+              mousePosition.x,
+              mousePosition.y,
+            ),
+          15,
+          setInterval,
+        )
+      },
     ),
   )
 

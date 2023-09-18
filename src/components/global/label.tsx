@@ -3,6 +3,7 @@ import { run } from '/src/scripts'
 
 export interface LabelProps extends ParentProps, BaseProps {
   label: string | Element
+  divRef?: (ref: HTMLDivElement) => void
 }
 
 export const Label = (props: LabelProps) => {
@@ -27,7 +28,11 @@ export const Label = (props: LabelProps) => {
       >
         {props.label}
       </label>
-      <div id={id} class={classPropToString(props.class) || 'space-y-2'}>
+      <div
+        ref={props.divRef}
+        id={id}
+        class={classPropToString(props.class) || 'space-y-2'}
+      >
         {props.children}
       </div>
     </div>

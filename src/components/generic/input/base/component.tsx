@@ -50,11 +50,12 @@ export const Input = (props: Props) => {
 
   const needsFixing = createMemo(
     () =>
+      props.fixable &&
       !props.disabled &&
       type() === 'number' &&
       ((props.max !== undefined && Number(state.value) > props.max) ||
         (props.min !== undefined &&
-          (!state.value || Number(state.value) < props.min))),
+          (state.value === undefined || Number(state.value) < props.min))),
   )
 
   const debounceInputPropagation = debounce(

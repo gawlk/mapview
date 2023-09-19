@@ -16,6 +16,8 @@ interface InputPropsOnly extends SaveableProps {
 
   debounce?: number
 
+  fixable?: boolean
+
   long?: boolean
 
   bind?: boolean

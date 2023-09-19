@@ -13,6 +13,7 @@ export const inputBooleanPropsKeysObject: BooleanPropsKeysObject<InputPropsOnly>
 
     debounce: true,
     onInput: true,
+    fixable: true,
 
     ref: true,
     wrapperRef: true,

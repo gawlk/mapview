@@ -122,14 +122,18 @@ export const createBasePointFromJSON = <
             )?.choices.selected
 
             void run(async () => {
-              watcherMarkersColor = await watcherHandler.add(() => {
-                const color = threshold?.getColor(
-                  mathNumber,
-                  this.zone.report.thresholds.colors,
-                )
-
-                this.icon?.setColor(color)
-              })
+              watcherMarkersColor = await watcherHandler.add(
+                on(
+                  () =>
+                    threshold?.getColor(
+                      mathNumber,
+                      this.zone.report.thresholds.colors,
+                    ),
+                  (color) => {
+                    this.icon?.setColor(color)
+                  },
+                ),
+              )
             })
           } else {
             this.icon?.setColor()

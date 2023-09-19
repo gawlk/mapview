@@ -50,7 +50,7 @@ export const TablePoints = (props: Props) => {
   return (
     <Table>
       <THead>
-        <Td />
+        <Td class="hidden lg:table-cell" />
         <Show when={!props.hideZones}>
           <Td text="center">{t('Zone')}</Td>
         </Show>
@@ -111,7 +111,7 @@ export const TablePoints = (props: Props) => {
                 color={color()}
                 class={[!point.settings.isVisible && 'text-opacity-50']}
               >
-                <Td>
+                <Td class="hidden lg:table-cell">
                   <Button
                     size={size}
                     disabled={store.selectedReport?.settings.groupBy === 'Zone'}

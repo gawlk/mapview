@@ -1,5 +1,7 @@
 import { useI18n } from '@solid-primitives/i18n'
 
+import { env } from '/src/env'
+
 export const Footer = () => {
   const [t] = useI18n()
 
@@ -20,6 +22,16 @@ export const Footer = () => {
         >
           <IconTablerBrandGitlab class="h-5 w-5" />
         </a>
+        <Show when={env.isDev}>
+          <a
+            class="hover:text-gray-500"
+            href="https://counter.dev/dashboard.html?user=isaan&token=TSVdHUd7oCg%3D"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <IconTablerAnalyze class="h-5 w-5" />
+          </a>
+        </Show>
       </p>
       <p class="text-center text-sm">
         &copy; {new Date().getFullYear()} <span class="font-bold">Mapview</span>

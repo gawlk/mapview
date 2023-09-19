@@ -151,11 +151,15 @@ export const createBaseProjectFromJSON = <
           () => this.settings.areOverlaysVisible,
           (areOverlaysVisible) => {
             this.overlays.forEach((overlay) => {
-              map?.setPaintProperty(
-                overlay.id,
-                'raster-opacity',
-                areOverlaysVisible ? overlay.opacity : 0,
-              )
+              const hasLayer = map?.getLayer(overlay.id)
+
+              if (hasLayer) {
+                map?.setPaintProperty(
+                  overlay.id,
+                  'raster-opacity',
+                  areOverlaysVisible ? overlay.opacity : 0,
+                )
+              }
 
               if (areOverlaysVisible) {
                 if (map) {
@@ -214,7 +218,7 @@ export const createBaseProjectFromJSON = <
       Object.values(this.units).forEach((mathUnit: MathUnit<string>) => {
         void watcherHandler.add(
           on(
-            () => mathUnit,
+            () => [mathUnit, mathUnit.currentPrecision, mathUnit.currentUnit],
             () => {
               this.reports.list.forEach((report) => {
                 report.zones.forEach((zone) => {
@@ -223,7 +227,8 @@ export const createBaseProjectFromJSON = <
                       report.dataLabels.groups.selected?.choices.selected?.unit
 
                     point.data.forEach((dataValue) => {
-                      const areUnitsMatching = dataValue.label.unit === mathUnit
+                      const areUnitsMatching =
+                        dataValue.label.unit.name === mathUnit.name
 
                       areUnitsMatching &&
                         dataValue.value.updateDisplayedStrings()
@@ -231,7 +236,7 @@ export const createBaseProjectFromJSON = <
 
                     point.drops.forEach((drop) =>
                       drop.data.forEach((dataValue) => {
-                        dataValue.label.unit === mathUnit &&
+                        dataValue.label.unit.name === mathUnit.name &&
                           dataValue.value.updateDisplayedStrings()
                       }),
                     )

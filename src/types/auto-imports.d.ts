@@ -12,6 +12,7 @@ declare global {
   const IconTabler3dCubeSphere: typeof import('~icons/tabler/3d-cube-sphere.jsx')['default']
   const IconTablerAdjustments: typeof import('~icons/tabler/adjustments.jsx')['default']
   const IconTablerAdjustmentsHorizontal: typeof import('~icons/tabler/adjustments-horizontal.jsx')['default']
+  const IconTablerAnalyze: typeof import('~icons/tabler/analyze.jsx')['default']
   const IconTablerArrowAutofitRight: typeof import('~icons/tabler/arrow-autofit-right.jsx')['default']
   const IconTablerArrowBack: typeof import('~icons/tabler/arrow-back.jsx')['default']
   const IconTablerArrowBarToDown: typeof import('~icons/tabler/arrow-bar-to-down.jsx')['default']

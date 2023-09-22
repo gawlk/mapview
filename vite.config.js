@@ -68,7 +68,7 @@ export default defineConfig({
     favicons({
       appName: packageJSON.name[0].toUpperCase() + packageJSON.name.slice(1),
       appDescription: packageJSON.description,
-      start_url: '',
+      start_url: '/',
       cache: true,
       icons: {
         favicons: {

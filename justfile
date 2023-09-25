@@ -5,7 +5,14 @@ default:
 alias d := dev
 # run dev
 dev:
-  ($npm_execpath outdated || read -p "Press enter to ignore...")
+  #!/usr/bin/env sh
+  $npm_execpath outdated
+
+  if [ $? -ne 0 ]
+  then
+    read -p "Press enter to ignore..."
+  fi
+
   $npm_execpath vite --host
 
 alias c := check

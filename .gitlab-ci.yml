@@ -8,10 +8,11 @@ cache:
     - node_modules/
     - .pnpm-store/
 
-before_script:
-  - corepack enable
-  - corepack prepare pnpm@latest-8 --activate
-  - pnpm config set store-dir .pnpm-store
+default:
+  before_script:
+    - corepack enable
+    - corepack prepare pnpm@latest-8 --activate
+    - pnpm config set store-dir .pnpm-store
 
 .git_config: &git_config
   - mkdir ~/.ssh/
@@ -40,6 +41,8 @@ install:
   stage: install
   script:
     - pnpm i
+  tags:
+    - shared
 
 build:
   stage: build
@@ -47,6 +50,8 @@ build:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
   script:
     - pnpm j b
+  tags:
+    - shared
 
 test-types:
   stage: test-types
@@ -55,6 +60,8 @@ test-types:
   script:
     - pnpm j c
     - pnpm j eslint --fix ./src
+  tags:
+    - shared
 
 test-unit:
   stage: test-unit
@@ -62,6 +69,8 @@ test-unit:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
   script:
     - pnpm j t
+  tags:
+    - shared
 
 test-e2e:
   stage: test-e2e
@@ -71,6 +80,8 @@ test-e2e:
   script:
     - npx playwright install
     - pnpm j test-browser
+  tags:
+    - shared
 
 version:
   stage: version

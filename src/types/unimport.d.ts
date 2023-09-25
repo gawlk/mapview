@@ -1,2 +1,4 @@
 export {}
-declare global {}
+declare global {
+
+}

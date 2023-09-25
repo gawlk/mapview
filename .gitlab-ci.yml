@@ -45,7 +45,7 @@ test-build:
 
   script:
     - npx pnpm i
-    - npx just build
+    - npx pnpm just build
 
 test-vitest:
   stage: test
@@ -54,8 +54,8 @@ test-vitest:
 
   script:
     - npx pnpm i
-    - npx just check
-    - npx just test
+    - npx pnpm just check
+    - npx pnpm just test
 
 test-playwright:
   stage: test
@@ -65,14 +65,14 @@ test-playwright:
 
   script:
     - npx pnpm i
-    - npx just check
+    - npx pnpm just check
     - npx playwright install
-    - npx playwright test
+    - npx pnpm just test-browser
 
 test-ts:
   stage: test
   rules:
     - if: $CI_COMMIT_TAG
   script:
-    - npx just check
-    - npx just eslint --fix ./src
+    - npx pnpm just check
+    - npx pnpm just eslint --fix ./src

@@ -48,7 +48,7 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'npx pnpm prod',
+    command: 'npx pnpm just prod',
     port: 4173,
     reuseExistingServer: !process.env.CI,
     timeout: 120000,

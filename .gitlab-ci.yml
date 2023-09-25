@@ -80,7 +80,7 @@ test-e2e:
   script:
     - pnpm j b
     - npx playwright install
-    - pnpm j test-browser
+    - pnpm j test-e2e
   tags:
     - shared
 

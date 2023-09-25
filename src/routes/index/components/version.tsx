@@ -13,23 +13,19 @@ const SpanVersion = (props: ParentProps) => {
 }
 
 export const Version = () => {
-  console.log(env)
-
   return (
-    <Switch>
-      <Match when={env.isProd}>
-        <SpanVersion>V.{packageJSON.version}</SpanVersion>
-      </Match>
-      <Match when={env.isDev}>
-        <a
-          href={`https://gitlab.com/isaan/mapview-dev/mapview2/-/commit/${sha}`}
-          target="_blank"
-        >
-          <SpanVersion>
-            Beta V.{packageJSON.version} ({sha?.substr(0, 8)})
-          </SpanVersion>
-        </a>
-      </Match>
-    </Switch>
+    <Show
+      when={!env.isProd}
+      fallback={<SpanVersion>V.{packageJSON.version}</SpanVersion>}
+    >
+      <a
+        href={`https://gitlab.com/isaan/mapview-dev/mapview2/-/commit/${sha}`}
+        target="_blank"
+      >
+        <SpanVersion>
+          Beta V.{packageJSON.version} ({sha?.substr(0, 8)})
+        </SpanVersion>
+      </a>
+    </Show>
   )
 }

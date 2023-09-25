@@ -1,5 +1,10 @@
 image: node:latest
 
+.prepare-pnpm: &prepare-pnpm
+  - corepack enable
+  - corepack prepare pnpm@latest-8 --activate
+  - pnpm config set store-dir .pnpm-store
+
 .git_config: &git_config
   - mkdir ~/.ssh/
   - ssh-keyscan $CI_SERVER_HOST > ~/.ssh/known_hosts
@@ -29,9 +34,10 @@ version-2:
       when: on_success
   before_script:
     - *git_config
+    - *prepare-pnpm
   script:
-    - npx pnpm install json --save-dev --store=node_modules/.pnpm-store
-    - npx pnpm json -I -f package.json -e "const versionPart = this.version.split('.');this.version=versionPart[0] + '.' + versionPart[1] + '.' + (Number(versionPart[2]) + 1)"
+    - pnpm install json --save-dev --store=node_modules/.pnpm-store
+    - pnpm json -I -f package.json -e "const versionPart = this.version.split('.');this.version=versionPart[0] + '.' + versionPart[1] + '.' + (Number(versionPart[2]) + 1)"
     - git add package.json
     - git commit -m "update version [ci skip]"
     - git push ssh_origin HEAD:$CI_COMMIT_REF_NAME
@@ -44,8 +50,9 @@ test-build:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 
   script:
-    - npx pnpm i
-    - npx pnpm just build
+    - *prepare-pnpm
+    - pnpm install
+    - pnpm j b
 
 test-vitest:
   stage: test
@@ -53,9 +60,10 @@ test-vitest:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 
   script:
-    - npx pnpm i
-    - npx pnpm just check
-    - npx pnpm just test
+    - *prepare-pnpm
+    - pnpm i
+    - pnpm j c
+    - pnpm j t
 
 test-playwright:
   stage: test
@@ -64,15 +72,17 @@ test-playwright:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 
   script:
-    - npx pnpm i
-    - npx pnpm just check
+    - *prepare-pnpm
+    - pnpm i
+    - pnpm just check
     - npx playwright install
-    - npx pnpm just test-browser
+    - pnpm j test-browser
 
 test-ts:
   stage: test
   rules:
     - if: $CI_COMMIT_TAG
   script:
-    - npx pnpm just check
-    - npx pnpm just eslint --fix ./src
+    - *prepare-pnpm
+    - pnpm j c
+    - pnpm j eslint --fix ./src

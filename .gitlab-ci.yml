@@ -21,6 +21,7 @@ image: node:latest
   - git push --tags ssh_origin
 
 stages:
+  - install
   - build
   - test
   - version

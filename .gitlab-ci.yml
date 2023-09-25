@@ -73,8 +73,7 @@ test-playwright:
 
   script:
     - *prepare-pnpm
-    - pnpm i
-    - pnpm just check
+    - pnpm j c
     - npx playwright install
     - pnpm j test-browser
 

@@ -12,7 +12,7 @@ import { Template } from './components/template'
 interface Props extends NavigatorComponentProps {
   setTemplate: (file: File) => void
 }
-console.log('here')
+console.log('here 2')
 
 export const MVRZ = (props: Props) => {
   const [t] = useI18n()

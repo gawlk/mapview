@@ -85,3 +85,8 @@ alias l := lint
 # check link
 lint:
   {{pm}} eslint './src'
+
+alias l := lint
+# check link
+lint-fix:
+  {{pm}} eslint --fix './src'

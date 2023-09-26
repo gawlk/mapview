@@ -40,6 +40,7 @@ stages:
 dependencies:
   stage: dependencies
   rules:
+    - if: $CI_COMMIT_TAG
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
   script:
     - pnpm i
@@ -49,6 +50,7 @@ dependencies:
 build:
   stage: build
   rules:
+    - if: $CI_COMMIT_TAG
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
   script:
     - pnpm j b
@@ -62,7 +64,7 @@ test-types:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
   script:
     - pnpm j c
-    - pnpm j eslint --fix ./src
+    - pnpm j lint-fix
   tags:
     - shared
 

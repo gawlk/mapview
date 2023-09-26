@@ -30,15 +30,15 @@ default:
   - git push --tags ssh_origin
 
 stages:
-  - install
+  - pre
   - build
   - test-types
   - test-unit
   - test-e2e
   - version
 
-install:
-  stage: install
+pre:
+  stage: pre
   script:
     - pnpm i
   tags:

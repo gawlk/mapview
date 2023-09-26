@@ -19,8 +19,6 @@ interface Props {
 export const Initializer = (props: Props) => {
   const [t] = useI18n()
 
-  console.log('here')
-
   // const [state, setState] = createStore({
   //   snapshot: null as File | null,
   // })

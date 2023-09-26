@@ -61,9 +61,7 @@ export const Initializer = (props: Props) => {
         .filter(([key]) =>
           acceptedExtensions.some((extension) => key.endsWith(extension)),
         )
-        .map(async ([, value]) => {
-          return String(((await value()) as AnyFile).default)
-        }),
+        .map(async ([, value]) => String(((await value()) as AnyFile).default)),
     )
 
     const projects = await Promise.all(

@@ -32,15 +32,13 @@ default:
 stages:
   - dependencies
   - build
-  - test-types
-  - test-unit
-  - test-e2e
+  - test
   - version
 
 dependencies:
   stage: dependencies
   rules:
-    - if: $CI_PIPELINE_SOURCE == "push"
+    - if: $CI_PIPELINE_SOURCE == "push" && ($CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "prod")
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
   script:
     - pnpm i
@@ -50,7 +48,7 @@ dependencies:
 build:
   stage: build
   rules:
-    - if: $CI_PIPELINE_SOURCE == "push"
+    - if: $CI_PIPELINE_SOURCE == "push" && ($CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "prod")
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
   script:
     - pnpm j b
@@ -58,9 +56,9 @@ build:
     - shared
 
 test-types:
-  stage: test-types
+  stage: test
   rules:
-    - if: $CI_PIPELINE_SOURCE == "push"
+    - if: $CI_PIPELINE_SOURCE == "push" && ($CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "prod")
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
   script:
     - pnpm j c
@@ -69,7 +67,7 @@ test-types:
     - shared
 
 test-unit:
-  stage: test-unit
+  stage: test
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
   script:
@@ -78,7 +76,7 @@ test-unit:
     - shared
 
 test-e2e:
-  stage: test-e2e
+  stage: test
   image: mcr.microsoft.com/playwright:v1.31.0-focal
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'

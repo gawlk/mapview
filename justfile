@@ -35,7 +35,6 @@ build:
     cd -
   fi
   
-  {{pm}} just check
   {{pm}} vite build
   
   sed 's+media=\"(device+media=\"screen and (device+g' dist/index.html | sed 's+</head>+<meta name=\"apple-touch-fullscreen\" content=\"yes\" /></head>+g' > index.html.tmp 
@@ -44,8 +43,8 @@ build:
 alias p := prod
 # build + preview
 prod:
-  {{pm}} just build
-  {{pm}} vite preview --host
+  pnpm j b
+  pnpm j preview
 
 # preview only
 preview:

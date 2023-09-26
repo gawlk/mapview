@@ -81,8 +81,7 @@ test-e2e:
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
   script:
-    - pnpm j b
-    - npx playwright install
+    - pnpm exec playwright install
     - pnpm j test-e2e
   tags:
     - shared

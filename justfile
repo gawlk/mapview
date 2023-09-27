@@ -71,6 +71,10 @@ test-coverage:
 test-e2e:
   {{pm}} playwright test --browser=all
 
+# run end-to-end tests
+test-e2e-ui:
+  {{pm}} playwright test --ui
+
 alias f := format
 # format 'src' folder
 format:

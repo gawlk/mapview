@@ -1,4 +1,4 @@
-import { useI18n } from '@solid-primitives/i18n'
+import { useAppState } from '/src/index'
 
 interface Props {
   threshold: AnyThreshold
@@ -6,7 +6,7 @@ interface Props {
 }
 
 export const SpanThresholdName = (props: Props) => {
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   const convertValueToString = (
     value: number,
@@ -19,7 +19,7 @@ export const SpanThresholdName = (props: Props) => {
 
   return (
     <span>
-      {t(props.threshold.name || '', undefined, props.threshold.name)}
+      {t(props.threshold.name) || props.threshold.name}
       <Show
         when={
           props.threshold.kind === 'custom' &&

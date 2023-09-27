@@ -1,10 +1,9 @@
-import { useI18n } from '@solid-primitives/i18n'
-
 import { DialogSelect } from '/src/components'
+import { useAppState } from '/src/index'
 import { store } from '/src/store'
 
 export const SelectColorization = () => {
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   const possibilities: ReportColorization[] = ['Threshold', 'Zone']
 

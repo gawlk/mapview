@@ -1,6 +1,5 @@
-import { useI18n } from '@solid-primitives/i18n'
-
 import { Button, classPropToString } from '/src/components'
+import { useAppState } from '/src/index'
 import { getBrowserLocale } from '/src/locales'
 import { downloadFile, mvrzExporter, run } from '/src/scripts'
 import { store } from '/src/store'
@@ -10,7 +9,7 @@ interface Props extends NavigatorComponentProps {
 }
 
 export const REST = (props: Props) => {
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   const [state, setState] = createStore({
     progress: 0,

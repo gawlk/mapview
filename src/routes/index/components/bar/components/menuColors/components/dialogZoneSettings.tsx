@@ -1,11 +1,10 @@
-import { useI18n } from '@solid-primitives/i18n'
-
 import { Button, Dialog, DialogColor, Input } from '/src/components'
+import { useAppState } from '/src/index'
 import { colors } from '/src/scripts'
 import { store } from '/src/store'
 
 export const DialogZoneSettings = () => {
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   return (
     <Dialog

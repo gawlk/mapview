@@ -1,6 +1,5 @@
-import { useI18n } from '@solid-primitives/i18n'
-
 import { Dialog } from '/src/components'
+import { useAppState } from '/src/index'
 import { store } from '/src/store'
 
 import { ButtonFitOverlay } from './components/buttonFitOverlay'
@@ -8,7 +7,7 @@ import { ButtonOverlayOpacity } from './components/buttonOverlayOpacity'
 import { ButtonRemoveOverlay } from './components/buttonRemoveOverlay'
 
 export const DialogOverlays = () => {
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   return (
     <Dialog

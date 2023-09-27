@@ -1,7 +1,7 @@
-import { useI18n } from '@solid-primitives/i18n'
 import localForage from 'localforage'
 
 import { Button, ButtonFile } from '/src/components'
+import { useAppState } from '/src/index'
 import { downloadFile } from '/src/scripts'
 import { store } from '/src/store'
 
@@ -17,7 +17,7 @@ export const Template = (props: Props) => {
     file: null as File | null,
   })
 
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   const key = createMemo(() =>
     getTemplateKey(

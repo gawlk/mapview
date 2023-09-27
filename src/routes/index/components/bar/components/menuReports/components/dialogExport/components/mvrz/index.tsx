@@ -1,9 +1,8 @@
-import { useI18n } from '@solid-primitives/i18n'
-
 // @ts-expect-error
 import TemplateZip from '/src/assets/templates/templates.zip'
 import { Button, DialogDivider } from '/src/components'
 import { env } from '/src/env'
+import { useAppState } from '/src/index'
 import { downloadFile, mvrzExporter, run } from '/src/scripts'
 import { store } from '/src/store'
 
@@ -14,7 +13,7 @@ interface Props extends NavigatorComponentProps {
 }
 
 export const MVRZ = (props: Props) => {
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   return (
     <div class="space-y-2">

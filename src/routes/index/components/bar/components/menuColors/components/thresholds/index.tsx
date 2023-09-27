@@ -1,6 +1,5 @@
-import { useI18n } from '@solid-primitives/i18n'
-
 import { Details, InputRadioHorizontal, Interactive } from '/src/components'
+import { useAppState } from '/src/index'
 import { blend, colors, roundValue, run } from '/src/scripts'
 import { store } from '/src/store'
 
@@ -10,7 +9,7 @@ import { SelectThreshold } from './components/selectThreshold'
 import { SpanCustomThresholdRange } from './components/spanCustomThresholdRange'
 
 export const Thresholds = () => {
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   const selectedDataLabel = createMemo(
     () => store.selectedReport?.dataLabels.groups.selected?.choices.selected,

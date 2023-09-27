@@ -1,6 +1,5 @@
-import { useI18n } from '@solid-primitives/i18n'
-
 import { Label } from '/src/components'
+import { useAppState } from '/src/index'
 
 import { DialogOptionsList } from './List'
 
@@ -13,7 +12,7 @@ interface Props {
 }
 
 export const DialogOptionsGroup = (props: Props) => {
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   return (
     <For each={props.list}>

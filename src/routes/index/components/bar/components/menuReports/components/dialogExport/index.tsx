@@ -1,6 +1,5 @@
-import { useI18n } from '@solid-primitives/i18n'
-
 import { Dialog, Navigator } from '/src/components'
+import { useAppState } from '/src/index'
 import { getSimpleReportExports } from '/src/scripts'
 import { store } from '/src/store'
 
@@ -10,7 +9,7 @@ import { initDemoTemplates } from './components/mvrz/components/template/scripts
 import { SimpleExporters } from './components/simpleExporters'
 
 export const DialogExport = () => {
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   const [state, setState] = createStore({
     template: null as File | null,

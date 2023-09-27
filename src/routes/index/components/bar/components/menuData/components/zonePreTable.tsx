@@ -1,6 +1,5 @@
-import { useI18n } from '@solid-primitives/i18n'
-
 import { Button } from '/src/components'
+import { useAppState } from '/src/index'
 import { colors } from '/src/scripts'
 import { store } from '/src/store'
 
@@ -9,7 +8,7 @@ interface Props {
 }
 
 export const ZonePreTable = (props: Props) => {
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   const dcar = createMemo(() => {
     const dCar = props.zone.data.find(

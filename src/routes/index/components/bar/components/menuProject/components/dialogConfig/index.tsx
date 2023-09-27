@@ -1,13 +1,12 @@
-import { useI18n } from '@solid-primitives/i18n'
-
 import { Dialog } from '/src/components'
+import { useAppState } from '/src/index'
 import { store } from '/src/store'
 
 import { HeavydynCorrections } from './components/corrections/heavydyn'
 import { Units } from './components/units'
 
 export const DialogConfig = () => {
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   return (
     <Dialog

@@ -1,7 +1,6 @@
-import { useI18n } from '@solid-primitives/i18n'
-
 import { Button, Dialog } from '/src/components'
 import { env } from '/src/env'
+import { useAppState } from '/src/index'
 import { hasRawData } from '/src/scripts'
 import { store } from '/src/store'
 
@@ -9,7 +8,7 @@ import { ButtonReportVisibility } from './buttonReportVisibility'
 import { SelectReportMarkerIcon } from './selectReportMarkerIcon'
 
 export const DialogReports = () => {
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   const [state, setState] = createStore({
     hideAll: true,

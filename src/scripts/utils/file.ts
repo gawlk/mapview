@@ -1,3 +1,6 @@
+import { encode as encodeWindows } from 'windows-1252'
+
+import { formatForExport } from './formatting'
 import { run } from './run'
 
 export const reservedFileNameWords = run(() => {
@@ -120,3 +123,35 @@ export const downloadFile = (file: File) => {
   a.click()
   a.remove()
 }
+
+export const downloadCSV = (
+  fileName: string,
+  datasets: string[][],
+  windows?: true,
+) =>
+  downloadFile(
+    new File(
+      [
+        (windows ? encodeWindows : encodeURI)(
+          formatForExport(convertDatasetsToCSVString(datasets)),
+        ),
+      ],
+      fileName,
+      { type: 'text/csv' },
+    ),
+  )
+
+export const convertDatasetsToCSVString = (datasets: string[][]) =>
+  `${datasets
+    .map((dataset) =>
+      dataset
+        .map((value) =>
+          String(
+            typeof value === 'string' && value.includes(';')
+              ? `"${value}"`
+              : value || '',
+          ).replaceAll('\n', ''),
+        )
+        .join(';'),
+    )
+    .join('\n')}`

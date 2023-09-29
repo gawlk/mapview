@@ -6,11 +6,12 @@ import {
   InputRadioHorizontal,
   SpanDataLabel,
 } from '/src/components'
-import { run } from '/src/scripts'
+import { createASS, run } from '/src/scripts'
 import { store } from '/src/store'
 
 import { SelectGroupBy } from '../selectGroupBy'
 import { TablePointsGroupedBy } from '../tablePointsGroupedBy'
+import { ButtonExport } from './components/buttonExport'
 import { OptionsDataLabels } from './components/optionsDataLabels/index'
 import { SelectIndex } from './components/selectIndex'
 import { SelectSource } from './components/selectSource'
@@ -22,6 +23,8 @@ export const DialogTableData = () => {
   })
 
   const [t] = useI18n()
+
+  const tables = createASS(undefined as HTMLDivElement | undefined)
 
   return (
     <Dialog
@@ -38,7 +41,7 @@ export const DialogTableData = () => {
     >
       <div class="space-y-2 @3xl:flex @3xl:h-full @3xl:space-y-0">
         {/* TODO: Fix margins, not great */}
-        <div class="flex-none space-y-2  overflow-y-auto @3xl:-my-3 @3xl:-ml-4 @3xl:w-[320px] @3xl:p-4">
+        <div class="flex flex-none  flex-col space-y-2 overflow-y-auto @3xl:-my-3 @3xl:-ml-4 @3xl:w-[320px] @3xl:p-4">
           <SelectSource />
           <SelectIndex />
           <DialogDivider class="-mx-4 hidden @3xl:block" />
@@ -90,19 +93,23 @@ export const DialogTableData = () => {
               <OptionsDataLabels />
             </Dialog>
           </div>
+          <ButtonExport tables={tables} />
+          <DialogDivider class="-mx-4 hidden @3xl:block" />
           <div class="hidden @3xl:block">
             <OptionsDataLabels />
           </div>
         </div>
         <Show when={store.selectedReport?.dataLabels.table.selected}>
           {(group) => (
-            <div class="-mx-4 !-mb-3 overflow-x-auto overflow-y-visible @3xl:!-mr-4 @3xl:!-mt-3 @3xl:ml-0 @3xl:w-full @3xl:overflow-y-auto @3xl:border-l-2 @3xl:border-black/5">
+            <div
+              class="-mx-4 !-mb-3 overflow-x-auto overflow-y-visible @3xl:!-mr-4 @3xl:!-mt-3 @3xl:ml-0 @3xl:w-full @3xl:overflow-y-auto @3xl:border-l-2 @3xl:border-black/5"
+              ref={tables.set}
+            >
               <Show
                 when={group().group.from !== 'Zone'}
                 fallback={<TableZones />}
               >
                 <TablePointsGroupedBy
-                  sortable
                   cellWidthClass="w-1/6"
                   from={group().group.from}
                   dataLabels={group().dataLabels}

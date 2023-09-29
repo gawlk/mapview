@@ -1,3 +1,5 @@
+import { useI18n } from '@solid-primitives/i18n'
+
 import { createMathNumber } from '/src/scripts'
 
 import { Td } from './td'
@@ -9,8 +11,20 @@ interface Props {
 }
 
 export const TdDataLabel = (props: Props) => {
+  const [t] = useI18n()
+
   return (
-    <Td class={props.widthClass} wide text="right">
+    <Td
+      class={props.widthClass}
+      wide
+      text="right"
+      dataSaveable={true}
+      dataValue={t(
+        props.dataLabel.shortName || props.dataLabel.name,
+        undefined,
+        props.dataLabel.shortName || props.dataLabel.name,
+      )}
+    >
       <p class="font-semibold">{props.dataLabel.getDisplayedName()}</p>
       <p class="whitespace-nowrap text-xs">
         {props.dataLabel.unit.currentUnit}

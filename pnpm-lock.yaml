@@ -92,6 +92,9 @@ dependencies:
   sortablejs:
     specifier: ^1.15.0
     version: 1.15.0
+  windows-1252:
+    specifier: ^3.0.4
+    version: 3.0.4
 
 devDependencies:
   '@darkobits/vite-plugin-favicons':
@@ -7407,6 +7410,10 @@ packages:
       siginfo: 2.0.0
       stackback: 0.0.2
     dev: true
+
+  /windows-1252@3.0.4:
+    resolution: {integrity: sha512-PxP05UYnSeqhkkcHeT3xhpY/BsMOX6URw4ZW9ljOlhkQ6UZRRj/xvS3o5kG+fwefCztUtW36+DHBBNnWfXPIsw==}
+    dev: false
 
   /workbox-background-sync@7.0.0:
     resolution: {integrity: sha512-S+m1+84gjdueM+jIKZ+I0Lx0BDHkk5Nu6a3kTVxP4fdj3gKouRNmhO8H290ybnJTOPfBDtTMXSQA/QLTvr7PeA==}

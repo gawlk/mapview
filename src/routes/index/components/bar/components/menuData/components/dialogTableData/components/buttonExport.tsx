@@ -15,13 +15,7 @@ export const ButtonExport = (props: Props) => {
         const tables = props.tables()
         if (!tables) return
 
-        const datasets = convertTableElementsToStrings(tables)
-
-        if (Array.from(new Set(datasets.map((d) => d.length))).length > 1) {
-          throw Error(`Arrays don't have the same length`)
-        }
-
-        downloadCSV('file.csv', datasets, true)
+        downloadCSV('file.csv', convertTableElementsToStrings(tables), true)
       }}
     >
       Export table data to CSV

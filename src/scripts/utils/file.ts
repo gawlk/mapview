@@ -128,7 +128,11 @@ export const downloadCSV = (
   fileName: string,
   datasets: string[][],
   windows?: true,
-) =>
+) => {
+  if (Array.from(new Set(datasets.map((d) => d.length))).length > 1) {
+    throw Error(`Arrays don't have the same length`)
+  }
+
   downloadFile(
     new File(
       [
@@ -140,6 +144,7 @@ export const downloadCSV = (
       { type: 'text/csv' },
     ),
   )
+}
 
 export const convertDatasetsToCSVString = (datasets: string[][]) =>
   `${datasets

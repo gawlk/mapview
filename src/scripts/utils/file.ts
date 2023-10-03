@@ -141,7 +141,7 @@ export const downloadTSV = (
         ),
       ],
       fileName,
-      { type: 'text/csv' },
+      { type: 'text/tab-separated-values' },
     ),
   )
 }

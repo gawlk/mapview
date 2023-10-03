@@ -1,12 +1,12 @@
-type DialogPropsWithHTMLAttributes = MergePropsWithHTMLProps<
+type HeadlessDialogPropsWithHTMLAttributes = MergePropsWithHTMLProps<
   DialogProps,
   DialogHTMLAttributes
 >
 
-type DialogProps = DialogPropsOnly &
-  Omit<InteractiveProps, keyof DialogPropsOnly>
+type HeadlessDialogProps = DialogPropsOnly &
+  Omit<InteractiveProps, keyof HeadlessDialogPropsOnly>
 
-interface DialogPropsOnly {
+interface HeadlessDialogPropsOnly {
   attach?: HTMLElement
 
   title?: string

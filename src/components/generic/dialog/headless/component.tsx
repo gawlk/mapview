@@ -11,17 +11,8 @@ import {
   dialogBooleanPropsKeysObject,
   removeProps,
 } from '/src/components'
-import { run } from '/src/scripts'
 
-import {
-  DialogBackdrop,
-  DialogBody,
-  DialogDivider,
-  DialogForm,
-  DialogHeader,
-  DialogLinesDefaultPosition,
-  DialogResizers,
-} from './components'
+import { DialogBackdrop, DialogResizers, DialogSnapLines } from './components'
 import {
   createRelativePositionEffect,
   forceCloseChildDialogs,
@@ -31,7 +22,7 @@ import {
 
 type Props = DialogPropsWithHTMLAttributes
 
-export const DialogCore = (props: Props) => {
+export const HeadlessDialog = (props: Props) => {
   const [state, setState] = createStore({
     show: false,
     open: false,
@@ -50,8 +41,6 @@ export const DialogCore = (props: Props) => {
   })
 
   const dialogProps = removeProps(props, dialogBooleanPropsKeysObject)
-
-  // TODO: On window resize hide dialog if open button isn't visible on screen (hidden by parent for example)
 
   const forcedClosedChildDialogsOpenButtons: HTMLButtonElement[] = []
 
@@ -216,19 +205,19 @@ export const DialogCore = (props: Props) => {
       />
 
       <Show when={state.moving}>
-        <DialogLinesDefaultPosition
+        <DialogSnapLines
           top={defaultTop()}
           width={dialogWidth()}
           zIndex={state.zIndex}
         />
       </Show>
 
-      {/* TODO: Use `Container` component here */}
-      <dialog
+      <Dynamic
+        component={'dialog'}
         {...dialogProps}
         id={id()}
         // TODO: Change to something else, won't trigger if animations are disabled by a user
-        onTransitionEnd={(event) => {
+        onTransitionEnd={(event: TransitionEvent) => {
           if (event.target === dialog() && !state.open) {
             props.onCloseEnd?.()
 
@@ -238,7 +227,7 @@ export const DialogCore = (props: Props) => {
           }
         }}
         ref={setDialog}
-        onMouseDown={(event) => {
+        onMouseDown={(event: MouseEvent) => {
           event.stopPropagation()
           moveToFront()
         }}
@@ -283,14 +272,14 @@ export const DialogCore = (props: Props) => {
                   : 'bottom-0 top-auto mt-[5vh] max-h-[95vh] rounded-t-2xl border-t-2 md:mt-0 md:h-fit md:max-h-[32rem] md:max-w-2xl md:rounded-b-2xl md:border-2'
               } fixed w-full max-w-full space-y-3`,
 
-          run(() => {
-            switch (props.color) {
-              case 'transparent':
-                return 'bg-transparent'
-              default:
-                return `bg-white`
-            }
-          }),
+          // run(() => {
+          //   switch (props.color) {
+          //     case 'transparent':
+          //       return 'bg-transparent'
+          //     default:
+          //       return `bg-white`
+          //   }
+          // }),
 
           isMaximized() && 'top-0',
 
@@ -298,52 +287,6 @@ export const DialogCore = (props: Props) => {
         ])}
       >
         <div class="relative flex w-full">
-          <div class="flex flex-1 flex-col space-y-3">
-            <Show when={!isAttached() && props.color !== 'transparent'}>
-              <DialogHeader
-                dialog={dialog()}
-                maximized={state.maximized}
-                maximizable={props.maximizable}
-                moveable={props.moveable}
-                closeable={props.closeable}
-                title={props.title}
-                defaultLeft={defaultLeft()}
-                defaultTop={defaultTop()}
-                close={close}
-                toggleMaximized={() => {
-                  moveToFront()
-                  setState('maximized', (maximized) => !maximized)
-                }}
-                setPosition={(position) => setState('position', position)}
-                setMoving={(moving) => setState('moving', moving)}
-              />
-
-              <DialogDivider class="!mt-0" color={props.color} />
-            </Show>
-
-            <Show when={props.sticky}>
-              {props.sticky}
-              <DialogDivider color={props.color} />
-            </Show>
-
-            <DialogBody
-              color={props.color}
-              isAttached={isAttached()}
-              close={close}
-              footer={props.footer}
-              children={props.children}
-              form={props.form}
-            />
-
-            <Show when={props.footer}>
-              <DialogDivider class="!mt-0" color={props.color} />
-
-              <div class="flex items-center px-4 pb-4">
-                <DialogForm close={close} children={props.footer} />
-              </div>
-            </Show>
-          </div>
-
           <Show when={props.resizable && !state.maximized}>
             <DialogResizers
               dialog={dialog()}
@@ -352,7 +295,7 @@ export const DialogCore = (props: Props) => {
             />
           </Show>
         </div>
-      </dialog>
+      </Dynamic>
     </Portal>
   )
 }

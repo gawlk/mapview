@@ -56,12 +56,7 @@ export const TablePoints = (props: Props) => {
             {t('Zone')}
           </Td>
         </Show>
-        <Td
-          text="right"
-          class={props.cellWidthClass}
-          wide
-          dataSaveable={props.sortable}
-        >
+        <Td text="right" class={props.cellWidthClass} wide dataSaveable={true}>
           {t('Number')}
         </Td>
         <For each={props.dataLabels}>

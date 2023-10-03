@@ -1,5 +1,6 @@
 import { Button, convertTableElementsToStrings } from '/src/components'
-import { downloadCSV } from '/src/scripts'
+import { downloadTSV } from '/src/scripts'
+import { store } from '/src/store'
 
 interface Props {
   tables: Accessor<HTMLDivElement | undefined>
@@ -15,7 +16,11 @@ export const ButtonExport = (props: Props) => {
         const tables = props.tables()
         if (!tables) return
 
-        downloadCSV('file.csv', convertTableElementsToStrings(tables), true)
+        downloadTSV(
+          `${store.selectedReport?.name.toString() || 'file'}.tsv`,
+          convertTableElementsToStrings(tables),
+          true,
+        )
       }}
     >
       Export table data to CSV

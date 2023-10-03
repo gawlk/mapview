@@ -19,11 +19,7 @@ export const TdDataLabel = (props: Props) => {
       wide
       text="right"
       dataSaveable={true}
-      dataValue={t(
-        props.dataLabel.shortName || props.dataLabel.name,
-        undefined,
-        props.dataLabel.shortName || props.dataLabel.name,
-      )}
+      dataValue={props.dataLabel.getTSVName(t)}
     >
       <p class="font-semibold">{props.dataLabel.getDisplayedName()}</p>
       <p class="whitespace-nowrap text-xs">

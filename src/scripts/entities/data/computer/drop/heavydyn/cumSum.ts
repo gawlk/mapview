@@ -30,6 +30,7 @@ export const createCumSumDataComputer = (report: HeavydynReport) => {
         'Drop',
         createDataLabel({
           name: 'Cumulative sum',
+          shortName: 'Cumsum',
           category: indicatorsCategory,
           unit: report.project.units.cumSum,
         }),

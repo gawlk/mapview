@@ -21,6 +21,13 @@ interface DataLabel<T extends string = string, Unit extends string = string> {
   readonly category: DataCategory
   readonly getDisplayedName: () => string
   readonly getSerializedName: () => string
+  readonly getTSVName: (
+    t: (
+      key: string,
+      params?: Record<string, string> | undefined,
+      defaultValue?: string | undefined,
+    ) => string,
+  ) => string
   readonly toString: () => string
   readonly toJSON: () => JSONDataLabel<Unit>
 }

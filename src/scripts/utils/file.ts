@@ -124,7 +124,7 @@ export const downloadFile = (file: File) => {
   a.remove()
 }
 
-export const downloadCSV = (
+export const downloadTSV = (
   fileName: string,
   datasets: string[][],
   windows?: true,
@@ -137,7 +137,7 @@ export const downloadCSV = (
     new File(
       [
         (windows ? encodeWindows : encodeURI)(
-          formatForExport(convertDatasetsToCSVString(datasets)),
+          formatForExport(convertDatasetsToTSVString(datasets)),
         ),
       ],
       fileName,
@@ -146,7 +146,7 @@ export const downloadCSV = (
   )
 }
 
-export const convertDatasetsToCSVString = (datasets: string[][]) =>
+export const convertDatasetsToTSVString = (datasets: string[][]) =>
   `${datasets
     .map((dataset) =>
       dataset

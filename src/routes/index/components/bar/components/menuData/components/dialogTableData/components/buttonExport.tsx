@@ -1,3 +1,5 @@
+import { useI18n } from '@solid-primitives/i18n'
+
 import { Button, convertTableElementsToStrings } from '/src/components'
 import { downloadTSV } from '/src/scripts'
 import { store } from '/src/store'
@@ -7,6 +9,8 @@ interface Props {
 }
 
 export const ButtonExport = (props: Props) => {
+  const [t] = useI18n()
+
   return (
     <Button
       color="orange"
@@ -23,7 +27,7 @@ export const ButtonExport = (props: Props) => {
         )
       }}
     >
-      Export table data to CSV
+      {t('Export table data to TSV')}
     </Button>
   )
 }

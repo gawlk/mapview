@@ -137,7 +137,7 @@ export const downloadTSV = (
     new File(
       [
         (windows ? encodeWindows : encodeURI)(
-          formatForExport(convertDatasetsToTSVString(datasets)),
+          formatForExport(convertDatasetsToCSVString(datasets, '\t')),
         ),
       ],
       fileName,
@@ -146,17 +146,20 @@ export const downloadTSV = (
   )
 }
 
-export const convertDatasetsToTSVString = (datasets: string[][]) =>
+export const convertDatasetsToCSVString = (
+  datasets: string[][],
+  delimiter = ';',
+) =>
   `${datasets
     .map((dataset) =>
       dataset
         .map((value) =>
           String(
-            typeof value === 'string' && value.includes(';')
+            typeof value === 'string' && value.includes(delimiter)
               ? `"${value}"`
               : value || '',
           ).replaceAll('\n', ''),
         )
-        .join(';'),
+        .join(delimiter),
     )
     .join('\n')}`

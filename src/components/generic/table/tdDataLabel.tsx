@@ -1,5 +1,4 @@
-import { useI18n } from '@solid-primitives/i18n'
-
+import { useAppState } from '/src/index'
 import { createMathNumber } from '/src/scripts'
 
 import { Td } from './td'
@@ -11,7 +10,7 @@ interface Props {
 }
 
 export const TdDataLabel = (props: Props) => {
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   return (
     <Td

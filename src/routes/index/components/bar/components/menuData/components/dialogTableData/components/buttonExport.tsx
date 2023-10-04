@@ -1,6 +1,5 @@
-import { useI18n } from '@solid-primitives/i18n'
-
 import { Button, convertTableElementsToStrings } from '/src/components'
+import { useAppState } from '/src/index'
 import { downloadTSV } from '/src/scripts'
 import { store } from '/src/store'
 
@@ -9,7 +8,7 @@ interface Props {
 }
 
 export const ButtonExport = (props: Props) => {
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   return (
     <Button

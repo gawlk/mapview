@@ -1,11 +1,11 @@
-import { useI18n } from '@solid-primitives/i18n'
+import { useAppState } from '/src/index'
 
 interface Props {
   dropIndex: MachineDropIndex
 }
 
 export const SpanDropIndex = (props: Props) => {
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   return (
     <span>

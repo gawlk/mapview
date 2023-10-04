@@ -1,6 +1,5 @@
-import { useI18n } from '@solid-primitives/i18n'
-
 import { DialogSelect } from '/src/components'
+import { useAppState } from '/src/index'
 
 import { SpanThresholdName } from './spanThresoldName'
 
@@ -10,7 +9,7 @@ interface Props {
 }
 
 export const SelectThreshold = (props: Props) => {
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   return (
     <DialogSelect

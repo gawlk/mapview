@@ -1,10 +1,9 @@
-import { useI18n } from '@solid-primitives/i18n'
-
 import { Sticky } from '/src/components'
+import { useAppState } from '/src/index'
 import { store } from '/src/store'
 
 export const Update = () => {
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   return (
     <Sticky

@@ -1,6 +1,5 @@
-import { useI18n } from '@solid-primitives/i18n'
-
 import { Details, DialogSelect, Input } from '/src/components'
+import { useAppState } from '/src/index'
 import { roundValue } from '/src/scripts'
 
 import { InputRadioAbled } from './inputRadioAbled'
@@ -10,7 +9,7 @@ interface Props {
 }
 
 export const DetailsTemperature = (props: Props) => {
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   const temperature = createMemo(
     () => props.project.correctionParameters.temperature,

@@ -1,13 +1,12 @@
-import { useI18n } from '@solid-primitives/i18n'
-
 import { Button, Dialog } from '/src/components'
+import { useAppState } from '/src/index'
 import { downloadImage } from '/src/scripts'
 import { store } from '/src/store'
 
 import { Image } from './image'
 
 export const DialogAlbum = () => {
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   return (
     <Dialog

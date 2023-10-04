@@ -1,5 +1,4 @@
-import { useI18n } from '@solid-primitives/i18n'
-
+import { useAppState } from '/src/index'
 import { store } from '/src/store'
 
 import { BarDesktop } from './components/barDesktop'
@@ -11,7 +10,7 @@ import { MenuProject } from './components/menuProject'
 import { MenuReports } from './components/menuReports'
 
 export const Bar = () => {
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   const menus: Menu[] = [
     {

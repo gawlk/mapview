@@ -1,6 +1,5 @@
-import { useI18n } from '@solid-primitives/i18n'
-
 import { DialogSelect } from '/src/components'
+import { useAppState } from '/src/index'
 import { formatIconSVGForUI, icons } from '/src/scripts'
 
 interface Props {
@@ -8,7 +7,7 @@ interface Props {
 }
 
 export const SelectReportMarkerIcon = (props: Props) => {
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   return (
     <DialogSelect

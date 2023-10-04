@@ -1,6 +1,5 @@
-import { useI18n } from '@solid-primitives/i18n'
-
 import { Interactive } from '/src/components'
+import { useAppState } from '/src/index'
 import { store } from '/src/store'
 
 import { ButtonFileOverlay } from './components/buttonFileOverlay'
@@ -13,7 +12,7 @@ import { SelectMapStyle } from './components/selectMapStyles'
 import { SelectMarkersContent } from './components/selectMarkersContent'
 
 export const MenuMap = () => {
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   return (
     <>

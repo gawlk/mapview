@@ -1,5 +1,3 @@
-import { useI18n } from '@solid-primitives/i18n'
-
 import {
   Button,
   DialogSelect,
@@ -10,6 +8,7 @@ import {
   THead,
   Tr,
 } from '/src/components'
+import { useAppState } from '/src/index'
 import { gray, moveIndexInCopiedArray } from '/src/scripts'
 import { store } from '/src/store'
 
@@ -30,7 +29,7 @@ interface Props {
 export const TablePoints = (props: Props) => {
   const size = 'sm'
 
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   const getValuesFromPoints = (
     points: BasePoint[],

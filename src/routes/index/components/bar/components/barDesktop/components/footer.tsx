@@ -1,9 +1,8 @@
-import { useI18n } from '@solid-primitives/i18n'
-
 import { env } from '/src/env'
+import { useAppState } from '/src/index'
 
 export const Footer = () => {
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   return (
     <div class="space-y-6 text-gray-400">

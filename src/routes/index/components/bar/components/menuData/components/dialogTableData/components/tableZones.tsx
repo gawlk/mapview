@@ -1,13 +1,12 @@
-import { useI18n } from '@solid-primitives/i18n'
-
 import { Button, Table, Td, TdDataLabel, THead, Tr } from '/src/components'
+import { useAppState } from '/src/index'
 import { colors } from '/src/scripts'
 import { store } from '/src/store'
 
 export const TableZones = () => {
   const size = 'sm'
 
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   const getValuesFromZones = (dataLabel: DataLabel<string>) =>
     (store.selectedReport?.zones || [])

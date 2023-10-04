@@ -1,6 +1,5 @@
-import { useI18n } from '@solid-primitives/i18n'
-
 import { InputRadioHorizontal } from '/src/components'
+import { useAppState } from '/src/index'
 
 interface Props {
   active: boolean
@@ -8,7 +7,7 @@ interface Props {
 }
 
 export const InputRadioAbled = (props: Props) => {
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   const enabledString = t('Enabled')
   const disabledString = t('Disabled')

@@ -1,5 +1,3 @@
-import { useI18n } from '@solid-primitives/i18n'
-
 import {
   Button,
   Container,
@@ -8,6 +6,7 @@ import {
   removeProps,
   valueWithTextToJSXElement,
 } from '/src/components'
+import { useAppState } from '/src/index'
 import { run } from '/src/scripts'
 
 interface Props extends InteractiveProps {
@@ -16,7 +15,7 @@ interface Props extends InteractiveProps {
 }
 
 export const InputRadioHorizontal = (props: Props) => {
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   return (
     // TODO: Should be interactive ?

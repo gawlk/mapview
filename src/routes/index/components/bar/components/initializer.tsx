@@ -1,8 +1,7 @@
-import { useI18n } from '@solid-primitives/i18n'
-
 // import localforage from 'localforage'
 
 import { Button, classPropToString, DragAndDrop } from '/src/components'
+import { useAppState } from '/src/index'
 import {
   acceptedExtensions,
   // downloadFile,
@@ -17,7 +16,7 @@ interface Props {
 }
 
 export const Initializer = (props: Props) => {
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   // const [state, setState] = createStore({
   //   snapshot: null as File | null,

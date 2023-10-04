@@ -1,11 +1,10 @@
-import { useI18n } from '@solid-primitives/i18n'
-
 import {
   Dialog,
   DialogDivider,
   InputRadioHorizontal,
   SpanDataLabel,
 } from '/src/components'
+import { useAppState } from '/src/index'
 import { run } from '/src/scripts'
 import { store } from '/src/store'
 
@@ -21,7 +20,7 @@ export const DialogTableData = () => {
     zonesVisible: true,
   })
 
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   return (
     <Dialog

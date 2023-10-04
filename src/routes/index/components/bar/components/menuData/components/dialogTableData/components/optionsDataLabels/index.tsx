@@ -1,5 +1,3 @@
-import { useI18n } from '@solid-primitives/i18n'
-
 import {
   DialogDivider,
   DialogOptions,
@@ -7,6 +5,7 @@ import {
   SortableList,
   SpanDataLabel,
 } from '/src/components'
+import { useAppState } from '/src/index'
 import { groupDataLabelsByCategory, moveIndexInCopiedArray } from '/src/scripts'
 import { store } from '/src/store'
 
@@ -16,7 +15,7 @@ import { insertMaxidynDataLabel } from './scripts/maxidyn'
 import { insertMinidynDataLabel } from './scripts/minidyn'
 
 export const OptionsDataLabels = () => {
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   const tableDataLabels = createMemo(
     () => store.selectedReport?.dataLabels.table.selected,

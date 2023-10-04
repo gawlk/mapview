@@ -1,10 +1,9 @@
-import { useI18n } from '@solid-primitives/i18n'
-
 import {
   Button,
   isValuePropSelected,
   valueWithTextToJSXElement,
 } from '/src/components'
+import { useAppState } from '/src/index'
 import { run } from '/src/scripts'
 
 import { convertDialogValuesPropsListToValuesWithTextProps } from '../scripts'
@@ -18,7 +17,7 @@ interface Props {
 }
 
 export const DialogOptionsList = (props: Props) => {
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   const unfilteredList = createMemo(() =>
     convertDialogValuesPropsListToValuesWithTextProps(props.list),

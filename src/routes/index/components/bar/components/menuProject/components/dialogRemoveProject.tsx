@@ -1,10 +1,9 @@
-import { useI18n } from '@solid-primitives/i18n'
-
 import { Button, Dialog } from '/src/components'
+import { useAppState } from '/src/index'
 import { store } from '/src/store'
 
 export const DialogRemoveProject = () => {
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   return (
     <Show when={store.projects.list.length > 1}>

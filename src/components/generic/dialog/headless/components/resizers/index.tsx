@@ -1,109 +1,146 @@
+/* eslint-disable sonarjs/cognitive-complexity */
+/* eslint-disable no-nested-ternary */
 import { makeEventListener } from '@solid-primitives/event-listener'
 import { useMousePosition } from '@solid-primitives/mouse'
+import { useWindowSize } from '@solid-primitives/resize-observer'
 
-import { classPropToString } from '/src/components/generic/props'
+import { createASS } from '/src/scripts'
 
-import { activateSelectNone, deactivateSelectNone } from '../scripts'
-import { expand, resizeDialog } from './scripts'
+import { activateUserSelectNone, deactivateUserSelectNone } from '../../scripts'
+import { computeDirection, expand, resizeDialog } from './scripts'
 
 interface Props {
-  dialog?: HTMLDialogElement
-  setDimensions: (dimensions: Partial<DialogDimensions>) => void
-  setPosition: (position: Partial<DialogPosition>) => void
+  dialog: Accessor<HTMLDialogElement | undefined>
+  dimensions: DialogDimensions
+  position: DialogPosition
 }
 
 export const DialogResizers = (props: Props) => {
-  const [state, setState] = createStore({
-    resizeDirection: null as DialogResizeDirection | null,
-  })
+  const state = {
+    resizeDirection: createASS<DialogResizeDirection | null>(null),
+  }
 
   const mousePosition = useMousePosition()
 
-  makeEventListener(
-    window,
-    'mouseup',
-    () => setState('resizeDirection', null),
-    {
-      passive: true,
-    },
-  )
+  makeEventListener(window, 'mouseup', () => state.resizeDirection.set(null), {
+    passive: true,
+  })
 
   createEffect(
     on(
-      () => state.resizeDirection,
+      () => state.resizeDirection(),
       (resizeDirection) => {
         if (resizeDirection) {
-          activateSelectNone()
+          activateUserSelectNone(props.dialog())
 
           resizeDialog(
-            props.dialog,
+            props.dialog(),
             mousePosition,
             resizeDirection,
-            props.setDimensions,
-            props.setPosition,
+            props.dimensions,
+            props.position,
           )
         } else {
-          deactivateSelectNone()
+          deactivateUserSelectNone(props.dialog())
         }
       },
     ),
   )
 
   const runExpand = (resizeDirection: DialogResizeDirection) =>
-    expand(
-      props.dialog,
-      resizeDirection,
-      props.setDimensions,
-      props.setPosition,
-    )
+    expand(props.dialog(), resizeDirection, props.dimensions, props.position)
 
   const Resizer = (resizerProps: {
-    direction: DialogResizeDirection
-    class: ClassProp
-  }) => (
-    <div
-      onMouseDown={() => setState('resizeDirection', resizerProps.direction)}
-      onDblClick={() => runExpand(resizerProps.direction)}
-      class={classPropToString(['absolute md:block', resizerProps.class])}
-    />
-  )
+    staticDirection: DialogResizeDirection
+  }) => {
+    const direction = resizerProps.staticDirection
+
+    const {
+      isAnyNorth,
+      isAnySouth,
+      isAnyWest,
+      isAnyEast,
+      isBidirectional,
+      isHorizontalOnly,
+      isVerticalOnly,
+    } = computeDirection(direction)
+
+    const zero = '0px'
+    const marginSm = '-0.375rem'
+    const marginMd = '-0.5rem'
+    const full = '100%'
+    const small = '0.75rem'
+    const big = '1.5rem'
+
+    const marginX = isHorizontalOnly
+      ? marginSm
+      : isBidirectional
+      ? marginMd
+      : undefined
+    const marginY = isVerticalOnly
+      ? marginSm
+      : isBidirectional
+      ? marginMd
+      : undefined
+
+    const windowSize = useWindowSize()
+
+    return (
+      <Show when={windowSize.width >= 768}>
+        <div
+          onMouseDown={() => state.resizeDirection.set(direction)}
+          onDblClick={() => runExpand(direction)}
+          style={{
+            position: 'absolute',
+
+            top: isHorizontalOnly || isAnyNorth ? zero : undefined,
+            bottom: isHorizontalOnly || isAnySouth ? zero : undefined,
+            left: isVerticalOnly || isAnyWest ? zero : undefined,
+            right: isVerticalOnly || isAnyEast ? zero : undefined,
+
+            'margin-top': marginY,
+            'margin-bottom': marginY,
+            'margin-left': marginX,
+            'margin-right': marginX,
+
+            height: isBidirectional
+              ? big
+              : isHorizontalOnly
+              ? full
+              : isVerticalOnly
+              ? small
+              : undefined,
+            width: isBidirectional
+              ? big
+              : isVerticalOnly
+              ? full
+              : isHorizontalOnly
+              ? small
+              : undefined,
+
+            cursor: isVerticalOnly
+              ? 'ns-resize'
+              : isHorizontalOnly
+              ? 'ew-resize'
+              : direction === 'nw' || direction === 'se'
+              ? 'nwse-resize'
+              : 'nesw-resize',
+          }}
+        />
+      </Show>
+    )
+  }
 
   return (
     <>
-      <Resizer
-        direction="n"
-        class={['inset-x-0 top-0 -my-1.5 hidden h-3 w-full cursor-ns-resize']}
-      />
-      <Resizer
-        direction="w"
-        class={['inset-y-0 left-0 -mx-1.5 hidden h-full w-3 cursor-ew-resize']}
-      />
-      <Resizer
-        direction="s"
-        class={[
-          'inset-x-0 bottom-0 -my-1.5 hidden h-3 w-full cursor-ns-resize',
-        ]}
-      />
-      <Resizer
-        direction="e"
-        class={['inset-y-0 right-0 -mx-1.5 hidden h-full w-3 cursor-ew-resize']}
-      />
-      <Resizer
-        direction="nw"
-        class={['left-0 top-0 -m-2 hidden h-6 w-6 cursor-nwse-resize']}
-      />
-      <Resizer
-        direction="sw"
-        class={['bottom-0 left-0 -m-2 hidden h-6 w-6 cursor-nesw-resize ']}
-      />
-      <Resizer
-        direction="se"
-        class={['bottom-0 right-0 -m-2 hidden h-6 w-6 cursor-nwse-resize']}
-      />
-      <Resizer
-        direction="ne"
-        class={['right-0 top-0 -m-2 hidden h-6 w-6 cursor-nesw-resize']}
-      />
+      <Resizer staticDirection="n" />
+      <Resizer staticDirection="s" />
+      <Resizer staticDirection="e" />
+      <Resizer staticDirection="w" />
+      <Resizer staticDirection="nw" />
+      <Resizer staticDirection="sw" />
+      <Resizer staticDirection="se" />
+      <Resizer staticDirection="ne" />
     </>
   )
 }

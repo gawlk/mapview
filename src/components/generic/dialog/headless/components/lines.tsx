@@ -6,27 +6,37 @@ interface Props {
 
 export const DialogSnapLines = (props: Props) => {
   return (
-    <div
-      style={
-        props.zIndex
-          ? {
-              'z-index': props.zIndex,
-            }
-          : {}
-      }
-      class="fixed inset-0 flex justify-center"
-    >
-      <hr
-        class="absolute w-full border-dashed border-black/20"
-        style={{ top: `calc(${props.top}px - 1px)` }}
-      />
+    <Show when={props.zIndex}>
       <div
-        class="h-full border-x border-dashed border-black/20"
         style={{
-          width: `${props.width + 2}px`,
-          'min-width': `calc(${props.width} + 2px)`,
+          display: 'flex',
+          position: 'fixed',
+          inset: '0px',
+          'justify-content': 'center',
+          'z-index': props.zIndex,
         }}
-      />
-    </div>
+      >
+        <hr
+          style={{
+            position: 'absolute',
+            width: '100%',
+            top: `calc(${props.top}px - 1px)`,
+            'border-style': 'dashed',
+            'border-color': 'rgb(0 0 0 / 0.2)',
+          }}
+        />
+        <div
+          style={{
+            height: '100%',
+            'border-left-width': '1px',
+            'border-right-width': '1px',
+            width: `${props.width + 2}px`,
+            'border-style': 'dashed',
+            'border-color': 'rgb(0 0 0 / 0.2)',
+            'min-width': `calc(${props.width} + 2px)`,
+          }}
+        />
+      </div>
+    </Show>
   )
 }

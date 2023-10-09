@@ -41,21 +41,3 @@ interface DialogPropsOnly {
 
   onCloseEnd?: () => void
 }
-
-type DialogOpenFunction = (isUserEvent: boolean) => void
-
-type DialogToggleFunction = (isUserEvent: boolean) => void
-
-type DialogCloseFunction = (element?: HTMLElement) => void
-
-type DialogResizeDirection = 'n' | 'nw' | 'w' | 'sw' | 's' | 'se' | 'e' | 'ne'
-
-interface DialogPosition {
-  left?: number
-  top?: number
-}
-
-interface DialogDimensions {
-  width?: number
-  height?: number
-}

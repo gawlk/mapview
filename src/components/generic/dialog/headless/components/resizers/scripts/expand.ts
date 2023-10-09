@@ -1,8 +1,10 @@
+import { computeDirection } from './direction'
+
 export const expand = (
   dialog: HTMLDialogElement | undefined,
   direction: DialogResizeDirection,
-  setDimensions: (dimensions: Partial<DialogDimensions>) => void,
-  setPosition: (position: Partial<DialogPosition>) => void,
+  dimensions: DialogDimensions,
+  position: DialogPosition,
 ) => {
   if (!dialog) {
     return
@@ -17,52 +19,26 @@ export const expand = (
     offsetHeight: dialogHeight,
   } = dialog
 
-  const isAnyNorth = direction.includes('n')
-  const isAnySouth = direction.includes('s')
-  const isAnyWest = direction.includes('w')
-  const isAnyEast = direction.includes('e')
+  const { isAnyNorth, isAnySouth, isAnyWest, isAnyEast } =
+    computeDirection(direction)
 
   if (isAnyNorth) {
-    setDimensions({
-      height: dialogHeight + dialogOffsetTop,
-    })
-
-    setPosition({
-      top: 0,
-    })
+    dimensions.height.set(dialogHeight + dialogOffsetTop)
+    position.top.set(0)
   }
 
   if (isAnyWest) {
-    setDimensions({
-      width: dialogWidth + dialogOffsetLeft,
-    })
-
-    setPosition({
-      left: 0,
-    })
+    dimensions.width.set(dialogWidth + dialogOffsetLeft)
+    position.left.set(0)
   }
 
   if (isAnySouth) {
-    const height = windowHeight - dialogOffsetTop
-
-    setDimensions({
-      height,
-    })
-
-    setPosition({
-      top: dialogOffsetTop,
-    })
+    dimensions.height.set(windowHeight - dialogOffsetTop)
+    position.top.set(dialogOffsetTop)
   }
 
   if (isAnyEast) {
-    const width = windowWidth - dialogOffsetLeft
-
-    setDimensions({
-      width,
-    })
-
-    setPosition({
-      left: dialogOffsetLeft,
-    })
+    dimensions.width.set(windowWidth - dialogOffsetLeft)
+    position.left.set(dialogOffsetLeft)
   }
 }

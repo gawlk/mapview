@@ -5,6 +5,7 @@ import {
   DialogColorStory,
   DialogSelectStory,
   DialogStory,
+  HeadlessDialogStory,
   IconInteractiveStory,
   IconStory,
   InputDataListStory,
@@ -24,11 +25,13 @@ export const Stories = () => {
       <InteractiveStory />
       <ButtonStory />
       <InputStory />
-      <DialogStory />
+      
 
       <DialogSelectStory />
       <InputDataListStory /> */}
-      <SortableListStory />
+      {/* <SortableListStory /> */}
+      <DialogStory />
+      <HeadlessDialogStory />
       {/* <InputRadioHorizontalStory />
 
       <DialogColorStory />

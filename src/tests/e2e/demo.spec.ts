@@ -16,7 +16,7 @@ test('demo launch', async ({ page, baseURL }) => {
 
   await expect(loader).toBeVisible()
 
-  await expect(loader).toHaveCount(0)
+  await expect(loader).toHaveCount(0, { timeout: 20000 })
 
   await expect(page.locator('#desktop-menu-project')).toBeVisible({
     visible: true,

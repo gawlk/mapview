@@ -12,11 +12,11 @@ test('demo launch', async ({ page, baseURL }) => {
 
   await demoButton.click()
 
-  await expect(page.locator('#loader')).toBeVisible()
+  const loader = page.locator('#loader')
 
-  await page.waitForLoadState('networkidle')
+  await expect(loader).toBeVisible()
 
-  await expect(page.locator('#loader')).not.toBeVisible()
+  await expect(loader).toHaveCount(0)
 
   await expect(page.locator('#desktop-menu-project')).toBeVisible({
     visible: true,

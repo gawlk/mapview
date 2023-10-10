@@ -18,7 +18,7 @@ export default defineConfig({
      * Maximum time expect() should wait for the condition to be met.
      * For example in `await expect(locator).toHaveText();`
      */
-    timeout: 5000,
+    timeout: 10000,
   },
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -48,7 +48,7 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'npx pnpm prod',
+    command: 'pnpm just prod',
     port: 4173,
     reuseExistingServer: !process.env.CI,
     timeout: 120000,

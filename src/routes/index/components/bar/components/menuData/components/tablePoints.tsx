@@ -49,11 +49,13 @@ export const TablePoints = (props: Props) => {
   return (
     <Table>
       <THead>
-        <Td class="hidden lg:table-cell" />
+        <Td class="hidden lg:table-cell" dataSaveable={false} />
         <Show when={!props.hideZones}>
-          <Td text="center">{t('Zone')}</Td>
+          <Td text="center" dataSaveable={true}>
+            {t('Zone')}
+          </Td>
         </Show>
-        <Td text="right" class={props.cellWidthClass} wide>
+        <Td text="right" class={props.cellWidthClass} wide dataSaveable={true}>
           {t('Number')}
         </Td>
         <For each={props.dataLabels}>
@@ -75,6 +77,7 @@ export const TablePoints = (props: Props) => {
         <SortableList
           orientation="vertical"
           list={props.points}
+          disabled={!props.sortable}
           itemToId={(point) => point.id}
           draggedClasses={'!bg-gray-100'}
           onChange={(from, to) => {
@@ -113,14 +116,12 @@ export const TablePoints = (props: Props) => {
                 <Td class="hidden lg:table-cell">
                   <Button
                     size={size}
-                    disabled={store.selectedReport?.settings.groupBy === 'Zone'}
+                    disabled={!props.sortable}
                     icon={
-                      store.selectedReport?.settings.groupBy === 'Zone'
-                        ? IconTablerHandOff
-                        : IconTablerHandStop
+                      !props.sortable ? IconTablerHandOff : IconTablerHandStop
                     }
                     // eslint-disable-next-line tailwindcss/no-custom-classname
-                    class="handle"
+                    class={props.sortable ? 'handle' : ''}
                   />
                 </Td>
                 <Show when={!props.hideZones}>

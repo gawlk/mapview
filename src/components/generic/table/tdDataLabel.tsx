@@ -1,3 +1,4 @@
+import { useAppState } from '/src/index'
 import { createMathNumber } from '/src/scripts'
 
 import { Td } from './td'
@@ -9,8 +10,16 @@ interface Props {
 }
 
 export const TdDataLabel = (props: Props) => {
+  const { t } = useAppState()
+
   return (
-    <Td class={props.widthClass} wide text="right">
+    <Td
+      class={props.widthClass}
+      wide
+      text="right"
+      dataSaveable={true}
+      dataValue={props.dataLabel.getTSVName(t)}
+    >
       <p class="font-semibold">{props.dataLabel.getDisplayedName()}</p>
       <p class="whitespace-nowrap text-xs">
         {props.dataLabel.unit.currentUnit}

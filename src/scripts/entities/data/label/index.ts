@@ -1,5 +1,7 @@
 import { translate } from '/src/locales'
 
+import { rawCategory } from '../category'
+
 export const createDataLabel = <T extends string, Unit extends string>(args: {
   name: string
   shortName?: string
@@ -19,6 +21,16 @@ export const createDataLabel = <T extends string, Unit extends string>(args: {
     getSerializedName() {
       return `${this.shortName || this.name}${
         this.category.neededInExcelName ? `_${this.category.name}` : ''
+      }`
+    },
+    getTSVName(t) {
+      const name = this.shortName || this.name
+      const categoryName = this.category.name
+
+      return `${t(name, undefined, name)}${
+        categoryName === rawCategory.name
+          ? `${t(categoryName, undefined, categoryName).toLowerCase()}`
+          : ''
       }`
     },
     toString() {

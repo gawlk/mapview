@@ -19,7 +19,7 @@ export const TableZones = () => {
   return (
     <Table>
       <THead>
-        <Td class="w-full" wide>
+        <Td class="w-full" wide dataSaveable={true}>
           {t('Name')}
         </Td>
         <For

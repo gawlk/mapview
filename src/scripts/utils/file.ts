@@ -1,3 +1,6 @@
+import { encode as encodeWindows } from 'windows-1252'
+
+import { formatForExport } from './formatting'
 import { run } from './run'
 
 export const reservedFileNameWords = run(() => {
@@ -120,3 +123,43 @@ export const downloadFile = (file: File) => {
   a.click()
   a.remove()
 }
+
+export const downloadTSV = (
+  fileName: string,
+  datasets: string[][],
+  windows?: true,
+) => {
+  if (Array.from(new Set(datasets.map((d) => d.length))).length > 1) {
+    throw Error(`Arrays don't have the same length`)
+  }
+
+  downloadFile(
+    new File(
+      [
+        (windows ? encodeWindows : encodeURI)(
+          formatForExport(convertDatasetsToCSVString(datasets, '\t')),
+        ),
+      ],
+      fileName,
+      { type: 'text/tab-separated-values' },
+    ),
+  )
+}
+
+export const convertDatasetsToCSVString = (
+  datasets: string[][],
+  delimiter = ';',
+) =>
+  `${datasets
+    .map((dataset) =>
+      dataset
+        .map((value) =>
+          String(
+            typeof value === 'string' && value.includes(delimiter)
+              ? `"${value}"`
+              : value || '',
+          ).replaceAll('\n', ''),
+        )
+        .join(delimiter),
+    )
+    .join('\n')}`

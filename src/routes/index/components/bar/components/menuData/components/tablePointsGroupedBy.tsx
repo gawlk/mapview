@@ -9,7 +9,6 @@ interface Props {
   from?: DataLabelsFrom
   index?: BaseDropIndex
   colored?: boolean
-  sortable?: boolean
   hideZones?: true
 }
 
@@ -19,6 +18,7 @@ export const TablePointsGroupedBy = (props: Props) => {
       <Match when={store.selectedReport?.settings.groupBy === 'Number'}>
         <TablePoints
           points={store.selectedReport?.line.sortedPoints || []}
+          sortable
           {...props}
         />
       </Match>

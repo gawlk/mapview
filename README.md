@@ -9,6 +9,10 @@
 - a functional node environment ([Node.JS](https://nodejs.org/) 16 or higher)
 - [pnpm](https://pnpm.io/installation)
 
+## Optional
+
+- [Install `just`](https://github.com/casey/just#packages)
+
 ## Type Support for `.vue` Imports in TS
 
 TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.

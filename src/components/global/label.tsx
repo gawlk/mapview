@@ -7,6 +7,7 @@ export interface LabelProps extends ParentProps, BaseProps {
 }
 
 export const Label = (props: LabelProps) => {
+  // eslint-disable-next-line @typescript-eslint/no-base-to-string
   const id = `${props.label?.toString()}-${Math.random()}`
 
   return (

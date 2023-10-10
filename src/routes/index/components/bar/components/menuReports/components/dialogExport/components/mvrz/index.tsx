@@ -1,4 +1,4 @@
-// @ts-expect-error
+// @ts-expect-error - TS Expects types
 import TemplateZip from '/src/assets/templates/templates.zip'
 import { Button, DialogDivider } from '/src/components'
 import { env } from '/src/env'
@@ -24,7 +24,7 @@ export const MVRZ = (props: Props) => {
       {/* TODO: Create a Link button very similar to the button without extending it, should've <a> html attributes */}
       <Button
         component={'a'}
-        // @ts-ignore
+        // @ts-expect-error - Temporary
         href={TemplateZip}
         download={`${t('Templates')}.zip`}
         target="_blank"

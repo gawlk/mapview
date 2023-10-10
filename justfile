@@ -2,26 +2,24 @@
 default:
   just --list
 
-pm := `if [[ -z "${npm_execpath:-}" ]]; then echo "pnpm"; else echo "$npm_execpath"; fi`
-
 alias d := dev
 # run dev
 dev:
   #!/usr/bin/env sh
 
-  {{pm}} outdated
+  pnpm outdated
 
   if [ $? -ne 0 ]
   then
     read -p "Press enter to ignore..."
   fi
 
-  {{pm}} vite --host
+  pnpm vite --host
 
 alias c := check
 # check types
 check:
-  {{pm}} tsc --noEmit --skipLibCheck
+  pnpm tsc --noEmit --skipLibCheck
 
 alias b := build
 # build project
@@ -35,7 +33,7 @@ build:
     cd -
   fi
   
-  {{pm}} vite build
+  pnpm vite build
   
   sed 's+media=\"(device+media=\"screen and (device+g' dist/index.html | sed 's+</head>+<meta name=\"apple-touch-fullscreen\" content=\"yes\" /></head>+g' > index.html.tmp 
   mv index.html.tmp dist/index.html
@@ -57,38 +55,38 @@ test:
   sed -i.bak 's|\"./integration\"|\"./integration.js\"|g' node_modules/.pnpm/@solidjs+router@*_solid-js@*/node_modules/@solidjs/router/dist/routing.js
   sed -i.bak 's|\"./lifecycle\"|\"./lifecycle.js\"|g' node_modules/.pnpm/@solidjs+router@*_solid-js@*/node_modules/@solidjs/router/dist/routing.js
   sed -i.bak 's|\"./utils\"|\"./utils.js\"|g' node_modules/.pnpm/@solidjs+router@*_solid-js@*/node_modules/@solidjs/router/dist/routing.js
-  TZ=Europe/Paris {{pm}} vitest run
+  TZ=Europe/Paris pnpm vitest run
 
 # run tests with UI
 test-ui:
-  TZ=Europe/Paris {{pm}} vitest --ui
+  TZ=Europe/Paris pnpm vitest --ui
 
 # check tests' coverage
 test-coverage:
-  TZ=Europe/Paris {{pm}} vitest --coverage
+  TZ=Europe/Paris pnpm vitest --coverage
 
 # run end-to-end tests
 test-e2e:
-  {{pm}} playwright test --browser=all
+  pnpm playwright test --browser=all
 
 # run end-to-end tests
 test-e2e-ui:
-  {{pm}} playwright test --ui
+  pnpm playwright test --ui
 
 alias f := format
 # format 'src' folder
 format:
-  {{pm}} prettier --write './src'
+  pnpm prettier --write './src'
 
 # check formatting in 'src' folder
 check-format:
-  {{pm}} prettier --check './src'
+  pnpm prettier --check './src'
 
 alias l := lint
 # check link
 lint:
-  {{pm}} eslint './src'
+  pnpm eslint './src'
 
 # check link
 lint-fix:
-  {{pm}} eslint --fix './src'
+  pnpm eslint --fix './src'

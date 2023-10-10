@@ -1,6 +1,6 @@
 [build]
   publish = "dist"
-  command = "VITE_CONTEXT=$CONTEXT VITE_COMMIT_REF=$COMMIT_REF pnpm j b"
+  command = "VITE_CONTEXT=$CONTEXT VITE_COMMIT_REF=$COMMIT_REF pnpm j build"
 
 [[redirects]]
   from = "/*"

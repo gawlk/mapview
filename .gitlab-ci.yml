@@ -41,7 +41,7 @@ dependencies:
     - if: $CI_PIPELINE_SOURCE == "push" && ($CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "prod")
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
   script:
-    - pnpm i
+    - pnpm install
   tags:
     - shared
 
@@ -51,7 +51,7 @@ build:
     - if: $CI_PIPELINE_SOURCE == "push" && ($CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "prod")
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
   script:
-    - pnpm j b
+    - pnpm just build
   tags:
     - shared
 
@@ -61,8 +61,8 @@ test-types:
     - if: $CI_PIPELINE_SOURCE == "push" && ($CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "prod")
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
   script:
-    - pnpm j c
-    - pnpm j lint-fix
+    - pnpm just check
+    - pnpm just lint-fix
   tags:
     - shared
 
@@ -71,7 +71,7 @@ test-unit:
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
   script:
-    - pnpm j t
+    - pnpm just test
   tags:
     - shared
 
@@ -82,7 +82,7 @@ test-e2e:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
   script:
     - pnpm exec playwright install
-    - pnpm j test-e2e
+    - pnpm just test-e2e
   tags:
     - shared
 

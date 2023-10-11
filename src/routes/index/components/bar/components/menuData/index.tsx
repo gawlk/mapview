@@ -2,7 +2,7 @@ import { store } from '/src/store'
 
 import { DialogTableData } from './components/dialogTableData'
 import { SelectGroupBy } from './components/selectGroupBy'
-import { TablePoints } from './components/tablePoints'
+import { TablePointsGroupedBy } from './components/tablePointsGroupedBy'
 import { Values } from './components/values'
 
 export const MenuData = () => {
@@ -17,10 +17,8 @@ export const MenuData = () => {
       <div>
         <Show when={store.selectedReport?.dataLabels.groups.selected}>
           {(group) => (
-            <TablePoints
-              points={store.selectedReport?.line.sortedPoints || []}
+            <TablePointsGroupedBy
               colored
-              sortable
               cellWidthClass="w-[30%]"
               from={group().from}
               index={

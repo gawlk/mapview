@@ -11,6 +11,8 @@ interface ContainerPropsOnly extends ParentProps {
 
   textColor?: ColorProp | null
 
+  fontSize?: SizeProp
+
   bgColor?: ColorProp | null
   bgHoverColor?: ColorProp | null
 

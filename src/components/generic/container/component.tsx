@@ -166,7 +166,7 @@ export const Container = (props: Props) => {
 
         // Text size
         run(() => {
-          switch (props.size) {
+          switch (props.fontSize || props.size) {
             case 'sm':
               return 'text-sm'
             case 'xs':

@@ -13,6 +13,8 @@ export const containerBooleanPropsKeysObject: BooleanPropsKeysObject<ContainerPr
     bgColor: true,
     bgHoverColor: true,
 
+    fontSize: true,
+
     border: true,
     borderColor: true,
     borderWidth: true,

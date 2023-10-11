@@ -31,7 +31,7 @@ export const DialogTableData = () => {
       resizable
       maximizable
       closeable
-      title="Table data"
+      title={t('Table data')}
       button={{
         full: true,
         leftIcon: IconTablerArrowsMaximize,

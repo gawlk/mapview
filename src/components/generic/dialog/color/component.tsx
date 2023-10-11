@@ -1,4 +1,5 @@
 import { Button, Dialog } from '/src/components'
+import { useAppState } from '/src/index'
 import { colors } from '/src/scripts'
 
 export interface Props
@@ -7,9 +8,10 @@ export interface Props
 }
 
 export const DialogColor = (props: Props) => {
+  const { t } = useAppState()
   return (
     <Dialog
-      title="Select a color"
+      title={t('Select a color')}
       closeable
       {...props}
       button={mergeProps(

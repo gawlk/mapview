@@ -26,7 +26,7 @@ export const SelectProject = () => {
 
   return (
     <DialogSelect
-      title="Select a project"
+      title={t('Select a project')}
       attached
       button={{
         class: 'flex-1 min-w-0',

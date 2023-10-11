@@ -9,7 +9,7 @@ export const SelectGroupBy = () => {
 
   return (
     <DialogSelect
-      title="Select a group by"
+      title={t('Select a group by')}
       button={{
         label: t('Group by'),
         full: true,

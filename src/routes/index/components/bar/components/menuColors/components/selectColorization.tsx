@@ -9,7 +9,7 @@ export const SelectColorization = () => {
 
   return (
     <DialogSelect
-      title="Select a colorization"
+      title={t('Select a colorization')}
       button={{
         leftIcon: IconTablerColorSwatch,
         label: t('Colorization by'),

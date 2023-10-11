@@ -1,9 +1,11 @@
+import translationsEN from '/src/locales/en.json?raw'
 import translationsFR from '/src/locales/fr.json?raw'
 
 export * from './dictionaries'
 
 const translations = {
   fr: JSON.parse(translationsFR),
+  en: JSON.parse(translationsEN),
 }
 
 export const translate = (value: string) => {
@@ -11,6 +13,8 @@ export const translate = (value: string) => {
 
   return locale === 'fr' && value in translations.fr
     ? translations.fr[value]
+    : value in translations.en
+    ? translations.en[value]
     : value
 }
 

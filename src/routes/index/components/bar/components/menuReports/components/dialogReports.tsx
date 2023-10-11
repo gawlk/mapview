@@ -22,7 +22,7 @@ export const DialogReports = () => {
   return (
     <Dialog
       closeable
-      title="Select a report"
+      title={t('Select a report')}
       attached
       button={{
         label: t('Selected'),

@@ -11,11 +11,13 @@ const translations = {
 export const translate = (value: string) => {
   const locale = getBrowserLocale(true)
 
-  return locale === 'fr' && value in translations.fr
-    ? translations.fr[value]
-    : value in translations.en
-    ? translations.en[value]
-    : value
+  if (locale === 'fr' && value in translations.fr) {
+    return translations.fr[value]
+  } else if (value in translations.en) {
+    return translations.en[value]
+  }
+
+  return value
 }
 
 export const getBrowserLocale = (languageCodeOnly: boolean = false) => {

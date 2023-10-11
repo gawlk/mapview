@@ -32,7 +32,8 @@ build:
     zip -r templates.zip .
     cd -
   fi
-  
+
+  pnpm j wasm-build
   pnpm vite build
   
   sed 's+media=\"(device+media=\"screen and (device+g' dist/index.html | sed 's+</head>+<meta name=\"apple-touch-fullscreen\" content=\"yes\" /></head>+g' > index.html.tmp 
@@ -90,3 +91,6 @@ lint:
 # check link
 lint-fix:
   pnpm eslint --fix './src'
+
+wasm-build:
+  wasm-pack build ./src/wasm --target web

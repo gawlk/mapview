@@ -1,3 +1,5 @@
+import init, { fibonacci, rand } from 'wasm'
+
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   ButtonStory,
@@ -16,6 +18,14 @@ import {
 } from '/src/components'
 
 export const Stories = () => {
+  onMount(async () => {
+    await init()
+
+    console.log('fib(10)', fibonacci(10))
+
+    console.log('rand', rand())
+  })
+
   return (
     <div class="space-y-8 p-8">
       {/* <ContainerStory />

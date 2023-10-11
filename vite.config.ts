@@ -11,6 +11,7 @@ import solidPages from 'vite-plugin-pages'
 import { VitePWA } from 'vite-plugin-pwa'
 import solid from 'vite-plugin-solid'
 import solidSvg from 'vite-plugin-solid-svg'
+import wasmPack from 'vite-plugin-wasm-pack'
 import { configDefaults } from 'vitest/config'
 
 import packageJSON from './package.json'
@@ -20,6 +21,8 @@ const white = '#ffffff'
 
 export default defineConfig({
   plugins: [
+    wasmPack('./src/wasm'),
+
     solid(),
 
     solidSvg(),

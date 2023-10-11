@@ -3,13 +3,12 @@ type HeadlessDialogPropsWithHTMLAttributes = MergePropsWithHTMLProps<
   DialogHTMLAttributes
 >
 
-type HeadlessDialogProps = HeadlessDialogPropsOnly &
-  Omit<InteractiveProps, keyof HeadlessDialogPropsOnly>
-
-interface HeadlessDialogPropsOnly {
+interface HeadlessDialogProps {
   component?: string
 
-  attach?: Accessor<HTMLElement>
+  full?: Accessor<boolean>
+
+  attach?: Accessor<HTMLElement | undefined>
 
   title?: string
 
@@ -36,26 +35,36 @@ interface HeadlessDialogPropsOnly {
   classes?: ClassProp
   classesOpen?: ClassProp
   classesMoveable?: ClassProp
-  classesAttached?: ClassProp
+  classesAbsolute?: ClassProp
   classesWindowed?: ClassProp
+  classesFixed?: ClassProp
+  classesMaximized?: ClassProp
 
   onIdCreated?: (id: string) => void
   onOpenCreated?: (callback: DialogOpenFunction) => void
   onCloseCreated?: (callback: DialogCloseFunction) => void
   onToggleCreated?: (callback: DialogToggleFunction) => void
   onToggleMaximizeCreated?: (callback: DialogToggleMaximizedFunction) => void
+  onAbsolute?: (absolute: boolean) => void
+  onMaximized?: (maximized: boolean) => void
 
-  onOpen?: () => void
+  onOpen?: VoidFunction
   onClose?: (value?: string) => void
-  onCloseEnd?: () => void
+  onCloseEnd?: VoidFunction
 }
 
 type DialogOpenFunction = (isUserEvent: boolean) => void
 type DialogCloseFunction = (element?: HTMLElement) => void
 type DialogToggleFunction = (isUserEvent: boolean) => void
-type DialogToggleMaximizedFunction = () => void
+type DialogToggleMaximizedFunction = VoidFunction
 
 type DialogResizeDirection = 'n' | 'nw' | 'w' | 'sw' | 's' | 'se' | 'e' | 'ne'
+
+interface DialogAttached {
+  left: ASS<number | undefined>
+  top: ASS<number | undefined>
+  width: ASS<number | undefined>
+}
 
 interface DialogPosition {
   left: ASS<number | undefined>

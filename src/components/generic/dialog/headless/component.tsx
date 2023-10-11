@@ -14,12 +14,13 @@ import { createASS } from '/src/scripts'
 
 import { DialogBackdrop, DialogResizers, DialogSnapLines } from './components'
 import {
+  createDialogCloseFunction,
   createDialogOpenFunction,
   createMovingEffect,
   createOnCloseEffect,
   createRelativePositionEffect,
   createScrolledOutEffect,
-  forceCloseChildDialogs,
+  HIDDEN_CLOSE_BUTTON_CLASS,
   makeClickOutsideEventListener,
   moveToFront,
 } from './scripts'
@@ -44,6 +45,11 @@ export const HeadlessDialog = (props: Props) => {
     moving: createASS(false),
     dialog: createASS<HTMLDialogElement | undefined>(undefined),
     dialogsDiv: createASS<HTMLElement | undefined>(undefined),
+    attached: {
+      left: createASS(undefined),
+      top: createASS(undefined),
+      width: createASS(undefined),
+    } as DialogAttached,
   }
 
   const dialogProps = removeProps(props, headlessDialogBooleanPropsKeysObject)
@@ -53,20 +59,17 @@ export const HeadlessDialog = (props: Props) => {
   const isWindowLarge = createMediaQuery(
     `(min-width: ${defaultTailwindCSSTheme.screens.md})`,
   )
-  const isAttached = createMemo(() => !!props.attach)
+  const isAbsolute = createMemo(() => !!props.attach?.())
+  const isFixed = createMemo(() => !isAbsolute())
   const isMaximized = createMemo(
-    () => !isAttached() && (props.maximized || state.maximized()),
+    () => !isAbsolute() && (props.maximized || state.maximized()),
   )
   const isMoveable = createMemo(
-    () => !isAttached() && !isMaximized() && !!props.moveable && !!props.handle,
+    () => !isAbsolute() && !isMaximized() && !!props.moveable && !!props.handle,
   )
-  const hasBackdrop = createMemo(
-    () =>
-      props.backdrop && !isAttached() && (props.moveable || props.resizable),
-  )
-  const isWindowed = createMemo(
-    () => isWindowLarge() && !isAttached() && !isMaximized(),
-  )
+  const hasBackdrop = createMemo(() => props.backdrop && !isAbsolute())
+  const isWindowed = createMemo(() => !isAbsolute() && !isMaximized())
+  const isInteractive = createMemo(() => isWindowLarge() && isWindowed())
   const id = createMemo(
     () =>
       `dialog-${props.title?.toLowerCase().replaceAll(' ', '-')}-${Math.floor(
@@ -93,15 +96,14 @@ export const HeadlessDialog = (props: Props) => {
     zIndexSetter: state.zIndex.set,
   })
 
-  const close: DialogCloseFunction = (element?: HTMLElement) => {
-    forceCloseChildDialogs(state.dialog(), forcedClosedChildDialogsOpenButtons)
-
-    state.value.set(
-      String(element && 'value' in element ? element.value ?? '' : ''),
-    )
-
-    state.open.set(false)
-  }
+  const close: DialogCloseFunction = createDialogCloseFunction({
+    dialog: state.dialog,
+    setOpen: state.open.set,
+    setValue: state.value.set,
+    setShow: state.show.set,
+    onCloseEnd: () => props.onCloseEnd,
+    forcedClosedChildDialogsOpenButtons,
+  })
 
   const toggle: DialogToggleFunction = (isUserEvent) => {
     if (!state.open()) {
@@ -112,7 +114,6 @@ export const HeadlessDialog = (props: Props) => {
   }
 
   const toggleMaximize: DialogToggleMaximizedFunction = () => {
-    console.log('toggle max')
     moveToFront(state.dialogsDiv, state.zIndex.set)
     state.maximized.set((b) => !b)
   }
@@ -124,11 +125,10 @@ export const HeadlessDialog = (props: Props) => {
   createEffect(() => props.onOpenCreated?.(open))
   createEffect(() => props.onCloseCreated?.(close))
   createEffect(() => props.onToggleCreated?.(toggle))
-  createEffect(() => {
-    console.log('wekfopw')
-    props.onToggleMaximizeCreated?.(toggleMaximize)
-  })
+  createEffect(() => props.onToggleMaximizeCreated?.(toggleMaximize))
   createEffect(() => props.onIdCreated?.(id()))
+  createEffect(() => props.onAbsolute?.(isAbsolute()))
+  createEffect(() => props.onMaximized?.(isMaximized()))
 
   onMount(() => {
     state.dialogsDiv.set(document.getElementById('dialogs') || undefined)
@@ -143,7 +143,11 @@ export const HeadlessDialog = (props: Props) => {
       }
     })
 
-    createRelativePositionEffect(state.dialog, props.attach)
+    createRelativePositionEffect({
+      dialog: state.dialog,
+      attach: props.attach,
+      setters: state.attached,
+    })
 
     createScrolledOutEffect({
       attach: props.attach,
@@ -158,7 +162,7 @@ export const HeadlessDialog = (props: Props) => {
         let clearClickEvent: (() => void) | undefined
         createEffect(() => {
           clearClickEvent?.()
-          if (isAttached() && state.open()) {
+          if (isAbsolute() && state.open()) {
             clearClickEvent = makeClickOutsideEventListener(
               state.dialog(),
               props.attach?.(),
@@ -204,31 +208,31 @@ export const HeadlessDialog = (props: Props) => {
         {...dialogProps}
         ref={state.dialog.set}
         id={id()}
-        // TODO: Change to something else, won't trigger if animations are disabled by a user
-        onTransitionEnd={(event: TransitionEvent) => {
-          if (event.target === state.dialog() && !state.open) {
-            props.onCloseEnd?.()
-            state.show.set(false)
-            state.dialog()?.close()
-          }
-        }}
         onMouseDown={(event: MouseEvent) => {
           event.stopPropagation()
           moveToFront(state.dialogsDiv, state.zIndex.set)
         }}
         style={{
           margin: 0,
-          position: isAttached() ? 'absolute' : 'fixed',
-          height: props.full || isMaximized() ? '100%' : undefined,
-          'max-height': isMaximized() ? '100%' : '95vh',
-          top: isMaximized() ? '0px' : 'auto',
+          position: isAbsolute() ? 'absolute' : 'fixed',
+          height: props.full?.() || isMaximized() ? '100%' : undefined,
+          width: isMaximized() ? '100%' : undefined,
+          'max-height': isMaximized() ? '100%' : undefined,
+          top: isMaximized() ? '0px' : undefined,
           display: state.show() ? 'flex' : undefined,
           'z-index': state.zIndex(),
           padding: 0,
 
-          ...(isWindowed()
+          ...(isAbsolute()
             ? {
-                bottom: '0px',
+                top: `${state.attached.top()}px`,
+                left: `${state.attached.left()}px`,
+                width: `${state.attached.width()}px`,
+              }
+            : {}),
+
+          ...(isInteractive()
+            ? {
                 top: `${state.position.top() ?? defaultTop()}px`,
                 left: `${Math.min(
                   state.position.left() ?? defaultLeft(),
@@ -252,8 +256,10 @@ export const HeadlessDialog = (props: Props) => {
           props.classes,
           state.open() && props.classesOpen,
           isMoveable() && props.classesMoveable,
-          isAttached() && props.classesAttached,
+          isAbsolute() && props.classesAbsolute,
+          isFixed() && props.classesFixed,
           isWindowed() && props.classesWindowed,
+          isMaximized() && props.classesMaximized,
         ])}
       >
         <div
@@ -263,10 +269,16 @@ export const HeadlessDialog = (props: Props) => {
             width: '100%',
           }}
         >
-          <div style={{ overflow: 'auto' }}>
-            {'max: ' + (state.maximized() ? 'true' : 'false')}
+          <div style={{ overflow: 'auto', width: '100%' }}>
             {props.children}
           </div>
+
+          <button
+            hidden
+            class={HIDDEN_CLOSE_BUTTON_CLASS}
+            onClick={() => close()}
+          />
+
           <Show when={props.resizable && !state.maximized()}>
             <DialogResizers
               dialog={state.dialog}

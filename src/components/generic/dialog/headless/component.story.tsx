@@ -3,26 +3,33 @@ import { createASS } from '/src/scripts'
 
 export const HeadlessDialogStory = () => {
   let open: DialogOpenFunction | undefined
+  let close: DialogCloseFunction | undefined
   let toggleMaximized: DialogToggleMaximizedFunction | undefined
 
   const handle = createASS<HTMLElement | undefined>(undefined)
+  const button = createASS<HTMLElement | undefined>(undefined)
+  const attach = createASS<HTMLElement | undefined>(undefined)
 
   return (
     <Label label="Dialog">
-      <Button onClick={() => open?.(true)}>Open dialog</Button>
+      <Button ref={button.set} onClick={() => open?.(true)}>
+        Open dialog
+      </Button>
       <HeadlessDialog
-        backdrop
         title="Resizable"
+        backdrop
         resizable
-        handle={handle}
         moveable
+        handle={handle}
+        attach={attach}
         onOpenCreated={(_open) => {
           open = _open
         }}
-        onToggleMaximizeCreated={(_toggle) => {
-          console.log('toggle created')
-          // _toggle()
-          toggleMaximized = _toggle
+        onCloseCreated={(_close) => {
+          close = _close
+        }}
+        onToggleMaximizeCreated={(_toggleMax) => {
+          toggleMaximized = _toggleMax
         }}
         classes={[
           // run(() => {
@@ -35,12 +42,12 @@ export const HeadlessDialogStory = () => {
           // }),
           'bg-white',
 
-          'border-black/5 text-black opacity-0 transition duration-150 backdrop:bg-transparent open:flex motion-reduce:transform-none motion-reduce:transition-none',
+          'border-black/5 text-black opacity-0 transition duration-150 backdrop:bg-transparent motion-reduce:transform-none motion-reduce:transition-none',
         ]}
         classesOpen="open:translate-x-0 open:opacity-100"
         classesMoveable="md:shadow-xl md:drop-shadow-lg"
-        classesAttached="max-h-[40vh] min-w-[12rem] space-y-1.5 rounded-xl border-2"
-        classesWindowed="top-auto mt-[5vh] max-h-[95vh] rounded-t-2xl border-t-2 md:mt-0 md:h-fit md:max-h-[32rem] md:max-w-2xl md:rounded-b-2xl md:border-2 w-full max-w-full space-y-3"
+        classesAbsolute="max-h-[40vh] min-w-[12rem] space-y-1.5 rounded-xl border-2"
+        classesWindowed="bottom-0 top-auto mt-[5vh] max-h-[95vh] rounded-t-2xl border-t-2 md:mt-0 md:h-fit md:max-h-[32rem] w-full max-w-full space-y-3 md:rounded-b-2xl md:border-2  md:max-w-2xl"
       >
         <div class="p-4">
           <p
@@ -50,6 +57,24 @@ export const HeadlessDialogStory = () => {
           >
             Resizable dialog (handle)
           </p>
+          <Button
+            onClick={() => {
+              if (attach()) {
+                attach.set(undefined)
+              } else {
+                attach.set(button())
+              }
+            }}
+          >
+            {!attach() ? 'Attach' : 'Detach'}
+          </Button>
+          <Button
+            onClick={() => {
+              close?.()
+            }}
+          >
+            Close dialog
+          </Button>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Proin

@@ -1,5 +1,5 @@
 interface Props extends ParentProps {
-  close: (element?: HTMLElement) => void
+  close: Accessor<DialogCloseFunction | undefined>
 }
 
 export const DialogForm = (props: Props) => {
@@ -9,7 +9,7 @@ export const DialogForm = (props: Props) => {
       method="dialog"
       onSubmit={(event) => {
         event.preventDefault()
-        props.close(event.submitter)
+        props.close()?.(event.submitter)
       }}
     >
       {props.children}

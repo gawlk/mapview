@@ -2,11 +2,10 @@ import { classPropToString } from '/src/components'
 import { run } from '/src/scripts'
 
 import { DialogForm } from '.'
-import { HIDDEN_CLOSE_BUTTON_CLASS } from '../scripts'
 
 interface Props extends ParentProps {
-  isAttached: boolean
-  close: (element?: HTMLElement) => void
+  isAbsolute: boolean
+  close: Accessor<DialogCloseFunction | undefined>
   color?: ColorProp
   footer?: JSXElement // TODO
   form?: JSXElement
@@ -21,7 +20,7 @@ export const DialogBody = (props: Props) => {
 
           let classes = '!mt-0 '
 
-          if (props.isAttached) {
+          if (props.isAbsolute) {
             classes += `px-2 `
             if (props.footer) {
               classes += 'py-1.5'
@@ -47,16 +46,10 @@ export const DialogBody = (props: Props) => {
         'overscroll-behavior': 'contain',
       }}
     >
-      <button
-        hidden
-        class={HIDDEN_CLOSE_BUTTON_CLASS}
-        onClick={() => props.close()}
-      />
-
       {props.children}
 
       <Show when={props.form}>
-        <DialogForm close={props.close} children={props.form} />
+        <DialogForm close={() => props.close()} children={props.form} />
       </Show>
     </div>
   )

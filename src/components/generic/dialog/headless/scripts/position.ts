@@ -8,10 +8,15 @@ import {
 import { createIntersectionObserver } from '@solid-primitives/intersection-observer'
 import { useWindowSize } from '@solid-primitives/resize-observer'
 
-export const createRelativePositionEffect = (
-  _dialog: Accessor<HTMLDialogElement | undefined>,
-  _attach?: Accessor<HTMLElement>,
-) =>
+export const createRelativePositionEffect = ({
+  dialog: _dialog,
+  attach: _attach,
+  setters,
+}: {
+  dialog: Accessor<HTMLDialogElement | undefined>
+  attach?: Accessor<HTMLElement | undefined>
+  setters?: DialogAttached
+}) =>
   createEffect(() => {
     const dialog = _dialog()
     const attach = _attach?.()
@@ -47,11 +52,9 @@ export const createRelativePositionEffect = (
               ],
             })
 
-            Object.assign(dialog.style, {
-              left: `${x}px`,
-              top: `${y}px`,
-              width: `${attach?.clientWidth}px`,
-            })
+            setters?.left.set(x)
+            setters?.top.set(y)
+            setters?.width.set(attach?.clientWidth)
           })
         }
       }),

@@ -5,7 +5,7 @@ export const createScrolledOutEffect = ({
   open,
   close,
 }: {
-  attach: Accessor<HTMLElement> | undefined
+  attach?: Accessor<HTMLElement | undefined>
   open: Accessor<boolean>
   close: DialogCloseFunction
 }) =>

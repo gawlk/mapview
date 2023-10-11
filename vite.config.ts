@@ -78,8 +78,6 @@ export default defineConfig({
       icons: {
         favicons: {
           source: logoPath,
-          background: white,
-          offset: 5,
         },
         android: {
           source: logoPath,

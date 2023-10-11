@@ -1,7 +1,7 @@
 import { Button } from '/src/components'
 
 interface Props {
-  close: () => void
+  close?: DialogCloseFunction
 }
 
 export const DialogButtonClose = (props: Props) => {
@@ -10,7 +10,7 @@ export const DialogButtonClose = (props: Props) => {
       color="red"
       size="xs"
       icon={IconTablerX}
-      onClick={() => props.close()}
+      onClick={() => props.close?.()}
       onMouseDown={(event) => event.stopPropagation()}
       class="mr-4"
     />

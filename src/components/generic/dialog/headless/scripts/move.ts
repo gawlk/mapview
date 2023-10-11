@@ -35,7 +35,7 @@ export const createMovingEffect = (
 
       createEffect(
         on(
-          moving,
+          () => isMoveable() && moving(),
           (_moving) =>
             _moving &&
             moveDialog(

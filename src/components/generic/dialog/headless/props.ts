@@ -1,4 +1,4 @@
-export const headlessDialogBooleanPropsKeysObject: BooleanPropsKeysObject<HeadlessDialogPropsOnly> =
+export const headlessDialogBooleanPropsKeysObject: BooleanPropsKeysObject<HeadlessDialogProps> =
   {
     component: true,
     attach: true,
@@ -32,13 +32,17 @@ export const headlessDialogBooleanPropsKeysObject: BooleanPropsKeysObject<Headle
     onOpen: true,
     onClose: true,
     onCloseEnd: true,
+    onAbsolute: true,
+    onMaximized: true,
 
     backdrop: true,
     classes: true,
     classesMoveable: true,
     classesOpen: true,
-    classesAttached: true,
+    classesAbsolute: true,
     classesWindowed: true,
+    classesMaximized: true,
+    classesFixed: true,
     dimensions: true,
     position: true,
   }

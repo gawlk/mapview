@@ -13,7 +13,9 @@ export const translate = (value: string) => {
 
   if (locale === 'fr' && value in translations.fr) {
     return translations.fr[value]
-  } else if (value in translations.en) {
+  }
+
+  if (value in translations.en) {
     return translations.en[value]
   }
 

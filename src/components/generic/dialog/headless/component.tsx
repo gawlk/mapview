@@ -27,6 +27,7 @@ import {
 
 type Props = HeadlessDialogPropsWithHTMLAttributes
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export const HeadlessDialog = (props: Props) => {
   const state = {
     show: createASS(false),

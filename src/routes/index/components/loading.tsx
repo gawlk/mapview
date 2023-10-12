@@ -1,7 +1,7 @@
-import { useI18n } from '@solid-primitives/i18n'
+import { useAppState } from '/src/index'
 
 export const Loading = () => {
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   return (
     <div

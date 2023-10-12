@@ -1,6 +1,5 @@
-import { useI18n } from '@solid-primitives/i18n'
-
 import { Label } from '/src/components'
+import { useAppState } from '/src/index'
 
 import { DetailsLoad } from './components/detailsLoad'
 import { DetailsTemperature } from './components/detailsTemperature'
@@ -10,7 +9,7 @@ interface Props {
 }
 
 export const HeavydynCorrections = (props: Props) => {
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   return (
     <Label size="lg" label={t('Corrections')} class="space-y-4">

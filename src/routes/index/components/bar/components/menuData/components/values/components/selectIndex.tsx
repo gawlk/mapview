@@ -1,11 +1,10 @@
-import { useI18n } from '@solid-primitives/i18n'
-
 import { DialogSelect, SpanDropIndex } from '/src/components'
+import { useAppState } from '/src/index'
 import { run } from '/src/scripts'
 import { store } from '/src/store'
 
 export const SelectIndex = () => {
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   const selectedDataLabelGroup = createMemo(
     () => store.selectedReport?.dataLabels.groups.selected,
@@ -19,7 +18,7 @@ export const SelectIndex = () => {
 
         return (
           <DialogSelect
-            title="Select a source"
+            title={t('Select a source')}
             button={{
               label: t('Index'),
               leftIcon: IconTablerListNumbers,

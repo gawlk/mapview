@@ -31,6 +31,7 @@ interface Props<T> {
     index: Accessor<number>,
   ) => JSXElement
   onChange: (from: number, to: number) => void
+  disabled?: boolean
   draggedClasses?: ClassProp
 }
 
@@ -89,72 +90,87 @@ export const SortableList = <T,>(props: Props<T>) => {
   )
 
   return (
-    <DragDropProvider
-      onDragStart={({ draggable }) => {
-        const element = sortables.get(draggable.id)
-
-        if (element) {
-          setState({
-            directParent: element.parentElement,
-            scrollableParent: getScrollableParent(element, props.orientation),
-          })
-        }
-
-        setState({
-          activeItem: draggable.id,
-          startingScrollX: scrollableParentScroll.x,
-          startingScrollY: scrollableParentScroll.y,
-        })
-      }}
-      onDragEnd={createOnDragEnd(ids, props.onChange, () =>
-        setState('activeItem', null),
-      )}
-      collisionDetector={createColliderCenter(
-        scrollableParentScroll.x - state.startingScrollX,
-        scrollableParentScroll.y - state.startingScrollY,
-      )}
-    >
-      <DragDropSensors />
-
-      <SortableProvider ids={ids()}>
+    <Show
+      when={!props.disabled}
+      fallback={
         <For each={props.list}>
-          {(item, index) => {
-            const id = props.itemToId(item)
-            const sortable = createSortable(id)
-            const context = useDragDropContext()
-
-            return (
-              <Dynamic
-                component={() =>
-                  props.component(
-                    (element) =>
-                      createRefCallback(
-                        element,
-                        sortable,
-                        sortables,
-                        id,
-                        isDraggedClasses,
-                        () => !!context?.[0].active.draggable,
-                      ),
-                    item,
-                    index,
-                  )
-                }
-              />
-            )
-          }}
+          {(item, index) => (
+            <Dynamic
+              component={() =>
+                props.component((element) => element, item, index)
+              }
+            />
+          )}
         </For>
-      </SortableProvider>
+      }
+    >
+      <DragDropProvider
+        onDragStart={({ draggable }) => {
+          const element = sortables.get(draggable.id)
 
-      <DragOverlay
-        style={{
-          'z-index': 99999,
+          if (element) {
+            setState({
+              directParent: element.parentElement,
+              scrollableParent: getScrollableParent(element, props.orientation),
+            })
+          }
+
+          setState({
+            activeItem: draggable.id,
+            startingScrollX: scrollableParentScroll.x,
+            startingScrollY: scrollableParentScroll.y,
+          })
         }}
+        onDragEnd={createOnDragEnd(ids, props.onChange, () =>
+          setState('activeItem', null),
+        )}
+        collisionDetector={createColliderCenter(
+          scrollableParentScroll.x - state.startingScrollX,
+          scrollableParentScroll.y - state.startingScrollY,
+        )}
       >
-        <Show when={draggedElement()}>
-          {(element) => <Dynamic component={element} />}
-        </Show>
-      </DragOverlay>
-    </DragDropProvider>
+        <DragDropSensors />
+
+        <SortableProvider ids={ids()}>
+          <For each={props.list}>
+            {(item, index) => {
+              const id = props.itemToId(item)
+              const sortable = createSortable(id)
+              const context = useDragDropContext()
+
+              return (
+                <Dynamic
+                  component={() =>
+                    props.component(
+                      (element) =>
+                        createRefCallback(
+                          element,
+                          sortable,
+                          sortables,
+                          id,
+                          isDraggedClasses,
+                          () => !!context?.[0].active.draggable,
+                        ),
+                      item,
+                      index,
+                    )
+                  }
+                />
+              )
+            }}
+          </For>
+        </SortableProvider>
+
+        <DragOverlay
+          style={{
+            'z-index': 99999,
+          }}
+        >
+          <Show when={draggedElement()}>
+            {(element) => <Dynamic component={element} />}
+          </Show>
+        </DragOverlay>
+      </DragDropProvider>
+    </Show>
   )
 }

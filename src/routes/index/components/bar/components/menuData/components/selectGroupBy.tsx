@@ -1,16 +1,15 @@
-import { useI18n } from '@solid-primitives/i18n'
-
 import { DialogSelect } from '/src/components'
+import { useAppState } from '/src/index'
 import { store } from '/src/store'
 
 export const SelectGroupBy = () => {
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   const groupBys = ['Number', 'Zone'] as ReportGroupBy[]
 
   return (
     <DialogSelect
-      title="Select a group by"
+      title={t('Select a group by')}
       button={{
         label: t('Group by'),
         full: true,

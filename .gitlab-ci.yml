@@ -1,5 +1,19 @@
 image: node:latest
 
+cache:
+  key:
+    files:
+      - pnpm-lock.yaml
+  paths:
+    - node_modules/
+    - .pnpm-store/
+
+default:
+  before_script:
+    - corepack enable
+    - corepack prepare pnpm@latest-8 --activate
+    - pnpm config set store-dir .pnpm-store
+
 .git_config: &git_config
   - mkdir ~/.ssh/
   - ssh-keyscan $CI_SERVER_HOST > ~/.ssh/known_hosts
@@ -16,11 +30,63 @@ image: node:latest
   - git push --tags ssh_origin
 
 stages:
+  - dependencies
   - build
   - test
   - version
 
-version-2:
+dependencies:
+  stage: dependencies
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push" && ($CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "prod")
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+  script:
+    - pnpm install
+  tags:
+    - shared
+
+build:
+  stage: build
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push" && ($CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "prod")
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+  script:
+    - pnpm j build
+  tags:
+    - shared
+
+test-types:
+  stage: test
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push" && ($CI_COMMIT_BRANCH == "master" || $CI_COMMIT_BRANCH == "prod")
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+  script:
+    - pnpm j check
+    - pnpm j lint-fix
+  tags:
+    - shared
+
+test-unit:
+  stage: test
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+  script:
+    - pnpm j test
+  tags:
+    - shared
+
+test-e2e:
+  stage: test
+  image: mcr.microsoft.com/playwright:v1.31.0-focal
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+  script:
+    - pnpm exec playwright install
+    - pnpm j test-e2e
+  tags:
+    - shared
+
+version:
   stage: version
   variables:
     BRANCH_NAME: 'prod'
@@ -30,49 +96,10 @@ version-2:
   before_script:
     - *git_config
   script:
-    - npx pnpm install json --save-dev --store=node_modules/.pnpm-store
-    - npx pnpm json -I -f package.json -e "const versionPart = this.version.split('.');this.version=versionPart[0] + '.' + versionPart[1] + '.' + (Number(versionPart[2]) + 1)"
+    - pnpm install json --save-dev --store=node_modules/.pnpm-store
+    - pnpm json -I -f package.json -e "const versionPart = this.version.split('.');this.version=versionPart[0] + '.' + versionPart[1] + '.' + (Number(versionPart[2]) + 1)"
     - git add package.json
     - git commit -m "update version [ci skip]"
     - git push ssh_origin HEAD:$CI_COMMIT_REF_NAME
   after_script:
     - *git_tag
-
-test-build:
-  stage: build
-  rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-
-  script:
-    - npx pnpm i
-    - npx pnpm build
-
-test-vitest:
-  stage: test
-  rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-
-  script:
-    - npx pnpm i
-    - npx pnpm check
-    - npx pnpm test
-
-test-playwright:
-  stage: test
-  image: mcr.microsoft.com/playwright:v1.31.0-focal
-  rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-
-  script:
-    - npx pnpm i
-    - npx pnpm check
-    - npx playwright install
-    - npx playwright test
-
-test-ts:
-  stage: test
-  rules:
-    - if: $CI_COMMIT_TAG
-  script:
-    - npx pnpm check
-    - npx pnpm eslint --fix ./src

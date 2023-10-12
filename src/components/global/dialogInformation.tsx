@@ -1,6 +1,5 @@
-import { useI18n } from '@solid-primitives/i18n'
-
 import { Button, Dialog, Input, InputDataList, Label } from '/src/components'
+import { useAppState } from '/src/index'
 
 interface Props {
   bulks: {
@@ -10,7 +9,7 @@ interface Props {
 }
 
 export const DialogInformation = (props: Props) => {
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   const [state, setState] = createStore({
     open: false,
@@ -117,7 +116,7 @@ export const DialogInformation = (props: Props) => {
                             input = ref
                           }}
                           full
-                          label={t(field.label)}
+                          label={t(field.label) || field.label}
                           readOnly={readOnly()}
                           long={isLongString}
                           value={value as string | number}
@@ -142,8 +141,8 @@ export const DialogInformation = (props: Props) => {
                             id={id()}
                             label={t(field.label)}
                             value={fieldValue().value}
-                            list={fieldValue().possibleValues.map((_value) =>
-                              t(_value, undefined, _value),
+                            list={fieldValue().possibleValues.map(
+                              (_value) => t(_value) || _value,
                             )}
                             onInput={onInput}
                           />

@@ -30,6 +30,7 @@ export const Interactive = (props: Props) => {
       bgHoverColor={props.kind !== 'static' ? props.bgHoverColor : null}
       orientation={props.orientation || props.icon ? undefined : 'horizontal'}
       disabled={disabled()}
+      fontSize={props.fontSize || props.size || 'sm'}
       class={[
         // Width
         props.full && 'w-full min-w-0',
@@ -67,6 +68,8 @@ export const Interactive = (props: Props) => {
 
         // Because 'inline-flex' has priority over hidden attribute
         !props.hidden && 'inline-flex items-center',
+
+        'font-medium',
 
         props.class,
       ]}

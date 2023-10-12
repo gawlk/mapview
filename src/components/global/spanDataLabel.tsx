@@ -1,4 +1,4 @@
-import { useI18n } from '@solid-primitives/i18n'
+import { useAppState } from '/src/index'
 
 interface Props {
   dataLabel: DataLabel<string>
@@ -6,11 +6,11 @@ interface Props {
 }
 
 export const SpanDataLabel = (props: Props) => {
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   return (
     <span class="flex-1 truncate text-left">
-      {props.dataLabel.name}
+      {t(props.dataLabel.name) || props.dataLabel.name}
       <Show when={props.includeCategory}>
         <span class="text-black/50">{` - ${t(
           props.dataLabel.category.name,

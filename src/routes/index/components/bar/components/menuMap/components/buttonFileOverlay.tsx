@@ -1,11 +1,10 @@
-import { useI18n } from '@solid-primitives/i18n'
-
 import { ButtonFile } from '/src/components'
+import { useAppState } from '/src/index'
 import { convertFileToDataURL, createOverlay } from '/src/scripts'
 import { store } from '/src/store'
 
 export const ButtonFileOverlay = () => {
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   const hasOverlays = createMemo(() => store.selectedProject?.overlays.length)
 

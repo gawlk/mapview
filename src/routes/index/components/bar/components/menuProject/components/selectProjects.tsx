@@ -1,7 +1,6 @@
-import { useI18n } from '@solid-primitives/i18n'
-
 import { DialogSelect } from '/src/components'
 import { env } from '/src/env'
+import { useAppState } from '/src/index'
 import { hasRawData } from '/src/scripts'
 import { store } from '/src/store'
 
@@ -18,7 +17,7 @@ const getMachineIcon = (machine: MachineName) => {
 }
 
 export const SelectProject = () => {
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   const convertProjectToName = (project: MachineProject) =>
     env.isDev && hasRawData(project)
@@ -27,7 +26,7 @@ export const SelectProject = () => {
 
   return (
     <DialogSelect
-      title="Select a project"
+      title={t('Select a project')}
       attached
       button={{
         class: 'flex-1 min-w-0',

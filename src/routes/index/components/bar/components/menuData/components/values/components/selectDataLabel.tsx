@@ -1,11 +1,10 @@
-import { useI18n } from '@solid-primitives/i18n'
-
 import { DialogSelect, SpanDataLabel } from '/src/components'
+import { useAppState } from '/src/index'
 import { groupDataLabelsByCategory } from '/src/scripts'
 import { store } from '/src/store'
 
 export const SelectDataLabel = () => {
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   const selectedDataLabelGroupChoices = createMemo(
     () => store.selectedReport?.dataLabels.groups.selected?.choices,
@@ -26,7 +25,7 @@ export const SelectDataLabel = () => {
 
   return (
     <DialogSelect
-      title="Select a label"
+      title={t('Select a label')}
       button={{
         label: t('Label'),
         leftIcon: IconTablerListSearch,

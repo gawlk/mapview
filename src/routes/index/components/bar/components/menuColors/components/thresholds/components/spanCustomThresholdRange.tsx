@@ -1,4 +1,4 @@
-import { useI18n } from '@solid-primitives/i18n'
+import { useAppState } from '/src/index'
 
 interface Props {
   name: string
@@ -10,7 +10,7 @@ interface Props {
 }
 
 export const SpanCustomThresholdRange = (props: Props) => {
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   const formatValue = (value?: number) =>
     `${props.mathUnit?.baseToCurrent(value || 0).toLocaleString()} ${props
@@ -37,18 +37,12 @@ export const SpanCustomThresholdRange = (props: Props) => {
     <Show
       when={equals()}
       fallback={
-        <span>{`${t(
-          props.name || '',
-          undefined,
-          props.name,
-        )} = ${formattedTo()}`}</span>
+        <span>{`${t(props.name) || props.name} = ${formattedTo()}`}</span>
       }
     >
-      <span>{`${formattedFrom()} ≤ ${t(
-        props.name || '',
-        undefined,
-        props.name,
-      )} ${props.last ? '≤' : '<'} ${formattedTo()}`}</span>
+      <span>{`${formattedFrom()} ≤ ${t(props.name) || props.name} ${
+        props.last ? '≤' : '<'
+      } ${formattedTo()}`}</span>
     </Show>
   )
 }

@@ -19,7 +19,6 @@ export const MenuData = () => {
           {(group) => (
             <TablePointsGroupedBy
               colored
-              sortable
               cellWidthClass="w-[30%]"
               from={group().from}
               index={

@@ -1,11 +1,10 @@
-import { useI18n } from '@solid-primitives/i18n'
-
 import { Button } from '/src/components'
+import { useAppState } from '/src/index'
 import { downloadFile, mpvzExporter } from '/src/scripts'
 import { store } from '/src/store'
 
 export const ButtonSave = () => {
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   const save = async () =>
     store.selectedProject &&

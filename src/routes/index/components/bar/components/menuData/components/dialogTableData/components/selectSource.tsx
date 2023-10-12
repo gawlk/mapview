@@ -1,10 +1,9 @@
-import { useI18n } from '@solid-primitives/i18n'
-
 import { DialogSelect } from '/src/components'
+import { useAppState } from '/src/index'
 import { store } from '/src/store'
 
 export const SelectSource = () => {
-  const [t] = useI18n()
+  const { t } = useAppState()
 
   const tableDataLabels = createMemo(
     () => store.selectedReport?.dataLabels.table,
@@ -12,7 +11,7 @@ export const SelectSource = () => {
 
   return (
     <DialogSelect
-      title="Select a source"
+      title={t('Select a source')}
       attached
       button={{
         label: t('Source'),

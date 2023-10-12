@@ -209,8 +209,8 @@ devDependencies:
     specifier: ^0.16.5
     version: 0.16.5(vite@4.4.11)(workbox-build@7.0.0)(workbox-window@7.0.0)
   vite-plugin-solid:
-    specifier: ^2.7.1
-    version: 2.7.1(solid-js@1.8.1)(vite@4.4.11)
+    specifier: ^2.7.0
+    version: 2.7.0(solid-js@1.8.1)(vite@4.4.11)
   vite-plugin-solid-svg:
     specifier: ^0.7.0
     version: 0.7.0(solid-js@1.8.1)(vite@4.4.11)
@@ -7110,8 +7110,8 @@ packages:
       vite: 4.4.11(@types/node@20.8.4)
     dev: true
 
-  /vite-plugin-solid@2.7.1(solid-js@1.8.1)(vite@4.4.11):
-    resolution: {integrity: sha512-1rTuJdsDqCZiAWfiEkUeRRz4MaxWhqzgJ6PURN+bBSp4uACA/esgYN9Un++YE+xeXUOHlOwTF+VSdvieEcMz0w==}
+  /vite-plugin-solid@2.7.0(solid-js@1.8.1)(vite@4.4.11):
+    resolution: {integrity: sha512-avp/Jl5zOp/Itfo67xtDB2O61U7idviaIp4mLsjhCa13PjKNasz+IID0jYTyqUp9SFx6/PmBr6v4KgDppqompg==}
     peerDependencies:
       solid-js: ^1.7.2
       vite: ^3.0.0 || ^4.0.0

@@ -2,8 +2,6 @@ import { type MousePositionInside } from '@solid-primitives/mouse'
 
 import { clamp } from '/src/scripts'
 
-// TODO: Snap
-
 const minWidth = 320
 const minHeight = 100
 
@@ -11,8 +9,8 @@ export const resizeDialog = (
   dialog: HTMLDialogElement | undefined,
   mousePosition: MousePositionInside,
   direction: DialogResizeDirection,
-  setDimensions: (dimensions: Partial<DialogDimensions>) => void,
-  setPosition: (position: Partial<DialogPosition>) => void,
+  dimensions: DialogDimensions,
+  position: DialogPosition,
 ) => {
   if (!dialog) return
 
@@ -71,18 +69,20 @@ export const resizeDialog = (
       dialogOffsetVertical,
     )
 
-    setPosition({
-      top: isAnyNorth
+    position.top.set(
+      isAnyNorth
         ? Math.min(dialogOffsetTop - heightIncrement, maxDialogOffsetTop)
         : dialogOffsetTop,
-      left: isAnyWest
+    )
+
+    position.left.set(
+      isAnyWest
         ? Math.min(dialogOffsetLeft - widthIncrement, maxDialogOffsetLeft)
         : dialogOffsetLeft,
-    })
+    )
 
-    setDimensions({
-      width: Math.max(dialogWidth + widthIncrement, minWidth),
-      height: Math.max(dialogHeight + heightIncrement, minHeight),
-    })
+    dimensions.width.set(Math.max(dialogWidth + widthIncrement, minWidth))
+
+    dimensions.height.set(Math.max(dialogHeight + heightIncrement, minHeight))
   })
 }

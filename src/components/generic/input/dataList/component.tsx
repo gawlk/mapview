@@ -55,7 +55,7 @@ export const InputDataList = (props: Props) => {
 
       <DialogCore
         {...dialogProps}
-        attach={state.wrapper}
+        attach={() => state.wrapper}
         onIdCreated={(id) => setState('id', id)}
         onOpenCreated={(open) => {
           openDialog = open

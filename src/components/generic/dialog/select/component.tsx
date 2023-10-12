@@ -29,7 +29,7 @@ export const DialogSelect = (props: DialogSelectPropsWithHTMLAttributes) => {
     }
   }
 
-  const isAttached = createMemo(() => !!props.attached)
+  const isAbsolute = createMemo(() => !!props.attached)
 
   const getDialogButtonText = () => {
     const option =
@@ -74,7 +74,7 @@ export const DialogSelect = (props: DialogSelectPropsWithHTMLAttributes) => {
       }}
       sticky={
         props.search ? (
-          <div class={classPropToString([isAttached() ? 'px-2 pt-2' : 'px-4'])}>
+          <div class={classPropToString([isAbsolute() ? 'px-2 pt-2' : 'px-4'])}>
             <Input
               {...props.search}
               leftIcon={IconTablerListSearch}
@@ -90,7 +90,7 @@ export const DialogSelect = (props: DialogSelectPropsWithHTMLAttributes) => {
         /* TODO: Add props component that would be displayed before this div */
         <div
           class={classPropToString([
-            isAttached() ? 'space-y-1.5' : 'space-y-2',
+            isAbsolute() ? 'space-y-1.5' : 'space-y-2',
           ])}
         >
           <DialogOptions input={state.input} options={props.values} />

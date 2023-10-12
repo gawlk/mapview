@@ -47,7 +47,7 @@ export const Dialog = (props: Props) => {
       <DialogCore
         {...dialogProps}
         title={props.title || props.button?.text?.toString()}
-        {...(props.attached ? { attach: state.button } : {})}
+        {...(props.attached ? { attach: () => state.button } : {})}
         onIdCreated={(id) => setState('id', id)}
         onToggleCreated={(toggle) => {
           toggleDialog = toggle

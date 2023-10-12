@@ -1,4 +1,4 @@
-type DialogColorProps = DialogColorPropsOnly & DialogProps
+type DialogColorProps = DialogColorPropsOnly & DialogClassicProps
 
 interface DialogColorPropsOnly {
   selected?: ColorName

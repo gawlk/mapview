@@ -1,4 +1,4 @@
-type DialogDateProps = DialogDatePropsOnly & DialogProps
+type DialogDateProps = DialogDatePropsOnly & DialogClassicProps
 
 interface DialogDatePropsOnly extends SaveableProps {
   value: Date

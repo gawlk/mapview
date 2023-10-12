@@ -6,8 +6,6 @@ export const DialogStory = () => {
       <Dialog
         closeable
         maximizable
-        moveable
-        resizable
         button={{
           text: 'Base',
         }}

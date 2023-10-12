@@ -11,7 +11,7 @@ export const SelectSource = () => {
 
   return (
     <DialogSelect
-      title="Select a source"
+      title={t('Select a source')}
       attached
       button={{
         label: t('Source'),

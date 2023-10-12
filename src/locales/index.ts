@@ -1,17 +1,25 @@
+import translationsEN from '/src/locales/en.json?raw'
 import translationsFR from '/src/locales/fr.json?raw'
 
 export * from './dictionaries'
 
 const translations = {
   fr: JSON.parse(translationsFR),
+  en: JSON.parse(translationsEN),
 }
 
 export const translate = (value: string) => {
   const locale = getBrowserLocale(true)
 
-  return locale === 'fr' && value in translations.fr
-    ? translations.fr[value]
-    : value
+  if (locale === 'fr' && value in translations.fr) {
+    return translations.fr[value]
+  }
+
+  if (value in translations.en) {
+    return translations.en[value]
+  }
+
+  return value
 }
 
 export const getBrowserLocale = (languageCodeOnly: boolean = false) => {

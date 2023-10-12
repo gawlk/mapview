@@ -18,7 +18,7 @@ export const SelectIndex = () => {
 
         return (
           <DialogSelect
-            title="Select a source"
+            title={t('Select a source')}
             button={{
               label: t('Index'),
               leftIcon: IconTablerListNumbers,

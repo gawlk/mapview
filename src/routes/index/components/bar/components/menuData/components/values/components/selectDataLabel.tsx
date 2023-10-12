@@ -25,7 +25,7 @@ export const SelectDataLabel = () => {
 
   return (
     <DialogSelect
-      title="Select a label"
+      title={t('Select a label')}
       button={{
         label: t('Label'),
         leftIcon: IconTablerListSearch,

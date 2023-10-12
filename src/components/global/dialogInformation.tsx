@@ -116,7 +116,7 @@ export const DialogInformation = (props: Props) => {
                             input = ref
                           }}
                           full
-                          label={t(field.label)}
+                          label={t(field.label) || field.label}
                           readOnly={readOnly()}
                           long={isLongString}
                           value={value as string | number}

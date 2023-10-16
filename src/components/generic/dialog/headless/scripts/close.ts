@@ -2,7 +2,7 @@ import { forceCloseChildDialogs } from './children'
 
 export const createDialogCloseFunction =
   ({
-    dialog,
+    dialog: _dialog,
     setOpen,
     setValue,
     setShow,
@@ -17,21 +17,26 @@ export const createDialogCloseFunction =
     forcedClosedChildDialogsOpenButtons: HTMLButtonElement[]
   }): DialogCloseFunction =>
   (element?: HTMLElement) => {
-    forceCloseChildDialogs(dialog(), forcedClosedChildDialogsOpenButtons)
+    const dialog = _dialog()
+
+    forceCloseChildDialogs(dialog, forcedClosedChildDialogsOpenButtons)
 
     setValue(String(element && 'value' in element ? element.value ?? '' : ''))
 
     setOpen(false)
 
-    setTimeout(
-      () => {
-        onCloseEnd()?.()
-        setShow(false)
-        dialog()?.close()
-      },
-      ((dialog()?.computedStyleMap().get('transition-duration') as CSSUnitValue)
-        ?.value || 0) * 1000,
-    )
+    const transitionDurationStyle = dialog
+      ? window.getComputedStyle(dialog).transitionDuration
+      : undefined
+    const transitionDuration = transitionDurationStyle
+      ? Number(transitionDurationStyle.slice(0, -1)) * 1000
+      : 1
+
+    setTimeout(() => {
+      onCloseEnd()?.()
+      setShow(false)
+      dialog?.close()
+    }, transitionDuration)
   }
 
 export const createOnCloseEffect = ({

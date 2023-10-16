@@ -222,6 +222,10 @@ export const createBasePointFromJSON = <
         )
       })
 
+      this.information.forEach((field) => {
+        appendToPopup(translate(field.label), String(field.getValue()))
+      })
+
       this.marker?.setPopup(new Popup().setHTML(html))
     },
     addToMap() {

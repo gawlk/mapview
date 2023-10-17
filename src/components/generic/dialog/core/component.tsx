@@ -17,8 +17,10 @@ type Props = DialogPropsWithHTMLAttributes
 export const DialogCore = (props: Props) => {
   const dialogProps = removeProps(props, dialogBooleanPropsKeysObject)
 
-  let close: DialogCloseFunction | undefined
-  let toggleMaximized: DialogToggleMaximizedFunction | undefined
+  const close = createASS<DialogCloseFunction | undefined>(undefined)
+  const toggleMaximized = createASS<DialogToggleMaximizedFunction | undefined>(
+    undefined,
+  )
 
   const absolute = createASS(false)
   const maximized = createASS(false)
@@ -29,10 +31,10 @@ export const DialogCore = (props: Props) => {
       {...dialogProps}
       backdrop={!props.moveable && !props.resizable}
       onCloseCreated={(_close) => {
-        close = _close
+        close.set(() => _close)
       }}
       onToggleMaximizeCreated={(_toggleMax) => {
-        toggleMaximized = _toggleMax
+        toggleMaximized.set(() => _toggleMax)
       }}
       classes={[
         run(() => {
@@ -63,8 +65,8 @@ export const DialogCore = (props: Props) => {
             moveable={props.moveable}
             closeable={props.closeable}
             title={props.title}
-            close={() => close}
-            toggleMaximized={() => toggleMaximized}
+            close={close}
+            toggleMaximized={toggleMaximized}
           />
 
           <DialogDivider class="!mt-0" color={props.color} />
@@ -78,7 +80,7 @@ export const DialogCore = (props: Props) => {
         <DialogBody
           color={props.color}
           isAbsolute={absolute()}
-          close={() => close}
+          close={close}
           footer={props.footer}
           children={props.children}
           form={props.form}
@@ -88,7 +90,7 @@ export const DialogCore = (props: Props) => {
           <DialogDivider class="!mt-0" color={props.color} />
 
           <div class="flex items-center px-4 pb-4">
-            <DialogForm close={() => close} children={props.footer} />
+            <DialogForm close={close} children={props.footer} />
           </div>
         </Show>
       </div>

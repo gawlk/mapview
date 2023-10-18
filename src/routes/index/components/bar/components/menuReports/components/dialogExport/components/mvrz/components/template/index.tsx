@@ -2,7 +2,7 @@ import localForage from 'localforage'
 
 import { Button, ButtonFile } from '/src/components'
 import { useAppState } from '/src/index'
-import { downloadFile } from '/src/scripts'
+import { convertData64ToFile, downloadFile } from '/src/scripts'
 import { store } from '/src/store'
 
 import { getTemplateKey } from './scripts'
@@ -29,7 +29,11 @@ export const Template = (props: Props) => {
   createEffect(async () => {
     const file: AnyFile = await localForage.getItem(key())
 
-    setState('file', file || null)
+    if (file.data64) {
+      void updateFile(convertData64ToFile(file.data64, file.name))
+    } else {
+      setState('file', file || null)
+    }
   })
 
   const updateFile = async (file: File | undefined) => {

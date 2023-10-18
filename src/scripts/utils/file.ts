@@ -77,7 +77,7 @@ export const convertData64ToFile = (
   options?: FilePropertyBag | undefined,
 ) =>
   new File(
-    [convertBase64toBlob(data64.split('base64,')[1], 'image/png')],
+    [convertBase64toBlob(data64.split('base64,')[1], options?.type)],
     fileName || 'file',
     options,
   )

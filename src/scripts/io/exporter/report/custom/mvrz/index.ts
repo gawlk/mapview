@@ -8,6 +8,8 @@ import {
   unzipFile,
 } from '/src/scripts'
 
+import { i18n } from '/src/main'
+
 export const mvrzExporter = {
   name: '.mvrz (Excel)',
   export: async (project: MachineProject, template?: File) => {
@@ -335,6 +337,9 @@ const generateHeavydynData = (project: HeavydynProject): ExcelJSON => {
     correctionParameters: { load, temperature },
   } = project
 
+  // @ts-expect-error - ignore deep error
+  const { t } = i18n.global
+
   return {
     ...generateCalibrations(project.calibrations),
     ...{
@@ -355,7 +360,7 @@ const generateHeavydynData = (project: HeavydynProject): ExcelJSON => {
       [`CorrectionParameters_Temperature_ReferenceTemperature`]:
         temperature.reference.value,
       [`CorrectionParameters_Temperature_StructureType_Name`]:
-        temperature.structureType.selected?.name || '',
+        t(temperature.structureType.selected?.name || '') || '',
       [`CorrectionParameters_Temperature_StructureType_K`]:
         temperature.structureType.selected?.k || '',
     },

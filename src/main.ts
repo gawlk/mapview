@@ -17,14 +17,9 @@ export const i18n = createI18n({
   locale: getBrowserLocale(true),
   fallbackLocale: 'en',
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  messages,
+  messages: messages as I18nMessages,
   fallbackWarn: false,
   missingWarn: false,
 })
 
-createApp(App)
-  .use(createHead())
-  .use(
-    i18n
-  )
-  .mount('#app')
+createApp(App).use(createHead()).use(i18n).mount('#app')

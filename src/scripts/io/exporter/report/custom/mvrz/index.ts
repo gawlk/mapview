@@ -207,14 +207,18 @@ const generateUnits = (units: MachineMathUnits): ExcelJSON =>
     {}
   )
 
-const generateThresholds = (thresholds: MachineThresholds): ExcelJSON =>
-  Object.values(thresholds.groups).reduce<ExcelJSON>(
+const generateThresholds = (thresholds: MachineThresholds): ExcelJSON => {
+  const { t } = i18n.global
+
+  return Object.values(thresholds.groups).reduce<ExcelJSON>(
     (a, group: ThresholdsGroup<string>) => {
       if (group.choices.selected) {
         return {
           ...a,
           [`Thresholds_${group.unit.name}_Kind`]: group.choices.selected.kind,
-          [`Thresholds_${group.unit.name}_Name`]: group.choices.selected.name,
+          [`Thresholds_${group.unit.name}_Name`]: t(
+            group.choices.selected.name
+          ),
           [`Thresholds_${group.unit.name}_Value`]: createMathNumber(
             group.choices.selected.value,
             group.unit
@@ -234,6 +238,7 @@ const generateThresholds = (thresholds: MachineThresholds): ExcelJSON =>
     },
     {}
   )
+}
 
 const generateAcquisitionParameters = (project: MachineProject) => ({
   AcquisitionParameters_NbSamples: project.acquisitionParameters.nbSamples,
@@ -337,7 +342,6 @@ const generateHeavydynData = (project: HeavydynProject): ExcelJSON => {
     correctionParameters: { load, temperature },
   } = project
 
-  // @ts-expect-error - ignore deep error
   const { t } = i18n.global
 
   return {

@@ -8,8 +8,6 @@ import {
   unzipFile,
 } from '/src/scripts'
 
-import { i18n } from '/src/main'
-
 export const mvrzExporter = {
   name: '.mvrz (Excel)',
   export: async (project: MachineProject, template?: File) => {
@@ -208,15 +206,13 @@ const generateUnits = (units: MachineMathUnits): ExcelJSON =>
   )
 
 const generateThresholds = (thresholds: MachineThresholds): ExcelJSON => {
-  const { t } = i18n.global
-
   return Object.values(thresholds.groups).reduce<ExcelJSON>(
     (a, group: ThresholdsGroup<string>) => {
       if (group.choices.selected) {
         return {
           ...a,
           [`Thresholds_${group.unit.name}_Kind`]: group.choices.selected.kind,
-          [`Thresholds_${group.unit.name}_Name`]: t(
+          [`Thresholds_${group.unit.name}_Name`]: translate(
             group.choices.selected.name
           ),
           [`Thresholds_${group.unit.name}_Value`]: createMathNumber(
@@ -342,8 +338,6 @@ const generateHeavydynData = (project: HeavydynProject): ExcelJSON => {
     correctionParameters: { load, temperature },
   } = project
 
-  const { t } = i18n.global
-
   return {
     ...generateCalibrations(project.calibrations),
     ...{
@@ -364,7 +358,7 @@ const generateHeavydynData = (project: HeavydynProject): ExcelJSON => {
       [`CorrectionParameters_Temperature_ReferenceTemperature`]:
         temperature.reference.value,
       [`CorrectionParameters_Temperature_StructureType_Name`]:
-        t(temperature.structureType.selected?.name || '') || '',
+        translate(temperature.structureType.selected?.name || '') || '',
       [`CorrectionParameters_Temperature_StructureType_K`]:
         temperature.structureType.selected?.k || '',
     },

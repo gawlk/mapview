@@ -149,7 +149,7 @@ const writeSensors = (project: HeavydynProject): string => {
   const nbrSensors = project.calibrations.channels.length - 1
   for (let i = 0; i < nbrSensors; i++) {
     sensorsString += dedent`
-      ${5200 + i},"${project.calibrations.channels[i + 1].name.padEnd(
+      ${5201 + i},"${project.calibrations.channels[i + 1].name.padEnd(
         8,
         ' ',
       )}",1.000,${formatExponential(

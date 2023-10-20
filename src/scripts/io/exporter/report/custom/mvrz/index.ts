@@ -211,7 +211,9 @@ const generateThresholds = (thresholds: MachineThresholds): ExcelJSON =>
         return {
           ...a,
           [`Thresholds_${group.unit.name}_Kind`]: group.choices.selected.kind,
-          [`Thresholds_${group.unit.name}_Name`]: group.choices.selected.name,
+          [`Thresholds_${group.unit.name}_Name`]: translate(
+            group.choices.selected.name,
+          ),
           [`Thresholds_${group.unit.name}_Value`]: createMathNumber(
             group.choices.selected.value,
             group.unit,
@@ -353,8 +355,9 @@ const generateHeavydynData = (project: HeavydynProject): ExcelJSON => {
         temperature.customValue.value,
       [`CorrectionParameters_Temperature_ReferenceTemperature`]:
         temperature.reference.value,
-      [`CorrectionParameters_Temperature_StructureType_Name`]:
+      [`CorrectionParameters_Temperature_StructureType_Name`]: translate(
         temperature.structureType.selected?.name || '',
+      ),
       [`CorrectionParameters_Temperature_StructureType_K`]:
         temperature.structureType.selected?.k || '',
     },

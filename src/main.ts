@@ -20,7 +20,7 @@ createApp(App)
       locale: getBrowserLocale(true),
       fallbackLocale: 'en',
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      messages,
+      messages: messages as I18nMessages,
       fallbackWarn: false,
       missingWarn: false,
     })

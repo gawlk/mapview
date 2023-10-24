@@ -24,19 +24,21 @@ const toHaveSameJSON = (actual: Unzipped, expected: Unzipped) => {
 
   switch (message) {
     case 'dataType differ':
-      matcherMessage = `for ${keysString}, data type differ (${String(
+      matcherMessage = `for ${keysString}, data type differ:\nExpected:\n${String(
         expectedData,
-      )}: ${typeof expectedData}, ${String(actualData)}: ${typeof actualData})`
+      )}: ${typeof expectedData}\nActual:\n${String(
+        actualData,
+      )}: ${typeof actualData}`
       break
     case 'invalid Date':
-      matcherMessage = `Date differ for "${keysString}" (${String(
+      matcherMessage = `Date differ for "${keysString}"\nExpected:\n${String(
         expectedData,
-      )}, ${String(actualData)})`
+      )}\nActual:\n${String(actualData)}`
       break
     case 'invalid Number':
-      matcherMessage = `number differ for "${keysString}" (${String(
+      matcherMessage = `number differ for "${keysString}"\nExpected:\n${String(
         expectedData,
-      )}, ${String(actualData)})`
+      )}\nActual:\n${String(actualData)})`
       break
     case 'invalid date format':
       matcherMessage = `Date format of "${keysString}" is invalid ${String(
@@ -44,42 +46,37 @@ const toHaveSameJSON = (actual: Unzipped, expected: Unzipped) => {
       )}`
       break
     case 'invalid data':
-      matcherMessage = `Found different values\nPath:"${keysString}"\nExpected: ${String(
+      matcherMessage = `Found different values\nPath:"${keysString}"\nExpected:\n${String(
         expectedData,
-      )}\nFound: ${String(actualData)}`
+      )}\nFound:\n${String(actualData)}`
       break
     case "json key's differ":
       {
-        let diffString = 'missing'
+        let diffString = ''
+        const joinSeparator = ',\n\t'
 
         switch (diff?.bigger) {
           case 'expected':
             diffString = `missing key(s) (${diff.missing.length}):
-            [${String(diff.missing.join(', '))}]`
+            [\n\t${String(diff.missing.join(joinSeparator))}\n]`
 
             break
           case 'actual':
             diffString = `unexpected key(s) (${diff.unexpected.length}):
-            [${String(diff.unexpected.join(', '))}]`
+            [\n\t${String(diff.unexpected.join(joinSeparator))}\n]`
 
             break
           case 'none':
-            diffString = `keys:
-missing (${diff.missing.length}):
-[
-\t${diff.missing.join(',\n\t')}
-]
-unexpected (${diff.unexpected.length}):
-[
-\t${diff.unexpected.join(',\n\t')}
-]`
+            diffString = `keys:\nMissing (${
+              diff.missing.length
+            }):\n[\n\t${diff.missing.join(joinSeparator)}\n]\nUnexpected (${
+              diff.unexpected.length
+            }):\n[\n\t${diff.unexpected.join(joinSeparator)}\n]`
 
             break
         }
 
-        matcherMessage = `Keys of JSON differ
-Path: ${keysString}
-${diffString}`
+        matcherMessage = `Keys of JSON differ\nPath: ${keysString}\n${diffString}`
       }
       break
     case 'no data':
@@ -92,12 +89,11 @@ ${diffString}`
       const actualLength = (actualData as Array<unknown>).length
       const expectedLength = (expectedData as Array<unknown>).length
 
-      matcherMessage = `Different arrays were found
-Path: ${keysString}
-Expected: ${
+      matcherMessage = `Different arrays were found\nPath: ${keysString}\nExpected: ${
         expectedLength > 0 ? String(expectedData) : '[]'
-      } (${expectedLength})
-Found: ${actualLength > 0 ? String(actualData) : '[]'} (${actualLength})`
+      } (${expectedLength})\nFound: ${
+        actualLength > 0 ? String(actualData) : '[]'
+      } (${actualLength})`
 
       break
     }

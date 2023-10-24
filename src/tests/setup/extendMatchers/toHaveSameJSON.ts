@@ -49,12 +49,38 @@ const toHaveSameJSON = (actual: Unzipped, expected: Unzipped) => {
       )}\nFound: ${String(actualData)}`
       break
     case "json key's differ":
-      matcherMessage = `Number of keys differ
-Path: ${keys.join(',')}
-${diff?.number} ${
-        diff?.bigger === 'expected' ? 'missing' : 'unexpected'
-      } key(s):
-[${String(diff?.keys.join(', '))}]`
+      {
+        let diffString = 'missing'
+
+        switch (diff?.bigger) {
+          case 'expected':
+            diffString = `missing key(s) (${diff.missing.length}):
+            [${String(diff.missing.join(', '))}]`
+
+            break
+          case 'actual':
+            diffString = `unexpected key(s) (${diff.unexpected.length}):
+            [${String(diff.unexpected.join(', '))}]`
+
+            break
+          case 'none':
+            diffString = `keys:
+missing (${diff.missing.length}):
+[
+\t${diff.missing.join(',\n\t')}
+]
+unexpected (${diff.unexpected.length}):
+[
+\t${diff.unexpected.join(',\n\t')}
+]`
+
+            break
+        }
+
+        matcherMessage = `Keys of JSON differ
+Path: ${keysString}
+${diffString}`
+      }
       break
     case 'no data':
       matcherMessage = "JSON doesn't have data"
@@ -95,13 +121,26 @@ interface BrowseCheckDataResult {
   keys: string[]
   actualData?: any
   expectedData?: any
-  diff?: {
-    number: number
-    keys: string[]
-    actualKeys: string[]
-    expectedKeys: string[]
-    bigger: string
-  }
+  diff?:
+    | BrowseCheckDataResultDiffActual
+    | BrowseCheckDataResultDiffExpected
+    | BrowseCheckDataResultDiffNone
+}
+
+interface BrowseCheckDataResultDiffExpected {
+  missing: string[]
+  bigger: 'expected'
+}
+
+interface BrowseCheckDataResultDiffNone {
+  missing: string[]
+  unexpected: string[]
+  bigger: 'none'
+}
+
+interface BrowseCheckDataResultDiffActual {
+  unexpected: string[]
+  bigger: 'actual'
 }
 
 const keysToIgnore = ['arePointsLocked']
@@ -111,7 +150,7 @@ const browseCheckData = (
   expectedData: any,
   keys: string[],
   // eslint-disable-next-line sonarjs/cognitive-complexity
-): BrowseCheckDataResult => {
+) => {
   const actualKeys = Object.keys(actualData)
   const expectedKeys = Object.keys(expectedData)
 
@@ -119,21 +158,23 @@ const browseCheckData = (
   const expectedLength = expectedKeys.length
 
   if (actualLength !== expectedLength) {
-    const diffKeys =
-      actualLength > expectedLength
-        ? actualKeys.filter((key: string) => !expectedKeys.includes(key))
-        : expectedKeys.filter((key: string) => !actualKeys.includes(key))
-
     return {
-      message: "json key's differ",
+      message: "json key's differ" as const,
       keys,
-      diff: {
-        number: diffKeys.length,
-        keys: diffKeys,
-        actualKeys,
-        expectedKeys,
-        bigger: actualLength > expectedLength ? 'actual' : 'expected',
-      },
+      diff:
+        actualLength > expectedLength
+          ? {
+              bigger: 'actual' as const,
+              unexpected: expectedKeys.filter(
+                (key: string) => !actualKeys.includes(key),
+              ),
+            }
+          : {
+              bigger: 'expected' as const,
+              missing: actualKeys.filter(
+                (key: string) => !expectedKeys.includes(key),
+              ),
+            },
     }
   }
 
@@ -146,6 +187,18 @@ const browseCheckData = (
   for (let i = 0; i < expectedKeys.length && isIdentical; i++) {
     const key = expectedKeys[i]
     const updatedKeys = [...keys, key]
+
+    if (key !== actualKeys[i]) {
+      return {
+        message: "json key's differ" as const,
+        keys: updatedKeys,
+        diff: {
+          missing: expectedKeys.filter((k) => !actualKeys.includes(k)),
+          unexpected: actualKeys.filter((k) => !expectedKeys.includes(k)),
+          bigger: 'none' as const,
+        },
+      }
+    }
 
     if (!keysToIgnore.includes(key)) {
       const currentActualData = actualData[key]

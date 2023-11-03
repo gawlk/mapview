@@ -1,5 +1,4 @@
 import { readFileSync } from 'fs'
-import { Unzipped } from 'fflate'
 
 interface CompareFilesOptions {
   filter?: string

@@ -41,7 +41,6 @@ program
   .description('CLI to update reference file of the CI')
   .version('0.0.1')
   .arguments('<path>')
-  .option('--test')
   .parse()
 
 const writeFile = async (filePath: string, file: File) => {

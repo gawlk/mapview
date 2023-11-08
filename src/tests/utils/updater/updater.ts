@@ -36,13 +36,13 @@ if (typeof File === 'undefined') {
   }
 }
 
-// program
-//   .name('updater')
-//   .description('CLI to update reference file of the CI')
-//   .version('0.0.1')
-//   .arguments('<path>')
-//   .option('--test')
-//   .parse()
+program
+  .name('updater')
+  .description('CLI to update reference file of the CI')
+  .version('0.0.1')
+  .arguments('<path>')
+  .option('--test')
+  .parse()
 
 const writeFile = async (filePath: string, file: File) => {
   fs.writeFileSync(filePath, new DataView(await file.arrayBuffer()))

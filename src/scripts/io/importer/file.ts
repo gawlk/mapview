@@ -38,7 +38,7 @@ export const importFile = async (file: File) => {
 
     const jsonProject = getProjectJSONFromZip(unzipped, extension || '')
 
-    console.log(jsonProject)
+    // console.log(jsonProject)
 
     if (jsonProject) {
       project = importProjectFromJSON(jsonProject)

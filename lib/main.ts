@@ -4,6 +4,7 @@ import {
   heavydynPDXExporter,
   heavydynSwecoExporter,
   importFile,
+  loadMpvz,
   mpvzExporter,
   mvrzExporter,
 } from '/src/scripts'
@@ -16,4 +17,5 @@ export {
   importFile,
   mpvzExporter,
   mvrzExporter,
+  loadMpvz,
 }

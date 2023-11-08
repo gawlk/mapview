@@ -1,4 +1,4 @@
-import fs, { statSync } from 'fs'
+import { readdirSync, readFileSync, statSync, writeFileSync } from 'fs'
 import path from 'path'
 import { program } from 'commander'
 import {
@@ -44,7 +44,7 @@ program
   .parse()
 
 const writeFile = async (filePath: string, file: File) => {
-  fs.writeFileSync(filePath, new DataView(await file.arrayBuffer()))
+  writeFileSync(filePath, new DataView(await file.arrayBuffer()))
 }
 
 const updateRefFile = async () => {
@@ -62,7 +62,7 @@ const updateRefFile = async () => {
 
   console.log(name, extension)
 
-  const folders = fs.readdirSync(dirPath)
+  const folders = readdirSync(dirPath)
 
   const mpvzFileName = folders.find((fileName) => {
     return path.extname(fileName).toLowerCase().includes('mpvz')
@@ -81,7 +81,7 @@ const updateRefFile = async () => {
     return
   }
 
-  const projectBlob = new Blob([fs.readFileSync(subPath)])
+  const projectBlob = new Blob([readFileSync(subPath)])
 
   const projectFile = new File([await projectBlob.arrayBuffer()], mpvzFileName)
 

@@ -120,7 +120,7 @@ export default defineConfig({
   },
   test: {
     environment: 'happy-dom',
-    exclude: [...configDefaults.exclude, '**/e2e/**', '**/importer/**'],
+    exclude: [...configDefaults.exclude, '**/e2e/**'],
     setupFiles: [
       './src/tests/setup/mocks/url.ts',
       './src/tests/setup/extendMatchers/index.ts',

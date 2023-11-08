@@ -1,4 +1,3 @@
-import { readdirSync, statSync } from 'fs'
 import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest'
 
 import {
@@ -11,24 +10,12 @@ import {
 } from '/src/scripts'
 import { filesToString } from '/src/tests'
 
-import { importFiles } from './scripts'
+import { prepareFilesForTest } from '../../tests/utils'
 
 describe('Test exports', async () => {
-  const testData: ReportTestExportData[] = []
-
   const path = `${__dirname}/files`
-  const files = readdirSync(path)
 
-  await Promise.all([
-    ...files.map(async (file) => {
-      const subPath = `${path}/${file}`
-      const stats = statSync(subPath)
-
-      if (stats.isDirectory()) {
-        testData.push(...(await importFiles(subPath, file)))
-      }
-    }),
-  ])
+  const testData = await prepareFilesForTest(path)
 
   beforeAll(() => {
     vi.stubGlobal('navigator', { language: 'fr-FR' })

@@ -1,4 +1,5 @@
 import {
+  getFilesFromDir,
   heavydynDynatestExporter,
   heavydynF25Exporter,
   heavydynPDXExporter,
@@ -10,12 +11,13 @@ import {
 } from '/src/scripts'
 
 export {
+  getFilesFromDir,
   heavydynDynatestExporter,
   heavydynF25Exporter,
   heavydynPDXExporter,
   heavydynSwecoExporter,
   importFile,
+  loadMpvz,
   mpvzExporter,
   mvrzExporter,
-  loadMpvz,
 }

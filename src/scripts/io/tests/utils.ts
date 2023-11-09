@@ -10,7 +10,7 @@ import {
 } from '/src/scripts'
 import { getFileFromPath } from '/src/tests'
 
-export const prepareFilesForTest = async (path: string) => {
+export const getFilesFromDir = async (path: string) => {
   const files = readdirSync(path)
 
   const testData: ReportTestExportData[] = []

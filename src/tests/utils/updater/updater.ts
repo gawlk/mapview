@@ -1,5 +1,6 @@
 import { readdirSync, readFileSync, statSync, writeFileSync } from 'fs'
 import path from 'path'
+import { fileURLToPath } from 'url'
 import { program } from 'commander'
 import {
   heavydynDynatestExporter,
@@ -7,12 +8,21 @@ import {
   heavydynPDXExporter,
   heavydynSwecoExporter,
   importFile,
+  loadMpvz,
   mpvzExporter,
   mvrzExporter,
 } from 'dist/main'
+import { Image as happyImage, Window } from 'happy-dom'
 
-// const _filename = fileURLToPath(import.meta.url)
-// const _dirname = path.dirname(_filename)
+const _filename = fileURLToPath(import.meta.url)
+const _dirname = path.dirname(_filename)
+
+const io = `${_dirname}/../../../scripts/io`
+
+const defaultExportFolder = `${io}/exporter/tests/files`
+// const defaultImportFolder = `${io}/importer/tests/files`
+
+const acceptedExtension = ['pdx', 'f25', 'fwd', 'mpvz', 'mvrz']
 
 if (typeof File === 'undefined') {
   global.File = class File extends Blob {
@@ -36,31 +46,49 @@ if (typeof File === 'undefined') {
   }
 }
 
+if (typeof window === 'undefined') {
+  const window = new Window()
+
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  global.window = window
+}
+
+if (typeof Image === 'undefined') {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  global.Image = happyImage
+}
+
 program
   .name('updater')
   .description('CLI to update reference file of the CI')
   .version('0.0.1')
-  .arguments('<path>')
+  .arguments('[path]')
   .parse()
 
-const writeFile = async (filePath: string, file: File) => {
-  writeFileSync(filePath, new DataView(await file.arrayBuffer()))
+const projects: Map<string, HeavydynProject> = new Map()
+
+const loadProject = async (subPath: string, name: string) => {
+  const projectBlob = new Blob([readFileSync(subPath)])
+
+  const projectFile = new File([await projectBlob.arrayBuffer()], name)
+
+  const project = (await importFile(projectFile)) as HeavydynProject
+
+  projects.set(subPath, project)
+
+  await loadMpvz(projectFile, project)
+
+  return project
 }
 
-const updateRefFile = async () => {
-  // const options = program.opts()
-  const arg = program.args
-  const currentPath = arg[0]
-
-  console.log(currentPath, arg, process.argv)
-
+const updateRefFile = async (currentPath: string) => {
   const dirPath = path.dirname(currentPath)
   const name = path.basename(currentPath)
   const extension = String(path.extname(currentPath))
     .toLowerCase()
     .replace('.', '')
-
-  console.log(name, extension)
 
   const folders = readdirSync(dirPath)
 
@@ -76,20 +104,25 @@ const updateRefFile = async () => {
   const subPath = `${dirPath}/${mpvzFileName}`
   const stats = statSync(subPath)
 
+  console.log(`preparing to update ${currentPath}`)
+
   if (!stats.isFile()) {
     console.error("can't load mpvz")
     return
   }
 
-  const projectBlob = new Blob([readFileSync(subPath)])
+  let project = projects.get(subPath)
 
-  const projectFile = new File([await projectBlob.arrayBuffer()], mpvzFileName)
-
-  const project = (await importFile(projectFile)) as HeavydynProject
-
-  project?.addToMap()
+  if (!project) {
+    console.log('preparing project')
+    project = await loadProject(subPath, mpvzFileName)
+  } else {
+    console.log('load project')
+  }
 
   let exportedFile
+
+  console.log(extension)
 
   switch (extension) {
     case 'f25':
@@ -117,7 +150,70 @@ const updateRefFile = async () => {
     return
   }
 
-  await writeFile(currentPath, exportedFile)
+  console.log('writing', currentPath, exportedFile)
+
+  writeFileSync(currentPath, new DataView(await exportedFile.arrayBuffer()))
+
+  console.log('writed')
 }
 
-void updateRefFile()
+const updateRefFolder = async (
+  directories: string[] = [defaultExportFolder],
+) => {
+  if (
+    !directories.every((dir) => {
+      const stats = statSync(dir)
+
+      return stats.isDirectory()
+    })
+  ) {
+    console.error("some path aren't folder")
+    return
+  }
+
+  console.log('Loading files to update...')
+
+  const dirs: string[] = [...directories]
+  const files: string[] = []
+  const mpvz: string[] = []
+  let index = 0
+
+  while (index < dirs.length) {
+    const dir = dirs[index]
+    const subElement = readdirSync(dir)
+
+    subElement.forEach((elt) => {
+      const eltPath = `${dir}/${elt}`
+      const stats = statSync(eltPath)
+
+      const ext = path.extname(eltPath).toLowerCase().replace('.', '')
+
+      if (stats.isDirectory()) {
+        dirs.push(eltPath)
+      } else if (stats.isFile() && acceptedExtension.includes(ext)) {
+        files.push(eltPath)
+        if (ext === 'mpvz') {
+          mpvz.push(eltPath)
+        }
+      }
+    })
+
+    index += 1
+  }
+
+  console.log(`${files.length} files found`)
+
+  const promises: Promise<HeavydynProject>[] = []
+
+  mpvz.forEach((m) => {
+    promises.push(loadProject(m, path.basename(m)))
+  })
+
+  await Promise.all(promises)
+
+  await Promise.all(files.map((file) => updateRefFile(file)))
+
+  console.log('post')
+}
+
+void updateRefFolder()

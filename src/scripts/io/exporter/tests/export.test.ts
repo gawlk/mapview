@@ -10,12 +10,12 @@ import {
 } from '/src/scripts'
 import { filesToString } from '/src/tests'
 
-import { prepareFilesForTest } from '../../tests/utils'
+import { getFilesFromDir } from '../../tests/utils'
 
 describe('Test exports', async () => {
   const path = `${__dirname}/files`
 
-  const testData = await prepareFilesForTest(path)
+  const testData = await getFilesFromDir(path)
 
   beforeAll(() => {
     vi.stubGlobal('navigator', { language: 'fr-FR' })

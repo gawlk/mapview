@@ -1,11 +1,12 @@
+import { getOwner, runWithOwner } from 'solid-js'
 import {
-  createDataComputer,
   createDataLabel,
   createDataValue,
   currentCategory,
   indicatorsCategory,
-  run,
 } from '/src/scripts'
+import { store } from '/src/store'
+import { createLazyMemo } from '@solid-primitives/memo'
 
 export const createHeavydynSurfaceModulusDataComputers = (
   report: HeavydynReport,
@@ -23,48 +24,49 @@ export const createHeavydynSurfaceModulusDataComputers = (
     currentCategory,
   )
 
-  return (
-    currentD0DataLabel &&
-    currentLoadDataLabel &&
-    createDataComputer({
-      label: report.dataLabels.pushTo(
-        'Drop',
-        createDataLabel({
-          name: `SM0`,
-          unit: report.project.units[unitName],
-          unitKey: unitName,
-          category: indicatorsCategory,
-        }),
+  if (!currentD0DataLabel || !currentLoadDataLabel) return
+
+  const sm0DataLabel = createDataLabel({
+    name: `SM0`,
+    unit: report.project().units[unitName],
+    unitKey: unitName,
+    category: indicatorsCategory,
+  })
+
+  report.dataLabels.pushTo('Drop', sm0DataLabel)
+
+  const radius = createLazyMemo(() => report.project().calibrations.dPlate / 2)
+
+  const poisson = 0.35
+
+  const owner = getOwner()
+
+  createEffect(
+    () =>
+      store.selectedProject() === report.project() &&
+      batch(() =>
+        report
+          .sortedPoints()
+          .flatMap((point) => point.drops)
+          .filter((drop) => !drop.dataset.get(sm0DataLabel))
+          .forEach((drop) =>
+            runWithOwner(owner, () => {
+              const load = createLazyMemo(() =>
+                drop.dataset.get(currentLoadDataLabel)!.rawValue(),
+              )
+
+              const pressure = createLazyMemo(
+                () => load() / (Math.PI * radius() ** 2),
+              )
+
+              const sm0 = createDataValue(
+                createLazyMemo(() => 2 * pressure() * (1 - poisson) * radius()),
+                sm0DataLabel,
+              )
+
+              drop.dataset.set(sm0DataLabel, sm0)
+            }),
+          ),
       ),
-      compute: (label) => {
-        const radius = report.project.calibrations.dPlate / 2
-
-        const poisson = 0.35
-
-        report.zones.forEach((zone) =>
-          zone.points.forEach((point) => {
-            point.drops.forEach((drop) => {
-              const load = drop.dataset.get(currentLoadDataLabel.toString())
-
-              const sm0 =
-                drop.dataset.get(label.toString()) ||
-                run(() => {
-                  const dl = createDataValue(0, label)
-                  drop.dataset.set(label.toString(), dl)
-                  return dl
-                })
-
-              if (load) {
-                const pressure = load.getRawValue() / (Math.PI * radius ** 2)
-
-                const value = 2 * pressure * (1 - poisson) * radius
-
-                sm0.value.updateValue(value)
-              }
-            })
-          }),
-        )
-      },
-    })
   )
 }

@@ -9,8 +9,8 @@ export const TableZones = () => {
   const { t } = useAppState()
 
   const getValuesFromZones = (dataLabel: DataLabel<string>) =>
-    (store.selectedReport?.zones || [])
-      .map((zone) => zone.dataset.get(dataLabel.toString())?.getRawValue())
+    (store.selectedReport()?.zones() || [])
+      .map((zone) => zone.dataset.get(dataLabel)?.rawValue())
       .filter((value) => typeof value === 'number') as number[]
 
   return (
@@ -21,7 +21,8 @@ export const TableZones = () => {
         </Td>
         <For
           each={
-            store.selectedReport?.dataLabels.table.selected?.dataLabels || []
+            store.selectedReport()?.dataLabels.table.selected()?.dataLabels() ||
+            []
           }
         >
           {(dataLabel) => (
@@ -36,25 +37,24 @@ export const TableZones = () => {
         <Td />
       </THead>
       <tbody>
-        <For each={store.selectedReport?.zones || []}>
+        <For each={store.selectedReport()?.zones() || []}>
           {(zone) => (
             <Tr
-              color={colors[zone.settings.color]}
-              class={[!zone.settings.isVisible && 'text-opacity-50']}
+              color={colors[zone.settings.color()]}
+              class={[!zone.settings.isVisible() && 'text-opacity-50']}
             >
-              <Td wide>{zone.name}</Td>
+              <Td wide>{zone.name()}</Td>
               <For
                 each={
-                  store.selectedReport?.dataLabels.table.list[2].dataLabels ||
-                  []
+                  store
+                    .selectedReport()
+                    ?.dataLabels.table.list()[2]
+                    .dataLabels() || []
                 }
               >
                 {(dataLabel) => (
                   <Td wide text="right">
-                    {
-                      zone.dataset.get(dataLabel.toString())?.value
-                        .displayedString
-                    }
+                    {zone.dataset.get(dataLabel)?.value.displayedString()}
                   </Td>
                 )}
               </For>
@@ -62,17 +62,20 @@ export const TableZones = () => {
                 <Button
                   size={size}
                   icon={IconTablerZoomIn}
-                  onClick={() => store.map && zone.fitOnMap(store.map)}
+                  onClick={() => {
+                    const map = store.map()
+                    map && zone.fitOnMap(map)
+                  }}
                 />
               </Td>
               <Td>
                 <Button
                   size={size}
                   icon={
-                    zone.settings.isVisible ? IconTablerEye : IconTablerEyeOff
+                    zone.settings.isVisible() ? IconTablerEye : IconTablerEyeOff
                   }
                   onClick={() => {
-                    zone.settings.isVisible = !zone.settings.isVisible
+                    zone.settings.isVisible.set((b) => !b)
                   }}
                 />
               </Td>

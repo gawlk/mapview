@@ -13,7 +13,7 @@ interface JSONField {
 
 interface JSONFieldSettings {
   readonly version: 1
-  readonly readOnly?: true
+  readonly readOnly?: boolean
 }
 
 // ---
@@ -22,8 +22,8 @@ interface JSONFieldSettings {
 
 interface Field {
   readonly label: string
-  readonly settings: JSONFieldSettings
-  value:
+  readonly settings: FieldSettings
+  readonly value: ASS<
     | boolean
     | number
     | string
@@ -31,6 +31,7 @@ interface Field {
     | DateValue
     | LongString
     | SelectableString
+  >
   readonly getValue: () => string | number | boolean
   readonly setValue: (value: string | number) => void
   readonly toString: () => string
@@ -42,21 +43,25 @@ interface SlidableNumber {
   readonly step: number
   readonly min: number
   readonly max: number
-  value: number
+  readonly value: ASS<number>
 }
 
 interface DateValue {
   readonly kind: 'dateValue'
-  value: string
+  readonly value: ASS<string>
 }
 
 interface LongString {
   readonly kind: 'longString'
-  value: string
+  readonly value: ASS<string>
 }
 
 interface SelectableString {
   readonly kind: 'selectableString'
   readonly possibleValues: string[]
-  value: string
+  readonly value: ASS<string>
+}
+
+interface FieldSettings extends SerializableObject<JSONFieldSettings> {
+  readonly readOnly: ASS<boolean>
 }

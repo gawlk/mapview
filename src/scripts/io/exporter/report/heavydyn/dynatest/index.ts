@@ -23,7 +23,7 @@ export const heavydynDynatestExporter: HeavydynExporter = {
             .join('\n'),
         ),
       ],
-      `${project.reports.selected?.name.toString() || ''}-dynatest.fwd`,
+      `${project.reports.selected()?.name.toString() || ''}-dynatest.fwd`,
       { type: 'text/plain' },
     )
   },
@@ -98,7 +98,7 @@ const writeHeader = (project: HeavydynProject) => {
     '   R  D1  D2  D3  D4  D5  D6  D7     R    D1    D2    D3    D4    D5    D6    D7',
   )
 
-  stringArray.push(`C:\\${project.reports.selected.name.toString()}`)
+  stringArray.push(`C:\\${project.reports.selected()?.name.toString()}`)
 
   const points = writePoints(project)
   if (!points) throw new Error("can't access first and last point")
@@ -119,26 +119,26 @@ const writeHeader = (project: HeavydynProject) => {
 const writeEndHeader = () => {
   return dedent`
       D0NA 0.0000.000
-      D0NA 0.0000.000                                                            
       D0NA 0.0000.000
-      D0NA 0.0000.000                                                             
-      *                                                                               
-      11110011........................                                                
-      13.82   2.5 2    ...............                                                
-      *                                                                               
-      *                                                                               
-      *                                                                               
-      *000+0.0 000+0.0 st                                                             
-      ................................                                                
-                          0   0Peak...32  0   ......                                  
+      D0NA 0.0000.000
+      D0NA 0.0000.000
+      *
+      11110011........................
+      13.82   2.5 2    ...............
+      *
+      *
+      *
+      *000+0.0 000+0.0 st
+      ................................
+                          0   0Peak...32  0   ......
       123.............................................................................
       11111111111111111111111111111111111111111111111111111111111111111111111111111111
       ................................................................................
       ********************************************************************************
       ................................................................................
       ................................................................................
-      *                                                                               
-      *                                                
+      *
+      *
     `
 }
 
@@ -147,15 +147,13 @@ const writePointGPS = (point: BasePoint) => {
   return `G0000001+${lat}+${lng}999.9`
 }
 
-const writePoints = (project: HeavydynProject) => {
-  if (!project.reports.selected) return []
-
-  return project.reports.selected.getExportablePoints().map((point) => {
+const writePoints = (project: HeavydynProject) =>
+  (project.reports.selected()?.exportablePoints() || []).map((point) => {
     const celsiusDegreesTemps = Array.from(point.dataset.values())
       .filter((data) => data.label.unit === project.units.temperature)
       .map((data, index) => {
         const precision = index === 0 ? 1 : 0
-        const value = data.getRawValue().toFixed(precision)
+        const value = data.rawValue().toFixed(precision)
         if (index === 0) {
           return value.padStart(4, ' ')
         }
@@ -175,7 +173,7 @@ const writePoints = (project: HeavydynProject) => {
     const chainage = Number(
       Array.from(point.dataset.values())
         .find((pointData) => pointData.label.name === 'Chainage')
-        ?.getRawValue(),
+        ?.rawValue(),
     )
       .toFixed(2)
       .padStart(8, ' ')
@@ -188,7 +186,6 @@ const writePoints = (project: HeavydynProject) => {
       `${writeDrops(point, project.calibrations.dPlate)}`,
     ]
   })
-}
 
 const writeDrops = (point: BasePoint, dPlate: number) => {
   return point.drops
@@ -196,7 +193,8 @@ const writeDrops = (point: BasePoint, dPlate: number) => {
       const values = Array.from(drop.dataset.values())
         .filter(
           (data) =>
-            data.label.unit === point.zone.report.project.units.deflection &&
+            data.label.unit ===
+              point.zone().report().project().units.deflection &&
             data.label.category.name === currentCategory.name,
         )
         .map((data) => {
@@ -210,10 +208,10 @@ const writeDrops = (point: BasePoint, dPlate: number) => {
         (((Array.from(drop.dataset.values())
           .find(
             (data) =>
-              data.label.unit === point.zone.report.project.units.force &&
+              data.label.unit === point.zone().report().project().units.force &&
               data.label.category.name === currentCategory.name,
           )
-          ?.getRawValue() || 0) *
+          ?.rawValue() || 0) *
           1e-3) /
           Math.PI /
           dPlate /
@@ -222,7 +220,7 @@ const writeDrops = (point: BasePoint, dPlate: number) => {
       values.unshift(power.toFixed(2).toString().padStart(4, ' '))
 
       return dedent`
-          ${values.join('')} 
+          ${values.join('')}
         `
     })
     .join('\n')

@@ -15,15 +15,15 @@ import { store } from '/src/store'
 import { movePointToZoneIndex } from './scripts'
 
 interface Props {
-  points: BasePoint[]
-  dataLabels: DataLabel[]
-  cellWidthClass: string
-  from?: DataLabelsFrom
-  index?: BaseDropIndex
-  hideZones?: true
-  colored?: boolean
-  sortable?: boolean
-  showZone?: boolean
+  readonly points: BasePoint[]
+  readonly dataLabels: DataLabel[]
+  readonly cellWidthClass: string
+  readonly from?: DataLabelsFrom
+  readonly index?: BaseDropIndex
+  readonly hideZones?: true
+  readonly colored?: boolean
+  readonly sortable?: boolean
+  readonly showZone?: boolean
 }
 
 export const TablePoints = (props: Props) => {
@@ -38,11 +38,9 @@ export const TablePoints = (props: Props) => {
     points.map(
       (point) =>
         (props.from &&
-          point.getSelectedMathNumber(
-            props.from || 'Drop',
-            dataLabel,
-            props.index,
-          )?.value) ||
+          point
+            .getMathNumber(props.from || 'Drop', dataLabel, props.index)
+            ?.value()) ||
         0,
     )
 
@@ -64,7 +62,7 @@ export const TablePoints = (props: Props) => {
               widthClass={props.cellWidthClass}
               dataLabel={dataLabel}
               values={getValuesFromPoints(
-                props.points.filter((point) => point.settings.isVisible),
+                props.points.filter((point) => point.settings.isVisible()),
                 dataLabel,
               )}
             />
@@ -81,29 +79,25 @@ export const TablePoints = (props: Props) => {
           itemToId={(point) => point.id}
           draggedClasses={'!bg-gray-100'}
           onChange={(from, to) => {
-            if (!store.selectedReport) return
-
             const points = moveIndexInCopiedArray(props.points, from, to)
 
             let number = 1
 
             points.forEach((point, index) => {
-              point.index = index
-              point.number = number
+              point.index.set(index)
+              point.number.set(number)
 
-              if (point.settings.isVisible) {
+              if (point.settings.isVisible()) {
                 number += 1
               }
             })
-
-            store.selectedReport.line.update()
           }}
           component={(ref, point) => {
             const color = createMemo(() => {
               if (!props.colored) return undefined
 
-              return point.settings.isVisible && point.icon
-                ? point.icon.color
+              return point.settings.isVisible() && point.icon
+                ? point.icon.color()
                 : gray
             })
 
@@ -111,7 +105,7 @@ export const TablePoints = (props: Props) => {
               <Tr
                 ref={ref}
                 color={color()}
-                class={[!point.settings.isVisible && 'text-opacity-50']}
+                class={[!point.settings.isVisible() && 'text-opacity-50']}
               >
                 <Td class="hidden lg:table-cell">
                   <Button
@@ -133,11 +127,12 @@ export const TablePoints = (props: Props) => {
                       }}
                       attached
                       values={{
-                        selected: point.zone.name,
+                        selected: String(point.zone().name()),
                         list: (
-                          store.selectedReport?.zones.map(
-                            (zone) => zone.name,
-                          ) || []
+                          store
+                            .selectedReport()
+                            ?.zones()
+                            .map((zone) => zone.name()) || []
                         ).map((text, index) => ({
                           value: String(index),
                           text,
@@ -150,7 +145,7 @@ export const TablePoints = (props: Props) => {
                   </Td>
                 </Show>
                 <Td wide text="right">
-                  {point.number}
+                  {point.number()}
                 </Td>
                 <Show when={props.from}>
                   {(from) => (
@@ -172,7 +167,7 @@ export const TablePoints = (props: Props) => {
                     size={size}
                     icon={IconTablerZoomIn}
                     onClick={() =>
-                      store.map?.flyTo({
+                      store.map()?.flyTo({
                         center: point.marker?.getLngLat(),
                         zoom: 18,
                       })
@@ -183,12 +178,12 @@ export const TablePoints = (props: Props) => {
                   <Button
                     size={size}
                     icon={
-                      point.settings.isVisible
+                      point.settings.isVisible()
                         ? IconTablerEye
                         : IconTablerEyeOff
                     }
                     onClick={() => {
-                      point.settings.isVisible = !point.settings.isVisible
+                      point.settings.isVisible.set((b) => !b)
                     }}
                   />
                 </Td>

@@ -1,9 +1,9 @@
 interface LngLat {
-  lng: number
-  lat: number
+  readonly lng: number
+  readonly lat: number
 }
 
 interface XYCoord {
-  x: number
-  y: number
+  readonly x: number
+  readonly y: number
 }

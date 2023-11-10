@@ -23,6 +23,7 @@ interface JSONMinidynProjectDistinct {
 
 interface MinidynProject
   extends MinidynObject<JSONMinidynProject>,
-    BaseProject<MinidynReport, MinidynMathUnits> {
-  bearingParameters: JSONBearingParameters
+    BaseProject<MinidynReport, MinidynMathUnits>,
+    DisposableObject {
+  readonly bearingParameters: JSONBearingParameters
 }

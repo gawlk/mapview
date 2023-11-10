@@ -5,7 +5,7 @@ import { DetailsLoad } from './components/detailsLoad'
 import { DetailsTemperature } from './components/detailsTemperature'
 
 interface Props {
-  project: HeavydynProject
+  readonly project: HeavydynProject
 }
 
 export const HeavydynCorrections = (props: Props) => {

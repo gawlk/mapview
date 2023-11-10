@@ -8,18 +8,16 @@ export const createMinidynDropFromJSON = (
 ) => {
   json = upgradeJSONDrop(json)
 
-  const dropGroup = parameters.point.zone.report.dataLabels.groups.list[0]
+  const dropGroup = parameters.point.zone().report().dataLabels.groups.list()[0]
 
-  const index = dropGroup?.indexes?.list[json.base.index]
+  const index = dropGroup?.indexes?.list()[json.base.index]
 
-  const baseDrop = createBaseDropFromJSON(json.base, {
-    point: parameters.point,
-    index,
-    dropGroup,
-  })
-
-  return createMutable<MinidynDrop>({
-    ...baseDrop,
+  const drop: MinidynDrop = {
+    ...createBaseDropFromJSON(json.base, {
+      point: parameters.point,
+      index,
+      dropGroup,
+    }),
     machine: 'Minidyn',
     toJSON() {
       return {
@@ -30,7 +28,9 @@ export const createMinidynDropFromJSON = (
         },
       }
     },
-  })
+  }
+
+  return drop
 }
 
 const upgradeJSONDrop = (json: JSONMinidynDropVAny): JSONMinidynDrop => {

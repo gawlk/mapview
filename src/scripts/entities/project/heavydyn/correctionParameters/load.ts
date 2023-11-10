@@ -1,4 +1,4 @@
-import { createMathNumber, createSelectableList } from '/src/scripts'
+import { createASS, createSL, createWritableMathNumber } from '/src/scripts'
 
 export const createHeavydynProjectLoadCorrectionParametersFromJSON = (
   json: JSONHeavydynLoadCorrectionParametersVAny,
@@ -6,14 +6,21 @@ export const createHeavydynProjectLoadCorrectionParametersFromJSON = (
 ) => {
   json = upgradeJSON(json)
 
-  const loadCorrectionParameters: HeavydynLoadCorrectionParameters =
-    createMutable({
-      active: json.active,
-      source: createSelectableList(['Sequence', 'Custom'] as LoadSourceList, {
-        selected: json.source,
-      }),
-      customValue: createMathNumber(json.customValue, units.force),
-    })
+  const loadCorrectionParameters: HeavydynLoadCorrectionParameters = {
+    active: createASS(json.active),
+    source: createSL(['Sequence', 'Custom'] as LoadSourceList, {
+      selected: json.source,
+    }),
+    customValue: createWritableMathNumber(json.customValue, units.force),
+    toJSON() {
+      return {
+        version: 2,
+        active: this.active(),
+        source: this.source.selected() || 'Sequence',
+        customValue: this.customValue.value(),
+      }
+    },
+  }
 
   return loadCorrectionParameters
 }

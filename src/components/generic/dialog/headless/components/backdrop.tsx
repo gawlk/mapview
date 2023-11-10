@@ -1,11 +1,11 @@
 import { createASS } from '/src/scripts'
 
 interface Props {
-  show: Accessor<boolean | undefined>
-  open: Accessor<boolean>
-  zIndex: Accessor<number>
-  // style: StyleProp
-  // class: ClassProp
+  readonly show: Accessor<boolean | undefined>
+  readonly open: Accessor<boolean>
+  readonly zIndex: Accessor<number>
+  // readonly style: StyleProp
+  // readonly class: ClassProp
 }
 
 export const DialogBackdrop = (props: Props) => {

@@ -83,24 +83,30 @@ type TemperatureStructureTypeList = [
 // Object
 // ---
 
-interface HeavydynCorrectionParameters {
+interface HeavydynCorrectionParameters
+  extends SerializableObject<JSONHeavydynCorrectionParameters> {
   readonly load: HeavydynLoadCorrectionParameters
   readonly temperature: HeavydynTemperatureCorrectionParameters
 }
 
-interface HeavydynLoadCorrectionParameters {
-  active: boolean
-  source: SelectableList<LoadSourceValue, LoadSourceList>
-  customValue: MathNumber
+interface HeavydynLoadCorrectionParameters
+  extends SerializableObject<JSONHeavydynLoadCorrectionParameters> {
+  readonly active: ASS<boolean>
+  readonly source: SelectableList<LoadSourceValue, LoadSourceList>
+  readonly customValue: WritableMathNumber
 }
 
-interface HeavydynTemperatureCorrectionParameters {
-  active: boolean
-  source: SelectableList<TemperatureSourceValue, TemperatureSourceList>
-  average: SelectableList<TemperatureAverageValue, TemperatureAverageList>
-  customValue: MathNumber
-  reference: MathNumber
-  structureType: SelectableList<
+interface HeavydynTemperatureCorrectionParameters
+  extends SerializableObject<JSONHeavydynTemperatureCorrectionParameters> {
+  readonly active: ASS<boolean>
+  readonly source: SelectableList<TemperatureSourceValue, TemperatureSourceList>
+  readonly average: SelectableList<
+    TemperatureAverageValue,
+    TemperatureAverageList
+  >
+  readonly customValue: WritableMathNumber
+  readonly reference: WritableMathNumber
+  readonly structureType: SelectableList<
     TemperatureStructureTypeValue,
     TemperatureStructureTypeList
   >

@@ -7,19 +7,21 @@ import { baseID, MenuWrapperMobile } from './components/menuWrapperMobile'
 
 interface Props {
   readonly menus: Menu[]
-  setID: (id: string) => void
+  readonly setID: (id: string) => void
 }
 
 export const BarMobile = (props: Props) => {
   props.menus?.forEach((menu) => {
-    menu.openedOnMobile = false
+    menu.openedOnMobile.set(false)
   })
 
   const selectMenu = (menuToSelect: Menu) => {
-    if (store.selectedProject) {
+    const selectedProject = store.selectedProject()
+    if (selectedProject) {
       props.menus?.forEach((menu) => {
-        menu.openedOnMobile =
-          menu === menuToSelect ? !menu.openedOnMobile : false
+        menu.openedOnMobile.set((opened) =>
+          menu === menuToSelect ? !opened : false,
+        )
       })
     }
   }
@@ -36,7 +38,7 @@ export const BarMobile = (props: Props) => {
 
   return (
     <div class="flex-none p-2 lg:hidden">
-      <Show when={!store.selectedProject}>
+      <Show when={!store.selectedProject()}>
         <div class="absolute inset-x-0 bottom-0 z-10 mb-[4.75rem] bg-transparent p-2">
           <Initializer class="rounded-lg bg-white p-2" />
         </div>
@@ -51,7 +53,7 @@ export const BarMobile = (props: Props) => {
               icon={menu.icon}
               style={menu.style}
               class={menu.class}
-              opened={menu.openedOnMobile}
+              opened={menu.openedOnMobile()}
               disabled={!store.selectedProject}
               onClick={() => {
                 selectMenu(menu)

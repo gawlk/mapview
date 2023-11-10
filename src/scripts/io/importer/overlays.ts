@@ -25,12 +25,16 @@ export const importOverlaysFromZIP = (
         jsonOverlay.name.split('.').pop() as string,
       )
 
-      const overlay = await createOverlay(data64, store.map, jsonOverlay)
+      const overlay = await createOverlay(
+        data64,
+        store.map(),
+        jsonOverlay,
+        project,
+      )
 
-      if (store.projects.selected === project) {
-        overlay.addToMap(store.projects.selected.settings.areOverlaysVisible)
-      }
-
-      project.overlays.push(overlay)
+      project.overlays.set((l) => {
+        l.push(overlay)
+        return l
+      })
     }
   })

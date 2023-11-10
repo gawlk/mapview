@@ -5,7 +5,7 @@ import { roundValue } from '/src/scripts'
 import { InputRadioAbled } from './inputRadioAbled'
 
 interface Props {
-  project: HeavydynProject
+  readonly project: HeavydynProject
 }
 
 export const DetailsTemperature = (props: Props) => {
@@ -26,10 +26,8 @@ export const DetailsTemperature = (props: Props) => {
       }}
     >
       <InputRadioAbled
-        active={temperature().active}
-        onChange={(value) => {
-          temperature().active = value
-        }}
+        active={temperature().active()}
+        onChange={temperature().active.set}
       />
       <DialogSelect
         attached
@@ -41,15 +39,17 @@ export const DetailsTemperature = (props: Props) => {
           value && temperature().source.selectIndex(Number(value))
         }
         values={{
-          selected: t(temperature().source.selected || ''),
-          list: temperature().source.list.map((str, index) => ({
-            value: String(index),
-            text: t(str),
-          })),
+          selected: t(temperature().source.selected() || ''),
+          list: temperature()
+            .source.list()
+            .map((str, index) => ({
+              value: String(index),
+              text: t(str),
+            })),
         }}
       />
       <Show
-        when={temperature().source.selected !== 'Custom'}
+        when={temperature().source.selected() !== 'Custom'}
         fallback={
           <Input
             leftIcon={IconTabler123}
@@ -57,9 +57,9 @@ export const DetailsTemperature = (props: Props) => {
             full
             value={roundValue(temperature().customValue.toCurrent())}
             onInput={(value) =>
-              temperature().customValue.updateValue(Number(value || 0), true)
+              temperature().customValue.setValue(Number(value || 0), true)
             }
-            suffix={temperature().customValue.unit.currentUnit}
+            suffix={temperature().customValue.unit.currentUnit()}
           />
         }
       >
@@ -73,11 +73,13 @@ export const DetailsTemperature = (props: Props) => {
             value && temperature().average.selectIndex(Number(value))
           }
           values={{
-            selected: t(temperature().average.selected || ''),
-            list: temperature().average.list.map((str, index) => ({
-              value: String(index),
-              text: t(str),
-            })),
+            selected: t(temperature().average.selected() || ''),
+            list: temperature()
+              .average.list()
+              .map((str, index) => ({
+                value: String(index),
+                text: t(str),
+              })),
           }}
         />
       </Show>
@@ -87,9 +89,9 @@ export const DetailsTemperature = (props: Props) => {
         full
         value={roundValue(temperature().reference.toCurrent())}
         onInput={(value) =>
-          temperature().reference.updateValue(Number(value || 0), true)
+          temperature().reference.setValue(Number(value || 0), true)
         }
-        suffix={temperature().reference.unit.currentUnit}
+        suffix={temperature().reference.unit.currentUnit()}
       />
       <DialogSelect
         attached
@@ -101,11 +103,13 @@ export const DetailsTemperature = (props: Props) => {
           value && temperature().structureType.selectIndex(Number(value))
         }
         values={{
-          selected: t(temperature().structureType.selected?.name || ''),
-          list: temperature().structureType.list.map((structure, index) => ({
-            value: String(index),
-            text: t(structure.name),
-          })),
+          selected: t(temperature().structureType.selected()?.name || ''),
+          list: temperature()
+            .structureType.list()
+            .map((structure, index) => ({
+              value: String(index),
+              text: t(structure.name),
+            })),
         }}
       />
     </Details>

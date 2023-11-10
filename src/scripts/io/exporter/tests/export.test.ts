@@ -25,7 +25,7 @@ describe('Test exports', async () => {
       const stats = statSync(subPath)
 
       if (stats.isDirectory()) {
-        testData.push(...(await importFiles(subPath, file)))
+        testData.push(...((await importFiles(subPath, file)) || []))
       }
     }),
   ])

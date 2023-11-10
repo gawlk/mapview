@@ -18,15 +18,15 @@ export const OptionsDataLabels = () => {
   const { t } = useAppState()
 
   const tableDataLabels = createMemo(
-    () => store.selectedReport?.dataLabels.table.selected,
+    () => store.selectedReport()?.dataLabels.table.selected(),
   )
 
   const tableSelectedDataLabels = createMemo(
-    () => tableDataLabels()?.dataLabels || [],
+    () => tableDataLabels()?.dataLabels,
   )
 
   const tableDataLabelsChoices = createMemo(
-    () => tableDataLabels()?.group.choices.list,
+    () => tableDataLabels()?.group.choices.list(),
   )
 
   const groupedTableDataLabelsChoices = createMemo(() =>
@@ -39,7 +39,7 @@ export const OptionsDataLabels = () => {
         name: category.name,
         list: dataLabels.map((dataLabel) => {
           const index = createMemo(
-            () => tableSelectedDataLabels()?.indexOf(dataLabel) ?? -1,
+            () => tableSelectedDataLabels()?.()?.indexOf(dataLabel) ?? -1,
           )
 
           const selected = createMemo(() => index() !== -1)
@@ -64,16 +64,18 @@ export const OptionsDataLabels = () => {
         <Label label={t('Selected')}>
           <SortableList
             orientation="vertical"
-            list={tableSelectedDataLabels()}
+            list={tableSelectedDataLabels()?.() || []}
             itemToId={(dataLabel) => dataLabel.getSerializedName()}
             onChange={(oldIndex, newIndex) => {
               const tableSelected = tableDataLabels()
 
               if (tableSelected?.dataLabels) {
-                tableSelected.dataLabels = moveIndexInCopiedArray(
-                  tableSelected.dataLabels,
-                  oldIndex,
-                  newIndex,
+                tableSelected.dataLabels.set(
+                  moveIndexInCopiedArray(
+                    tableSelected.dataLabels(),
+                    oldIndex,
+                    newIndex,
+                  ),
                 )
               }
             }}
@@ -82,7 +84,7 @@ export const OptionsDataLabels = () => {
                 ref={ref}
                 dataLabel={dataLabel}
                 index={index}
-                tableSelectedDataLabels={tableSelectedDataLabels()}
+                tableSelectedDataLabels={tableSelectedDataLabels()?.() || []}
               />
             )}
           />
@@ -97,27 +99,38 @@ export const OptionsDataLabels = () => {
             (_dataLabel) => _dataLabel.toString() === value,
           )
 
-          const _tableSelectedDataLabels = tableSelectedDataLabels()
+          const _tableSelectedDataLabelsList =
+            tableSelectedDataLabels()?.() || []
 
-          if (!dataLabel || !_tableSelectedDataLabels) return
+          if (!dataLabel || !_tableSelectedDataLabelsList) return
 
-          const index = _tableSelectedDataLabels.indexOf(dataLabel)
+          const index = _tableSelectedDataLabelsList.indexOf(dataLabel)
 
-          if (index === -1) {
-            switch (store.selectedProject?.machine) {
-              case 'Heavydyn':
-                insertHeavydynDataLabel(dataLabel, _tableSelectedDataLabels)
-                break
-              case 'Maxidyn':
-                insertMaxidynDataLabel(dataLabel, _tableSelectedDataLabels)
-                break
-              case 'Minidyn':
-                insertMinidynDataLabel(dataLabel, _tableSelectedDataLabels)
-                break
+          tableSelectedDataLabels()?.set(() => {
+            if (index === -1) {
+              switch (store.selectedProject()?.machine) {
+                case 'Heavydyn':
+                  return insertHeavydynDataLabel(
+                    dataLabel,
+                    _tableSelectedDataLabelsList,
+                  )
+                case 'Maxidyn':
+                  return insertMaxidynDataLabel(
+                    dataLabel,
+                    _tableSelectedDataLabelsList,
+                  )
+                case 'Minidyn':
+                  return insertMinidynDataLabel(
+                    dataLabel,
+                    _tableSelectedDataLabelsList,
+                  )
+              }
             }
-          } else {
-            _tableSelectedDataLabels.splice(index, 1)
-          }
+
+            _tableSelectedDataLabelsList.splice(index, 1)
+
+            return _tableSelectedDataLabelsList
+          })
         }}
         options={{
           selected: null,

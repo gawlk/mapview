@@ -42,6 +42,8 @@ export const importFiles = async (dirPath: string, folderName?: string) => {
 
           project?.addToMap()
 
+          if (!project) return
+
           promises.push(
             // eslint-disable-next-line no-async-promise-executor
             new Promise(async (resolve) => {
@@ -59,9 +61,7 @@ export const importFiles = async (dirPath: string, folderName?: string) => {
 
               // rawdata and screenshoot are load in async so we wetting for the data to be init
               while (needInit) {
-                const points = getAllPointsFromProject(
-                  project as MachineProject,
-                )
+                const points = getAllPointsFromProject(project)
 
                 raws.forEach((key) => {
                   const id = key.split('/')[1]
@@ -70,7 +70,7 @@ export const importFiles = async (dirPath: string, folderName?: string) => {
                   )
 
                   needInit =
-                    needInit && point?.rawDataFile?.byteLength !== undefined
+                    needInit && point?.rawDataFile()?.byteLength !== undefined
                 })
 
                 await sleep(250)
@@ -103,10 +103,10 @@ export const importFiles = async (dirPath: string, folderName?: string) => {
       }
     } else if (stats.isDirectory()) {
       filesGroups.push(
-        ...(await importFiles(
+        ...((await importFiles(
           subPath,
           `${folderName || ''}${folderName ? '/' : ''}${fileName}`,
-        )),
+        )) || []),
       )
     }
   }

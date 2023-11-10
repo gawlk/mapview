@@ -65,16 +65,16 @@ type HeavydynDataLabelsGroups = [
 ]
 
 interface HeavydynDropDataLabelsGroup
-  extends BaseDropDataLabelsGroup<HeavydynDropIndex> {
+  extends BaseDropDataLabelsGroup<string, HeavydynDropIndex>,
+    SerializableObject<JSONHeavydynDropDataLabelsGroup> {
   readonly indexes: SelectableList<HeavydynDropIndex>
   readonly sequenceName: string
-  toJSON: () => JSONHeavydynDropDataLabelsGroup
 }
 
-interface HeavydynTestDataLabelsGroup extends BaseTestDataLabelsGroup {
-  toJSON: () => JSONHeavydynTestDataLabelsGroup
-}
+interface HeavydynTestDataLabelsGroup
+  extends BaseTestDataLabelsGroup<string>,
+    SerializableObject<JSONHeavydynTestDataLabelsGroup> {}
 
-interface HeavydynZoneDataLabelsGroup extends BaseZoneDataLabelsGroup {
-  toJSON: () => JSONHeavydynZoneDataLabelsGroup
-}
+interface HeavydynZoneDataLabelsGroup
+  extends BaseZoneDataLabelsGroup<string>,
+    SerializableObject<JSONHeavydynZoneDataLabelsGroup> {}

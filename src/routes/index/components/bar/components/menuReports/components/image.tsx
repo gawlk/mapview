@@ -1,5 +1,5 @@
 interface Props {
-  image: string
+  readonly image: string
 }
 
 export const Image = (props: Props) => {

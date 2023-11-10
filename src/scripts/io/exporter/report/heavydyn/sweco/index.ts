@@ -18,7 +18,7 @@ export const heavydynSwecoExporter: HeavydynExporter = {
           '\n' + writeHeader(project) + writePoints(project) + '\n',
         ),
       ],
-      `${project.reports.selected?.name.toString() || ''}-sweco.fwd`,
+      `${project.reports.selected()?.name.toString() || ''}-sweco.fwd`,
       { type: 'text/plain' },
     )
   },
@@ -34,12 +34,13 @@ const padDotString = (str: string, length: number, tab = true): string => {
 }
 
 const writeHeader = (project: HeavydynProject): string => {
-  if (!project.reports.selected) {
+  const selectedReport = project.reports.selected()
+  if (!selectedReport) {
     throw new Error('cannot find selected report ')
   }
 
   const date = dayjsUtc(
-    findFieldInArray(project.reports.selected.information, 'Date')?.toString(),
+    findFieldInArray(selectedReport.information, 'Date')?.toString(),
   ).format('DD/MM/YYYY')
 
   const fwdNumber = findFieldInArray(project.hardware, 'Serial number')?.value
@@ -48,15 +49,12 @@ const writeHeader = (project: HeavydynProject): string => {
 
   const sensors = project.calibrations.channels.slice(1)
 
-  const lane = findFieldInArray(project.reports.selected.information, 'Lane')
-    ?.value
+  const lane = findFieldInArray(selectedReport.information, 'Lane')?.value
 
   const client = findFieldInArray(project.information, 'Client')?.value
 
-  const roadReference = findFieldInArray(
-    project.reports.selected.information,
-    'Part',
-  )?.value
+  const roadReference = findFieldInArray(selectedReport.information, 'Part')
+    ?.value
 
   return dedent`
     ${writeSeparator()}\n\n
@@ -95,15 +93,16 @@ const writePoints = (project: HeavydynProject): string => {
   if (!project.reports.selected) return ''
 
   return (
-    project.reports.selected
-      .getExportablePoints()
+    project.reports
+      .selected()
+      ?.exportablePoints()
       .map((point) => {
         let coordinates = { lng: '', lat: '' }
 
         const chainage = Math.round(
-          Array.from(point.dataset.values()).find(
-            (data) => data.label.name === 'Chainage',
-          )?.value.value || 0,
+          Array.from(point.dataset.values())
+            .find((data) => data.label.name === 'Chainage')
+            ?.rawValue() || 0,
         )
 
         coordinates = ddToDms(point.toBaseJSON().coordinates as mapboxgl.LngLat)
@@ -142,7 +141,8 @@ const writeDrops = (point: BasePoint, channels: JSONChannel[]): string => {
     ...Array.from(point.drops[0].dataset.values())
       .filter(
         (data) =>
-          data.label.unit === point.zone.report.project.units.deflection &&
+          data.label.unit ===
+            point.zone().report().project().units.deflection &&
           data.label.category.name === currentCategory.name,
       )
       .map((_, index) => `D(${index + 1})`),
@@ -158,7 +158,7 @@ const writeDrops = (point: BasePoint, channels: JSONChannel[]): string => {
     ${writeSeparator()}
     $3
     ${pointInfos.join('\t')}
-    
+
     ${dropHeader.join('\t')}
     ${point.drops.map((drop) => writeDrop(drop, channels)).join('\n')}
   `
@@ -171,7 +171,8 @@ const writeDrop = (drop: MachineDrop, channels: JSONChannel[]): string => {
     Array.from(drop.dataset.values())
       .find(
         (data) =>
-          data.label.unit === drop.point.zone.report.project.units.force &&
+          data.label.unit ===
+            drop.point.zone().report().project().units.force &&
           data.label.category.name === currentCategory.name,
       )
       ?.value.getValueAs('kN')
@@ -182,7 +183,8 @@ const writeDrop = (drop: MachineDrop, channels: JSONChannel[]): string => {
     ...Array.from(drop.dataset.values())
       .filter(
         (data) =>
-          data.label.unit === drop.point.zone.report.project.units.deflection &&
+          data.label.unit ===
+            drop.point.zone().report().project().units.deflection &&
           data.label.category.name === currentCategory.name,
       )
       .map((_drop) => _drop.value.getValueAs('um').toFixed(1)),
@@ -197,7 +199,7 @@ const writeDrop = (drop: MachineDrop, channels: JSONChannel[]): string => {
       Array.from(drop.dataset.values())
         .find(
           (data) =>
-            data.label.unit === drop.point.zone.report.project.units.time,
+            data.label.unit === drop.point.zone().report().project().units.time,
         )
         ?.value.getValueAs('ms') || 0
     ).toFixed(2),
@@ -205,14 +207,16 @@ const writeDrop = (drop: MachineDrop, channels: JSONChannel[]): string => {
 
   str += `\n${maxValues.join('\t')}`
 
-  if (drop.impactData) {
+  const impactData = drop.impactData()
+
+  if (impactData) {
     const loadPosition = Math.round(parseFloat(channels[0].position) * 100)
 
     const loadInfos = [
       padDotString(`LoadCell (${loadPosition})[kN]`, 23, false),
       '-',
       loadMax,
-      ...drop.impactData.load.map((value) => (value / 1000).toFixed(1)),
+      ...impactData.load.map((value) => (value / 1000).toFixed(1)),
     ]
 
     str += `
@@ -228,11 +232,13 @@ const writeDisplacements = (
   drop: MachineDrop,
   channels: JSONChannel[],
 ): string => {
-  if (!drop.impactData) {
+  const impactData = drop.impactData()
+
+  if (!impactData) {
     throw new Error('No impact data found')
   }
 
-  return drop.impactData.displacement
+  return impactData.displacement
     .map((displacement, index) => {
       const sensorName = 'Sensor' + (index + 1).toString().padStart(2, ' ')
 

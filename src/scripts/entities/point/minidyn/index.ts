@@ -11,14 +11,12 @@ export const createMinidynPointFromJSON = (
 ) => {
   json = upgradeJSON(json)
 
-  const basePoint = createBasePointFromJSON(json.base, map, {
-    zone: parameters.zone,
-    information: json.base.information,
-    drops: [] as MinidynDrop[],
-  })
-
-  const point = createMutable<MinidynPoint>({
-    ...basePoint,
+  const point: MinidynPoint = {
+    ...createBasePointFromJSON(json.base, map, {
+      zone: parameters.zone,
+      information: json.base.information,
+      drops: [] as MinidynDrop[],
+    }),
     machine: 'Minidyn',
     toJSON() {
       return {
@@ -29,7 +27,7 @@ export const createMinidynPointFromJSON = (
         },
       }
     },
-  })
+  }
 
   point.drops.push(
     ...json.base.drops.map((jsonDrop) =>

@@ -1,4 +1,4 @@
-import { createMathNumber, createSelectableList } from '/src/scripts'
+import { createASS, createSL, createWritableMathNumber } from '/src/scripts'
 
 export const createHeavydynProjectTemperatureCorrectionParametersFromJSON = (
   json: JSONHeavydynTemperatureCorrectionParametersVAny,
@@ -7,23 +7,23 @@ export const createHeavydynProjectTemperatureCorrectionParametersFromJSON = (
   json = upgradeJSON(json)
 
   const temperatureCorrectionParameters: HeavydynTemperatureCorrectionParameters =
-    createMutable({
-      active: json.active,
-      source: createSelectableList(
+    {
+      active: createASS(json.active),
+      source: createSL(
         ['Tair', 'Tsurf', 'Tman', 'Custom'] as TemperatureSourceList,
         {
           selected: json.source,
         },
       ),
-      average: createSelectableList(
-        ['Point', 'Zone', 'Report'] as TemperatureAverageList,
-        {
-          selected: json.average,
-        },
+      average: createSL(['Point', 'Zone', 'Report'] as TemperatureAverageList, {
+        selected: json.average,
+      }),
+      customValue: createWritableMathNumber(
+        json.customValue,
+        units.temperature,
       ),
-      customValue: createMathNumber(json.customValue, units.temperature),
-      reference: createMathNumber(json.reference, units.temperature),
-      structureType: createSelectableList(
+      reference: createWritableMathNumber(json.reference, units.temperature),
+      structureType: createSL(
         [
           {
             name: 'Flexible',
@@ -46,7 +46,18 @@ export const createHeavydynProjectTemperatureCorrectionParametersFromJSON = (
           selectedIndex: json.structureType,
         },
       ),
-    })
+      toJSON() {
+        return {
+          version: 2,
+          active: this.active(),
+          source: this.source.selected() || 'Tair',
+          average: this.average.selected() || 'Zone',
+          customValue: this.customValue.value(),
+          reference: this.reference.value(),
+          structureType: this.structureType.selectedIndex() || 0,
+        }
+      },
+    }
 
   return temperatureCorrectionParameters
 }

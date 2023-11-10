@@ -34,7 +34,7 @@ export const createDataLabel = <T extends string, Unit extends string>(args: {
       }`
     },
     toString() {
-      return generateDataLabelString(this.category, this.name)
+      return `${this.category.name}_${this.name}`
     },
     toJSON() {
       return {
@@ -74,6 +74,3 @@ const upgradeJSON = <T extends string>(
 
   return json
 }
-
-export const generateDataLabelString = (category: DataCategory, name: string) =>
-  `${category.name}_${name}`

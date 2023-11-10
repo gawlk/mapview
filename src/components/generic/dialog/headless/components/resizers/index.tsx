@@ -10,9 +10,9 @@ import { activateUserSelectNone, deactivateUserSelectNone } from '../../scripts'
 import { computeDirection, expand, resizeDialog } from './scripts'
 
 interface Props {
-  dialog: Accessor<HTMLDialogElement | undefined>
-  dimensions: DialogDimensions
-  position: DialogPosition
+  readonly dialog: Accessor<HTMLDialogElement | undefined>
+  readonly dimensions: DialogDimensions
+  readonly position: DialogPosition
 }
 
 export const DialogResizers = (props: Props) => {

@@ -31,5 +31,5 @@ interface MaxidynReport
       MaxidynDataLabels,
       MaxidynThresholds
     > {
-  addZone: () => void
+  readonly addZone: () => Promise<void>
 }

@@ -46,9 +46,7 @@ export const convertPRJZToMaxidynReportDistinct = (
 
   const modulusThresholdIndex = createDefaultModulusThresholds(
     {} as unknown as MathUnit<string>,
-  ).findIndex((threshold) => {
-    return threshold.value === jsonPV.Threshold.Threshold
-  })
+  ).findIndex((threshold) => threshold.value === jsonPV.Threshold.Threshold)
 
   return {
     version: 1,

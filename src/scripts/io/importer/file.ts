@@ -1,13 +1,14 @@
 /* eslint-disable no-console */
 import {
   convertJSONFromPRJZToMPVZ,
+  createMachineProjectFromJSON,
   importOverlaysFromZIP,
-  importProjectFromJSON,
   importRawDataFromZIP,
   importScreenshotsFromZIP,
   unzipFile,
   waitForMap,
 } from '/src/scripts'
+import { store } from '/src/store'
 
 export const unzippedToJSON = (unzipped: Unzipped) => {
   const jsonUint = unzipped['database.json']
@@ -21,9 +22,11 @@ export const getProjectJSONFromZip = (
 ) => {
   const importedJSON = unzippedToJSON(unzipped)
 
-  return extension === 'mpvz'
-    ? (importedJSON as JSONMapview).project
-    : convertJSONFromPRJZToMPVZ(importedJSON)
+  if (extension === 'mpvz') {
+    return (importedJSON as JSONMapview).project
+  }
+
+  return convertJSONFromPRJZToMPVZ(importedJSON)
 }
 
 export const importFile = async (file: File) => {
@@ -41,7 +44,7 @@ export const importFile = async (file: File) => {
     console.log(jsonProject)
 
     if (jsonProject) {
-      project = importProjectFromJSON(jsonProject)
+      project = await createMachineProjectFromJSON(jsonProject, store.map())
 
       setTimeout(async () => {
         if (project) {
@@ -55,7 +58,7 @@ export const importFile = async (file: File) => {
 
           setTimeout(() => {
             if (project) {
-              project.state = 'Loaded'
+              project.state.set('Loaded')
             }
           }, 5000)
         }

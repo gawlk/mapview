@@ -1,16 +1,16 @@
 /* eslint-disable sonarjs/cognitive-complexity */
 import { ReactiveMap } from '@solid-primitives/map'
-import { Marker, Popup } from 'mapbox-gl'
+import mapboxgl, { Marker, Popup } from 'mapbox-gl'
 
 import { translate } from '/src/locales'
 import {
   colors,
+  createASS,
   createDataValueFromJSON,
   createFieldFromJSON,
   createIcon,
-  createWatcherHandler,
-  run,
 } from '/src/scripts'
+import { store } from '/src/store'
 
 export const createBasePointFromJSON = <
   Zone extends MachineZone,
@@ -26,48 +26,64 @@ export const createBasePointFromJSON = <
 ) => {
   json = upgradeJSON(json)
 
-  const icon = createIcon(parameters.zone.report.settings.iconName)
+  const icon = createIcon(parameters.zone.report().settings.iconName())
 
   const marker = icon
     ? new Marker({
         element: icon.element,
-        draggable: !parameters.zone.report.project.settings.arePointsLocked,
+        draggable: !parameters.zone.report().project().settings.arePointsLocked,
       }).setLngLat(json.coordinates)
     : null
 
-  const watcherHandler = createWatcherHandler()
+  const coordinates = createASS(marker?.getLngLat())
 
-  let watcherMarkersString: (() => void) | undefined
-  let watcherMarkersColor: (() => void) | undefined
+  marker?.on('drag', () => {
+    coordinates.set(marker.getLngLat())
+  })
 
-  const dataset = new ReactiveMap<string, DataValue<string>>()
+  const dataset = new ReactiveMap<DataLabel, DataValue<string>>()
   json.data.forEach((jsonDataValue) => {
     const dataValue = createDataValueFromJSON(
       jsonDataValue,
-      parameters.zone.report.dataLabels.groups.list[1].choices.list,
+      parameters.zone.report().dataLabels.groups.list()[1].choices.list(),
     )
 
-    dataset.set(dataValue.label.toString(), dataValue)
+    dataset.set(dataValue.label, dataValue)
   })
+
+  const settings = createPointSettingsFromJSON(json.settings)
+
+  const zone = createASS(parameters.zone)
 
   const point: BasePoint<Drop, Zone> = {
     id: json.id,
-    number: json.number,
-    index: json.index,
+    number: createASS(json.number),
+    index: createASS(json.index),
     date: new Date(json.date),
     marker,
     icon,
-    information: createMutable(
-      parameters.information.map((field: JSONField) =>
-        createFieldFromJSON(field),
-      ),
+    information: parameters.information.map((field: JSONField) =>
+      createFieldFromJSON(field),
     ),
-    settings: createMutable(json.settings),
-    zone: parameters.zone,
+    settings,
+    zone,
     dataset,
+    coordinates,
     drops: [],
-    rawDataFile: null,
-    getSelectedMathNumber(
+    rawDataFile: createASS(null),
+    onMapMathNumber: createMemo(() => {
+      const group = zone().report().dataLabels.groups.selected()
+      const selected = group?.choices.selected()
+
+      if (!group || !selected) return
+
+      return point.getMathNumber(
+        group.from,
+        selected,
+        group.from === 'Drop' ? group.indexes.selected() : undefined,
+      )
+    }),
+    getMathNumber(
       groupFrom: DataLabelsFrom,
       dataLabel: DataLabel<string>,
       index?: BaseDropIndex | null,
@@ -87,203 +103,67 @@ export const createBasePointFromJSON = <
           break
       }
 
-      return source?.dataset.get(dataLabel.toString())?.value
+      return source?.dataset.get(dataLabel)?.value
     },
     getDisplayedString(
       groupFrom: DataLabelsFrom,
       dataLabel: DataLabel<string>,
       index?: BaseDropIndex | null,
     ) {
-      const value = this.getSelectedMathNumber(groupFrom, dataLabel, index)
+      const value = this.getMathNumber(groupFrom, dataLabel, index)
 
-      return value ? value.displayedString : ''
+      return value ? value.displayedString() : ''
     },
-    updateColor() {
-      if (watcherMarkersColor) {
-        watcherHandler.remove(watcherMarkersColor)
-        watcherMarkersColor = undefined
-      }
+    // addToMap() {
+    //   map && marker?.addTo(map)
 
-      if (this.zone.report.settings.colorization === 'Zone') {
-        this.icon?.setColor(colors[this.zone.settings.color])
-      } else {
-        const group = this.zone.report.dataLabels.groups.selected
+    // void watcherHandler.add(
+    //   on(
+    //     this.settings.isVisible,
+    //     (visible) => {
+    //       const sortedPoints = this.zone().report().sortedPoints()
+    //       let index =
+    //         sortedPoints.findIndex((_point) => this.index === _point.index) +
+    //         1
+    //       for (index; index < sortedPoints.length; index++) {
+    //         sortedPoints[index].number.set((n) => n + (visible ? 1 : -1))
+    //       }
+    //       this.zone().report().line.update()
+    //     },
+    //     {
+    //       defer: true,
+    //     },
+    //   ),
+    // )
+    // },
+    shouldBeOnMap: createMemo(() => {
+      const _zone = zone()
+      const report = _zone.report()
+      const project = report.project()
 
-        if (group && group.choices.selected) {
-          const mathNumber = this.getSelectedMathNumber(
-            group.from,
-            group.choices.selected,
-            group.from === 'Drop' ? group.indexes.selected : undefined,
-          )
-
-          const unit = mathNumber?.unit
-
-          if (unit) {
-            const threshold = (
-              Object.values(this.zone.report.thresholds.groups).find(
-                (_group) => _group.unit === unit,
-              ) as ThresholdsGroup<string>
-            )?.choices.selected
-
-            void run(async () => {
-              watcherMarkersColor = await watcherHandler.add(
-                on(
-                  () =>
-                    threshold?.getColor(
-                      mathNumber,
-                      this.zone.report.thresholds.colors,
-                    ),
-                  (color) => {
-                    this.icon?.setColor(color)
-                  },
-                ),
-              )
-            })
-          } else {
-            this.icon?.setColor()
-          }
-        }
-      }
-    },
-    async updateText() {
-      if (watcherMarkersString) {
-        watcherHandler.remove(watcherMarkersString)
-        watcherMarkersString = undefined
-      }
-
-      switch (this.zone.report.project.settings.pointsState) {
-        case 'number': {
-          watcherMarkersString = await watcherHandler.add(
-            on(
-              () => this.number,
-              (number) => {
-                this.icon?.setText(String(number))
-              },
-            ),
-          )
-
-          break
-        }
-        case 'value': {
-          const group = this.zone.report.dataLabels.groups.selected
-
-          if (group && group.choices.selected) {
-            const value = this.getSelectedMathNumber(
-              group.from,
-              group.choices.selected,
-              group.from === 'Drop' ? group.indexes.selected : undefined,
-            )
-
-            watcherMarkersString = await watcherHandler.add(
-              on(
-                () => value?.displayedString,
-                (displayedString) => {
-                  this.icon?.setText(displayedString || '')
-                },
-              ),
-            )
-          }
-
-          break
-        }
-        case 'nothing':
-          this.icon?.setText('')
-          break
-      }
-    },
-    updateVisibility() {
-      if (this.checkVisibility()) {
-        map && this.marker?.addTo(map)
-      } else {
-        this.marker?.remove()
-      }
-    },
-    updatePopup() {
-      let html = ``
-
-      const appendToPopup = (label: string, value: string) => {
-        html += `<p><strong>${label}:</strong> ${value}</p>`
-      }
-
-      appendToPopup(translate('Date'), this.date.toLocaleString())
-      appendToPopup(
-        translate('Longitude'),
-        this.marker?.getLngLat().lng.toLocaleString(undefined, {
-          maximumFractionDigits: 6,
-        }) || '',
-      )
-      appendToPopup(
-        translate('Latitude'),
-        this.marker?.getLngLat().lat.toLocaleString(undefined, {
-          maximumFractionDigits: 6,
-        }) || '',
-      )
-
-      this.dataset.forEach((dataValue) => {
-        appendToPopup(
-          translate(dataValue.label.name),
-          dataValue.value.displayedStringWithUnit,
-        )
-      })
-
-      this.marker?.setPopup(new Popup().setHTML(html))
-    },
-    addToMap() {
-      this.updateVisibility()
-      void this.updateText()
-      this.updateColor()
-      this.updatePopup()
-
-      void watcherHandler.add(
-        on(
-          () => this.settings.isVisible,
-          () => {
-            const sortedPoints = this.zone.report.line.sortedPoints
-
-            this.updateVisibility()
-
-            let index =
-              sortedPoints.findIndex((_point) => this.index === _point.index) +
-              1
-
-            for (index; index < sortedPoints.length; index++) {
-              sortedPoints[index].number += this.settings.isVisible ? 1 : -1
-            }
-
-            this.zone.report.line.update()
-          },
-          {
-            defer: true,
-          },
-        ),
-      )
-    },
-    checkVisibility() {
       return (
-        this.settings.isVisible &&
-        this.zone.settings.isVisible &&
-        this.zone.report.settings.isVisible &&
-        this.zone.report.project.settings.arePointsVisible
+        settings.isVisible() &&
+        _zone.settings.isVisible() &&
+        report.settings.isVisible() &&
+        project.settings.arePointsVisible() &&
+        store.selectedProject() === project
       )
-    },
-    remove() {
-      this.marker?.remove()
-      watcherHandler.clean()
-    },
+    }),
     toBaseJSON() {
       return {
-        version: json.version,
+        version: 1,
         id: this.id,
-        index: this.index,
-        settings: this.settings,
-        number: this.number,
+        index: this.index(),
+        settings: this.settings.toJSON(),
+        number: this.number(),
         date: this.date.toJSON(),
         coordinates: this.marker?.getLngLat() || json.coordinates,
         data: Array.from(this.dataset.values())
           .filter((data) =>
-            this.zone.report.dataLabels.groups.list[1].saveableChoices.includes(
-              data.label,
-            ),
+            this.zone()
+              .report()
+              .dataLabels.groups.list()[1]
+              .saveableChoices.includes(data.label),
           )
           .map((data) => data.toJSON()),
         information: this.information.map((field) => field.toJSON()),
@@ -292,7 +172,21 @@ export const createBasePointFromJSON = <
     },
   }
 
-  marker?.on('dragend', () => point.updatePopup())
+  createMapEffect(point, map)
+
+  createEffect(() => {
+    if (point.shouldBeOnMap()) {
+      createIconEffect(point)
+
+      createColorEffect(point)
+
+      createTextEffect(point)
+
+      createPopupEffect(point)
+
+      createLockEffect(point)
+    }
+  })
 
   return point
 }
@@ -304,4 +198,147 @@ const upgradeJSON = (json: JSONBasePointVAny): JSONBasePoint => {
   }
 
   return json
+}
+
+const createPointSettingsFromJSON = (
+  json: JSONPointSettings,
+): PointSettings => ({
+  isVisible: createASS(json.isVisible),
+  toJSON() {
+    return {
+      version: 1,
+      isVisible: this.isVisible(),
+    }
+  },
+})
+
+const createMapEffect = <Zone extends MachineZone, Drop extends MachineDrop>(
+  point: BasePoint<Drop, Zone>,
+  map: mapboxgl.Map | null,
+) => {
+  createEffect(() => {
+    if (map) {
+      if (point.shouldBeOnMap()) {
+        point.marker?.addTo(map)
+      } else {
+        point.marker?.remove()
+      }
+    }
+  })
+}
+
+const createIconEffect = <Zone extends MachineZone, Drop extends MachineDrop>(
+  point: BasePoint<Drop, Zone>,
+) => {
+  createEffect(() => {
+    point.icon?.setIcon(point.zone().report().settings.iconName())
+  })
+}
+
+const createTextEffect = <Zone extends MachineZone, Drop extends MachineDrop>(
+  point: BasePoint<Drop, Zone>,
+) => {
+  const text = createMemo(() => {
+    switch (point.zone().report().project().settings.pointsState()) {
+      case 'number':
+        return String(point.number())
+
+      case 'value':
+        return point.onMapMathNumber()?.displayedString() || ''
+
+      case 'nothing':
+        return ''
+    }
+  })
+
+  createEffect(() => {
+    point.icon?.setText(text())
+  })
+}
+
+const createColorEffect = <Zone extends MachineZone, Drop extends MachineDrop>(
+  point: BasePoint<Drop, Zone>,
+) => {
+  const currentThreshold = createMemo(() => {
+    const mathNumber = point.onMapMathNumber()
+
+    const unit = mathNumber?.unit
+
+    if (!unit) return
+
+    return (
+      Object.values(point.zone().report().thresholds.groups).find(
+        (_group) => _group.unit === unit,
+      ) as ThresholdsGroup<string>
+    )?.choices.selected()
+  })
+
+  const color = createMemo(() => {
+    if (point.zone().report().settings.colorization() === 'Zone') {
+      return colors[point.zone().settings.color()]
+    }
+
+    const mathNumber = point.onMapMathNumber()
+
+    if (!mathNumber) return
+
+    return currentThreshold()?.getColor(
+      mathNumber,
+      point.zone().report().thresholds.colors,
+    )
+  })
+
+  createEffect(() => {
+    point.icon?.setColor(color())
+  })
+}
+
+const createPopupEffect = <Zone extends MachineZone, Drop extends MachineDrop>(
+  point: BasePoint<Drop, Zone>,
+) => {
+  const popup = createMemo(() => {
+    let html = ``
+
+    const appendToPopup = (label: string, value: string) => {
+      html += `<p><strong>${label}:</strong> ${value}</p>`
+    }
+
+    appendToPopup(translate('Date'), point.date.toLocaleString())
+    appendToPopup(
+      translate('Longitude'),
+      point.coordinates()?.lng.toLocaleString(undefined, {
+        maximumFractionDigits: 6,
+      }) || '',
+    )
+    appendToPopup(
+      translate('Latitude'),
+      point.coordinates()?.lat.toLocaleString(undefined, {
+        maximumFractionDigits: 6,
+      }) || '',
+    )
+
+    point.dataset.forEach((dataValue) => {
+      appendToPopup(
+        translate(dataValue.label.name),
+        dataValue.value.displayedStringWithUnit(),
+      )
+    })
+
+    return html
+  })
+
+  createEffect(() => {
+    point.marker?.setPopup(new Popup().setHTML(popup()))
+  })
+}
+
+const createLockEffect = <Zone extends MachineZone, Drop extends MachineDrop>(
+  point: BasePoint<Drop, Zone>,
+) => {
+  createEffect(
+    () =>
+      point.marker?.setDraggable(
+        !point.zone().report().project().settings.arePointsLocked(),
+      ),
+  )
 }

@@ -8,6 +8,7 @@ import { MetaProvider } from '@solidjs/meta'
 import routes from '~solid-pages'
 import { render } from 'solid-js/web'
 
+import 'solid-devtools'
 import './styles/main.css'
 import 'mapbox-gl/dist/mapbox-gl.css'
 

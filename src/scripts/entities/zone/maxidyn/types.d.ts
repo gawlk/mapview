@@ -20,4 +20,5 @@ interface JSONMaxidynZoneDistinct {
 
 interface MaxidynZone
   extends MaxidynObject<JSONMaxidynZone>,
-    BaseZone<MaxidynPoint, MaxidynReport> {}
+    BaseZone<MaxidynPoint, MaxidynReport>,
+    DisposableObject {}

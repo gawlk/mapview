@@ -1,11 +1,11 @@
 import { classPropToString } from '/src/components'
 
 interface Props {
-  value: boolean
-  icon?: IconProp
-  leftIcon?: IconProp
-  rightIcon?: IconProp
-  onInput: (value: boolean) => void
+  readonly value: boolean
+  readonly icon?: IconProp
+  readonly leftIcon?: IconProp
+  readonly rightIcon?: IconProp
+  readonly onInput: (value: boolean) => void
 }
 
 export const Switch = (props: Props) => {

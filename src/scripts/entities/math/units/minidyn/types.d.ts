@@ -18,7 +18,7 @@ type PossibleMinidynPercentageUnits = '%'
 
 type JSONMinidynUnitsVAny = JSONMinidynUnits
 
-type JSONMinidynUnits = { version: 1 } & MinidynUnitsSkeleton<
+type JSONMinidynUnits = { readonly version: 1 } & MinidynUnitsSkeleton<
   JSONMathUnit<PossibleMinidynModulusUnits>,
   JSONMathUnit<PossibleMinidynStiffnessUnits>,
   JSONMathUnit<PossibleMinidynDeflectionUnits>,
@@ -36,7 +36,6 @@ type MinidynMathUnits = MinidynUnitsSkeleton<
   MathUnit<PossibleMinidynDistanceUnits>,
   MathUnit<PossibleMinidynTimeUnits>,
   MathUnit<PossibleMinidynPercentageUnits>
->
+> & { list: MathUnit<string>[] } & SerializableObject<JSONMinidynUnits>
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type MinidynUnitsNames = keyof MinidynUnitsSkeleton<any>
+type MinidynUnitsNames = keyof MinidynUnitsSkeleton<undefined>

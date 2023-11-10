@@ -1,13 +1,16 @@
+import { getOwner, runWithOwner } from 'solid-js'
 import {
   computeAverage,
-  createDataComputer,
   createDataLabel,
   createDataValue,
   currentCategory,
   indicatorsCategory,
-  run,
+  roundValue,
 } from '/src/scripts'
+import { store } from '/src/store'
+import { createLazyMemo } from '@solid-primitives/memo'
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export const createCumSumDataComputer = (report: HeavydynReport) => {
   const currentD0DataLabel = report.dataLabels.findIn(
     'Drop',
@@ -21,77 +24,95 @@ export const createCumSumDataComputer = (report: HeavydynReport) => {
     currentCategory,
   )
 
-  const numberOfDrops = report.dataLabels.groups.list[0].indexes.list.length
+  if (!currentD0DataLabel || !currentLoadDataLabel) return
 
-  return createDataComputer({
-    label:
-      currentD0DataLabel &&
-      currentLoadDataLabel &&
-      report.dataLabels.pushTo(
-        'Drop',
-        createDataLabel({
-          name: 'Cumulative sum',
-          shortName: 'Cumsum',
-          category: indicatorsCategory,
-          unit: report.project.units.cumSum,
-        }),
-      ),
-    // eslint-disable-next-line sonarjs/cognitive-complexity
-    compute: (label) => {
-      const exportablePoints = report.getExportablePoints() as HeavydynPoint[]
+  const numberOfDrops = report.dataLabels.groups.list()[0].indexes.list().length
 
-      const groupedDropsByDropIndex = exportablePoints.reduce(
-        (grouped, point) => {
-          point.drops.forEach((drop, dropIndex) =>
-            grouped[dropIndex].push(drop),
-          )
+  const cumSumDataLabel = createDataLabel({
+    name: 'Cumulative sum',
+    shortName: 'Cumsum',
+    category: indicatorsCategory,
+    unit: report.project().units.cumSum,
+  })
 
-          return grouped
-        },
-        new Array(numberOfDrops).fill(null).map(() => []) as HeavydynDrop[][],
-      )
+  report.dataLabels.pushTo('Drop', cumSumDataLabel)
 
-      groupedDropsByDropIndex.forEach((drops) => {
-        const d0OnLoadList = drops.map((drop) => {
-          if (!currentD0DataLabel || !currentLoadDataLabel) return
+  const points = report.sortedPoints as Accessor<HeavydynPoint[]>
 
-          const d0 = drop.dataset.get(currentD0DataLabel.toString())
+  const groupedDropsByDropIndex = createLazyMemo(() =>
+    points().reduce(
+      (grouped, point) => {
+        point.drops.forEach((drop, dropIndex) => grouped[dropIndex].push(drop))
+        return grouped
+      },
+      new Array(numberOfDrops).fill(null).map(() => []) as HeavydynDrop[][],
+    ),
+  )
 
-          const load = drop.dataset.get(currentD0DataLabel.toString())
-
-          return d0 && load
-            ? (d0.getRawValue() / load.getRawValue()) * 100000000
-            : undefined
-        })
-
-        const averageD0OnLoad = computeAverage(
-          d0OnLoadList.flat().filter((v) => typeof v === 'number') as number[],
+  const d0OnLoadByDropIndexList = createLazyMemo(() =>
+    groupedDropsByDropIndex().map((drops) =>
+      drops.map((drop) => {
+        const d0 = createLazyMemo(
+          () => drop.dataset.get(currentD0DataLabel)?.rawValue(),
         )
 
-        let lastCumSum = 0
+        const load = createLazyMemo(
+          () => drop.dataset.get(currentLoadDataLabel)?.rawValue(),
+        )
 
-        drops.forEach((drop, index) => {
-          const data =
-            drop.dataset.get(label.toString()) ||
-            run(() => {
-              const dl = createDataValue(0, label)
-              drop.dataset.set(label.toString(), dl)
-              return dl
-            })
+        return ((d0() || 0) / (load() || 0)) * 100_000_000
+      }),
+    ),
+  )
 
-          const d0OnLoad = d0OnLoadList[index]
+  const d0OnLoadAverages = createLazyMemo(() =>
+    d0OnLoadByDropIndexList().map((group) => computeAverage(group)),
+  )
 
-          if (typeof d0OnLoad === 'number') {
-            const value = index
-              ? d0OnLoad + lastCumSum - averageD0OnLoad
-              : lastCumSum
+  const owner = getOwner()
 
-            lastCumSum = value
+  createEffect(
+    () =>
+      store.selectedProject() === report.project() &&
+      batch(() =>
+        groupedDropsByDropIndex().forEach((group, groupIndex) =>
+          group
+            .filter((drop) => !drop.dataset.get(cumSumDataLabel))
+            .forEach((drop, dropIndex, drops) =>
+              runWithOwner(owner, () => {
+                const d0OnLoad = createLazyMemo(
+                  () => d0OnLoadByDropIndexList()[groupIndex][dropIndex],
+                )
 
-            data.value.updateValue(Math.round(value * 10) / 10)
-          }
-        })
-      })
-    },
-  })
+                const averageD0OnLoad = createLazyMemo(
+                  () => d0OnLoadAverages()[groupIndex],
+                )
+
+                const previousCumSum = createLazyMemo(() => {
+                  if (!dropIndex) return 0
+                  return (
+                    drops[dropIndex - 1].dataset
+                      .get(cumSumDataLabel)
+                      ?.rawValue() || 0
+                  )
+                })
+
+                const cumSum = createDataValue(
+                  createLazyMemo(() =>
+                    roundValue(
+                      dropIndex
+                        ? d0OnLoad() + previousCumSum() - averageD0OnLoad()
+                        : 0,
+                      1,
+                    ),
+                  ),
+                  cumSumDataLabel,
+                )
+
+                drop.dataset.set(cumSumDataLabel, cumSum)
+              }),
+            ),
+        ),
+      ),
+  )
 }

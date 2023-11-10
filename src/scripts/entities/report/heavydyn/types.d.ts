@@ -31,5 +31,5 @@ interface HeavydynReport
       HeavydynDataLabels,
       HeavydynThresholds
     > {
-  addZone: () => void
+  readonly addZone: () => Promise<void>
 }

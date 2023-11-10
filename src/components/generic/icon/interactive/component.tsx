@@ -41,7 +41,7 @@ export const IconInteractive = (props: Props) => {
                 case 'right':
                   return '-mr-1.5 ml-1.5'
                 default:
-                  return 'm-0.5'
+                  return ''
               }
           }
         }),

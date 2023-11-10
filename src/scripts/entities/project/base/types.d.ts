@@ -19,20 +19,23 @@ type MachineName = 'Heavydyn' | 'Maxidyn' | 'Minidyn'
 
 interface JSONProjectSettings {
   readonly version: 1
-  arePointsVisible: boolean
-  arePointsLinked: boolean
-  // arePointsLocked: boolean
-  areOverlaysVisible: boolean
-  pointsState: 'value' | 'number' | 'nothing'
-  readonly map: {
-    version: 1
-    styleIndex: number
-    coordinates?: LngLat
-    zoom?: number
-    pitch?: number
-    rotation?: number
-  }
+  readonly arePointsVisible: boolean
+  readonly arePointsLinked: boolean
+  readonly areOverlaysVisible: boolean
+  readonly pointsState: 'value' | 'number' | 'nothing'
+  readonly map: JSONProjectMapSettings
 }
+
+interface JSONProjectMapSettings {
+  readonly version: 1
+  readonly styleIndex: MapStyleIndex
+  readonly coordinates?: LngLat
+  readonly zoom?: number
+  readonly pitch?: number
+  readonly rotation?: number
+}
+
+type MapStyleIndex = 0 | 1 | 2 | 3 | 4
 
 interface JSONAcquisitionParameters {
   readonly version: 1
@@ -50,23 +53,44 @@ interface BaseProject<
   Report extends BaseReport = MachineReport,
   MathUnits extends MachineMathUnits = MachineMathUnits,
 > extends BaseObject<JSONBaseProject>,
-    Entity<'Project'> {
-  state: 'Loading' | 'Loaded'
+    Entity<'Project'>,
+    OnMapObject {
+  readonly state: ASS<'Loading' | 'Loaded'>
   readonly name: Field
   readonly information: Field[]
   readonly hardware: Field[]
   readonly reports: SelectableList<Report>
   readonly units: MathUnits
   readonly settings: BaseProjectSettings
-  readonly overlays: Overlay[]
-  readonly acquisitionParameters: JSONAcquisitionParameters
-  readonly refreshLinesAndOverlays: () => void
+  readonly overlays: ASS<Overlay[]>
+  readonly acquisitionParameters: BaseAcquisitionParameters
+  readonly refreshLinesAndOverlays: VoidFunction
   readonly setMapStyle: (styleIndex: number) => void
-  readonly fitOnMap: () => void
-  readonly addToMap: () => void
-  readonly remove: () => void
+  readonly fitOnMap: VoidFunction
 }
 
-interface BaseProjectSettings extends JSONProjectSettings {
-  arePointsLocked: boolean
+interface BaseProjectSettings extends SerializableObject<JSONProjectSettings> {
+  readonly arePointsLocked: ASS<boolean>
+  readonly arePointsVisible: ASS<boolean>
+  readonly arePointsLinked: ASS<boolean>
+  readonly areOverlaysVisible: ASS<boolean>
+  readonly pointsState: ASS<'value' | 'number' | 'nothing'>
+  readonly map: BaseProjectMapSettings
+}
+
+interface BaseProjectMapSettings
+  extends SerializableObject<JSONProjectMapSettings> {
+  readonly styleIndex: ASS<MapStyleIndex>
+  readonly zoom: ASS<number | undefined>
+  readonly pitch: ASS<number | undefined>
+  readonly rotation: ASS<number | undefined>
+  readonly coordinates: ASS<LngLat | undefined>
+}
+
+interface BaseAcquisitionParameters
+  extends SerializableObject<JSONAcquisitionParameters> {
+  readonly nbSamples: ASS<number>
+  readonly frequency: ASS<number>
+  readonly preTrig: ASS<number>
+  readonly smoothing: ASS<boolean | undefined>
 }

@@ -6,15 +6,11 @@ import Sun100 from '/src/assets/svg/custom/sun100.svg'
 import { Button } from '/src/components'
 
 interface Props {
-  overlay: Overlay
+  readonly overlay: Overlay
 }
 
 export const ButtonOverlayOpacity = (props: Props) => {
-  const opacity = createMemo(() => props.overlay.opacity)
-
-  const setOpacity = (_opacity: 1 | 0.75 | 0.5 | 0.25 | 0) => {
-    props.overlay.opacity = _opacity
-  }
+  const opacity = props.overlay.opacity
 
   const icon = createMemo(() => {
     switch (opacity()) {
@@ -37,19 +33,19 @@ export const ButtonOverlayOpacity = (props: Props) => {
       onClick={() => {
         switch (opacity()) {
           case 0:
-            setOpacity(0.25)
+            opacity.set(0.25)
             break
           case 0.25:
-            setOpacity(0.5)
+            opacity.set(0.5)
             break
           case 0.5:
-            setOpacity(0.75)
+            opacity.set(0.75)
             break
           case 0.75:
-            setOpacity(1)
+            opacity.set(1)
             break
           case 1:
-            setOpacity(0)
+            opacity.set(0)
             break
         }
       }}

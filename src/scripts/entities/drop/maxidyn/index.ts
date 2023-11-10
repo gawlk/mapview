@@ -8,18 +8,16 @@ export const createMaxidynDropFromJSON = (
 ) => {
   json = upgradeJSONDrop(json)
 
-  const dropGroup = parameters.point.zone.report.dataLabels.groups.list[0]
+  const dropGroup = parameters.point.zone().report().dataLabels.groups.list()[0]
 
-  const index = dropGroup?.indexes?.list[json.base.index]
+  const index = dropGroup?.indexes?.list()[json.base.index]
 
-  const baseDrop = createBaseDropFromJSON(json.base, {
-    point: parameters.point,
-    index,
-    dropGroup,
-  })
-
-  return createMutable<MaxidynDrop>({
-    ...baseDrop,
+  const drop: MaxidynDrop = {
+    ...createBaseDropFromJSON(json.base, {
+      point: parameters.point,
+      index,
+      dropGroup,
+    }),
     machine: 'Maxidyn',
     toJSON() {
       return {
@@ -30,7 +28,9 @@ export const createMaxidynDropFromJSON = (
         },
       }
     },
-  })
+  }
+
+  return drop
 }
 
 const upgradeJSONDrop = (json: JSONMaxidynDropVAny): JSONMaxidynDrop => {

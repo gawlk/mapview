@@ -2,7 +2,7 @@ import { Button } from '/src/components'
 import { store } from '/src/store'
 
 interface Props {
-  overlay: Overlay
+  readonly overlay: Overlay
 }
 
 export const ButtonFitOverlay = (props: Props) => {
@@ -17,7 +17,7 @@ export const ButtonFitOverlay = (props: Props) => {
         const nw = markerNW.getLngLat()
         const se = markerSE.getLngLat()
 
-        store.map?.fitBounds(
+        store.map()?.fitBounds(
           [
             [
               nw.lng < se.lng ? nw.lng : se.lng,
@@ -32,7 +32,7 @@ export const ButtonFitOverlay = (props: Props) => {
         )
       }}
     >
-      {props.overlay.id.split('.')[0]}
+      <span class="truncate">{props.overlay.id.split('.')[0]}</span>
     </Button>
   )
 }

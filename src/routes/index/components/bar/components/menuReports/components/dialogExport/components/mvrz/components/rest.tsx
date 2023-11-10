@@ -18,7 +18,8 @@ export const REST = (props: Props) => {
   })
 
   createEffect(async () => {
-    if (!store.selectedProject) {
+    const selectedProject = store.selectedProject()
+    if (!selectedProject) {
       return
     }
 
@@ -33,7 +34,7 @@ export const REST = (props: Props) => {
           'x-functions-key':
             'v7IwtPEOA8etaIi-CnqPsWE749uRZRKL31iuTTi6n8tIAzFuE_220w==',
         },
-        body: await mvrzExporter.export(store.selectedProject, props.template),
+        body: await mvrzExporter.export(selectedProject, props.template),
       },
     )
 
@@ -47,7 +48,9 @@ export const REST = (props: Props) => {
       downloadFile(
         new File(
           [blob],
-          `${store.selectedProject.name.toString()}_${store.selectedReport?.name.toString()}.xlsx`,
+          `${store.selectedProject()?.name.toString()}_${store
+            .selectedReport()
+            ?.name.toString()}.xlsx`,
         ),
       )
 

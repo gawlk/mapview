@@ -29,7 +29,10 @@ export const importScreenshotsFromZIP = (
           String(screenshotFileName.split('.').pop()),
         )
 
-        project.reports.list[index]?.screenshots.push(data64)
+        project.reports.list()[index]?.screenshots.set((l) => {
+          l.push(data64)
+          return l
+        })
       }
     })
   })

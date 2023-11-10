@@ -9,9 +9,9 @@ type JSONHeavydynThresholdsConfigurationsVAny =
   | JSONHeavydynThresholdsConfigurationsV1
 
 type JSONHeavydynThresholdsConfigurations = {
-  version: 2
+  readonly version: 2
 } & HeavydynUnitsSkeleton<JSONDistinctThresholdsConfiguration>
 
 type JSONHeavydynThresholdsConfigurationsV1 = {
-  version: 1
+  readonly version: 1
 } & HeavydynUnitsSkeletonV1<JSONDistinctThresholdsConfiguration>

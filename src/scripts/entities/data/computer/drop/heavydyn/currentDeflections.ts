@@ -1,122 +1,158 @@
+import { getOwner, runWithOwner } from 'solid-js'
 import {
   computeAverage,
-  createDataComputer,
   createDataLabel,
   createDataValue,
   currentCategory,
-  generateDataLabelString,
   rawCategory,
-  run,
 } from '/src/scripts'
+import { store } from '/src/store'
+import { createLazyMemo } from '@solid-primitives/memo'
 
 export const createHeavydynCurrentDeflectionDropDataComputers = (
   report: HeavydynReport,
+  // eslint-disable-next-line sonarjs/cognitive-complexity
 ) => {
-  const dropGroupDataLabels = report.dataLabels.groups.list[0]
-  const labels = dropGroupDataLabels.choices.list
+  const rawLoadDataLabel = report.dataLabels.findIn('Drop', 'Load', rawCategory)
 
-  return (
-    labels
-      .filter((label) => label.name.startsWith('D'))
-      // eslint-disable-next-line sonarjs/cognitive-complexity
-      .map((rawLabel) => {
-        return createDataComputer({
-          label:
-            labels[
-              labels.push(
-                createDataLabel({
-                  name: rawLabel.name,
-                  unit: rawLabel.unit,
-                  category: currentCategory,
-                }),
-              ) - 1
-            ],
-          compute: (currentLabel) => {
-            const correctionParameters = report.project.correctionParameters
-
-            const sourceTempMatrix = report.zones.map((zone) =>
-              zone
-                .getExportablePoints()
-                .map(
-                  (point) =>
-                    point.dataset
-                      .get(
-                        generateDataLabelString(
-                          rawCategory,
-                          correctionParameters.temperature.source.selected ||
-                            '',
-                        ),
-                      )
-                      ?.getRawValue(),
-                ),
-            )
-
-            const reportSourceTempAverage = computeAverage(
-              sourceTempMatrix.flat().filter((v) => v) as number[],
-            )
-
-            report.zones.forEach((zone, zoneIndex) => {
-              const zoneSourceTempAverage = computeAverage(
-                sourceTempMatrix[zoneIndex].filter((v) => v) as number[],
-              )
-
-              zone.getExportablePoints().forEach((point, pointIndex) => {
-                point.drops.forEach((drop) => {
-                  const rawData = drop.dataset.get(rawLabel.toString())
-
-                  if (rawData) {
-                    const currentData =
-                      drop.dataset.get(currentLabel.toString()) ||
-                      run(() => {
-                        const dl = createDataValue(0, currentLabel)
-                        drop.dataset.set(currentLabel.toString(), dl)
-                        return dl
-                      })
-
-                    let value = rawData.getRawValue()
-
-                    const currentLoad = drop.dataset.get(
-                      generateDataLabelString(currentCategory, 'Load'),
-                    )
-
-                    const rawLoad = drop.dataset.get(
-                      generateDataLabelString(rawCategory, 'Load'),
-                    )
-
-                    if (currentLoad && rawLoad) {
-                      value *= currentLoad.getRawValue() / rawLoad.getRawValue()
-                    }
-
-                    const { temperature } = correctionParameters
-
-                    let sourceTemperature: number | undefined =
-                      reportSourceTempAverage
-
-                    if (temperature.source.selected === 'Custom') {
-                      sourceTemperature = temperature.customValue.value
-                    } else if (temperature.average.selected === 'Point') {
-                      sourceTemperature =
-                        sourceTempMatrix[zoneIndex][pointIndex]
-                    } else if (temperature.average.selected === 'Zone') {
-                      sourceTemperature = zoneSourceTempAverage
-                    }
-
-                    if (sourceTemperature && temperature.active) {
-                      const k = temperature.structureType.selected?.k || 0
-
-                      const siRefTemp = temperature.reference.value
-
-                      value /=
-                        1 + (k * (sourceTemperature - siRefTemp)) / siRefTemp
-                    }
-
-                    currentData.value.updateValue(value)
-                  }
-                })
-              })
-            })
-          },
-        })
-      })
+  const currentLoadDataLabel = report.dataLabels.findIn(
+    'Drop',
+    'Load',
+    currentCategory,
   )
+
+  if (!rawLoadDataLabel || !currentLoadDataLabel) return
+
+  const { temperature } = report.project().correctionParameters
+
+  const tempDataLabel = createLazyMemo(() =>
+    report.dataLabels.groups
+      .list()[1]
+      .choices.list()
+      .find((dataLabel) => dataLabel.name === temperature.source.selected()),
+  )
+
+  const sourceTempMatrix = createLazyMemo(() => {
+    const dl = tempDataLabel()
+    return report
+      .zones()
+      .map((zone) =>
+        zone
+          .exportablePoints()
+          .map((point) => (dl ? point.dataset.get(dl)?.rawValue() : undefined)),
+      )
+  })
+
+  const zoneSourceTempAverages = createLazyMemo(() =>
+    sourceTempMatrix().map((zoneValues) =>
+      computeAverage(
+        zoneValues.flatMap((v) => (typeof v === 'number' ? v : [])),
+      ),
+    ),
+  )
+
+  const reportSourceTempAverage = createLazyMemo(() =>
+    computeAverage(
+      zoneSourceTempAverages().flatMap((v) => (typeof v === 'number' ? v : [])),
+    ),
+  )
+
+  const owner = getOwner()
+
+  report.dataLabels.groups
+    .list()[0]
+    .choices.list()
+    .filter((label) => label.name.startsWith('D'))
+    .map((rawDeflectionDataLabel) => {
+      const currentDeflectionDataLabel = createDataLabel({
+        name: rawDeflectionDataLabel.name,
+        unit: rawDeflectionDataLabel.unit,
+        category: currentCategory,
+      })
+
+      report.dataLabels.pushTo('Drop', currentDeflectionDataLabel)
+
+      return { rawDeflectionDataLabel, currentDeflectionDataLabel }
+    })
+    .forEach(({ rawDeflectionDataLabel, currentDeflectionDataLabel }) => {
+      createEffect(
+        () =>
+          store.selectedProject() === report.project() &&
+          batch(() =>
+            report
+              .sortedPoints()
+              .flatMap((point) => point.drops)
+              .filter((drop) => !drop.dataset.get(currentDeflectionDataLabel))
+              .forEach((drop) =>
+                runWithOwner(owner, () => {
+                  const pointIndex = drop.point.index
+
+                  const zone = drop.point.zone
+
+                  const zoneIndex = createLazyMemo(() =>
+                    // @ts-expect-error ts fail
+                    zone().report().zones().indexOf(zone()),
+                  )
+
+                  const rawDeflection = createLazyMemo(
+                    () => drop.dataset.get(rawDeflectionDataLabel)!,
+                  )
+
+                  const multiplier = createLazyMemo(() => {
+                    const currentLoad = drop.dataset.get(currentLoadDataLabel)
+
+                    const rawLoad = drop.dataset.get(rawLoadDataLabel)
+
+                    if (!currentLoad || !rawLoad) return 1
+
+                    return currentLoad.rawValue() / rawLoad.rawValue()
+                  })
+
+                  const sourceTemperature = createLazyMemo(() => {
+                    if (temperature.source.selected() === 'Custom') {
+                      return temperature.customValue.value()
+                    }
+
+                    if (temperature.average.selected() === 'Point') {
+                      const matrix = sourceTempMatrix()
+
+                      return matrix[zoneIndex()][pointIndex()]
+                    }
+
+                    if (temperature.average.selected() === 'Zone') {
+                      return zoneSourceTempAverages()[zoneIndex()]
+                    }
+
+                    return reportSourceTempAverage()
+                  })
+
+                  const divider = createLazyMemo(() => {
+                    const source = sourceTemperature()
+
+                    if (!temperature.active() || !source) return 1
+
+                    const k = temperature.structureType.selected()?.k || 0
+
+                    const siRefTemp = temperature.reference.value()
+
+                    return 1 + (k * (source - siRefTemp)) / siRefTemp
+                  })
+
+                  const currentDeflection = createDataValue(
+                    createLazyMemo(
+                      () =>
+                        (rawDeflection().rawValue() * multiplier()) / divider(),
+                    ),
+                    currentDeflectionDataLabel,
+                  )
+
+                  drop.dataset.set(
+                    currentDeflectionDataLabel,
+                    currentDeflection,
+                  )
+                }),
+              ),
+          ),
+      )
+    })
 }

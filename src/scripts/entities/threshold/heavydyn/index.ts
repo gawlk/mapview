@@ -1,7 +1,7 @@
 import {
   createCustomThreshold,
   createDefaultDeflectionThresholds,
-  createSelectableList,
+  createSL,
 } from '/src/scripts'
 
 export const createHeavydynThresholdsGroupsFromJSON = (
@@ -13,7 +13,7 @@ export const createHeavydynThresholdsGroupsFromJSON = (
   const thresholdsGroups: HeavydynThresholdsGroups = {
     deflection: {
       unit: units.deflection,
-      choices: createSelectableList(
+      choices: createSL(
         [
           createCustomThreshold(json.deflection.custom, units.deflection),
           ...createDefaultDeflectionThresholds(units.deflection),
@@ -25,7 +25,7 @@ export const createHeavydynThresholdsGroupsFromJSON = (
     },
     force: {
       unit: units.force,
-      choices: createSelectableList(
+      choices: createSL(
         [
           createCustomThreshold(json.force.custom, units.force),
         ] as ThresoldsList,
@@ -36,7 +36,7 @@ export const createHeavydynThresholdsGroupsFromJSON = (
     },
     temperature: {
       unit: units.temperature,
-      choices: createSelectableList(
+      choices: createSL(
         [
           createCustomThreshold(json.temperature.custom, units.temperature),
         ] as ThresoldsList,
@@ -47,7 +47,7 @@ export const createHeavydynThresholdsGroupsFromJSON = (
     },
     distance: {
       unit: units.distance,
-      choices: createSelectableList(
+      choices: createSL(
         [
           createCustomThreshold(json.distance.custom, units.distance),
         ] as ThresoldsList,
@@ -58,7 +58,7 @@ export const createHeavydynThresholdsGroupsFromJSON = (
     },
     time: {
       unit: units.time,
-      choices: createSelectableList(
+      choices: createSL(
         [createCustomThreshold(json.time.custom, units.time)] as ThresoldsList,
         {
           selectedIndex: json.time.selectedIndex,
@@ -67,7 +67,7 @@ export const createHeavydynThresholdsGroupsFromJSON = (
     },
     modulus: {
       unit: units.modulus,
-      choices: createSelectableList(
+      choices: createSL(
         [
           createCustomThreshold(json.modulus.custom, units.modulus),
         ] as ThresoldsList,
@@ -78,7 +78,7 @@ export const createHeavydynThresholdsGroupsFromJSON = (
     },
     cumSum: {
       unit: units.cumSum,
-      choices: createSelectableList(
+      choices: createSL(
         [
           createCustomThreshold(json.cumSum.custom, units.cumSum),
         ] as ThresoldsList,
@@ -89,7 +89,7 @@ export const createHeavydynThresholdsGroupsFromJSON = (
     },
     radius: {
       unit: units.radius,
-      choices: createSelectableList(
+      choices: createSL(
         [
           createCustomThreshold(json.radius.custom, units.radius),
         ] as ThresoldsList,

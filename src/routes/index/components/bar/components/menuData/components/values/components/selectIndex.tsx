@@ -7,14 +7,16 @@ export const SelectIndex = () => {
   const { t } = useAppState()
 
   const selectedDataLabelGroup = createMemo(
-    () => store.selectedReport?.dataLabels.groups.selected,
+    () => store.selectedReport()?.dataLabels.groups.selected(),
   )
 
   return (
     <Show when={selectedDataLabelGroup()?.from === 'Drop'}>
       {run(() => {
-        const dropGroup =
-          selectedDataLabelGroup() as BaseDropDataLabelsGroup<BaseDropIndex>
+        const dropGroup = selectedDataLabelGroup() as BaseDropDataLabelsGroup<
+          string,
+          BaseDropIndex
+        >
 
         return (
           <DialogSelect
@@ -26,9 +28,9 @@ export const SelectIndex = () => {
             }}
             attached
             values={{
-              selected: (dropGroup.indexes.selected?.displayedIndex || 1) - 1,
+              selected: (dropGroup.indexes.selected()?.displayedIndex || 1) - 1,
               list:
-                (dropGroup.indexes?.list as MachineDropIndex[]).map(
+                (dropGroup.indexes?.list() as MachineDropIndex[]).map(
                   (dropIndex, index) => ({
                     value: String(index),
                     text: () => <SpanDropIndex dropIndex={dropIndex} />,

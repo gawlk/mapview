@@ -4,11 +4,11 @@ import { useAppState } from '/src/index'
 import { DialogOptionsList } from './List'
 
 interface Props {
-  input: string | undefined
-  selected: string | number | null
-  list: GroupedDialogSelectOptionsProps[]
-  onClick?: (value?: string) => void
-  showAllWhenEmpty?: boolean
+  readonly input: string | undefined
+  readonly selected: string | number | null
+  readonly list: GroupedDialogSelectOptionsProps[]
+  readonly onClick?: (value?: string) => void
+  readonly showAllWhenEmpty?: boolean
 }
 
 export const DialogOptionsGroup = (props: Props) => {

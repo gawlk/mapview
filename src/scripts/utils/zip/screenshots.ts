@@ -11,9 +11,10 @@ export const addScreenshotsToZip = async (
 
   switch (entity.kind) {
     case 'Project':
-      screenshotsData = entity.reports.list
+      screenshotsData = entity.reports
+        .list()
         .map((report, reportIndex) =>
-          report.screenshots.map((screenshot) => {
+          report.screenshots().map((screenshot) => {
             return {
               reportIndex,
               screenshot,
@@ -23,7 +24,7 @@ export const addScreenshotsToZip = async (
         .flat()
       break
     case 'Report':
-      screenshotsData = entity.screenshots.map((screenshot) => {
+      screenshotsData = entity.screenshots().map((screenshot) => {
         return {
           reportIndex: 0,
           screenshot,

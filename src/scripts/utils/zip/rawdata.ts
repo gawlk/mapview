@@ -8,18 +8,20 @@ export const addRawDataToZip = (
 
   switch (entity.kind) {
     case 'Project':
-      points = entity.reports.list
-        .map((report) => report.line.sortedPoints)
+      points = entity.reports
+        .list()
+        .map((report) => report.sortedPoints())
         .flat()
       break
     case 'Report':
-      points = entity.line.sortedPoints.filter((point) => point.checkVisibility)
+      points = entity.sortedPoints().filter((point) => point.shouldBeOnMap())
       break
   }
 
   points.forEach((point) => {
-    if (point.rawDataFile) {
-      rawdata[point.id] = new Uint8Array(point.rawDataFile)
+    const file = point.rawDataFile()
+    if (file) {
+      rawdata[point.id] = new Uint8Array(file)
     }
   })
 

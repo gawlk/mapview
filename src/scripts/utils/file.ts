@@ -43,8 +43,11 @@ export const convertUint8ArrayToData64Image = (
       .join(''),
   )
 
-export const convertData64ImageToFile = (data64: string) =>
-  convertData64ToFile(data64, 'screenshot.png', {
+export const convertData64ImageToFile = (
+  data64: string,
+  filename = 'screenshot.png',
+) =>
+  convertData64ToFile(data64, filename, {
     type: 'image/png',
   })
 
@@ -88,8 +91,8 @@ export const convertData64ImageToUint8Array = async (data64: string) => {
   return new Uint8Array(await file.arrayBuffer())
 }
 
-export const downloadImage = (screenshot: string) =>
-  downloadFile(convertData64ImageToFile(screenshot))
+export const downloadImage = (screenshot: string, filename?: string) =>
+  downloadFile(convertData64ImageToFile(screenshot, filename))
 
 export function convertFileNameToValidName(name: string, hasExtension = true) {
   let toCheck = name

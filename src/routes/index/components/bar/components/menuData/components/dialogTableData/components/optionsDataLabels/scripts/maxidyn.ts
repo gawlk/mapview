@@ -3,4 +3,5 @@ export const insertMaxidynDataLabel = (
   list: DataLabel[],
 ) => {
   list.push(dataLabel)
+  return list
 }

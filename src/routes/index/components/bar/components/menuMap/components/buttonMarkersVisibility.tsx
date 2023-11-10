@@ -6,12 +6,10 @@ export const ButtonMarkersVisibility = () => {
     <Button
       size="sm"
       onClick={() => {
-        store.selectedProject &&
-          (store.selectedProject.settings.arePointsVisible =
-            !store.selectedProject.settings.arePointsVisible)
+        store.selectedProject()?.settings.arePointsVisible.set((b) => !b)
       }}
       icon={
-        store.selectedProject?.settings.arePointsVisible
+        store.selectedProject()?.settings.arePointsVisible()
           ? IconTablerEye
           : IconTablerEyeOff
       }

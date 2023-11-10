@@ -1,8 +1,8 @@
 interface Props {
-  default: string
-  list: {
-    id: string
-    component: (props: NavigatorComponentProps) => JSXElement
+  readonly default: string
+  readonly list: {
+    readonly id: string
+    readonly component: (props: NavigatorComponentProps) => JSXElement
   }[]
 }
 

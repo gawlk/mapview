@@ -11,11 +11,11 @@ import {
   createHeavydynThresholdsGroupsFromJSON,
   createHeavydynZoneFromJSON,
   createJSONBaseZone,
-  createLLIDataComputer,
-  createMLIDataComputer,
-  createWatcherHandler,
+  run,
   selectHeavydynGroupChoiceFromJSON,
   selectTableDataLabelsFromJSON,
+  createLLIDataComputer,
+  createMLIDataComputer,
 } from '/src/scripts'
 
 import {
@@ -31,8 +31,6 @@ export const createHeavydynReportFromJSON = (
   },
 ) => {
   json = upgradeJSON(json)
-
-  const watcherHandler = createWatcherHandler()
 
   const baseReport = createBaseReportFromJSON(json.base, map, {
     zones: [] as HeavydynZone[],
@@ -50,49 +48,29 @@ export const createHeavydynReportFromJSON = (
     project: parameters.project,
   })
 
-  const report = createMutable<HeavydynReport>({
+  const report: HeavydynReport = {
     ...baseReport,
     machine: 'Heavydyn',
-    addZone() {
+    async addZone() {
       const jsonZone: JSONHeavydynZone = {
         version: 1,
-        base: createJSONBaseZone(this.zones.length),
+        base: createJSONBaseZone(this.zones().length),
         distinct: {
           version: 1,
         },
       }
 
-      const zone = createHeavydynZoneFromJSON(jsonZone, map, {
+      const zone = await createHeavydynZoneFromJSON(jsonZone, map, {
         report: this,
       })
 
-      zone.init()
-
-      this.zones.push(zone)
-    },
-    addToMap() {
-      baseReport.addToMap.call(report)
-
-      report.dataLabels.groups.list[0].indexes.list.forEach((dropIndex) => {
-        if (typeof dropIndex.value.unit === 'object') {
-          void watcherHandler.add(
-            on(
-              () => dropIndex.value.unit,
-              () => {
-                dropIndex.value.updateDisplayedStrings()
-              },
-            ),
-          )
-        }
+      this.zones.set((l) => {
+        l.push(zone)
+        return l
       })
     },
-    remove() {
-      baseReport.remove.call(report)
-
-      watcherHandler.clean()
-    },
     toJSON(): JSONHeavydynReport {
-      const thresholdGroup = this.thresholds.groups
+      const thresholdsGroups = this.thresholds.groups
 
       return {
         version: json.version,
@@ -103,47 +81,55 @@ export const createHeavydynReportFromJSON = (
           thresholds: {
             version: 2,
             deflection: convertThresholdsConfigurationToJSON(
-              thresholdGroup.deflection,
+              thresholdsGroups.deflection,
             ),
             distance: convertThresholdsConfigurationToJSON(
-              thresholdGroup.distance,
+              thresholdsGroups.distance,
             ),
-            force: convertThresholdsConfigurationToJSON(thresholdGroup.force),
+            force: convertThresholdsConfigurationToJSON(thresholdsGroups.force),
             temperature: convertThresholdsConfigurationToJSON(
-              thresholdGroup.temperature,
+              thresholdsGroups.temperature,
             ),
-            time: convertThresholdsConfigurationToJSON(thresholdGroup.time),
+            time: convertThresholdsConfigurationToJSON(thresholdsGroups.time),
             modulus: convertThresholdsConfigurationToJSON(
-              thresholdGroup.modulus,
+              thresholdsGroups.modulus,
             ),
-            cumSum: convertThresholdsConfigurationToJSON(thresholdGroup.cumSum),
-            radius: convertThresholdsConfigurationToJSON(thresholdGroup.radius),
+            cumSum: convertThresholdsConfigurationToJSON(
+              thresholdsGroups.cumSum,
+            ),
+            radius: convertThresholdsConfigurationToJSON(
+              thresholdsGroups.radius,
+            ),
           },
         },
       }
     },
-  })
+  }
 
-  report.zones.push(
-    ...json.base.zones.map((jsonZone) =>
-      createHeavydynZoneFromJSON(jsonZone, map, {
-        report,
-      }),
+  void run(async () =>
+    report.zones.set(
+      await Promise.all(
+        json.base.zones.map((jsonZone) =>
+          createHeavydynZoneFromJSON(jsonZone, map, {
+            report,
+          }),
+        ),
+      ),
     ),
   )
 
   // Warning: Order matters
-  ;[
-    createHeavydynCurrentLoadDataComputer(report),
-    ...createHeavydynCurrentDeflectionDropDataComputers(report), // Needs to be first
-    createBLIDataComputer(report),
-    createMLIDataComputer(report),
-    createLLIDataComputer(report),
-    createHeavydynSurfaceModulusDataComputers(report),
-    createCharacteristicDeflectionComputer(report),
-    ...createCurvatureRadiusDataComputers(report),
-    createCumSumDataComputer(report),
-  ].forEach((computer) => computer?.init())
+  // Drop computers
+  createHeavydynCurrentLoadDataComputer(report)
+  createHeavydynCurrentDeflectionDropDataComputers(report)
+  createBLIDataComputer(report)
+  createMLIDataComputer(report)
+  createLLIDataComputer(report)
+  createHeavydynSurfaceModulusDataComputers(report)
+  createCurvatureRadiusDataComputers(report)
+  createCumSumDataComputer(report)
+  // Zone computers
+  createCharacteristicDeflectionComputer(report)
 
   setTimeout(() => {
     selectHeavydynGroupChoiceFromJSON(report, json)

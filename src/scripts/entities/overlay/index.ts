@@ -3,19 +3,20 @@ import pica from 'pica'
 
 import SVGRotate from '/src/assets/svg/custom/rotate.svg?raw'
 import { env } from '/src/env'
-import {
-  createSVGElement,
-  createWatcherHandler,
-  wcToWGS,
-  wGStoWc,
-} from '/src/scripts'
+import { createASS, createSVGElement, wcToWGS, wGStoWc } from '/src/scripts'
+import { runWithOwner } from 'solid-js'
+import { store } from '/src/store'
 
 export const createOverlay = async (
   data64: string,
   map: Map | null,
   parameters: JSONOverlay,
+  project: MachineProject,
   // eslint-disable-next-line sonarjs/cognitive-complexity
 ): Promise<Overlay> => {
+  const areOverlaysVisible = project.settings.areOverlaysVisible
+  const owner = project.owner
+
   const id = `overlay-${parameters.name}-${+new Date() + Math.random()}`
 
   let width = 0
@@ -34,101 +35,113 @@ export const createOverlay = async (
     data64 = (await pica().resize(imageElement, canvasTo)).toDataURL()
   }
 
-  const { nw, se } = parameters.coordinates || initialiseNWAndSECoords(map)
+  return new Promise((resolve) => {
+    runWithOwner(owner, () => {
+      const { nw, se } = parameters.coordinates || initialiseNWAndSECoords(map)
 
-  const sourceData: mapboxgl.ImageSourceRaw = {
-    type: 'image',
-    url: data64,
-    coordinates: [
-      [nw.lng, nw.lat],
-      [se.lng, nw.lat],
-      [se.lng, se.lat],
-      [nw.lng, se.lat],
-    ],
-  }
-
-  const markerNW = createMarker(map, nw)
-
-  const markerSE = createMarker(map, se)
-
-  const watcherHandler = createWatcherHandler()
-
-  const overlay = createMutable<Overlay>({
-    id,
-    sourceData,
-    markerNW,
-    markerSE,
-    opacity: parameters.opacity || 0.5,
-    addToMap(areOverlaysVisible: boolean): void {
-      if (!map) return
-
-      if (areOverlaysVisible) {
-        markerNW?.addTo(map)
-        markerSE?.addTo(map)
+      const sourceData: mapboxgl.ImageSourceRaw = {
+        type: 'image',
+        url: data64,
+        coordinates: [
+          [nw.lng, nw.lat],
+          [se.lng, nw.lat],
+          [se.lng, se.lat],
+          [nw.lng, se.lat],
+        ],
       }
 
-      map.addSource(id, sourceData)
+      const markerNW = createMarker(map, nw)
 
-      map.addLayer(
-        {
-          id,
-          source: id,
-          type: 'raster',
-          paint: {
-            'raster-opacity': areOverlaysVisible ? this.opacity : 0,
-            'raster-fade-duration': 0,
-          },
+      const markerSE = createMarker(map, se)
+
+      const overlay: Overlay = {
+        id,
+        sourceData,
+        markerNW,
+        markerSE,
+        opacity: createASS(parameters.opacity || 0.5),
+        addToMap(): void {
+          if (!map) return
+
+          markerNW?.addTo(map)
+          markerSE?.addTo(map)
+
+          map.addSource(id, sourceData)
+
+          map.addLayer(
+            {
+              id,
+              source: id,
+              type: 'raster',
+              paint: {
+                'raster-opacity': this.opacity(),
+                'raster-fade-duration': 0,
+              },
+            },
+            'images',
+          )
+
+          const source = map?.getSource(id) as mapboxgl.ImageSource | undefined
+
+          if (markerNW && markerSE) {
+            setImageCoordinates(markerNW, markerSE, source, width, height)
+
+            const onMarkerDrag = () => {
+              setImageCoordinates(markerNW, markerSE, source, width, height)
+            }
+
+            markerNW.on('drag', onMarkerDrag)
+            markerSE.on('drag', onMarkerDrag)
+          }
         },
-        'images',
-      )
+        refresh() {
+          if (areOverlaysVisible()) {
+            untrack(() => {
+              overlay.addToMap()
+            })
+          } else {
+            untrack(() => {
+              overlay.removeFromMap()
+            })
+          }
+        },
+        removeFromMap() {
+          if (map) {
+            map.getLayer(id) && map.removeLayer(id)
+            map.getSource(id) && map.removeSource(id)
+          }
 
-      const source = map?.getSource(id) as mapboxgl.ImageSource | undefined
+          markerNW?.remove()
+          markerSE?.remove()
+        },
+        toJSON(): JSONOverlay {
+          return {
+            version: 1,
+            name: parameters.name,
+            opacity: this.opacity(),
+            coordinates: {
+              nw: this.markerNW?.getLngLat() || nw,
+              se: this.markerSE?.getLngLat() || se,
+            },
+          }
+        },
+      }
 
-      if (markerNW && markerSE) {
-        setImageCoordinates(markerNW, markerSE, source, width, height)
+      createEffect(() => {
+        map &&
+          map.getLayer(id) &&
+          map.setPaintProperty(id, 'raster-opacity', overlay.opacity())
+      })
 
-        const onMarkerDrag = () => {
-          setImageCoordinates(markerNW, markerSE, source, width, height)
+      createEffect(() => {
+        if (project === store.selectedProject()) {
+          overlay.refresh()
         }
+      })
 
-        markerNW.on('drag', onMarkerDrag)
-        markerSE.on('drag', onMarkerDrag)
-      }
-
-      void watcherHandler.add(
-        on(
-          () => overlay.opacity,
-          (opacity: number) => {
-            map?.setPaintProperty(id, 'raster-opacity', opacity)
-          },
-        ),
-      )
-    },
-    remove: (): void => {
-      if (map) {
-        map.getLayer(id) && map.removeLayer(id)
-        map.getSource(id) && map.removeSource(id)
-      }
-
-      markerNW?.remove()
-      markerSE?.remove()
-
-      watcherHandler.clean()
-    },
-    toJSON(): JSONOverlay {
-      return {
-        version: 1,
-        name: parameters.name,
-        opacity: this.opacity,
-        coordinates: {
-          nw: this.markerNW?.getLngLat() || nw,
-          se: this.markerSE?.getLngLat() || se,
-        },
-      }
-    },
+      resolve(overlay)
+    })
   })
-
-  return overlay
 }
 
 const initialiseNWAndSECoords = (

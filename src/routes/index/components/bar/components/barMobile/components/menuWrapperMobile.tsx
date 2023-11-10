@@ -1,14 +1,14 @@
 import { classPropToString, stylePropToCSSProperties } from '/src/components'
 
 interface Props {
-  id: string
-  disabled: boolean
-  icon: ValidComponent | undefined
-  name: string
-  opened?: boolean
-  style?: string
-  class?: string
-  onClick: () => void
+  readonly id: string
+  readonly disabled: boolean
+  readonly icon: ValidComponent | undefined
+  readonly name: string
+  readonly opened?: boolean
+  readonly style?: string
+  readonly class?: string
+  readonly onClick: VoidFunction
 }
 
 export const baseID = 'mobile-menu-'

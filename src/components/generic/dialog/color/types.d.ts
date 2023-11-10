@@ -1,5 +1,5 @@
 type DialogColorProps = DialogColorPropsOnly & DialogClassicProps
 
 interface DialogColorPropsOnly {
-  selected?: ColorName
+  readonly selected?: ColorName
 }

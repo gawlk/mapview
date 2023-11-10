@@ -4,61 +4,64 @@ import {
 } from '/src/scripts'
 
 import { createBaseProjectFromJSON } from '../base'
+import { getOwner } from 'solid-js'
 
-export const createMaxidynProjectFromJSON = (
+export const createMaxidynProjectFromJSON = async (
   json: JSONMaxidynProjectVAny,
   map: mapboxgl.Map | null,
-) => {
-  json = upgradeJSON(json)
+): Promise<MaxidynProject> =>
+  new Promise((resolve) => {
+    createRoot((dispose) => {
+      json = upgradeJSON(json)
 
-  const units = createMaxidynMathUnitsFromJSON(json.distinct.units)
-
-  const baseProject = createBaseProjectFromJSON(json.base, map, {
-    reports: [] as MaxidynReport[],
-    units,
-    information: json.base.information,
-    hardware: json.base.hardware,
-  })
-
-  const project = createMutable<MaxidynProject>({
-    ...baseProject,
-    machine: 'Maxidyn',
-    bearingParameters: createMutable(json.distinct.bearingParameters),
-    toJSON(): JSONMaxidynProject {
-      return {
-        version: json.version,
+      const project: MaxidynProject = {
+        ...createBaseProjectFromJSON(json.base, map, {
+          reports: [] as MaxidynReport[],
+          units: createMaxidynMathUnitsFromJSON(json.distinct.units),
+          information: json.base.information,
+          hardware: json.base.hardware,
+        }),
         machine: 'Maxidyn',
-        base: this.toBaseJSON(),
-        distinct: {
-          version: json.distinct.version,
-          bearingParameters: json.distinct.bearingParameters,
-          units: {
-            version: 1,
-            deflection: this.units.deflection.toJSON(),
-            distance: this.units.distance.toJSON(),
-            force: this.units.force.toJSON(),
-            modulus: this.units.modulus.toJSON(),
-            percentage: this.units.percentage.toJSON(),
-            stiffness: this.units.stiffness.toJSON(),
-            time: this.units.time.toJSON(),
-          },
+        dispose() {
+          this.reports
+            .list()
+            .forEach((report) =>
+              report.zones().forEach((zone) => zone.dispose()),
+            )
+
+          dispose()
+        },
+        owner: getOwner(),
+        bearingParameters: json.distinct.bearingParameters,
+        toJSON(): JSONMaxidynProject {
+          return {
+            version: json.version,
+            machine: 'Maxidyn',
+            base: this.toBaseJSON(),
+            distinct: {
+              version: json.distinct.version,
+              bearingParameters: json.distinct.bearingParameters,
+              units: this.units.toJSON(),
+            },
+          }
         },
       }
-    },
+
+      void batch(() => {
+        const reports = json.base.reports.list.map((report) =>
+          createMaxidynReportFromJSON(report as JSONMaxidynReport, map, {
+            project,
+          }),
+        )
+
+        project.reports.list.set(reports)
+
+        project.reports.selectIndex(json.base.reports.selectedIndex)
+      })
+
+      resolve(project)
+    })
   })
-
-  project.reports.list.push(
-    ...json.base.reports.list.map((report) =>
-      createMaxidynReportFromJSON(report as JSONMaxidynReport, map, {
-        project,
-      }),
-    ),
-  )
-
-  project.reports.selectIndex(json.base.reports.selectedIndex)
-
-  return project
-}
 
 const upgradeJSON = (json: JSONMaxidynProjectVAny): JSONMaxidynProject => {
   switch (json.version) {

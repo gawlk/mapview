@@ -1,6 +1,6 @@
 import {
   createHeavydynDropIndexFromJSON,
-  createSelectableList,
+  createSL,
   currentCategory,
   rawCategory,
 } from '/src/scripts'
@@ -31,7 +31,7 @@ export const createHeavydynDataLabelsFromJSON = (
     createHeavydynZoneDataLabelsGroupFromJSON(jsonGroups.list[2], project),
   ]
 
-  const groups = createSelectableList(list, {
+  const groups = createSL(list, {
     selectedIndex: jsonGroups.selectedIndex,
   })
 
@@ -46,7 +46,7 @@ export const createHeavydynDropDataLabelsGroupFromJSON = (
   json: JSONHeavydynDropDataLabelsGroup,
   project: HeavydynProject,
 ): HeavydynDropDataLabelsGroup => {
-  const indexes = createSelectableList(
+  const indexes = createSL(
     json.distinct.indexes.list.map((jsonDropIndex) =>
       createHeavydynDropIndexFromJSON(jsonDropIndex, {
         project,
@@ -132,16 +132,19 @@ export const selectHeavydynGroupChoiceFromJSON = (
   report: HeavydynReport,
   json: JSONHeavydynReport,
 ) => {
-  report.dataLabels.groups.list.forEach((group, index) => {
-    const indexD0 = group.choices.list.findIndex(
-      (dataLabel) =>
-        dataLabel.name === 'D0' &&
-        dataLabel.category.name === currentCategory.name,
-    )
+  report.dataLabels.groups.list().forEach((group, index) => {
+    const indexD0 = group.choices
+      .list()
+      .findIndex(
+        (dataLabel) =>
+          dataLabel.name === 'D0' && dataLabel.category === currentCategory,
+      )
 
     group.choices.selectIndex(
       json.distinct.dataLabels.list[index].base.choices.selectedIndex ??
         (indexD0 === -1 ? 0 : indexD0),
     )
+
+    !group.choices.selected() && group.choices.selectIndex(0)
   })
 }

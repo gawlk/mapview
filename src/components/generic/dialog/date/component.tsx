@@ -7,6 +7,7 @@ import {
 } from '/src/components'
 import {
   addLocationToID,
+  createASS,
   getMonths,
   getWeekDayFromDate,
   getWeekDays,
@@ -17,11 +18,13 @@ export interface DialogDatePropsWithHTMLAttributes
   extends MergePropsWithHTMLProps<DialogDateProps, DialogHTMLAttributes> {}
 
 export const DialogDate = (props: DialogDatePropsWithHTMLAttributes) => {
-  const [state, setState] = createStore({
-    year: 0,
-    month: 0,
-    weeks: [] as Date[][],
-  })
+  const state = {
+    year: createASS(0),
+    month: createASS(0),
+    weeks: createASS([] as Date[][], {
+      equals: false,
+    }),
+  }
 
   let id: string | undefined
 
@@ -57,7 +60,7 @@ export const DialogDate = (props: DialogDatePropsWithHTMLAttributes) => {
       dates.push(new Date(date))
       date.setUTCDate(date.getUTCDate() + 1)
     } while (
-      date.getUTCMonth() === state.month ||
+      date.getUTCMonth() === state.month() ||
       getWeekDayFromDate(date) !== weekDays[0]
     )
 
@@ -66,23 +69,23 @@ export const DialogDate = (props: DialogDatePropsWithHTMLAttributes) => {
       weeks.push(dates.splice(0, 7))
     }
 
-    setState('weeks', weeks)
+    state.weeks.set(weeks)
   }
 
   const isMaxYear = createMemo(
-    () => props.max && state.year >= props.max.getUTCFullYear(),
+    () => props.max && state.year() >= props.max.getUTCFullYear(),
   )
 
   const isMaxMonth = createMemo(
-    () => isMaxYear() && props.max && state.month >= props.max.getUTCMonth(),
+    () => isMaxYear() && props.max && state.month() >= props.max.getUTCMonth(),
   )
 
   const isMinYear = createMemo(
-    () => props.min && state.year <= props.min.getUTCFullYear(),
+    () => props.min && state.year() <= props.min.getUTCFullYear(),
   )
 
   const isMinMonth = createMemo(
-    () => isMinYear() && props.min && state.month <= props.min.getUTCMonth(),
+    () => isMinYear() && props.min && state.month() <= props.min.getUTCMonth(),
   )
 
   const showReset = createMemo(
@@ -91,14 +94,12 @@ export const DialogDate = (props: DialogDatePropsWithHTMLAttributes) => {
   )
 
   createEffect(() => {
-    setState({
-      year: props.value.getUTCFullYear(),
-      month: props.value.getUTCMonth(),
-    })
+    state.year.set(props.value.getUTCFullYear())
+    state.month.set(props.value.getUTCMonth())
   })
 
   createEffect(() => {
-    setWeeks(state.year, state.month)
+    setWeeks(state.year(), state.month())
   })
 
   return (
@@ -145,7 +146,7 @@ export const DialogDate = (props: DialogDatePropsWithHTMLAttributes) => {
               </tr>
             </thead>
             <tbody>
-              <For each={state.weeks}>
+              <For each={state.weeks()}>
                 {(week) => (
                   <tr>
                     <For each={week}>
@@ -169,7 +170,7 @@ export const DialogDate = (props: DialogDatePropsWithHTMLAttributes) => {
                                 <span
                                   class={[
                                     !isValue() &&
-                                    date.getUTCMonth() !== state.month
+                                    date.getUTCMonth() !== state.month()
                                       ? 'text-white/50'
                                       : '',
                                     'w-6',
@@ -198,13 +199,11 @@ export const DialogDate = (props: DialogDatePropsWithHTMLAttributes) => {
               onClick={(event) => {
                 event?.preventDefault()
 
-                if (!state.month) {
-                  setState({
-                    year: state.year - 1,
-                    month: months.length - 1,
-                  })
+                if (!state.month()) {
+                  state.year.set((year) => year - 1)
+                  state.month.set(months.length - 1)
                 } else {
-                  setState('month', (month) => month - 1)
+                  state.month.set((month) => month - 1)
                 }
               }}
             />
@@ -214,7 +213,7 @@ export const DialogDate = (props: DialogDatePropsWithHTMLAttributes) => {
                 full: true,
               }}
               values={{
-                selected: String(months[state.month]),
+                selected: String(months[state.month()]),
                 list: months,
               }}
             />
@@ -224,13 +223,11 @@ export const DialogDate = (props: DialogDatePropsWithHTMLAttributes) => {
               onClick={(event) => {
                 event?.preventDefault()
 
-                if (state.month === months.length - 1) {
-                  setState({
-                    year: state.year + 1,
-                    month: 0,
-                  })
+                if (state.month() === months.length - 1) {
+                  state.year.set((year) => year + 1)
+                  state.month.set(0)
                 } else {
-                  setState('month', (month) => month + 1)
+                  state.month.set((month) => month + 1)
                 }
               }}
             />
@@ -242,7 +239,7 @@ export const DialogDate = (props: DialogDatePropsWithHTMLAttributes) => {
               disabled={isMinYear()}
               onClick={(event) => {
                 event?.preventDefault()
-                setState('year', (year) => year - 1)
+                state.year.set((year) => year - 1)
               }}
             />
             <DialogSelect
@@ -260,14 +257,14 @@ export const DialogDate = (props: DialogDatePropsWithHTMLAttributes) => {
               disabled={isMaxYear()}
               onClick={(event) => {
                 event?.preventDefault()
-                setState('year', (year) => year + 1)
+                state.year.set((year) => year + 1)
 
                 if (
                   props.max &&
-                  state.year >= props.max.getUTCFullYear() &&
-                  state.month > props.max.getUTCMonth()
+                  state.year() >= props.max.getUTCFullYear() &&
+                  state.month() > props.max.getUTCMonth()
                 ) {
-                  setState('month', props.max.getUTCMonth())
+                  state.month.set(props.max.getUTCMonth())
                 }
               }}
             />

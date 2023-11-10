@@ -3,4 +3,5 @@ export const insertMinidynDataLabel = (
   list: DataLabel[],
 ) => {
   list.push(dataLabel)
+  return list
 }

@@ -6,7 +6,7 @@ export const SelectSource = () => {
   const { t } = useAppState()
 
   const tableDataLabels = createMemo(
-    () => store.selectedReport?.dataLabels.table,
+    () => store.selectedReport()?.dataLabels.table,
   )
 
   return (
@@ -18,10 +18,11 @@ export const SelectSource = () => {
         full: true,
       }}
       values={{
-        selected: tableDataLabels()?.selectedIndex ?? null,
+        selected: tableDataLabels()?.selectedIndex() ?? null,
         list:
           tableDataLabels()
-            ?.list.filter((parameters) => parameters.group.choices.list.length)
+            ?.list()
+            .filter((parameters) => parameters.group.choices.list().length)
             .map((parameters, index) => ({
               value: String(index),
               text: t(parameters.group.from),

@@ -1,10 +1,10 @@
 interface Sortable {
-  ref?: (element: HTMLElement) => void
+  readonly ref?: (element: HTMLElement) => void
 }
 
 interface SortablePoint {
-  x: number
-  y: number
+  readonly x: number
+  readonly y: number
 }
 
 // Solid DND type

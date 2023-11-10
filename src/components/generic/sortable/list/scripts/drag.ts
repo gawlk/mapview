@@ -4,7 +4,7 @@ export const createOnDragEnd =
   (
     ids: () => Id[],
     onChange: (from: number, to: number) => void,
-    resetActiveItem: () => void,
+    resetActiveItem: VoidFunction,
   ): DragEventHandler =>
   ({ draggable, droppable }) => {
     if (draggable && droppable) {

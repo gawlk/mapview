@@ -28,8 +28,7 @@ interface HeavydynUnitsSkeletonV1<A, B = A, C = A, D = A, E = A, F = A, G = A> {
   readonly cumSum: G
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type HeavydynUnitsNames = keyof HeavydynUnitsSkeleton<any>
+type HeavydynUnitsNames = keyof HeavydynUnitsSkeleton<undefined>
 
 type PossibleHeavydynDeflectionUnits = 'mm' | '1/100 mm' | 'um'
 type PossibleHeavydynForceUnits = 'N' | 'kN' | 'lbs'
@@ -41,7 +40,7 @@ type PossibleHeavydynRadiusUnits = 'm' | 'km' | 'mi'
 
 type JSONHeavydynUnitsVAny = JSONHeavydynUnits | JSONHeavydynUnitsV1
 
-type JSONHeavydynUnits = { version: 2 } & HeavydynUnitsSkeleton<
+type JSONHeavydynUnits = { readonly version: 2 } & HeavydynUnitsSkeleton<
   JSONMathUnit<PossibleHeavydynDeflectionUnits>,
   JSONMathUnit<PossibleHeavydynForceUnits>,
   JSONMathUnit<PossibleHeavydynTemperatureUnits>,
@@ -52,7 +51,7 @@ type JSONHeavydynUnits = { version: 2 } & HeavydynUnitsSkeleton<
   JSONMathUnit<PossibleHeavydynRadiusUnits>
 >
 
-type JSONHeavydynUnitsV1 = { version: 1 } & HeavydynUnitsSkeletonV1<
+type JSONHeavydynUnitsV1 = { readonly version: 1 } & HeavydynUnitsSkeletonV1<
   JSONMathUnit<PossibleHeavydynDeflectionUnits>,
   JSONMathUnit<PossibleHeavydynForceUnits>,
   JSONMathUnit<PossibleHeavydynTemperatureUnits>,
@@ -71,4 +70,4 @@ type HeavydynMathUnits = HeavydynUnitsSkeleton<
   MathUnit<PossibleHeavydynModulusUnits>,
   MathUnit<''>,
   MathUnit<PossibleHeavydynRadiusUnits>
->
+> & { list: MathUnit<string>[] } & SerializableObject<JSONHeavydynUnits>

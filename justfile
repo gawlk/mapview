@@ -2,6 +2,11 @@
 default:
   just --list
 
+alias i := install
+# install dependencies
+install:
+  pnpm install
+
 alias d := dev
 # run dev
 dev:
@@ -32,10 +37,10 @@ build:
     zip -r templates.zip .
     cd -
   fi
-  
+
   pnpm vite build
-  
-  sed 's+media=\"(device+media=\"screen and (device+g' dist/index.html | sed 's+</head>+<meta name=\"apple-touch-fullscreen\" content=\"yes\" /></head>+g' > index.html.tmp 
+
+  sed 's+media=\"(device+media=\"screen and (device+g' dist/index.html | sed 's+</head>+<meta name=\"apple-touch-fullscreen\" content=\"yes\" /></head>+g' > index.html.tmp
   mv index.html.tmp dist/index.html
 
 alias p := prod
@@ -90,3 +95,9 @@ lint:
 # check link
 lint-fix:
   pnpm eslint --fix './src'
+
+alias u := update
+alias up := update
+# update dependencies
+update ARG='':
+  pnpm up {{ARG}}

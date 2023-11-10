@@ -7,7 +7,7 @@ export const createHeavydynProjectCorrectionParametersFromJSON = (
 ) => {
   json = upgradeJSON(json)
 
-  return createMutable<HeavydynCorrectionParameters>({
+  const correctionParameters: HeavydynCorrectionParameters = {
     load: createHeavydynProjectLoadCorrectionParametersFromJSON(
       json.load,
       units,
@@ -16,7 +16,16 @@ export const createHeavydynProjectCorrectionParametersFromJSON = (
       json.temperature,
       units,
     ),
-  })
+    toJSON() {
+      return {
+        version: 1,
+        load: this.load.toJSON(),
+        temperature: this.temperature.toJSON(),
+      }
+    },
+  }
+
+  return correctionParameters
 }
 
 const upgradeJSON = (

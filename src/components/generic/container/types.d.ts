@@ -3,21 +3,21 @@ type ContainerPropsWithHTMLAttributes = MergePropsWithHTMLProps<ContainerProps>
 type ContainerProps = ContainerPropsOnly & BaseProps
 
 interface ContainerPropsOnly extends ParentProps {
-  component?: string | Component
+  readonly component?: string | Component
 
-  rounded?: 'full' | 'none'
+  readonly rounded?: 'full' | 'none'
 
-  orientation?: 'horizontal' | 'vertical' | 'none'
+  readonly orientation?: 'horizontal' | 'vertical' | 'none'
 
-  textColor?: ColorProp | null
+  readonly textColor?: ColorProp | null
 
-  fontSize?: SizeProp
+  readonly fontSize?: SizeProp
 
-  bgColor?: ColorProp | null
-  bgHoverColor?: ColorProp | null
+  readonly bgColor?: ColorProp | null
+  readonly bgHoverColor?: ColorProp | null
 
-  border?: boolean
-  borderWidth?: number
-  borderColor?: ColorProp | null
-  borderHoverColor?: ColorProp | null
+  readonly border?: boolean
+  readonly borderWidth?: number
+  readonly borderColor?: ColorProp | null
+  readonly borderHoverColor?: ColorProp | null
 }

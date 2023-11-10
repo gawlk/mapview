@@ -2,5 +2,5 @@ type InputRadioHorizontalProps = InputRadioHorizontalPropsOnly &
   InteractiveProps
 
 interface InputRadioHorizontalPropsOnly extends SaveableProps {
-  value?: string | number
+  readonly value?: string | number
 }

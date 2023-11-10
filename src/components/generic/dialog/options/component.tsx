@@ -3,10 +3,10 @@ import { DialogOptionsList } from './components/List'
 import { isListOfGroups } from './scripts'
 
 interface Props {
-  input?: string
-  options: DialogValuesProps
-  onClick?: (value?: string) => void
-  showAllWhenEmpty?: boolean
+  readonly input?: string
+  readonly options: DialogValuesProps
+  readonly onClick?: (value?: string) => void
+  readonly showAllWhenEmpty?: boolean
 }
 
 export const DialogOptions = (props: Props) => {

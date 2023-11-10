@@ -48,3 +48,5 @@ type RouteDefinition = import('@solidjs/router').RouteDefinition
 type ReactiveMap<K, V> = import('@solid-primitives/map').ReactiveMap<K, V>
 
 type ReactiveWeakMap = import('@solid-primitives/map').ReactiveWeakMap
+
+type Owner = import('solid-js').Owner

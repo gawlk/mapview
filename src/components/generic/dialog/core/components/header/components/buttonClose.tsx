@@ -1,7 +1,7 @@
 import { Button } from '/src/components'
 
 interface Props {
-  close?: DialogCloseFunction
+  readonly close?: DialogCloseFunction
 }
 
 export const DialogButtonClose = (props: Props) => {

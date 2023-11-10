@@ -9,7 +9,7 @@ import { Loading } from './components/loading'
 import { Map } from './components/map'
 import { Update } from './components/update'
 import { Version } from './components/version'
-import { checkUpdate } from './scripts'
+import { checkUpdate, createSnapshotInterval } from './scripts'
 
 const packageJSON = JSON.parse(packageJSONRaw)
 
@@ -17,7 +17,7 @@ export const Index = () => {
   onMount(() => {
     void checkUpdate()
 
-    // createSnapshotInterval()
+    createSnapshotInterval()
 
     if (env.isHTTPS) {
       // Block browser reload
@@ -26,13 +26,13 @@ export const Index = () => {
   })
 
   onCleanup(() => {
-    store.projects.list.forEach((project) => project.remove())
+    store.projects.list().forEach((project) => project.dispose())
 
-    store.map?.stop()
+    store.map()?.stop()
   })
 
   const title = createMemo(() => {
-    const currentProjectName = store.projects.selected?.name.toString()
+    const currentProjectName = store.selectedProject()?.name.toString()
 
     return currentProjectName ? `${currentProjectName} - ` : ''
   })
@@ -42,11 +42,11 @@ export const Index = () => {
       <Title>{title()}Mapview</Title>
       <Meta name="description" content={packageJSON.description} />
 
-      <Show when={store.importingFile}>
+      <Show when={store.importingFile()}>
         <Loading />
       </Show>
 
-      <Show when={store.updateAvailable}>
+      <Show when={store.updateAvailable()}>
         <Update />
       </Show>
 

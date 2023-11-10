@@ -2,9 +2,9 @@ import { Button, Dialog, Input, InputDataList, Label } from '/src/components'
 import { useAppState } from '/src/index'
 
 interface Props {
-  bulks: {
-    title: string | Element
-    fields: Field[]
+  readonly bulks: {
+    readonly title: string | Element
+    readonly fields: Field[]
   }[]
 }
 
@@ -15,7 +15,7 @@ export const DialogInformation = (props: Props) => {
     open: false,
   })
 
-  const pendingChanges = new Map<string, () => void>()
+  const pendingChanges = new Map<string, VoidFunction>()
 
   return (
     <Dialog
@@ -58,32 +58,34 @@ export const DialogInformation = (props: Props) => {
                   let value: string | number | boolean
                   let type: string | undefined
 
-                  switch (typeof field.value) {
+                  const fieldValue = field.value()
+
+                  switch (typeof fieldValue) {
                     case 'object':
-                      switch (field.value.kind) {
+                      switch (fieldValue.kind) {
                         case 'dateValue':
-                          value = field.value.value.split('T')[0]
+                          value = fieldValue.value().split('T')[0]
                           type = 'date'
                           break
                         default:
-                          value = field.value.value
+                          value = fieldValue.value()
                           break
                       }
 
                       break
 
                     default:
-                      value = field.value
+                      value = fieldValue
                       break
                   }
 
                   const isLongString =
-                    typeof field.value === 'object' &&
-                    field.value.kind === 'longString'
+                    typeof fieldValue === 'object' &&
+                    fieldValue.kind === 'longString'
 
                   const isInput =
-                    typeof field.value === 'object'
-                      ? field.value.kind === 'dateValue' || isLongString
+                    typeof fieldValue === 'object'
+                      ? fieldValue.kind === 'dateValue' || isLongString
                       : typeof value === 'string' || typeof value === 'number'
 
                   const id = createMemo(
@@ -91,7 +93,7 @@ export const DialogInformation = (props: Props) => {
                   )
 
                   const readOnly = createMemo(
-                    () => type === 'date' || field.settings.readOnly,
+                    () => type === 'date' || field.settings.readOnly(),
                   )
 
                   createEffect(() => {
@@ -127,12 +129,12 @@ export const DialogInformation = (props: Props) => {
                       </Match>
                       <Match
                         when={
-                          typeof field.value === 'object' &&
-                          field.value.kind === 'selectableString' &&
-                          field.value
+                          typeof fieldValue === 'object' &&
+                          fieldValue.kind === 'selectableString' &&
+                          fieldValue
                         }
                       >
-                        {(fieldValue) => (
+                        {(_fieldValue) => (
                           <InputDataList
                             ref={(ref) => {
                               input = ref
@@ -140,8 +142,8 @@ export const DialogInformation = (props: Props) => {
                             full
                             id={id()}
                             label={t(field.label)}
-                            value={fieldValue().value}
-                            list={fieldValue().possibleValues.map(
+                            value={_fieldValue().value()}
+                            list={_fieldValue().possibleValues.map(
                               (_value) => t(_value) || _value,
                             )}
                             onInput={onInput}

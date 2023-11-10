@@ -1,6 +1,7 @@
 import { createHeavydynPointFromJSON } from '/src/scripts'
 
 import { createBaseZoneFromJSON } from '../base'
+import { getOwner, runWithOwner } from 'solid-js'
 
 interface HeavydynZoneCreatorParameters extends MachineZoneCreatorParameters {
   readonly report: HeavydynReport
@@ -10,37 +11,44 @@ export const createHeavydynZoneFromJSON = (
   json: JSONHeavydynZoneVAny,
   map: mapboxgl.Map | null,
   parameters: HeavydynZoneCreatorParameters,
-) => {
-  json = upgradeJSON(json)
+): Promise<HeavydynZone> =>
+  new Promise((resolve) => {
+    const owner = getOwner()
 
-  // TODO: Add average of all temps of points
+    createRoot((dispose) => {
+      json = upgradeJSON(json)
 
-  const zone = createMutable<HeavydynZone>({
-    ...createBaseZoneFromJSON(json.base, {
-      report: parameters.report,
-    }),
-    machine: 'Heavydyn',
-    toJSON(): JSONHeavydynZone {
-      return {
-        version: json.version,
-        base: this.toBaseJSON(),
-        distinct: {
-          version: json.distinct.version,
+      const zone: HeavydynZone = {
+        ...createBaseZoneFromJSON(json.base, {
+          report: parameters.report,
+        }),
+        machine: 'Heavydyn',
+        dispose,
+        owner,
+        toJSON(): JSONHeavydynZone {
+          return {
+            version: json.version,
+            base: this.toBaseJSON(),
+            distinct: {
+              version: json.distinct.version,
+            },
+          }
         },
       }
-    },
+
+      runWithOwner(owner, () => {
+        zone.setPoints(
+          json.base.points.map((jsonPoint) =>
+            createHeavydynPointFromJSON(jsonPoint, map, {
+              zone,
+            }),
+          ),
+        )
+      })
+
+      resolve(zone)
+    })
   })
-
-  zone.points.push(
-    ...json.base.points.map((jsonPoint) =>
-      createHeavydynPointFromJSON(jsonPoint, map, {
-        zone,
-      }),
-    ),
-  )
-
-  return zone
-}
 
 const upgradeJSON = (json: JSONHeavydynZoneVAny): JSONHeavydynZone => {
   switch (json.version) {

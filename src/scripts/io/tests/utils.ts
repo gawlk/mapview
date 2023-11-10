@@ -106,7 +106,7 @@ export const loadFiles = async (dirPath: string, folderName?: string) => {
 export const loadMpvz = async (mpvzFile: File, project: MachineProject) => {
   project.addToMap()
   // eslint-disable-next-line no-async-promise-executor
-  return new Promise(async (resolve) => {
+  return new Promise<void>(async (resolve) => {
     const unzipped = await unzipFile(mpvzFile)
 
     const raws = Object.keys(unzipped).filter((key) =>
@@ -114,7 +114,7 @@ export const loadMpvz = async (mpvzFile: File, project: MachineProject) => {
     )
 
     if (raws.length < 1) {
-      resolve(true)
+      resolve()
     }
 
     let needInit = true
@@ -134,11 +134,11 @@ export const loadMpvz = async (mpvzFile: File, project: MachineProject) => {
         status.push(point?.rawDataFile?.byteLength === undefined)
       })
 
-      needInit = status.every((value) => value)
+      needInit = status.length > 0 && status.every((value) => value)
 
       await sleep(250)
     }
 
-    resolve(true)
+    resolve()
   })
 }

@@ -212,8 +212,6 @@ const updateRefFolder = async (
   await Promise.all(promises)
 
   await Promise.all(files.map((file) => updateRefFile(file)))
-
-  console.log('post')
 }
 
-void updateRefFolder()
+await updateRefFolder()

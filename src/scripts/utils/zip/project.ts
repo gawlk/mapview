@@ -37,9 +37,9 @@ export const createZIPFromEntity = async (
   await Promise.all([
     overlays && entity.kind === 'Project' && addOverlaysToZip(zip, entity),
 
-    screenshots && addScreenshotsToZip(zip, entity, projectJSON),
-
     rawData && addRawDataToZip(zip, entity),
+
+    screenshots && addScreenshotsToZip(zip, entity, projectJSON),
 
     template && addFileToZip(zip, template),
   ])

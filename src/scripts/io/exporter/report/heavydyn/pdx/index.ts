@@ -64,7 +64,7 @@ const writeHeader = (project: HeavydynProject): string => {
     DropHistoryDataFrequencyUnits = Hertz
 
     [Operations Information]
-    FileName = ${project.name.value}
+    FileName = ${project.name.toString()}
     StartDate = ${reportDate}
     EndDate = ${reportDate}
     OperatorName = ${infos[0]}
@@ -84,9 +84,10 @@ const writeDeviceInformation = (project: HeavydynProject): string => {
     [Device Information]
     DeviceDesignationName = Rincent
     DeviceModelNumber =  HEAVYDYN
-    DeviceSerialNumber = ${project.hardware.find(
-      (data) => data.label === 'Serial number',
-    )?.value}
+    DeviceSerialNumber = ${project.hardware
+      .find((data) => data.label === 'Serial number')
+      ?.value?.()
+      .toString()}
     LoadCellSerialNumber = ${project.calibrations.channels[0].name}
     SensorSerialNumber = ${sensorSerialNumbers}
     DeviceLoadType = Impulse
@@ -133,14 +134,14 @@ const writeDeviceCalibration = (project: HeavydynProject) => {
     (sensor) => sensor.name === 'DMI',
   )?.gain
 
-  const projectProject = findFieldInArray(information, 'Project')?.value
+  const projectProject = findFieldInArray(information, 'Project')?.toString()
 
-  const siteProject = findFieldInArray(information, 'Site')?.value
+  const siteProject = findFieldInArray(information, 'Site')?.toString()
 
   const reportLane = findFieldInArray(
     project.reports.selected()?.information || [],
     'Lane',
-  )?.value
+  )?.toString()
 
   const materialPlatform = project.reports
     .selected()
@@ -197,7 +198,7 @@ const writePoints = (project: HeavydynProject) => {
       const { lat, lng } = point.toBaseJSON().coordinates as LngLat
 
       return dedent`
-        [Test Location ${point.index}]
+        [Test Location ${point.index()}]
         TestLocation = ${Array.from(point.dataset.values())
           .find((data) => data.label.name === 'Chainage')
           ?.rawValue()},0,0

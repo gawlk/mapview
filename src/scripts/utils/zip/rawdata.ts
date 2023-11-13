@@ -7,15 +7,14 @@ export const addRawDataToZip = (
   let points = []
 
   switch (entity.kind) {
-    case 'Project':
-      points = entity.reports
-        .list()
-        .map((report) => report.sortedPoints())
-        .flat()
+    case 'Project': {
+      points = entity.reports.list().flatMap((report) => report.sortedPoints())
       break
-    case 'Report':
+    }
+    case 'Report': {
       points = entity.sortedPoints().filter((point) => point.shouldBeOnMap())
       break
+    }
   }
 
   points.forEach((point) => {

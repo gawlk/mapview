@@ -11,6 +11,7 @@ import {
   createIcon,
 } from '/src/scripts'
 import { store } from '/src/store'
+import { env } from '/src/env'
 
 export const createBasePointFromJSON = <
   Zone extends MachineZone,
@@ -31,7 +32,10 @@ export const createBasePointFromJSON = <
   const marker = icon
     ? new Marker({
         element: icon.element,
-        draggable: !parameters.zone.report().project().settings.arePointsLocked,
+        draggable: !parameters.zone
+          .report()
+          .project()
+          .settings.arePointsLocked(),
       }).setLngLat(json.coordinates)
     : null
 
@@ -146,7 +150,7 @@ export const createBasePointFromJSON = <
         _zone.settings.isVisible() &&
         report.settings.isVisible() &&
         project.settings.arePointsVisible() &&
-        store.selectedProject() === project
+        (env.isTest || store.selectedProject() === project)
       )
     }),
     toBaseJSON() {

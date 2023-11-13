@@ -11,13 +11,20 @@ export const getFileFromPath = (path: string) => {
   return new File([buffer], path.split('/').pop() as string)
 }
 
+const filesToIgnore = ['.DS_Store']
+
 export const compareFiles = (
   actual: Unzipped,
   expected: Unzipped,
   options?: CompareFilesOptions,
 ) => {
-  let actualKeys = Object.keys(actual)
-  let expectedKeys = Object.keys(expected)
+  // TODO: Move to a function unzippedToKeys
+  let actualKeys = Object.keys(actual).filter(
+    (key) => !filesToIgnore.some((file) => key.endsWith(file)),
+  )
+  let expectedKeys = Object.keys(expected).filter(
+    (key) => !filesToIgnore.some((file) => key.endsWith(file)),
+  )
 
   if (options?.filter) {
     const optionsFilter = options.filter
@@ -28,6 +35,8 @@ export const compareFiles = (
   if (actualKeys.length !== expectedKeys.length) {
     return {
       isSameLength: false,
+      actualKeys,
+      expectedKeys,
       actualLength: actualKeys.length,
       expectedLength: expectedKeys.length,
     }
@@ -52,6 +61,8 @@ export const compareFiles = (
     haveSameFile,
     haveSameContent,
     lastKey,
+    actualKeys,
+    expectedKeys,
     isSameLength: true,
   }
 }

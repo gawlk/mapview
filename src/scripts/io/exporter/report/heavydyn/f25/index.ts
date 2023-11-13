@@ -119,7 +119,7 @@ const writeEndHeader = (project: MachineProject): string => {
         .padStart(8, ' ')},   1.000,   0.000,1,1
       5024,1,1,0,1,1,1,     5, 2.0,     2, 2.0,1,1,0,  60
       5029,${d.length.toString().padStart(8, '0')},${(
-        d.length * (project.reports.selected()?.zones.length || 1)
+        d.length * (project.reports.selected()?.zones().length || 1)
       )
         .toString()
         .padStart(8, '0')},   28439,   84378
@@ -268,12 +268,14 @@ const writeDrops = (point: BasePoint, dPlate: number): string => {
     .map((drop) => {
       const nbr = drop.index.displayedIndex.toString().padStart(3, ' ')
 
+      const flatDatasets = Array.from(drop.dataset.values())
+
       const force =
-        (((Array.from(drop.dataset.values())
+        (((flatDatasets
           .find(
             (data) =>
               data.label.unit === point.zone().report().project().units.force &&
-              data.label.category.name === currentCategory.name,
+              data.label.category === currentCategory,
           )
           ?.rawValue() || 0) *
           1e-3) /
@@ -284,12 +286,12 @@ const writeDrops = (point: BasePoint, dPlate: number): string => {
 
       let values = ''
 
-      Array.from(drop.dataset.values())
+      flatDatasets
         .filter(
           (data) =>
             data.label.unit ===
               point.zone().report().project().units.deflection &&
-            data.label.category.name === currentCategory.name,
+            data.label.category === currentCategory,
         )
         .forEach((data) => {
           let value: string | number = data.value.getValueAs('um')

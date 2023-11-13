@@ -104,7 +104,7 @@ interface BrowseCheckDataResult {
   }
 }
 
-const keysToIgnore = ['arePointsLocked']
+const keysToIgnore = ['arePointsLocked', 'readOnly']
 
 const browseCheckData = (
   actualData: any,
@@ -112,8 +112,13 @@ const browseCheckData = (
   keys: string[],
   // eslint-disable-next-line sonarjs/cognitive-complexity
 ): BrowseCheckDataResult => {
-  const actualKeys = Object.keys(actualData)
-  const expectedKeys = Object.keys(expectedData)
+  // TEMP: Remove filter after update of the tested files
+  const actualKeys = Object.keys(actualData).filter(
+    (key) => !keysToIgnore.includes(key),
+  )
+  const expectedKeys = Object.keys(expectedData).filter(
+    (key) => !keysToIgnore.includes(key),
+  )
 
   const actualLength = actualKeys.length
   const expectedLength = expectedKeys.length

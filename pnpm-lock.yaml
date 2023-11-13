@@ -51,8 +51,8 @@ dependencies:
     specifier: ^0.29.1
     version: 0.29.1(solid-js@1.8.5)
   '@solidjs/router':
-    specifier: ^0.9.0
-    version: 0.9.0(solid-js@1.8.5)
+    specifier: ^0.9.1
+    version: 0.9.1(solid-js@1.8.5)
   '@thisbeyond/solid-dnd':
     specifier: ^0.7.4
     version: 0.7.4(solid-js@1.8.5)
@@ -72,8 +72,8 @@ dependencies:
     specifier: ^1.4.1
     version: 1.4.1
   iconoir:
-    specifier: ^7.0.1
-    version: 7.0.1
+    specifier: ^7.0.2
+    version: 7.0.2
   localforage:
     specifier: ^1.10.0
     version: 1.10.0
@@ -105,7 +105,7 @@ devDependencies:
     version: 3.1.7
   '@ianvs/prettier-plugin-sort-imports':
     specifier: ^4.1.1
-    version: 4.1.1(prettier@3.0.3)
+    version: 4.1.1(prettier@3.1.0)
   '@iconify-json/heroicons-solid':
     specifier: ^1.1.8
     version: 1.1.8
@@ -185,11 +185,11 @@ devDependencies:
     specifier: ^8.4.31
     version: 8.4.31
   prettier:
-    specifier: 3.0.3
-    version: 3.0.3
+    specifier: 3.1.0
+    version: 3.1.0
   prettier-plugin-tailwindcss:
     specifier: ^0.5.7
-    version: 0.5.7(@ianvs/prettier-plugin-sort-imports@4.1.1)(prettier@3.0.3)
+    version: 0.5.7(@ianvs/prettier-plugin-sort-imports@4.1.1)(prettier@3.1.0)
   solid-devtools:
     specifier: ^0.28.1
     version: 0.28.1(solid-js@1.8.5)(vite@4.5.0)
@@ -206,8 +206,8 @@ devDependencies:
     specifier: ^0.16.7
     version: 0.16.7(rollup@2.79.1)
   unplugin-icons:
-    specifier: ^0.17.3
-    version: 0.17.3
+    specifier: ^0.17.4
+    version: 0.17.4
   vite:
     specifier: ^4.5.0
     version: 4.5.0(@types/node@20.9.0)
@@ -218,8 +218,8 @@ devDependencies:
     specifier: ^0.16.7
     version: 0.16.7(vite@4.5.0)(workbox-build@7.0.0)(workbox-window@7.0.0)
   vite-plugin-solid:
-    specifier: 2.7.2
-    version: 2.7.2(solid-js@1.8.5)(vite@4.5.0)
+    specifier: 2.7.0
+    version: 2.7.0(solid-js@1.8.5)(vite@4.5.0)
   vite-plugin-solid-svg:
     specifier: ^0.7.0
     version: 0.7.0(solid-js@1.8.5)(vite@4.5.0)
@@ -1859,7 +1859,7 @@ packages:
     resolution: {integrity: sha512-dvuCeX5fC9dXgJn9t+X5atfmgQAzUOWqS1254Gh0m6i8wKd10ebXkfNKiRK+1GWi/yTvvLDHpoxLr0xxxeslWw==}
     dev: true
 
-  /@ianvs/prettier-plugin-sort-imports@4.1.1(prettier@3.0.3):
+  /@ianvs/prettier-plugin-sort-imports@4.1.1(prettier@3.1.0):
     resolution: {integrity: sha512-kJhXq63ngpTQ2dxgf5GasbPJWsJA3LgoOdd7WGhpUSzLgLgI4IsIzYkbJf9kmpOHe7Vdm/o3PcRA3jmizXUuAQ==}
     peerDependencies:
       '@vue/compiler-sfc': '>=3.0.0'
@@ -1873,7 +1873,7 @@ packages:
       '@babel/parser': 7.23.3
       '@babel/traverse': 7.23.3
       '@babel/types': 7.23.3
-      prettier: 3.0.3
+      prettier: 3.1.0
       semver: 7.5.4
     transitivePeerDependencies:
       - supports-color
@@ -2391,10 +2391,10 @@ packages:
       solid-js: 1.8.5
     dev: false
 
-  /@solidjs/router@0.9.0(solid-js@1.8.5):
-    resolution: {integrity: sha512-q1RxUhLa8lKdbhqEPkG+8RwBQKIH5f5AIWiOxVoUTK4UllgsR0C0FNT++ufnIAb9LNkx3ahE4WxAHZqH4l1vEQ==}
+  /@solidjs/router@0.9.1(solid-js@1.8.5):
+    resolution: {integrity: sha512-kRY75piOQsyoH75E/RP6lr7uVGFCjeeCCCJx7Z2D1Vc6+I1yFQjLCvE+6agXGwqDoWi6vbETP1g7gmp/L1mNLg==}
     peerDependencies:
-      solid-js: ^1.5.3
+      solid-js: ^1.8.4
     dependencies:
       solid-js: 1.8.5
     dev: false
@@ -3100,7 +3100,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001561
-      electron-to-chromium: 1.4.580
+      electron-to-chromium: 1.4.581
       node-releases: 2.0.13
       update-browserslist-db: 1.0.13(browserslist@4.22.1)
     dev: true
@@ -3660,8 +3660,8 @@ packages:
       jake: 10.8.7
     dev: true
 
-  /electron-to-chromium@1.4.580:
-    resolution: {integrity: sha512-T5q3pjQon853xxxHUq3ZP68ZpvJHuSMY2+BZaW3QzjS4HvNuvsMmZ/+lU+nCrftre1jFZ+OSlExynXWBihnXzw==}
+  /electron-to-chromium@1.4.581:
+    resolution: {integrity: sha512-6uhqWBIapTJUxgPTCHH9sqdbxIMPt7oXl0VcAL1kOtlU6aECdcMncCrX5Z7sHQ/invtrC9jUQUef7+HhO8vVFw==}
     dev: true
 
   /emoji-regex@8.0.0:
@@ -4156,7 +4156,7 @@ packages:
     resolution: {integrity: sha512-7Gps/XWymbLk2QLYK4NzpMOrYjMhdIxXuIvy2QBsLE6ljuodKvdkWs/cpyJJ3CVIVpH0Oi1Hvg1ovbMzLdFBBg==}
     engines: {node: ^10.12.0 || >=12.0.0}
     dependencies:
-      flat-cache: 3.1.1
+      flat-cache: 3.2.0
     dev: true
 
   /file-saver@2.0.5:
@@ -4201,9 +4201,9 @@ packages:
       path-exists: 4.0.0
     dev: true
 
-  /flat-cache@3.1.1:
-    resolution: {integrity: sha512-/qM2b3LUIaIgviBQovTLvijfyOQXPtSRnRK26ksj2J7rzPIecePUIpJsZ4T02Qg+xiAEKIs5K8dsHEd+VaKa/Q==}
-    engines: {node: '>=12.0.0'}
+  /flat-cache@3.2.0:
+    resolution: {integrity: sha512-CYcENa+FtcUKLmhhqyctpclsq7QF38pKjZHsGNiSQF5r4FtoKDWabFDl3hzaEQMvT1LHEysw5twgLvpYYb4vbw==}
+    engines: {node: ^10.12.0 || >=12.0.0}
     dependencies:
       flatted: 3.2.9
       keyv: 4.5.4
@@ -4590,8 +4590,8 @@ packages:
     hasBin: true
     dev: true
 
-  /iconoir@7.0.1:
-    resolution: {integrity: sha512-M09f+nz+bwNmpahqFk0z/azVrAatMfe8QYoTtFcH7Es25WEUMuRLe0s0OQEdOb6hpqHSgYy/UR9dkLTZCP+Vcg==}
+  /iconoir@7.0.2:
+    resolution: {integrity: sha512-hydIE40jESiiniHxYXsDc85aOPocv36cAFpLNZ43/1w93qqmOaNldEbACeCy/tniYAZnPDsl8bnYv0Z7fDqBlA==}
     dev: false
 
   /iconv-lite@0.6.3:
@@ -5196,9 +5196,11 @@ packages:
       get-func-name: 2.0.2
     dev: true
 
-  /lru-cache@10.0.1:
-    resolution: {integrity: sha512-IJ4uwUTi2qCccrioU6g9g/5rvvVl13bsdczUUcqbciD9iLr095yj8DQKdObriEvuNSx325N1rV1O0sJFszx75g==}
+  /lru-cache@10.0.2:
+    resolution: {integrity: sha512-Yj9mA8fPiVgOUpByoTZO5pNrcl5Yk37FcSHsUINpAsaBIEZIuqcCclDZJCVxqQShDsmYX8QG63svJiTbOATZwg==}
     engines: {node: 14 || >=16.14}
+    dependencies:
+      semver: 7.5.4
     dev: true
 
   /lru-cache@5.1.1:
@@ -5742,7 +5744,7 @@ packages:
     resolution: {integrity: sha512-MkhCqzzBEpPvxxQ71Md0b1Kk51W01lrYvlMzSUaIzNsODdd7mqhiimSZlr+VegAz5Z6Vzt9Xg2ttE//XBhH3EQ==}
     engines: {node: '>=16 || 14 >=14.17'}
     dependencies:
-      lru-cache: 10.0.1
+      lru-cache: 10.0.2
       minipass: 7.0.4
     dev: true
 
@@ -5936,7 +5938,7 @@ packages:
     engines: {node: '>= 0.8.0'}
     dev: true
 
-  /prettier-plugin-tailwindcss@0.5.7(@ianvs/prettier-plugin-sort-imports@4.1.1)(prettier@3.0.3):
+  /prettier-plugin-tailwindcss@0.5.7(@ianvs/prettier-plugin-sort-imports@4.1.1)(prettier@3.1.0):
     resolution: {integrity: sha512-4v6uESAgwCni6YF6DwJlRaDjg9Z+al5zM4JfngcazMy4WEf/XkPS5TEQjbD+DZ5iNuG6RrKQLa/HuX2SYzC3kQ==}
     engines: {node: '>=14.21.3'}
     peerDependencies:
@@ -5988,12 +5990,12 @@ packages:
       prettier-plugin-twig-melody:
         optional: true
     dependencies:
-      '@ianvs/prettier-plugin-sort-imports': 4.1.1(prettier@3.0.3)
-      prettier: 3.0.3
+      '@ianvs/prettier-plugin-sort-imports': 4.1.1(prettier@3.1.0)
+      prettier: 3.1.0
     dev: true
 
-  /prettier@3.0.3:
-    resolution: {integrity: sha512-L/4pUDMxcNa8R/EthV08Zt42WBO4h1rarVtK0K+QJG0X187OLo7l699jWw0GKuwzkPQ//jMFA/8Xm6Fh3J/DAg==}
+  /prettier@3.1.0:
+    resolution: {integrity: sha512-TQLvXjq5IAibjh8EpBIkNKxO749UEWABoiIZehEPiY4GNpVdhaFKqSTu+QrlU6D2dPAfubRmtJTi4K4YkQ5eXw==}
     engines: {node: '>=14'}
     hasBin: true
     dev: true
@@ -6504,8 +6506,8 @@ packages:
       internal-slot: 1.0.6
     dev: true
 
-  /streamx@2.15.3:
-    resolution: {integrity: sha512-8UmzFRA08VahBuaw6UxQAX+NAmMtPVkPDWUtLhyHRaU2uxiw3+keTuSJRJfAfpqo7M3TSAhYtdRzYqG/j02hzA==}
+  /streamx@2.15.5:
+    resolution: {integrity: sha512-9thPGMkKC2GctCzyCUjME3yR03x2xNo0GPKGkRw2UMYN+gqWa9uqpyNWhmsNCutU5zHmkUum0LsCRQTXUgUCAg==}
     dependencies:
       fast-fifo: 1.3.2
       queue-tick: 1.0.1
@@ -6761,7 +6763,7 @@ packages:
     dependencies:
       b4a: 1.6.4
       fast-fifo: 1.3.2
-      streamx: 2.15.3
+      streamx: 2.15.5
     dev: true
 
   /tar@6.2.0:
@@ -7129,8 +7131,8 @@ packages:
       - rollup
     dev: true
 
-  /unplugin-icons@0.17.3:
-    resolution: {integrity: sha512-uvopA4I6QYWYpwAyRvG/4NNvR1Cd4GnF/mtOkybgP2YPkHjRX02l/ALm20VUla31Jt9eZHxHyODtNf/Upx5uaw==}
+  /unplugin-icons@0.17.4:
+    resolution: {integrity: sha512-PHLxjBx3ZV8RUBvfMafFl8uWH88jHeZgOijcRpkwgne7y2Ovx7WI0Ltzzw3fjZQ7dGaDhB8udyKVdm9N2S6BIw==}
     peerDependencies:
       '@svgr/core': '>=7.0.0'
       '@svgx/core': ^1.0.1
@@ -7300,8 +7302,8 @@ packages:
       vite: 4.5.0(@types/node@20.9.0)
     dev: true
 
-  /vite-plugin-solid@2.7.2(solid-js@1.8.5)(vite@4.5.0):
-    resolution: {integrity: sha512-GV2SMLAibOoXe76i02AsjAg7sbm/0lngBlERvJKVN67HOrJsHcWgkt0R6sfGLDJuFkv2aBe14Zm4vJcNME+7zw==}
+  /vite-plugin-solid@2.7.0(solid-js@1.8.5)(vite@4.5.0):
+    resolution: {integrity: sha512-avp/Jl5zOp/Itfo67xtDB2O61U7idviaIp4mLsjhCa13PjKNasz+IID0jYTyqUp9SFx6/PmBr6v4KgDppqompg==}
     peerDependencies:
       solid-js: ^1.7.2
       vite: ^3.0.0 || ^4.0.0

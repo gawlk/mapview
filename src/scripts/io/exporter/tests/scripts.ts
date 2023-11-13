@@ -9,6 +9,7 @@ import {
   unzipFile,
 } from '/src/scripts'
 import { getFileFromPath } from '/src/tests'
+import { store } from '/src/store'
 
 const acceptedExtension = ['pdx', 'F25', 'fwd', 'mpvz', 'mvrz']
 
@@ -40,9 +41,9 @@ export const importFiles = async (dirPath: string, folderName?: string) => {
         case 'mpvz': {
           const project = await importFile(file)
 
-          project?.addToMap()
-
           if (!project) return
+
+          store.pushAndSelectProject(project)
 
           promises.push(
             // eslint-disable-next-line no-async-promise-executor
@@ -57,10 +58,10 @@ export const importFiles = async (dirPath: string, folderName?: string) => {
                 resolve(true)
               }
 
-              let needInit = true
+              let needsInit = true
 
               // rawdata and screenshoot are load in async so we wetting for the data to be init
-              while (needInit) {
+              while (needsInit) {
                 const points = getAllPointsFromProject(project)
 
                 raws.forEach((key) => {
@@ -69,8 +70,8 @@ export const importFiles = async (dirPath: string, folderName?: string) => {
                     (p) => removeLeading0s(p.id) === removeLeading0s(id),
                   )
 
-                  needInit =
-                    needInit && point?.rawDataFile()?.byteLength !== undefined
+                  needsInit =
+                    needsInit && point?.rawDataFile()?.byteLength !== undefined
                 })
 
                 await sleep(250)

@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import { env } from '/src/env'
 import {
   convertJSONFromPRJZToMPVZ,
   createMachineProjectFromJSON,
@@ -41,7 +42,7 @@ export const importFile = async (file: File) => {
 
     const jsonProject = getProjectJSONFromZip(unzipped, extension || '')
 
-    console.log(jsonProject)
+    !env.isTest && console.log(jsonProject)
 
     if (jsonProject) {
       project = await createMachineProjectFromJSON(jsonProject, store.map())

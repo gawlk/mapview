@@ -5,5 +5,5 @@ export const hasRawData = (source: BaseProject | BaseReport) => {
     .flatMap((report) =>
       report.zones().flatMap((zone) => zone.points() as BasePoint[]),
     )
-    .some((point) => point.rawDataFile)
+    .some((point) => point.rawDataFile())
 }

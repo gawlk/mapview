@@ -20,7 +20,7 @@ export const mapStyles = [
 export const waitForMap = () =>
   new Promise<boolean>((resolve) => {
     const interval = setInterval(() => {
-      if (!store.map || store.map()?.isStyleLoaded()) {
+      if (!store.map() || store.map()?.isStyleLoaded()) {
         clearInterval(interval)
 
         resolve(true)

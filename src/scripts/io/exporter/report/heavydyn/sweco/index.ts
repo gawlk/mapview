@@ -43,18 +43,23 @@ const writeHeader = (project: HeavydynProject): string => {
     findFieldInArray(selectedReport.information, 'Date')?.toString(),
   ).format('DD/MM/YYYY')
 
-  const fwdNumber = findFieldInArray(project.hardware, 'Serial number')?.value
+  const fwdNumber = findFieldInArray(
+    project.hardware,
+    'Serial number',
+  )?.value?.()
 
   const rPlate = Math.round(project.calibrations.dPlate * 1000) / 2
 
   const sensors = project.calibrations.channels.slice(1)
 
-  const lane = findFieldInArray(selectedReport.information, 'Lane')?.value
+  const lane = findFieldInArray(selectedReport.information, 'Lane')?.value?.()
 
-  const client = findFieldInArray(project.information, 'Client')?.value
+  const client = findFieldInArray(project.information, 'Client')?.value?.()
 
-  const roadReference = findFieldInArray(selectedReport.information, 'Part')
-    ?.value
+  const roadReference = findFieldInArray(
+    selectedReport.information,
+    'Part',
+  )?.value?.()
 
   return dedent`
     ${writeSeparator()}\n\n

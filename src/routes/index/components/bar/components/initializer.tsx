@@ -39,7 +39,7 @@ export const Initializer = (props: Props) => {
 
       const project = await importFile(file)
 
-      console.log('project', project)
+      !env.isTest && console.log('project', project)
 
       store.pushAndSelectProject(project)
 

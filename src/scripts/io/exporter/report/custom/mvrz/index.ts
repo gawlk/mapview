@@ -197,7 +197,7 @@ const generateUnits = (units: MachineMathUnits): ExcelJSON =>
     (a, unit: MathUnit<string>) => ({
       ...a,
       [`Unit_${unit.name}_Name`]: translate(unit.name),
-      [`Unit_${unit.name}_Unit`]: unit.currentUnit,
+      [`Unit_${unit.name}_Unit`]: unit.currentUnit(),
       [`Unit_${unit.name}_Max`]: convertValueFromUnitAToUnitB(
         unit.max(),
         unit.baseUnit,

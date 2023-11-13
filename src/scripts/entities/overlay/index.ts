@@ -128,9 +128,11 @@ export const createOverlay = async (
       }
 
       createEffect(() => {
+        const opacity = overlay.opacity()
+
         map &&
           map.getLayer(id) &&
-          map.setPaintProperty(id, 'raster-opacity', overlay.opacity())
+          map.setPaintProperty(id, 'raster-opacity', opacity)
       })
 
       createEffect(() => {

@@ -20,7 +20,7 @@ const _dirname = path.dirname(_filename)
 const io = `${_dirname}/../../../scripts/io`
 
 const defaultExportFolder = `${io}/exporter/tests/files`
-// const defaultImportFolder = `${io}/importer/tests/files`
+const defaultImportFolder = `${io}/importer/tests/files`
 
 const acceptedExtension = ['pdx', 'f25', 'fwd', 'mpvz', 'mvrz']
 
@@ -65,7 +65,17 @@ program
   .description('CLI to update reference file of the CI')
   .version('0.0.1')
   .arguments('[path]')
+  .option('-f --file', 'update only the file give as path')
+  .option('--import', 'update reference mpvz of the default import folder')
+  .option(
+    '--ignore <name>',
+    'folder to ignore',
+    (value: string, previous: string[]) => previous.concat([value]),
+    ['retroCompatibility'],
+  )
   .parse()
+
+const opts = program.opts()
 
 const projects: Map<string, HeavydynProject> = new Map()
 
@@ -83,7 +93,10 @@ const loadProject = async (subPath: string, name: string) => {
   return project
 }
 
-const updateRefFile = async (currentPath: string) => {
+const updateRefFile = async (
+  currentPath: string,
+  options?: { ignoreMpvz?: boolean },
+) => {
   const dirPath = path.dirname(currentPath)
   const name = path.basename(currentPath)
   const extension = String(path.extname(currentPath))
@@ -122,7 +135,10 @@ const updateRefFile = async (currentPath: string) => {
 
   let exportedFile
 
-  console.log(extension)
+  if (extension === 'mpvz' && options?.ignoreMpvz) {
+    console.log('ignore mpvz', subPath)
+    return
+  }
 
   switch (extension) {
     case 'f25':
@@ -150,11 +166,7 @@ const updateRefFile = async (currentPath: string) => {
     return
   }
 
-  console.log('writing', currentPath, exportedFile)
-
   writeFileSync(currentPath, new DataView(await exportedFile.arrayBuffer()))
-
-  console.log('writed')
 }
 
 const updateRefFolder = async (
@@ -211,7 +223,24 @@ const updateRefFolder = async (
 
   await Promise.all(promises)
 
-  await Promise.all(files.map((file) => updateRefFile(file)))
+  await Promise.all(
+    files.map((file) => {
+      return updateRefFile(
+        file,
+        opts.ignore.some((folder: string) => file.includes(folder))
+          ? { ignoreMpvz: true }
+          : undefined,
+      )
+    }),
+  )
 }
 
-await updateRefFolder()
+const args = program.args
+
+if (opts.file) {
+  void updateRefFile(args[0])
+} else {
+  await updateRefFolder([
+    opts.import ? defaultImportFolder : defaultExportFolder,
+  ])
+}

@@ -2,7 +2,7 @@ import localForage from 'localforage'
 
 import { Button, ButtonFile } from '/src/components'
 import { useAppState } from '/src/index'
-import { convertData64ToFile, downloadFile } from '/src/scripts'
+import { downloadFile } from '/src/scripts'
 import { store } from '/src/store'
 
 import { getTemplateKey } from './scripts'

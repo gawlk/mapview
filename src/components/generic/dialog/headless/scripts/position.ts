@@ -27,7 +27,7 @@ export const createRelativePositionEffect = ({
 
     const windowSize = useWindowSize()
 
-    let cleanup: (() => void) | undefined
+    let cleanup: VoidFunction | undefined
 
     const [isIntersecting, setIsIntersecting] = createSignal(false)
 

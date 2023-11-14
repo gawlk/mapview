@@ -20,15 +20,15 @@ export const createZIPFromEntity = async (
   const zip: Zippable = {}
 
   let json: JSONMapview | JSONAny | undefined
-  let projectJson
+  let projectJSON: JSONMachineProject | undefined
 
   if (entity.kind === 'Project') {
-    projectJson = entity.toJSON()
+    projectJSON = entity.toJSON()
 
     json = {
       version: 1,
       jsonFileFormat: 'Database from Mapview',
-      project: projectJson,
+      project: projectJSON,
     } as JSONMapview
   } else if (parameters.customJSON) {
     json = parameters.customJSON.json
@@ -37,9 +37,9 @@ export const createZIPFromEntity = async (
   await Promise.all([
     overlays && entity.kind === 'Project' && addOverlaysToZip(zip, entity),
 
-    screenshots && addScreenshotsToZip(zip, entity, projectJson),
-
     rawData && addRawDataToZip(zip, entity),
+
+    screenshots && addScreenshotsToZip(zip, entity, projectJSON),
 
     template && addFileToZip(zip, template),
   ])

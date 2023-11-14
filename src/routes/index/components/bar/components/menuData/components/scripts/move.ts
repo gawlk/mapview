@@ -1,27 +1,26 @@
 import { store } from '/src/store'
 
 export const movePointToZoneIndex = (point: BasePoint, zoneIndex: number) => {
-  const zones = store.selectedReport?.zones
+  const zones = store.selectedReport()?.zones()
 
-  zones?.some((zone) => {
-    const index = zone.points.findIndex((_point) => _point === point)
+  batch(() => {
+    zones?.some((zone: BaseZone) => {
+      const index = zone.points().findIndex((_point) => _point === point)
 
-    if (index !== -1) {
-      zone.points.splice(index, 1)
+      if (index !== -1) {
+        zone.setPoints(zone.points().splice(index, 1))
 
-      const points: BasePoint[] = zones[zoneIndex].points
+        const newZone = zones[zoneIndex]
+        const points = newZone.points() as BasePoint[]
+        points.push(point)
+        newZone.setPoints(points)
 
-      points.push(point)
+        point.zone.set(zones[zoneIndex])
 
-      point.zone = zones[zoneIndex]
-
-      if (store.selectedReport?.settings.colorization === 'Zone') {
-        point.updateColor()
+        return true
       }
 
-      return true
-    }
-
-    return false
+      return false
+    })
   })
 }

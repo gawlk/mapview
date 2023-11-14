@@ -15,19 +15,15 @@ export const DialogExport = () => {
     template: null as File | null,
   })
 
-  const simpleExports = createMemo(() => [
-    ...(store.selectedReport
-      ? getSimpleReportExports(
-          store.selectedReport as unknown as MachineProject,
-        )
-      : []),
-  ])
+  const simpleExports = createMemo(() => {
+    const selectedProject = store.selectedProject()
+    return selectedProject ? getSimpleReportExports(selectedProject) : []
+  })
 
   onMount(() => {
     createEffect(
       on(
-        () => store.selectedProject?.machine,
-
+        () => store.selectedProject()?.machine,
         () => {
           const key = 'demo-templates-fetched'
 

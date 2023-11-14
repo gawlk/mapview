@@ -4,53 +4,55 @@ type HeadlessDialogPropsWithHTMLAttributes = MergePropsWithHTMLProps<
 >
 
 interface HeadlessDialogProps {
-  component?: string
+  readonly component?: string
 
-  full?: Accessor<boolean>
+  readonly full?: Accessor<boolean>
 
-  attach?: Accessor<HTMLElement | undefined>
+  readonly attach?: Accessor<HTMLElement | undefined>
 
-  title?: string
+  readonly title?: string
 
-  sticky?: JSXElement
+  readonly sticky?: JSXElement
 
-  form?: JSXElement
-  handle?: Accessor<HTMLElement | undefined>
+  readonly form?: JSXElement
+  readonly handle?: Accessor<HTMLElement | undefined>
 
-  maximized?: true
-  full?: true
+  readonly maximized?: true
+  readonly full?: true
 
-  footer?: JSXElement
+  readonly footer?: JSXElement
 
-  moveable?: boolean
-  resizable?: boolean
-  maximizable?: boolean
+  readonly moveable?: boolean
+  readonly resizable?: boolean
+  readonly maximizable?: boolean
 
-  position?: DialogPositionProp
+  readonly position?: DialogPositionProp
 
-  dimensions?: DialogDimensionsProp
+  readonly dimensions?: DialogDimensionsProp
 
-  backdrop?: boolean
+  readonly backdrop?: boolean
 
-  classes?: ClassProp
-  classesOpen?: ClassProp
-  classesMoveable?: ClassProp
-  classesAbsolute?: ClassProp
-  classesWindowed?: ClassProp
-  classesFixed?: ClassProp
-  classesMaximized?: ClassProp
+  readonly classes?: ClassProp
+  readonly classesOpen?: ClassProp
+  readonly classesMoveable?: ClassProp
+  readonly classesAbsolute?: ClassProp
+  readonly classesWindowed?: ClassProp
+  readonly classesFixed?: ClassProp
+  readonly classesMaximized?: ClassProp
 
-  onIdCreated?: (id: string) => void
-  onOpenCreated?: (callback: DialogOpenFunction) => void
-  onCloseCreated?: (callback: DialogCloseFunction) => void
-  onToggleCreated?: (callback: DialogToggleFunction) => void
-  onToggleMaximizeCreated?: (callback: DialogToggleMaximizedFunction) => void
-  onAbsolute?: (absolute: boolean) => void
-  onMaximized?: (maximized: boolean) => void
+  readonly onIdCreated?: (id: string) => void
+  readonly onOpenCreated?: (callback: DialogOpenFunction) => void
+  readonly onCloseCreated?: (callback: DialogCloseFunction) => void
+  readonly onToggleCreated?: (callback: DialogToggleFunction) => void
+  readonly onToggleMaximizeCreated?: (
+    callback: DialogToggleMaximizedFunction,
+  ) => void
+  readonly onAbsolute?: (absolute: boolean) => void
+  readonly onMaximized?: (maximized: boolean) => void
 
-  onOpen?: VoidFunction
-  onClose?: (value?: string) => void
-  onCloseEnd?: VoidFunction
+  readonly onOpen?: VoidFunction
+  readonly onClose?: (value?: string) => void
+  readonly onCloseEnd?: VoidFunction
 }
 
 type DialogOpenFunction = (isUserEvent: boolean) => void
@@ -61,27 +63,27 @@ type DialogToggleMaximizedFunction = VoidFunction
 type DialogResizeDirection = 'n' | 'nw' | 'w' | 'sw' | 's' | 'se' | 'e' | 'ne'
 
 interface DialogAttached {
-  left: ASS<number | undefined>
-  top: ASS<number | undefined>
-  width: ASS<number | undefined>
+  readonly left: ASS<number | undefined>
+  readonly top: ASS<number | undefined>
+  readonly width: ASS<number | undefined>
 }
 
 interface DialogPosition {
-  left: ASS<number | undefined>
-  top: ASS<number | undefined>
+  readonly left: ASS<number | undefined>
+  readonly top: ASS<number | undefined>
 }
 
 interface DialogDimensions {
-  width: ASS<number | undefined>
-  height: ASS<number | undefined>
+  readonly width: ASS<number | undefined>
+  readonly height: ASS<number | undefined>
 }
 
 interface DialogPositionProp {
-  left?: number
-  top?: number
+  readonly left?: number
+  readonly top?: number
 }
 
 interface DialogDimensionsProp {
-  width?: number
-  height?: number
+  readonly width?: number
+  readonly height?: number
 }

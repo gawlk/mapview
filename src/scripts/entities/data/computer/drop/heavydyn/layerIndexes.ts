@@ -1,32 +1,12 @@
+import { runWithOwner, getOwner } from 'solid-js'
 import {
-  createDataComputer,
   createDataLabel,
   createDataValue,
   currentCategory,
   indicatorsCategory,
 } from '/src/scripts'
-
-const layerIndexCompute =
-  (report: HeavydynReport, dataLabel1?: DataLabel, dataLabel2?: DataLabel) =>
-  (label: DataLabel) => {
-    report.zones.forEach((zone) =>
-      zone.points.forEach((point) =>
-        point.drops.forEach((drop) => {
-          const data =
-            drop.data.find((_data) => _data.label === label) ||
-            drop.data[drop.data.push(createDataValue(0, label)) - 1]
-
-          const d1 = drop.data.find((_data) => _data.label === dataLabel1)
-
-          const d2 = drop.data.find((_data) => _data.label === dataLabel2)
-
-          if (d1 && d2) {
-            data.value.updateValue(d1.getRawValue() - d2.getRawValue())
-          }
-        }),
-      ),
-    )
-  }
+import { store } from '/src/store'
+import { createLazyMemo } from '@solid-primitives/memo'
 
 export const createBLIDataComputer = (report: HeavydynReport) => {
   const d0DataLabel = report.dataLabels.findIn('Drop', 'D0', currentCategory)
@@ -37,21 +17,18 @@ export const createBLIDataComputer = (report: HeavydynReport) => {
     currentCategory,
   )
 
-  return createDataComputer({
-    label:
-      d0DataLabel &&
-      d300DataLabel &&
-      report.dataLabels.pushTo(
-        'Drop',
-        createDataLabel({
-          name: 'BLI (Base layer index)',
-          shortName: 'BLI',
-          unit: d0DataLabel.unit,
-          category: indicatorsCategory,
-        }),
-      ),
-    compute: layerIndexCompute(report, d0DataLabel, d300DataLabel),
+  if (!d0DataLabel || !d300DataLabel) return
+
+  const bliDataLabel = createDataLabel({
+    name: 'BLI (Base layer index)',
+    shortName: 'BLI',
+    unit: d0DataLabel.unit,
+    category: indicatorsCategory,
   })
+
+  report.dataLabels.pushTo('Drop', bliDataLabel)
+
+  layerIndexCompute(report, bliDataLabel, d0DataLabel, d300DataLabel)
 }
 
 export const createMLIDataComputer = (report: HeavydynReport) => {
@@ -67,21 +44,18 @@ export const createMLIDataComputer = (report: HeavydynReport) => {
     currentCategory,
   )
 
-  return createDataComputer({
-    label:
-      d300DataLabel &&
-      d600DataLabel &&
-      report.dataLabels.pushTo(
-        'Drop',
-        createDataLabel({
-          name: 'MLI (Middle layer index)',
-          shortName: 'MLI',
-          unit: d300DataLabel.unit,
-          category: indicatorsCategory,
-        }),
-      ),
-    compute: layerIndexCompute(report, d300DataLabel, d600DataLabel),
+  if (!d300DataLabel || !d600DataLabel) return
+
+  const mliDataLabel = createDataLabel({
+    name: 'MLI (Middle layer index)',
+    shortName: 'MLI',
+    unit: d300DataLabel.unit,
+    category: indicatorsCategory,
   })
+
+  report.dataLabels.pushTo('Drop', mliDataLabel)
+
+  layerIndexCompute(report, mliDataLabel, d300DataLabel, d600DataLabel)
 }
 
 export const createLLIDataComputer = (report: HeavydynReport) => {
@@ -97,19 +71,54 @@ export const createLLIDataComputer = (report: HeavydynReport) => {
     currentCategory,
   )
 
-  return createDataComputer({
-    label:
-      d600DataLabel &&
-      d900DataLabel &&
-      report.dataLabels.pushTo(
-        'Drop',
-        createDataLabel({
-          name: 'LLI (Lower layer index)',
-          shortName: 'LLI',
-          unit: d600DataLabel.unit,
-          category: indicatorsCategory,
-        }),
-      ),
-    compute: layerIndexCompute(report, d600DataLabel, d900DataLabel),
+  if (!d600DataLabel || !d900DataLabel) return
+
+  const lliDataLabel = createDataLabel({
+    name: 'LLI (Lower layer index)',
+    shortName: 'LLI',
+    unit: d600DataLabel.unit,
+    category: indicatorsCategory,
   })
+
+  report.dataLabels.pushTo('Drop', lliDataLabel)
+
+  layerIndexCompute(report, lliDataLabel, d600DataLabel, d900DataLabel)
+}
+
+const layerIndexCompute = (
+  report: HeavydynReport,
+  liDataLabel: DataLabel,
+  d1DataLabel: DataLabel,
+  d2DataLabel: DataLabel,
+) => {
+  const owner = getOwner()
+
+  createEffect(
+    () =>
+      store.selectedProject() === report.project() &&
+      batch(() =>
+        report
+          .sortedPoints()
+          .flatMap((point) => point.drops)
+          .filter((drop) => !drop.dataset.get(liDataLabel))
+          .forEach((drop) =>
+            runWithOwner(owner, () => {
+              const d1 = createLazyMemo(() =>
+                drop.dataset.get(d1DataLabel)!.rawValue(),
+              )
+
+              const d2 = createLazyMemo(() =>
+                drop.dataset.get(d2DataLabel)!.rawValue(),
+              )
+
+              const li = createDataValue(
+                createLazyMemo(() => d1() - d2()),
+                liDataLabel,
+              )
+
+              drop.dataset.set(liDataLabel, li)
+            }),
+          ),
+      ),
+  )
 }

@@ -2,7 +2,6 @@ import { getBrowserLocale, translate } from '/src/locales'
 import {
   convertUint8arrayToXML,
   convertValueFromUnitAToUnitB,
-  createMathNumber,
   createZIPFromEntity,
   unzipFile,
 } from '/src/scripts'
@@ -32,10 +31,12 @@ export const mvrzExporter = {
       needsRawData = cell?.firstChild?.firstChild?.nodeValue !== '0' // not sending raw data only if the value we get is false
     }
 
+    const selectedReport = project.reports.selected()
+
     return new File(
-      project.reports.selected
+      selectedReport
         ? [
-            await createZIPFromEntity(project.reports.selected, {
+            await createZIPFromEntity(selectedReport, {
               rawData: needsRawData,
               screenshots: true,
               customJSON: {
@@ -47,7 +48,7 @@ export const mvrzExporter = {
           ]
         : [],
       `${project.name.toString()}_${
-        project.reports.selected?.name.toString() || ''
+        selectedReport?.name.toString() || ''
       }.mvrz`,
       { type: 'blob' },
     )
@@ -82,16 +83,20 @@ const generatePointData = (
 ): ExcelDataListJSON =>
   points.reduce<ExcelDataListJSON>(
     (a, point) =>
-      point.data.reduce<ExcelDataListJSON>((b, data) => {
-        const label = labelPrefix + toPascalCase(data.label.getSerializedName())
+      Array.from(point.dataset.values()).reduce<ExcelDataListJSON>(
+        (b, data) => {
+          const label =
+            labelPrefix + toPascalCase(data.label.getSerializedName())
 
-        const values = [...((b[label] || []) as number[]), data.toExcel()]
+          const values = [...((b[label] || []) as number[]), data.toExcel()]
 
-        return {
-          ...b,
-          [label]: values,
-        }
-      }, a),
+          return {
+            ...b,
+            [label]: values,
+          }
+        },
+        a,
+      ),
     {},
   )
 
@@ -114,7 +119,7 @@ const generatePointInformation = (points: BasePoint[], labelPrefix: string) =>
       ],
       [labelPrefix + 'Number']: [
         ...((a[labelPrefix + 'Number'] || []) as number[]),
-        point.number,
+        point.number(),
       ],
       [labelPrefix + 'Date']: [
         ...((a[labelPrefix + 'Date'] || []) as string[]),
@@ -145,20 +150,23 @@ const generateDropData = (
         [`${labelPrefix}${drop.index.displayedIndex}_Number`]: new Array(
           points.length,
         ).fill(drop.index.displayedIndex),
-        ...drop.data.reduce<ExcelDataListJSON>((c, data) => {
-          const label = `${labelPrefix}${
-            drop.index.displayedIndex
-          }_${toPascalCase(data.label.getSerializedName())}`
+        ...Array.from(drop.dataset.values()).reduce<ExcelDataListJSON>(
+          (c, data) => {
+            const label = `${labelPrefix}${
+              drop.index.displayedIndex
+            }_${toPascalCase(data.label.getSerializedName())}`
 
-          const values = c[label] || []
+            const values = c[label] || []
 
-          values.push(data.toExcel())
+            values.push(data.toExcel())
 
-          return {
-            ...c,
-            [label]: values,
-          }
-        }, b),
+            return {
+              ...c,
+              [label]: values,
+            }
+          },
+          b,
+        ),
       }),
       a,
     )
@@ -166,39 +174,39 @@ const generateDropData = (
 
 const generateZoneData = (zones: MachineZone[]): ExcelJSON =>
   zones
-    .filter((zone) => zone.getExportablePoints().length)
+    .filter((zone) => zone.exportablePoints().length)
     .reduce<ExcelJSON>((a, zone, index) => {
       const Z = `Z${index + 1}`
 
       return {
         ...a,
-        [`${Z}_Name`]: zone.name,
-        ...zone.data.reduce<ExcelJSON>(
+        [`${Z}_Name`]: zone.name(),
+        ...Array.from(zone.dataset.values()).reduce<ExcelJSON>(
           (prev, data) => ({
             ...prev,
             [`${Z}_${toPascalCase(data.label.name)}`]: data.toExcel(),
           }),
           {},
         ),
-        ...generatePointAndDropData(zone.getExportablePoints(), `${Z}_`),
+        ...generatePointAndDropData(zone.exportablePoints(), `${Z}_`),
       }
     }, {})
 
 const generateUnits = (units: MachineMathUnits): ExcelJSON =>
-  Object.values(units).reduce<ExcelJSON>(
+  units.list.reduce<ExcelJSON>(
     (a, unit: MathUnit<string>) => ({
       ...a,
       [`Unit_${unit.name}_Name`]: translate(unit.name),
-      [`Unit_${unit.name}_Unit`]: unit.currentUnit,
+      [`Unit_${unit.name}_Unit`]: unit.currentUnit(),
       [`Unit_${unit.name}_Max`]: convertValueFromUnitAToUnitB(
-        unit.max,
+        unit.max(),
         unit.baseUnit,
-        unit.currentUnit,
+        unit.currentUnit(),
       ),
       [`Unit_${unit.name}_Min`]: convertValueFromUnitAToUnitB(
-        unit.min,
+        unit.min(),
         unit.baseUnit,
-        unit.currentUnit,
+        unit.currentUnit(),
       ),
     }),
     {},
@@ -207,24 +215,22 @@ const generateUnits = (units: MachineMathUnits): ExcelJSON =>
 const generateThresholds = (thresholds: MachineThresholds): ExcelJSON =>
   Object.values(thresholds.groups).reduce<ExcelJSON>(
     (a, group: ThresholdsGroup<string>) => {
-      if (group.choices.selected) {
+      const selectedChoice = group.choices.selected()
+      if (selectedChoice) {
         return {
           ...a,
-          [`Thresholds_${group.unit.name}_Kind`]: group.choices.selected.kind,
+          [`Thresholds_${group.unit.name}_Kind`]: selectedChoice.kind,
           [`Thresholds_${group.unit.name}_Name`]: translate(
-            group.choices.selected.name,
+            selectedChoice.name,
           ),
-          [`Thresholds_${group.unit.name}_Value`]: createMathNumber(
-            group.choices.selected.value,
-            group.unit,
-          ).getValueAs(group.unit.currentUnit),
-          ...(group.choices.selected.kind === 'custom' &&
-          group.choices.selected.type !== 'Bicolor'
+          [`Thresholds_${group.unit.name}_Value`]: group.unit.baseToCurrent(
+            selectedChoice.value(),
+          ),
+          ...(selectedChoice.kind === 'custom' &&
+          selectedChoice.type() !== 'Bicolor'
             ? {
-                [`Thresholds_${group.unit.name}_ValueHigh`]: createMathNumber(
-                  group.choices.selected.valueHigh,
-                  group.unit,
-                ).getValueAs(group.unit.currentUnit),
+                [`Thresholds_${group.unit.name}_ValueHigh`]:
+                  group.unit.baseToCurrent(selectedChoice.valueHigh()),
               }
             : {}),
         }
@@ -235,40 +241,40 @@ const generateThresholds = (thresholds: MachineThresholds): ExcelJSON =>
   )
 
 const generateAcquisitionParameters = (project: MachineProject) => ({
-  AcquisitionParameters_NbSamples: project.acquisitionParameters.nbSamples,
-  AcquisitionParameters_Frequency: project.acquisitionParameters.frequency,
-  AcquisitionParameters_Pretrig: project.acquisitionParameters.preTrig,
-  ...(project.acquisitionParameters.smoothing
+  AcquisitionParameters_NbSamples: project.acquisitionParameters.nbSamples(),
+  AcquisitionParameters_Frequency: project.acquisitionParameters.frequency(),
+  AcquisitionParameters_Pretrig: project.acquisitionParameters.preTrig(),
+  ...(project.acquisitionParameters.smoothing()
     ? {
         AcquisitionParameters_Smoothing:
-          project.acquisitionParameters.smoothing,
+          project.acquisitionParameters.smoothing(),
       }
     : {}),
 })
 
 const generateSequence = (report: MachineReport): ExcelJSON => {
   if (report.machine === 'Heavydyn') {
-    const dropDataLabels = report.dataLabels.groups.list[0]
+    const dropDataLabels = report.dataLabels.groups.list()[0]
 
     const dropSequence: ExcelJSON = {
       DropSequence_Name: dropDataLabels.sequenceName,
-      DropSequence_Total: dropDataLabels.indexes.list.length || 0,
+      DropSequence_Total: dropDataLabels.indexes.list().length || 0,
     }
 
-    dropDataLabels.indexes.list.forEach((dropIndex, index) => {
+    dropDataLabels.indexes.list().forEach((dropIndex, index) => {
       dropSequence[`DropSequence_Drop${index + 1}_Type`] = translate(
         dropIndex.type,
       )
 
       dropSequence[`DropSequence_Drop${index + 1}_Value`] = dropIndex.value.unit
-        ? dropIndex.value.getValueAs(dropIndex.value.unit?.currentUnit)
-        : dropIndex.value.value
+        ? dropIndex.value.getValueAs(dropIndex.value.unit?.currentUnit())
+        : dropIndex.value.value()
     })
 
     return dropSequence
   }
 
-  const indexesList = report.dataLabels.groups.list[0].indexes.list as (
+  const indexesList = report.dataLabels.groups.list()[0].indexes.list() as (
     | MaxidynDropIndex
     | MinidynDropIndex
   )[]
@@ -331,37 +337,39 @@ const generateBearingParameters = (
   ['BearingParameters_Alpha']: parameters.alpha,
 })
 
-const generateHeavydynData = (project: HeavydynProject): ExcelJSON => {
+const generateHeavydynData = (project: HeavydynProject) => {
   const {
     correctionParameters: { load, temperature },
   } = project
 
-  return {
+  const json: ExcelJSON = {
     ...generateCalibrations(project.calibrations),
     ...{
-      [`CorrectionParameters_Load_Active`]: load.active,
+      [`CorrectionParameters_Load_Active`]: load.active(),
       [`CorrectionParameters_Load_CustomValue`]: load.customValue.unit
-        ? load.customValue.getValueAs(load.customValue.unit.currentUnit)
-        : load.customValue.value,
+        ? load.customValue.getValueAs(load.customValue.unit.currentUnit())
+        : load.customValue.value(),
       [`CorrectionParameters_Load_LoadReferenceSource`]:
-        load.source.selected || '',
+        load.source.selected() || '',
 
-      [`CorrectionParameters_Temperature_Active`]: temperature.active,
+      [`CorrectionParameters_Temperature_Active`]: temperature.active(),
       [`CorrectionParameters_Temperature_TemperatureFromSource`]:
-        temperature.source.selected || '',
+        temperature.source.selected() || '',
       [`CorrectionParameters_Temperature_Average`]:
-        temperature.average.selected || '',
+        temperature.average.selected() || '',
       [`CorrectionParameters_Temperature_CustomValue`]:
-        temperature.customValue.value,
+        temperature.customValue.value(),
       [`CorrectionParameters_Temperature_ReferenceTemperature`]:
-        temperature.reference.value,
+        temperature.reference.value(),
       [`CorrectionParameters_Temperature_StructureType_Name`]: translate(
-        temperature.structureType.selected?.name || '',
+        temperature.structureType.selected()?.name || '',
       ),
       [`CorrectionParameters_Temperature_StructureType_K`]:
-        temperature.structureType.selected?.k || '',
+        temperature.structureType.selected()?.k || '',
     },
   }
+
+  return json
 }
 
 const generateMaxidynData = (project: MaxidynProject): ExcelJSON => ({
@@ -385,8 +393,10 @@ const generateSpecificMachineData = (project: MachineProject): ExcelJSON => {
   }
 }
 
-const createBaseJson = (project: MachineProject): ExcelJSON => {
-  if (!project.reports.selected) return {}
+const createBaseJSON = (project: MachineProject): ExcelJSON => {
+  const selectedReport = project.reports.selected()
+  if (!selectedReport) return {}
+
   return {
     JsonFileFormat: 'Report database from Mapview',
     Version: 1,
@@ -400,29 +410,25 @@ const createBaseJson = (project: MachineProject): ExcelJSON => {
     Project_Name: project.name.toString(),
     ...generateInformationFromFields(project.information, 'Project_'),
     ...generateInformationFromFields(project.hardware, 'Hardware_'),
-    Report_Name: project.reports.selected.name.toString(),
-    ...generateInformationFromFields(
-      project.reports.selected.information,
-      'Report_',
-    ),
-    ...generateInformationFromFields(
-      project.reports.selected.platform,
-      'Platform_',
-    ),
+    Report_Name: selectedReport.name.toString(),
+    ...generateInformationFromFields(selectedReport.information, 'Report_'),
+    ...generateInformationFromFields(selectedReport.platform, 'Platform_'),
     ...generateAcquisitionParameters(project),
     ...generateUnits(project.units),
-    ...generateThresholds(project.reports.selected.thresholds),
-    ...generateSequence(project.reports.selected),
+    ...generateThresholds(selectedReport.thresholds),
+    ...generateSequence(selectedReport),
   }
 }
 
 const createMVRZJSON = (project: MachineProject): ExcelJSON => {
-  if (!project.reports.selected) return {}
+  const selectedReport = project.reports.selected()
+
+  if (!selectedReport) return {}
 
   return {
-    ...createBaseJson(project),
-    ...generatePointAndDropData(project.reports.selected.getExportablePoints()),
-    ...generateZoneData(project.reports.selected.zones),
+    ...createBaseJSON(project),
+    ...generatePointAndDropData(selectedReport.exportablePoints()),
+    ...generateZoneData(selectedReport.zones()),
     ...generateSpecificMachineData(project),
   }
 }

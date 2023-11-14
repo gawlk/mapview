@@ -1,7 +1,7 @@
 import { Button } from '/src/components'
 
 interface Props {
-  report: BaseReport
+  readonly report: BaseReport
 }
 
 export const ButtonFlyToReport = (props: Props) => {

@@ -19,35 +19,35 @@ export const Template = (props: Props) => {
 
   const { t } = useAppState()
 
-  const key = createMemo(() =>
-    getTemplateKey(
-      store.selectedProject?.machine as MachineName,
-      props.index + 1,
-    ),
-  )
+  const key = createMemo(() => {
+    const machine = store.selectedProject()?.machine
+    if (!machine) return null
+    return getTemplateKey(machine, props.index + 1)
+  })
 
   createEffect(async () => {
-    const file: AnyFile = await localForage.getItem(key())
-
-    if (file.data64) {
-      void updateFile(convertData64ToFile(file.data64, file.name))
-    } else {
+    const _key = key()
+    if (_key) {
+      const file: AnyFile = await localForage.getItem(_key)
       setState('file', file || null)
     }
   })
 
   const updateFile = async (file: File | undefined) => {
-    if (file) {
+    const _key = key()
+    if (_key && file) {
       setState('file', file)
-
-      await localForage.setItem(key(), file)
+      await localForage.setItem(_key, file)
     }
   }
 
   const remove = () => {
     setState('file', null)
 
-    void localForage.removeItem(key())
+    const _key = key()
+    if (_key) {
+      void localForage.removeItem(_key)
+    }
   }
 
   return (

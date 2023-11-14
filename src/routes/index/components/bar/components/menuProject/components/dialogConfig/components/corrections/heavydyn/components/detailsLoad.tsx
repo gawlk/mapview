@@ -5,7 +5,7 @@ import { roundValue } from '/src/scripts'
 import { InputRadioAbled } from './inputRadioAbled'
 
 interface Props {
-  project: HeavydynProject
+  readonly project: HeavydynProject
 }
 
 export const DetailsLoad = (props: Props) => {
@@ -23,12 +23,7 @@ export const DetailsLoad = (props: Props) => {
         text: t('Load'),
       }}
     >
-      <InputRadioAbled
-        active={load().active}
-        onChange={(value) => {
-          load().active = value
-        }}
-      />
+      <InputRadioAbled active={load().active()} onChange={load().active.set} />
       <DialogSelect
         attached
         button={{
@@ -37,24 +32,24 @@ export const DetailsLoad = (props: Props) => {
         }}
         onClose={(value) => value && load().source.selectIndex(Number(value))}
         values={{
-          selected: t(load().source.selected || ''),
-          list: load().source.list.map((str, index) => ({
-            value: String(index),
-            text: t(str),
-          })),
+          selected: t(load().source.selected() || ''),
+          list: load()
+            .source.list()
+            .map((str, index) => ({
+              value: String(index),
+              text: t(str),
+            })),
         }}
       />
-      <Show when={load().source.selected === 'Custom' && load().customValue}>
+      <Show when={load().source.selected() === 'Custom' && load().customValue}>
         {(mathNumber) => (
           <Input
             leftIcon={IconTabler123}
             label={t('Value')}
             full
             value={roundValue(mathNumber().toCurrent())}
-            onInput={(value) =>
-              mathNumber().updateValue(Number(value || 0), true)
-            }
-            suffix={load().customValue.unit.currentUnit}
+            onInput={(value) => mathNumber().setValue(Number(value || 0), true)}
+            suffix={load().customValue.unit.currentUnit()}
           />
         )}
       </Show>

@@ -9,11 +9,11 @@ import { run } from '/src/scripts'
 import { convertDialogValuesPropsListToValuesWithTextProps } from '../scripts'
 
 interface Props {
-  input: string | undefined
-  selected: string | number | null
-  list: ValuesListProps
-  onClick?: (value?: string) => void
-  showAllWhenEmpty?: boolean
+  readonly input: string | undefined
+  readonly selected: string | number | null
+  readonly list: ValuesListProps
+  readonly onClick?: (value?: string) => void
+  readonly showAllWhenEmpty?: boolean
 }
 
 export const DialogOptionsList = (props: Props) => {

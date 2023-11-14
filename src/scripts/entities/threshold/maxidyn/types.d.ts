@@ -8,5 +8,5 @@ type JSONMaxidynThresholdsConfigurationsVAny =
   JSONMaxidynThresholdsConfigurations
 
 type JSONMaxidynThresholdsConfigurations = {
-  version: 1
+  readonly version: 1
 } & MaxidynUnitsSkeleton<JSONDistinctThresholdsConfiguration>

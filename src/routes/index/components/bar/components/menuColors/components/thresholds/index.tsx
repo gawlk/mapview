@@ -11,9 +11,12 @@ import { SpanCustomThresholdRange } from './components/spanCustomThresholdRange'
 export const Thresholds = () => {
   const { t } = useAppState()
 
-  const selectedDataLabel = createMemo(
-    () => store.selectedReport?.dataLabels.groups.selected?.choices.selected,
-  )
+  const selectedDataLabel = createMemo(() => {
+    return store
+      .selectedReport()
+      ?.dataLabels.groups.selected()
+      ?.choices.selected()
+  })
 
   const selectedDataLabelName = createMemo(
     () => selectedDataLabel()?.getDisplayedName(),
@@ -25,7 +28,7 @@ export const Thresholds = () => {
     const selectedUnit = selectedDataLabel()?.unit
 
     const thresholdsGroups = Object.values(
-      store.selectedReport?.thresholds.groups || {},
+      store.selectedReport()?.thresholds.groups || {},
     ) as ThresholdsGroup<string>[]
 
     const thresholdGroup = thresholdsGroups.find(
@@ -36,7 +39,7 @@ export const Thresholds = () => {
   })
 
   const selectedThreshold = createMemo(
-    () => selectedThresholdsGroupChoices()?.selected,
+    () => selectedThresholdsGroupChoices()?.selected(),
   )
 
   const isCustom = createMemo(() =>
@@ -48,12 +51,12 @@ export const Thresholds = () => {
   const baseToCurrent = (value = 0) =>
     roundValue(selectedMathUnit()?.baseToCurrent(value) || 0)
 
-  const isBicolor = createMemo(() => isCustom()?.type === 'Bicolor')
-  const isGradient = createMemo(() => isCustom()?.type === 'Gradient')
+  const isBicolor = createMemo(() => isCustom()?.type() === 'Bicolor')
+  const isGradient = createMemo(() => isCustom()?.type() === 'Gradient')
 
-  const min = createMemo(() => baseToCurrent(selectedMathUnit()?.min))
+  const min = createMemo(() => baseToCurrent(selectedMathUnit()?.min()))
 
-  const max = createMemo(() => baseToCurrent(selectedMathUnit()?.max))
+  const max = createMemo(() => baseToCurrent(selectedMathUnit()?.max()))
 
   return (
     <Details
@@ -71,7 +74,7 @@ export const Thresholds = () => {
           <InputRadioHorizontal
             full
             values={{
-              selected: customThreshold().type,
+              selected: customThreshold().type(),
               list: [
                 {
                   value: 'Bicolor',
@@ -87,8 +90,8 @@ export const Thresholds = () => {
                 },
               ],
             }}
-            onChange={(value) => {
-              customThreshold().type = value as CustomThresholdType
+            onChange={(type) => {
+              customThreshold().type.set(type as CustomThresholdType)
             }}
           />
         )}
@@ -104,8 +107,8 @@ export const Thresholds = () => {
           level="low"
           name={selectedDataLabelName()}
           mathUnit={selectedMathUnit()}
-          from={selectedMathUnit()?.min}
-          to={selectedThreshold()?.value}
+          from={selectedMathUnit()?.min()}
+          to={selectedThreshold()?.value()}
         />
       </Show>
 
@@ -116,8 +119,8 @@ export const Thresholds = () => {
             level="high"
             name={selectedDataLabelName()}
             mathUnit={selectedMathUnit()}
-            from={selectedThreshold()?.value ?? 0}
-            to={selectedMathUnit()?.max ?? 0}
+            from={selectedThreshold()?.value() ?? 0}
+            to={selectedMathUnit()?.max() ?? 0}
           />
         }
       >
@@ -125,31 +128,30 @@ export const Thresholds = () => {
           <>
             <InputCustomThreshold
               isRange={
-                store.selectedReport?.thresholds.inputs.isRequiredARange ||
+                store.selectedReport()?.thresholds.inputs.isRequiredARange() ||
                 false
               }
               setIsRange={(value) => {
-                store.selectedReport &&
-                  (store.selectedReport.thresholds.inputs.isRequiredARange =
-                    value)
+                store
+                  .selectedReport()
+                  ?.thresholds.inputs.isRequiredARange.set(value)
               }}
-              value={baseToCurrent(customThreshold().value)}
+              value={baseToCurrent(customThreshold().value())}
               setValue={(value) => {
                 const mathUnit = selectedMathUnit()
 
                 if (mathUnit) {
                   const number = mathUnit.currentToBase(Number(value))
 
-                  customThreshold().value = number
+                  customThreshold().value.set(number)
 
-                  customThreshold().valueHigh = Math.max(
-                    customThreshold().valueHigh,
-                    number,
+                  customThreshold().valueHigh.set((valueHigh) =>
+                    Math.max(valueHigh, number),
                   )
                 }
               }}
-              min={baseToCurrent(selectedMathUnit()?.min)}
-              max={baseToCurrent(selectedMathUnit()?.max)}
+              min={baseToCurrent(selectedMathUnit()?.min())}
+              max={baseToCurrent(selectedMathUnit()?.max())}
             />
 
             <Show when={!isBicolor()}>
@@ -160,22 +162,22 @@ export const Thresholds = () => {
                     level="middle"
                     name={selectedDataLabelName()}
                     mathUnit={selectedMathUnit()}
-                    from={customThreshold()?.value}
-                    to={customThreshold()?.valueHigh}
+                    from={customThreshold()?.value()}
+                    to={customThreshold()?.valueHigh()}
                   />
                 }
               >
                 {run(() => {
                   const thresoldColors = createMemo(
-                    () => store.selectedReport?.thresholds.colors,
+                    () => store.selectedReport()?.thresholds.colors,
                   )
 
                   const colorLow = createMemo(
-                    () => colors[thresoldColors()?.low || 'orange'],
+                    () => colors[thresoldColors()?.low() || 'orange'],
                   )
 
                   const colorHigh = createMemo(
-                    () => colors[thresoldColors()?.high || 'orange'],
+                    () => colors[thresoldColors()?.high() || 'orange'],
                   )
 
                   const { value, valueHigh } = customThreshold()
@@ -208,8 +210,8 @@ export const Thresholds = () => {
                       <SpanCustomThresholdRange
                         name={selectedDataLabelName() || ''}
                         mathUnit={selectedMathUnit()}
-                        from={value}
-                        to={valueHigh}
+                        from={value()}
+                        to={valueHigh()}
                         last={false}
                       />
                     </Interactive>
@@ -219,26 +221,26 @@ export const Thresholds = () => {
 
               <InputCustomThreshold
                 isRange={
-                  store.selectedReport?.thresholds.inputs.isOptionalARange ||
-                  false
+                  store
+                    .selectedReport()
+                    ?.thresholds.inputs.isOptionalARange() || false
                 }
                 setIsRange={(value) => {
-                  store.selectedReport &&
-                    (store.selectedReport.thresholds.inputs.isOptionalARange =
-                      value)
+                  store
+                    .selectedReport()
+                    ?.thresholds.inputs.isOptionalARange.set(value)
                 }}
-                value={baseToCurrent(customThreshold().valueHigh)}
+                value={baseToCurrent(customThreshold().valueHigh())}
                 setValue={(value) => {
                   const mathUnit = selectedMathUnit()
 
                   if (mathUnit) {
                     const number = mathUnit.currentToBase(Number(value))
 
-                    customThreshold().valueHigh = number
+                    customThreshold().valueHigh.set(number)
 
-                    customThreshold().value = Math.min(
-                      customThreshold().value,
-                      number,
+                    customThreshold().value.set((_value) =>
+                      Math.min(_value, number),
                     )
                   }
                 }}
@@ -253,10 +255,10 @@ export const Thresholds = () => {
               mathUnit={selectedMathUnit()}
               from={
                 isBicolor()
-                  ? customThreshold()?.value
-                  : customThreshold()?.valueHigh
+                  ? customThreshold()?.value()
+                  : customThreshold()?.valueHigh()
               }
-              to={selectedMathUnit()?.max}
+              to={selectedMathUnit()?.max()}
             />
           </>
         )}

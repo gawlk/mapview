@@ -24,6 +24,16 @@ export const SelectProject = () => {
       ? `${project.name.toString()} - Raw data`
       : `${project.name.toString()}`
 
+  const leftIcon = createMemo(() => {
+    const machine = store.selectedProject()?.machine
+    return machine ? getMachineIcon(machine) : undefined
+  })
+
+  const selected = createMemo(() => {
+    const project = store.selectedProject()
+    return project ? convertProjectToName(project) : ''
+  })
+
   return (
     <DialogSelect
       title={t('Select a project')}
@@ -31,38 +41,31 @@ export const SelectProject = () => {
       button={{
         class: 'flex-1 min-w-0',
         label: t('Selected'),
-        leftIcon: store.selectedProject
-          ? getMachineIcon(store.selectedProject.machine)
-          : undefined,
+        leftIcon: leftIcon(),
         full: true,
-        text: store.selectedProject
-          ? convertProjectToName(store.selectedProject)
-          : '',
       }}
       values={{
-        selected: store.selectedProject
-          ? convertProjectToName(store.selectedProject)
-          : '',
-        list: store.projects.list.map((project) => ({
+        selected: selected(),
+        list: store.projects.list().map((project) => ({
           value: convertProjectToName(project),
           leftIcon: getMachineIcon(project.machine),
           rightIcon:
-            project === store.selectedProject
+            project === store.selectedProject()
               ? IconTablerZoomIn
               : IconTablerArrowNarrowRight,
         })),
       }}
       onClose={(value) => {
         if (value) {
-          const project = store.projects.list.find(
-            (_project) => convertProjectToName(_project) === value,
-          )
+          const project = store.projects
+            .list()
+            .find((_project) => convertProjectToName(_project) === value)
 
           if (project) {
-            if (store.selectedProject === project) {
+            if (store.selectedProject() === project) {
               project.fitOnMap()
             } else {
-              store.selectedProject = project
+              store.selectProject(project)
             }
           }
         }

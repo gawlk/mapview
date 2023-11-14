@@ -1,79 +1,91 @@
-// import localforage from 'localforage'
+import localforage from 'localforage'
 
 import { Button, classPropToString, DragAndDrop } from '/src/components'
+import { env } from '/src/env'
 import { useAppState } from '/src/index'
 import {
   acceptedExtensions,
-  // downloadFile,
+  downloadFile,
   fetchFileFromURL,
   importFile,
-  // snapshotKey,
+  snapshotKey,
 } from '/src/scripts'
 import { store } from '/src/store'
 
 interface Props {
-  class?: ClassProp
+  readonly class?: ClassProp
 }
 
 export const Initializer = (props: Props) => {
   const { t } = useAppState()
 
-  // const [state, setState] = createStore({
-  //   snapshot: null as File | null,
-  // })
+  const [state, setState] = createStore({
+    snapshot: null as File | null,
+  })
 
-  // onMount(async () => {
-  // const snapshot: File | null = await localforage.getItem(snapshotKey)
+  onMount(async () => {
+    const snapshot: File | null = await localforage.getItem(snapshotKey)
 
-  // if (snapshot) {
-  //   setState('snapshot', snapshot)
-  // }
-  // })
+    if (snapshot) {
+      setState('snapshot', snapshot)
+    }
+  })
 
   const openFiles = async (files: FileList | null) => {
     const file = files?.[0]
 
     if (file) {
-      store.importingFile = true
+      store.importingFile.set(true)
 
-      store.selectedProject = await importFile(file)
+      const project = await importFile(file)
 
-      store.importingFile = false
+      !env.isTest && console.log('project', project)
+
+      store.pushAndSelectProject(project)
+
+      store.importingFile.set(false)
     }
   }
 
   const openDemo = async () => {
-    store.importingFile = true
-
-    const demosHeavydyn = import.meta.glob('/src/assets/demos/heavydyn/*')
-
-    const demosMaxidyn = import.meta.glob('/src/assets/demos/maxidyn/*')
-
-    const demosMinidyn = import.meta.glob('/src/assets/demos/minidyn/*')
+    store.importingFile.set(true)
 
     const paths = await Promise.all(
       [
-        ...Object.entries(demosHeavydyn),
-        ...Object.entries(demosMaxidyn),
-        ...Object.entries(demosMinidyn),
+        import.meta.glob('/src/assets/demos/heavydyn/*'),
+        import.meta.glob('/src/assets/demos/maxidyn/*'),
+        import.meta.glob('/src/assets/demos/minidyn/*'),
+        ...(env.isDev
+          ? [
+              import.meta.glob(
+                '/src/assets/demos/heavydyn/.*.(prjz|dynz|mpvz)',
+              ),
+              import.meta.glob('/src/assets/demos/maxidyn/.*.(prjz|dynz|mpvz)'),
+              import.meta.glob('/src/assets/demos/minidyn/.*.(prjz|dynz|mpvz)'),
+            ]
+          : []),
       ]
+        .map((object) => Object.entries(object))
+        .flat()
         .filter(([key]) =>
           acceptedExtensions.some((extension) => key.endsWith(extension)),
         )
         .map(async ([, value]) => String(((await value()) as AnyFile).default)),
     )
 
-    const projects = await Promise.all(
-      paths.map(async (url) => importFile(await fetchFileFromURL(url))),
-    )
+    const projects = (
+      await Promise.all(
+        paths.map(async (url) => importFile(await fetchFileFromURL(url))),
+      )
+    ).flatMap((project) => project || [])
 
-    store.projects.list.sort(
-      (a, b) => projects.indexOf(a) - projects.indexOf(b),
-    )
+    batch(() => {
+      store.projects.list.set(projects)
 
-    store.selectedProject = projects[0]
+      store.selectProject(projects[0])
+    })
 
-    store.importingFile = false
+    store.importingFile.set(false)
   }
 
   return (
@@ -87,7 +99,7 @@ export const Initializer = (props: Props) => {
       >
         {t('Drop a file here or click here to choose one')}
       </DragAndDrop>
-      {/* <Show when={state.snapshot}>
+      <Show when={state.snapshot}>
         {(snapshot) => (
           <div class="flex space-x-2">
             <Button
@@ -107,7 +119,7 @@ export const Initializer = (props: Props) => {
             />
           </div>
         )}
-      </Show> */}
+      </Show>
       <Button
         onClick={() => {
           void openDemo()

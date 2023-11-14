@@ -44,7 +44,7 @@ describe('Test importFile()', async () => {
 
   test('Same amount of screenshots', () => {
     expect(screenshotsFileNames.length).toEqual(
-      (project?.reports.list as BaseReport[]).reduce(
+      (project?.reports.list() as BaseReport[]).reduce(
         (total, report) => total + report.screenshots.length,
         0,
       ),

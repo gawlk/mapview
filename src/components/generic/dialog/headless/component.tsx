@@ -160,7 +160,7 @@ export const HeadlessDialog = (props: Props) => {
       const attach = props.attach
 
       if (attach) {
-        let clearClickEvent: (() => void) | undefined
+        let clearClickEvent: VoidFunction | undefined
         createEffect(() => {
           clearClickEvent?.()
           if (isAbsolute() && state.open()) {
@@ -270,9 +270,11 @@ export const HeadlessDialog = (props: Props) => {
             width: '100%',
           }}
         >
-          <div style={{ overflow: 'auto', width: '100%' }}>
-            {props.children}
-          </div>
+          <Show when={state.show()}>
+            <div style={{ overflow: 'auto', width: '100%' }}>
+              {props.children}
+            </div>
+          </Show>
 
           <button
             hidden

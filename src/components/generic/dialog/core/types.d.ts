@@ -8,5 +8,5 @@ type DialogProps = DialogPropsOnly &
   Omit<InteractiveProps, keyof DialogPropsOnly>
 
 interface DialogPropsOnly {
-  closeable?: boolean
+  readonly closeable?: boolean
 }

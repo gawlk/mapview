@@ -11,7 +11,7 @@ export const createHeavydynPointFromJSON = (
 ) => {
   json = upgradeJSON(json)
 
-  const point = createMutable<HeavydynPoint>({
+  const point: HeavydynPoint = {
     ...createBasePointFromJSON(json.base, map, {
       zone: parameters.zone,
       information: json.base.information,
@@ -27,7 +27,7 @@ export const createHeavydynPointFromJSON = (
         },
       }
     },
-  })
+  }
 
   point.drops.push(
     ...json.base.drops.map((jsonDrop) =>

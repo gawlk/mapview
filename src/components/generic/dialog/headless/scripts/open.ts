@@ -14,7 +14,7 @@ export const createDialogOpenFunction =
     dialog: Accessor<HTMLDialogElement | undefined>
     open: ASS<boolean>
     showSetter: Setter<boolean>
-    onOpen: (() => void) | undefined
+    onOpen: VoidFunction | undefined
     forcedClosedChildDialogsOpenButtons: HTMLButtonElement[]
     dialogsDiv: Accessor<HTMLElement | undefined>
     zIndexSetter: Setter<number>

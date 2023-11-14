@@ -4,7 +4,7 @@ import { downloadTSV } from '/src/scripts'
 import { store } from '/src/store'
 
 interface Props {
-  tables: Accessor<HTMLDivElement | undefined>
+  readonly tables: Accessor<HTMLDivElement | undefined>
 }
 
 export const ButtonExport = (props: Props) => {
@@ -20,7 +20,7 @@ export const ButtonExport = (props: Props) => {
         if (!tables) return
 
         downloadTSV(
-          `${store.selectedReport?.name.toString() || 'file'}.tsv`,
+          `${store.selectedReport()?.name.toString() || 'file'}.tsv`,
           convertTableElementsToStrings(tables),
           true,
         )

@@ -4,9 +4,9 @@ import { createMathNumber } from '/src/scripts'
 import { Td } from './td'
 
 interface Props {
-  dataLabel: DataLabel
-  values: number[]
-  widthClass: string
+  readonly dataLabel: DataLabel
+  readonly values: number[]
+  readonly widthClass: string
 }
 
 export const TdDataLabel = (props: Props) => {
@@ -22,15 +22,13 @@ export const TdDataLabel = (props: Props) => {
     >
       <p class="font-semibold">{props.dataLabel.getDisplayedName()}</p>
       <p class="whitespace-nowrap text-xs">
-        {props.dataLabel.unit.currentUnit}
+        {props.dataLabel.unit.currentUnit()}
       </p>
       <p class="whitespace-nowrap font-semibold text-black">
-        {
-          createMathNumber(
-            props.dataLabel.unit.getAverage(props.values),
-            props.dataLabel.unit,
-          ).displayedString
-        }
+        {createMathNumber(
+          props.dataLabel.unit.getAverage(props.values),
+          props.dataLabel.unit,
+        ).displayedString()}
       </p>
     </Td>
   )

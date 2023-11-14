@@ -6,7 +6,7 @@ export const SelectSource = () => {
   const { t } = useAppState()
 
   const selectedDataLabelGroups = createMemo(
-    () => store.selectedReport?.dataLabels.groups,
+    () => store.selectedReport()?.dataLabels.groups,
   )
 
   return (
@@ -19,10 +19,11 @@ export const SelectSource = () => {
         full: true,
       }}
       values={{
-        selected: t(selectedDataLabelGroups()?.selected?.from || ''),
+        selected: t(selectedDataLabelGroups()?.selected()?.from || ''),
         list:
-          (selectedDataLabelGroups()?.list as BaseDataLabelsGroups)
-            .filter((parameters) => parameters.from !== 'Zone')
+          selectedDataLabelGroups()
+            ?.list()
+            ?.filter((parameters) => parameters.from !== 'Zone')
             .map((parameters, index) => ({
               value: String(index),
               text: t(parameters.from),

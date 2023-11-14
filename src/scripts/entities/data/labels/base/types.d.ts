@@ -44,40 +44,41 @@ interface BaseDataLabels extends BaseObject<JSONBaseDataLabels> {
     name: string,
     category?: DataCategory,
   ) => DataLabel<string, string> | undefined
-  readonly pushTo: (
-    from: DataLabelsFrom,
-    label: DataLabel,
-  ) => DataLabel<string, string> | undefined
+  readonly pushTo: (from: DataLabelsFrom, label: DataLabel) => void
 }
 
 type BaseDataLabelsGroups = [
-  BaseDropDataLabelsGroup<BaseDropIndex>,
-  BaseTestDataLabelsGroup,
-  BaseZoneDataLabelsGroup,
+  BaseDropDataLabelsGroup<string, BaseDropIndex>,
+  BaseTestDataLabelsGroup<string>,
+  BaseZoneDataLabelsGroup<string>,
 ]
 
 type AnyBaseDataLabelsGroup = BaseDataLabelsGroups[number]
 
-interface BaseDataLabelsGroup<From extends DataLabelsFrom>
-  extends BaseObject<JSONBaseDataLabelsGroup<From, string>> {
+interface BaseDataLabelsGroup<
+  From extends DataLabelsFrom,
+  T extends string = string,
+> extends BaseObject<JSONBaseDataLabelsGroup<From, string>> {
   readonly from: From
-  readonly choices: SelectableList<DataLabel<string>>
-  readonly saveableChoices: DataLabel<string>[]
+  readonly choices: SelectableList<DataLabel<T>>
+  readonly saveableChoices: DataLabel<T>[]
 }
 
-interface BaseDropDataLabelsGroup<Drop extends BaseDropIndex>
-  extends BaseDataLabelsGroup<'Drop'> {
+interface BaseDropDataLabelsGroup<T extends string, Drop extends BaseDropIndex>
+  extends BaseDataLabelsGroup<'Drop', T> {
   readonly indexes: SelectableList<Drop>
 }
 
-interface BaseTestDataLabelsGroup extends BaseDataLabelsGroup<'Point'> {}
+interface BaseTestDataLabelsGroup<T extends string>
+  extends BaseDataLabelsGroup<'Point', T> {}
 
-interface BaseZoneDataLabelsGroup extends BaseDataLabelsGroup<'Zone'> {}
+interface BaseZoneDataLabelsGroup<T extends string>
+  extends BaseDataLabelsGroup<'Zone', T> {}
 
 interface BaseTableDataLabelsParameters {
   readonly group: AnyBaseDataLabelsGroup
-  dataLabels: DataLabel<string>[]
-  index?: BaseDropIndex
+  readonly dataLabels: ASS<DataLabel<string>[]>
+  readonly index?: ASS<BaseDropIndex>
 }
 
 type CategorySelector = (unitKey: MachineUnitsNames) => DataCategory

@@ -1,8 +1,8 @@
 import { useAppState } from '/src/index'
 
 interface Props {
-  dataLabel: DataLabel<string>
-  includeCategory?: true
+  readonly dataLabel: DataLabel<string>
+  readonly includeCategory?: true
 }
 
 export const SpanDataLabel = (props: Props) => {

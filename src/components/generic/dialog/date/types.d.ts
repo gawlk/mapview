@@ -1,14 +1,14 @@
 type DialogDateProps = DialogDatePropsOnly & DialogClassicProps
 
 interface DialogDatePropsOnly extends SaveableProps {
-  value: Date
+  readonly value: Date
 
-  max?: Date
+  readonly max?: Date
 
-  min?: Date
+  readonly min?: Date
 
-  reset?: {
-    default: Date
-    callback: () => void
+  readonly reset?: {
+    readonly default: Date
+    readonly callback: VoidFunction
   }
 }

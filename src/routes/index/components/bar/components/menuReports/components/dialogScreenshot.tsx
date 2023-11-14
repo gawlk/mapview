@@ -54,7 +54,7 @@ export const DialogScreenshot = () => {
       color="transparent"
       maximized
       button={{
-        ...(store.selectedReport?.screenshots.length
+        ...(store.selectedReport()?.screenshots().length
           ? { icon: IconTablerCamera }
           : {
               leftIcon: IconTablerCamera,
@@ -82,7 +82,10 @@ export const DialogScreenshot = () => {
                       color="green"
                       leftIcon={IconTablerCameraCheck}
                       onClick={() =>
-                        store.selectedReport?.screenshots.push(image())
+                        store.selectedReport()?.screenshots.set((l) => {
+                          l.push(image())
+                          return l
+                        })
                       }
                     >
                       {t('Add to album')}
@@ -91,7 +94,12 @@ export const DialogScreenshot = () => {
                       color="yellow"
                       leftIcon={IconTablerCameraDown}
                       onClick={() => {
-                        void downloadImage(image())
+                        void downloadImage(
+                          image(),
+                          `screenshot-${store
+                            .selectedReport()
+                            ?.name.toString()}.png`,
+                        )
                       }}
                     >
                       {t('Download picture')}

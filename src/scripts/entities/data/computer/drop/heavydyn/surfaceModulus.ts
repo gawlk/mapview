@@ -1,10 +1,12 @@
+import { getOwner, runWithOwner } from 'solid-js'
 import {
-  createDataComputer,
   createDataLabel,
   createDataValue,
   currentCategory,
   indicatorsCategory,
 } from '/src/scripts'
+import { store } from '/src/store'
+import { createLazyMemo } from '@solid-primitives/memo'
 
 export const createHeavydynSurfaceModulusDataComputers = (
   report: HeavydynReport,
@@ -22,46 +24,49 @@ export const createHeavydynSurfaceModulusDataComputers = (
     currentCategory,
   )
 
-  return (
-    currentD0DataLabel &&
-    currentLoadDataLabel &&
-    createDataComputer({
-      label: report.dataLabels.pushTo(
-        'Drop',
-        createDataLabel({
-          name: `SM0`,
-          unit: report.project.units[unitName],
-          unitKey: unitName,
-          category: indicatorsCategory,
-        }),
-      ),
-      compute: (label) => {
-        const radius = report.project.calibrations.dPlate / 2
+  if (!currentD0DataLabel || !currentLoadDataLabel) return
 
-        const poisson = 0.35
+  const sm0DataLabel = createDataLabel({
+    name: `SM0`,
+    unit: report.project().units[unitName],
+    unitKey: unitName,
+    category: indicatorsCategory,
+  })
 
-        report.zones.forEach((zone) =>
-          zone.points.forEach((point) => {
-            point.drops.forEach((drop) => {
-              const load = drop.data.find(
-                (data) => data.label === currentLoadDataLabel,
+  report.dataLabels.pushTo('Drop', sm0DataLabel)
+
+  const radius = createLazyMemo(() => report.project().calibrations.dPlate / 2)
+
+  const poisson = 0.35
+
+  const owner = getOwner()
+
+  createEffect(
+    () =>
+      store.selectedProject() === report.project() &&
+      batch(() =>
+        report
+          .sortedPoints()
+          .flatMap((point) => point.drops)
+          .filter((drop) => !drop.dataset.get(sm0DataLabel))
+          .forEach((drop) =>
+            runWithOwner(owner, () => {
+              const load = createLazyMemo(() =>
+                drop.dataset.get(currentLoadDataLabel)!.rawValue(),
               )
 
-              const sm0 =
-                drop.data.find((data) => data.label === label) ||
-                drop.data[drop.data.push(createDataValue(0, label)) - 1]
+              const pressure = createLazyMemo(
+                () => load() / (Math.PI * radius() ** 2),
+              )
 
-              if (load) {
-                const pressure = load.getRawValue() / (Math.PI * radius ** 2)
+              const sm0 = createDataValue(
+                createLazyMemo(() => 2 * pressure() * (1 - poisson) * radius()),
+                sm0DataLabel,
+              )
 
-                const value = 2 * pressure * (1 - poisson) * radius
-
-                sm0.value.updateValue(value)
-              }
-            })
-          }),
-        )
-      },
-    })
+              drop.dataset.set(sm0DataLabel, sm0)
+            }),
+          ),
+      ),
   )
 }

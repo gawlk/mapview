@@ -10,7 +10,7 @@ import { Logo } from './components/logo'
 import { baseID, MenuWrapperDesktop } from './components/menuWrapperDesktop'
 
 interface Props {
-  setID: (id: string) => void
+  readonly setID: (id: string) => void
   readonly menus: Menu[]
 }
 
@@ -19,7 +19,7 @@ export const BarDesktop = (props: Props) => {
     <div class="hidden w-[520px] flex-none space-y-8 overflow-scroll px-2 py-8 lg:block">
       <Logo />
 
-      <Show when={store.selectedProject} fallback={<Initializer />}>
+      <Show when={store.selectedProject()} fallback={<Initializer />}>
         {run(() => {
           const [div, setDiv] = createSignal<HTMLDivElement | undefined>(
             undefined,
@@ -40,11 +40,11 @@ export const BarDesktop = (props: Props) => {
                   <div>
                     <Show
                       when={
-                        (store.selectedProject?.reports.list.length || 0) > 0 ||
-                        !menu.needsReport
+                        (store.selectedProject()?.reports.list().length || 0) >
+                          0 || !menu.needsReport
                       }
                       fallback={
-                        <Button v-else disabled full leftIcon={menu.icon}>
+                        <Button disabled full leftIcon={menu.icon}>
                           {menu.name}
                         </Button>
                       }

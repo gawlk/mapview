@@ -7,12 +7,10 @@ export const ButtonLineVisibility = () => {
     <Button
       size="sm"
       onClick={() => {
-        store.selectedProject &&
-          (store.selectedProject.settings.arePointsLinked =
-            !store.selectedProject.settings.arePointsLinked)
+        store.selectedProject()?.settings.arePointsLinked.set((b) => !b)
       }}
       icon={
-        store.selectedProject?.settings.arePointsLinked
+        store.selectedProject()?.settings.arePointsLinked()
           ? IconTablerShare
           : DotsIcon
       }

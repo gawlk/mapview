@@ -20,7 +20,7 @@ export const DialogOverlays = () => {
       }}
     >
       <div class="space-y-1">
-        <For each={store.selectedProject?.overlays}>
+        <For each={store.selectedProject()?.overlays()}>
           {(overlay) => (
             <div class="flex space-x-1">
               <ButtonFitOverlay overlay={overlay} />

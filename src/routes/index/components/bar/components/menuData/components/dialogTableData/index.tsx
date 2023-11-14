@@ -38,14 +38,14 @@ export const DialogTableData = () => {
         text: t('View all data'),
       }}
     >
-      <div class="space-y-2 @3xl:flex @3xl:h-full @3xl:space-y-0">
+      <div class="@3xl:flex @3xl:h-full @3xl:space-y-0 space-y-2">
         {/* TODO: Fix margins, not great */}
-        <div class="flex flex-none  flex-col space-y-2 overflow-y-auto @3xl:-my-3 @3xl:-ml-4 @3xl:w-[320px] @3xl:p-4">
+        <div class="@3xl:-my-3 @3xl:-ml-4  @3xl:w-[320px] @3xl:p-4 flex flex-none flex-col space-y-2 overflow-y-auto">
           <SelectSource />
           <SelectIndex />
-          <DialogDivider class="-mx-4 hidden @3xl:block" />
+          <DialogDivider class="@3xl:block -mx-4 hidden" />
           <InputRadioHorizontal
-            class={'hidden @3xl:inline-flex'}
+            class={'@3xl:inline-flex hidden'}
             label="Zones"
             full
             values={{
@@ -59,15 +59,15 @@ export const DialogTableData = () => {
           />
           <Show
             when={
-              store.selectedReport?.dataLabels.table.selected?.group.from !==
-              'Zone'
+              store.selectedReport()?.dataLabels.table.selected()?.group
+                .from !== 'Zone'
             }
           >
-            <DialogDivider class="-mx-4 hidden @3xl:block" />
+            <DialogDivider class="@3xl:block -mx-4 hidden" />
             <SelectGroupBy />
           </Show>
-          <DialogDivider class="-mx-4 hidden @3xl:block" />
-          <div class="block @3xl:hidden">
+          <DialogDivider class="@3xl:block -mx-4 hidden" />
+          <div class="@3xl:hidden block">
             <Dialog
               closeable
               button={{
@@ -78,11 +78,13 @@ export const DialogTableData = () => {
                   <div class="space-x-2">
                     {run(
                       () =>
-                        store.selectedReport?.dataLabels.table.selected?.dataLabels.map(
-                          (dataLabel) => (
+                        store
+                          .selectedReport()
+                          ?.dataLabels.table.selected()
+                          ?.dataLabels()
+                          .map((dataLabel) => (
                             <SpanDataLabel dataLabel={dataLabel} />
-                          ),
-                        ),
+                          )),
                     )}
                   </div>
                 ),
@@ -93,15 +95,15 @@ export const DialogTableData = () => {
             </Dialog>
           </div>
           <ButtonExport tables={tables} />
-          <DialogDivider class="-mx-4 hidden @3xl:block" />
-          <div class="hidden @3xl:block">
+          <DialogDivider class="@3xl:block -mx-4 hidden" />
+          <div class="@3xl:block hidden">
             <OptionsDataLabels />
           </div>
         </div>
-        <Show when={store.selectedReport?.dataLabels.table.selected}>
+        <Show when={store.selectedReport()?.dataLabels.table.selected()}>
           {(group) => (
             <div
-              class="-mx-4 !-mb-3 overflow-x-auto overflow-y-visible @3xl:!-mr-4 @3xl:!-mt-3 @3xl:ml-0 @3xl:w-full @3xl:overflow-y-auto @3xl:border-l-2 @3xl:border-black/5"
+              class="@3xl:!-mr-4 @3xl:!-mt-3 @3xl:ml-0 @3xl:w-full @3xl:overflow-y-auto @3xl:border-l-2 @3xl:border-black/5 -mx-4 !-mb-3 overflow-x-auto overflow-y-visible"
               ref={tables.set}
             >
               <Show
@@ -111,8 +113,8 @@ export const DialogTableData = () => {
                 <TablePointsGroupedBy
                   cellWidthClass="w-1/6"
                   from={group().group.from}
-                  dataLabels={group().dataLabels}
-                  index={group().index}
+                  dataLabels={group().dataLabels()}
+                  index={group().index?.()}
                   hideZones={!state.zonesVisible || undefined}
                 />
               </Show>

@@ -31,5 +31,5 @@ interface MinidynReport
       MinidynDataLabels,
       MinidynThresholds
     > {
-  addZone: () => void
+  readonly addZone: () => Promise<void>
 }

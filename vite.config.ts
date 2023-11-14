@@ -1,6 +1,7 @@
 import { fileURLToPath } from 'url'
 import { faviconsPlugin } from '@darkobits/vite-plugin-favicons'
 import autoprefixer from 'autoprefixer'
+import devtools from 'solid-devtools/vite'
 import tailwindcss from 'tailwindcss'
 import Unimport from 'unimport/unplugin'
 import unpluginAutoImport from 'unplugin-auto-import/vite'
@@ -20,6 +21,10 @@ const white = '#ffffff'
 
 export default defineConfig({
   plugins: [
+    devtools({
+      autoname: true,
+    }),
+
     solid(),
 
     solidSvg(),

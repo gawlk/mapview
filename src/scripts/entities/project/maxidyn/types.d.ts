@@ -23,6 +23,7 @@ interface JSONMaxidynProjectDistinct {
 
 interface MaxidynProject
   extends MaxidynObject<JSONMaxidynProject>,
-    BaseProject<MaxidynReport, MaxidynMathUnits> {
-  bearingParameters: JSONBearingParameters
+    BaseProject<MaxidynReport, MaxidynMathUnits>,
+    DisposableObject {
+  readonly bearingParameters: JSONBearingParameters
 }

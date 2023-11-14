@@ -14,34 +14,31 @@ export const heavydynPDXExporter: HeavydynExporter = {
       [
         replaceAllLFToCRLF(dedent`
             ${writeHeader(project)}
-      
+
             ${writeDeviceInformation(project)}
-      
+
             ${writeDeviceConfiguration(project)}
-      
+
             ${writeDeviceCalibration(project)}
-      
+
             ${writePoints(project)}
           `),
       ],
-      `${project.reports.selected?.name.toString() || ''}.pdx`,
+      `${project.reports.selected()?.name.toString() || ''}.pdx`,
       { type: 'text/plain' },
     )
   },
 }
 
 const writeHeader = (project: HeavydynProject): string => {
-  const selectedReport = project.reports.selected
+  const selectedReport = project.reports.selected()
 
   if (!selectedReport) {
     throw new Error('cannot find selected report ')
   }
 
   const reportDate = dayjsUtc(
-    findFieldInArray(
-      project.reports.selected?.information || [],
-      'Date',
-    )?.toString(),
+    findFieldInArray(selectedReport?.information || [], 'Date')?.toString(),
   ).format('DD-MMM-YYYY')
 
   const infos = ['Operator', 'Climat'].map(
@@ -53,7 +50,7 @@ const writeHeader = (project: HeavydynProject): string => {
     PDDXVersionNumber = 1.0
     DelimiterSymbol = ,
     DecimalSymbol = .
-    
+
     [Units]
     LoadPlateRadiusUnits = millimeter
     LoadUnits = kilo-Newton
@@ -67,10 +64,10 @@ const writeHeader = (project: HeavydynProject): string => {
     DropHistoryDataFrequencyUnits = Hertz
 
     [Operations Information]
-    FileName = ${project.name.value}
-    StartDate = ${reportDate} 
-    EndDate = ${reportDate} 
-    OperatorName = ${infos[0]} 
+    FileName = ${project.name.toString()}
+    StartDate = ${reportDate}
+    EndDate = ${reportDate}
+    OperatorName = ${infos[0]}
     WeatherCondition = ${infos[1]}
     `
 }
@@ -87,10 +84,11 @@ const writeDeviceInformation = (project: HeavydynProject): string => {
     [Device Information]
     DeviceDesignationName = Rincent
     DeviceModelNumber =  HEAVYDYN
-    DeviceSerialNumber = ${project.hardware.find(
-      (data) => data.label === 'Serial number',
-    )?.value} 
-    LoadCellSerialNumber = ${project.calibrations.channels[0].name}  
+    DeviceSerialNumber = ${project.hardware
+      .find((data) => data.label === 'Serial number')
+      ?.value?.()
+      .toString()}
+    LoadCellSerialNumber = ${project.calibrations.channels[0].name}
     SensorSerialNumber = ${sensorSerialNumbers}
     DeviceLoadType = Impulse
     `
@@ -108,8 +106,8 @@ const writeDeviceConfiguration = (project: HeavydynProject): string => {
 
   return dedent`
      [Device Configuration]
-     LoadPlateRadius = ${project.calibrations.dPlate} 
-     NumberOfDeflectionSensors = ${project.calibrations.channels.length - 1} 
+     LoadPlateRadius = ${project.calibrations.dPlate}
+     NumberOfDeflectionSensors = ${project.calibrations.channels.length - 1}
      DeflectionSensorXAxisDistances = ${deflectionSensorXAxis}
      DeflectionSensorYAxisDistances = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
      NumberOfTemperatureSensors = 3
@@ -136,17 +134,18 @@ const writeDeviceCalibration = (project: HeavydynProject) => {
     (sensor) => sensor.name === 'DMI',
   )?.gain
 
-  const projectProject = findFieldInArray(information, 'Project')?.value
+  const projectProject = findFieldInArray(information, 'Project')?.toString()
 
-  const siteProject = findFieldInArray(information, 'Site')?.value
+  const siteProject = findFieldInArray(information, 'Site')?.toString()
 
   const reportLane = findFieldInArray(
-    project.reports.selected?.information || [],
+    project.reports.selected()?.information || [],
     'Lane',
-  )?.value
+  )?.toString()
 
-  const materialPlatform = project.reports.selected?.platform
-    .find((info) => info.label === 'Material')
+  const materialPlatform = project.reports
+    .selected()
+    ?.platform.find((info) => info.label === 'Material')
     ?.toString()
 
   const sensorReferenceCalibrationFactor =
@@ -157,22 +156,22 @@ const writeDeviceCalibration = (project: HeavydynProject) => {
       LoadCellCalibrationDate = ${calibrationDate}
       LoadCellCalibrationFactor = ${Math.round(
         project.calibrations.channels[0].gain * 1000,
-      )} 
+      )}
       LoadCellCalibrationIntercept = 0
-      SensorStaticCalibrationDate = ${calibrationDate} 
+      SensorStaticCalibrationDate = ${calibrationDate}
       SensorStaticCalibrationFactor = ${sensorStaticCalibrationFactor}
-      SensorDynamicCalibrationDate = ${calibrationDate} 
+      SensorDynamicCalibrationDate = ${calibrationDate}
       SensorDynamicCalibrationFactor = ${sensorReferenceCalibrationFactor}
-      SensorReferenceCalibrationDate = ${calibrationDate} 
+      SensorReferenceCalibrationDate = ${calibrationDate}
       SensorReferenceCalibrationFactor = ${sensorReferenceCalibrationFactor}
-      SensorRelativeCalibrationDate = ${calibrationDate} 
+      SensorRelativeCalibrationDate = ${calibrationDate}
       SensorRelativeCalibrationFactor = ${sensorReferenceCalibrationFactor}
-      DMIDeviceCalibrationDate = ${calibrationDate} 
-      DMIDeviceCalibrationFactor = ${dmiSensor} 
+      DMIDeviceCalibrationDate = ${calibrationDate}
+      DMIDeviceCalibrationFactor = ${dmiSensor}
 
       [Location Identification]
-      SiteName = ${projectProject} 
-      FacilityName = ${siteProject} 
+      SiteName = ${projectProject}
+      FacilityName = ${siteProject}
       SectionName = ${reportLane}
       PavementType = ${materialPlatform}
     `
@@ -181,35 +180,36 @@ const writeDeviceCalibration = (project: HeavydynProject) => {
 const writePoints = (project: HeavydynProject) => {
   if (!project.reports.selected) return ''
 
-  return project.reports.selected
-    .getExportablePoints()
+  return project.reports
+    .selected()
+    ?.exportablePoints()
     .map((point) => {
-      const temps = point.data
+      const temps = Array.from(point.dataset.values())
         .slice(0, 3)
         .map((data) => {
           return data.value.getLocaleString({ precision: 1, locale: 'en-US' })
         })
         .join(',')
 
-      const comment = point.data
+      const comment = Array.from(point.dataset.values())
         .find((data) => data.label.name === 'Comment')
-        ?.getRawValue()
+        ?.rawValue()
 
       const { lat, lng } = point.toBaseJSON().coordinates as LngLat
 
       return dedent`
-        [Test Location ${point.index}]
-        TestLocation = ${point.data
+        [Test Location ${point.index()}]
+        TestLocation = ${Array.from(point.dataset.values())
           .find((data) => data.label.name === 'Chainage')
-          ?.getRawValue()},0,0 
+          ?.rawValue()},0,0
         GPSLocation = ${lat.toFixed(8)},${lng.toFixed(8)},0
-        TestLane = ${comment}  
+        TestLane = ${comment}
         TestType = 0
         DropHistoryType = load and deflections
-        TestTemperatures = ${temps} 
-        TestTime = ${dayjsUtc(point.date).format('HH:mm:ss')} 
-        TestComment = ${comment} 
-        NumberOfDrops = ${point.drops.length} 
+        TestTemperatures = ${temps}
+        TestTime = ${dayjsUtc(point.date).format('HH:mm:ss')}
+        TestComment = ${comment}
+        NumberOfDrops = ${point.drops.length}
         ${writeDrops(point, project.calibrations.dPlate)}
         \n
     `
@@ -218,11 +218,11 @@ const writePoints = (project: HeavydynProject) => {
 }
 
 const writeDrops = (point: BasePoint, dPlate: number) => {
-  const deflection = point.zone.report.project.units.deflection
+  const deflection = point.zone().report().project().units.deflection
 
   return point.drops
     .map((drop, index) => {
-      const values = drop.data
+      const values = Array.from(drop.dataset.values())
         .filter(
           (data) =>
             data.label.unit === deflection &&
@@ -234,12 +234,16 @@ const writeDrops = (point: BasePoint, dPlate: number) => {
         })
 
       const power =
-        ((drop.data[1].getRawValue() * 1e-3) / Math.PI / dPlate / dPlate) * 4
+        ((Array.from(drop.dataset.values())[1].rawValue() * 1e-3) /
+          Math.PI /
+          dPlate /
+          dPlate) *
+        4
 
       values.unshift(power.toFixed(2).toString())
 
       return dedent`
-        DropData_${index} = ${values} 
+        DropData_${index} = ${values}
       `
     })
     .join('\n')

@@ -6,5 +6,5 @@ interface Menu {
   readonly needsReport?: boolean
   readonly style?: string
   readonly class?: string
-  openedOnMobile?: boolean
+  readonly openedOnMobile: ASS<boolean>
 }

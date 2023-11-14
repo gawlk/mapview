@@ -16,15 +16,15 @@ type ColorProp =
   | 'transparent'
 
 interface BasePropsOnly {
-  disabled?: boolean
+  readonly disabled?: boolean
 
-  size?: SizeProp
+  readonly size?: SizeProp
 
-  padding?: SizeProp | boolean
+  readonly padding?: SizeProp | boolean
 
-  color?: ColorProp
+  readonly color?: ColorProp
 
-  class?: ClassProp
+  readonly class?: ClassProp
 
-  style?: StyleProp
+  readonly style?: StyleProp
 }

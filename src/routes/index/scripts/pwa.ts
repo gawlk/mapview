@@ -16,7 +16,7 @@ export const checkUpdate = async () => {
           worker.state === 'installed' &&
           navigator.serviceWorker.controller
         ) {
-          store.updateAvailable = true
+          store.updateAvailable.set(true)
         }
       })
     })

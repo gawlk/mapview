@@ -1,9 +1,9 @@
 import { Button } from '/src/components'
 
 interface Props {
-  show: boolean
-  maximized: boolean
-  onClick: ButtonPropsWithHTMLAttributes['onClick']
+  readonly show: boolean
+  readonly maximized: boolean
+  readonly onClick: ButtonPropsWithHTMLAttributes['onClick']
 }
 
 export const DialogButtonMaximize = (props: Props) => {

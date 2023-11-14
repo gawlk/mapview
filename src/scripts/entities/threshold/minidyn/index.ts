@@ -1,7 +1,7 @@
 import {
   createCustomThreshold,
   createDefaultModulusThresholds,
-  createSelectableList,
+  createSL,
 } from '/src/scripts'
 
 export const createMinidynThresholdsGroupsFromJSON = (
@@ -13,7 +13,7 @@ export const createMinidynThresholdsGroupsFromJSON = (
   const thresholdsGroups: MinidynThresholdsGroups = {
     modulus: {
       unit: units.modulus,
-      choices: createSelectableList(
+      choices: createSL(
         [
           createCustomThreshold(json.modulus.custom, units.modulus),
           ...createDefaultModulusThresholds(units.modulus),
@@ -25,7 +25,7 @@ export const createMinidynThresholdsGroupsFromJSON = (
     },
     stiffness: {
       unit: units.stiffness,
-      choices: createSelectableList(
+      choices: createSL(
         [
           createCustomThreshold(json.stiffness.custom, units.stiffness),
         ] as ThresoldsList,
@@ -36,7 +36,7 @@ export const createMinidynThresholdsGroupsFromJSON = (
     },
     deflection: {
       unit: units.deflection,
-      choices: createSelectableList(
+      choices: createSL(
         [
           createCustomThreshold(json.deflection.custom, units.deflection),
         ] as ThresoldsList,
@@ -47,7 +47,7 @@ export const createMinidynThresholdsGroupsFromJSON = (
     },
     distance: {
       unit: units.distance,
-      choices: createSelectableList(
+      choices: createSL(
         [
           createCustomThreshold(json.distance.custom, units.distance),
         ] as ThresoldsList,
@@ -58,7 +58,7 @@ export const createMinidynThresholdsGroupsFromJSON = (
     },
     force: {
       unit: units.force,
-      choices: createSelectableList(
+      choices: createSL(
         [
           createCustomThreshold(json.force.custom, units.force),
         ] as ThresoldsList,
@@ -69,7 +69,7 @@ export const createMinidynThresholdsGroupsFromJSON = (
     },
     time: {
       unit: units.time,
-      choices: createSelectableList(
+      choices: createSL(
         [createCustomThreshold(json.time.custom, units.time)] as ThresoldsList,
         {
           selectedIndex: json.time.selectedIndex,
@@ -78,7 +78,7 @@ export const createMinidynThresholdsGroupsFromJSON = (
     },
     percentage: {
       unit: units.percentage,
-      choices: createSelectableList(
+      choices: createSL(
         [
           createCustomThreshold(json.percentage.custom, units.percentage),
         ] as ThresoldsList,

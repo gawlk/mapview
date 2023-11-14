@@ -1,11 +1,8 @@
-import { run } from '/src/scripts'
+import { createASS, run } from '/src/scripts'
 
 export const createFieldFromJSON = (json: JSONFieldVAny): Field => {
-  const { label, value, settings } = json
-
-  return createMutable<Field>({
-    label,
-    value: run(
+  const value = createASS(
+    run(
       ():
         | boolean
         | number
@@ -14,12 +11,12 @@ export const createFieldFromJSON = (json: JSONFieldVAny): Field => {
         | DateValue
         | LongString
         | SelectableString => {
-        switch (label) {
+        switch (json.label) {
           case 'Comment':
           case 'Comments':
             return {
               kind: 'longString',
-              value: value as string,
+              value: createASS(json.value as string),
             }
 
           case 'Date':
@@ -29,12 +26,12 @@ export const createFieldFromJSON = (json: JSONFieldVAny): Field => {
           case 'Certificate end':
             return {
               kind: 'dateValue',
-              value: value as string,
+              value: createASS(json.value as string),
             }
           case 'Material':
             return {
               kind: 'selectableString',
-              value: value as string,
+              value: createASS(json.value as string),
               possibleValues: [
                 'Silt',
                 'Naturel Gravel',
@@ -45,7 +42,7 @@ export const createFieldFromJSON = (json: JSONFieldVAny): Field => {
           case 'Layer':
             return {
               kind: 'selectableString',
-              value: value as string,
+              value: createASS(json.value as string),
               possibleValues: [
                 'Sub base',
                 'Base',
@@ -62,7 +59,7 @@ export const createFieldFromJSON = (json: JSONFieldVAny): Field => {
           case 'Type':
             return {
               kind: 'selectableString',
-              value: value as string,
+              value: createASS(json.value as string),
               possibleValues: [
                 'Building pavement',
                 'Road',
@@ -78,13 +75,13 @@ export const createFieldFromJSON = (json: JSONFieldVAny): Field => {
           case 'State':
             return {
               kind: 'selectableString',
-              value: value as string,
+              value: createASS(json.value as string),
               possibleValues: ['Dry', 'Wet', 'Soggy', 'Frozen'],
             }
           case 'GTR':
             return {
               kind: 'selectableString',
-              value: value as string,
+              value: createASS(json.value as string),
               possibleValues: [
                 'N.S.',
                 'A1',
@@ -105,33 +102,50 @@ export const createFieldFromJSON = (json: JSONFieldVAny): Field => {
               ],
             }
           default:
-            return value
+            return json.value
         }
       },
     ),
-    settings: createMutable(settings),
-    getValue() {
-      return typeof this.value === 'object' ? this.value.value : this.value
+  )
+
+  return {
+    label: json.label,
+    value,
+    settings: {
+      readOnly: createASS(!!json.settings.readOnly),
+      toJSON() {
+        return {
+          version: 1,
+          readOnly: this.readOnly(),
+        }
+      },
     },
-    setValue(newValue: string | number) {
-      if (typeof this.value === 'object') {
-        this.value.value = newValue
+    getValue() {
+      const v = value()
+      return typeof v === 'object' ? v.value() : v
+    },
+    setValue(newValue: string | number | boolean) {
+      const raw = value()
+      if (typeof raw === 'object') {
+        // @ts-expect-error type fail
+        raw.value.set(newValue)
       } else {
-        this.value = newValue
+        value.set(newValue)
       }
     },
     toString() {
       return this.getValue()?.toString() || ''
     },
     toJSON(): JSONField {
+      const v = value()
       return {
         version: json.version,
         label: json.label,
-        value: typeof this.value === 'object' ? this.toString() : this.value,
-        settings: this.settings,
+        value: typeof v === 'object' ? this.toString() : v,
+        settings: this.settings.toJSON(),
       }
     },
-  })
+  }
 }
 
 export const findFieldInArray = (fields: Field[], label: string) =>

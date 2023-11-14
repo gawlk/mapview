@@ -1,66 +1,76 @@
-import { convertValueFromUnitAToUnitB, roundValue } from '/src/scripts'
+import { createLazyMemo } from '@solid-primitives/memo'
+import {
+  convertValueFromUnitAToUnitB,
+  createASS,
+  roundValue,
+} from '/src/scripts'
 
 export const createMathNumber = (
-  json: JSONMathNumberValue,
+  _value: Accessor<number> | JSONMathNumberValue,
   unit: MathUnit<string>,
 ) => {
-  const value = Number(json ?? 'NaN')
+  const value =
+    typeof _value === 'function' ? _value : () => Number(_value ?? 'NaN')
 
-  const mathNumber = createMutable<MathNumber>({
+  const displayedValue = createLazyMemo(() =>
+    roundValue(
+      unit.baseToCurrent(unit.capValue(value())),
+      unit.currentPrecision(),
+    ),
+  )
+
+  const getLocaleString: (
+    options?: MathUnitGetLocaleStringOptions,
+  ) => string = (options?) => unit.valueToLocaleString(value(), options)
+
+  const displayedString = createLazyMemo(() => getLocaleString())
+  const displayedStringWithUnit = createLazyMemo(() =>
+    getLocaleString({
+      appendUnitToString: true,
+    }),
+  )
+
+  const mathNumber: MathNumber = {
     value,
     unit,
-    displayedValue: value,
-    displayedString: '',
-    displayedStringWithUnit: '',
-    updateDisplayedValue() {
-      this.displayedValue = roundValue(
-        this.unit.baseToCurrent(this.unit.capValue(this.value)),
-        this.unit.currentPrecision,
-      )
+    displayedValue,
+    displayedString,
+    displayedStringWithUnit,
+    isValid: createLazyMemo(() => unit.checkValidity(value())),
+    getValueAs(unitAs) {
+      return convertValueFromUnitAToUnitB(value(), unit.baseUnit, unitAs)
     },
-    updateDisplayedStrings() {
-      this.updateDisplayedValue()
-
-      this.displayedString = this.getLocaleString()
-
-      this.displayedStringWithUnit = this.getLocaleString({
-        appendUnitToString: true,
-      })
-    },
-    updateValue(newValue: number, asCurrent?: true) {
-      this.value = asCurrent ? this.unit.currentToBase(newValue) : newValue
-
-      this.updateDisplayedStrings()
-    },
-    getValueAs(unitAs: string) {
-      return convertValueFromUnitAToUnitB(
-        this.value,
-        this.unit.baseUnit,
-        unitAs,
-      )
-    },
-    checkValidity() {
-      return this.unit.checkValidity(this.value)
-    },
-    getLocaleString(options?) {
-      return this.unit.valueToLocaleString(this.value, options)
-    },
+    getLocaleString,
     toCurrent() {
-      return this.unit.baseToCurrent(this.value)
+      return unit.baseToCurrent(value())
     },
     toExcel(asCurrent = false) {
-      if (!this.checkValidity()) {
+      if (!this.isValid()) {
         return null
       }
 
-      return asCurrent ? this.toCurrent() : this.value
+      return asCurrent ? this.toCurrent() : value()
     },
     toJSON() {
-      return Number.isNaN(this.value) ? 'NaN' : this.value
+      return Number.isNaN(value()) ? 'NaN' : value()
     },
-  })
+  }
 
-  mathNumber.updateDisplayedStrings()
+  return mathNumber
+}
+
+export const createWritableMathNumber = (
+  _value: JSONMathNumberValue,
+  unit: MathUnit<string>,
+) => {
+  const value = createASS(Number(_value))
+
+  const mathNumber: WritableMathNumber = {
+    ...createMathNumber(value, unit),
+    setValue(newValue, asCurrent) {
+      value.set(asCurrent ? this.unit.currentToBase(newValue) : newValue)
+    },
+  }
 
   return mathNumber
 }

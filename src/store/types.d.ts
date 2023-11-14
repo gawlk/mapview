@@ -1,11 +1,17 @@
 interface Store {
   readonly projects: SelectableList<MachineProject>
-  selectedProject: MachineProject | null
-  selectedReport: MachineReport | null
-  dialogEntity: MachinePoint | null
-  map: mapboxgl.Map | null
-  updateAvailable: boolean
-  importingFile: boolean
+  readonly selectedProject: Accessor<MachineProject | null>
+  readonly selectedReport: Accessor<MachineReport | null>
+  readonly selectProject: (
+    project: MachineProject | null,
+  ) => MachineProject | null
+  readonly pushAndSelectProject: (
+    project: MachineProject | null,
+  ) => MachineProject | null
+  readonly selectReport: (project: BaseReport | null) => BaseReport | null
+  readonly map: ASS<mapboxgl.Map | null>
+  readonly updateAvailable: ASS<boolean>
+  readonly importingFile: ASS<boolean>
 }
 
 type StoreKeys = Exclude<keyof Store, 'save' | 'updateAvailable' | 'projects'>

@@ -7,8 +7,8 @@ interface JSONOverlay {
   readonly name: string
   readonly opacity?: number
   readonly coordinates?: {
-    nw: LngLat
-    se: LngLat
+    readonly nw: LngLat
+    readonly se: LngLat
   }
 }
 
@@ -21,9 +21,10 @@ interface Overlay {
   readonly sourceData: mapboxgl.ImageSourceRaw
   readonly markerNW: mapboxgl.Marker | null
   readonly markerSE: mapboxgl.Marker | null
-  opacity: number
-  readonly addToMap: (isVisible: boolean) => void
-  readonly remove: () => void
+  readonly opacity: ASS<number>
+  readonly addToMap: VoidFunction
+  readonly removeFromMap: VoidFunction
+  readonly refresh: VoidFunction
   readonly toJSON: () => JSONOverlay
 }
 

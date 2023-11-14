@@ -1,4 +1,10 @@
-import { baseHexColor, blend, colors, roundValue } from '/src/scripts'
+import {
+  baseHexColor,
+  blend,
+  colors,
+  createASS,
+  roundValue,
+} from '/src/scripts'
 
 const convertToRoundedCurrent = (
   valueToConvert: number,
@@ -6,7 +12,7 @@ const convertToRoundedCurrent = (
 ) =>
   roundValue(
     unit.baseToCurrent(unit.capValue(valueToConvert)),
-    unit.currentPrecision,
+    unit.currentPrecision(),
   )
 
 export const createCustomThreshold = (
@@ -15,44 +21,55 @@ export const createCustomThreshold = (
 ): CustomThreshold => {
   // upgrade JSON
 
-  return createMutable({
+  const value = createASS(json.value)
+
+  const valueHigh = createASS(json.valueHigh)
+
+  const lowThresholdValue = createMemo(() =>
+    convertToRoundedCurrent(value(), unit),
+  )
+
+  const highThresholdValue = createMemo(() =>
+    convertToRoundedCurrent(valueHigh(), unit),
+  )
+
+  const threshold: CustomThreshold = {
     kind: 'custom',
     name: 'Custom',
     unit,
-    type: json.type,
-    value: json.value,
-    valueHigh: json.valueHigh,
-    getColor(mathNumber: MathNumber, jsonColors: JSONThresholdColors) {
-      const hexColorLow = colors[jsonColors.low]
-      const hexColorMiddle = colors[jsonColors.middle]
-      const hexColorHigh = colors[jsonColors.high]
+    type: createASS(json.type),
+    value,
+    valueHigh,
+    getColor(mathNumber, thresholdColors) {
+      const hexColorLow = colors[thresholdColors.low()]
+      const hexColorMiddle = colors[thresholdColors.middle()]
+      const hexColorHigh = colors[thresholdColors.high()]
 
       if (unit !== mathNumber.unit) {
         throw Error('Passed mathNumber with wrong unit')
       }
 
-      if (!mathNumber.checkValidity()) {
+      if (!mathNumber.isValid()) {
         return baseHexColor
       }
 
-      const lowThresholdValue = convertToRoundedCurrent(this.value, unit)
-
-      const highThresholdValue = convertToRoundedCurrent(this.valueHigh, unit)
-
-      const testedValue = mathNumber.displayedValue
+      const testedValue = mathNumber.displayedValue()
 
       let color = hexColorHigh
 
-      if (testedValue < lowThresholdValue) {
+      if (testedValue < lowThresholdValue()) {
         color = hexColorLow
-      } else if (this.type !== 'Bicolor' && testedValue < highThresholdValue) {
+      } else if (
+        this.type() !== 'Bicolor' &&
+        testedValue < highThresholdValue()
+      ) {
         color =
-          this.type === 'Tricolor'
+          this.type() === 'Tricolor'
             ? hexColorMiddle
             : blend(
                 hexColorLow,
                 hexColorHigh,
-                (testedValue - lowThresholdValue) / highThresholdValue,
+                (testedValue - lowThresholdValue()) / highThresholdValue(),
               )
       }
 
@@ -61,10 +78,12 @@ export const createCustomThreshold = (
     toJSON(): JSONCustomThreshold {
       return {
         version: 1,
-        type: this.type,
-        value: this.value,
-        valueHigh: this.valueHigh,
+        type: this.type(),
+        value: this.value(),
+        valueHigh: this.valueHigh(),
       }
     },
-  })
+  }
+
+  return threshold
 }

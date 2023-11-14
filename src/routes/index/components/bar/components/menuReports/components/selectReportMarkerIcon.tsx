@@ -3,7 +3,7 @@ import { useAppState } from '/src/index'
 import { formatIconSVGForUI, icons } from '/src/scripts'
 
 interface Props {
-  report: BaseReport
+  readonly iconName: ASS<IconName>
 }
 
 export const SelectReportMarkerIcon = (props: Props) => {
@@ -13,7 +13,7 @@ export const SelectReportMarkerIcon = (props: Props) => {
     <DialogSelect
       button={{
         text: '',
-        icon: formatIconSVGForUI(icons[props.report.settings.iconName]),
+        icon: formatIconSVGForUI(icons[props.iconName()]),
       }}
       attached
       values={{
@@ -27,7 +27,7 @@ export const SelectReportMarkerIcon = (props: Props) => {
         }),
       }}
       onClose={(iconName) => {
-        iconName && (props.report.settings.iconName = iconName as IconName)
+        iconName && props.iconName.set(iconName as IconName)
       }}
     />
   )

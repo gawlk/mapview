@@ -1,10 +1,10 @@
 import {
+  createASS,
   createFieldFromJSON,
   createLine,
-  createWatcherHandler,
-  debounce,
   flyToPoints,
   getIndexOfSelectedInSelectableList,
+  sortPoints,
   upgradeColorNameFromV1ToV2,
 } from '/src/scripts'
 
@@ -28,16 +28,29 @@ export const createBaseReportFromJSON = <
 ) => {
   json = upgradeJSON(json)
 
-  const watcherHandler = createWatcherHandler()
+  const thresholds = createThresholdsFromJSON(
+    json.thresholds,
+    parameters.thresholdsGroups,
+  ) as Thresholds
 
-  // Need to understand why the Thresholds type can't be used while BaseThresholds<ThresholdsGroups> works
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const thresholds: Thresholds = {
-    groups: parameters.thresholdsGroups,
-    colors: createMutable(upgradeThresholdsColorsJSON(json.thresholds.colors)),
-    inputs: createMutable(json.thresholds.inputs),
-  }
+  const project = createASS(parameters.project)
+
+  const settings = createSettingsFromJSON(json.settings)
+
+  const zones = createASS(parameters.zones, {
+    equals: false,
+  })
+
+  const sortedPoints = createMemo(() =>
+    sortPoints(zones().flatMap((zone) => zone.points() as BasePoint[])),
+  )
+
+  const line = createLine(
+    () => settings,
+    () => project().settings,
+    sortedPoints,
+    map,
+  )
 
   const report: BaseReport<Project, Zone, DataLabels, Thresholds> = {
     kind: 'Report',
@@ -49,163 +62,55 @@ export const createBaseReportFromJSON = <
         version: 1,
       },
     }),
-    isOnMap: false as boolean,
-    settings: createMutable(json.settings),
-    screenshots: createMutable([] as string[]),
+    settings,
+    screenshots: createASS([], {
+      equals: false,
+    }),
     dataLabels: parameters.dataLabels,
     thresholds,
-    zones: createMutable(parameters.zones),
-    line: createLine(map),
-    platform: createMutable(
-      parameters.platform.map((field: JSONField) => createFieldFromJSON(field)),
+    sortedPoints,
+    zones,
+    line,
+    platform: parameters.platform.map((field: JSONField) =>
+      createFieldFromJSON(field),
     ),
-    information: createMutable(
-      parameters.information.map((field: JSONField) =>
-        createFieldFromJSON(field),
-      ),
+    information: parameters.information.map((field: JSONField) =>
+      createFieldFromJSON(field),
     ),
-    project: parameters.project,
+    project,
     fitOnMap() {
-      const points = this.zones.map((zone) => zone.points).flat()
-
-      flyToPoints(map, points)
+      flyToPoints(map, this.sortedPoints())
     },
-    getExportablePoints() {
-      return this.line.sortedPoints.filter((point) => point.settings.isVisible)
-    },
-    addToMap() {
-      this.isOnMap = true
-
-      this.zones.forEach((zone) => {
-        zone.init()
-      })
-
-      void watcherHandler.add(
-        on(
-          () => this.settings.isVisible,
-          (isVisible) => {
-            this.zones.forEach((zone) => {
-              zone.points.forEach((point) => {
-                point.updateVisibility()
-              })
-            })
-
-            if (parameters.project.settings.arePointsLinked && isVisible) {
-              this.line.addToMap()
-            } else {
-              this.line.remove()
-            }
-          },
-        ),
-      )
-
-      void watcherHandler.add(
-        on(
-          () => this.settings.iconName,
-          (iconName) => {
-            this.zones.forEach((zone) => {
-              zone.points.forEach((point) => {
-                point.icon?.setIcon(iconName)
-
-                point.updateColor()
-              })
-            })
-          },
-        ),
-      )
-
-      void watcherHandler.add(
-        on(
-          () => [
-            this.dataLabels.groups.selected,
-            this.dataLabels.groups.selected?.choices.selected,
-            this.dataLabels.groups.selected?.from === 'Drop'
-              ? this.dataLabels.groups.selected.indexes.selected
-              : undefined,
-          ],
-          () => {
-            this.zones.forEach((zone) => {
-              zone.points.forEach((point) => {
-                void point.updateText()
-                point.updateColor()
-              })
-            })
-
-            this.line.update()
-          },
-        ),
-      )
-
-      void watcherHandler.add(
-        on(
-          [
-            () => this.settings.colorization,
-            () => this.thresholds.colors.low,
-            () => this.thresholds.colors.middle,
-            () => this.thresholds.colors.high,
-          ],
-          () => {
-            this.zones.forEach((zone) => {
-              zone.points.forEach((point) => {
-                point.updateColor()
-              })
-            })
-
-            this.line.update()
-          },
-        ),
-      )
-
-      Object.values(this.thresholds.groups).forEach(
-        (thresholdGroup: ThresholdsGroup<string>) => {
-          void watcherHandler.add(
-            on(
-              () => [
-                thresholdGroup.choices.selected,
-                (thresholdGroup.choices.list.at(-1) as CustomThreshold).type,
-                (thresholdGroup.choices.list.at(-1) as CustomThreshold).value,
-                (thresholdGroup.choices.list.at(-1) as CustomThreshold)
-                  .valueHigh,
-                thresholdGroup.unit.min,
-                thresholdGroup.unit.max,
-              ],
-              debounce(() => {
-                this.zones.forEach((zone) => {
-                  zone.points.forEach((point) => {
-                    point.updateColor()
-                  })
-                })
-
-                this.line.update()
-              }),
-            ),
-          )
-        },
-      )
-    },
-    remove() {
-      this.isOnMap = false
-
-      this.zones.forEach((zone) => {
-        zone.clean()
-      })
-
-      this.line.remove()
-
-      watcherHandler.clean()
-    },
+    exportablePoints: createMemo(() =>
+      sortedPoints().filter((point) => point.settings.isVisible()),
+    ),
     toBaseJSON(): JSONBaseReport {
       return {
         version: 1,
-        name: this.name.value as string,
+        name: this.name.value() as string,
         dataLabels: this.dataLabels.toBaseJSON(),
         thresholds: {
           version: 1,
-          colors: this.thresholds.colors,
-          inputs: this.thresholds.inputs,
+          colors: {
+            version: 2,
+            high: this.thresholds.colors.high(),
+            middle: this.thresholds.colors.middle(),
+            low: this.thresholds.colors.low(),
+          },
+          inputs: {
+            version: 1,
+            isRequiredARange: this.thresholds.inputs.isRequiredARange(),
+            isOptionalARange: this.thresholds.inputs.isOptionalARange(),
+          },
         },
-        zones: this.zones.map((zone) => zone.toJSON()),
-        settings: this.settings,
+        zones: this.zones().map((zone) => zone.toJSON()),
+        settings: {
+          version: 1,
+          colorization: this.settings.colorization(),
+          groupBy: this.settings.groupBy(),
+          iconName: this.settings.iconName(),
+          isVisible: this.settings.isVisible(),
+        },
         screenshots: [],
         platform: this.platform.map((field) => field.toJSON()),
         information: this.information.map((field) => field.toJSON()),
@@ -225,6 +130,37 @@ const upgradeJSON = (json: JSONBaseReportVAny): JSONBaseReport => {
   return json
 }
 
+const createSettingsFromJSON = ({
+  colorization,
+  groupBy,
+  iconName,
+  isVisible,
+}: JSONReportSettings): BaseReportSettings => ({
+  colorization: createASS(colorization),
+  groupBy: createASS(groupBy),
+  iconName: createASS(iconName === 'HexagonAlt' ? 'Hexagon' : iconName),
+  isVisible: createASS(isVisible),
+})
+
+const createThresholdsFromJSON = (
+  json: JSONBaseThresholdsSettings,
+  thresholdsGroups: BaseThresholdsGroups,
+): BaseThresholds<BaseThresholdsGroups> => {
+  const jsonColors = upgradeThresholdsColorsJSON(json.colors)
+
+  return {
+    groups: thresholdsGroups,
+    colors: {
+      high: createASS(jsonColors.high),
+      middle: createASS(jsonColors.middle),
+      low: createASS(jsonColors.low),
+    },
+    inputs: {
+      isRequiredARange: createASS(json.inputs.isRequiredARange),
+      isOptionalARange: createASS(json.inputs.isOptionalARange),
+    },
+  }
+}
 const upgradeThresholdsColorsJSON = (
   json: JSONThresholdColorsVAny,
 ): JSONThresholdColors => {
@@ -251,7 +187,7 @@ export const convertThresholdsConfigurationToJSON = (
     version: 1,
     selectedIndex: getIndexOfSelectedInSelectableList(group.choices) || 0,
     custom: (
-      group.choices.list.slice()[
+      group.choices.list().slice()[
         customThresholdIndex
       ] as ThresoldsList[CustomThresholdIndex]
     ).toJSON(),

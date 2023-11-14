@@ -1,5 +1,5 @@
 interface NavigatorComponentProps {
-  next: (id: string) => void
-  reset: () => void
-  back?: () => void
+  readonly next: (id: string) => void
+  readonly reset: VoidFunction
+  readonly back?: VoidFunction
 }

@@ -1,6 +1,7 @@
 import { createUnit, unit as Unit } from 'mathjs'
 
 import { numberToLocaleString } from '/src/locales'
+import { createASS } from '/src/scripts'
 
 export enum ConvertType {
   BaseToCurrent = 'BaseToCurrent',
@@ -69,36 +70,36 @@ export const createMathUnit = <PossibleUnits extends string>(
     checkValidity?: (value: number) => boolean
   },
 ): MathUnit<PossibleUnits> => {
-  const currentUnit = json.currentUnit || possibleSettings[0][0]
+  const currentUnit = createASS(json.currentUnit || possibleSettings[0][0])
   const possiblePrecisions = options?.possiblePrecisions || [0, 1, 2]
-  const currentPrecision = json.currentPrecision || possibleSettings[0][1]
-  const jsonMax = json.max
-  const jsonMin = json.min || 0
+  const currentPrecision = createASS(
+    json.currentPrecision || possibleSettings[0][1],
+  )
+  const max = createASS(json.max)
+  const min = createASS(json.min || 0)
   const readOnly = options?.readOnly || false
   const invalidReplacement =
     options?.invalidReplacement || defaultInvalidValueReplacement
 
-  return createMutable<MathUnit<PossibleUnits>>({
+  const mathUnits: MathUnit<PossibleUnits> = {
     name,
     baseUnit,
     possibleSettings,
     currentUnit,
     possiblePrecisions,
     currentPrecision,
-    min: jsonMin,
-    max: jsonMax,
+    min,
+    max,
     readOnly,
     capValue(value: number) {
-      return Math.max(this.min, Math.min(this.max, value))
+      return Math.max(min(), Math.min(max(), value))
     },
     getAverage(values) {
-      const { min, max } = this
-
       const filteredValues: number[] = values.filter(
         (value) =>
           this.checkValidity(value) &&
           (options?.averageFunction === 'ignoreOutliers'
-            ? value <= max && value >= min
+            ? value <= max() && value >= min()
             : true),
       )
 
@@ -107,8 +108,8 @@ export const createMathUnit = <PossibleUnits extends string>(
             (total, currentValue) =>
               total +
               getValueForAverage(
-                this.min,
-                this.max,
+                min(),
+                max(),
                 currentValue,
                 options?.averageFunction,
               ),
@@ -119,7 +120,7 @@ export const createMathUnit = <PossibleUnits extends string>(
     currentToBase(value) {
       return convertValueFromUnitAToUnitB(
         value,
-        this.currentUnit,
+        this.currentUnit(),
         this.baseUnit,
       )
     },
@@ -127,7 +128,7 @@ export const createMathUnit = <PossibleUnits extends string>(
       return convertValueFromUnitAToUnitB(
         value,
         this.baseUnit,
-        this.currentUnit,
+        this.currentUnit(),
       )
     },
     checkValidity(value) {
@@ -144,14 +145,14 @@ export const createMathUnit = <PossibleUnits extends string>(
 
         let preString = ''
 
-        numberToLocaleOptions.precision ??= this.currentPrecision
+        numberToLocaleOptions.precision ??= this.currentPrecision()
 
         if (!parseOptions.disableMinAndMax) {
-          if (value < this.min) {
-            value = this.min
+          if (value < min()) {
+            value = min()
             preString = '<'
-          } else if (this.max && value > this.max) {
-            value = this.max
+          } else if (max && value > max()) {
+            value = max()
             preString = '>'
           }
         }
@@ -159,7 +160,7 @@ export const createMathUnit = <PossibleUnits extends string>(
         value = convertValueFromUnitAToUnitB(
           value,
           this.baseUnit,
-          parseOptions.unit ?? this.currentUnit,
+          parseOptions.unit ?? this.currentUnit(),
         )
 
         valueString = `${
@@ -170,7 +171,7 @@ export const createMathUnit = <PossibleUnits extends string>(
       }
 
       const localeString: string = `${valueString} ${
-        parseOptions.appendUnitToString ? this.currentUnit : ''
+        parseOptions.appendUnitToString ? this.currentUnit() : ''
       }`.trim()
 
       return parseOptions.removeSpaces
@@ -180,13 +181,15 @@ export const createMathUnit = <PossibleUnits extends string>(
     toJSON(): JSONMathUnit<PossibleUnits> {
       return {
         version: json.version,
-        currentUnit: this.currentUnit,
-        currentPrecision: this.currentPrecision,
-        max: this.max,
-        min: this.min,
+        currentUnit: this.currentUnit(),
+        currentPrecision: this.currentPrecision(),
+        max: max(),
+        min: min(),
       }
     },
-  })
+  }
+
+  return mathUnits
 }
 
 export const convertValueFromUnitAToUnitB = (

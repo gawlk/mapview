@@ -1,16 +1,14 @@
-// TODO: Change iconoir to tabler icons
-import CircleIcon from 'iconoir/icons/circle.svg?raw'
-import FlareIcon from 'iconoir/icons/flare.svg?raw'
-import HeptagonIcon from 'iconoir/icons/heptagon.svg?raw'
-import HexagonAltIcon from 'iconoir/icons/hexagon-alt.svg?raw'
-import HexagonIcon from 'iconoir/icons/hexagon.svg?raw'
-import OctagonIcon from 'iconoir/icons/octagon.svg?raw'
-import PentagonIcon from 'iconoir/icons/pentagon.svg?raw'
-import RhombusIcon from 'iconoir/icons/rhombus.svg?raw'
-import SquareIcon from 'iconoir/icons/square.svg?raw'
-import TriangleIcon from 'iconoir/icons/triangle.svg?raw'
+import CircleIcon from 'iconoir/icons/regular/circle.svg?raw'
+import FlareIcon from 'iconoir/icons/regular/flare.svg?raw'
+import HeptagonIcon from 'iconoir/icons/regular/heptagon.svg?raw'
+import HexagonIcon from 'iconoir/icons/regular/hexagon.svg?raw'
+import OctagonIcon from 'iconoir/icons/regular/octagon.svg?raw'
+import PentagonIcon from 'iconoir/icons/regular/pentagon.svg?raw'
+import RhombusIcon from 'iconoir/icons/regular/rhombus.svg?raw'
+import SquareIcon from 'iconoir/icons/regular/square.svg?raw'
+import TriangleIcon from 'iconoir/icons/regular/triangle.svg?raw'
 
-import { baseHexColor, blend } from '/src/scripts'
+import { baseHexColor, blend, createASS } from '/src/scripts'
 
 export const icons: Record<IconName, string> = {
   Circle: CircleIcon,
@@ -20,7 +18,6 @@ export const icons: Record<IconName, string> = {
   Flare: FlareIcon,
   Pentagon: PentagonIcon,
   Hexagon: HexagonIcon,
-  HexagonAlt: HexagonAltIcon,
   Heptagon: HeptagonIcon,
   Octagon: OctagonIcon,
 }
@@ -31,7 +28,6 @@ export const createIcon = (iconName: IconName) => {
   }
 
   const div: HTMLDivElement = document.createElement('div')
-  // div.classList.add('relative')
 
   const subDiv = document.createElement('div')
   div.appendChild(subDiv)
@@ -63,14 +59,17 @@ export const createIcon = (iconName: IconName) => {
 
   span.style.textShadow = '-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black'
 
-  const icon = createMutable({
+  const color = createASS(baseHexColor)
+
+  const icon: Icon = {
     element: div,
-    color: baseHexColor,
-    setColor(color?: string) {
+    color,
+    setColor(_color?: string) {
+      _color && color.set(_color)
+
       const svg = subDiv.firstElementChild as HTMLElement
-      this.color = color || baseHexColor
-      svg.setAttribute('fill', this.color)
-      svg.setAttribute('color', blend(this.color, '#000000'))
+      svg.setAttribute('fill', this.color())
+      svg.setAttribute('color', blend(this.color(), '#000000'))
     },
     setText(text: string) {
       span.innerHTML = text
@@ -79,7 +78,7 @@ export const createIcon = (iconName: IconName) => {
       subDiv.innerHTML = icons[newIconName] || icons.Circle
       this.setColor()
     },
-  })
+  }
 
   icon.setIcon(iconName)
 

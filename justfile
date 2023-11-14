@@ -2,6 +2,11 @@
 default:
   just --list
 
+alias i := install
+# install dependencies
+install:
+  pnpm install
+
 alias d := dev
 # run dev
 dev:
@@ -32,10 +37,10 @@ build:
     zip -r templates.zip .
     cd -
   fi
-  
+
   pnpm vite build
-  
-  sed 's+media=\"(device+media=\"screen and (device+g' dist/index.html | sed 's+</head>+<meta name=\"apple-touch-fullscreen\" content=\"yes\" /></head>+g' > index.html.tmp 
+
+  sed 's+media=\"(device+media=\"screen and (device+g' dist/index.html | sed 's+</head>+<meta name=\"apple-touch-fullscreen\" content=\"yes\" /></head>+g' > index.html.tmp
   mv index.html.tmp dist/index.html
 
 alias p := prod
@@ -50,12 +55,12 @@ preview:
 
 alias t := test
 # run tests
-test:
+test ARG='':
   sed -i.bak 's|DEV$1\\.|DEV$1?\\.|g' node_modules/.pnpm/solid-js@*/node_modules/solid-js/store/dist/dev.js
   sed -i.bak 's|\"./integration\"|\"./integration.js\"|g' node_modules/.pnpm/@solidjs+router@*_solid-js@*/node_modules/@solidjs/router/dist/routing.js
   sed -i.bak 's|\"./lifecycle\"|\"./lifecycle.js\"|g' node_modules/.pnpm/@solidjs+router@*_solid-js@*/node_modules/@solidjs/router/dist/routing.js
   sed -i.bak 's|\"./utils\"|\"./utils.js\"|g' node_modules/.pnpm/@solidjs+router@*_solid-js@*/node_modules/@solidjs/router/dist/routing.js
-  TZ=Europe/Paris pnpm vitest run
+  TZ=Europe/Paris pnpm vitest run {{ARG}}
 
 # run tests with UI
 test-ui:
@@ -90,3 +95,9 @@ lint:
 # check link
 lint-fix:
   pnpm eslint --fix './src'
+
+alias u := update
+alias up := update
+# update dependencies
+update ARG='':
+  pnpm up {{ARG}}

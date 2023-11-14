@@ -33,11 +33,9 @@ export const Units = () => {
     // TODO: Create title element instead of using labels
     <Label size="lg" label={t('Units')} class="space-y-4">
       <For
-        each={
-          Object.values(store.projects.selected?.units || {}).filter(
-            (unit) => !unit.readOnly,
-          ) as MathUnit<string>[]
-        }
+        each={store
+          .selectedProject()
+          ?.units.list.filter((unit) => !unit.readOnly)}
       >
         {(mathUnit) => (
           <Details
@@ -57,11 +55,11 @@ export const Units = () => {
                   label: t('Unit'),
                 }}
                 values={{
-                  selected: mathUnit.currentUnit,
+                  selected: mathUnit.currentUnit(),
                   list: mathUnit.possibleSettings.map((setting) => setting[0]),
                 }}
                 onClose={(value) => {
-                  value && (mathUnit.currentUnit = value)
+                  value && mathUnit.currentUnit.set(value)
                 }}
               />
               <DialogSelect
@@ -72,13 +70,13 @@ export const Units = () => {
                   label: t('Precision'),
                 }}
                 values={{
-                  selected: String(mathUnit.currentPrecision),
+                  selected: String(mathUnit.currentPrecision()),
                   list: mathUnit.possiblePrecisions.map((precision) =>
                     String(precision),
                   ),
                 }}
                 onClose={(value) => {
-                  value && (mathUnit.currentPrecision = Number(value))
+                  value && mathUnit.currentPrecision.set(Number(value))
                 }}
               />
             </div>
@@ -87,10 +85,10 @@ export const Units = () => {
                 leftIcon={IconTablerArrowBarUp}
                 label={t('Min')}
                 full
-                value={roundValue(mathUnit.baseToCurrent(mathUnit.min))}
+                value={roundValue(mathUnit.baseToCurrent(mathUnit.min()))}
                 bind
                 onInput={(value) => {
-                  mathUnit.min = mathUnit.currentToBase(Number(value || 0))
+                  mathUnit.min.set(mathUnit.currentToBase(Number(value || 0)))
                 }}
               />
               <Input
@@ -98,9 +96,9 @@ export const Units = () => {
                 label={t('Max')}
                 full
                 bind
-                value={roundValue(mathUnit.baseToCurrent(mathUnit.max))}
+                value={roundValue(mathUnit.baseToCurrent(mathUnit.max()))}
                 onInput={(value) => {
-                  mathUnit.max = mathUnit.currentToBase(Number(value || 0))
+                  mathUnit.max.set(mathUnit.currentToBase(Number(value || 0)))
                 }}
               />
             </div>

@@ -2,6 +2,6 @@ type InputDataListProps = InputDataListPropsOnly &
   Omit<InputPropsWithHTMLAttributes, 'list'>
 
 interface InputDataListPropsOnly {
-  list: string[]
-  dialog?: DialogPropsWithHTMLAttributes
+  readonly list: string[]
+  readonly dialog?: DialogPropsWithHTMLAttributes
 }

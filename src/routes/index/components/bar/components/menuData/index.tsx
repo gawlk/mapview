@@ -15,7 +15,7 @@ export const MenuData = () => {
       </div>
 
       <div>
-        <Show when={store.selectedReport?.dataLabels.groups.selected}>
+        <Show when={store.selectedReport()?.dataLabels.groups.selected()}>
           {(group) => (
             <TablePointsGroupedBy
               colored
@@ -23,12 +23,13 @@ export const MenuData = () => {
               from={group().from}
               index={
                 group().from === 'Drop'
-                  ? (group() as BaseDropDataLabelsGroup<BaseDropIndex>).indexes
-                      .selected || undefined
+                  ? (
+                      group() as BaseDropDataLabelsGroup<string, BaseDropIndex>
+                    ).indexes.selected() || undefined
                   : undefined
               }
               dataLabels={
-                [group().choices.selected].filter((d) => d) as DataLabel[]
+                [group().choices.selected()].filter((d) => d) as DataLabel[]
               }
             />
           )}

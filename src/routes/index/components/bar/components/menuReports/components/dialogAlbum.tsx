@@ -14,7 +14,7 @@ export const DialogAlbum = () => {
       maximized
       button={{
         leftIcon: IconTablerSlideshow,
-        text: `${t('View the album')} - ${store.selectedReport?.screenshots
+        text: `${t('View the album')} - ${store.selectedReport()?.screenshots()
           .length}`,
         full: true,
       }}
@@ -22,7 +22,7 @@ export const DialogAlbum = () => {
     >
       <div class="flex h-full items-center space-x-4 overflow-x-auto px-6">
         {/* TODO: Rename screenshots to album */}
-        <For each={store.selectedReport?.screenshots}>
+        <For each={store.selectedReport()?.screenshots()}>
           {(image, index) => (
             <div class="mx-auto flex-none space-y-8">
               <Image image={image} />
@@ -31,7 +31,10 @@ export const DialogAlbum = () => {
                   <Button
                     leftIcon={IconTablerCameraDown}
                     onClick={() => {
-                      void downloadImage(image)
+                      void downloadImage(
+                        image,
+                        `photo-${store.selectedReport()?.name.toString()}.png`,
+                      )
                     }}
                   >
                     {t('Download')}
@@ -40,7 +43,10 @@ export const DialogAlbum = () => {
                     color="red"
                     leftIcon={IconTablerCameraCancel}
                     onClick={() =>
-                      store.selectedReport?.screenshots.splice(index(), 1)
+                      store.selectedReport()?.screenshots.set((l) => {
+                        l.splice(index(), 1)
+                        return l
+                      })
                     }
                   >
                     {t('Delete')}

@@ -27,7 +27,7 @@ export const DialogReports = () => {
       button={{
         label: t('Selected'),
         full: true,
-        text: convertReportToName(store.selectedReport),
+        text: convertReportToName(store.selectedReport()),
       }}
     >
       <div class="space-y-2">
@@ -36,9 +36,12 @@ export const DialogReports = () => {
           rightIcon={state.hideAll ? IconTablerEyeOff : IconTablerEye}
           full
           onClick={() => {
-            store.selectedProject?.reports.list.forEach((report) => {
-              report.settings.isVisible = !state.hideAll
-            })
+            store
+              .selectedProject()
+              ?.reports.list()
+              .forEach((report) => {
+                report.settings.isVisible.set(!state.hideAll)
+              })
             setState('hideAll', !state.hideAll)
           }}
         >
@@ -46,26 +49,24 @@ export const DialogReports = () => {
             {t(state.hideAll ? 'Hide all' : 'Show all')}
           </span>
         </Button>
-        <For each={store.selectedProject?.reports.list}>
+        <For each={store.selectedProject()?.reports.list()}>
           {(report, index) => (
             <div class="flex space-x-1">
-              <SelectReportMarkerIcon report={report} />
+              <SelectReportMarkerIcon iconName={report.settings.iconName} />
               <Button
                 label={String(index() + 1)}
                 rightIcon={IconTablerZoomIn}
                 onClick={() => {
-                  if (store.selectedProject) {
-                    store.selectedReport = report
-                    report.fitOnMap()
-                  }
+                  store.selectReport(report)
+                  report.fitOnMap()
                 }}
                 full
               >
-                <span class="flex-1 text-left">
+                <span class="flex-1 truncate text-left">
                   {convertReportToName(report)}
                 </span>
               </Button>
-              <ButtonReportVisibility report={report} />
+              <ButtonReportVisibility isVisible={report.settings.isVisible} />
             </div>
           )}
         </For>

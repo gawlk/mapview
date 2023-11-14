@@ -118,28 +118,6 @@ export const createBasePointFromJSON = <
 
       return value ? value.displayedString() : ''
     },
-    // addToMap() {
-    //   map && marker?.addTo(map)
-
-    // void watcherHandler.add(
-    //   on(
-    //     this.settings.isVisible,
-    //     (visible) => {
-    //       const sortedPoints = this.zone().report().sortedPoints()
-    //       let index =
-    //         sortedPoints.findIndex((_point) => this.index === _point.index) +
-    //         1
-    //       for (index; index < sortedPoints.length; index++) {
-    //         sortedPoints[index].number.set((n) => n + (visible ? 1 : -1))
-    //       }
-    //       this.zone().report().line.update()
-    //     },
-    //     {
-    //       defer: true,
-    //     },
-    //   ),
-    // )
-    // },
     shouldBeOnMap: createMemo(() => {
       const _zone = zone()
       const report = _zone.report()

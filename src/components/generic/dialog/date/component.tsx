@@ -21,7 +21,7 @@ export const DialogDate = (props: DialogDatePropsWithHTMLAttributes) => {
   const state = {
     year: createASS(0),
     month: createASS(0),
-    weeks: createASS([] as Date[][], {
+    weeks: createASS<Date[][]>([], {
       equals: false,
     }),
   }

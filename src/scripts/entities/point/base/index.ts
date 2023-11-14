@@ -306,6 +306,10 @@ const createPopupEffect = <Zone extends MachineZone, Drop extends MachineDrop>(
       )
     })
 
+    point.information.forEach((field) => {
+      appendToPopup(translate(field.label), String(field.getValue()))
+    })
+
     return html
   })
 

@@ -44,6 +44,20 @@ export const TablePoints = (props: Props) => {
         0,
     )
 
+  const resetPointsNumbers = (points: BasePoint[]) =>
+    batch(() => {
+      let number = 1
+
+      points.forEach((point, index) => {
+        point.index.set(index)
+        point.number.set(number)
+
+        if (point.settings.isVisible()) {
+          number += 1
+        }
+      })
+    })
+
   return (
     <Table>
       <THead>
@@ -79,18 +93,7 @@ export const TablePoints = (props: Props) => {
           itemToId={(point) => point.id}
           draggedClasses={'!bg-gray-100'}
           onChange={(from, to) => {
-            const points = moveIndexInCopiedArray(props.points, from, to)
-
-            let number = 1
-
-            points.forEach((point, index) => {
-              point.index.set(index)
-              point.number.set(number)
-
-              if (point.settings.isVisible()) {
-                number += 1
-              }
-            })
+            resetPointsNumbers(moveIndexInCopiedArray(props.points, from, to))
           }}
           component={(ref, point) => {
             const color = createMemo(() => {
@@ -184,6 +187,7 @@ export const TablePoints = (props: Props) => {
                     }
                     onClick={() => {
                       point.settings.isVisible.set((b) => !b)
+                      resetPointsNumbers(props.points)
                     }}
                   />
                 </Td>

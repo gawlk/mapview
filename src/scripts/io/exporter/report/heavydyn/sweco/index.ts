@@ -255,7 +255,7 @@ const writeDisplacements = (
 
       const sensorData = [
         sensorName + sensorPosition + '[MPa;µm].',
-        1.0, // TODO
+        1.0,
         Array.from(drop.dataset.values())
           [index + 2].value.getValueAs('um')
           .toFixed(1),

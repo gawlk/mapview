@@ -7,7 +7,7 @@ interface Props extends ParentProps {
   isAbsolute: boolean
   close: Accessor<DialogCloseFunction | undefined>
   color?: ColorProp
-  footer?: JSXElement // TODO
+  footer?: JSXElement
   form?: JSXElement
 }
 
@@ -28,7 +28,6 @@ export const DialogBody = (props: Props) => {
               classes += 'py-2'
             }
           } else {
-            // TODO: Fix padding mess + pt-4 when nothing other than children
             classes += 'px-4 py-3'
             // if (props.footer) {
             //   classes += 'py-3'
@@ -40,7 +39,7 @@ export const DialogBody = (props: Props) => {
           return classes
         }),
 
-        '@container flex-1 overflow-y-auto',
+        'flex-1 overflow-y-auto @container',
       ])}
       style={{
         'overscroll-behavior': 'contain',

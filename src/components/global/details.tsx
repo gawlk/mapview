@@ -12,13 +12,7 @@ interface Props extends ParentProps, Omit<DetailsHTMLAttributes, 'onClick'> {
   onClick?: (open: boolean) => void
 }
 
-// TODO: Remove DialogButton and move text to button, rename to content
-
-// TODO: Add button props here and apply them to the opening button
-
 export const Details = (props: Props) => {
-  // TODO: Improve component
-
   const defaultOpen = props.defaultOpen || false
   let details: HTMLDetailsElement | undefined
 

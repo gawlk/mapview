@@ -84,7 +84,6 @@ export const DialogSelect = (props: DialogSelectPropsWithHTMLAttributes) => {
         ) : undefined
       }
       form={
-        /* TODO: Add props component that would be displayed before this div */
         <div
           class={classPropToString([
             isAbsolute() ? 'space-y-1.5' : 'space-y-2',

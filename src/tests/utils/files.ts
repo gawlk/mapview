@@ -18,7 +18,6 @@ export const compareFiles = (
   expected: Unzipped,
   options?: CompareFilesOptions,
 ) => {
-  // TODO: Move to a function unzippedToKeys
   let actualKeys = Object.keys(actual).filter(
     (key) => !filesToIgnore.some((file) => key.endsWith(file)),
   )

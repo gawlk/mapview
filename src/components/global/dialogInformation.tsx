@@ -104,7 +104,6 @@ export const DialogInformation = (props: Props) => {
 
                   const onInput = (newValue: string | undefined) => {
                     pendingChanges.set(id(), () => {
-                      // TODO: Keep one instead of both ?
                       field.setValue(newValue || '')
                       value = newValue || ''
                     })

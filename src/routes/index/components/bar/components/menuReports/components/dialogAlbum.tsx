@@ -21,7 +21,6 @@ export const DialogAlbum = () => {
       title={t('Album')}
     >
       <div class="flex h-full items-center space-x-4 overflow-x-auto px-6">
-        {/* TODO: Rename screenshots to album */}
         <For each={store.selectedReport()?.screenshots()}>
           {(image, index) => (
             <div class="mx-auto flex-none space-y-8">

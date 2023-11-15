@@ -25,7 +25,6 @@ export const createMaxidynDataLabelsFromJSON = (
     selectedIndex: jsonGroups.selectedIndex,
   })
 
-  // TODO: Undo deconstruction and add type to function
   return {
     ...createBaseDataLabelsFromJSON(jsonTable, groups),
     groups,

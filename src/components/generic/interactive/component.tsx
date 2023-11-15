@@ -12,7 +12,6 @@ interface Props extends MergePropsWithHTMLProps<InteractiveProps> {}
 export const Interactive = (props: Props) => {
   const containerProps = removeProps(props, interactiveBooleanPropsKeysObject)
 
-  // TODO: Instead of removing tell what we wanna keep
   const iconProps = removeProps(containerProps, {
     onClick: true,
     onclick: true,

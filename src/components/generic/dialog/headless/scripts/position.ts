@@ -36,7 +36,6 @@ export const createRelativePositionEffect = ({
         cleanup?.()
 
         if (
-          // TODO: Wait for a fix or fix it somehow
           // Portal breaks first intersection observer in Chrome
           // isIntersecting &&
           window.getComputedStyle(dialog).position === 'absolute' // Checking again for mobile iirc ?

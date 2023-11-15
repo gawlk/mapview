@@ -38,14 +38,13 @@ export const DialogTableData = () => {
         text: t('View all data'),
       }}
     >
-      <div class="@3xl:flex @3xl:h-full @3xl:space-y-0 space-y-2">
-        {/* TODO: Fix margins, not great */}
-        <div class="@3xl:-my-3 @3xl:-ml-4  @3xl:w-[320px] @3xl:p-4 flex flex-none flex-col space-y-2 overflow-y-auto">
+      <div class="space-y-2 @3xl:flex @3xl:h-full @3xl:space-y-0">
+        <div class="flex flex-none  flex-col space-y-2 overflow-y-auto @3xl:-my-3 @3xl:-ml-4 @3xl:w-[320px] @3xl:p-4">
           <SelectSource />
           <SelectIndex />
-          <DialogDivider class="@3xl:block -mx-4 hidden" />
+          <DialogDivider class="-mx-4 hidden @3xl:block" />
           <InputRadioHorizontal
-            class={'@3xl:inline-flex hidden'}
+            class={'hidden @3xl:inline-flex'}
             label="Zones"
             full
             values={{
@@ -63,11 +62,11 @@ export const DialogTableData = () => {
                 .from !== 'Zone'
             }
           >
-            <DialogDivider class="@3xl:block -mx-4 hidden" />
+            <DialogDivider class="-mx-4 hidden @3xl:block" />
             <SelectGroupBy />
           </Show>
-          <DialogDivider class="@3xl:block -mx-4 hidden" />
-          <div class="@3xl:hidden block">
+          <DialogDivider class="-mx-4 hidden @3xl:block" />
+          <div class="block @3xl:hidden">
             <Dialog
               closeable
               button={{
@@ -95,15 +94,15 @@ export const DialogTableData = () => {
             </Dialog>
           </div>
           <ButtonExport tables={tables} />
-          <DialogDivider class="@3xl:block -mx-4 hidden" />
-          <div class="@3xl:block hidden">
+          <DialogDivider class="-mx-4 hidden @3xl:block" />
+          <div class="hidden @3xl:block">
             <OptionsDataLabels />
           </div>
         </div>
         <Show when={store.selectedReport()?.dataLabels.table.selected()}>
           {(group) => (
             <div
-              class="@3xl:!-mr-4 @3xl:!-mt-3 @3xl:ml-0 @3xl:w-full @3xl:overflow-y-auto @3xl:border-l-2 @3xl:border-black/5 -mx-4 !-mb-3 overflow-x-auto overflow-y-visible"
+              class="-mx-4 !-mb-3 overflow-x-auto overflow-y-visible @3xl:!-mr-4 @3xl:!-mt-3 @3xl:ml-0 @3xl:w-full @3xl:overflow-y-auto @3xl:border-l-2 @3xl:border-black/5"
               ref={tables.set}
             >
               <Show

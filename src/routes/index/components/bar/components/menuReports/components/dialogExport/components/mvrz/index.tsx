@@ -21,7 +21,6 @@ export const MVRZ = (props: Props) => {
         {(_, index) => <Template index={index()} {...props} />}
       </For>
 
-      {/* TODO: Create a Link button very similar to the button without extending it, should've <a> html attributes */}
       <Button
         component={'a'}
         // @ts-expect-error - Temporary

@@ -30,7 +30,6 @@ export const Units = () => {
   }
 
   return (
-    // TODO: Create title element instead of using labels
     <Label size="lg" label={t('Units')} class="space-y-4">
       <For
         each={store

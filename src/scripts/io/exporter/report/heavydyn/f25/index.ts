@@ -9,10 +9,6 @@ import {
   trimAllLines,
 } from '/src/scripts'
 
-// TODO:
-// Everything is always in the same order, with same precision, spaces, etc
-// Test: Compare if strings are a match
-
 export const heavydynF25Exporter: HeavydynExporter = {
   name: '.F25',
   export: (project) => {
@@ -106,8 +102,6 @@ const writeEndHeader = (project: MachineProject): string => {
   )?.toString()
 
   const reportName = selectedReport?.name.toString()
-
-  // TODO: zones length ?
 
   return dedent`
       5023,1,3,0,${dmin.toString().padStart(8, ' ')},${(

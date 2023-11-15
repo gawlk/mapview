@@ -48,12 +48,9 @@ export const DialogSelect = (props: DialogSelectPropsWithHTMLAttributes) => {
     return option ? valueWithTextToJSXElement(option) : undefined
   }
 
-  // TODO: Show option icon if none
-
   return (
     <Dialog
       closeable
-      // TODO: Clean props before spreading
       {...props}
       button={mergeProps(
         {

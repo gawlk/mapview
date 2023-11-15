@@ -40,7 +40,7 @@ export const DialogBody = (props: Props) => {
           return classes
         }),
 
-        'flex-1 overflow-y-auto @container',
+        '@container flex-1 overflow-y-auto',
       ])}
       style={{
         'overscroll-behavior': 'contain',

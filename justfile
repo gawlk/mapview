@@ -90,3 +90,8 @@ lint:
 # check link
 lint-fix:
   pnpm eslint --fix './src'
+
+alias uci := update-ci
+update-ci:
+  pnpm vite build -c ./vite-lib.config.ts
+  node --loader tsx ./src/tests/utils/updater/updater.ts

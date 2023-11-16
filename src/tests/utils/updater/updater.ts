@@ -11,6 +11,8 @@ import {
   loadMpvz,
   mpvzExporter,
   mvrzExporter,
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore during test on gitlab the types isn't generated so ts break
 } from 'dist/main'
 import { Image as happyImage, Window } from 'happy-dom'
 

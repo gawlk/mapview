@@ -62,52 +62,52 @@ export const loadFiles = async (dirPath: string, folderName?: string) => {
         case 'mpvz': {
           const project = await importFile(file)
 
-          if (!project) return
+          if (project) {
+            store.pushAndSelectProject(project)
 
-          store.pushAndSelectProject(project)
+            promises.push(
+              // eslint-disable-next-line no-async-promise-executor
+              new Promise(async (resolve) => {
+                const unzipped = await unzipFile(file)
 
-          promises.push(
-            // eslint-disable-next-line no-async-promise-executor
-            new Promise(async (resolve) => {
-              const unzipped = await unzipFile(file)
+                const raws = Object.keys(unzipped).filter((key) =>
+                  key.match(/rawdata\/\w+/),
+                )
 
-              const raws = Object.keys(unzipped).filter((key) =>
-                key.match(/rawdata\/\w+/),
-              )
+                if (raws.length < 1) {
+                  resolve(true)
+                }
 
-              if (raws.length < 1) {
+                let needsInit = true
+
+                // rawdata and screenshoot are load in async so we wetting for the data to be init
+                while (needsInit) {
+                  const points = getAllPointsFromProject(project)
+
+                  const status: boolean[] = []
+
+                  raws.forEach((key) => {
+                    const id = key.split('/')[1]
+                    const point = points.find(
+                      (p) => removeLeading0s(p.id) === removeLeading0s(id),
+                    )
+
+                    status.push(point?.rawDataFile()?.byteLength === undefined)
+                  })
+
+                  needsInit = status.every((value) => value)
+
+                  await sleep(250)
+                }
+
                 resolve(true)
-              }
+              }),
+            )
 
-              let needsInit = true
-
-              // rawdata and screenshoot are load in async so we wetting for the data to be init
-              while (needsInit) {
-                const points = getAllPointsFromProject(project)
-
-                const status: boolean[] = []
-
-                raws.forEach((key) => {
-                  const id = key.split('/')[1]
-                  const point = points.find(
-                    (p) => removeLeading0s(p.id) === removeLeading0s(id),
-                  )
-
-                  status.push(point?.rawDataFile()?.byteLength === undefined)
-                })
-
-                needsInit = status.every((value) => value)
-
-                await sleep(250)
-              }
-
-              resolve(true)
-            }),
-          )
-
-          filesGroup[extension === 'mpvz' ? 'mpvz' : 'prjz'] = {
-            file,
-            project,
+            filesGroup[extension === 'mpvz' ? 'mpvz' : 'prjz'] = {
+              file,
+              project,
+            }
           }
           break
         }

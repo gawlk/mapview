@@ -1,24 +1,24 @@
 type InteractiveProps = InteractivePropsOnly & ContainerProps
 
 interface InteractivePropsOnly {
-  kind?: 'clickable' | 'focusable' | 'static'
+  readonly kind?: 'clickable' | 'focusable' | 'static'
 
-  label?: string
-  suffix?: string
+  readonly label?: string
+  readonly suffix?: string
 
-  full?: boolean
+  readonly full?: boolean
 
-  center?: boolean
+  readonly center?: boolean
 
-  icon?: IconProp
-  iconClass?: ClassProp
-  iconStyle?: StyleProp
+  readonly icon?: IconProp
+  readonly iconClass?: ClassProp
+  readonly iconStyle?: StyleProp
 
-  leftIcon?: IconProp
-  leftIconClass?: ClassProp
-  leftIconStyle?: StyleProp
+  readonly leftIcon?: IconProp
+  readonly leftIconClass?: ClassProp
+  readonly leftIconStyle?: StyleProp
 
-  rightIcon?: IconProp
-  rightIconClass?: ClassProp
-  rightIconStyle?: StyleProp
+  readonly rightIcon?: IconProp
+  readonly rightIconClass?: ClassProp
+  readonly rightIconStyle?: StyleProp
 }

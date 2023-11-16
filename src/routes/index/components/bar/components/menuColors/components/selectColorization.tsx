@@ -17,7 +17,7 @@ export const SelectColorization = () => {
       }}
       attached
       values={{
-        selected: t(store.selectedReport?.settings.colorization || ''),
+        selected: t(store.selectedReport()?.settings.colorization() || ''),
         list: possibilities.map((possibility) => ({
           value: possibility,
           text: t(possibility),
@@ -25,10 +25,10 @@ export const SelectColorization = () => {
       }}
       onClose={(value) => {
         value &&
-          store.selectedReport &&
           (possibilities as string[]).includes(value) &&
-          (store.selectedReport.settings.colorization =
-            value as ReportColorization)
+          store
+            .selectedReport()
+            ?.settings.colorization.set(value as ReportColorization)
       }}
     />
   )

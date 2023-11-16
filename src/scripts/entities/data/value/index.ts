@@ -1,26 +1,28 @@
 import { createMathNumber } from '/src/scripts'
 
 export const createDataValue = (
-  value: number,
+  _value: Accessor<number>,
   label: DataLabel<string>,
-): DataValue<string> => {
-  return {
+) => {
+  const value = createMathNumber(_value, label.unit)
+
+  const dataValue: DataValue<string> = {
     label,
-    value: createMathNumber(value, label.unit),
-    getRawValue() {
-      return this.value.value
-    },
+    value,
+    rawValue: value.value,
     toJSON() {
       return {
         version: 1,
         label: this.label.name,
-        value: this.getRawValue(),
+        value: this.rawValue(),
       }
     },
     toExcel() {
       return this.value.toExcel(true)
     },
   }
+
+  return dataValue
 }
 
 export const createDataValueFromJSON = (
@@ -33,7 +35,7 @@ export const createDataValueFromJSON = (
     (dataLabel) => dataLabel.name === json.label,
   ) as DataLabel<string>
 
-  return createDataValue(json.value, label)
+  return createDataValue(() => json.value, label)
 }
 
 const upgradeJSON = (json: JSONDataValueVAny): JSONDataValue => {

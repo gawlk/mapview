@@ -20,7 +20,7 @@ export const mapStyles = [
 export const waitForMap = () =>
   new Promise<boolean>((resolve) => {
     const interval = setInterval(() => {
-      if (!store.map || store.map?.isStyleLoaded()) {
+      if (!store.map() || store.map()?.isStyleLoaded()) {
         clearInterval(interval)
 
         resolve(true)
@@ -32,7 +32,7 @@ export const createMap = (container: string): mapboxgl.Map => {
   const map = new Map({
     container,
     style: navigator?.onLine
-      ? mapStyles[store.selectedProject?.settings.map?.styleIndex || 0]
+      ? mapStyles[store.selectedProject()?.settings.map?.styleIndex() || 0]
       : { version: 8, sources: {}, layers: [] },
     center: [2.419263, 48.621551], // [lng, lat]
     zoom: 2,
@@ -46,7 +46,7 @@ export const createMap = (container: string): mapboxgl.Map => {
       'online',
       () => {
         map.setStyle(
-          mapStyles[store.selectedProject?.settings.map.styleIndex || 0],
+          mapStyles[store.selectedProject()?.settings.map.styleIndex() || 0],
         )
       },
       {
@@ -69,29 +69,26 @@ export const createMap = (container: string): mapboxgl.Map => {
     })
   }
 
-  map.on('moveend', () => {
-    if (store.selectedProject) {
-      store.selectedProject.settings.map.coordinates = map.getCenter()
-    }
-  })
+  map.on(
+    'moveend',
+    () =>
+      store.selectedProject()?.settings.map.coordinates.set(map.getCenter()),
+  )
 
-  map.on('zoomend', () => {
-    if (store.selectedProject) {
-      store.selectedProject.settings.map.zoom = map.getZoom()
-    }
-  })
+  map.on(
+    'zoomend',
+    () => store.selectedProject()?.settings.map.zoom.set(map.getZoom()),
+  )
 
-  map.on('pitchend', () => {
-    if (store.selectedProject) {
-      store.selectedProject.settings.map.pitch = map.getPitch()
-    }
-  })
+  map.on(
+    'pitchend',
+    () => store.selectedProject()?.settings.map.pitch.set(map.getPitch()),
+  )
 
-  map.on('rotateend', () => {
-    if (store.selectedProject) {
-      store.selectedProject.settings.map.rotation = map.getBearing()
-    }
-  })
+  map.on(
+    'rotateend',
+    () => store.selectedProject()?.settings.map.rotation.set(map.getBearing()),
+  )
 
   map.on('style.load', () => {
     addDummyLayersToMap(map)
@@ -100,7 +97,7 @@ export const createMap = (container: string): mapboxgl.Map => {
 
     addBuildingsToMap(map)
 
-    store.selectedProject?.refreshLinesAndOverlays()
+    store.selectedProject()?.refreshLinesAndOverlays()
   })
 
   return map
@@ -194,7 +191,7 @@ export const flyToPoints = (
   const bounds = new LngLatBounds()
 
   points.forEach((point) => {
-    if (point.settings.isVisible && point.marker) {
+    if (point.settings.isVisible() && point.marker) {
       bounds.extend(point.marker.getLngLat())
     }
   })
@@ -208,12 +205,12 @@ export const flyToPoints = (
 
   const sw = {
     lat: bounds.getSouth() - verticalPadding,
-    lng: bounds.getWest() + horizontalPadding,
+    lng: bounds.getWest() - horizontalPadding,
   }
 
   const ne = {
     lat: bounds.getNorth() + verticalPadding,
-    lng: bounds.getEast() - horizontalPadding,
+    lng: bounds.getEast() + horizontalPadding,
   }
 
   map?.fitBounds(new LngLatBounds(sw, ne))

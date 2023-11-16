@@ -6,12 +6,10 @@ export const ButtonMarkersMoveability = () => {
     <Button
       size="sm"
       onClick={() => {
-        store.selectedProject &&
-          (store.selectedProject.settings.arePointsLocked =
-            !store.selectedProject.settings.arePointsLocked)
+        store.selectedProject()?.settings.arePointsLocked.set((b) => !b)
       }}
       icon={
-        store.selectedProject?.settings.arePointsLocked
+        store.selectedProject()?.settings.arePointsLocked()
           ? IconTablerLock
           : IconTablerLockOpen
       }

@@ -21,7 +21,7 @@
     "tsconfigRootDir": "src/"
   },
   "plugins": ["@typescript-eslint", "sonarjs", "solid"],
-  "ignorePatterns": ["*.config.*"],
+  "ignorePatterns": ["*.config.*", "node_modules/", "out/", "dist/", "build/"],
   "rules": {
     // ---
     // Solid

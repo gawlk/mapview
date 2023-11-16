@@ -16,7 +16,7 @@ export const SelectMapStyle = () => {
   ]
 
   const background = createMemo(
-    () => stylesImages[store.selectedProject?.settings.map.styleIndex || 0],
+    () => stylesImages[store.selectedProject()?.settings.map.styleIndex() || 0],
   )
 
   return (
@@ -37,9 +37,10 @@ export const SelectMapStyle = () => {
         })),
       }}
       onClose={(index) => {
-        if (index && store.selectedProject) {
-          store.selectedProject.settings.map.styleIndex = Number(index)
-        }
+        index &&
+          store
+            .selectedProject()
+            ?.settings.map.styleIndex.set(() => Number(index) as MapStyleIndex)
       }}
     />
   )

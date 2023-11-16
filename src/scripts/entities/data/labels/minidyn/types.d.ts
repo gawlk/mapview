@@ -64,18 +64,18 @@ type MinidynDataLabelsGroups = [
 ]
 
 interface MinidynDropDataLabelsGroup
-  extends BaseDropDataLabelsGroup<MinidynDropIndex> {
+  extends BaseDropDataLabelsGroup<string, MinidynDropIndex>,
+    SerializableObject<JSONMinidynDropDataLabelsGroup> {
   readonly indexes: SelectableList<MinidynDropIndex>
-  toJSON: () => JSONMinidynDropDataLabelsGroup
 }
 
-interface MinidynTestDataLabelsGroup extends BaseTestDataLabelsGroup {
-  toJSON: () => JSONMinidynTestDataLabelsGroup
-}
+interface MinidynTestDataLabelsGroup
+  extends BaseTestDataLabelsGroup<string>,
+    SerializableObject<JSONMinidynTestDataLabelsGroup> {}
 
-interface MinidynZoneDataLabelsGroup extends BaseZoneDataLabelsGroup {
-  toJSON: () => JSONMinidynZoneDataLabelsGroup
-}
+interface MinidynZoneDataLabelsGroup
+  extends BaseZoneDataLabelsGroup<string>,
+    SerializableObject<JSONMinidynZoneDataLabelsGroup> {}
 
 // interface MinidynTableDataLabelsParameters
 //   extends BaseTableDataLabelsParameters {

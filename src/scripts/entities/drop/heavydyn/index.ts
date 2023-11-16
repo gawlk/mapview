@@ -10,18 +10,16 @@ export const createHeavydynDropFromJSON = (
 ) => {
   json = upgradeJSONDrop(json)
 
-  const dropGroup = parameters.point.zone.report.dataLabels.groups.list[0]
+  const dropGroup = parameters.point.zone().report().dataLabels.groups.list()[0]
 
-  const index = dropGroup?.indexes?.list[json.base.index]
+  const index = dropGroup?.indexes?.list()[json.base.index]
 
-  const baseDrop = createBaseDropFromJSON(json.base, {
-    point: parameters.point,
-    index,
-    dropGroup,
-  })
-
-  return createMutable<HeavydynDrop>({
-    ...baseDrop,
+  const drop: HeavydynDrop = {
+    ...createBaseDropFromJSON(json.base, {
+      point: parameters.point,
+      index,
+      dropGroup,
+    }),
     machine: 'Heavydyn',
     toJSON() {
       return {
@@ -32,7 +30,9 @@ export const createHeavydynDropFromJSON = (
         },
       }
     },
-  })
+  }
+
+  return drop
 }
 
 const upgradeJSONDrop = (json: JSONHeavydynDropVAny): JSONHeavydynDrop => {
@@ -60,7 +60,7 @@ export const createHeavydynDropIndexFromJSON = (
     type: json.distinct.type,
     value: createMathNumber(
       json.distinct.value,
-      parameters.project.units[unitName as keyof HeavydynMathUnits],
+      parameters.project.units[unitName as HeavydynUnitsNames],
     ),
     toJSON() {
       return {

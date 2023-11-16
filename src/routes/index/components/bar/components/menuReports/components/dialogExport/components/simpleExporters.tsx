@@ -8,13 +8,10 @@ import {
 import { store } from '/src/store'
 
 export const SimpleExporters = (props: NavigatorComponentProps) => {
-  const simpleExports = createMemo(() => [
-    ...(store.selectedReport
-      ? getSimpleReportExports(
-          store.selectedReport as unknown as MachineProject,
-        )
-      : []),
-  ])
+  const simpleExports = createMemo(() => {
+    const selectedProject = store.selectedProject()
+    return selectedProject ? getSimpleReportExports(selectedProject) : []
+  })
 
   return (
     <div class="space-y-2">
@@ -34,11 +31,10 @@ export const SimpleExporters = (props: NavigatorComponentProps) => {
             rightIcon={IconTablerDownload}
             onClick={() => {
               void run(async () => {
-                store.selectedProject &&
-                  downloadFile(
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    await exporter.export(store.selectedProject as any),
-                  )
+                const selectedProject = store.selectedProject()
+                selectedProject &&
+                  // @ts-expect-error Types failing
+                  downloadFile(await exporter.export(selectedProject))
               })
             }}
           >

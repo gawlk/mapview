@@ -60,4 +60,6 @@ export const insertHeavydynDataLabel = (
   } else {
     list.splice(maxIndex, 0, dataLabel)
   }
+
+  return list
 }

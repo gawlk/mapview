@@ -7,13 +7,13 @@ export const SelectDataLabel = () => {
   const { t } = useAppState()
 
   const selectedDataLabelGroupChoices = createMemo(
-    () => store.selectedReport?.dataLabels.groups.selected?.choices,
+    () => store.selectedReport()?.dataLabels.groups.selected()?.choices,
   )
 
   const groupedDataLabels = createMemo(
     () =>
       groupDataLabelsByCategory(
-        selectedDataLabelGroupChoices()?.list || [],
+        selectedDataLabelGroupChoices()?.list() || [],
       ).map(([category, dataLabels]) => ({
         name: category.name,
         list: dataLabels.map((dataLabel) => ({
@@ -30,7 +30,7 @@ export const SelectDataLabel = () => {
         label: t('Label'),
         leftIcon: IconTablerListSearch,
         text: () => (
-          <Show when={selectedDataLabelGroupChoices()?.selected}>
+          <Show when={selectedDataLabelGroupChoices()?.selected()}>
             {(dataLabel) => (
               <SpanDataLabel dataLabel={dataLabel()} includeCategory />
             )}

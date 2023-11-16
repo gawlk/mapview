@@ -18,7 +18,6 @@ export const InputRadioHorizontal = (props: Props) => {
   const { t } = useAppState()
 
   return (
-    // TODO: Should be interactive ?
     <Container
       bgColor="base"
       border={false}

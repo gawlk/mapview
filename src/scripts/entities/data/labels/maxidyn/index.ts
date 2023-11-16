@@ -1,7 +1,4 @@
-import {
-  createMaxidynDropIndexFromJSON,
-  createSelectableList,
-} from '/src/scripts'
+import { createMaxidynDropIndexFromJSON, createSL } from '/src/scripts'
 
 import {
   createBaseDataLabelsFromJSON,
@@ -24,11 +21,10 @@ export const createMaxidynDataLabelsFromJSON = (
     createMaxidynZoneDataLabelsGroupFromJSON(jsonGroups.list[2], project),
   ]
 
-  const groups = createSelectableList(list, {
+  const groups = createSL(list, {
     selectedIndex: jsonGroups.selectedIndex,
   })
 
-  // TODO: Undo deconstruction and add type to function
   return {
     ...createBaseDataLabelsFromJSON(jsonTable, groups),
     groups,
@@ -48,7 +44,7 @@ export const createMaxidynDataLabelsGroupsFromJSON = (
     createMaxidynZoneDataLabelsGroupFromJSON(json.list[2], project),
   ]
 
-  return createSelectableList(list, {
+  return createSL(list, {
     selectedIndex: json.selectedIndex,
   })
 }
@@ -57,7 +53,7 @@ export const createMaxidynDropDataLabelsGroupFromJSON = (
   json: JSONMaxidynDropDataLabelsGroup,
   project: MaxidynProject,
 ): MaxidynDropDataLabelsGroup => {
-  const indexes = createSelectableList(
+  const indexes = createSL(
     json.distinct.indexes.list.map((jsonDropIndex) =>
       createMaxidynDropIndexFromJSON(jsonDropIndex),
     ),
@@ -130,14 +126,18 @@ export const selectMaxidynGroupChoiceFromJSON = (
   report: MaxidynReport,
   json: JSONMaxidynReport,
 ) => {
-  report.dataLabels.groups.list.forEach((group, index) => {
-    const indexModulus = group.choices.list.findIndex(
-      (dataLabel) => dataLabel.name === 'Modulus',
-    )
+  report.dataLabels.groups.list().forEach((group, index) => {
+    const indexModulus = group.choices
+      .list()
+      .findIndex((dataLabel) => dataLabel.name === 'Modulus')
+
+    const jsonIndex =
+      json.distinct.dataLabels.list[index].base.choices.selectedIndex
 
     group.choices.selectIndex(
-      json.distinct.dataLabels.list[index].base.choices.selectedIndex ??
-        (indexModulus === -1 ? 0 : indexModulus),
+      jsonIndex ?? (indexModulus === -1 ? 0 : indexModulus),
     )
+
+    !group.choices.selected() && group.choices.selectIndex(0)
   })
 }

@@ -21,7 +21,6 @@ export const MVRZ = (props: Props) => {
         {(_, index) => <Template index={index()} {...props} />}
       </For>
 
-      {/* TODO: Create a Link button very similar to the button without extending it, should've <a> html attributes */}
       <Button
         component={'a'}
         // @ts-expect-error - Temporary
@@ -43,13 +42,11 @@ export const MVRZ = (props: Props) => {
           leftIcon={IconTablerFileZip}
           rightIcon={IconTablerDownload}
           onClick={() => {
-            void run(
-              async () =>
-                store.projects.selected &&
-                downloadFile(
-                  await mvrzExporter.export(store.projects.selected),
-                ),
-            )
+            void run(async () => {
+              const selectedProject = store.selectedProject()
+              selectedProject &&
+                downloadFile(await mvrzExporter.export(selectedProject))
+            })
           }}
           full
         >

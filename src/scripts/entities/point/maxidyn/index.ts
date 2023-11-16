@@ -11,7 +11,7 @@ export const createMaxidynPointFromJSON = (
 ) => {
   json = upgradeJSON(json)
 
-  const point = createMutable<MaxidynPoint>({
+  const point: MaxidynPoint = {
     ...createBasePointFromJSON(json.base, map, {
       zone: parameters.zone,
       information: json.base.information,
@@ -27,7 +27,7 @@ export const createMaxidynPointFromJSON = (
         },
       }
     },
-  })
+  }
 
   point.drops.push(
     ...json.base.drops.map((jsonDrop) =>

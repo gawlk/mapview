@@ -6,5 +6,5 @@ type JSONMinidynThresholdsConfigurationsVAny =
   JSONMinidynThresholdsConfigurations
 
 type JSONMinidynThresholdsConfigurations = {
-  version: 1
+  readonly version: 1
 } & MinidynUnitsSkeleton<JSONDistinctThresholdsConfiguration>

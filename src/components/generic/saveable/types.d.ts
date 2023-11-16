@@ -1,5 +1,4 @@
 interface SaveableProps {
-  id?: string
-
-  saveable?: string
+  readonly id?: string
+  readonly saveable?: string
 }

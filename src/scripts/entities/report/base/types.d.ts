@@ -16,43 +16,40 @@ interface JSONBaseReport {
   readonly thresholds: JSONBaseThresholdsSettings
 }
 
-// Settings only
+interface JSONReportSettings {
+  readonly version: 1
+  readonly iconName: IconNameVAny
+  readonly isVisible: boolean
+  readonly colorization: ReportColorization
+  readonly groupBy: ReportGroupBy
+}
+
 interface JSONBaseThresholdsSettings {
   readonly version: 1
-  colors: JSONThresholdColors
-  inputs: JSONThresholdInputs
-  readonly colors: JSONThresholdColorsVAny
   readonly inputs: JSONThresholdInputs
+  readonly colors: JSONThresholdColorsVAny
 }
 
 type JSONThresholdColorsVAny = JSONThresholdColors | JSONThresholdColorsV1
 
 interface JSONThresholdColors {
   readonly version: 2
-  low: ColorName
-  middle: ColorName
-  high: ColorName
+  readonly low: ColorName
+  readonly middle: ColorName
+  readonly high: ColorName
 }
 
 interface JSONThresholdColorsV1 {
   readonly version: 1
-  low: ColorNameV1
-  middle: ColorNameV1
-  high: ColorNameV1
+  readonly low: ColorNameV1
+  readonly middle: ColorNameV1
+  readonly high: ColorNameV1
 }
 
 interface JSONThresholdInputs {
   readonly version: 1
-  isRequiredARange: boolean
-  isOptionalARange: boolean
-}
-
-interface JSONReportSettings {
-  readonly version: 1
-  iconName: IconName
-  isVisible: boolean
-  colorization: ReportColorization
-  groupBy: ReportGroupBy
+  readonly isRequiredARange: boolean
+  readonly isOptionalARange: boolean
 }
 
 type ReportColorization = 'Threshold' | 'Zone'
@@ -72,17 +69,22 @@ interface BaseReport<
     Entity<'Report'> {
   readonly name: Field
   readonly line: Line
-  readonly zones: Zone[]
-  readonly screenshots: string[]
+  readonly sortedPoints: Accessor<BasePoint[]>
+  readonly zones: ASS<Zone[]>
+  readonly screenshots: ASS<string[]>
   readonly dataLabels: DataLabels
   readonly thresholds: Thresholds
-  readonly settings: JSONReportSettings
+  readonly settings: BaseReportSettings
   readonly platform: Field[]
   readonly information: Field[]
-  project: Project
-  isOnMap: boolean
-  readonly fitOnMap: () => void
-  readonly addToMap: () => void
-  readonly remove: () => void
-  readonly getExportablePoints: () => BasePoint[]
+  readonly project: ASS<Project>
+  readonly exportablePoints: Accessor<BasePoint[]>
+  readonly fitOnMap: VoidFunction
+}
+
+interface BaseReportSettings {
+  readonly iconName: ASS<IconName>
+  readonly isVisible: ASS<boolean>
+  readonly colorization: ASS<ReportColorization>
+  readonly groupBy: ASS<ReportGroupBy>
 }

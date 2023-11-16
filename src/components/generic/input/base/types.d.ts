@@ -6,24 +6,24 @@ type InputPropsWithHTMLAttributes = MergePropsWithHTMLProps<
 type InputProps = InputPropsOnly & InteractiveProps
 
 interface InputPropsOnly extends SaveableProps {
-  value?: string | number
+  readonly value?: string | number
 
-  max?: number
+  readonly max?: number
 
-  min?: number
+  readonly min?: number
 
-  for?: string
+  readonly for?: string
 
-  debounce?: number
+  readonly debounce?: number
 
-  fixable?: boolean
+  readonly fixable?: boolean
 
-  long?: boolean
+  readonly long?: boolean
 
-  bind?: boolean
+  readonly bind?: boolean
 
-  onInput?: (value?: string, event?: InputEvent) => void
+  readonly onInput?: (value?: string, event?: InputEvent) => void
 
-  ref?: (ref?: HTMLInputElement) => void
-  wrapperRef?: (ref?: HTMLDivElement) => void
+  readonly ref?: (ref?: HTMLInputElement) => void
+  readonly wrapperRef?: (ref?: HTMLDivElement) => void
 }

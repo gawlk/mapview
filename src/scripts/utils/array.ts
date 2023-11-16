@@ -1,4 +1,4 @@
-export const moveIndexInCopiedArray = <T>(
+export const moveIndexInCopiedArray = <T,>(
   originalArray: T[],
   oldIndex: number,
   newIndex: number,
@@ -11,3 +11,6 @@ export const moveIndexInCopiedArray = <T>(
 
   return copiedArray
 }
+
+export const isSorted = (arr: number[]) =>
+  arr.every((v, i, a) => !i || a[i - 1] <= v)

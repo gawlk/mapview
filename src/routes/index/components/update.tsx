@@ -8,7 +8,7 @@ export const Update = () => {
   return (
     <Sticky
       onClose={() => {
-        store.updateAvailable = false
+        store.updateAvailable.set(false)
       }}
     >
       <span> {t('A new version is available')}. </span>{' '}

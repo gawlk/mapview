@@ -3,7 +3,6 @@ type DialogValuesProps = ValuesProps<
 >
 
 interface GroupedDialogSelectOptionsProps {
-  name: string
-  // TODO: Change to ValuesListProps ?
-  list: ValueWithTextProps[]
+  readonly name: string
+  readonly list: ValueWithTextProps[]
 }

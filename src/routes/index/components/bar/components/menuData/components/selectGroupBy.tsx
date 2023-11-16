@@ -16,7 +16,7 @@ export const SelectGroupBy = () => {
       }}
       attached
       values={{
-        selected: t(store.selectedReport?.settings.groupBy || ''),
+        selected: t(store.selectedReport()?.settings.groupBy() || ''),
         list: groupBys.map((s) => ({
           value: s,
           text: t(s),
@@ -24,9 +24,8 @@ export const SelectGroupBy = () => {
       }}
       onClose={(value) => {
         value &&
-          store.selectedReport &&
           (groupBys as string[]).includes(value) &&
-          (store.selectedReport.settings.groupBy = value as ReportGroupBy)
+          store.selectedReport()?.settings.groupBy.set(value as ReportGroupBy)
       }}
     />
   )

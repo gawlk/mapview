@@ -23,10 +23,10 @@ interface MathUnit<PossibleUnits> {
   readonly possibleSettings: [PossibleUnits, number][]
   readonly possiblePrecisions: number[]
   readonly readOnly: boolean
-  min: number
-  max: number
-  currentUnit: PossibleUnits
-  currentPrecision: number
+  readonly min: ASS<number>
+  readonly max: ASS<number>
+  readonly currentUnit: ASS<PossibleUnits>
+  readonly currentPrecision: ASS<number>
   readonly capValue: (value: number) => number
   readonly getAverage: (values: number[]) => number
   readonly currentToBase: (value: number) => number

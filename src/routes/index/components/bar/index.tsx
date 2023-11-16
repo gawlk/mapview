@@ -1,4 +1,5 @@
 import { useAppState } from '/src/index'
+import { createASS } from '/src/scripts'
 import { store } from '/src/store'
 
 import { BarDesktop } from './components/barDesktop'
@@ -18,18 +19,21 @@ export const Bar = () => {
       name: t('Project'),
       icon: IconTablerFolders,
       component: MenuProject,
+      openedOnMobile: createASS(false),
     },
     {
       id: 'map',
       name: t('Map'),
       icon: IconTablerMap,
       component: MenuMap,
+      openedOnMobile: createASS(false),
     },
     {
       id: 'reports',
       name: t('Reports'),
       icon: IconTablerFiles,
       component: MenuReports,
+      openedOnMobile: createASS(false),
     },
     {
       id: 'colors',
@@ -37,6 +41,7 @@ export const Bar = () => {
       icon: IconTablerRainbow,
       component: MenuColors,
       needsReport: true,
+      openedOnMobile: createASS(false),
     },
     {
       id: 'data',
@@ -46,8 +51,9 @@ export const Bar = () => {
       needsReport: true,
       style: 'max-height: 75vh; max-height: 75dvh',
       class: 'overflow-y-auto !p-0',
+      openedOnMobile: createASS(false),
     },
-  ].map((menu) => createMutable(menu))
+  ]
 
   const [id, setID] = createSignal<string | undefined>(undefined)
 
@@ -55,7 +61,7 @@ export const Bar = () => {
     <>
       <BarDesktop menus={menus} setID={(_id) => setID(_id)} />
       <BarMobile menus={menus} setID={(_id) => setID(_id)} />
-      <Show when={store.selectedProject}>
+      <Show when={store.selectedProject()}>
         <For each={menus}>
           {(menu) => {
             const element = createMemo(

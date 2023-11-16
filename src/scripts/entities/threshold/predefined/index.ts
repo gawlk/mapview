@@ -1,4 +1,4 @@
-import { baseHexColor, colors } from '/src/scripts'
+import { baseHexColor, colors, createASS } from '/src/scripts'
 
 export const createPredefinedThreshold = (
   name: string,
@@ -8,22 +8,22 @@ export const createPredefinedThreshold = (
   return {
     kind: 'predefined',
     name,
-    value,
+    value: createASS(value),
     unit,
-    getColor(mathNumber: MathNumber, jsonColors: JSONThresholdColors) {
+    getColor(mathNumber, thresholdColors) {
       if (unit !== mathNumber.unit) {
         throw Error('Got a mathnumber with a different unit than expected')
       }
 
-      if (!mathNumber.checkValidity()) {
+      if (!mathNumber.isValid()) {
         return baseHexColor
       }
 
-      const hexColorLow = colors[jsonColors.low]
-      const hexColorHigh = colors[jsonColors.high]
+      const hexColorLow = colors[thresholdColors.low()]
+      const hexColorHigh = colors[thresholdColors.high()]
 
-      return mathNumber.displayedValue <
-        unit.baseToCurrent(unit.capValue(this.value))
+      return mathNumber.displayedValue() <
+        unit.baseToCurrent(unit.capValue(this.value()))
         ? hexColorLow
         : hexColorHigh
     },

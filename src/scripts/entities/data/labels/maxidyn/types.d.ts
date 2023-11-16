@@ -64,18 +64,18 @@ type MaxidynDataLabelsGroups = [
 ]
 
 interface MaxidynDropDataLabelsGroup
-  extends BaseDropDataLabelsGroup<MaxidynDropIndex> {
+  extends BaseDropDataLabelsGroup<string, MaxidynDropIndex>,
+    SerializableObject<JSONMaxidynDropDataLabelsGroup> {
   readonly indexes: SelectableList<MaxidynDropIndex>
-  toJSON: () => JSONMaxidynDropDataLabelsGroup
 }
 
-interface MaxidynTestDataLabelsGroup extends BaseTestDataLabelsGroup {
-  toJSON: () => JSONMaxidynTestDataLabelsGroup
-}
+interface MaxidynTestDataLabelsGroup
+  extends BaseTestDataLabelsGroup<string>,
+    SerializableObject<JSONMaxidynTestDataLabelsGroup> {}
 
-interface MaxidynZoneDataLabelsGroup extends BaseZoneDataLabelsGroup {
-  toJSON: () => JSONMaxidynZoneDataLabelsGroup
-}
+interface MaxidynZoneDataLabelsGroup
+  extends BaseZoneDataLabelsGroup<string>,
+    SerializableObject<JSONMaxidynZoneDataLabelsGroup> {}
 
 // interface MaxidynTableDataLabelsParameters
 //   extends BaseTableDataLabelsParameters {

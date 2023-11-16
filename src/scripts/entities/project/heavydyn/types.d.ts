@@ -50,9 +50,10 @@ interface JSONSensor {
 
 interface HeavydynProject
   extends HeavydynObject<JSONHeavydynProject>,
-    BaseProject<HeavydynReport, HeavydynMathUnits> {
-  calibrations: HeavydynCalibrations
-  correctionParameters: HeavydynCorrectionParameters
+    BaseProject<HeavydynReport, HeavydynMathUnits>,
+    DisposableObject {
+  readonly calibrations: HeavydynCalibrations
+  readonly correctionParameters: HeavydynCorrectionParameters
 }
 
 interface HeavydynCalibrations {

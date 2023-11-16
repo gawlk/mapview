@@ -6,25 +6,36 @@ import { store } from '/src/store'
 export const ButtonFileOverlay = () => {
   const { t } = useAppState()
 
-  const hasOverlays = createMemo(() => store.selectedProject?.overlays.length)
+  const hasOverlays = createMemo(
+    () => store.selectedProject()?.overlays().length,
+  )
 
   return (
     <ButtonFile
       {...(!hasOverlays() ? { leftIcon: IconTablerPhoto, full: true } : {})}
+      // eslint-disable-next-line solid/reactivity
       onFiles={async (files) => {
         const file = files?.[0]
 
-        if (file && store.selectedProject) {
+        const selectedProject = store.selectedProject()
+
+        if (file && selectedProject) {
           const data64 = await convertFileToDataURL(file)
 
-          const overlay = await createOverlay(data64, store.map, {
-            version: 1,
-            name: file.name,
+          const overlay = await createOverlay(
+            data64,
+            store.map(),
+            {
+              version: 1,
+              name: file.name,
+            },
+            selectedProject,
+          )
+
+          selectedProject.overlays.set((l) => {
+            l.push(overlay)
+            return l
           })
-
-          store.selectedProject.overlays.push(overlay)
-
-          overlay.addToMap(store.selectedProject.settings.areOverlaysVisible)
         }
       }}
     >

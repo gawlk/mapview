@@ -11,17 +11,17 @@ type AnyExporter =
   | MinidynExporter
 
 interface MachineExporter extends Exporter {
-  export: (project: MachineProject) => Promise<File>
+  readonly export: (project: MachineProject) => Promise<File>
 }
 
 interface HeavydynExporter extends Exporter {
-  export: (project: HeavydynProject) => File
+  readonly export: (project: HeavydynProject) => File
 }
 
 interface MaxidynExporter extends Exporter {
-  export: (project: MaxidynProject) => Promise<File>
+  readonly export: (project: MaxidynProject) => Promise<File>
 }
 
 interface MinidynExporter extends Exporter {
-  export: (project: MinidynProject) => Promise<File>
+  readonly export: (project: MinidynProject) => Promise<File>
 }

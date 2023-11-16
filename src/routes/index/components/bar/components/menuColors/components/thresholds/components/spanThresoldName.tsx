@@ -1,8 +1,8 @@
 import { useAppState } from '/src/index'
 
 interface Props {
-  threshold: AnyThreshold
-  mathUnit?: MathUnit<string>
+  readonly threshold: AnyThreshold
+  readonly mathUnit?: MathUnit<string>
 }
 
 export const SpanThresholdName = (props: Props) => {
@@ -23,21 +23,21 @@ export const SpanThresholdName = (props: Props) => {
       <Show
         when={
           props.threshold.kind === 'custom' &&
-          props.threshold.type !== 'Bicolor' &&
+          props.threshold.type() !== 'Bicolor' &&
           props.threshold.value !== props.threshold.valueHigh &&
           props.threshold
         }
         fallback={
           <span class="text-black/50">{` - ${convertValueToString(
-            props.threshold.value,
+            props.threshold.value(),
           )}`}</span>
         }
       >
         {(customThreshold) => (
           <span class="text-black/50">{` - ${convertValueToString(
-            customThreshold().value,
+            customThreshold().value(),
             {},
-          )} < ${convertValueToString(customThreshold().valueHigh)}`}</span>
+          )} < ${convertValueToString(customThreshold().valueHigh())}`}</span>
         )}
       </Show>
     </span>

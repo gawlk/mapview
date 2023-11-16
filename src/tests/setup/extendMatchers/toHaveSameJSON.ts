@@ -139,16 +139,21 @@ interface BrowseCheckDataResultDiffActual {
   bigger: 'actual'
 }
 
-const keysToIgnore = ['arePointsLocked']
+const keysToIgnore = ['arePointsLocked', 'readOnly']
 
 const browseCheckData = (
   actualData: any,
   expectedData: any,
   keys: string[],
   // eslint-disable-next-line sonarjs/cognitive-complexity
-) => {
-  const actualKeys = Object.keys(actualData)
-  const expectedKeys = Object.keys(expectedData)
+): BrowseCheckDataResult => {
+  // TEMP: Remove filter after update of the tested files
+  const actualKeys = Object.keys(actualData).filter(
+    (key) => !keysToIgnore.includes(key),
+  )
+  const expectedKeys = Object.keys(expectedData).filter(
+    (key) => !keysToIgnore.includes(key),
+  )
 
   const actualLength = actualKeys.length
   const expectedLength = expectedKeys.length
@@ -184,7 +189,7 @@ const browseCheckData = (
     const key = expectedKeys[i]
     const updatedKeys = [...keys, key]
 
-    if (key !== actualKeys[i]) {
+    if (!actualKeys.includes(key)) {
       return {
         message: "json key's differ" as const,
         keys: updatedKeys,

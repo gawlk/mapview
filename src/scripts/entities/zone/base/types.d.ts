@@ -15,14 +15,14 @@ type JSONZoneSettingsVAny = JSONZoneSettings | JSONZoneSettingsV1
 
 interface JSONZoneSettings {
   readonly version: 2
-  color: ColorName
-  isVisible: boolean
+  readonly color: ColorName
+  readonly isVisible: boolean
 }
 
 interface JSONZoneSettingsV1 {
   readonly version: 1
-  color: ColorNameV1
-  isVisible: boolean
+  readonly color: ColorNameV1
+  readonly isVisible: boolean
 }
 
 // ---
@@ -33,13 +33,17 @@ interface BaseZone<
   Point extends MachinePoint = MachinePoint,
   Report extends BaseReport = BaseReport,
 > extends BaseObject<JSONBaseZone> {
-  readonly points: Point[]
-  readonly settings: JSONZoneSettings
-  name: string
-  report: Report
-  data: DataValue<string>[]
-  readonly init: () => void
-  readonly clean: () => void
+  readonly points: Accessor<Point[]>
+  readonly setPoints: (points: BasePoint[]) => void
+  readonly exportablePoints: Accessor<BasePoint[]>
+  readonly settings: ZoneSettings
+  readonly name: ASS<string>
+  readonly report: ASS<Report>
+  readonly dataset: ReactiveMap<DataLabel, DataValue<string>>
   readonly fitOnMap: (map: mapboxgl.Map) => void
-  readonly getExportablePoints: () => BasePoint[]
+}
+
+interface ZoneSettings extends SerializableObject<JSONZoneSettings> {
+  readonly color: ASS<ColorName>
+  readonly isVisible: ASS<boolean>
 }

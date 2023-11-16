@@ -18,8 +18,7 @@ type CustomThresholdType = 'Bicolor' | 'Gradient' | 'Tricolor'
 interface CustomThreshold extends Threshold {
   readonly kind: 'custom'
   readonly name: 'Custom'
-  type: CustomThresholdType
-  value: number
-  valueHigh: number
+  readonly type: ASS<CustomThresholdType>
+  readonly valueHigh: ASS<number>
   readonly toJSON: () => JSONCustomThreshold
 }

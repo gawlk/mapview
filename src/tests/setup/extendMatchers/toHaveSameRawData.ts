@@ -4,19 +4,26 @@ import { compareFiles } from '/src/tests'
 
 const toHaveSameRawData = (actual: Unzipped, expected: Unzipped) => {
   const compareResult = compareFiles(actual, expected, { filter: 'rawdata/' })
-  const { lastKey, haveSameContent } = compareResult
+  const {
+    lastKey,
+    haveSameContent,
+    expectedLength,
+    isSameLength,
+    actualLength,
+    haveSameFile,
+  } = compareResult
 
-  if (!compareResult.isSameLength) {
+  if (!isSameLength) {
     return {
       message: () =>
-        `number of rawData aren't the same: (${String(
-          compareResult.actualLength,
-        )}, ${String(compareResult.expectedLength)})`,
+        `number of rawData is different: (${String(actualLength)}, ${String(
+          expectedLength,
+        )})`,
       pass: false,
     }
   }
 
-  if (!compareResult.haveSameFile) {
+  if (!haveSameFile) {
     return {
       message: () =>
         `rawData files are different ${String(

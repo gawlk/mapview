@@ -1,48 +1,80 @@
-/* eslint-disable sonarjs/cognitive-complexity */
+import { createASS } from '/src/scripts'
+
 export const createSelectableList = <T, L extends T[] = T[]>(
   list: L,
   parameters?: {
     selected?: L[number]
     selectedIndex?: number | null
   },
+  // eslint-disable-next-line sonarjs/cognitive-complexity
 ) => {
-  const selectableList = createMutable<SelectableList<L[number], L>>({
-    selected: null,
-    select(s) {
-      if (this.selected !== s) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        this.selected = s
+  const selected = createASS<L[number] | null>(null)
+  const selectedIndex = createASS<number | null>(null)
 
-        this.selectIndex(this.list.indexOf(this.selected as L[number]))
+  const selectableList: SelectableList<L[number], L> = {
+    selected,
+    selectedIndex,
+    list: createASS(list, {
+      equals: false,
+    }),
+    select(s) {
+      if (this.selected() !== s) {
+        batch(() => {
+          selected.set(() => s)
+          this.selectIndex(this.list().indexOf(s) ?? null)
+        })
       }
     },
-    selectedIndex: null,
+    resetSelected() {
+      selected.set(null)
+      selectedIndex.set(null)
+    },
     selectFind(search, callback) {
-      const element = this.list.find(
+      const element = this.list().find(
         (_element) => callback(_element) === search,
       )
 
       if (element) {
         this.select(element)
       }
+
+      return element
     },
     selectIndex(i) {
       i = i === -1 ? null : i
 
-      if (i && (i < 0 || i >= this.list.length)) {
-        throw new Error(`SelectableList: selectIndex: ${i} is incorrect !`)
-      }
+      if (i && (i < 0 || i >= this.list().length)) return
 
-      if (i !== this.selectedIndex) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        this.selectedIndex = i
+      if (i !== this.selectedIndex()) {
+        selectedIndex.set(i)
 
-        this.select(getValueFromIndexInList<L[number]>(i, this.list))
+        const value = getValueFromIndexInList<L[number]>(i, this.list())
+
+        if (value !== null) {
+          this.select(value)
+        }
       }
     },
-    list,
+    push(value) {
+      this.list.set((l) => {
+        l.push(value)
+        return l
+      })
+    },
+    pushAndSelect(value) {
+      batch(() => {
+        this.push(value)
+        this.select(value)
+      })
+    },
+    removeIndex(index) {
+      let value = null
+      this.list.set((l) => {
+        value = l.splice(index, 1)?.[0]
+        return l
+      })
+      return value
+    },
     toJSON<TJSON, LJSON extends TJSON[] = TJSON[]>(
       transform: (value: T) => TJSON,
       filter?: (value: T) => boolean,
@@ -50,28 +82,33 @@ export const createSelectableList = <T, L extends T[] = T[]>(
       return {
         version: 1,
         selectedIndex: getIndexOfSelectedInSelectableList(this),
-        list: (filter ? list.filter(filter) : list).map((value) =>
-          // createMutable uses toJSON to hash so transform can be undefined
-          typeof transform === 'function' ? transform(value) : value,
+        list: (filter ? this.list().filter(filter) : this.list()).map((value) =>
+          transform(value),
         ) as LJSON,
       }
     },
-  })
+  }
 
-  const { selected, selectedIndex } = parameters || {}
-
-  if (selected !== undefined) {
-    selectableList.select(selected)
-  } else if (selectedIndex !== undefined) {
-    selectableList.selectIndex(selectedIndex)
+  if (parameters?.selected !== undefined) {
+    selectableList.select(parameters.selected)
+  } else if (parameters?.selectedIndex !== undefined) {
+    selectableList.selectIndex(
+      parameters.selectedIndex === -1 ? 0 : parameters.selectedIndex,
+    )
   }
 
   return selectableList
 }
 
+export const createSL = createSelectableList
+
 export const getIndexOfSelectedInSelectableList = <T, L extends T[] = T[]>(
   sl: SelectableList<L[number], L>,
-) => (sl.selected ? sl.list.indexOf(sl.selected) : null)
+) => {
+  const selected = sl.selected()
+
+  return selected ? sl.list().indexOf(selected) : null
+}
 
 const getValueFromIndexInList = <T, L extends T[] = T[]>(
   index: number | null,

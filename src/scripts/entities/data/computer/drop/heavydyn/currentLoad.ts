@@ -1,67 +1,71 @@
+import { getOwner, runWithOwner } from 'solid-js'
 import {
-  createDataComputer,
   createDataLabel,
   createDataValue,
   currentCategory,
   rawCategory,
 } from '/src/scripts'
+import { store } from '/src/store'
+import { createLazyMemo } from '@solid-primitives/memo'
 
 export const createHeavydynCurrentLoadDataComputer = (
   report: HeavydynReport,
 ) => {
   const rawLoadDataLabel = report.dataLabels.findIn('Drop', 'Load', rawCategory)
 
-  // Can be changed
-  const indexDataValue =
-    report.dataLabels.groups.list[0].indexes.list.at(-1)?.value
+  if (!rawLoadDataLabel) return
 
-  return createDataComputer({
-    label:
-      rawLoadDataLabel &&
-      report.dataLabels.pushTo(
-        'Drop',
-        createDataLabel({
-          name: rawLoadDataLabel.name,
-          unit: rawLoadDataLabel.unit,
-          category: currentCategory,
-        }),
-      ),
-    compute: (currentLoadDataLabel) => {
-      const {
-        project: { correctionParameters },
-      } = report
+  const indexDataValue = report.dataLabels.groups
+    .list()[0]
+    .indexes.list()
+    .at(-1)?.value
 
-      const correctedLoad =
-        correctionParameters.load.source.selected === 'Sequence' &&
-        indexDataValue &&
-        indexDataValue.unit === rawLoadDataLabel?.unit
-          ? indexDataValue
-          : correctionParameters.load.customValue
-
-      report.zones.forEach((zone) =>
-        zone.points.forEach((point) =>
-          point.drops.forEach((drop) => {
-            let referenceData: MathNumber
-            if (!correctionParameters.load.active) {
-              referenceData = (
-                drop.data.find(
-                  (_data) => _data.label === rawLoadDataLabel,
-                ) as DataValue<string>
-              ).value // can't be undefined
-            } else {
-              referenceData = correctedLoad
-            }
-
-            const data =
-              drop.data.find((_data) => _data.label === currentLoadDataLabel) ||
-              drop.data[
-                drop.data.push(createDataValue(0, currentLoadDataLabel)) - 1
-              ]
-
-            data.value.updateValue(referenceData.value)
-          }),
-        ),
-      )
-    },
+  const currentLoadDataLabel = createDataLabel({
+    name: rawLoadDataLabel.name,
+    unit: rawLoadDataLabel.unit,
+    category: currentCategory,
   })
+
+  report.dataLabels.pushTo('Drop', currentLoadDataLabel)
+
+  const correctionParameters = createLazyMemo(
+    () => report.project().correctionParameters,
+  )
+
+  const correctedLoad = createLazyMemo(() =>
+    correctionParameters().load.source.selected() === 'Sequence' &&
+    indexDataValue &&
+    indexDataValue.unit === rawLoadDataLabel?.unit
+      ? indexDataValue
+      : correctionParameters().load.customValue,
+  )
+
+  const owner = getOwner()
+
+  createEffect(
+    () =>
+      store.selectedProject() === report.project() &&
+      batch(() =>
+        report
+          .sortedPoints()
+          .flatMap((point) => point.drops)
+          .filter((drop) => !drop.dataset.get(currentLoadDataLabel))
+          .forEach((drop) =>
+            runWithOwner(owner, () => {
+              const referenceData = createLazyMemo(() =>
+                !correctionParameters().load.active()
+                  ? drop.dataset.get(rawLoadDataLabel)!.value
+                  : correctedLoad(),
+              )
+
+              const currentLoad = createDataValue(
+                createLazyMemo(() => referenceData().value()),
+                currentLoadDataLabel,
+              )
+
+              drop.dataset.set(currentLoadDataLabel, currentLoad)
+            }),
+          ),
+      ),
+  )
 }

@@ -5,14 +5,14 @@ import { store } from '/src/store'
 export const ButtonAddProject = () => {
   const addProject = async (file: File | undefined) => {
     if (file) {
-      store.importingFile = true
+      store.importingFile.set(true)
 
       const project = await importFile(file)
 
-      store.importingFile = false
+      store.importingFile.set(false)
 
       if (project) {
-        store.selectedProject = project
+        store.pushAndSelectProject(project)
       }
     }
   }

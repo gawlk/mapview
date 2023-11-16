@@ -1,5 +1,6 @@
 import { Dialog } from '/src/components'
 import { useAppState } from '/src/index'
+import { run } from '/src/scripts'
 import { store } from '/src/store'
 
 import { HeavydynCorrections } from './components/corrections/heavydyn'
@@ -22,10 +23,13 @@ export const DialogConfig = () => {
       <div class="space-y-6">
         <Switch>
           <Match
-            when={
-              store.selectedProject?.machine === 'Heavydyn' &&
-              store.selectedProject
-            }
+            when={run(() => {
+              const selectedProject = store.selectedProject()
+              return (
+                (selectedProject?.machine === 'Heavydyn' && selectedProject) ||
+                undefined
+              )
+            })}
           >
             {(project) => <HeavydynCorrections project={project()} />}
           </Match>

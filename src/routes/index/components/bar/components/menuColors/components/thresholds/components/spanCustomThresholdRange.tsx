@@ -1,24 +1,25 @@
 import { useAppState } from '/src/index'
 
 interface Props {
-  name: string
-  mathUnit?: MathUnit<string>
-  from: number
-  to: number
-  last: boolean
-  setEquals?: (equals: boolean) => void
+  readonly name: string
+  readonly mathUnit?: MathUnit<string>
+  readonly from: number
+  readonly to: number
+  readonly last: boolean
+  readonly setEquals?: (equals: boolean) => void
 }
 
 export const SpanCustomThresholdRange = (props: Props) => {
   const { t } = useAppState()
 
   const formatValue = (value?: number) =>
-    `${props.mathUnit?.baseToCurrent(value || 0).toLocaleString()} ${props
-      .mathUnit?.currentUnit}`
+    `${props.mathUnit
+      ?.baseToCurrent(value || 0)
+      .toLocaleString()} ${props.mathUnit?.currentUnit()}`
 
-  const min = createMemo(() => props.mathUnit?.min ?? -Infinity)
+  const min = createMemo(() => props.mathUnit?.min() ?? -Infinity)
 
-  const max = createMemo(() => props.mathUnit?.max ?? Infinity)
+  const max = createMemo(() => props.mathUnit?.max() ?? Infinity)
 
   const cappedFrom = createMemo(() => Math.max(props.from, min()))
   const to = createMemo(() => Math.min(props.to, max()))

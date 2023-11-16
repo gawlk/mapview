@@ -17,9 +17,7 @@ export const createRefCallback = (
     const handle = element.getElementsByClassName('handle')?.[0] || element
 
     Object.entries(sortable.dragActivators).forEach(([key, f]) => {
-      // Types failing
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
+      // @ts-expect-error Types failing
       handle[key] = f
     })
   })

@@ -39,7 +39,6 @@ export const DialogTableData = () => {
       }}
     >
       <div class="space-y-2 @3xl:flex @3xl:h-full @3xl:space-y-0">
-        {/* TODO: Fix margins, not great */}
         <div class="flex flex-none  flex-col space-y-2 overflow-y-auto @3xl:-my-3 @3xl:-ml-4 @3xl:w-[320px] @3xl:p-4">
           <SelectSource />
           <SelectIndex />
@@ -59,8 +58,8 @@ export const DialogTableData = () => {
           />
           <Show
             when={
-              store.selectedReport?.dataLabels.table.selected?.group.from !==
-              'Zone'
+              store.selectedReport()?.dataLabels.table.selected()?.group
+                .from !== 'Zone'
             }
           >
             <DialogDivider class="-mx-4 hidden @3xl:block" />
@@ -78,11 +77,13 @@ export const DialogTableData = () => {
                   <div class="space-x-2">
                     {run(
                       () =>
-                        store.selectedReport?.dataLabels.table.selected?.dataLabels.map(
-                          (dataLabel) => (
+                        store
+                          .selectedReport()
+                          ?.dataLabels.table.selected()
+                          ?.dataLabels()
+                          .map((dataLabel) => (
                             <SpanDataLabel dataLabel={dataLabel} />
-                          ),
-                        ),
+                          )),
                     )}
                   </div>
                 ),
@@ -98,7 +99,7 @@ export const DialogTableData = () => {
             <OptionsDataLabels />
           </div>
         </div>
-        <Show when={store.selectedReport?.dataLabels.table.selected}>
+        <Show when={store.selectedReport()?.dataLabels.table.selected()}>
           {(group) => (
             <div
               class="-mx-4 !-mb-3 overflow-x-auto overflow-y-visible @3xl:!-mr-4 @3xl:!-mt-3 @3xl:ml-0 @3xl:w-full @3xl:overflow-y-auto @3xl:border-l-2 @3xl:border-black/5"
@@ -111,8 +112,8 @@ export const DialogTableData = () => {
                 <TablePointsGroupedBy
                   cellWidthClass="w-1/6"
                   from={group().group.from}
-                  dataLabels={group().dataLabels}
-                  index={group().index}
+                  dataLabels={group().dataLabels()}
+                  index={group().index?.()}
                   hideZones={!state.zonesVisible || undefined}
                 />
               </Show>

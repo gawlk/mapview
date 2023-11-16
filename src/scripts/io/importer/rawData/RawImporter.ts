@@ -13,7 +13,7 @@ const saveRawData = (
   )
 
   if (point) {
-    point.rawDataFile = file
+    point.rawDataFile.set(file)
 
     // parsePointRawData(file, point, id);
   }
@@ -32,7 +32,7 @@ export function parsePointRawData(
     impactDataFile.loadFromFile(reader)
 
     point.drops.forEach((drop, index) => {
-      drop.impactData = impactDataFile.ImpactDatas[index]
+      drop.impactData.set(impactDataFile.ImpactDatas[index])
     })
   } catch (error) {
     // eslint-disable-next-line no-console
@@ -60,8 +60,8 @@ export function importRawDataFromZIP(zip: Unzipped, project: MachineProject) {
     })
 }
 
-export function getAllPointsFromProject(project: MachineProject) {
-  return project.reports.list
-    .flatMap((a) => a.zones.map((zone) => zone.points))
+export const getAllPointsFromProject = (project: MachineProject) =>
+  project.reports
+    .list()
+    .flatMap((a) => a.zones().map((zone) => zone.points()))
     .flat()
-}

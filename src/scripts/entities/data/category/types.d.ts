@@ -1,5 +1,5 @@
 interface DataCategory {
-  name: string
-  saveable?: true
-  neededInExcelName?: true
+  readonly name: string
+  readonly saveable?: true
+  readonly neededInExcelName?: true
 }

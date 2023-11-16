@@ -1,10 +1,10 @@
 import { Details } from '/src/components'
 
 interface Props {
-  id: string
-  icon: IconProp
-  name: string
-  class?: string
+  readonly id: string
+  readonly icon: IconProp
+  readonly name: string
+  readonly class?: string
 }
 
 export const baseID = 'desktop-menu-'

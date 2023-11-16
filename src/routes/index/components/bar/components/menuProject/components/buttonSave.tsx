@@ -6,9 +6,10 @@ import { store } from '/src/store'
 export const ButtonSave = () => {
   const { t } = useAppState()
 
-  const save = async () =>
-    store.selectedProject &&
-    downloadFile(await mpvzExporter.export(store.selectedProject))
+  const save = async () => {
+    const selectedProject = store.selectedProject()
+    selectedProject && downloadFile(await mpvzExporter.export(selectedProject))
+  }
 
   return (
     <Button

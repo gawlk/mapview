@@ -8,6 +8,7 @@ import {
   sleep,
   unzipFile,
 } from '/src/scripts'
+import { store } from '/src/store'
 import { getFileFromPath } from '/src/tests'
 
 export const prepareFilesForTest = async (path: string) => {
@@ -61,7 +62,9 @@ export const loadFiles = async (dirPath: string, folderName?: string) => {
         case 'mpvz': {
           const project = await importFile(file)
 
-          project?.addToMap()
+          if (!project) return
+
+          store.pushAndSelectProject(project)
 
           promises.push(
             // eslint-disable-next-line no-async-promise-executor
@@ -76,13 +79,11 @@ export const loadFiles = async (dirPath: string, folderName?: string) => {
                 resolve(true)
               }
 
-              let needInit = true
+              let needsInit = true
 
               // rawdata and screenshoot are load in async so we wetting for the data to be init
-              while (needInit) {
-                const points = getAllPointsFromProject(
-                  project as MachineProject,
-                )
+              while (needsInit) {
+                const points = getAllPointsFromProject(project)
 
                 const status: boolean[] = []
 
@@ -92,10 +93,10 @@ export const loadFiles = async (dirPath: string, folderName?: string) => {
                     (p) => removeLeading0s(p.id) === removeLeading0s(id),
                   )
 
-                  status.push(point?.rawDataFile?.byteLength === undefined)
+                  status.push(point?.rawDataFile()?.byteLength === undefined)
                 })
 
-                needInit = status.every((value) => value)
+                needsInit = status.every((value) => value)
 
                 await sleep(250)
               }
@@ -127,10 +128,10 @@ export const loadFiles = async (dirPath: string, folderName?: string) => {
       }
     } else if (stats.isDirectory()) {
       filesGroups.push(
-        ...(await loadFiles(
+        ...((await loadFiles(
           subPath,
           `${folderName || ''}${folderName ? '/' : ''}${fileName}`,
-        )),
+        )) || []),
       )
     }
   }

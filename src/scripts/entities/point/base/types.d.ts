@@ -19,7 +19,7 @@ interface JSONBasePoint {
 
 interface JSONPointSettings {
   readonly version: 1
-  isVisible: boolean
+  readonly isVisible: boolean
 }
 
 // ---
@@ -34,15 +34,17 @@ interface BasePoint<
   readonly date: Date
   readonly marker: mapboxgl.Marker | null
   readonly icon: Icon | null
-  readonly settings: JSONPointSettings
-  readonly data: DataValue<string>[]
+  readonly settings: PointSettings
+  readonly dataset: ReactiveMap<DataLabel, DataValue<string>>
   readonly information: Field[]
   readonly drops: Drop[]
-  index: number
-  number: number
-  zone: Zone
-  rawDataFile: ArrayBufferLike | null
-  readonly getSelectedMathNumber: (
+  readonly index: ASS<number>
+  readonly number: ASS<number>
+  readonly coordinates: ASS<mapboxgl.LngLat | undefined>
+  readonly zone: ASS<Zone>
+  readonly rawDataFile: ASS<ArrayBufferLike | null>
+  readonly onMapMathNumber: Accessor<MathNumber | undefined>
+  readonly getMathNumber: (
     groupFrom: DataLabelsFrom,
     dataLabel: DataLabel<string>,
     index?: BaseDropIndex | null,
@@ -52,11 +54,9 @@ interface BasePoint<
     dataLabel: DataLabel<string>,
     index?: BaseDropIndex | null,
   ) => string
-  readonly updateColor: () => void
-  readonly updateText: () => Promise<void>
-  readonly updateVisibility: () => void
-  readonly updatePopup: () => void
-  readonly addToMap: () => void
-  readonly checkVisibility: () => boolean
-  readonly remove: () => void
+  readonly shouldBeOnMap: () => boolean
+}
+
+interface PointSettings extends SerializableObject<JSONPointSettings> {
+  readonly isVisible: ASS<boolean>
 }

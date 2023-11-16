@@ -1,30 +1,53 @@
-import { createSelectableList } from '/src/scripts/utils/selectableList'
+import { createASS, createSL } from '/src/scripts'
 
-export const store = createMutable<Store>({
-  // example: read('example') || defaultExample,
-  projects: createSelectableList([]),
-  get selectedProject() {
-    return this.projects.selected
-  },
-  set selectedProject(project: MachineProject | null) {
-    const oldProject = this.projects.selected
+const projects = createSL<MachineProject>([])
+const selectedProject = createMemo(() => projects.selected())
 
-    if (oldProject !== project) {
-      oldProject?.remove()
-      this.projects.select(project)
-      this.projects.selected?.addToMap()
+export const store: Store = {
+  projects,
+  selectedProject,
+  selectedReport: createMemo(
+    () => selectedProject()?.reports?.selected() || null,
+  ),
+  selectProject(project) {
+    const currentProject = this.projects.selected()
+
+    if (
+      project &&
+      currentProject !== project &&
+      this.projects.list().includes(project)
+    ) {
+      currentProject?.removeFromMap()
+      store.projects.select(project)
+      store.projects.selected()?.addToMap()
+      return project
     }
+    return null
   },
-  get selectedReport() {
-    return this.selectedProject?.reports?.selected || null
-  },
-  set selectedReport(report: MachineReport | null) {
-    if (this.selectedProject) {
-      this.selectedProject.reports.select<BaseReport>(report)
+  pushAndSelectProject(project) {
+    const currentProject = this.projects.selected()
+
+    if (
+      project &&
+      currentProject !== project &&
+      !this.projects.list().includes(project)
+    ) {
+      currentProject?.removeFromMap()
+      store.projects.pushAndSelect(project)
+      project.addToMap()
+      return project
     }
+    return null
   },
-  dialogEntity: null,
-  updateAvailable: false,
-  importingFile: false,
-  map: null,
-})
+  selectReport(report) {
+    if (report && this.selectedProject) {
+      // @ts-expect-error type issue
+      this.selectedProject()?.reports.select(report)
+      return report
+    }
+    return null
+  },
+  updateAvailable: createASS(false),
+  importingFile: createASS(false),
+  map: createASS(null),
+}

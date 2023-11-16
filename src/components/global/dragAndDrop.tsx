@@ -1,4 +1,5 @@
 import { Button, classPropToString } from '/src/components'
+import { createASS } from '/src/scripts'
 
 interface Props extends ParentProps {
   accept: string
@@ -9,12 +10,12 @@ interface Props extends ParentProps {
 export const DragAndDrop = (props: Props) => {
   let file: HTMLInputElement | undefined
 
-  const state = createMutable({
-    dragging: false,
-  })
+  const state = {
+    dragging: createASS(false),
+  }
 
   const drop = (dataTransfer: DataTransfer | null) => {
-    state.dragging = false
+    state.dragging.set(false)
 
     if (dataTransfer && dataTransfer.files) {
       props.onInput(dataTransfer.files)
@@ -25,13 +26,13 @@ export const DragAndDrop = (props: Props) => {
     <div>
       <div
         class={classPropToString([
-          state.dragging ? 'bg-gray-200' : 'bg-gray-100',
+          state.dragging() ? 'bg-gray-200' : 'bg-gray-100',
           'group relative hidden h-[55vh] w-full cursor-pointer items-center justify-center rounded-lg p-1.5 transition-colors duration-200 hover:bg-gray-200 lg:block',
         ])}
       >
         <div
           class={classPropToString([
-            state.dragging ? 'border-gray-400' : 'border-gray-300',
+            state.dragging() ? 'border-gray-400' : 'border-gray-300',
             'font-gray-900 flex h-full w-full items-center justify-center rounded-lg border-[3px] border-dashed text-sm font-medium transition-colors duration-200 group-hover:border-gray-400',
           ])}
         >
@@ -45,10 +46,10 @@ export const DragAndDrop = (props: Props) => {
           class="absolute inset-0 h-full w-full"
           onClick={() => file?.click()}
           onDragEnter={() => {
-            state.dragging = true
+            state.dragging.set(true)
           }}
           onDragLeave={() => {
-            state.dragging = false
+            state.dragging.set(false)
           }}
           onDragOver={(event) => {
             event.preventDefault()

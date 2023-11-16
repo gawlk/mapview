@@ -3,6 +3,7 @@ import {
   createMaxidynDataLabelsFromJSON,
   createMaxidynThresholdsGroupsFromJSON,
   createMaxidynZoneFromJSON,
+  run,
   selectMaxidynGroupChoiceFromJSON,
   selectTableDataLabelsFromJSON,
 } from '/src/scripts'
@@ -37,10 +38,10 @@ export const createMaxidynReportFromJSON = (
     project: parameters.project,
   })
 
-  const report = createMutable<MaxidynReport>({
+  const report: MaxidynReport = {
     ...baseReport,
     machine: 'Maxidyn',
-    addZone() {
+    async addZone() {
       const jsonZone: JSONMaxidynZone = {
         version: 1,
         base: createJSONBaseZone(this.zones.length),
@@ -49,16 +50,17 @@ export const createMaxidynReportFromJSON = (
         },
       }
 
-      const zone = createMaxidynZoneFromJSON(jsonZone, map, {
+      const zone = await createMaxidynZoneFromJSON(jsonZone, map, {
         report: this,
       })
 
-      zone.init()
-
-      this.zones.push(zone)
+      this.zones.set((l) => {
+        l.push(zone)
+        return l
+      })
     },
     toJSON(): JSONMaxidynReport {
-      const thresholdGroup = this.thresholds.groups
+      const thresholdsGroups = this.thresholds.groups
 
       return {
         version: json.version,
@@ -69,33 +71,37 @@ export const createMaxidynReportFromJSON = (
           thresholds: {
             version: 1,
             deflection: convertThresholdsConfigurationToJSON(
-              thresholdGroup.deflection,
+              thresholdsGroups.deflection,
             ),
-            force: convertThresholdsConfigurationToJSON(thresholdGroup.force),
+            force: convertThresholdsConfigurationToJSON(thresholdsGroups.force),
             distance: convertThresholdsConfigurationToJSON(
-              thresholdGroup.distance,
+              thresholdsGroups.distance,
             ),
             modulus: convertThresholdsConfigurationToJSON(
-              thresholdGroup.modulus,
+              thresholdsGroups.modulus,
             ),
             percentage: convertThresholdsConfigurationToJSON(
-              thresholdGroup.percentage,
+              thresholdsGroups.percentage,
             ),
             stiffness: convertThresholdsConfigurationToJSON(
-              thresholdGroup.stiffness,
+              thresholdsGroups.stiffness,
             ),
-            time: convertThresholdsConfigurationToJSON(thresholdGroup.time),
+            time: convertThresholdsConfigurationToJSON(thresholdsGroups.time),
           },
         },
       }
     },
-  })
+  }
 
-  report.zones.push(
-    ...json.base.zones.map((jsonZone) =>
-      createMaxidynZoneFromJSON(jsonZone, map, {
-        report,
-      }),
+  void run(async () =>
+    report.zones.set(
+      await Promise.all(
+        json.base.zones.map((jsonZone) =>
+          createMaxidynZoneFromJSON(jsonZone, map, {
+            report,
+          }),
+        ),
+      ),
     ),
   )
 

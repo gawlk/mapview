@@ -4,14 +4,14 @@ import { DialogButtonClose } from './components/buttonClose'
 import { DialogButtonMaximize } from './components/buttonMaximize'
 
 interface Props {
-  maximized: boolean
-  title?: string
-  maximizable?: boolean
-  moveable?: boolean
-  closeable?: boolean
-  close: Accessor<DialogCloseFunction | undefined>
-  toggleMaximized: Accessor<DialogToggleMaximizedFunction | undefined>
-  setRef: (ref: HTMLElement) => void
+  readonly maximized: boolean
+  readonly title?: string
+  readonly maximizable?: boolean
+  readonly moveable?: boolean
+  readonly closeable?: boolean
+  readonly close: Accessor<DialogCloseFunction | undefined>
+  readonly toggleMaximized: Accessor<DialogToggleMaximizedFunction | undefined>
+  readonly setRef: (ref: HTMLElement) => void
 }
 
 export const DialogHeader = (props: Props) => {

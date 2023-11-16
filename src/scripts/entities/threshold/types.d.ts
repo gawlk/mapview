@@ -16,11 +16,8 @@ interface Threshold {
   readonly kind: 'predefined' | 'custom'
   readonly name: string
   readonly unit: MathUnit<string>
-  value: number
-  readonly getColor: (
-    mathNumber: MathNumber,
-    colors: JSONThresholdColors,
-  ) => string
+  readonly value: ASS<number>
+  readonly getColor: (mathNumber: MathNumber, colors: ThresholdColors) => string
 }
 
 type AnyThreshold = PredefinedThreshold | CustomThreshold

@@ -7,16 +7,13 @@ const fixMapHeight = () =>
 export const Map = () => {
   onMount(() => {
     setTimeout(() => {
-      const map = createMap('map')
-
-      store.map = map
-
+      store.map.set(createMap('map'))
       fixMapHeight()
     }, 500)
   })
 
   onCleanup(() => {
-    store.map?.remove()
+    store.map()?.remove()
   })
 
   return <div class="h-full w-full lg:order-2" id="map" />

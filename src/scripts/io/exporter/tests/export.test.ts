@@ -57,17 +57,15 @@ describe('Test exports', async () => {
       expect(
         line,
         `Problem on line ${index + 1}:
-Expected bulk:
-${index ? expectedLines[index - 1] + '\n' : ''}${expectedLines[index]}\n${
-          index + 1 < expectedLines.length
-            ? expectedLines[index + 1] + '\n'
-            : ''
-        }
-Found bulk:
-${index ? actualLines[index - 1] + '\n' : ''}${line}\n${
-          index + 1 < actualLines.length ? actualLines[index + 1] + '\n' : ''
-        }
-`,
+  Expected bulk:
+  ${index ? expectedLines[index - 1] + '\n' : ''}${expectedLines[index]}\n${
+    index + 1 < expectedLines.length ? expectedLines[index + 1] + '\n' : ''
+  }
+  Found bulk:
+  ${index ? actualLines[index - 1] + '\n' : ''}${line}\n${
+    index + 1 < actualLines.length ? actualLines[index + 1] + '\n' : ''
+  }
+  `,
       ).toEqual(expectedLines[index]),
     )
 

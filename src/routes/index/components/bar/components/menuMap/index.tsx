@@ -18,7 +18,7 @@ export const MenuMap = () => {
     <>
       <SelectMapStyle />
       <div class="flex space-x-2">
-        <Show when={store.selectedProject?.overlays.length}>
+        <Show when={store.selectedProject()?.overlays().length}>
           <DialogOverlays />
           <ButtonOverlaysVisibility />
         </Show>

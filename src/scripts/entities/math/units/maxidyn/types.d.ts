@@ -18,7 +18,7 @@ type PossibleMaxidynPercentageUnits = '%'
 
 type JSONMaxidynUnitsVAny = JSONMaxidynUnits
 
-type JSONMaxidynUnits = { version: 1 } & MaxidynUnitsSkeleton<
+type JSONMaxidynUnits = { readonly version: 1 } & MaxidynUnitsSkeleton<
   JSONMathUnit<PossibleMaxidynModulusUnits>,
   JSONMathUnit<PossibleMaxidynStiffnessUnits>,
   JSONMathUnit<PossibleMaxidynDeflectionUnits>,
@@ -36,7 +36,6 @@ type MaxidynMathUnits = MaxidynUnitsSkeleton<
   MathUnit<PossibleMaxidynDistanceUnits>,
   MathUnit<PossibleMaxidynTimeUnits>,
   MathUnit<PossibleMaxidynPercentageUnits>
->
+> & { list: MathUnit<string>[] } & SerializableObject<JSONMaxidynUnits>
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type MaxidynUnitsNames = keyof MaxidynUnitsSkeleton<any>
+type MaxidynUnitsNames = keyof MaxidynUnitsSkeleton<undefined>

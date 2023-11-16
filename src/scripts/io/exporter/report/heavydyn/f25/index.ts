@@ -9,10 +9,6 @@ import {
   trimAllLines,
 } from '/src/scripts'
 
-// TODO:
-// Everything is always in the same order, with same precision, spaces, etc
-// Test: Compare if strings are a match
-
 export const heavydynF25Exporter: HeavydynExporter = {
   name: '.F25',
   export: (project) => {
@@ -27,7 +23,7 @@ export const heavydynF25Exporter: HeavydynExporter = {
           `),
         ),
       ],
-      `${project.reports.selected?.name.toString() || ''}.F25`,
+      `${project.reports.selected()?.name.toString() || ''}.F25`,
       { type: 'text/plain' },
     )
   },
@@ -40,19 +36,19 @@ const writeHeader = (project: HeavydynProject): string => {
   )?.toString()
 
   const operator = findFieldInArray(
-    project.reports.selected?.information || [],
+    project.reports.selected()?.information || [],
     'Operator',
   )?.toString()
 
-  const sequenceName =
-    project.reports.selected?.dataLabels.groups.list[0].sequenceName
+  const sequenceName = project.reports.selected()?.dataLabels.groups.list()[0]
+    .sequenceName
 
   const date = dayjsUtc(
     (
-      project.information.find(
-        (machineField: Field) => machineField.label === 'Date',
-      )?.value as SelectableString
-    ).value,
+      project.information
+        .find((machineField: Field) => machineField.label === 'Date')
+        ?.value() as SelectableString
+    ).value(),
   ).format('YYYY,MM,DD,HH,mm')
 
   return dedent`
@@ -70,12 +66,14 @@ const writeHeader = (project: HeavydynProject): string => {
 }
 
 const writeEndHeader = (project: MachineProject): string => {
-  const d = project.reports.selected?.line.sortedPoints
+  const d = project.reports
+    .selected()
+    ?.sortedPoints()
     .map((point) =>
       Number(
-        point.data
+        Array.from(point.dataset.values())
           .find((pointData) => pointData.label.name === 'Chainage')
-          ?.getRawValue(),
+          ?.rawValue(),
       ),
     )
     .sort((a, b) => a - b)
@@ -92,18 +90,18 @@ const writeEndHeader = (project: MachineProject): string => {
     dmax = Number(d[d.length - 1]) * 1e-3
   }
 
-  if (!project.reports.selected) {
+  const selectedReport = project.reports.selected()
+
+  if (!selectedReport) {
     throw new Error('cannot find selected report')
   }
 
   const operator = findFieldInArray(
-    project.reports.selected.information,
+    selectedReport.information,
     'Operator',
   )?.toString()
 
-  const reportName = project.reports.selected?.name.toString()
-
-  // TODO: zones length ?
+  const reportName = selectedReport?.name.toString()
 
   return dedent`
       5023,1,3,0,${dmin.toString().padStart(8, ' ')},${(
@@ -115,7 +113,7 @@ const writeEndHeader = (project: MachineProject): string => {
         .padStart(8, ' ')},   1.000,   0.000,1,1
       5024,1,1,0,1,1,1,     5, 2.0,     2, 2.0,1,1,0,  60
       5029,${d.length.toString().padStart(8, '0')},${(
-        d.length * (project.reports.selected?.zones.length || 1)
+        d.length * (project.reports.selected()?.zones().length || 1)
       )
         .toString()
         .padStart(8, '0')},   28439,   84378
@@ -154,7 +152,7 @@ const writeSensors = (project: HeavydynProject): string => {
         ' ',
       )}",1.000,${formatExponential(
         project.calibrations.channels[i + 1].gain,
-      )}\n 
+      )}\n
       `
   }
 
@@ -174,23 +172,21 @@ const writeSensors = (project: HeavydynProject): string => {
 
   sensorsString += dedent`
     ${s5020}
-    5021,   300,     0,     0,     0,     0,     0,     0,     0,     0,     0,N0    ,N0    ,N0    ,N0    ,N0    ,N0    ,N0    ,N0    ,N0    
+    5021,   300,     0,     0,     0,     0,     0,     0,     0,     0,     0,N0    ,N0    ,N0    ,N0    ,N0    ,N0    ,N0    ,N0    ,N0
     5022,1,   0,   0,   50,  100,  200,  390,
     `
   return sensorsString
 }
 
 const writePoints = (project: HeavydynProject): string => {
-  if (project.reports.selected) {
-    return project.reports.selected
-      .getExportablePoints()
+  const selectedReport = project.reports.selected()
+  if (selectedReport) {
+    return selectedReport
+      .exportablePoints()
       .map((point) => {
         const header = dedent`
           ${writePointGps(point)}
-          ${writePointHeader(
-            point as HeavydynPoint,
-            project.reports.selected as HeavydynReport,
-          )}
+          ${writePointHeader(point as HeavydynPoint, selectedReport)}
         `
         const values = writeDrops(point, project.calibrations.dPlate)
 
@@ -210,7 +206,7 @@ const writePointGps = (point: BasePoint) => {
   const one = Number('1').toFixed(2).padStart(8, ' ')
 
   return dedent`
-    5280,0,140418.0,${lat},${lng},${one}, 2,18,   0,  0 
+    5280,0,140418.0,${lat},${lng},${one}, 2,18,   0,  0
     `
 }
 
@@ -220,25 +216,25 @@ const writePointHeader = (
 ): string => {
   const date = dayjsUtc(point.date).format('YYYY, MM, DD, HH, mm')
 
-  let chainage = point.data
+  let chainage = Array.from(point.dataset.values())
     .find((pointData) => pointData.label.name === 'Chainage')
-    ?.getRawValue()
+    ?.rawValue()
   if (typeof chainage === 'undefined') throw new Error()
   chainage = Math.round(chainage)
 
   const comment = findFieldInArray(report.information, 'Comment')?.toString()
 
-  const tair = point.data
+  const tair = Array.from(point.dataset.values())
     .find((pointData) => pointData.label.name === 'Tair')
-    ?.getRawValue()
+    ?.rawValue()
 
-  const tsurf = point.data
+  const tsurf = Array.from(point.dataset.values())
     .find((pointData) => pointData.label.name === 'Tsurf')
-    ?.getRawValue()
+    ?.rawValue()
 
-  const tman = point.data
+  const tman = Array.from(point.dataset.values())
     .find((pointData) => pointData.label.name === 'Tman')
-    ?.getRawValue()
+    ?.rawValue()
 
   if (
     typeof tair === 'undefined' ||
@@ -266,14 +262,16 @@ const writeDrops = (point: BasePoint, dPlate: number): string => {
     .map((drop) => {
       const nbr = drop.index.displayedIndex.toString().padStart(3, ' ')
 
+      const flatDatasets = Array.from(drop.dataset.values())
+
       const force =
-        (((drop.data
+        (((flatDatasets
           .find(
             (data) =>
-              data.label.unit === point.zone.report.project.units.force &&
-              data.label.category.name === currentCategory.name,
+              data.label.unit === point.zone().report().project().units.force &&
+              data.label.category === currentCategory,
           )
-          ?.getRawValue() || 0) *
+          ?.rawValue() || 0) *
           1e-3) /
           Math.PI /
           dPlate /
@@ -282,11 +280,12 @@ const writeDrops = (point: BasePoint, dPlate: number): string => {
 
       let values = ''
 
-      drop.data
+      flatDatasets
         .filter(
           (data) =>
-            data.label.unit === point.zone.report.project.units.deflection &&
-            data.label.category.name === currentCategory.name,
+            data.label.unit ===
+              point.zone().report().project().units.deflection &&
+            data.label.category === currentCategory,
         )
         .forEach((data) => {
           let value: string | number = data.value.getValueAs('um')

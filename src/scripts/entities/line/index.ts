@@ -1,114 +1,107 @@
-import { createWatcherHandler } from '/src/scripts'
+import { store } from '/src/store'
 
-export const createLine = (map: mapboxgl.Map | null): Line => {
+export const createLine = (
+  reportSettings: Accessor<BaseReportSettings>,
+  projectSettings: Accessor<BaseProjectSettings>,
+  points: Accessor<BasePoint[]>,
+  map: mapboxgl.Map | null,
+): Line => {
   const id = `line-${+new Date()}${Math.random()}`
 
-  let features: GeoJSON.Feature<GeoJSON.Geometry, GeoJSON.GeoJsonProperties>[] =
-    []
+  const activePoints = createMemo(() =>
+    points().filter((point) => point.settings.isVisible()),
+  )
 
-  const watcherHandler = createWatcherHandler()
-
-  const line = createMutable<Line>({
-    sortedPoints: [] as BasePoint[],
-    addToMap() {
-      if (!map || map?.getLayer(id)) return
-
-      map.addLayer(
-        {
-          id,
-          layout: {
-            'line-join': 'round',
-            'line-cap': 'round',
-          },
-          paint: {
-            'line-color': ['get', 'color'],
-            'line-width': 6,
-          },
-          source: {
-            type: 'geojson',
-            data: {
-              type: 'FeatureCollection',
-              features: [],
-            },
-          } as unknown as mapboxgl.GeoJSONSource,
-          type: 'line',
+  const features = createMemo<
+    GeoJSON.Feature<GeoJSON.Geometry, GeoJSON.GeoJsonProperties>[]
+  >(() =>
+    activePoints()
+      .slice(1)
+      .map((point, index) => ({
+        type: 'Feature',
+        properties: {
+          color: activePoints()[index].icon?.color() || 'gray',
         },
-        'lines',
-      )
+        geometry: {
+          type: 'LineString',
+          coordinates: [
+            [
+              activePoints()[index].coordinates()?.lng || 0,
+              activePoints()[index].coordinates()?.lat || 0,
+            ],
+            [point.coordinates()?.lng || 0, point.coordinates()?.lat || 0],
+          ],
+        },
+      })),
+  )
 
-      void watcherHandler.add(
-        on(
-          () => this.sortedPoints.length,
-          () => {
-            line.update()
+  const addLayerToMap = () => {
+    if (map?.getLayer(id)) return
 
-            this.sortedPoints.forEach((point) => {
-              point.marker?.on('drag', () => {
-                line.update()
-              })
-            })
+    map?.addLayer(
+      {
+        id,
+        layout: {
+          'line-join': 'round',
+          'line-cap': 'round',
+        },
+        paint: {
+          'line-color': ['get', 'color'],
+          'line-width': 6,
+        },
+        source: {
+          type: 'geojson',
+          data: {
+            type: 'FeatureCollection',
+            features: features(),
           },
-        ),
-      )
-    },
-    remove(): void {
-      if (map) {
+        } as unknown as mapboxgl.GeoJSONSource,
+        type: 'line',
+      },
+      'lines',
+    )
+  }
+
+  const shouldBeOnMap = createMemo(
+    () =>
+      reportSettings().isVisible() &&
+      projectSettings().arePointsLinked() &&
+      store.selectedProject()?.settings === projectSettings(),
+  )
+
+  createEffect(() => {
+    if (map) {
+      if (shouldBeOnMap()) {
+        addLayerToMap()
+      } else {
         map.getLayer(id) && map.removeLayer(id)
         map.getSource(id) && map.removeSource(id)
       }
+    }
+  })
 
-      watcherHandler.clean()
-    },
-    update(): void {
-      sortPoints(this.sortedPoints)
-
-      const visiblePoints = this.sortedPoints.filter((point) => {
-        const {
-          settings: { isVisible: isPointVisible },
-          zone: {
-            settings: { isVisible: isZoneVisible },
-            report: {
-              settings: { isVisible: isReportVisible },
-            },
-          },
-        } = point
-
-        return isPointVisible && isZoneVisible && isReportVisible
-      })
-
-      features = []
-
-      for (let i = 1; i < visiblePoints.length; i++) {
-        features.push({
-          type: 'Feature',
-          properties: {
-            color: visiblePoints[i - 1].icon?.color || 'gray',
-          },
-          geometry: {
-            type: 'LineString',
-            coordinates: [
-              [
-                visiblePoints[i - 1].marker?.getLngLat().lng || 0,
-                visiblePoints[i - 1].marker?.getLngLat().lat || 0,
-              ],
-              [
-                visiblePoints[i].marker?.getLngLat().lng || 0,
-                visiblePoints[i].marker?.getLngLat().lat || 0,
-              ],
-            ],
-          },
-        })
+  const line: Line = {
+    refresh() {
+      if (shouldBeOnMap()) {
+        addLayerToMap()
       }
-
-      ;(map?.getSource(id) as mapboxgl.GeoJSONSource)?.setData({
-        type: 'FeatureCollection',
-        features,
-      })
     },
+  }
+
+  createEffect(() => {
+    const _features = features()
+
+    const source = map?.getSource(id) as mapboxgl.GeoJSONSource | undefined
+
+    source?.setData({
+      type: 'FeatureCollection',
+      features: _features,
+    })
   })
 
   return line
 }
 
-export const sortPoints = (points: BasePoint[]) =>
-  points.sort((pointA, pointB) => pointA.index - pointB.index)
+export const sortPoints = <Points extends BasePoint[] = BasePoint[]>(
+  points: Points,
+) => points.sort((pointA, pointB) => pointA.index() - pointB.index())

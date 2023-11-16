@@ -15,13 +15,13 @@ type BooleanPropsKeysObject<Props> = {
 }
 
 interface ValuesProps<T = ValuesListProps> {
-  selected: string | number | null
-  list: T
+  readonly selected: string | number | null
+  readonly list: T
 }
 
 type ValuesListProps = string[] | ValueWithTextProps[]
 
 interface ValueWithTextProps extends ButtonPropsWithHTMLAttributes {
-  text?: string | (() => JSXElement)
-  value: string
+  readonly text?: string | (() => JSXElement)
+  readonly value: string
 }

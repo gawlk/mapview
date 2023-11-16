@@ -1,5 +1,6 @@
 import { DialogSelect } from '/src/components'
 import { useAppState } from '/src/index'
+import { createASS } from '/src/scripts'
 import { store } from '/src/store'
 
 export const SelectMarkersContent = () => {
@@ -23,25 +24,26 @@ export const SelectMarkersContent = () => {
     },
   ]
 
-  const state = createMutable({
-    pointStateSelected: 0,
-  })
+  const state = {
+    pointStateSelected: createASS<0 | 1 | 2>(0),
+  }
 
   createEffect(() => {
-    if (store.selectedProject) {
-      const pointsState = store.selectedProject.settings.pointsState
+    const selectedProject = store.selectedProject()
+    if (selectedProject) {
+      const pointsState = selectedProject.settings.pointsState()
 
       switch (pointsState) {
         case 'number': {
-          state.pointStateSelected = 0
+          state.pointStateSelected.set(0)
           break
         }
         case 'value': {
-          state.pointStateSelected = 1
+          state.pointStateSelected.set(1)
           break
         }
         default: {
-          state.pointStateSelected = 2
+          state.pointStateSelected.set(2)
           break
         }
       }
@@ -49,16 +51,17 @@ export const SelectMarkersContent = () => {
   })
 
   const setPointsState = (index: number) => {
-    if (store.selectedProject) {
+    const selectedProject = store.selectedProject()
+    if (selectedProject) {
       switch (index) {
         case 0:
-          store.selectedProject.settings.pointsState = 'number'
+          selectedProject.settings.pointsState.set('number')
           break
         case 1:
-          store.selectedProject.settings.pointsState = 'value'
+          selectedProject.settings.pointsState.set('value')
           break
         case 2:
-          store.selectedProject.settings.pointsState = 'nothing'
+          selectedProject.settings.pointsState.set('nothing')
           break
       }
     }
@@ -69,11 +72,11 @@ export const SelectMarkersContent = () => {
       button={{
         full: true,
         size: 'sm',
-        leftIcon: markersPossibleStates[state.pointStateSelected].leftIcon,
+        leftIcon: markersPossibleStates[state.pointStateSelected()].leftIcon,
       }}
       attached
       values={{
-        selected: state.pointStateSelected,
+        selected: state.pointStateSelected(),
         list: markersPossibleStates,
       }}
       onClose={(value) => value && setPointsState(Number(value))}

@@ -1,5 +1,5 @@
 interface Props extends ParentProps {
-  onClose: () => void
+  onClose: VoidFunction
 }
 
 export const Sticky = (props: Props) => {

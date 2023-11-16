@@ -1,7 +1,7 @@
 interface Props {
-  top: number
-  width: number
-  zIndex?: number
+  readonly top: number
+  readonly width: number
+  readonly zIndex?: number
 }
 
 export const DialogSnapLines = (props: Props) => {

@@ -20,4 +20,5 @@ interface JSONHeavydynZoneDistinct {
 
 interface HeavydynZone
   extends HeavydynObject<JSONHeavydynZone>,
-    BaseZone<HeavydynPoint, HeavydynReport> {}
+    BaseZone<HeavydynPoint, HeavydynReport>,
+    DisposableObject {}

@@ -20,4 +20,5 @@ interface JSONMinidynZoneDistinct {
 
 interface MinidynZone
   extends MinidynObject<JSONMinidynZone>,
-    BaseZone<MinidynPoint, MinidynReport> {}
+    BaseZone<MinidynPoint, MinidynReport>,
+    DisposableObject {}

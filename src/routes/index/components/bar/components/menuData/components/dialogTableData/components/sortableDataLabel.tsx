@@ -1,10 +1,10 @@
 import { Button, SpanDataLabel } from '/src/components'
 
 interface Props {
-  ref: (el: HTMLElement) => void
-  index: Accessor<number>
-  dataLabel: DataLabel
-  tableSelectedDataLabels: DataLabel[]
+  readonly ref: (el: HTMLElement) => void
+  readonly index: Accessor<number>
+  readonly dataLabel: DataLabel
+  readonly tableSelectedDataLabels: DataLabel[]
 }
 
 export const SortableDataLabel = (props: Props) => {

@@ -1,13 +1,13 @@
 type DialogClassicProps = DialogClassicPropsOnly & DialogPropsWithHTMLAttributes
 
 interface DialogClassicPropsOnly {
-  attached?: true
-  button?: InternalButtonProps
+  readonly attached?: true
+  readonly button?: InternalButtonProps
 }
 
 type InternalButtonProps = InternalButtonPropsOnly &
   ButtonPropsWithHTMLAttributes
 
 interface InternalButtonPropsOnly {
-  text?: string | (() => JSXElement)
+  readonly text?: string | (() => JSXElement)
 }

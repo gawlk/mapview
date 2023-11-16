@@ -7,15 +7,17 @@ export const SelectIndex = () => {
   const { t } = useAppState()
 
   const selectedTableParams = createMemo(
-    () => store.selectedReport?.dataLabels.table.selected,
+    () => store.selectedReport()?.dataLabels.table.selected(),
   )
 
   return (
     <Show when={selectedTableParams()?.group.from === 'Drop'}>
       {run(() => {
         const dropTableParams = selectedTableParams()
-        const dropGroup =
-          dropTableParams?.group as BaseDropDataLabelsGroup<BaseDropIndex>
+        const dropGroup = dropTableParams?.group as BaseDropDataLabelsGroup<
+          string,
+          BaseDropIndex
+        >
 
         return (
           <DialogSelect
@@ -27,9 +29,9 @@ export const SelectIndex = () => {
             }}
             attached
             values={{
-              selected: (dropTableParams?.index?.displayedIndex || 1) - 1,
+              selected: (dropTableParams?.index?.().displayedIndex || 1) - 1,
               list:
-                (dropGroup.indexes?.list as MachineDropIndex[]).map(
+                (dropGroup.indexes?.list() as MachineDropIndex[]).map(
                   (dropIndex, index) => ({
                     value: String(index),
                     text: () => <SpanDropIndex dropIndex={dropIndex} />,
@@ -37,9 +39,11 @@ export const SelectIndex = () => {
                 ) || [],
             }}
             onClose={(value) => {
+              const index = dropTableParams?.index
+
               value &&
-                dropTableParams?.index &&
-                (dropTableParams.index = dropGroup.indexes.list[Number(value)])
+                index &&
+                index.set(dropGroup.indexes.list()[Number(value)])
             }}
           />
         )

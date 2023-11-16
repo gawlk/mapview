@@ -13,28 +13,29 @@ import { SelectReportMarkerIcon } from './components/selectReportMarkerIcon'
 export const MenuReports = () => {
   return (
     <>
-      <Show when={store.selectedReport}>
+      <Show when={store.selectedReport()}>
         {(report) => (
           <div class="flex space-x-2">
-            <SelectReportMarkerIcon report={report()} />
+            <SelectReportMarkerIcon iconName={report().settings.iconName} />
             <DialogReports />
             <ButtonFlyToReport report={report()} />
           </div>
         )}
       </Show>
       <div class="flex space-x-2">
-        <Show when={store.selectedReport?.screenshots.length}>
+        <Show when={store.selectedReport()?.screenshots().length}>
           <DialogAlbum />
         </Show>
         <DialogScreenshot />
         <ButtonFile
           onFiles={(files) =>
-            Array.from(files || []).forEach(
-              async (file: File) =>
-                store.selectedReport?.screenshots.push(
-                  await convertFileToDataURL(file),
-                ),
-            )
+            Array.from(files || []).forEach(async (file: File) => {
+              const dataURL = await convertFileToDataURL(file)
+              store.selectedReport()?.screenshots.set((l) => {
+                l.push(dataURL)
+                return l
+              })
+            })
           }
         />
       </div>

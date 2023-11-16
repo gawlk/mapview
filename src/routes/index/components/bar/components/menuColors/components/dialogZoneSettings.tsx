@@ -14,32 +14,32 @@ export const DialogZoneSettings = () => {
       title={t('Zone settings')}
     >
       <div class="space-y-2">
-        <For each={store.selectedReport?.zones}>
+        <For each={store.selectedReport()?.zones()}>
           {(zone, index) => (
             <div class="flex space-x-1.5">
               <DialogColor
-                selected={zone.settings.color}
+                selected={zone.settings.color()}
                 onClose={(color?: string) => {
-                  color && (zone.settings.color = color as ColorName)
+                  color && zone.settings.color.set(color as ColorName)
                 }}
                 button={{
                   text: '',
                   class: 'h-full',
                   style: {
-                    'background-color': `${colors[zone.settings.color]}66`,
+                    'background-color': `${colors[zone.settings.color()]}66`,
                   },
                 }}
               />
               <Input
-                id={`zone-${zone.name}-name`}
-                value={zone.name}
+                id={`zone-${zone.name()}-name`}
+                value={zone.name()}
                 leftIcon={IconTablerIdBadge}
                 full
                 onInput={(value) => {
-                  zone.name = value || ''
+                  zone.name.set(value || '')
                 }}
                 style={{
-                  'border-color': `${colors[zone.settings.color]}66`,
+                  'border-color': `${colors[zone.settings.color()]}66`,
                   'background-color': 'white',
                 }}
               />
@@ -47,35 +47,34 @@ export const DialogZoneSettings = () => {
                 <Button
                   icon={IconTablerTrash}
                   style={{
-                    'background-color': `${colors[zone.settings.color]}66`,
+                    'background-color': `${colors[zone.settings.color()]}66`,
                   }}
                   onClick={() => {
-                    const { selectedReport } = store
+                    const selectedReport = store.selectedReport()
 
                     if (!selectedReport) return
 
-                    const zone0 = selectedReport?.zones[0]
+                    const zone0 = selectedReport.zones()[0]
 
                     if (zone0 === zone) return
 
-                    const points = zone0.points as BasePoint[]
+                    const points = zone0.points() as BasePoint[]
 
-                    zone.clean()
-
-                    selectedReport.zones.splice(index(), 1)
+                    ;(selectedReport.zones as ASS<BaseZone[]>).set((l) => {
+                      l.splice(index(), 1)
+                      return l
+                    })
 
                     batch(() =>
                       points.push(
-                        ...zone.points.map((point) => {
+                        ...zone.points().map((point: BasePoint) => {
                           if (selectedReport) {
-                            point.zone = zone0
+                            point.zone.set(zone0)
                           }
                           return point
                         }),
                       ),
                     )
-
-                    points.forEach((p) => p.addToMap())
                   }}
                 />
               </Show>
@@ -85,7 +84,9 @@ export const DialogZoneSettings = () => {
         <Button
           full
           leftIcon={IconTablerPlus}
-          onClick={() => store.selectedReport?.addZone()}
+          onClick={() => {
+            void store.selectedReport()?.addZone()
+          }}
         >
           {t('Create a zone')}
         </Button>

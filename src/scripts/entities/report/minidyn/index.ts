@@ -3,6 +3,7 @@ import {
   createMinidynDataLabelsFromJSON,
   createMinidynThresholdsGroupsFromJSON,
   createMinidynZoneFromJSON,
+  run,
   selectMinidynGroupChoiceFromJSON,
   selectTableDataLabelsFromJSON,
 } from '/src/scripts'
@@ -37,10 +38,10 @@ export const createMinidynReportFromJSON = (
     project: parameters.project,
   })
 
-  const report = createMutable<MinidynReport>({
+  const report: MinidynReport = {
     ...baseReport,
     machine: 'Minidyn',
-    addZone() {
+    async addZone() {
       const jsonZone: JSONMinidynZone = {
         version: 1,
         base: createJSONBaseZone(this.zones.length),
@@ -49,16 +50,17 @@ export const createMinidynReportFromJSON = (
         },
       }
 
-      const zone = createMinidynZoneFromJSON(jsonZone, map, {
+      const zone = await createMinidynZoneFromJSON(jsonZone, map, {
         report: this,
       })
 
-      zone.init()
-
-      this.zones.push(zone)
+      this.zones.set((l) => {
+        l.push(zone)
+        return l
+      })
     },
     toJSON(): JSONMinidynReport {
-      const thresholdGroup = this.thresholds.groups
+      const thresholdsGroups = this.thresholds.groups
 
       return {
         version: json.version,
@@ -69,33 +71,37 @@ export const createMinidynReportFromJSON = (
           thresholds: {
             version: 1,
             deflection: convertThresholdsConfigurationToJSON(
-              thresholdGroup.deflection,
+              thresholdsGroups.deflection,
             ),
-            force: convertThresholdsConfigurationToJSON(thresholdGroup.force),
+            force: convertThresholdsConfigurationToJSON(thresholdsGroups.force),
             distance: convertThresholdsConfigurationToJSON(
-              thresholdGroup.distance,
+              thresholdsGroups.distance,
             ),
             modulus: convertThresholdsConfigurationToJSON(
-              thresholdGroup.modulus,
+              thresholdsGroups.modulus,
             ),
             percentage: convertThresholdsConfigurationToJSON(
-              thresholdGroup.percentage,
+              thresholdsGroups.percentage,
             ),
             stiffness: convertThresholdsConfigurationToJSON(
-              thresholdGroup.stiffness,
+              thresholdsGroups.stiffness,
             ),
-            time: convertThresholdsConfigurationToJSON(thresholdGroup.time),
+            time: convertThresholdsConfigurationToJSON(thresholdsGroups.time),
           },
         },
       }
     },
-  })
+  }
 
-  report.zones.push(
-    ...json.base.zones.map((jsonZone) =>
-      createMinidynZoneFromJSON(jsonZone, map, {
-        report,
-      }),
+  void run(async () =>
+    report.zones.set(
+      await Promise.all(
+        json.base.zones.map((jsonZone) =>
+          createMinidynZoneFromJSON(jsonZone, map, {
+            report,
+          }),
+        ),
+      ),
     ),
   )
 

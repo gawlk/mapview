@@ -19,6 +19,7 @@ dev:
 alias c := check
 # check types
 check:
+  pnpm vite build -c ./vite-lib.config.ts
   pnpm tsc --noEmit --skipLibCheck
 
 alias b := build

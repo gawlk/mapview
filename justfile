@@ -67,6 +67,7 @@ test-coverage:
   TZ=Europe/Paris pnpm vitest --coverage
 
 # run end-to-end tests
+alias e2e := test-e2e
 test-e2e:
   pnpm playwright test --browser=all
 

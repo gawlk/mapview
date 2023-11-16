@@ -1,4 +1,4 @@
-import { Marker, type Map } from 'mapbox-gl'
+import { type Map, Marker } from 'mapbox-gl'
 import pica from 'pica'
 
 import SVGRotate from '/src/assets/svg/custom/rotate.svg?raw'
@@ -194,14 +194,15 @@ const getImageFromData64 = async (data64: string): Promise<HTMLImageElement> =>
     }
   })
 
-const createMarker = (map: mapboxgl.Map | null, coordinates: LngLat) =>
-  map
-    ? new Marker({
-        element: createSVGElement(SVGRotate),
-      })
-        .setLngLat(coordinates)
-        .setDraggable(true)
-    : null
+const createMarker = (map: mapboxgl.Map | null, coordinates: LngLat) => {
+  if (!map) return null
+
+  return new Marker({
+    element: createSVGElement(SVGRotate),
+  })
+    .setLngLat(coordinates)
+    .setDraggable(true)
+}
 
 const setImageCoordinates = (
   markerNW: mapboxgl.Marker,

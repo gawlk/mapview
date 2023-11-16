@@ -11,7 +11,7 @@ import {
 import { store } from '/src/store'
 import { getFileFromPath } from '/src/tests'
 
-export const prepareFilesForTest = async (path: string) => {
+export const getFilesFromDir = async (path: string) => {
   const files = readdirSync(path)
 
   const testData: ReportTestExportData[] = []
@@ -64,45 +64,7 @@ export const loadFiles = async (dirPath: string, folderName?: string) => {
 
           if (project) {
             store.pushAndSelectProject(project)
-
-            promises.push(
-              // eslint-disable-next-line no-async-promise-executor
-              new Promise(async (resolve) => {
-                const unzipped = await unzipFile(file)
-
-                const raws = Object.keys(unzipped).filter((key) =>
-                  key.match(/rawdata\/\w+/),
-                )
-
-                if (raws.length < 1) {
-                  resolve(true)
-                }
-
-                let needsInit = true
-
-                // rawdata and screenshoot are load in async so we wetting for the data to be init
-                while (needsInit) {
-                  const points = getAllPointsFromProject(project)
-
-                  const status: boolean[] = []
-
-                  raws.forEach((key) => {
-                    const id = key.split('/')[1]
-                    const point = points.find(
-                      (p) => removeLeading0s(p.id) === removeLeading0s(id),
-                    )
-
-                    status.push(point?.rawDataFile()?.byteLength === undefined)
-                  })
-
-                  needsInit = status.every((value) => value)
-
-                  await sleep(250)
-                }
-
-                resolve(true)
-              }),
-            )
+            promises.push(loadMpvz(file, project))
 
             filesGroup[extension === 'mpvz' ? 'mpvz' : 'prjz'] = {
               file,
@@ -141,4 +103,44 @@ export const loadFiles = async (dirPath: string, folderName?: string) => {
   return onlyFolder
     ? filesGroups
     : [filesGroup as ReportTestExportData, ...filesGroups]
+}
+
+export const loadMpvz = async (mpvzFile: File, project: MachineProject) => {
+  project.addToMap()
+  // eslint-disable-next-line no-async-promise-executor
+  return new Promise<void>(async (resolve) => {
+    const unzipped = await unzipFile(mpvzFile)
+
+    const raws = Object.keys(unzipped).filter((key) =>
+      key.match(/rawdata\/\w+/),
+    )
+
+    if (raws.length < 1) {
+      resolve()
+    }
+
+    let needInit = true
+
+    // rawdata and screenshoot are load in async so we wetting for the data to be init
+    while (needInit) {
+      const points = getAllPointsFromProject(project)
+
+      const status: boolean[] = []
+
+      raws.forEach((key) => {
+        const id = key.split('/')[1]
+        const point = points.find(
+          (p) => removeLeading0s(p.id) === removeLeading0s(id),
+        )
+
+        status.push(point?.rawDataFile()?.byteLength === undefined)
+      })
+
+      needInit = status.length > 0 && status.every((value) => value)
+
+      await sleep(250)
+    }
+
+    resolve()
+  })
 }

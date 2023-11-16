@@ -24,6 +24,7 @@ dev:
 alias c := check
 # check types
 check:
+  pnpm vite build -c ./vite-lib.config.ts
   pnpm tsc --noEmit --skipLibCheck
 
 alias b := build
@@ -71,6 +72,7 @@ test-coverage:
   TZ=Europe/Paris pnpm vitest --coverage
 
 # run end-to-end tests
+alias e2e := test-e2e
 test-e2e:
   pnpm playwright test --browser=all
 
@@ -101,3 +103,8 @@ alias up := update
 # update dependencies
 update ARG='':
   pnpm up {{ARG}}
+
+alias uci := update-ci
+update-ci:
+  pnpm vite build -c ./vite-lib.config.ts
+  node --loader tsx ./src/tests/utils/updater/updater.ts

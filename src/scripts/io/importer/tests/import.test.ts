@@ -1,12 +1,12 @@
 import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest'
 
 import { mpvzExporter } from '/src/scripts/io/exporter'
-import { prepareFilesForTest } from '/src/scripts/io/tests/utils'
+import { getFilesFromDir } from '/src/scripts/io/tests/utils'
 
 describe('Tests import', async () => {
   const path = `${__dirname}/files`
 
-  const testData = await prepareFilesForTest(path)
+  const testData = await getFilesFromDir(path)
 
   beforeAll(() => {
     vi.stubGlobal('navigator', { language: 'fr-FR' })
